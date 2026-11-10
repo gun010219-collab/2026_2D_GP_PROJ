@@ -6,8 +6,8 @@ are built once per theme, with no per-frame texture loading or randomness.
 from board import is_light_tile, iter_tiles, tile_bounds
 from chapter_themes import get_theme
 from config import (
-    BOARD_BOTTOM, BOARD_LEFT, BOARD_PIXEL_SIZE, HUD_BOTTOM, HUD_HEIGHT,
-    HUD_LEFT, HUD_WIDTH, WINDOW_HEIGHT, WINDOW_WIDTH,
+    BOARD_BOTTOM, BOARD_LEFT, BOARD_RIGHT, BOARD_TOP, TILE_SIZE,
+    WINDOW_HEIGHT, WINDOW_WIDTH,
 )
 
 
@@ -23,7 +23,7 @@ class BoardRenderer:
     def _build_commands(self):
         t = self.theme
         left, bottom = BOARD_LEFT, BOARD_BOTTOM
-        right, top = left + BOARD_PIXEL_SIZE, bottom + BOARD_PIXEL_SIZE
+        right, top = BOARD_RIGHT, BOARD_TOP
         # Each rect has half-open bounds. Adapt to Pico2D inclusive pixels in draw().
         yield ('rect', (0, 0, WINDOW_WIDTH, WINDOW_HEIGHT), t.background)
         yield ('rect', (left - 24, bottom - 27, right + 28, top + 19), tint(t.background, -8))
@@ -42,10 +42,13 @@ class BoardRenderer:
             yield ('line', (x2 - 1, y1, x2 - 1, y2 - 2), tint(color, -12))
             if t.chapter == 1:
                 # Sparse, deterministic marble seams; keep the cell center quiet.
-                offset = (col * 13 + row * 7) % 18
+                offset = (col * 13 + row * 7) % max(1, round(TILE_SIZE * 0.24))
                 vein = tint(color, -7 if light else 6)
-                yield ('line', (x1 + 7, y1 + 15 + offset, x1 + 26, y1 + 21 + offset), vein)
-                yield ('line', (x1 + 26, y1 + 21 + offset, x1 + 39, y1 + 18 + offset), vein)
+                ax, ay = x1 + round(TILE_SIZE * 0.09), y1 + round(TILE_SIZE * 0.20) + offset
+                bx, by = x1 + round(TILE_SIZE * 0.35), y1 + round(TILE_SIZE * 0.28) + offset
+                cx, cy = x1 + round(TILE_SIZE * 0.52), y1 + round(TILE_SIZE * 0.24) + offset
+                yield ('line', (ax, ay, bx, by), vein)
+                yield ('line', (bx, by, cx, cy), vein)
 
         # Corner inlays stay outside playable cells.
         for x in (left - 12, right + 12):
@@ -54,13 +57,7 @@ class BoardRenderer:
                              ((4, 0), (0, -4)), ((0, -4), (-4, 0))]:
                     yield ('line', (x + a[0], y + a[1], x + b[0], y + b[1]), t.accent)
 
-        # HUD is a visual frame only: no invented health, currency, or stage data.
-        x1, y1 = HUD_LEFT, HUD_BOTTOM
-        x2, y2 = x1 + HUD_WIDTH, y1 + HUD_HEIGHT
-        yield ('rect', (x1, y1, x2, y2), tint(t.frame, -5))
-        yield ('rect', (x1 + 2, y1 + 2, x2 - 2, y2 - 2), t.hud_background)
-        yield ('rect', (x1 + 24, y2 - 32, x2 - 24, y2 - 29), t.hud_accent)
-        yield ('line', (x1 + 24, y1 + 24, x2 - 25, y1 + 24), tint(t.hud_accent, -55))
+        # Side margins remain open for future small, real gameplay indicators.
 
     def draw(self, canvas):
         for kind, bounds, color in self._commands:

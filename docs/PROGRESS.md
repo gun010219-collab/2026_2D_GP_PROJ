@@ -1,5 +1,104 @@
 # CHECKMATE 개발 진행 기록
 
+## Task 1-A3 — 중앙형 840×840 보드 및 최소 HUD (2026-11-10)
+
+상태: 구현·자동 검증 완료. **사용자 Windows GUI 검증 12개 항목 모두 통과.**
+사용자가 Task 1-A3 마무리 커밋 및 일반 Push를 승인했다.
+
+### 시작 확인과 범위
+
+- 로컬/원격 `main` 모두 `1c8e4d628f424c0f8815acf0acef0d83dc2ddc4d`.
+  시작 작업 트리는 깨끗했고 기존 unittest 52개가 모두 통과했다.
+- AGENTS/DECISIONS, config/board/renderer, 설정 상태/렌더러/화면 어댑터,
+  main 이벤트/렌더 순서 및 전체 테스트를 확인했다.
+- 사용자 승인 목표: 1440×900 창 유지, 중앙 840×840 보드, 84px 타일,
+  원점 (300,30), 우측 거대 HUD 제거. 논리 좌표와 게임 규칙은 유지한다.
+- 수용 기준: 정확한 셀 채움/색 분포/좌표 왕복/프레임 경계, 고정 HUD 제거,
+  SETTINGS 비중첩·클릭 정합성, 전체 화면/레터박스/ESC/X 회귀 보호.
+
+### 변경 파일과 동작
+
+- `config.py`: 타일 84, 원점 (300,30), 계산된 크기 840과 오른쪽/위 (1140,870).
+  참조를 확인한 뒤 불필요한 HUD_LEFT/BOTTOM/WIDTH/HEIGHT 상수를 제거했다.
+- `board.py`는 기존 config 기반 계산으로 새 규격을 그대로 사용해 별도 수정이 필요 없었다.
+  X=[300,1140), Y=[30,870), 중심 (342,72)/(1098,828), row=0 아래쪽 유지.
+- `renderer.py`: 고정 HUD 사각형·배경·장식 선 제거. 중앙 보드와 금색 프레임 유지,
+  대리석 선을 TILE_SIZE 비율로 계산. 정적 명령 캐시와 Pico2D 포함 끝점 보정 유지.
+- 좌우 300px는 현재 테마 배경만 표시한다. 가짜 HP/쿨타임/스테이지 상태를 추가하지 않았다.
+  SETTINGS만 기존 창 기준 위치에 남아 있으며 보드·프레임과 겹치지 않는다.
+- `tests/test_config.py`, `tests/test_board.py`, `tests/test_renderer.py`: 과거 승인값 단언을
+  새 값으로 갱신. 기존 검증을 삭제/비활성화하지 않았고 타일 인접성, 고정 HUD 제거,
+  SETTINGS 렌더 Rect와 클릭 Rect 일치 검사를 추가했다.
+- AGENTS/DECISIONS/GAME_DESIGN/ART_DIRECTION/ASSET_PLAN을 최신 규격으로 갱신했다.
+  과거 결정/진행 기록은 당시 기록으로 보존한다. 이 PROGRESS에도 실제 결과를 기록한다.
+- settings_menu/settings_renderer/display_settings/main은 수정하지 않았다.
+  오버레이가 보드 위에 그려지는 순서와 단일 SDL 마우스 변환을 유지한다.
+- README/PDF/JSON/5개 테마 팔레트/requirements/기존 이력은 보존했다.
+
+### 실제 실행한 검증
+
+```powershell
+.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+.\.venv\Scripts\python.exe validate_stage_data.py
+.\.venv\Scripts\python.exe -W error -m py_compile config.py board.py renderer.py main.py settings_menu.py settings_renderer.py display_settings.py
+.\.venv\Scripts\python.exe -c "import config, board, renderer, main, settings_menu, settings_renderer, display_settings; print('import OK')"
+git diff --check
+```
+
+- unittest **55개 통과**: 기존 52개를 새 승인값으로 유지하고 3개 추가.
+- 스테이지 정적 검사 **25개 통과**, 문법/import/공백 검사 통과.
+- 100개 고유 셀, 50:50 교대, 84×84 포함 픽셀 채움과 인접 셀 연결,
+  첫/마지막 중심, 모든 셀 좌표 왕복, 경계 포함/제외 및 화면 밖 처리를 검사했다.
+- 5개 테마의 모든 그리기 좌표가 화면 안에 있고 거대 HUD가 없음을 검사했다.
+  SETTINGS의 화면 배치와 클릭 영역, 중앙 보드와의 비중첩을 확인했다.
+- 기존 모달 메뉴/ESC/F11/X/반복 전환·창 복원·실패 처리 회귀 검사 통과.
+  SDL dummy 드라이버의 네 가지 해상도 레터박스/클릭 검사도 통과했다.
+- 실제 Windows GUI를 관찰하지 않았으며 이전 GUI 결과를 이번 레이아웃 검증으로 대체하지 않는다.
+
+### 사용자 GUI 검증 결과와 남은 위험
+
+사용자가 실제 Windows 환경에서 직접 검증하고 아래 12개 항목의 성공을 보고했다.
+Codex 자동 테스트와 구분되는 사용자 수동 GUI 검증이며 Codex가 직접 관찰한 결과는 아니다.
+
+| 항목 | 사용자 결과 |
+| --- | --- |
+| 1. 게임판 중앙 정렬 | 정상 |
+| 2. 10×10 체스판과 좌우 여백 | 정상 |
+| 3. 기존 우측 고정 HUD 제거 | 확인 |
+| 4. 금색 프레임 잘림 및 타일 틈 | 없음 |
+| 5. 대리석 질감과 타일 명암 | 정상 |
+| 6. SETTINGS 버튼 표시 및 클릭 | 정상 |
+| 7. 설정 메뉴 열기·닫기 | 정상 |
+| 8. F11 및 메뉴 버튼 전체 화면 전환 | 정상 |
+| 9. 전체 화면 비율 및 클릭 좌표 | 정상 |
+| 10. 창 모드 복귀 시 크기·위치 복원 | 정상 |
+| 11. ESC 및 X 버튼 종료 | 정상 |
+| 12. 반복 실행 및 전체 화면 전환 | 정상 |
+
+마무리 시 unittest 55개와 25개 스테이지 정적 검사를 다시 실행하여 통과했다.
+공백 검사 및 보존 대상 파일의 변경 없음도 재확인했다.
+생성된 커밋 SHA와 원격 main 일치 여부는 실행 후 최종 작업 보고에서 확인한다.
+
+추가 환경에서의 재현 명령과 점검 기준:
+
+```powershell
+.\.venv\Scripts\python.exe main.py
+```
+
+1. 중앙에 놓인 840×840 / 10×10 보드와 좌우 여백 균형 확인.
+2. 기존 우측 거대 HUD 제거, 금색 프레임·장식의 잘림 없음 확인.
+3. 타일 색·대리석 무늬·틈·겹침·깜빡임 확인.
+4. SETTINGS 표시/클릭/메뉴 열기·닫기, 보드 위 오버레이 확인.
+5. 버튼 및 F11 전체 화면 전환, 화면 비율과 전체 화면 클릭 위치 확인.
+6. 메뉴 ESC 닫기/메뉴 밖 ESC 종료/X 종료, 창 크기·위치 복원과 반복 실행 확인.
+
+사용자가 시험한 Windows 환경의 위 GUI 검증은 완료되었다.
+다른 DPI/다중 모니터 환경까지 검증한 것은 아니며 추가 장비에서는 별도 확인한다.
+최종 이미지/캐릭터/전투/AI/스테이지 전환/저장/신규 오디오는 구현하지 않았다.
+이번 변경으로 새 프레임 부하 측정은 하지 않았으며 매 프레임 새 에셋 로딩은 추가하지 않았다.
+사용자 GUI 통과 및 마무리 요청에 따라
+`feat: redesign centered chessboard layout and minimal hud`로 커밋/일반 Push한다.
+
 ## Task 1-A2 — 설정 메뉴 및 전체 화면 전환 (2026-11-10)
 
 상태: 구현 및 자동 검증 완료, **사용자 Windows GUI 검증 10개 항목 모두 통과**.

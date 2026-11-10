@@ -2,20 +2,21 @@
 
 현재 래스터 이미지·스프라이트·애니메이션·음향은 제작하지 않았다.
 Chapter 1 코드 도형 보드는 절차적 기반이며 최종 이미지 에셋 목록에 포함하지 않는다.
-아래 해상도는 **제작 권장안**으로, 첫 샘플을 실제 75px 셀에 표시해 조정한다.
+아래 해상도는 **제작 권장안**으로, 첫 샘플을 실제 84px 셀에 표시해 조정한다.
+Task 1-A3의 840×840 중앙 보드와 좌우 300px 배경 여백을 기준으로 제작한다.
 아트 기준은 [ART_DIRECTION.md](ART_DIRECTION.md)를 따른다.
 
 ## 제작 순서와 예상 경로
 
 | 우선순위 | 대상 / 수량 | 권장 원본 → 표시 크기 | 투명 배경 | 예상 경로 |
 | --- | --- | --- | --- | --- |
-| P0 | Chapter 1 밝음/어두움 타일 2종 | 각 300×300 → 75×75, 이음매 없는 변형 | 아니오 | `assets/boards/ch01/tile_{light,dark}.png` |
+| P0 | Chapter 1 밝음/어두움 타일 2종 | 각 336×336 → 84×84, 이음매 없는 변형 | 아니오 | `assets/boards/ch01/tile_{light,dark}.png` |
 | P0 | Chapter 1 프레임/코너 | 96×96 코너와 반복 가능한 띠 → 최대 20px 폭 | 예 | `assets/boards/ch01/frame_{corner,edge}.png` |
-| P0 | 플레이어 식별 샘플 1종 | 256×256 → 본체 48~60px, 발 기준선 통일 | 예 | `assets/player/idle.png` |
-| P0 | Chapter 1 6종 기물 실루엣 샘플 | 각 256×256 → 본체 48~64px, 보스도 점유 셀 명확화 | 예 | `assets/enemies/ch01/{pawn,rook,knight,bishop,queen,king}/idle.png` |
-| P0 | 위험 예고 마스크/테두리 | 300×300 → 75×75, 모서리 연결 가능 | 예 | `assets/fx/telegraph/{fill,border}.png` |
+| P0 | 플레이어 식별 샘플 1종 | 256×256 → 본체 54~67px, 84px 셀에서 발 기준선 통일 | 예 | `assets/player/idle.png` |
+| P0 | Chapter 1 6종 기물 실루엣 샘플 | 각 256×256 → 본체 54~72px, 84px 셀에서 보스도 점유 명확화 | 예 | `assets/enemies/ch01/{pawn,rook,knight,bishop,queen,king}/idle.png` |
+| P0 | 위험 예고 마스크/테두리 | 336×336 → 84×84, 모서리 연결 가능 | 예 | `assets/fx/telegraph/{fill,border}.png` |
 | P1 | Chapter 1 배경 | 1440×900 표시, 보드/HUD 내부는 저대비 | 아니오 | `assets/backgrounds/ch01.png` |
-| P1 | HUD 패널·구분선·강조 장식 | 465×750 패널, 확장 가능한 모서리/띠 | 예 | `assets/ui/ch01/{panel,corner,divider}.png` |
+| P1 | 최소 HUD 구분선·강조 장식 | 좌우 300px 여백 내 소형 표시, 거대 고정 패널 없음 | 예 | `assets/ui/ch01/{corner,divider}.png` |
 | P1 | 공통 UI 아이콘/폰트 | 아이콘 128×128 → 24~48px, 한글 폰트 크기는 실제 화면 검증 | 아이콘 예 / 폰트 해당 없음 | `assets/ui/icons/*.png`, `assets/fonts/*` |
 | P1 | 플레이어/Chapter 1 기물 애니메이션 | 셀 256×256, idle/move/attack/hit/death를 개별 시트로 분리 | 예 | `assets/player/*.png`, `assets/enemies/ch01/<piece>/<state>.png` |
 | P1 | 적중/일반 패링 효과 | 셀 256×256 시트, 짧은 읽기 쉬운 호·스파크 | 예 | `assets/fx/{hit,parry}.png` |
