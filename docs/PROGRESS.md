@@ -1,5 +1,112 @@
 # CHECKMATE 개발 진행 기록
 
+## Task 1-B — 플레이어 표시와 격자 이동 (2026-11-10)
+
+상태: 구현 및 자동 검증 완료, **사용자 Windows GUI 검증 16개 항목 모두 통과**.
+사용자가 Task 1-B 마무리 커밋 및 기존 main 일반 Push를 승인했다.
+
+### 시작 상태와 작업 범위
+
+- 로컬/원격 main: `1870df061a60ab5b36d3c450bb333c9f161d8934`, 작업 트리 깨끗함.
+  기존 55개 unittest가 모두 통과했다.
+- AGENTS, GAME_DESIGN/DECISIONS, config/board/renderer/main, 설정/화면 모듈,
+  JSON/검사기와 전체 테스트를 확인했다. Stage 1 chapter=1, player_spawn=[5,1].
+- 목표/수용 기준: JSON 기반 플레이어 생성, 논리 좌표/facing, 유효 누름당 1칸 이동,
+  반복/동시 입력/경계/메뉴 충돌 보호, 셀 중심 임시 표시, 기존 기능 회귀 방지.
+- 1440×900/840×840/84px/(300,30), row=0 아래쪽, JSON과 5개 챕터 구조 유지.
+
+### 구현 및 파일
+
+- `player.py`: 순수 Player 모델, 읽기 전용 col/row/facing/position, 범위 검증,
+  방향 이동과 경계 차단. 파일 위치 기준 최소 Stage 1 로더로 CWD와 독립적이다.
+  파일/JSON/Stage 1/좌표 오류에는 원인과 경로를 알린다.
+- `input_controller.py`: 방향키 누름/해제 상태로 반복·동시 키 보호.
+  첫 키 우선, 모든 방향키 해제 후 재입력. 메뉴에서도 키 상태만 갱신하고 이동하지 않는다.
+  매 프레임 임의 초기화/쿨타임/자동 반복 이동은 없다.
+- `player_renderer.py`: cell_center를 이용한 은색/아이보리 본체, 청색 테두리,
+  금색 facing 화살표. 전부 셀 안에 있는 코드 도형이며 최종 이미지/애니메이션이 아니다.
+- `main.py`: Stage 1 플레이어/입력 생성, KEYDOWN/KEYUP 분기 및 모달 이동 차단.
+  F11 뒤 좌표가 오래된 클릭은 버리되 KEYUP은 계속 처리한다.
+  렌더 순서는 보드→플레이어→설정 UI다. 기존 ESC/X 우선 종료를 유지한다.
+- 초기 facing 위쪽 및 경계 실패 시 방향 갱신 선택은 DECISIONS에 기록했다.
+  StageManager 전체·적 생성·점유 장애물·공격/패링/HP/이동 수치·저장 기능은 만들지 않았다.
+- `tests/test_player.py`, `tests/test_input_controller.py`, `tests/test_player_renderer.py` 추가.
+  `tests/test_main.py`, `tests/test_sdl_mouse_mapping.py`에 통합/비표시 경로 검사 추가.
+- DECISIONS/GAME_DESIGN/ASSET_PLAN/PROGRESS를 필요한 범위에서 갱신했다.
+- README/PDF/JSON/AGENTS/기존 보드·테마/설정·화면 어댑터/의존성과 Git 이력은 보존했다.
+
+### 실제 검증
+
+```powershell
+.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+.\.venv\Scripts\python.exe validate_stage_data.py
+.\.venv\Scripts\python.exe -W error -m py_compile player.py input_controller.py player_renderer.py main.py
+.\.venv\Scripts\python.exe -c "import player, input_controller, player_renderer, main; print('import OK')"
+git diff --check
+```
+
+- unittest **77개 통과** (기존 55개 유지 + 신규 22개).
+- 정적 검사 **25개 스테이지 통과**. 문법/import/공백 검사 통과.
+- 시작점 (5,1)/화면 중심 (762,156), 네 방향/순차 입력/네 경계/facing,
+  잘못된 생성 위치·파일·데이터 및 다른 CWD에서 로딩을 검사했다.
+- 키 유지 중 중복 차단/해제 후 재입력/동시 키/빠른 독립 입력/메뉴 차단·재개,
+  메뉴 전후 유령 이동 방지 및 F11 뒤 KEYUP 유지 통합 검사 통과.
+- 100개 셀 × 4방향 임시 그래픽 범위, 중심 정합성, 화살표 방향,
+  보드/플레이어/UI 순서와 기존 ESC/X·테마·레터박스 회귀 검사 통과.
+- 설치된 Pico2D 소스의 repeat 필터를 확인했다. SDL dummy 이벤트 주입으로
+  repeat=1 KEYDOWN이 제외되고 일반 KEYDOWN/KEYUP이 반환되는 것을 실제 검사했다.
+  비표시 SDL 렌더러에서 플레이어 그리기 경로도 실행했지만 실제 Windows GUI 검증은 아니다.
+
+### 사용자 GUI 검증 결과 / 남은 상태
+
+사용자가 실제 Windows 환경에서 직접 수행하여 아래 16개 항목의 성공을 보고했다.
+이는 사용자 수동 GUI 검증이며, 위 Codex 자동 테스트 및 비표시 SDL 검사와 구분한다.
+Codex가 실제 창을 직접 관찰한 결과로 표현하지 않는다.
+
+| 항목 | 사용자 결과 |
+| --- | --- |
+| 1. Stage 1 시작 위치 (5,1) | 정상 |
+| 2. 은색·청색 플레이어 가독성 | 정상 |
+| 3. ↑ 한 칸 이동 | 정상 |
+| 4. ↓ 한 칸 이동 | 정상 |
+| 5. ← 한 칸 이동 | 정상 |
+| 6. → 한 칸 이동 | 정상 |
+| 7. 방향키 2초 유지 시 중복 이동 | 없음 |
+| 8. 키 해제 후 재입력 | 정상 |
+| 9. 동시 방향키 입력 시 대각선 이동 | 없음 |
+| 10. 체스판 경계 밖 이동 | 차단 |
+| 11. 플레이어 방향 표시 변경 | 정상 |
+| 12. SETTINGS 메뉴 중 이동 | 차단 |
+| 13. 메뉴 닫은 후 이동 | 정상 |
+| 14. F11 전체 화면 전환 후 이동 및 타일 중심 | 정상 |
+| 15. 전체 화면 SETTINGS 클릭 좌표 | 정상 |
+| 16. ESC 및 창 X 종료 | 정상 |
+
+마무리 시 기존 가상환경에서 unittest 77개와 25개 스테이지 정적 검사를 재실행해 통과했다.
+`git diff --check` 및 README/PDF 2개/JSON/기존 보드·테마 보존도 재확인했다.
+생성 커밋 SHA와 원격 main 일치 여부는 실행 후 최종 작업 보고에서 확인한다.
+
+추가 환경에서의 재현 명령과 확인 기준:
+
+```powershell
+.\.venv\Scripts\python.exe main.py
+```
+
+1. Stage 1 (5,1) 셀 중심에 플레이어가 보이며 밝은/어두운 칸에서 구별되는지 확인한다.
+2. ↑↓←→가 각각 한 칸 이동하며 방향 표시가 맞는지 확인한다.
+3. 키 유지 중 중복 이동 없음, 해제 후 재입력, 동시 키 첫 입력 우선 동작을 확인한다.
+4. 네 가장자리에서 보드 밖 이동이 없고 facing만 갱신되는지 확인한다.
+5. SETTINGS 메뉴 안 이동 차단, 메뉴 중 누름/해제 후 정상 재개를 확인한다.
+6. F11/메뉴 버튼 전환 후 이동과 전체 화면 셀 중심 정합성을 확인한다.
+7. 메뉴 오버레이가 플레이어 위에 그려지고 기존 ESC/X 종료가 유지되는지 확인한다.
+
+사용자가 시험한 Windows 환경에서 위 16개 GUI 검증은 완료되었다.
+실제 프레임 성능은 별도로 측정하지 않았으며 다른 DPI/다중 모니터까지 검증한 것은 아니다.
+임시 캐릭터 그래픽은 최종 에셋이 아니다. 그래픽 교체 및 실제 전투는 후속 작업이다.
+이번 작업은 포커스 전환 전용 입력 체계나
+고정 시뮬레이션 루프 전체를 구현하지 않으며, 이벤트 기반 이동에 시간 수치를 추가하지 않는다.
+사용자 GUI 통과와 마무리 요청에 따라 `feat: implement player grid movement`로 커밋 및 일반 Push한다.
+
 ## Task 1-A3 — 중앙형 840×840 보드 및 최소 HUD (2026-11-10)
 
 상태: 구현·자동 검증 완료. **사용자 Windows GUI 검증 12개 항목 모두 통과.**

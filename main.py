@@ -9,6 +9,9 @@ from renderer import BoardRenderer
 from display_settings import DisplaySettings, logical_mouse_to_canvas
 from settings_menu import SettingsMenu
 from settings_renderer import SettingsRenderer
+from player import load_stage1_player
+from input_controller import InputController
+from player_renderer import PlayerRenderer
 
 
 def main():
@@ -16,6 +19,11 @@ def main():
     # Use the implementation module: its live window handle is set by open_canvas.
     from pico2d import pico2d as canvas
 
+    player = load_stage1_player()
+    player_renderer = PlayerRenderer()
+    movement = InputController()
+    arrow_keys = {canvas.SDLK_UP: 'up', canvas.SDLK_DOWN: 'down',
+                  canvas.SDLK_LEFT: 'left', canvas.SDLK_RIGHT: 'right'}
     canvas.open_canvas(WINDOW_WIDTH, WINDOW_HEIGHT)
     settings_renderer = None
     try:
@@ -38,7 +46,18 @@ def main():
             # stale mouse coordinates later in the same polled batch.
             if any(event.type == canvas.SDL_QUIT for event in events):
                 break
+            display_changed = False
             for event in events:
+                # KEYUP is always processed, including menu and display-transition tails.
+                if event.type == canvas.SDL_KEYUP:
+                    movement.key_up(arrow_keys.get(event.key))
+                    continue
+                if event.type == canvas.SDL_KEYDOWN and event.key in arrow_keys:
+                    movement.key_down(arrow_keys[event.key], player,
+                                      blocked=menu.blocks_gameplay() or display_changed)
+                    continue
+                if display_changed:
+                    continue  # Only directional key bookkeeping survives a display change.
                 action = 'consumed'
                 if event.type == canvas.SDL_KEYDOWN:
                     key = ('escape' if event.key == canvas.SDLK_ESCAPE else
@@ -51,10 +70,8 @@ def main():
                     break
                 if action == 'toggle_fullscreen':
                     display.toggle()
-                    # Discard remaining input polled under the previous display transform.
-                    break
-                # Future gameplay receives only action == 'gameplay' while
-                # not menu.blocks_gameplay(); modal input is never forwarded.
+                    # Discard stale mouse coordinates but keep processing key releases.
+                    display_changed = True
             if not running:
                 break
 
@@ -64,6 +81,7 @@ def main():
             canvas.SDL_SetRenderDrawColor(canvas.renderer, 0, 0, 0, 255)
             canvas.SDL_RenderClear(canvas.renderer)
             board_renderer.draw(canvas)
+            player_renderer.draw(canvas, player)
             settings_renderer.draw(menu, display)
             canvas.update_canvas()
             sleep(max(0.0, FIXED_TIME_STEP - (perf_counter() - frame_start)))

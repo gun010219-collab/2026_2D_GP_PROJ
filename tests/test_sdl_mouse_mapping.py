@@ -16,6 +16,8 @@ class SDLMouseMappingTests(unittest.TestCase):
             from settings_menu import SettingsMenu
             from settings_renderer import SettingsRenderer
             from pico2d import pico2d as canvas
+            from player import load_stage1_player
+            from player_renderer import PlayerRenderer
             from types import SimpleNamespace
             assert s.SDL_Init(s.SDL_INIT_VIDEO) == 0
             try:
@@ -57,12 +59,24 @@ class SDLMouseMappingTests(unittest.TestCase):
                         assert canvas.TTF_Init() == 0
                         ui = SettingsRenderer(canvas)
                         try:
+                            PlayerRenderer().draw(canvas, load_stage1_player())
                             menu = SettingsMenu()
                             ui.draw(menu, SimpleNamespace(fullscreen=False, error=''))
                             menu.is_open = True
                             for state in (False, True):
                                 ui.draw(menu, SimpleNamespace(fullscreen=state, error='test'))
                             canvas.update_canvas()
+                            # Installed Pico2D filters repeat KEYDOWN and retains KEYUP.
+                            s.SDL_FlushEvents(s.SDL_FIRSTEVENT, s.SDL_LASTEVENT)
+                            for kind, repeat in [(s.SDL_KEYDOWN, 0), (s.SDL_KEYDOWN, 1), (s.SDL_KEYUP, 0)]:
+                                event = s.SDL_Event()
+                                event.type = kind
+                                event.key.windowID = s.SDL_GetWindowID(window)
+                                event.key.keysym.sym = s.SDLK_UP
+                                event.key.repeat = repeat
+                                assert s.SDL_PushEvent(ctypes.byref(event)) == 1
+                            keys = canvas.get_events()
+                            assert [(e.type, e.key) for e in keys] == [(s.SDL_KEYDOWN,s.SDLK_UP),(s.SDL_KEYUP,s.SDLK_UP)]
                         finally:
                             ui.close()
                             canvas.TTF_Quit()

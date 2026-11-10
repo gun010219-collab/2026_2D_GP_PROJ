@@ -12,6 +12,9 @@ class WindowLoopTests(unittest.TestCase):
         canvas = Mock()
         canvas.SDL_QUIT = 256
         canvas.SDL_KEYDOWN = 768
+        canvas.SDL_KEYUP = 769
+        canvas.SDLK_UP, canvas.SDLK_DOWN = 1073741906, 1073741905
+        canvas.SDLK_LEFT, canvas.SDLK_RIGHT = 1073741904, 1073741903
         canvas.SDLK_ESCAPE = 27
         canvas.SDLK_F11 = 1073741892
         canvas.SDL_MOUSEBUTTONDOWN = 1025
@@ -95,6 +98,49 @@ class WindowLoopTests(unittest.TestCase):
         self.run_with_canvas(canvas)
         canvas.update_canvas.assert_not_called()
         canvas.close_canvas.assert_called_once_with()
+
+    def run_player_events(self, batches):
+        from player import Player
+        p = Player(5, 1)
+        canvas = self.make_canvas()
+        canvas.get_events.side_effect = batches + [[SimpleNamespace(type=256)]]
+        with patch.object(main, 'load_stage1_player', return_value=p):
+            self.run_with_canvas(canvas)
+        return p
+
+    def test_arrow_down_up_repress_moves_one_cell_each(self):
+        down = SimpleNamespace(type=768, key=1073741906)
+        up = SimpleNamespace(type=769, key=1073741906)
+        p = self.run_player_events([[down, down], [up, down]])
+        self.assertEqual(p.position, (5, 3))
+
+    def test_menu_blocks_moves_and_key_release_is_not_lost(self):
+        down = SimpleNamespace(type=768, key=1073741906)
+        up = SimpleNamespace(type=769, key=1073741906)
+        p = self.run_player_events([
+            [down], [SimpleNamespace(type=1025, button=1, x=1295, y=41), up, down],
+            [SimpleNamespace(type=768, key=27), down], [up, down],
+        ])
+        self.assertEqual(p.position, (5, 3))
+
+    def test_f11_tail_release_does_not_latch_arrow(self):
+        down = SimpleNamespace(type=768, key=1073741906)
+        up = SimpleNamespace(type=769, key=1073741906)
+        p = self.run_player_events([[down], [SimpleNamespace(type=768, key=1073741892), up], [down]])
+        self.assertEqual(p.position, (5, 3))
+
+    def test_board_player_menu_render_in_that_order(self):
+        canvas = self.make_canvas()
+        canvas.get_events.side_effect = [[], [SimpleNamespace(type=256)]]
+        order = Mock()
+        with patch.dict(sys.modules, {'pico2d': SimpleNamespace(pico2d=canvas)}), \
+                patch.object(main, 'DisplaySettings'), patch.object(main, 'SettingsRenderer') as ui, \
+                patch.object(main, 'BoardRenderer') as board, patch.object(main, 'PlayerRenderer') as player:
+            order.attach_mock(board.return_value.draw, 'board')
+            order.attach_mock(player.return_value.draw, 'player')
+            order.attach_mock(ui.return_value.draw, 'settings')
+            main.main()
+        self.assertEqual([call[0] for call in order.mock_calls], ['board', 'player', 'settings'])
 
 
 if __name__ == '__main__':
