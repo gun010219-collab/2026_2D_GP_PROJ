@@ -19,3 +19,7 @@ class InputController:
 
     def key_up(self, direction):
         self._held.discard(direction)
+
+    def reconcile(self, held_directions):
+        """Recover keys after focus loss without movement or per-frame resets."""
+        self._held = set(held_directions) & DIRECTIONS.keys()

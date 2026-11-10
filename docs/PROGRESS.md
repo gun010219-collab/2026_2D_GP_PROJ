@@ -1,5 +1,138 @@
 # CHECKMATE 개발 진행 기록
 
+## Task 1-C — 기본 공격 및 쿨타임 (2026-11-10)
+
+상태: 구현·자동 검증 완료, **사용자 Windows GUI 검증 19개 항목 모두 통과**.
+사용자가 Task 1-C 최종 커밋과 기존 main 일반 Push를 승인했다. 실제 적 피해/패링/AI는 구현하지 않았다.
+
+### 시작 상태 / 목표 / 근거
+
+- 로컬/원격 main 모두 `f6bf132bcc9fabea4f4fa7372ab837c886be6242`, 시작 작업 트리 깨끗함.
+  기존 77개 unittest 모두 통과. AGENTS/승인 문서/진행 기록/게임·입력·설정 코드와 테스트를 확인했다.
+- 목표/수용 기준: SPACE 전방 한 칸 이벤트, 고정된 공격 ID/위치/방향/시작틱,
+  쿨타임·효과 분리, 결정적 전투 시간, 반복/모달/전체 화면 입력 보호와 기존 기능 회귀 통과.
+- 이미지형 게임기획서 p.5~8과 발표용 p.3을 임시 추출 이미지로 확인했다.
+  0.60초는 초기 재공격 대기시간이며 연출 지속시간이 아니다. 빈 유효 칸 공격도 소비한다.
+  효과 지속시간과 보드 밖 공격 정책은 명시를 찾지 못해 초기 선택으로 DECISIONS에 기록했다.
+- PDF 추출용 도구/이미지는 TEMP에만 두었다. 프로젝트 의존성이나 원본 PDF를 변경하지 않았다.
+
+### 구현과 변경 파일
+
+- `config.py`: 초기 쿨타임 **0.6초/36틱**, 임시 효과 **0.15초/9틱**, 프레임당 최대 8틱.
+  화면/보드 규격과 기존 이동 수치는 변경하지 않았다.
+- `combat.py`: 순수 Combat 및 frozen AttackEvent, 정면 목표에 board.in_bounds 적용.
+  유효 요청만 고유 ID/쿨타임을 소비하고 이동 후에도 목표를 유지한다.
+  active_attack은 효과 수명에만 사용하며 피해·중복 적중 처리는 아직 없다.
+- `simulation_clock.py`: 실제 경과를 누적하는 1/60초 틱. 메뉴 중 정지, 긴 지연은 8틱 상한,
+  초과 시간은 버린다. 긴 stall까지 벽시계 기준 0.6초가 보장된다는 뜻은 아니다.
+- `attack_input.py`: SPACE 독립 latch, 쿨타임/메뉴 중 요청은 예약 없이 소비,
+  해제 후 새 누름만 허용. `input_controller.py`에는 전환 시 상태 동기화 메서드만 추가.
+- `sdl_input.py`: 방향키와 SPACE 이벤트 어댑터, 모달/포커스/전환 중 입력 차단,
+  KEYUP 처리와 물리 키 상태 복구. 동기화만으로 공격하거나 이동하지 않는다.
+- `attack_renderer.py`: target_cell 안에만 표시하는 금색·아이보리 참격 및 청색 보조선.
+  HIT/피격/HP 감소 없음. 블렌드 변경/텍스처 로딩 없음. 최종 효과 에셋이 아니다.
+- `main.py`: combat/clock/input 연결. 메뉴·포커스·F11 전환 시 시간 누적 정리,
+  보드→공격→플레이어→설정 UI 순서 유지. 즉시 이동 이벤트 순서는 보존한다.
+- 추가 테스트: `test_combat.py`, `test_attack_input.py`, `test_attack_renderer.py`,
+  `test_simulation_clock.py`, `test_sdl_input.py`. 기존 `test_main.py`, `test_sdl_mouse_mapping.py` 확장.
+- DECISIONS/GAME_DESIGN/ASSET_PLAN/PROGRESS 갱신. 과거 작업 기록은 보존한다.
+- README/PDF 2개/JSON/Player/기존 보드/테마/플레이어 그래픽/설정·전체 화면 어댑터/
+  requirements/AGENTS/기존 Git 이력은 보존했다. Stage 1 (5,1)과 중심 (762,156) 유지.
+
+### 최종 파일 누락 점검
+
+- 실제 변경은 **코드 8개 + 테스트 7개 + 문서 4개 = 19개**다.
+  최종 점검 시작 시 추적 파일 수정 9개, 미추적 신규 파일 10개, 스테이징 파일 0개였다.
+- 사용자가 제시한 IDE 목록 15개와 다른 4개는 `combat.py`, `tests/test_combat.py`,
+  `tests/test_attack_input.py`, `tests/test_simulation_clock.py`다.
+  모두 실제 파일로 존재하고 `git ls-files --others --exclude-standard`에 포함되며
+  `git check-ignore --no-index`로도 무시 대상이 아님을 확인했다.
+- 실제 파일 누락이나 이전 19개 집계의 오류는 없다. IDE 목록이 4개를 표시하지 않은
+  원인은 확인할 수 없으며 필터/갱신 문제 등으로 단정하지 않는다.
+  `git diff --stat`은 미추적 파일을 포함하지 않아 당시 9개만 출력되는 점과도 구분한다.
+- 공격 핵심은 `combat.py`: frozen AttackEvent의 attack_id/origin_cell/facing/target_cell/start_tick,
+  Combat.request_attack의 이벤트 생성/36틱 쿨타임, active_attack의 9틱 만료를 확인했다.
+  관련 경계·ID·불변성 검사는 `tests/test_combat.py`에 실제로 존재한다.
+- 중복 모듈을 만들거나 실행 코드를 리팩터링하지 않았다. 이번 최종 마무리에서는
+  GUI/점검 기록만 갱신하고 기존 Task 1-C 파일 19개를 명시적으로 스테이징한다.
+
+### 실제 자동 검증
+
+```powershell
+.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+.\.venv\Scripts\python.exe validate_stage_data.py
+.\.venv\Scripts\python.exe -W error -m py_compile config.py combat.py simulation_clock.py attack_input.py attack_renderer.py sdl_input.py input_controller.py main.py
+.\.venv\Scripts\python.exe -c "import combat, simulation_clock, attack_input, attack_renderer, sdl_input, main; print('import OK')"
+git diff --check
+```
+
+- unittest **117개 통과** (기존 77개 유지 + 신규 40개). 스테이지 정적 검사 **25개 통과**.
+- 문법/import/공백 검사 통과. 시간 테스트는 sleep 없이 가상 경과/정수틱으로 수행했다.
+- 4방향/경계/요청당 이벤트 1개/ID 유일/불변 snapshot,
+  정확한 쿨타임 35→36틱 경계와 효과 8→9틱 만료를 검사했다.
+- 30/60/120/144 FPS 가상 시간의 동일 쿨타임, 분수 누적, 8틱 지연 제한,
+  메뉴 장시간 정지와 재개 시 catch-up 방지를 검사했다.
+- SPACE 유지/재입력/모달/포커스 복귀·F11 복구, 방향키와 SPACE 순서,
+  렌더 순서·목표 칸 안 효과·효과 소멸 및 기존 77개 회귀를 검사했다.
+- 실제 SDL dummy 렌더러에서 공격 그리기와 SPACE repeat 필터/KEYUP 경로를 실행했다.
+  비표시 검사는 실제 Windows 전체 화면과 사용자 입력 검증이 아니다.
+
+### 사용자 GUI 검증 결과 / 남은 범위
+
+사용자는 실제 Windows에서 아래 19개 항목의 정상 동작을 확인했다고 보고했다.
+이는 사용자 수동 GUI 검증이며 위 Codex 자동 검사·비표시 SDL 검사와 구분한다.
+사용자 요약의 네 방향 공격과 메뉴 입력 차단/시간 정지를 세부 항목으로 나누어 기록한다.
+
+| 항목 | 사용자 결과 |
+| --- | --- |
+| 1. SPACE 정면 한 칸 공격 | 정상 |
+| 2. 위쪽 공격 | 정상 |
+| 3. 아래쪽 공격 | 정상 |
+| 4. 왼쪽 공격 | 정상 |
+| 5. 오른쪽 공격 | 정상 |
+| 6. 0.15초 공격 시각 효과 | 정상 |
+| 7. 0.6초 공격 쿨타임 | 정상 |
+| 8. SPACE 유지 중 재공격 | 방지 |
+| 9. 쿨타임 이후 재공격 | 정상 |
+| 10. 이동·방향 전환 후 공격 대상 칸 고정 | 정상 |
+| 11. 게임판 밖 효과 | 차단 |
+| 12. SETTINGS 메뉴에서 공격 | 차단 |
+| 13. SETTINGS 메뉴에서 전투 시간 정지 | 정상 |
+| 14. 메뉴 종료 후 공격 재개 | 정상 |
+| 15. F11 전체 화면 전환 후 공격 | 정상 |
+| 16. 창 포커스 복귀 후 입력 | 정상 |
+| 17. 기존 플레이어 이동 | 정상 |
+| 18. ESC 및 창 X 종료 | 정상 |
+| 19. 반복 공격·이동 중 오류 | 없음 |
+
+마무리 시 unittest 117개와 25개 스테이지 정적 검사를 다시 실행해 모두 통과했다.
+문법/import/공백 검사와 보존 대상의 변경 없음도 확인했다.
+쿨타임 0.6초/36틱은 기존 기획의 초기 기준선이고, 효과 0.15초/9틱은 별도의 임시 연출값이다.
+사용자의 시간 관련 수동 확인을 정밀 프레임 성능 측정으로 간주하지 않는다.
+커밋 파일 목록과 사전 점검 목록, 로컬/원격 main SHA 일치 여부는 실행 후 최종 보고에서 확인한다.
+
+추가 환경에서 사용할 재현 명령과 점검 기준:
+
+```powershell
+.\.venv\Scripts\python.exe main.py
+```
+
+1. SPACE를 누르면 정면 한 칸에만 참격이 나타나는지, 네 방향 목표가 맞는지 확인한다.
+2. SPACE 유지 중 중복 공격 없음, 쿨타임 중 재입력 차단, 해제 후 0.6초 이상 지나 재공격을 확인한다.
+3. 공격 직후 이동/방향 전환에도 이전 효과 위치가 유지되고 약 0.15초 뒤 사라지는지 확인한다.
+4. 네 가장자리에서 보드 밖 효과가 없고 유효 방향 재입력은 가능한지 확인한다.
+5. SETTINGS 중 공격 차단과 시간 정지, 메뉴를 닫은 뒤 새 SPACE 공격을 확인한다.
+6. F11/메뉴 전체 화면 전환 뒤 공격·이동·타일 중심·설정 클릭 위치를 확인한다.
+7. 포커스 상실/복귀 때 유령 공격이 없고, 키 해제 후 새 입력이 정상인지 확인한다.
+8. 기존 ESC/X 종료와 반복 공격·이동 중 오류가 없는지 확인한다.
+
+사용자가 시험한 Windows 환경의 위 GUI 검증은 완료되었다.
+실제 프레임 성능·고부하·다른 DPI/다중 모니터는 미측정/미검증이다.
+PDF 수치와 효과 수명은 최종 밸런스가 아니며, 장시간 stall에서는 초과 시간을 버리는 정책이 있다.
+세션 ID와 단일 이벤트 반환은 미래 피해 처리 연결점이며 실제 적 피해 중복 방지를 구현한 것은 아니다.
+적/HP/패링/스테이지 진행/저장/최종 참격 애니메이션은 후속 작업이다.
+사용자 GUI 통과 및 최종 반영 요청에 따라 `feat: implement directional attack and cooldown`으로 커밋/일반 Push한다.
+
 ## Task 1-B — 플레이어 표시와 격자 이동 (2026-11-10)
 
 상태: 구현 및 자동 검증 완료, **사용자 Windows GUI 검증 16개 항목 모두 통과**.

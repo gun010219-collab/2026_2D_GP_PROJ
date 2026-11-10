@@ -14,6 +14,11 @@ BOARD_TOP = BOARD_BOTTOM + BOARD_PIXEL_SIZE
 
 FIXED_TIME_STEP = 1.0 / 60.0
 
+# Task 1-C implementation baselines, not final combat balance.
+ATTACK_COOLDOWN_SECONDS = 0.6
+ATTACK_EFFECT_SECONDS = 0.15  # Temporary visual feedback, independent of cooldown.
+MAX_SIMULATION_STEPS_PER_FRAME = 8
+
 
 def cell_center(col: int, row: int) -> tuple[float, float]:
     """Return a cell's canvas center; row zero is the bottom row."""

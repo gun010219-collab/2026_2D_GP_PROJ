@@ -19,6 +19,13 @@ class WindowLoopTests(unittest.TestCase):
         canvas.SDLK_F11 = 1073741892
         canvas.SDL_MOUSEBUTTONDOWN = 1025
         canvas.SDL_BUTTON_LEFT = 1
+        canvas.SDLK_SPACE = 32
+        canvas.SDL_WINDOW_INPUT_FOCUS = 512
+        canvas.SDL_GetWindowFlags.return_value = 512
+        canvas.SDL_SCANCODE_UP, canvas.SDL_SCANCODE_DOWN = 82, 81
+        canvas.SDL_SCANCODE_LEFT, canvas.SDL_SCANCODE_RIGHT = 80, 79
+        canvas.SDL_SCANCODE_SPACE = 44
+        canvas.SDL_GetKeyboardState.return_value = [0] * 512
         return canvas
 
     def run_with_canvas(self, canvas):
@@ -135,12 +142,66 @@ class WindowLoopTests(unittest.TestCase):
         order = Mock()
         with patch.dict(sys.modules, {'pico2d': SimpleNamespace(pico2d=canvas)}), \
                 patch.object(main, 'DisplaySettings'), patch.object(main, 'SettingsRenderer') as ui, \
-                patch.object(main, 'BoardRenderer') as board, patch.object(main, 'PlayerRenderer') as player:
+                patch.object(main, 'BoardRenderer') as board, patch.object(main, 'PlayerRenderer') as player, \
+                patch.object(main, 'AttackRenderer') as attack:
             order.attach_mock(board.return_value.draw, 'board')
+            order.attach_mock(attack.return_value.draw, 'attack')
             order.attach_mock(player.return_value.draw, 'player')
             order.attach_mock(ui.return_value.draw, 'settings')
             main.main()
-        self.assertEqual([call[0] for call in order.mock_calls], ['board', 'player', 'settings'])
+        self.assertEqual([call[0] for call in order.mock_calls], ['board', 'attack', 'player', 'settings'])
+
+    def run_combat_frames(self, batches, frame_lengths=None):
+        from combat import Combat
+        from config import FIXED_TIME_STEP
+        canvas = self.make_canvas()
+        canvas.get_events.side_effect = batches + [[SimpleNamespace(type=256)]]
+        now = [0.0]
+        lengths = iter(frame_lengths or [FIXED_TIME_STEP] * len(batches))
+        canvas.update_canvas.side_effect = lambda: now.__setitem__(0, now[0] + next(lengths))
+        combat = Combat()
+        with patch.dict(sys.modules, {'pico2d': SimpleNamespace(pico2d=canvas)}), \
+                patch.object(main, 'DisplaySettings'), patch.object(main, 'SettingsRenderer'), \
+                patch.object(main, 'Combat', return_value=combat), \
+                patch.object(main, 'perf_counter', side_effect=lambda: now[0]), patch.object(main, 'sleep'):
+            main.main()
+        return combat
+
+    def test_space_requests_obey_exact_cooldown_in_main(self):
+        down, up = SimpleNamespace(type=768, key=32), SimpleNamespace(type=769, key=32)
+        batches = [[down], [up, down], [up]] + [[] for _ in range(33)] + [[down]]
+        combat = self.run_combat_frames(batches)
+        self.assertEqual(combat.tick, 36)
+        self.assertEqual(combat.active_attack.attack_id, 2)
+        self.assertEqual(combat.active_attack.start_tick, 36)
+
+    def test_long_menu_pause_does_not_advance_combat_or_expire_effect(self):
+        from config import FIXED_TIME_STEP
+        combat = self.run_combat_frames([
+            [SimpleNamespace(type=768, key=32)],
+            [SimpleNamespace(type=1025, button=1, x=1295, y=41)],
+            [SimpleNamespace(type=769, key=32)],
+            [SimpleNamespace(type=768, key=27)],
+            [SimpleNamespace(type=768, key=32)],
+        ], [FIXED_TIME_STEP, 10.0, 10.0, FIXED_TIME_STEP, FIXED_TIME_STEP])
+        self.assertEqual(combat.tick, 2)
+        self.assertEqual(combat.active_attack.attack_id, 1)
+
+    def test_f11_retains_space_release_and_does_not_duplicate_attack(self):
+        down = SimpleNamespace(type=768, key=32)
+        batches = [[down], [SimpleNamespace(type=768, key=1073741892),
+                            SimpleNamespace(type=769, key=32)]]
+        batches += [[] for _ in range(34)] + [[down]]
+        combat = self.run_combat_frames(batches)
+        self.assertEqual(combat.active_attack.attack_id, 2)
+        self.assertEqual(combat.active_attack.start_tick, 36)
+
+    def test_move_then_attack_and_attack_then_move_in_main(self):
+        for keys, origin, target in [([1073741903, 32], (6, 1), (7, 1)),
+                                     ([32, 1073741903], (5, 1), (5, 2))]:
+            combat = self.run_combat_frames([[SimpleNamespace(type=768, key=key) for key in keys]])
+            self.assertEqual(combat.active_attack.origin_cell, origin)
+            self.assertEqual(combat.active_attack.target_cell, target)
 
 
 if __name__ == '__main__':
