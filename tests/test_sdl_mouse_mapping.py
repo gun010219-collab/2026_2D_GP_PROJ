@@ -20,6 +20,8 @@ class SDLMouseMappingTests(unittest.TestCase):
             from player_renderer import PlayerRenderer
             from combat import Combat
             from attack_renderer import AttackRenderer
+            from parry import Parry
+            from parry_renderer import ParryRenderer
             from types import SimpleNamespace
             assert s.SDL_Init(s.SDL_INIT_VIDEO) == 0
             try:
@@ -63,6 +65,10 @@ class SDLMouseMappingTests(unittest.TestCase):
                         try:
                             AttackRenderer().draw(canvas, Combat().request_attack(load_stage1_player()))
                             PlayerRenderer().draw(canvas, load_stage1_player())
+                            parry = Parry()
+                            parry.request(0)
+                            for tick in (0, 8, 18):
+                                ParryRenderer().draw(canvas, load_stage1_player(), parry, tick)
                             menu = SettingsMenu()
                             ui.draw(menu, SimpleNamespace(fullscreen=False, error=''))
                             menu.is_open = True
@@ -89,6 +95,16 @@ class SDLMouseMappingTests(unittest.TestCase):
                                 assert s.SDL_PushEvent(ctypes.byref(event)) == 1
                             keys = canvas.get_events()
                             assert [(e.type, e.key) for e in keys] == [(s.SDL_KEYDOWN,s.SDLK_SPACE),(s.SDL_KEYUP,s.SDLK_SPACE)]
+                            for shift in (s.SDLK_LSHIFT, s.SDLK_RSHIFT):
+                                for kind, repeat in [(s.SDL_KEYDOWN, 0), (s.SDL_KEYDOWN, 1), (s.SDL_KEYUP, 0)]:
+                                    event = s.SDL_Event()
+                                    event.type = kind
+                                    event.key.windowID = s.SDL_GetWindowID(window)
+                                    event.key.keysym.sym = shift
+                                    event.key.repeat = repeat
+                                    assert s.SDL_PushEvent(ctypes.byref(event)) == 1
+                                keys = canvas.get_events()
+                                assert [(e.type, e.key) for e in keys] == [(s.SDL_KEYDOWN,shift),(s.SDL_KEYUP,shift)]
                         finally:
                             ui.close()
                             canvas.TTF_Quit()

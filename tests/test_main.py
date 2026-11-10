@@ -20,11 +20,13 @@ class WindowLoopTests(unittest.TestCase):
         canvas.SDL_MOUSEBUTTONDOWN = 1025
         canvas.SDL_BUTTON_LEFT = 1
         canvas.SDLK_SPACE = 32
+        canvas.SDLK_LSHIFT, canvas.SDLK_RSHIFT = 1073742049, 1073742053
         canvas.SDL_WINDOW_INPUT_FOCUS = 512
         canvas.SDL_GetWindowFlags.return_value = 512
         canvas.SDL_SCANCODE_UP, canvas.SDL_SCANCODE_DOWN = 82, 81
         canvas.SDL_SCANCODE_LEFT, canvas.SDL_SCANCODE_RIGHT = 80, 79
         canvas.SDL_SCANCODE_SPACE = 44
+        canvas.SDL_SCANCODE_LSHIFT, canvas.SDL_SCANCODE_RSHIFT = 225, 229
         canvas.SDL_GetKeyboardState.return_value = [0] * 512
         return canvas
 
@@ -143,26 +145,39 @@ class WindowLoopTests(unittest.TestCase):
         with patch.dict(sys.modules, {'pico2d': SimpleNamespace(pico2d=canvas)}), \
                 patch.object(main, 'DisplaySettings'), patch.object(main, 'SettingsRenderer') as ui, \
                 patch.object(main, 'BoardRenderer') as board, patch.object(main, 'PlayerRenderer') as player, \
-                patch.object(main, 'AttackRenderer') as attack:
+                patch.object(main, 'AttackRenderer') as attack, patch.object(main, 'ParryRenderer') as parry:
             order.attach_mock(board.return_value.draw, 'board')
             order.attach_mock(attack.return_value.draw, 'attack')
+            order.attach_mock(parry.return_value.draw, 'parry')
             order.attach_mock(player.return_value.draw, 'player')
             order.attach_mock(ui.return_value.draw, 'settings')
             main.main()
-        self.assertEqual([call[0] for call in order.mock_calls], ['board', 'attack', 'player', 'settings'])
+        self.assertEqual([call[0] for call in order.mock_calls], ['board', 'attack', 'parry', 'player', 'settings'])
 
-    def run_combat_frames(self, batches, frame_lengths=None):
+    def run_combat_frames(self, batches, frame_lengths=None, parry=None,
+                          focus_flags=None, held_shift=False):
         from combat import Combat
         from config import FIXED_TIME_STEP
         canvas = self.make_canvas()
         canvas.get_events.side_effect = batches + [[SimpleNamespace(type=256)]]
+        if focus_flags is not None:
+            queued = iter(zip(batches + [[SimpleNamespace(type=256)]], focus_flags + [focus_flags[-1]]))
+            def poll():
+                events, flags = next(queued)
+                canvas.SDL_GetWindowFlags.return_value = flags
+                return events
+            canvas.get_events.side_effect = poll
+        if held_shift:
+            canvas.SDL_GetKeyboardState.return_value[225] = 1
         now = [0.0]
         lengths = iter(frame_lengths or [FIXED_TIME_STEP] * len(batches))
         canvas.update_canvas.side_effect = lambda: now.__setitem__(0, now[0] + next(lengths))
         combat = Combat()
+        parry_state = parry if parry is not None else main.Parry()
         with patch.dict(sys.modules, {'pico2d': SimpleNamespace(pico2d=canvas)}), \
                 patch.object(main, 'DisplaySettings'), patch.object(main, 'SettingsRenderer'), \
                 patch.object(main, 'Combat', return_value=combat), \
+                patch.object(main, 'Parry', return_value=parry_state), \
                 patch.object(main, 'perf_counter', side_effect=lambda: now[0]), patch.object(main, 'sleep'):
             main.main()
         return combat
@@ -202,6 +217,73 @@ class WindowLoopTests(unittest.TestCase):
             combat = self.run_combat_frames([[SimpleNamespace(type=768, key=key) for key in keys]])
             self.assertEqual(combat.active_attack.origin_cell, origin)
             self.assertEqual(combat.active_attack.target_cell, target)
+
+    def test_shift_uses_shared_tick_for_phase_and_expiry(self):
+        from parry import Parry
+        for ticks, expected in [(0, 'perfect_window'), (8, 'normal_window'), (18, 'inactive')]:
+            parry = Parry()
+            combat = self.run_combat_frames([[SimpleNamespace(type=768, key=1073742049)]]
+                                            + [[] for _ in range(ticks)], parry=parry)
+            self.assertEqual(combat.tick, ticks)
+            self.assertEqual(parry.state_at(combat.tick), expected)
+            self.assertEqual(parry.last_attempt.start_tick, 0)
+
+    def test_long_menu_pause_freezes_parry_window(self):
+        from config import FIXED_TIME_STEP
+        from parry import Parry
+        parry = Parry()
+        combat = self.run_combat_frames([
+            [SimpleNamespace(type=768, key=1073742049)],
+            [SimpleNamespace(type=1025, button=1, x=1295, y=41)],
+            [SimpleNamespace(type=769, key=1073742049)],
+            [SimpleNamespace(type=768, key=27)], [],
+        ], [FIXED_TIME_STEP, 10.0, 10.0, FIXED_TIME_STEP, FIXED_TIME_STEP], parry=parry)
+        self.assertEqual(combat.tick, 2)
+        self.assertEqual(parry.state_at(combat.tick), 'perfect_window')
+        self.assertEqual(parry.next_parry_tick, 60)
+
+    def test_shift_in_menu_is_consumed_and_fresh_press_after_close_starts(self):
+        from parry import Parry
+        parry = Parry()
+        combat = self.run_combat_frames([
+            [SimpleNamespace(type=1025, button=1, x=1295, y=41)],
+            [SimpleNamespace(type=768, key=1073742049)],
+            [SimpleNamespace(type=768, key=27)],
+            [SimpleNamespace(type=769, key=1073742049), SimpleNamespace(type=768, key=1073742053)],
+        ], parry=parry)
+        self.assertEqual(parry.last_attempt.parry_id, 1)
+        self.assertEqual(parry.last_attempt.start_tick, combat.tick)
+
+    def test_f11_keeps_shift_release_and_new_press_after_cooldown(self):
+        from parry import Parry
+        parry = Parry()
+        batches = [[SimpleNamespace(type=768, key=1073742049)],
+                   [SimpleNamespace(type=768, key=1073741892), SimpleNamespace(type=769, key=1073742049)]]
+        batches += [[] for _ in range(58)] + [[SimpleNamespace(type=768, key=1073742053)]]
+        combat = self.run_combat_frames(batches, parry=parry)
+        self.assertEqual(combat.tick, 60)
+        self.assertEqual(parry.last_attempt.parry_id, 2)
+        self.assertEqual(parry.last_attempt.start_tick, 60)
+
+    def test_focus_regain_held_shift_does_not_create_phantom_attempt(self):
+        from parry import Parry
+        parry = Parry()
+        combat = self.run_combat_frames([[], [],
+            [SimpleNamespace(type=768, key=1073742049)],
+            [SimpleNamespace(type=769, key=1073742049), SimpleNamespace(type=768, key=1073742049)],
+        ], parry=parry, focus_flags=[512, 0, 512, 512], held_shift=True)
+        self.assertEqual(parry.last_attempt.parry_id, 1)
+        self.assertEqual(parry.last_attempt.start_tick, 1)
+        self.assertEqual(combat.tick, 1)
+
+    def test_space_shift_same_frame_preserve_attack_and_parry(self):
+        from parry import Parry
+        for keys in ([32, 1073742049], [1073742049, 32]):
+            parry = Parry()
+            combat = self.run_combat_frames([[SimpleNamespace(type=768, key=key) for key in keys]], parry=parry)
+            self.assertEqual(combat.active_attack.start_tick, parry.last_attempt.start_tick)
+            self.assertEqual(combat.next_attack_tick, 36)
+            self.assertEqual(parry.next_parry_tick, 60)
 
 
 if __name__ == '__main__':

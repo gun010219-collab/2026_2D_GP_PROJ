@@ -71,3 +71,27 @@ class SimulationClockTests(unittest.TestCase):
             with self.subTest(elapsed=elapsed), self.assertRaises(ValueError):
                 clock.advance(elapsed)
         self.assertEqual(clock.accumulator, 0.0)
+
+    def test_parry_shares_combat_time_through_modal_pause(self):
+        from parry import Parry
+        parry, combat, clock = Parry(), Combat(), SimulationClock()
+        parry.request(combat.tick)
+        combat.advance(clock.advance(FIXED_TIME_STEP * 3))
+        for _ in range(100):
+            combat.advance(clock.advance(0.1, paused=True))
+        self.assertEqual(parry.state_at(combat.tick), 'perfect_window')
+        self.assertEqual(combat.tick, 3)
+        combat.advance(clock.advance(FIXED_TIME_STEP * 5))
+        self.assertEqual(parry.state_at(combat.tick), 'normal_window')
+        combat.advance(clock.advance(FIXED_TIME_STEP * 8))
+        combat.advance(clock.advance(FIXED_TIME_STEP * 2))
+        self.assertEqual(parry.state_at(combat.tick), 'inactive')
+
+    def test_parry_can_cross_visual_phase_during_capped_stall(self):
+        from parry import Parry
+        parry, combat, clock = Parry(), Combat(), SimulationClock()
+        parry.request(0)
+        combat.advance(clock.advance(5.0))
+        self.assertEqual(combat.tick, 8)
+        self.assertEqual(parry.state_at(combat.tick), 'normal_window')
+        self.assertEqual(clock.advance(0), 0)

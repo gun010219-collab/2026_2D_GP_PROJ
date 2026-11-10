@@ -19,6 +19,11 @@ ATTACK_COOLDOWN_SECONDS = 0.6
 ATTACK_EFFECT_SECONDS = 0.15  # Temporary visual feedback, independent of cooldown.
 MAX_SIMULATION_STEPS_PER_FRAME = 8
 
+# Task 1-D temporary input-relative parry windows, not success adjudication.
+PARRY_WINDOW_SECONDS = 0.30
+PERFECT_PARRY_WINDOW_SECONDS = 0.12  # Ceil to 8 ticks (~0.133s) at 60Hz.
+PARRY_COOLDOWN_SECONDS = 1.0  # Initial PDF baseline, not final balance.
+
 
 def cell_center(col: int, row: int) -> tuple[float, float]:
     """Return a cell's canvas center; row zero is the bottom row."""

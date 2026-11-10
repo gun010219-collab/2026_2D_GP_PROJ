@@ -15,6 +15,8 @@ from combat import Combat
 from attack_renderer import AttackRenderer
 from simulation_clock import SimulationClock
 from sdl_input import GameplayInput
+from parry import Parry
+from parry_renderer import ParryRenderer
 
 
 def main():
@@ -26,6 +28,8 @@ def main():
     player_renderer = PlayerRenderer()
     combat = Combat()
     attack_renderer = AttackRenderer()
+    parry = Parry()
+    parry_renderer = ParryRenderer()
     clock = SimulationClock()
     canvas.open_canvas(WINDOW_WIDTH, WINDOW_HEIGHT)
     settings_renderer = None
@@ -70,7 +74,7 @@ def main():
                 # Gameplay releases survive modal, focus, and display transitions.
                 if controls.handle_key(event, player, combat,
                                        blocked=menu.blocks_gameplay() or display_changed
-                                       or not focused or focus_changed):
+                                       or not focused or focus_changed, parry=parry):
                     continue
                 if display_changed or not focused:
                     continue
@@ -104,6 +108,7 @@ def main():
             canvas.SDL_RenderClear(canvas.renderer)
             board_renderer.draw(canvas)
             attack_renderer.draw(canvas, combat.active_attack)
+            parry_renderer.draw(canvas, player, parry, combat.tick)
             player_renderer.draw(canvas, player)
             settings_renderer.draw(menu, display)
             canvas.update_canvas()
