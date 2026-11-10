@@ -1,5 +1,100 @@
 # CHECKMATE 개발 진행 기록
 
+## Task 1-A — 챕터 아트 방향과 테마형 게임판 (2026-11-10)
+
+상태: 승인 비주얼 문서화 및 절차적 보드 구현/자동 검증 완료.
+**사용자 Windows GUI 검증 6개 항목 성공. Task 1-A 마무리 커밋/일반 Push 승인됨.**
+
+### 시작 확인과 범위
+
+- `main`, HEAD `79cac4bf185786ae1435a978a32e6d0a71543b63`, 작업 트리 깨끗함.
+  기존 Task 1-A 로컬 작업 파일은 없었으며 기존 unittest 23개 모두 통과했다.
+- AGENTS/DECISIONS/PROGRESS/config/main/tests/스테이지 데이터를 확인했다.
+- 현재 작업 공간의 과거 기획 자료는 README 및 PDF 2개다. 별도 업로드 파일을
+  자동으로 존재한다고 가정하지 않았다. 최신 사용자 승인 비주얼과 과거 PDF를 구분했다.
+- 목표: 5개 테마 및 30종 기물 방향 공식 기록, 순수 보드 계산,
+  Chapter 1 절차적 보드/HUD 프레임과 공통 테마 선택 구조 구현.
+- 수용 기준: 100칸/50:50, 좌표/경계, 5개 테마, 실제 JSON chapter 호환,
+  ESC/X 종료 회귀 테스트 통과 및 이후 사용자 GUI 확인.
+- 기존 README/PDF/JSON/검사기/화면 상수/의존성/Git 이력은 변경하지 않는다.
+
+### 변경 파일
+
+- `board.py`: 10×10 타일 순회, 범위 검사, 밝고 어두운 칸,
+  셀 경계/중심 및 화면→격자 변환. Pico2D/점유/전투에 의존하지 않는다.
+  기하 경계는 왼쪽/아래 포함, 오른쪽/위 제외로 일관되게 처리한다.
+- `chapter_themes.py`: 5개 불변 팔레트(배경/타일/프레임/HUD)와 엄격한 챕터 선택.
+  JSON을 수정하거나 StageManager를 새로 만들지 않았다.
+- `renderer.py`: Chapter 1 흑백 타일, 절제된 대리석 선, 미세 베벨,
+  금속/금색 다중 프레임, 외곽 코너 인레이, 비중첩 HUD 프레임.
+  고정 명령을 생성 시 캐시하며 한 렌더러로 모든 팔레트를 처리한다.
+  타일 경계는 Pico2D 1.5.1의 포함 끝점에 맞춰 1px 보정해 75×75로 채운다.
+- `main.py`: 기존 이벤트/대기/정리 루프에 기본 Chapter 1 렌더러만 연결.
+  향후 실제 스테이지 로더가 JSON chapter를 넘길 수 있으나 현재 전환 기능은 없다.
+- `tests/test_board.py` 5개, `tests/test_chapter_themes.py` 3개,
+  `tests/test_renderer.py` 4개 추가. 기존 `tests/test_main.py`의 사각형 2개 전용
+  단언은 실제 보드 렌더링에 맞춰 100개 이상으로 갱신했고 종료/정리 회귀 테스트는 유지했다.
+- `docs/DECISIONS.md`: 최신 승인 기록.
+- `docs/GAME_DESIGN.md`: 승인된 핵심 구조와 구현 경계.
+- `docs/ART_DIRECTION.md`: 5개 챕터 환경/HUD/팔레트, 30종 기물의 외형/실루엣/
+  색상/식별/효과, 임시 보스 콘셉트, 전투 효과 방향과 가독성 기준.
+- `docs/ASSET_PLAN.md`: 실제 에셋의 우선순위/권장 해상도/투명 배경/예상 경로.
+- `docs/PROGRESS.md`: 실제 상태와 검증 기록.
+
+### 실행한 자동 검증
+
+```powershell
+.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+.\.venv\Scripts\python.exe validate_stage_data.py
+.\.venv\Scripts\python.exe -W error -m py_compile board.py chapter_themes.py renderer.py main.py
+git diff --check
+```
+
+- unittest **35개 통과** (기존 23개 + 신규 12개).
+- 정적 검사 **25개 스테이지 통과**. 문법/공백 검사 통과.
+- 100개 타일 고유성, 50:50 교대, 모든 셀의 중심/경계 왕복 변환,
+  화면 영역 및 비유한 좌표 처리, 잘못된 격자·챕터 입력을 검사했다.
+- 실제 JSON의 모든 chapter가 올바른 테마를 선택함을 확인했다.
+- 가짜 캔버스로 5개 팔레트의 그리기 좌표가 화면 안에 있는지,
+  75×75 채움과 반복 프레임의 동일성, 기존 ESC/X/예외 정리를 검사했다.
+- 자동 명도 분리 검사는 팔레트 보호 기준이며 실제 플레이 가독성 검증을 대체하지 않는다.
+- 기존 README/PDF 2개/JSON/검사기/config/requirements/스테이지 테스트의 Git diff 없음 확인.
+
+### 사용자 GUI 검증 결과와 미구현 범위
+
+사용자가 Task 1-A의 실제 Windows GUI 검증을 직접 완료하여 다음 결과를 보고했다.
+Codex가 직접 관찰한 결과와 구분하여 사용자 수동 검증 증거로 기록한다.
+
+| 검증 항목 | 사용자 수동 검증 결과 |
+| --- | --- |
+| 10×10 체스판 표시 | 정상 |
+| 흑백 타일 및 대리석 무늬 | 정상 |
+| 금색 프레임과 HUD 영역 겹침 | 없음 |
+| 타일 사이 틈과 화면 깜빡임 | 없음 |
+| ESC 및 X 버튼 종료 | 정상 |
+| 재실행 | 정상 |
+
+마무리 시 기존 가상환경에서 unittest 35개와 스테이지 정적 검사 25개를
+다시 실행해 모두 통과했다. 기존 README/PDF/JSON의 변경 없음도 재확인했다.
+
+프로젝트 루트 PowerShell (`..venv` 대신 실제 `.venv` 경로 사용):
+
+```powershell
+.\.venv\Scripts\python.exe main.py
+```
+
+1440×900 설정은 자동 테스트로 확인했다. 이번 사용자 보고에 없는 실제 창 크기
+실측 및 제목 별도 확인 결과는 추가로 검증되었다고 간주하지 않는다.
+
+Chapter 1은 코드 도형 기반이며 최종 대리석 이미지·스프라이트·음향은 미제작이다.
+Chapter 2~5는 팔레트 준비 단계다. 기물/애니메이션/실제 전투/이펙트/StageManager는 미구현이다.
+실제 프레임 시간과 고부하 상황 성능은 미측정이며 후속 에셋 편입 시 확인한다.
+새 게임 규칙/전투 수치 변경은 없다.
+
+사용자 GUI 검증 결과 및 마무리 요청에 따라
+`feat: implement chapter themed chessboard foundation` 커밋 및 일반 Push를 진행한다.
+생성된 커밋 SHA와 원격 main 일치 여부는 실행 후 최종 작업 보고에서 확인한다.
+
 ## Task 0-B — 1440×900 창과 좌표 기준 (2026-11-10)
 
 상태: 구현 및 자동 검증 완료. 사용자 Windows GUI 검증에서 창 출력과 ESC/X 종료 성공.

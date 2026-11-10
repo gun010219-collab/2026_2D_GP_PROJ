@@ -2,10 +2,10 @@
 from time import perf_counter, sleep
 
 from config import (
-    BOARD_BOTTOM, BOARD_LEFT, BOARD_PIXEL_SIZE, FIXED_TIME_STEP,
-    HUD_BOTTOM, HUD_HEIGHT, HUD_LEFT, HUD_WIDTH,
+    FIXED_TIME_STEP,
     WINDOW_HEIGHT, WINDOW_TITLE, WINDOW_WIDTH,
 )
+from renderer import BoardRenderer
 
 
 def main():
@@ -19,6 +19,7 @@ def main():
             raise RuntimeError('Pico2D could not create a window and renderer')
         canvas.hide_lattice()
         canvas.SDL_SetWindowTitle(canvas.window, WINDOW_TITLE.encode('utf-8'))
+        board_renderer = BoardRenderer(chapter=1)
 
         running = True
         while running:
@@ -37,15 +38,7 @@ def main():
             # Future fixed-step simulation updates belong before rendering.
             # This bootstrap only paces rendering; it advances no game state.
             canvas.clear_canvas()
-            canvas.draw_rectangle(
-                BOARD_LEFT, BOARD_BOTTOM,
-                BOARD_LEFT + BOARD_PIXEL_SIZE, BOARD_BOTTOM + BOARD_PIXEL_SIZE,
-                50, 60, 70,
-            )
-            canvas.draw_rectangle(
-                HUD_LEFT, HUD_BOTTOM, HUD_LEFT + HUD_WIDTH, HUD_BOTTOM + HUD_HEIGHT,
-                100, 110, 120,
-            )
+            board_renderer.draw(canvas)
             canvas.update_canvas()
             sleep(max(0.0, FIXED_TIME_STEP - (perf_counter() - frame_start)))
     finally:

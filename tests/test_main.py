@@ -34,7 +34,7 @@ class WindowLoopTests(unittest.TestCase):
         canvas.get_events.side_effect = [[], [SimpleNamespace(type=256)]]
         with patch.object(main, 'sleep') as sleeper:
             self.run_with_canvas(canvas)
-        self.assertEqual(canvas.draw_rectangle.call_count, 2)
+        self.assertGreaterEqual(canvas.draw_rectangle.call_count, 100)
         canvas.update_canvas.assert_called_once_with()
         sleeper.assert_called_once()
         self.assertGreaterEqual(sleeper.call_args.args[0], 0)
