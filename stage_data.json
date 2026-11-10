@@ -1,0 +1,1405 @@
+{
+  "board_size": 10,
+  "coordinate_system": "col,row with row 0 at bottom",
+  "stages": [
+    {
+      "stage": 1,
+      "chapter": 1,
+      "boss": false,
+      "boss_hp": null,
+      "player_spawn": [
+        5,
+        1
+      ],
+      "enemies": [
+        {
+          "id": "s1_pawn_1",
+          "type": "pawn",
+          "col": 1,
+          "row": 6,
+          "initial_delay": 0.8,
+          "forward": [
+            0,
+            -1
+          ]
+        },
+        {
+          "id": "s1_pawn_2",
+          "type": "pawn",
+          "col": 8,
+          "row": 6,
+          "initial_delay": 1.02,
+          "forward": [
+            0,
+            -1
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 2,
+      "chapter": 1,
+      "boss": false,
+      "boss_hp": null,
+      "player_spawn": [
+        5,
+        1
+      ],
+      "enemies": [
+        {
+          "id": "s2_rook_1",
+          "type": "rook",
+          "col": 2,
+          "row": 4,
+          "initial_delay": 0.8
+        },
+        {
+          "id": "s2_pawn_1",
+          "type": "pawn",
+          "col": 1,
+          "row": 6,
+          "initial_delay": 1.02,
+          "forward": [
+            0,
+            -1
+          ]
+        },
+        {
+          "id": "s2_pawn_2",
+          "type": "pawn",
+          "col": 8,
+          "row": 6,
+          "initial_delay": 1.24,
+          "forward": [
+            0,
+            -1
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 3,
+      "chapter": 1,
+      "boss": false,
+      "boss_hp": null,
+      "player_spawn": [
+        5,
+        1
+      ],
+      "enemies": [
+        {
+          "id": "s3_knight_1",
+          "type": "knight",
+          "col": 3,
+          "row": 6,
+          "initial_delay": 0.8
+        },
+        {
+          "id": "s3_pawn_1",
+          "type": "pawn",
+          "col": 1,
+          "row": 6,
+          "initial_delay": 1.02,
+          "forward": [
+            0,
+            -1
+          ]
+        },
+        {
+          "id": "s3_pawn_2",
+          "type": "pawn",
+          "col": 8,
+          "row": 6,
+          "initial_delay": 1.24,
+          "forward": [
+            0,
+            -1
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 4,
+      "chapter": 1,
+      "boss": false,
+      "boss_hp": null,
+      "player_spawn": [
+        5,
+        1
+      ],
+      "enemies": [
+        {
+          "id": "s4_bishop_1",
+          "type": "bishop",
+          "col": 2,
+          "row": 8,
+          "initial_delay": 0.8
+        },
+        {
+          "id": "s4_rook_1",
+          "type": "rook",
+          "col": 2,
+          "row": 4,
+          "initial_delay": 1.02
+        },
+        {
+          "id": "s4_pawn_1",
+          "type": "pawn",
+          "col": 1,
+          "row": 6,
+          "initial_delay": 1.24,
+          "forward": [
+            0,
+            -1
+          ]
+        },
+        {
+          "id": "s4_pawn_2",
+          "type": "pawn",
+          "col": 8,
+          "row": 6,
+          "initial_delay": 1.46,
+          "forward": [
+            0,
+            -1
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 5,
+      "chapter": 1,
+      "boss": true,
+      "boss_hp": 8,
+      "player_spawn": [
+        5,
+        1
+      ],
+      "enemies": [
+        {
+          "id": "s5_king_1",
+          "type": "king",
+          "col": 5,
+          "row": 9,
+          "initial_delay": 0.8
+        },
+        {
+          "id": "s5_rook_1",
+          "type": "rook",
+          "col": 2,
+          "row": 4,
+          "initial_delay": 1.02
+        },
+        {
+          "id": "s5_pawn_1",
+          "type": "pawn",
+          "col": 1,
+          "row": 6,
+          "initial_delay": 1.24,
+          "forward": [
+            0,
+            -1
+          ]
+        },
+        {
+          "id": "s5_pawn_2",
+          "type": "pawn",
+          "col": 8,
+          "row": 6,
+          "initial_delay": 1.46,
+          "forward": [
+            0,
+            -1
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 6,
+      "chapter": 2,
+      "boss": false,
+      "boss_hp": null,
+      "player_spawn": [
+        5,
+        1
+      ],
+      "enemies": [
+        {
+          "id": "s6_pawn_1",
+          "type": "pawn",
+          "col": 1,
+          "row": 6,
+          "initial_delay": 0.8,
+          "forward": [
+            0,
+            -1
+          ]
+        },
+        {
+          "id": "s6_pawn_2",
+          "type": "pawn",
+          "col": 8,
+          "row": 6,
+          "initial_delay": 1.02,
+          "forward": [
+            0,
+            -1
+          ]
+        },
+        {
+          "id": "s6_pawn_3",
+          "type": "pawn",
+          "col": 3,
+          "row": 8,
+          "initial_delay": 1.24,
+          "forward": [
+            0,
+            -1
+          ]
+        },
+        {
+          "id": "s6_rook_1",
+          "type": "rook",
+          "col": 2,
+          "row": 4,
+          "initial_delay": 1.46
+        }
+      ]
+    },
+    {
+      "stage": 7,
+      "chapter": 2,
+      "boss": false,
+      "boss_hp": null,
+      "player_spawn": [
+        5,
+        1
+      ],
+      "enemies": [
+        {
+          "id": "s7_knight_1",
+          "type": "knight",
+          "col": 3,
+          "row": 6,
+          "initial_delay": 0.8
+        },
+        {
+          "id": "s7_knight_2",
+          "type": "knight",
+          "col": 6,
+          "row": 6,
+          "initial_delay": 1.02
+        },
+        {
+          "id": "s7_pawn_1",
+          "type": "pawn",
+          "col": 1,
+          "row": 6,
+          "initial_delay": 1.24,
+          "forward": [
+            0,
+            -1
+          ]
+        },
+        {
+          "id": "s7_pawn_2",
+          "type": "pawn",
+          "col": 8,
+          "row": 6,
+          "initial_delay": 1.46,
+          "forward": [
+            0,
+            -1
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 8,
+      "chapter": 2,
+      "boss": false,
+      "boss_hp": null,
+      "player_spawn": [
+        5,
+        1
+      ],
+      "enemies": [
+        {
+          "id": "s8_bishop_1",
+          "type": "bishop",
+          "col": 2,
+          "row": 8,
+          "initial_delay": 0.8
+        },
+        {
+          "id": "s8_rook_1",
+          "type": "rook",
+          "col": 2,
+          "row": 4,
+          "initial_delay": 1.02
+        },
+        {
+          "id": "s8_knight_1",
+          "type": "knight",
+          "col": 3,
+          "row": 6,
+          "initial_delay": 1.24
+        },
+        {
+          "id": "s8_pawn_1",
+          "type": "pawn",
+          "col": 1,
+          "row": 6,
+          "initial_delay": 1.46,
+          "forward": [
+            0,
+            -1
+          ]
+        },
+        {
+          "id": "s8_pawn_2",
+          "type": "pawn",
+          "col": 8,
+          "row": 6,
+          "initial_delay": 1.68,
+          "forward": [
+            0,
+            -1
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 9,
+      "chapter": 2,
+      "boss": false,
+      "boss_hp": null,
+      "player_spawn": [
+        5,
+        1
+      ],
+      "enemies": [
+        {
+          "id": "s9_bishop_1",
+          "type": "bishop",
+          "col": 2,
+          "row": 8,
+          "initial_delay": 0.8
+        },
+        {
+          "id": "s9_rook_1",
+          "type": "rook",
+          "col": 2,
+          "row": 4,
+          "initial_delay": 1.02
+        },
+        {
+          "id": "s9_rook_2",
+          "type": "rook",
+          "col": 7,
+          "row": 4,
+          "initial_delay": 1.24
+        },
+        {
+          "id": "s9_knight_1",
+          "type": "knight",
+          "col": 3,
+          "row": 6,
+          "initial_delay": 1.46
+        },
+        {
+          "id": "s9_pawn_1",
+          "type": "pawn",
+          "col": 1,
+          "row": 6,
+          "initial_delay": 1.68,
+          "forward": [
+            0,
+            -1
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 10,
+      "chapter": 2,
+      "boss": true,
+      "boss_hp": 10,
+      "player_spawn": [
+        5,
+        1
+      ],
+      "enemies": [
+        {
+          "id": "s10_king_1",
+          "type": "king",
+          "col": 5,
+          "row": 9,
+          "initial_delay": 0.8
+        },
+        {
+          "id": "s10_bishop_1",
+          "type": "bishop",
+          "col": 2,
+          "row": 8,
+          "initial_delay": 1.02
+        },
+        {
+          "id": "s10_knight_1",
+          "type": "knight",
+          "col": 3,
+          "row": 6,
+          "initial_delay": 1.24
+        },
+        {
+          "id": "s10_pawn_1",
+          "type": "pawn",
+          "col": 1,
+          "row": 6,
+          "initial_delay": 1.46,
+          "forward": [
+            0,
+            -1
+          ]
+        },
+        {
+          "id": "s10_pawn_2",
+          "type": "pawn",
+          "col": 8,
+          "row": 6,
+          "initial_delay": 1.68,
+          "forward": [
+            0,
+            -1
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 11,
+      "chapter": 3,
+      "boss": false,
+      "boss_hp": null,
+      "player_spawn": [
+        5,
+        1
+      ],
+      "enemies": [
+        {
+          "id": "s11_rook_1",
+          "type": "rook",
+          "col": 2,
+          "row": 4,
+          "initial_delay": 0.8
+        },
+        {
+          "id": "s11_rook_2",
+          "type": "rook",
+          "col": 7,
+          "row": 4,
+          "initial_delay": 1.02
+        },
+        {
+          "id": "s11_knight_1",
+          "type": "knight",
+          "col": 3,
+          "row": 6,
+          "initial_delay": 1.24
+        },
+        {
+          "id": "s11_knight_2",
+          "type": "knight",
+          "col": 6,
+          "row": 6,
+          "initial_delay": 1.46
+        },
+        {
+          "id": "s11_pawn_1",
+          "type": "pawn",
+          "col": 1,
+          "row": 6,
+          "initial_delay": 1.68,
+          "forward": [
+            0,
+            -1
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 12,
+      "chapter": 3,
+      "boss": false,
+      "boss_hp": null,
+      "player_spawn": [
+        5,
+        1
+      ],
+      "enemies": [
+        {
+          "id": "s12_bishop_1",
+          "type": "bishop",
+          "col": 2,
+          "row": 8,
+          "initial_delay": 0.8
+        },
+        {
+          "id": "s12_bishop_2",
+          "type": "bishop",
+          "col": 7,
+          "row": 8,
+          "initial_delay": 1.02
+        },
+        {
+          "id": "s12_rook_1",
+          "type": "rook",
+          "col": 2,
+          "row": 4,
+          "initial_delay": 1.24
+        },
+        {
+          "id": "s12_pawn_1",
+          "type": "pawn",
+          "col": 1,
+          "row": 6,
+          "initial_delay": 1.46,
+          "forward": [
+            0,
+            -1
+          ]
+        },
+        {
+          "id": "s12_pawn_2",
+          "type": "pawn",
+          "col": 8,
+          "row": 6,
+          "initial_delay": 1.68,
+          "forward": [
+            0,
+            -1
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 13,
+      "chapter": 3,
+      "boss": false,
+      "boss_hp": null,
+      "player_spawn": [
+        5,
+        1
+      ],
+      "enemies": [
+        {
+          "id": "s13_queen_1",
+          "type": "queen",
+          "col": 4,
+          "row": 7,
+          "initial_delay": 0.8
+        },
+        {
+          "id": "s13_knight_1",
+          "type": "knight",
+          "col": 3,
+          "row": 6,
+          "initial_delay": 1.02
+        },
+        {
+          "id": "s13_pawn_1",
+          "type": "pawn",
+          "col": 1,
+          "row": 6,
+          "initial_delay": 1.24,
+          "forward": [
+            0,
+            -1
+          ]
+        },
+        {
+          "id": "s13_pawn_2",
+          "type": "pawn",
+          "col": 8,
+          "row": 6,
+          "initial_delay": 1.46,
+          "forward": [
+            0,
+            -1
+          ]
+        },
+        {
+          "id": "s13_pawn_3",
+          "type": "pawn",
+          "col": 3,
+          "row": 8,
+          "initial_delay": 1.68,
+          "forward": [
+            0,
+            -1
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 14,
+      "chapter": 3,
+      "boss": false,
+      "boss_hp": null,
+      "player_spawn": [
+        5,
+        1
+      ],
+      "enemies": [
+        {
+          "id": "s14_queen_1",
+          "type": "queen",
+          "col": 4,
+          "row": 7,
+          "initial_delay": 0.8
+        },
+        {
+          "id": "s14_rook_1",
+          "type": "rook",
+          "col": 2,
+          "row": 4,
+          "initial_delay": 1.02
+        },
+        {
+          "id": "s14_bishop_1",
+          "type": "bishop",
+          "col": 2,
+          "row": 8,
+          "initial_delay": 1.24
+        },
+        {
+          "id": "s14_pawn_1",
+          "type": "pawn",
+          "col": 1,
+          "row": 6,
+          "initial_delay": 1.46,
+          "forward": [
+            0,
+            -1
+          ]
+        },
+        {
+          "id": "s14_pawn_2",
+          "type": "pawn",
+          "col": 8,
+          "row": 6,
+          "initial_delay": 1.68,
+          "forward": [
+            0,
+            -1
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 15,
+      "chapter": 3,
+      "boss": true,
+      "boss_hp": 12,
+      "player_spawn": [
+        5,
+        1
+      ],
+      "enemies": [
+        {
+          "id": "s15_king_1",
+          "type": "king",
+          "col": 5,
+          "row": 9,
+          "initial_delay": 0.8
+        },
+        {
+          "id": "s15_queen_1",
+          "type": "queen",
+          "col": 4,
+          "row": 7,
+          "initial_delay": 1.02
+        },
+        {
+          "id": "s15_rook_1",
+          "type": "rook",
+          "col": 2,
+          "row": 4,
+          "initial_delay": 1.24
+        },
+        {
+          "id": "s15_pawn_1",
+          "type": "pawn",
+          "col": 1,
+          "row": 6,
+          "initial_delay": 1.46,
+          "forward": [
+            0,
+            -1
+          ]
+        },
+        {
+          "id": "s15_pawn_2",
+          "type": "pawn",
+          "col": 8,
+          "row": 6,
+          "initial_delay": 1.68,
+          "forward": [
+            0,
+            -1
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 16,
+      "chapter": 4,
+      "boss": false,
+      "boss_hp": null,
+      "player_spawn": [
+        5,
+        1
+      ],
+      "enemies": [
+        {
+          "id": "s16_rook_1",
+          "type": "rook",
+          "col": 2,
+          "row": 4,
+          "initial_delay": 0.8
+        },
+        {
+          "id": "s16_rook_2",
+          "type": "rook",
+          "col": 7,
+          "row": 4,
+          "initial_delay": 1.02
+        },
+        {
+          "id": "s16_knight_1",
+          "type": "knight",
+          "col": 3,
+          "row": 6,
+          "initial_delay": 1.24
+        },
+        {
+          "id": "s16_knight_2",
+          "type": "knight",
+          "col": 6,
+          "row": 6,
+          "initial_delay": 1.46
+        },
+        {
+          "id": "s16_bishop_1",
+          "type": "bishop",
+          "col": 2,
+          "row": 8,
+          "initial_delay": 1.68
+        },
+        {
+          "id": "s16_pawn_1",
+          "type": "pawn",
+          "col": 1,
+          "row": 6,
+          "initial_delay": 1.9,
+          "forward": [
+            0,
+            -1
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 17,
+      "chapter": 4,
+      "boss": false,
+      "boss_hp": null,
+      "player_spawn": [
+        5,
+        1
+      ],
+      "enemies": [
+        {
+          "id": "s17_bishop_1",
+          "type": "bishop",
+          "col": 2,
+          "row": 8,
+          "initial_delay": 0.8
+        },
+        {
+          "id": "s17_bishop_2",
+          "type": "bishop",
+          "col": 7,
+          "row": 8,
+          "initial_delay": 1.02
+        },
+        {
+          "id": "s17_rook_1",
+          "type": "rook",
+          "col": 2,
+          "row": 4,
+          "initial_delay": 1.24
+        },
+        {
+          "id": "s17_rook_2",
+          "type": "rook",
+          "col": 7,
+          "row": 4,
+          "initial_delay": 1.46
+        },
+        {
+          "id": "s17_knight_1",
+          "type": "knight",
+          "col": 3,
+          "row": 6,
+          "initial_delay": 1.68
+        },
+        {
+          "id": "s17_pawn_1",
+          "type": "pawn",
+          "col": 1,
+          "row": 6,
+          "initial_delay": 1.9,
+          "forward": [
+            0,
+            -1
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 18,
+      "chapter": 4,
+      "boss": false,
+      "boss_hp": null,
+      "player_spawn": [
+        5,
+        1
+      ],
+      "enemies": [
+        {
+          "id": "s18_queen_1",
+          "type": "queen",
+          "col": 4,
+          "row": 7,
+          "initial_delay": 0.8
+        },
+        {
+          "id": "s18_bishop_1",
+          "type": "bishop",
+          "col": 2,
+          "row": 8,
+          "initial_delay": 1.02
+        },
+        {
+          "id": "s18_rook_1",
+          "type": "rook",
+          "col": 2,
+          "row": 4,
+          "initial_delay": 1.24
+        },
+        {
+          "id": "s18_rook_2",
+          "type": "rook",
+          "col": 7,
+          "row": 4,
+          "initial_delay": 1.46
+        },
+        {
+          "id": "s18_pawn_1",
+          "type": "pawn",
+          "col": 1,
+          "row": 6,
+          "initial_delay": 1.68,
+          "forward": [
+            0,
+            -1
+          ]
+        },
+        {
+          "id": "s18_pawn_2",
+          "type": "pawn",
+          "col": 8,
+          "row": 6,
+          "initial_delay": 1.9,
+          "forward": [
+            0,
+            -1
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 19,
+      "chapter": 4,
+      "boss": false,
+      "boss_hp": null,
+      "player_spawn": [
+        5,
+        1
+      ],
+      "enemies": [
+        {
+          "id": "s19_queen_1",
+          "type": "queen",
+          "col": 4,
+          "row": 7,
+          "initial_delay": 0.8
+        },
+        {
+          "id": "s19_knight_1",
+          "type": "knight",
+          "col": 3,
+          "row": 6,
+          "initial_delay": 1.02
+        },
+        {
+          "id": "s19_knight_2",
+          "type": "knight",
+          "col": 6,
+          "row": 6,
+          "initial_delay": 1.24
+        },
+        {
+          "id": "s19_rook_1",
+          "type": "rook",
+          "col": 2,
+          "row": 4,
+          "initial_delay": 1.46
+        },
+        {
+          "id": "s19_rook_2",
+          "type": "rook",
+          "col": 7,
+          "row": 4,
+          "initial_delay": 1.68
+        },
+        {
+          "id": "s19_bishop_1",
+          "type": "bishop",
+          "col": 2,
+          "row": 8,
+          "initial_delay": 1.9
+        },
+        {
+          "id": "s19_pawn_1",
+          "type": "pawn",
+          "col": 1,
+          "row": 6,
+          "initial_delay": 2.12,
+          "forward": [
+            0,
+            -1
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 20,
+      "chapter": 4,
+      "boss": true,
+      "boss_hp": 14,
+      "player_spawn": [
+        5,
+        1
+      ],
+      "enemies": [
+        {
+          "id": "s20_king_1",
+          "type": "king",
+          "col": 5,
+          "row": 9,
+          "initial_delay": 0.8
+        },
+        {
+          "id": "s20_queen_1",
+          "type": "queen",
+          "col": 4,
+          "row": 7,
+          "initial_delay": 1.02
+        },
+        {
+          "id": "s20_bishop_1",
+          "type": "bishop",
+          "col": 2,
+          "row": 8,
+          "initial_delay": 1.24
+        },
+        {
+          "id": "s20_knight_1",
+          "type": "knight",
+          "col": 3,
+          "row": 6,
+          "initial_delay": 1.46
+        },
+        {
+          "id": "s20_knight_2",
+          "type": "knight",
+          "col": 6,
+          "row": 6,
+          "initial_delay": 1.68
+        },
+        {
+          "id": "s20_pawn_1",
+          "type": "pawn",
+          "col": 1,
+          "row": 6,
+          "initial_delay": 1.9,
+          "forward": [
+            0,
+            -1
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 21,
+      "chapter": 5,
+      "boss": false,
+      "boss_hp": null,
+      "player_spawn": [
+        5,
+        1
+      ],
+      "enemies": [
+        {
+          "id": "s21_queen_1",
+          "type": "queen",
+          "col": 4,
+          "row": 7,
+          "initial_delay": 0.8
+        },
+        {
+          "id": "s21_rook_1",
+          "type": "rook",
+          "col": 2,
+          "row": 4,
+          "initial_delay": 1.02
+        },
+        {
+          "id": "s21_rook_2",
+          "type": "rook",
+          "col": 7,
+          "row": 4,
+          "initial_delay": 1.24
+        },
+        {
+          "id": "s21_knight_1",
+          "type": "knight",
+          "col": 3,
+          "row": 6,
+          "initial_delay": 1.46
+        },
+        {
+          "id": "s21_knight_2",
+          "type": "knight",
+          "col": 6,
+          "row": 6,
+          "initial_delay": 1.68
+        },
+        {
+          "id": "s21_bishop_1",
+          "type": "bishop",
+          "col": 2,
+          "row": 8,
+          "initial_delay": 1.9
+        },
+        {
+          "id": "s21_pawn_1",
+          "type": "pawn",
+          "col": 1,
+          "row": 6,
+          "initial_delay": 2.12,
+          "forward": [
+            0,
+            -1
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 22,
+      "chapter": 5,
+      "boss": false,
+      "boss_hp": null,
+      "player_spawn": [
+        5,
+        1
+      ],
+      "enemies": [
+        {
+          "id": "s22_queen_1",
+          "type": "queen",
+          "col": 4,
+          "row": 7,
+          "initial_delay": 0.8
+        },
+        {
+          "id": "s22_bishop_1",
+          "type": "bishop",
+          "col": 2,
+          "row": 8,
+          "initial_delay": 1.02
+        },
+        {
+          "id": "s22_bishop_2",
+          "type": "bishop",
+          "col": 7,
+          "row": 8,
+          "initial_delay": 1.24
+        },
+        {
+          "id": "s22_rook_1",
+          "type": "rook",
+          "col": 2,
+          "row": 4,
+          "initial_delay": 1.46
+        },
+        {
+          "id": "s22_knight_1",
+          "type": "knight",
+          "col": 3,
+          "row": 6,
+          "initial_delay": 1.68
+        },
+        {
+          "id": "s22_knight_2",
+          "type": "knight",
+          "col": 6,
+          "row": 6,
+          "initial_delay": 1.9
+        },
+        {
+          "id": "s22_pawn_1",
+          "type": "pawn",
+          "col": 1,
+          "row": 6,
+          "initial_delay": 2.12,
+          "forward": [
+            0,
+            -1
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 23,
+      "chapter": 5,
+      "boss": false,
+      "boss_hp": null,
+      "player_spawn": [
+        5,
+        1
+      ],
+      "enemies": [
+        {
+          "id": "s23_rook_1",
+          "type": "rook",
+          "col": 2,
+          "row": 4,
+          "initial_delay": 0.8
+        },
+        {
+          "id": "s23_rook_2",
+          "type": "rook",
+          "col": 7,
+          "row": 4,
+          "initial_delay": 1.02
+        },
+        {
+          "id": "s23_knight_1",
+          "type": "knight",
+          "col": 3,
+          "row": 6,
+          "initial_delay": 1.24
+        },
+        {
+          "id": "s23_knight_2",
+          "type": "knight",
+          "col": 6,
+          "row": 6,
+          "initial_delay": 1.46
+        },
+        {
+          "id": "s23_bishop_1",
+          "type": "bishop",
+          "col": 2,
+          "row": 8,
+          "initial_delay": 1.68
+        },
+        {
+          "id": "s23_bishop_2",
+          "type": "bishop",
+          "col": 7,
+          "row": 8,
+          "initial_delay": 1.9
+        },
+        {
+          "id": "s23_pawn_1",
+          "type": "pawn",
+          "col": 1,
+          "row": 6,
+          "initial_delay": 2.12,
+          "forward": [
+            0,
+            -1
+          ]
+        },
+        {
+          "id": "s23_pawn_2",
+          "type": "pawn",
+          "col": 8,
+          "row": 6,
+          "initial_delay": 2.34,
+          "forward": [
+            0,
+            -1
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 24,
+      "chapter": 5,
+      "boss": false,
+      "boss_hp": null,
+      "player_spawn": [
+        5,
+        1
+      ],
+      "enemies": [
+        {
+          "id": "s24_queen_1",
+          "type": "queen",
+          "col": 4,
+          "row": 7,
+          "initial_delay": 0.8
+        },
+        {
+          "id": "s24_queen_2",
+          "type": "queen",
+          "col": 8,
+          "row": 4,
+          "initial_delay": 1.02
+        },
+        {
+          "id": "s24_rook_1",
+          "type": "rook",
+          "col": 2,
+          "row": 4,
+          "initial_delay": 1.24
+        },
+        {
+          "id": "s24_rook_2",
+          "type": "rook",
+          "col": 7,
+          "row": 4,
+          "initial_delay": 1.46
+        },
+        {
+          "id": "s24_bishop_1",
+          "type": "bishop",
+          "col": 2,
+          "row": 8,
+          "initial_delay": 1.68
+        },
+        {
+          "id": "s24_knight_1",
+          "type": "knight",
+          "col": 3,
+          "row": 6,
+          "initial_delay": 1.9
+        },
+        {
+          "id": "s24_knight_2",
+          "type": "knight",
+          "col": 6,
+          "row": 6,
+          "initial_delay": 2.12
+        },
+        {
+          "id": "s24_pawn_1",
+          "type": "pawn",
+          "col": 1,
+          "row": 6,
+          "initial_delay": 2.34,
+          "forward": [
+            0,
+            -1
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 25,
+      "chapter": 5,
+      "boss": true,
+      "boss_hp": 16,
+      "player_spawn": [
+        5,
+        1
+      ],
+      "enemies": [
+        {
+          "id": "s25_king_1",
+          "type": "king",
+          "col": 5,
+          "row": 9,
+          "initial_delay": 0.8
+        },
+        {
+          "id": "s25_queen_1",
+          "type": "queen",
+          "col": 4,
+          "row": 7,
+          "initial_delay": 1.02
+        },
+        {
+          "id": "s25_rook_1",
+          "type": "rook",
+          "col": 2,
+          "row": 4,
+          "initial_delay": 1.24
+        },
+        {
+          "id": "s25_rook_2",
+          "type": "rook",
+          "col": 7,
+          "row": 4,
+          "initial_delay": 1.46
+        },
+        {
+          "id": "s25_knight_1",
+          "type": "knight",
+          "col": 3,
+          "row": 6,
+          "initial_delay": 1.68
+        },
+        {
+          "id": "s25_knight_2",
+          "type": "knight",
+          "col": 6,
+          "row": 6,
+          "initial_delay": 1.9
+        },
+        {
+          "id": "s25_bishop_1",
+          "type": "bishop",
+          "col": 2,
+          "row": 8,
+          "initial_delay": 2.12
+        },
+        {
+          "id": "s25_pawn_1",
+          "type": "pawn",
+          "col": 1,
+          "row": 6,
+          "initial_delay": 2.34,
+          "forward": [
+            0,
+            -1
+          ]
+        }
+      ]
+    }
+  ]
+}
