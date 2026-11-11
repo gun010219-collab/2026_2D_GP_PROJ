@@ -1,14 +1,16 @@
-"""Shared tick/ledger lifecycle with Pawn pursuit and Rook reposition/dash."""
+"""Shared tick/ledger lifecycle for Pawn pursuit, Rook dash and Knight jump."""
 from board import in_bounds
 from combat import _duration_ticks
 from config import (
     PAWN_MOVE_INTERVAL_SECONDS, PAWN_RECOVERY_SECONDS, PAWN_TELEGRAPH_SECONDS,
     PERFECT_PARRY_STUN_SECONDS, ROOK_MOVE_INTERVAL_SECONDS,
     ROOK_RECOVERY_SECONDS, ROOK_TELEGRAPH_SECONDS,
+    KNIGHT_RECOVERY_SECONDS, KNIGHT_TELEGRAPH_SECONDS,
 )
 from enemy import Enemy
 from enemy_attack import EnemyAttackLedger
 from rook_behavior import attack_path, choose_move
+from knight_behavior import choose_landing
 
 
 # Stable tie order; movement does not change the JSON attack-facing vector.
@@ -19,8 +21,8 @@ class EnemyEncounter:
     def __init__(self, enemies, start_tick=0, combat_session_id=None, stage_instance_id=None):
         self._validate_tick(start_tick)
         self.enemies = tuple(enemies)
-        if any(not isinstance(e, Enemy) or e.kind not in ('pawn', 'rook') for e in self.enemies):
-            raise ValueError('Encounter supports live Pawn/Rook instances only')
+        if any(not isinstance(e, Enemy) or e.kind not in ('pawn', 'rook', 'knight') for e in self.enemies):
+            raise ValueError('Encounter supports live Pawn/Rook/Knight instances only')
         self.ledger = EnemyAttackLedger(combat_session_id, stage_instance_id)
         self.move_ticks = _duration_ticks(PAWN_MOVE_INTERVAL_SECONDS)
         self.telegraph_ticks = _duration_ticks(PAWN_TELEGRAPH_SECONDS)
@@ -28,9 +30,11 @@ class EnemyEncounter:
         self.rook_move_ticks = _duration_ticks(ROOK_MOVE_INTERVAL_SECONDS)
         self.rook_telegraph_ticks = _duration_ticks(ROOK_TELEGRAPH_SECONDS)
         self.rook_recovery_ticks = _duration_ticks(ROOK_RECOVERY_SECONDS)
+        self.knight_telegraph_ticks = _duration_ticks(KNIGHT_TELEGRAPH_SECONDS)
+        self.knight_recovery_ticks = _duration_ticks(KNIGHT_RECOVERY_SECONDS)
         self.tick = start_tick - 1
         self._movement_history = {}
-        self._rook_dashes = {}
+        self._attack_moves = {}
         if len({e.entity_instance_id for e in self.enemies}) != len(self.enemies):
             raise ValueError('Duplicate enemy instance IDs')
         if len({e.data_id for e in self.enemies}) != len(self.enemies):
@@ -56,6 +60,10 @@ class EnemyEncounter:
         if (len(positions) != len(set(positions)) or not all(in_bounds(*p) for p in positions)
                 or player_cell in positions):
             raise ValueError('Encounter contains overlapping or out-of-bounds occupied cells')
+
+    def _recovery_ticks(self, enemy):
+        return {'pawn': self.recovery_ticks, 'rook': self.rook_recovery_ticks,
+                'knight': self.knight_recovery_ticks}[enemy.kind]
 
     def _choose_move(self, enemy, player_cell):
         """Greedy one-cell pursuit with bounded memory, not a pathfinder.
@@ -103,8 +111,7 @@ class EnemyEncounter:
                     self.deactivate(enemy.entity_instance_id)
                 if not enemy.active:
                     continue
-                recovery_ticks = (self.recovery_ticks if enemy.kind == 'pawn'
-                                  else self.rook_recovery_ticks)
+                recovery_ticks = self._recovery_ticks(enemy)
                 if enemy.state == 'stunned':
                     if now < enemy.stun_until_tick:
                         continue
@@ -115,7 +122,7 @@ class EnemyEncounter:
                 if enemy.current_attack is not None:
                     event = enemy.current_attack
                     if self.ledger.state(event) == 'cancelled':
-                        self._discard_dashes(enemy.entity_instance_id)
+                        self._discard_attack_moves(enemy.entity_instance_id)
                         enemy.current_attack = None
                         enemy.state = 'waiting'
                         enemy.next_action_tick = now + recovery_ticks
@@ -126,13 +133,16 @@ class EnemyEncounter:
                         enemy.state = 'recovering'
                         enemy.next_action_tick = event.hit_tick + recovery_ticks
                     continue
-                if any(source is enemy for _, source, _ in self._rook_dashes.values()):
-                    # AI-only callers must adjudicate a due dash before advancing it.
+                if any(source is enemy for _, source, _ in self._attack_moves.values()):
+                    # AI-only callers must adjudicate a due move before advancing it.
                     continue
                 if now < enemy.next_action_tick:
                     continue
                 if enemy.kind == 'rook':
                     self._begin_rook_action(enemy, player_cell, now)
+                    continue
+                if enemy.kind == 'knight':
+                    self._begin_knight_action(enemy, player_cell, now)
                     continue
                 # A single ready-action reservation: attack takes priority over moving.
                 col, row = enemy.position
@@ -149,7 +159,7 @@ class EnemyEncounter:
                     enemy.next_action_tick = now + self.move_ticks
             # All AI moves for this tick precede damage. A later JSON entry can
             # obstruct a dash already marked due by an earlier entry.
-            self._cancel_obstructed_rooks(now)
+            self._cancel_obstructed_moves(now)
         self.tick = tick
         return tuple(event for event in due if self.ledger.state(event) == 'due')
 
@@ -159,7 +169,7 @@ class EnemyEncounter:
         if path:
             enemy.current_attack = self.ledger.create(
                 enemy.entity_instance_id, tick, tick + self.rook_telegraph_ticks, path)
-            self._rook_dashes[enemy.current_attack.key] = (enemy.current_attack, enemy, enemy.position)
+            self._attack_moves[enemy.current_attack.key] = (enemy.current_attack, enemy, enemy.position)
             enemy.state = 'telegraph'
             enemy.next_action_tick = enemy.current_attack.hit_tick
         else:
@@ -167,49 +177,65 @@ class EnemyEncounter:
             enemy.state = 'waiting'
             enemy.next_action_tick = tick + self.rook_move_ticks
 
-    def _cancel_obstructed_rooks(self, tick):
+    def _begin_knight_action(self, enemy, player_cell, tick):
+        target = choose_landing(enemy.position, player_cell, self.occupied_cells - {enemy.position})
+        if target is None:
+            # No legal landing: bounded idle retry, not an invented move timer.
+            enemy.state = 'waiting'
+            enemy.next_action_tick = tick + self.knight_recovery_ticks
+            return
+        enemy.current_attack = self.ledger.create(
+            enemy.entity_instance_id, tick, tick + self.knight_telegraph_ticks, (target,))
+        self._attack_moves[enemy.current_attack.key] = (enemy.current_attack, enemy, enemy.position)
+        enemy.state = 'telegraph'
+        enemy.next_action_tick = enemy.current_attack.hit_tick
+
+    def _cancel_obstructed_moves(self, tick):
         """Approved policy: cancel the WHOLE snapshot, recover from cancel tick.
 
         Never shrink target_cells, reserve cells or alter Pawn movement. Check
-        after AI and after each completed dash, before subsequent adjudication.
+        after AI and each completed move, before subsequent adjudication.
+        Rook checks its whole path; Knight checks its single landing only.
         """
-        for event, source, origin in tuple(self._rook_dashes.values()):
+        for event, source, origin in tuple(self._attack_moves.values()):
             if self.ledger.state(event) not in ('telegraph', 'due'):
                 continue
             occupied = self.occupied_cells - {source.position}
             if source.position != origin or any(cell in occupied for cell in event.target_cells):
                 self.ledger.cancel(event)
-                self._discard_dashes(source.entity_instance_id)
+                self._discard_attack_moves(source.entity_instance_id)
                 source.current_attack = None
                 if source.active and source.state != 'stunned':
                     source.state = 'recovering'
-                    source.next_action_tick = tick + self.rook_recovery_ticks
+                    source.next_action_tick = tick + self._recovery_ticks(source)
 
     def prepare_attack(self, event):
-        """Verify a due Rook has an actual AI-issued plan, not just a ledger ID."""
+        """Verify attack movement has an actual AI-issued plan, not just an ID."""
         source = next((e for e in self.enemies
                        if e.entity_instance_id == event.source_entity_instance_id), None)
-        if source is not None and source.kind == 'rook':
-            plan = self._rook_dashes.get(event.key)
+        if source is not None and source.kind in ('rook', 'knight'):
+            plan = self._attack_moves.get(event.key)
             if plan is None or plan[0] != event or plan[1] is not source:
-                raise ValueError('Rook attack has no matching live dash plan')
-            self._cancel_obstructed_rooks(self.tick)
+                action = 'dash' if source.kind == 'rook' else 'jump'
+                raise ValueError(f'{source.kind.title()} attack has no matching live {action} plan')
+            self._cancel_obstructed_moves(self.tick)
         return self.ledger.state(event) == 'due'
 
     def complete_attack(self, event, player_cell):
-        """Move a resolved Rook once, after damage/parry; never during rendering.
+        """Complete attack movement once, after damage/parry; never in rendering.
 
         The player may occupy ANY warned path cell. Stop immediately before
         that cell even on an invulnerable or normal-parried attack. Perfect
-        parry stuns/cancels the dash before this method and leaves its origin.
+        parry stuns/cancels movement before this method and leaves its origin.
+        A Knight stays at its origin if the player occupies its landing cell.
         """
-        plan = self._rook_dashes.get(event.key)
+        plan = self._attack_moves.get(event.key)
         if plan is None or plan[0] != event:
             return False
         state = self.ledger.state(event)
         if state not in ('resolved', 'cancelled'):
             return False
-        del self._rook_dashes[event.key]
+        del self._attack_moves[event.key]
         _, source, origin = plan
         if (state != 'resolved' or event.hit_tick != self.tick
                 or self.ledger.outcome(event) not in ('hit', 'miss', 'invulnerable', 'parried_normal')
@@ -217,19 +243,24 @@ class EnemyEncounter:
             return False
         destination = origin
         occupied = self.occupied_cells - {origin}
-        for cell in event.target_cells:
-            if cell == player_cell or cell in occupied:
-                break
-            destination = cell
+        if source.kind == 'knight':
+            target = event.target_cells[0]
+            if target != player_cell and target not in occupied:
+                destination = target
+        else:
+            for cell in event.target_cells:
+                if cell == player_cell or cell in occupied:
+                    break
+                destination = cell
         source.col, source.row = destination
         self._check_occupancy(player_cell)
-        self._cancel_obstructed_rooks(self.tick)
+        self._cancel_obstructed_moves(self.tick)
         return True
 
     def cancel_attacks(self, entity_instance_id):
         """Release live plans while retaining ledger receipts and tombstones."""
         count = self.ledger.cancel_source(entity_instance_id)
-        self._discard_dashes(entity_instance_id)
+        self._discard_attack_moves(entity_instance_id)
         for enemy in self.enemies:
             if enemy.entity_instance_id == entity_instance_id:
                 enemy.current_attack = None
@@ -274,9 +305,9 @@ class EnemyEncounter:
                 return
         raise ValueError('Unknown enemy instance ID')
 
-    def _discard_dashes(self, entity_instance_id):
-        self._rook_dashes = {key: record for key, record in self._rook_dashes.items()
-                             if record[1].entity_instance_id != entity_instance_id}
+    def _discard_attack_moves(self, entity_instance_id):
+        self._attack_moves = {key: record for key, record in self._attack_moves.items()
+                              if record[1].entity_instance_id != entity_instance_id}
 
 
 class PawnEncounter(EnemyEncounter):

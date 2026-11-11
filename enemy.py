@@ -1,4 +1,4 @@
-"""Pawn/Rook live combat model and legacy Stage 1 loading; no rendering."""
+"""Pawn/Rook/Knight live model and legacy Stage 1 loading; no rendering."""
 from dataclasses import dataclass, field
 import json
 from math import isfinite
@@ -7,7 +7,7 @@ from uuid import uuid4
 
 from board import in_bounds
 from combat import _duration_ticks
-from config import BOARD_SIZE, PAWN_INITIAL_HP, ROOK_INITIAL_HP
+from config import BOARD_SIZE, PAWN_INITIAL_HP, ROOK_INITIAL_HP, KNIGHT_INITIAL_HP
 from health import Health
 
 
@@ -27,8 +27,8 @@ class Enemy:
     health: Health = field(init=False)
 
     def __post_init__(self):
-        if self.kind not in ('pawn', 'rook'):
-            raise ValueError('Only Pawn and Rook combat instances are supported')
+        if self.kind not in ('pawn', 'rook', 'knight'):
+            raise ValueError('Only Pawn, Rook and Knight combat instances are supported')
         label = self.kind.title()
         if not isinstance(self.data_id, str) or not self.data_id.strip():
             raise ValueError(f'{label} data ID must be a nonempty string')
@@ -42,11 +42,12 @@ class Enemy:
                 raise ValueError('Stage 1 Pawn forward must be [0, -1]')
             self.forward = tuple(self.forward)
         elif self.forward is not None:
-            raise ValueError('Rook has no Pawn forward vector; use None')
+            raise ValueError(f'{label} has no Pawn forward vector; use None')
         if (type(self.initial_delay) not in (int, float) or not isfinite(self.initial_delay)
                 or not 0 <= self.initial_delay <= 10):
             raise ValueError(f'{label} initial_delay must be finite and between 0 and 10 seconds')
-        self.health = Health(PAWN_INITIAL_HP if self.kind == 'pawn' else ROOK_INITIAL_HP)
+        self.health = Health({'pawn': PAWN_INITIAL_HP, 'rook': ROOK_INITIAL_HP,
+                              'knight': KNIGHT_INITIAL_HP}[self.kind])
 
     @property
     def position(self):

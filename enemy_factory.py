@@ -1,4 +1,4 @@
-"""Validated stage definitions -> fresh Pawn/Rook instances, never progression."""
+"""Stage definitions -> fresh Pawn/Rook/Knight instances, never progression."""
 from enemy import Enemy
 from stage_manager import EnemyDefinition, StageDefinition
 
@@ -10,7 +10,7 @@ class UnsupportedEnemyError(ValueError):
 def _check_supported(definition):
     if not isinstance(definition, EnemyDefinition):
         raise TypeError('Expected an EnemyDefinition')
-    if definition.kind not in ('pawn', 'rook'):
+    if definition.kind not in ('pawn', 'rook', 'knight'):
         raise UnsupportedEnemyError(f'Unsupported combat piece: {definition.kind}')
     allowed = {'forward'} if definition.kind == 'pawn' else set()
     if set(definition.options) != allowed:

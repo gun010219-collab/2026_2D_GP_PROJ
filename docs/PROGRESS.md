@@ -1,5 +1,103 @@
 # CHECKMATE 개발 진행 기록
 
+## Task 1-L — Knight AI와 3종 혼합 전투 기반 (2026-11-12)
+
+상태: **구현·자동 테스트 608개 통과, 사용자 Windows 11 Stage 1~2 GUI 회귀 10/10 통과**.
+실제 게임 화면의 플레이 가능 범위는 Stage 1~2로 유지한다. Stage 3 화면 연결은 다음 Task 1-M 범위다.
+시작 HEAD는 `8c8154c1bc9209b109fdb4057f6b980ad939d261`이며 기존 560개가 변경 전에 통과했다.
+중단 후 같은 HEAD에서 수정7개/미추적3개, 스테이징·새 커밋 없음으로 복구했다.
+Knight 코드·factory·공통 판정·임시 실루엣과 신규48개 테스트는 이미 작성되어 있었고,
+Knight 전투32개 통과를 재확인한 뒤 전체 검수·검증·문서 정리를 이어갔다. 기존 작업은 초기화하지 않았다.
+
+### 적용한 원문 규칙과 승인 정책
+
+- 원본 게임기획서 p.13/p.18을 직접 확인했다. Knight HP3, L자 `(±1,±2)/(±2,±1)` 최대8개 후보,
+  중간 기물 뛰어넘기, 선택한 착지 한 칸만 0.60초(36틱) 예고, 행동 후1.20초(72틱) 회복이다.
+  플레이어가 착지 칸에 남으면 피해만 주고 원위치에 남으며, 회피하면 예약한 빈 칸에 착지한다.
+- 기본 피해1은 p.6의 공통 적 피해를 재사용한다. p.8의 고정 목표/예정 틱/사망·기절 취소와
+  p.10의 일반·퍼펙트 패링을 공유한다. 위 값은 초기 기획 기준선이며 최종 밸런스 확정값이 아니다.
+- 예고 후 **다른 활성 적이 착지 칸을 차지하면 즉시 전체 공격 취소 및 취소 틱부터72틱 회복**은
+  원문에 없는 예외에 대해 사용자가 승인한 정책이다. 회복 구간은 `[t,t+72)`이며 종료 틱에 새 행동이 가능하다.
+  플레이어의 진입은 취소 조건이 아니다. Rook의 다른 적 경로 진입 취소와90틱 회복은 변경하지 않았다.
+- 합법 후보 중 플레이어와의 Manhattan 거리가 가장 짧은 칸, 동률은 고정 시계 방향 순서를 사용한다.
+  모든 착지가 막힌 경우 이벤트 없이 기존 회복 길이72틱 뒤 재시도한다. 이는 결정적 기술 정책이며
+  별도 이동 주기나 최종 밸런스 수치를 원문에 있다고 주장하지 않는다. 상세 근거는 DECISIONS에 기록했다.
+
+### 실제 변경 파일 — 13개
+
+- 수정 코드6개: `config.py`, `enemy.py`, `enemy_factory.py`, `enemy_behaviors.py`,
+  `combat_resolution.py`, `enemy_renderer.py`.
+- 신규 코드1개: `knight_behavior.py`.
+- 신규 테스트2개: `tests/test_knight.py`, `tests/test_knight_combat.py`.
+- 기존 테스트1개: `tests/test_rook.py`의 미지원 factory 검증을 Bishop/Queen/King 및 Stage 4로 갱신했다.
+  Knight가 지원되므로 과거 Stage 3 거절을 유지하지 않으며, 미지원 종류 거절 검증은 보존했다.
+- 문서3개: `docs/PROGRESS.md`, `docs/DECISIONS.md`, `docs/GAME_DESIGN.md`.
+
+Enemy의 공통 HP/실행 ID/상태와 EnemyEncounter의 시계·원장·기절·취소를 재사용한다.
+Rook 돌진 계획을 같은 공격 이동 계획 저장소로 확장했으며, 피해·패링 원장을 새로 만들지 않았다.
+실제 판정 후 예약 이동을 한 번 완료한다. 렌더링은 HP·위치·보상·원장을 변경하지 않는다.
+Knight는 굽은 목/돌출 말머리/갈기를 가진 임시 도형으로 구별한다. 최종 아트·애니메이션·음향은 없다.
+
+StageCatalog→create_stage_enemies()는 원본 Stage 3의 Knight(3,6)/지연0.8초,
+Pawn(1,6)/1.02초, Pawn(8,6)/1.24초를 데이터 순서대로 새 실행 객체로 만든다.
+플레이어 시작은(5,1)이고, HP는 Knight3/Pawn2/플레이어3이다. 정의에 실행 상태를 저장하지 않는다.
+원본 Stage 3은 Knight+Pawn2이며, 별도의 테스트 구성에서 Rook을 더해 세 종류의 동시 전투도 검증했다.
+main/StageGame/기존 Stage 1 로더·Stage 1~2 전환은 변경하지 않았다. Stage 3 GUI나 진행은 추가하지 않았다.
+
+### 실제 자동 검증
+
+```powershell
+.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+.\.venv\Scripts\python.exe validate_stage_data.py
+.\.venv\Scripts\python.exe -O validate_stage_data.py
+.\.venv\Scripts\python.exe -W error -m py_compile config.py enemy.py enemy_factory.py enemy_behaviors.py combat_resolution.py enemy_renderer.py knight_behavior.py tests/test_rook.py tests/test_knight.py tests/test_knight_combat.py
+git diff --check
+```
+
+- 전체 **608개 통과 = 기존560개 + 신규48개**(생성/기하/예약16개, 전투/혼합/렌더/SDL32개).
+  기존 테스트 메서드560개를 보존했고 삭제·비활성화는 없다. 기존 테스트 변경은 위 미지원 기대값 한 곳이다.
+- 8방향 L자/100개 출발 칸/중간 기물 통과/착지 점유/36틱 적중/72틱 회복과 취소 경계를 검사했다.
+  플레이어 진입은 피해 대상, 다른 적 진입은 즉시 전체 취소다. 취소 후 차단 적이 죽어도 과거 공격은 부활하지 않는다.
+- 일반·퍼펙트 0/1/7/8/18/19틱 경계, 피해/회피/48틱 무적 끝,60틱 기절 끝/다음 공격+2 단일 소비,
+  동일 틱 처치·착지 경쟁·3종 동시 적중/JSON 순서, 렌더 반복 불변성과 외부/변조/이전 세션 이벤트 거절을 검사했다.
+- 원본 Stage 3 및 Rook을 추가한 혼합 구성을 각각601회 진행 요청해 반복 결과/점유/피해를 비교했다.
+  플레이어 사망 후에는 실제 전투 틱과 AI가 정지한다.601회 요청 전체가601개의 실제 전투 틱이라는 뜻은 아니다.
+- 기존 Pawn601틱 고정 추적 해시와 StageCatalog의601틱 전투 비교, Rook 경로 취소·90틱 회복,
+  Stage 1~2 진행/종료/재시작/입력·SETTINGS·F11·포커스·ESC/X 회귀를 모두 통과했다.
+- 숨겨진 SDL dummy 창에서 실제 Knight 경고/실루엣/HP/퍼펙트 피드백을 그렸다.
+  이는 자동 비표시 검증이며 사용자 Windows GUI 플레이나 Stage 3 main 연결 완료가 아니다.
+- 스테이지25개 정적 검사는 일반/`-O` 모두 통과했다. 변경 Python10개 문법/import를 확인했고,
+  순수 전투 모듈 import 시 Pico2D/SDL을 로드하지 않는다. JSON/README/PDF 및 기존 아트·테마를 보존했다.
+
+### 사용자 Windows 11 GUI 최종 검증 — 10/10 통과
+
+초기 구현 후에는 GUI 확인 전 커밋·Push를 보류했다. 이후 사용자가 실제 Windows 11 게임 화면에서
+다음10개 항목 모두 통과를 보고하고 최종 검수 후 지정 커밋 및 기존 main 일반 Push를 승인했다.
+실행 명령은 `.\.venv\Scripts\python.exe main.py`다. 아래는 사용자 수동 검증이며
+Codex 자동 테스트/SDL dummy 및 정밀 정수 틱 경계 검증과 구분한다.
+
+1. Stage 1 정상 시작 — 통과.
+2. 이동·일반 공격 — 통과.
+3. Pawn AI·피해 — 통과.
+4. 일반·퍼펙트 패링 — 통과.
+5. Stage 1 클리어 → Stage 2 — 통과.
+6. Stage 2 배치·HP — 통과.
+7. Rook 직선 공격 — 통과.
+8. Rook 패링 및 혼합 전투 — 통과.
+9. 종료·재시작·Stage 3 차단 — 통과.
+10. 반복 실행·화면 기능 — 통과.
+
+Task 1-K의15/15 기록과 별개의 이번 회귀 결과다. Knight는 아직 Stage 3 실제 GUI에 연결되지 않았으므로
+Knight의 실제 Windows 플레이·조작감·밸런스는 미검증이며 Task 1-M에 남긴다.
+최종 검수에서는 기능 코드를 변경하지 않고 문서의 GUI 상태만 갱신한다.
+커밋 메시지는 `feat: implement knight AI and mixed enemy encounters`다.
+
+### 남은 범위와 위험
+
+남은 위험은 최대8틱 상한의 시간 오차, 장시간 원장 증가, DPI/다중 모니터, 장기 난이도·입력감,
+Rook/Knight의 즉시 위치 변경과 임시 실루엣의 시각적 한계다.
+Stage 3 화면/진행, Bishop/Queen/King AI·보스, 강화·저장·해금, 최종 아트·음향은 추가하지 않았다.
+
 ## Task 1-K — Stage 1→2 실제 전환과 Rook GUI 연결 (2026-11-11)
 
 상태: **구현·자동 테스트 560개 통과, 사용자 Windows 11 GUI 15개 모두 통과**.
