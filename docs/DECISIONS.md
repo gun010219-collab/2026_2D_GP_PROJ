@@ -1,5 +1,38 @@
 # CHECKMATE 승인 결정
 
+## Task 1-I — 데이터 정의와 전투 인스턴스 경계 (2026-11-11)
+
+최신 사용자 요청은 원본 JSON 보존, 25개 정의 조회와 Stage 1 호환성 유지다.
+25개 스테이지/6종 적/보스 5전은 최종 목표이며 이번 단계의 플레이 구현 완료 범위가 아니다.
+
+- `stage_manager.py`는 순수 Python 데이터 계층만 제공한다. `StageCatalog.load()`는 모듈 옆 원본 JSON을
+  읽고 `StageCatalog(data)`는 JSON 구조를 받는다. 로드할 때 전체 25개를 검증하고 `get_stage(number)`로 조회한다.
+  잘못된 조회 타입은 TypeError, 범위는 ValueError, 파일/구조/규칙 오류는 StageDataError(ValueError)로 거절한다.
+  파일 경로·필드 경로/Stage 번호를 오류에 포함한다. bool을 정수로 허용하지 않는다.
+- frozen `StageDefinition`/`EnemyDefinition`은 배치·메타데이터만 가지며 HP/AI/쿨타임/실행 식별자를 갖지 않는다.
+  공개 배열은 tuple, JSON 객체는 새 사전을 감싼 mapping proxy로 중첩까지 복사해 고정한다.
+  원본 적 순서·숫자·선택 필드를 보존하고 누락/null/false/0을 서로 바꾸지 않는다.
+  Pawn `forward`는 `options['forward']`이며 다른 기물에 기본 방향을 만들지 않는다.
+  알 수 없는 선택 필드는 유한 JSON 값으로 보관하며 미래 행동의 수치/의미를 임의로 확정하지 않는다.
+- 타입/필수 필드 검사 후 기존 `validate_stage_data.validate()`의 25개 기준선 검사를 공유한다.
+  검사기의 assert문은 같은 조건의 명시적 AssertionError로 바꿨다. 따라서 `python -O`에서도
+  카탈로그 검증이 꺼지지 않으며 기존 정적 검사 호출자의 오류 유형/규칙은 유지한다.
+  JSON의 중복 키·비유한 수·비JSON 값은 모호하게 덮어쓰거나 기본값으로 바꾸지 않고 거절한다.
+- 기존 Stage 1 로더는 더 좁은 검증 계약을 가진다. 플레이어 로더의 최소 단일 스테이지 JSON과
+  대체 스폰 허용, 두 로더의 오류 메시지/전투 인스턴스 생성을 보존하려고 이번에는 교체하지 않는다.
+  카탈로그와 기존 로더 모두 같은 JSON이 구성 원본이다. main/StageOneGame/전투/렌더 코드는 변경하지 않는다.
+- 향후 Rook AI/혼합 전투에서는 `EnemyDefinition.kind`별 지원되는 생성 경로를 명시하고,
+  위치/지연/해당 선택 설정으로 새로운 전투 객체를 만든다. 정의의 데이터 ID와 새 실행 ID를 구분한다.
+  지원되지 않는 기물을 Pawn으로 대체하거나 카탈로그 조회만으로 Stage 2를 실행하지 않는다.
+  실제 AI 검증과 전투 생성 어댑터, 스테이지 진행 정책은 후속 작업이다.
+
+원본 구성·기획 수치·화면·게임 규칙·의존성·이력은 변경하지 않는다. 데이터 접근의 불변성과
+기존 Stage 1 결과는 자동 검증하며 Windows GUI는 별도로 기록한다.
+초기에는 GUI 확인 전 커밋·Push를 보류했다. 이후 사용자가 Windows 11에서 Stage 1 회귀 GUI
+8개 모두 통과를 보고하고 최종 검수 후 `feat: add data-driven stage catalog` 커밋 및
+기존 main 일반 Push를 승인했다. 상세 사용자 결과는 PROGRESS에 기록한다.
+601틱 비교/정수 틱/데이터 불변성은 자동 검증 근거이며 사용자 GUI의 정밀 측정으로 표현하지 않는다.
+
 ## Task 1-H — Stage 1 종료 상태와 재시작 (2026-11-11)
 
 사용자가 11월 16일 2차 발표를 앞두고 Stage 1의 완결된 플레이 흐름을 요청했다.

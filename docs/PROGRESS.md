@@ -1,5 +1,93 @@
 # CHECKMATE 개발 진행 기록
 
+## Task 1-I — 읽기 전용 스테이지 카탈로그 (2026-11-11)
+
+상태: **데이터 계층 구현·자동 테스트 466개 통과, 사용자 Windows 11 GUI 회귀 8개 모두 통과**.
+시작 main/추적 origin/main은 `d48d819b07d6739893dc82aa0978b60f366ec4e3`이며 작업 트리는 깨끗했다.
+변경 전 기존 unittest 429개가 통과했다. 아래 Task 1-H의 사용자 GUI 10개 기록은 그대로 보존하며,
+그 결과와 별도로 사용자가 Task 1-I의 Stage 1 회귀 GUI 8개 모두 통과를 보고했다.
+초기 구현 당시 GUI 확인 전 커밋·Push를 보류했으며, 이후 사용자가 최종 검수와 지정 메시지의
+정상 커밋 및 기존 main 일반 Push를 승인했다.
+
+### 구현 범위와 변경 파일 — 6개
+
+- 신규 `stage_manager.py`: `StageCatalog.load(path=None)` / `StageCatalog(data)`로 전체 정의를 검증하고
+  `get_stage(1..25)`로 조회한다. `stages`는 원본 순서의 튜플이다.
+- `StageDefinition`: 번호·챕터·보스 여부/HP·플레이어 스폰·적 정의·선택 설정.
+  `EnemyDefinition`: 데이터 ID·기물 종류·좌표·초기 지연·선택 설정. HP/AI/공격 원장을 가진 전투 객체가 아니다.
+- 정의는 frozen dataclass, 배열은 tuple, 객체는 새 사전을 감싼 읽기 전용 mapping이다.
+  중첩 선택 설정까지 복사·고정하고 `forward`는 `options['forward']`로 보존한다.
+  Pawn 외 기물에 방향·HP·공격 범위 등의 임의 기본값을 채우지 않는다. 누락/null/false/0을 구분한다.
+- 수정 `validate_stage_data.py`: 기존 배치/보스/스폰/방향/비숍 색상 규칙을 그대로 재사용한다.
+  assert문을 명시적 검사로 바꿔 `python -O`에서도 검증하며 기존 AssertionError/KeyError 계약을 보존한다.
+- 신규 `tests/test_stage_manager.py`: 카탈로그/입력/불변성/호환성 테스트 37개.
+- 문서 수정: `docs/PROGRESS.md`, `docs/DECISIONS.md`, `docs/GAME_DESIGN.md`.
+
+`stage_data.json`은 유일한 스테이지 구성 원본이며 변경하지 않았다.
+SHA256: `F4432B361DC736B6BD3BE999584160255EFCD7E803C8CD3873D548DF6D92D55F`.
+README/PDF/그래픽·테마/의존성과 기존 전투·입력·게임 상태 코드는 보존한다.
+
+### Stage 1 호환성과 확장 경계
+
+기존 `load_stage1_player()` / `load_stage1_enemies()`는 그대로 둔다.
+특히 플레이어 로더는 단일 Stage 1과 다른 유효 스폰만 담긴 최소 JSON도 허용한다.
+전체 25개 기준선을 검사하는 카탈로그로 강제 교체하면 공개 입력/예외 계약이 달라진다.
+두 경로는 같은 원본 JSON을 읽되, 기존 로더는 Stage 1 전투 생성, 카탈로그는 전체 정의 조회를 담당한다.
+main/StageOneGame은 변경하지 않아 HP·패링·보상·종료/R 재시작·화면/입력 경로를 유지한다.
+
+25개 모두 **데이터 조회 가능**하지만 실제 플레이는 여전히 Stage 1의 Pawn 2개만 가능하다.
+다음 작업은 해당 기물 AI와 전투 생성 어댑터를 구현·검증한 뒤 정의를 전투 인스턴스로 변환해야 한다.
+Rook AI·혼합 전투·Stage 2 실행/자동 전환·보스·저장/강화/해금은 이번 작업에서 구현하지 않았다.
+기물 정의의 데이터 ID를 실행 엔티티/세션 ID로 재사용하지 않으며 새 전투의 식별자는 기존 생성 규칙을 따른다.
+
+### 실행한 자동 검증
+
+```powershell
+.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+.\.venv\Scripts\python.exe validate_stage_data.py
+.\.venv\Scripts\python.exe -O validate_stage_data.py
+.\.venv\Scripts\python.exe -W error -m py_compile stage_manager.py validate_stage_data.py tests/test_stage_manager.py
+git diff --check
+```
+
+- 전체 unittest **466개 통과**: 기존 429개 유지 + 신규 37개, 삭제·비활성화 없음.
+- 25개 전체 정의의 모든 원문 필드/순서, 5챕터/보스 5개·HP, Stage 1/2 배치와 6종 기물 조회 검증.
+- 잘못된 번호/구조/중복/범위/방향/보스 HP, bool 숫자 혼용·비유한 값·중복 JSON 키 거절 검증.
+- 중첩 불변성/입력 별칭 차단/반복 로드, CWD 독립 기본 로드와 Pico2D/main/Enemy 미임포트 검증.
+- 기존 로더 결과/예외/최소 JSON 계약 및 카탈로그 배치로 생성한 테스트 전투와 기존 전투의
+  **601틱 동일 결과** 검증. 기존 종료·재시작·패링·48틱 무적·SDL 회귀도 전체 테스트에서 통과.
+- 스테이지 정적 검사 **25개 통과**(일반/최적화 실행). 변경 Python 3개 문법/import·공백 검사 통과.
+
+### 사용자 Windows 11 GUI 최종 검증 — 8개 모두 통과
+
+사용자가 실제 Windows 11 게임 화면에서 아래 8개 항목 모두 통과했다고 보고했다.
+이는 사용자 수동 검증 결과이며 Codex의 자동 테스트/비표시 SDL/601틱 비교 검증과 구분한다.
+정밀한 정수 틱이나 데이터 불변성을 사용자가 GUI에서 직접 측정했다고 주장하지 않는다.
+프로젝트 폴더 실행 명령: `.\.venv\Scripts\python.exe main.py`.
+
+1. Stage 1 정상 시작 — 통과.
+2. 이동·일반 공격 — 통과.
+3. Pawn AI·피해 — 통과.
+4. 일반·퍼펙트 패링 — 통과.
+5. 퍼펙트 패링 보상 — 통과.
+6. 게임 오버·재시작 — 통과.
+7. 클리어·재시작 — 통과.
+8. 설정·화면·종료 — 통과.
+
+### 최종 검수 / Git / 남은 위험
+
+최종 검수 시작 시 미커밋 변경 집합은 신규 2개/기존 수정 4개/스테이징 0개로 위 6개 목록과 일치한다.
+`git fetch origin main` 후 로컬 HEAD와 origin/main은 모두 위 기준 SHA이며 예상 밖 원격 변경은 없다.
+이번 마무리는 게임 코드·테스트를 변경하지 않고 세 문서의 GUI 결과/현재 상태만 갱신한다.
+전체 unittest 466개(601틱 비교 포함), 일반/최적화 스테이지 검사, 문법/import/공백 검사를 최종 재실행해 통과했다.
+원본 JSON/README/PDF/에셋/전투 코드와 기존 429개 테스트의 보존을 확인했고 지정 6개만 스테이징해 검수한다.
+커밋 메시지: `feat: add data-driven stage catalog`.
+생성된 전체 SHA·원격 main 일치·커밋 6개·작업 트리 상태는 실제 Push 후 최종 보고에서 확인한다.
+
+기존 최대 8틱/프레임 시간 오차·전투 원장 증가·DPI/다중 모니터·밸런스·최단 경로 미보장 위험은 유지한다.
+카탈로그는 현재 25개 기준선을 검증하므로 배치/규칙 변경 시 원본 검사 정책도 함께 검토해야 한다.
+선택 설정은 손실 없이 보관하지만 아직 없는 기물별 행동 규칙의 의미까지 검증하거나 실행하지 않는다.
+
 ## Task 1-H — Stage 1 게임 오버·클리어·R 재시작 (2026-11-11)
 
 상태: **구현·자동 테스트 429개 완료, 사용자 Windows 11 GUI 10개 모두 통과**.

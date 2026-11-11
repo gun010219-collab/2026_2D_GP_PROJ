@@ -34,33 +34,46 @@ ROSTERS = {
     25: {'king':1,'queen':1,'rook':2,'knight':2,'bishop':1,'pawn':1},
 }
 
+def _require(condition, message):
+    # Explicit checks also protect catalog loading under python -O. Preserve the
+    # original AssertionError contract used by the static checker's callers.
+    if not condition:
+        raise AssertionError(message)
+
+
 def validate(data):
-    assert data['board_size'] == BOARD_SIZE
+    _require(data['board_size'] == BOARD_SIZE, 'board_size must be 10')
     stages = data['stages']
-    assert len(stages) == 25
-    assert sum(1 for c in range(BOARD_SIZE) for r in range(BOARD_SIZE) if (c+r)%2 == 0) == 50
-    assert sum(1 for c in range(BOARD_SIZE) for r in range(BOARD_SIZE) if (c+r)%2 == 1) == 50
+    _require(len(stages) == 25, 'stages must contain 25 entries')
+    _require(sum(1 for c in range(BOARD_SIZE) for r in range(BOARD_SIZE) if (c+r)%2 == 0) == 50,
+             'board must have 50 light squares')
+    _require(sum(1 for c in range(BOARD_SIZE) for r in range(BOARD_SIZE) if (c+r)%2 == 1) == 50,
+             'board must have 50 dark squares')
     for n, s in enumerate(stages, start=1):
-        assert s['stage'] == n
-        assert s['chapter'] == ((n-1)//5+1)
-        assert s['boss'] == (n%5 == 0)
-        assert s['boss_hp'] == KING_HP.get(n)
-        assert s['player_spawn'] == [5,1]
+        prefix = f'Stage {n}: '
+        _require(s['stage'] == n, prefix + 'stage number/order mismatch')
+        _require(s['chapter'] == ((n-1)//5+1), prefix + 'chapter mismatch')
+        _require(s['boss'] == (n%5 == 0), prefix + 'boss flag mismatch')
+        _require(s['boss_hp'] == KING_HP.get(n), prefix + 'boss_hp mismatch')
+        _require(s['player_spawn'] == [5,1], prefix + 'player_spawn mismatch')
         enemies = s['enemies']
-        assert 2 <= len(enemies) <= MAX_ENEMIES
-        assert Counter(e['type'] for e in enemies) == Counter(ROSTERS[n]), n
+        _require(2 <= len(enemies) <= MAX_ENEMIES, prefix + 'enemy count out of range')
+        _require(Counter(e['type'] for e in enemies) == Counter(ROSTERS[n]), prefix + 'roster mismatch')
         ids = [e['id'] for e in enemies]
-        assert len(set(ids)) == len(ids)
+        _require(len(set(ids)) == len(ids), prefix + 'duplicate enemy IDs')
         positions = [(e['col'],e['row']) for e in enemies]
-        assert len(set(positions)) == len(positions)
-        assert tuple(s['player_spawn']) not in set(positions)
+        _require(len(set(positions)) == len(positions), prefix + 'duplicate enemy positions')
+        _require(tuple(s['player_spawn']) not in set(positions), prefix + 'player/enemy overlap')
         for e in enemies:
-            assert all(isinstance(e[c],int) and 0<=e[c]<BOARD_SIZE for c in ('col','row'))
-            assert 0 <= e['initial_delay'] <= 10
-            if e['type']=='pawn': assert e['forward'] == [0,-1]
+            _require(all(isinstance(e[c],int) and 0<=e[c]<BOARD_SIZE for c in ('col','row')),
+                     prefix + 'enemy position out of bounds')
+            _require(0 <= e['initial_delay'] <= 10, prefix + 'initial_delay out of range')
+            if e['type']=='pawn':
+                _require(e['forward'] == [0,-1], prefix + 'pawn forward mismatch')
         bishops = [e for e in enemies if e['type']=='bishop']
         if len(bishops)==2:
-            assert (bishops[0]['col']+bishops[0]['row'])%2 != (bishops[1]['col']+bishops[1]['row'])%2
+            _require((bishops[0]['col']+bishops[0]['row'])%2 != (bishops[1]['col']+bishops[1]['row'])%2,
+                     prefix + 'bishops must occupy opposite colors')
     return len(stages)
 
 if __name__ == '__main__':
