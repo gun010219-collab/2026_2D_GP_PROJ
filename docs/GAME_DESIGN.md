@@ -20,7 +20,7 @@ PDF의 모든 시스템과 수치를 최신 확정 규칙으로 재승인한 것
 - 스테이지 구성·적 배치·ID·수치는 `stage_data.json`을 보존한다.
   향후 테마 선택은 그 데이터의 `chapter` 필드를 기준으로 한다.
   Task 1-I의 `stage_manager.StageCatalog`는 원본을 검증해 1~25번의 읽기 전용 정의를 제공한다.
-  카탈로그 자체는 데이터 조회만 제공한다. 실제 플레이 연결은 별도로 Stage 1~2에 구현했다.
+  카탈로그 자체는 데이터 조회만 제공한다. 실제 플레이 연결은 별도로 Stage 1~3에 구현했다.
 - 기본 조작 기준은 AGENTS.md의 방향키 이동 / SPACE 전방 공격 / Shift 패링 /
   ESC 일시정지다. 현재 버전은 방향키 1칸 이동을 구현했고, 설정 메뉴에서 ESC는 닫기,
   메뉴 밖에서는 종료다. Task 1-C는 SPACE 기본 공격 이벤트와 임시 효과를 구현했다.
@@ -30,7 +30,8 @@ PDF의 모든 시스템과 수치를 최신 확정 규칙으로 재승인한 것
   Task 1-H는 Stage 1의 게임 오버/클리어와 R키 재플레이를 구현했다.
   Task 1-K는 같은 루프에서 Stage 1 클리어→N→Stage 2 혼합 전투를 연결했다. 사용자 Windows 11 GUI15개 모두 통과했다.
   Task 1-L은 Knight와3종 혼합 전투 기반을 자동 검증했고 사용자 Windows 11 Stage 1~2 GUI 회귀10개 모두 통과했다.
-  별도 일시정지 화면과 Stage 3 이후 전투/진행은 아직 구현하지 않았다.
+  Task 1-M은 Stage 2 클리어→N→Stage 3과 Knight의 실제 main/GUI 실행 경로를 연결했고 사용자 Windows 11 GUI16개 모두 통과했다.
+  별도 일시정지 화면과 Stage 4 이후 전투/진행은 아직 구현하지 않았다.
 
 ## 승인된 챕터 구성
 
@@ -47,6 +48,23 @@ Pawn/Rook/Knight/Bishop/Queen/King의 식별 실루엣은 챕터 전반에 유�
 [에셋 계획](ASSET_PLAN.md)을 따른다. 이 변경은 AI·이동·공격 범위·피해량 변경을 포함하지 않는다.
 
 ## 구현 경계
+
+현재 Task 1-M의 main 실행 범위는 Stage 1~3이다. `_new_stage_game(3)`은 StageCatalog의 원본 배치와
+create_stage_enemies()로 새 Player/Combat/Parry/EnemyEncounter/CombatResolver/StageGame을 만든다.
+Stage 3은 Chapter 1/플레이어(5,1)HP3, Knight(3,6)HP3·0.8초, Pawn(1,6)HP2·1.02초와 Pawn(8,6)HP2·1.24초다.
+Stage 1·2 클리어 N은 각각2·3으로 진행하고, Stage 3 클리어 N은 무효다. 각 클리어 R은현재 스테이지,
+Stage 1~3 게임 오버 R은Chapter 1 첫 전투인Stage 1이다. PLAYING/메뉴/포커스 상실 시 전환은 차단한다.
+기존 종료/세션·입력·시계 초기화/창·화면 설정·공통 렌더러 재사용을 그대로 적용한다.
+화면은 실제 STAGE 3/적별 HP/말머리 Knight/한 칸 착지 경고/피해·패링 피드백과 양 종료·R 목적지를 표시한다.
+Stage 2 클리어에는 N 진행을 안내하고 Stage 3에는 다음 진행 안내나 엔딩을 표시하지 않는다.
+Stage 3 클리어는 Chapter 1 완료가 아니다. 최종 보스는 Stage 5이며 N은강화 선택 구현 전의 임시 흐름이다.
+Task 1-L의 전투·점유·취소·패링 규칙과 Pawn/Rook AI는 변경하지 않았다.
+전체639개 자동 테스트/25개 일반·최적화 정적 검사와 실제 main의 가짜 SDL/네이티브 SDL dummy 실행을 통과했다.
+초기 GUI 대기 후 사용자가 Windows 11에서 Stage 1~3 GUI16개 모두 통과와
+“Knight 공격이 명확하고 재미있음.”을 보고했다. 상세 항목은 PROGRESS에 사용자 수동 결과로 기록한다.
+이는 최초 체감 의견이며 전체 밸런스/장기 안정성/전체25스테이지 QA 완료를 의미하지 않는다.
+사용자는 최종 검수 후 지정 커밋 및 기존 main 일반 Push를 승인했다.
+Stage 4~25 실제 실행/다른 기물 AI/보스/강화·저장·해금/최종 아트·음향은 추가하지 않았다.
 
 Task 1-L의 공통 Enemy/factory/EnemyEncounter는 Pawn/Rook/Knight를 지원한다.
 Knight의 원본 p.13/p.18 초기 기준선은 HP3/L자8후보/중간 기물 뛰어넘기/착지 한 칸36틱 예고/
@@ -65,17 +83,18 @@ Knight의 임시 말머리 실루엣/한 칸 경고/HP/성공 피드백은 자�
 초기 GUI 대기 후 사용자가 Windows 11의 기존 Stage 1~2 GUI 회귀10개 모두 통과를 보고하고
 최종 검수 후 커밋·Push를 승인했다. 상세 항목은 PROGRESS에 기록하며 Knight의 실제 Windows 플레이·
 조작감·밸런스 검증은 아직 완료하지 않았다.
-현재 main의 진입 가능 범위는 아래와 같이 Stage 1~2다. Stage 3 화면·진행은 다음 Task 1-M 범위다.
+Task 1-L 당시 main의 진입 가능 범위는 Stage 1~2였고 이후 Task 1-M에서 Stage 3 화면·진행을 연결했다.
 
-Task 1-K의 실제 실행 경로는 Stage 1~2다. Stage 2는 원본 JSON의 Chapter 1/플레이어(5,1),
+Task 1-K 당시 실제 실행 경로는 Stage 1~2였다. Stage 2는 원본 JSON의 Chapter 1/플레이어(5,1),
 Rook(2,4)/HP4/지연0.8초, Pawn(1,6)/HP2/1.02초와 Pawn(8,6)/HP2/1.24초를 새 전투 객체로 만든다.
 공통 StageGame 상태/전투와 기존 렌더·피해·입력을 사용한다. StageOneGame과 `_new_game()`의 공개 계약은 유지한다.
-Stage 1 STAGE_CLEAR에서 N은Stage 2, R은Stage 1이다. Stage 2 STAGE_CLEAR의 R은Stage 2를 재플레이하며 N은 무효다.
+Stage 1 STAGE_CLEAR에서 N은Stage 2, R은Stage 1이다. Stage 2 STAGE_CLEAR의 R은Stage 2를 재플레이한다.
+Stage 2 클리어 N은Task 1-K 당시 무효였으나 Task 1-M에서 Stage 3으로 연결했다.
 양 스테이지 GAME_OVER의 R은챕터 첫 전투인Stage 1로 복귀한다. PLAYING/메뉴/포커스 변화에서는 N/R로 전환하지 않는다.
 새 세션은 HP/배치/방향/실행 ID/공격·패링 기록/쿨타임/보너스/기절·무적/표시/입력 큐와 래치를 초기화하고,
 공통 SimulationClock 누적값을 reset한다. 창/SETTINGS/Chapter 1 테마·보드·공통 렌더러는 재사용한다.
 N 직접 진행은 강화 선택 구현 전의 임시 기술 정책이며 원본의 강화→다음 전투 최종 목표는 유지한다.
-종료 화면은 실제 번호·남은 전체 적 수·R 목적지를 표시하고 Stage 1 클리어에서만 N TO CONTINUE를 안내한다.
+종료 화면은 실제 번호·남은 전체 적 수·R 목적지를 표시하고 현재 Stage 1·2 클리어에서 N TO CONTINUE를 안내한다.
 자동 테스트/실제 SDL dummy 경로와 별도로 사용자가 Windows 11의 Stage 1~2 GUI15개 모두 통과를 보고했다.
 Rook 경고·피격·회피·플레이어 경로 진입·일반/퍼펙트·충돌과 진행/재시작/화면·종료를 포함한다.
 사용자 평가 “Rook 전투가 명확하고 재미있음.”은 초기 체감 의견이며 장기 밸런스 검증 완료는 아니다.
@@ -231,7 +250,7 @@ Task 1-I는 사용자가 Windows 11에서 기존 Stage 1 회귀 GUI 8개 모두 
 시작/이동·공격/Pawn AI·피해/일반·퍼펙트 패링·보상/게임 오버·클리어 재시작/설정·화면·종료를 확인했다.
 이 사용자 수동 결과는 601틱 비교·데이터 불변성 등의 자동 검증과 구분하며, 최종 검수 후 커밋·Push를 승인했다.
 
-범용 25개 스테이지 진행/전환, Stage 3 이후 실제 화면 플레이, Bishop/Queen/King 실제 생성·AI,
+범용 25개 스테이지 진행/전환, Stage 4 이후 실제 화면 플레이, Bishop/Queen/King 실제 생성·AI,
 보스전, 최종 전투 이펙트/음향, 저장, 강화 선택, 챕터 해금은 미구현이다.
 5개 렌더링 루프나 챕터별 전투 로직을 만들지 않는다.
 

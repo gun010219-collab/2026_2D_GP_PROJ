@@ -1,5 +1,119 @@
 # CHECKMATE 개발 진행 기록
 
+## Task 1-M — Stage 3 실제 실행 경로와 Knight GUI 통합 (2026-11-12)
+
+상태: **구현·자동 테스트639개 통과, 사용자 Windows 11 GUI16/16 통과**.
+시작 main/추적 origin/main HEAD는 `4b827beb1c8185b4eb03ea23c1234858febf05a2`이고 작업 트리는 깨끗했다.
+변경 전에 기존608개가 통과했다. Task 1-L의 사용자 Stage 1~2 GUI10/10 기록은 아래 이력으로 보존하며,
+이번 Stage 3 GUI 통과로 재사용하지 않는다. 이번 사용자 수동 검증 결과는 아래 별도로 기록한다.
+
+### 실제 변경 파일 — 8개
+
+- 기능 코드2개: `main.py`, `game.py`.
+- 기존 테스트1개: `tests/test_stage_transition.py`.
+- 신규 테스트2개: `tests/test_stage_three.py`, `tests/test_stage_three_sdl.py`.
+- 문서3개: `docs/PROGRESS.md`, `docs/DECISIONS.md`, `docs/GAME_DESIGN.md`.
+
+`_new_stage_game(3)`이 기존 Stage 2 생성 경로에서 StageCatalog→create_stage_enemies()를 사용한다.
+Chapter 1/플레이어(5,1)/up/HP3, Knight(3,6)/HP3/0.8초,
+Pawn(1,6)/HP2/1.02초, Pawn(8,6)/HP2/1.24초 순서와 정의를 보존한다.
+기존 올림 정책의 지연 틱은48/62/75다. Player/Combat/Parry/EnemyEncounter/CombatResolver/StageGame을 새로 생성한다.
+StageOneGame의 다섯 인자 생성자와 `_new_game()`/Stage 1 로더는 변경하지 않았다. Stage 4~25는 명시적으로 거절한다.
+
+### 진행·종료·세션 정책
+
+| 상태 | N | R |
+| --- | --- | --- |
+| PLAYING | 무효 | 무효 |
+| Stage 1 STAGE_CLEAR | 새 Stage 2 | 새 Stage 1 |
+| Stage 2 STAGE_CLEAR | 새 Stage 3 | 새 Stage 2 |
+| Stage 3 STAGE_CLEAR | 무효 | 새 Stage 3 |
+| Stage 1~3 GAME_OVER | 무효 | Chapter 1 첫 전투인 새 Stage 1 |
+
+게임 오버 우선/종료 한 번/전투·AI·추가 피해와 보상 정지는 기존 경로를 사용한다.
+Stage 3 클리어는 개별 전투 클리어이며 Chapter 1 최종 완료/엔딩이 아니다. 원본 Chapter 1 보스는 Stage 5다.
+N 직접 진행은 강화 선택 시스템 구현 전의 임시 통합 절차이며 원본 강화→다음 전투 목표를 유지한다.
+
+기존 전환 루프가 이전 판정기를 stop하고 입력 큐를 차단 상태로 비운다. 새 객체·세션/스테이지/엔티티 ID와
+전투0틱/HP·위치·방향/공격·패링 기록/쿨타임/기절·무적/보너스/피격·성공 표시/돌진·착지 계획을 새로 시작한다.
+새 키 래치를 물리 상태에 동기화하고 N/R 유지·동일 배치 후속 키를 차단한다. 한 프레임의 전환은 최대 한 번이다.
+SimulationClock의 누적값과 프레임 기준을 reset하고 창/DisplaySettings/SETTINGS/공통 렌더러를 재사용한다.
+SETTINGS·포커스 상실·앞선 F11에 따른 전환 차단도 동일 경로다. 입력·시계 코드는 변경하지 않았다.
+
+### Knight 실제 표시와 전투
+
+같은 main 루프가 임시 말머리 Knight/두 Pawn/실제 HP/STAGE 3/고정 착지 한 칸 경고/피격·패링 결과를 출력한다.
+GameFlowRenderer는 이미 실제 번호·남은 적 수·진행/재시작 목적지를 읽는다. 변경 없이 Stage 2 클리어의
+N TO CONTINUE, Stage 3 클리어의 R TO RESTART, Stage 3 게임 오버의 R TO STAGE 1을 표시한다.
+Stage 3에는 N 진행 안내나 가짜 엔딩을 표시하지 않는다. SETTINGS 최상단과1440×900/840×840/84px/Chapter 1 테마를 유지한다.
+Task 1-L의 HP3/피해1/36틱 한 칸 예고/72틱 회복/플레이어 잔류 시 원위치/회피 시 예약 착지를 변경하지 않았다.
+다른 활성 적 착지 점유만 전체 취소+[t,t+72) 회복이며 플레이어 진입은 피해·패링 대상이다.
+일반 피해 무효/퍼펙트의 해당 적60틱 기절·공격 쿨타임 초기화·다음 공격+2 단일 소비도 기존 판정기를 사용한다.
+점프는 판정 틱의 즉시 위치 변경이다. 임의 애니메이션 판정 시간이나 최종 아트를 추가하지 않았다.
+
+### 실제 자동 검증
+
+```powershell
+.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+.\.venv\Scripts\python.exe validate_stage_data.py
+.\.venv\Scripts\python.exe -O validate_stage_data.py
+.\.venv\Scripts\python.exe -W error -m py_compile main.py game.py tests/test_stage_transition.py tests/test_stage_three.py tests/test_stage_three_sdl.py
+git diff --check
+```
+
+- **639개 통과 = 기존608개 + 신규31개**. 기존 테스트 삭제·비활성화는 없다.
+  기존 진행 정책/미지원 생성/Stage 2 클리어 안내 기대값은 Stage 3 지원에 맞게 갱신했다.
+  그에 맞춰 테스트명 두 곳을 갱신하고 같은 기존 검증 범위를 Stage 3까지 확장했다.
+- Stage 1~3 원본 정의·HP·지연·새 객체·ID/공격·패링 기록·무적·기절·보너스 초기화 및 과거 이벤트 거절을 검사했다.
+- 실제 main을 가짜 SDL/정수 시계로 실행해 Stage 2→3, Stage 3 양 종료/R 목적지, N/R 유지/동일 배치/
+  대기 입력 큐/메뉴·포커스/F11/ESC/X/반복 재시작의 시계 부채 제거를 검증했다.
+- 원본 Knight는48틱 예고→84틱(5,5) 착지,192틱(6,3) 착지,264틱(5,1) 예고→300틱 피격을 확인했다.
+  299틱 HP 유지/300틱 피해, 경고 후 회피·재진입,18틱 일반/7틱 퍼펙트/360틱 기절 종료,
+  반격+2 처치, 같은 틱 SPACE 처치가 예정 공격을 취소하는 순서를 실제 main에서 검사했다.
+- 다른 활성 적 착지 진입은265틱 취소→336틱까지 회복→337틱 새 행동으로 정확한72틱 경계를 확인했다.
+  Pawn/Knight 동일 틱 적중은 JSON 순서·공통48틱 무적·단일 소비를 따른다. 종료 후 이동·피해·보상은 정지한다.
+  원본 Stage 3 무입력 시516틱 HP0에서 게임 오버와 전투 정지, R의Stage 1 복귀도 확인했다.
+- 기존 Pawn601틱 기준/StageCatalog601틱 비교/Rook 경로 취소·90틱 회복/기존 일반·퍼펙트/Stage 1~2 회귀 통과.
+- SDL dummy의 숨겨진 한 창에서 실제 N키 이벤트로1→2→3을 연결하고 Pico2D로 Knight/한 칸 경고/HP/
+  퍼펙트 결과와 양 종료 오버레이를 그렸다. 이 비표시 자동 실행은 사용자 Windows GUI 플레이가 아니다.
+- 스테이지25개 정적 검사는 일반/`-O` 모두 통과했다. 변경 Python5개 문법/import 통과,
+  import 시 Pico2D/SDL 로드나 창 생성 없음, 공백 검사 통과. JSON/PDF/README/기존 아트·테마는 보존한다.
+
+### 사용자 Windows 11 GUI 최종 검증 — 16/16 통과
+
+초기 구현 후에는 GUI 확인 전 커밋·Push를 보류했다. 이후 사용자가 실제 Windows 11 게임 화면에서
+다음16개 항목 모두 통과를 보고하고 최종 검수 후 지정 커밋 및 기존 main 일반 Push를 승인했다.
+실행 명령은 `.\.venv\Scripts\python.exe main.py`다. 아래는 사용자 수동 검증이며
+Codex의 unittest/가짜 SDL/SDL dummy 자동 검증과 구분한다.
+
+1. Stage 1 기존 플레이 — 통과.
+2. Stage 1 → Stage 2 → Stage 3 — 통과.
+3. Stage 3 초기 배치·HP — 통과.
+4. Knight 외형·L자 이동 — 통과.
+5. 착지 한 칸 공격 경고 — 통과.
+6. 경고 칸에 남기 — 통과.
+7. 경고 칸에서 회피 — 통과.
+8. Knight 일반 패링 — 통과.
+9. Knight 퍼펙트 패링 — 통과.
+10. Knight·Pawn 혼합 전투 — 통과.
+11. Stage 3 클리어·재플레이 — 통과.
+12. Stage 3 게임 오버·복귀 — 통과.
+13. 반복 진행·재시작 — 통과.
+14. Stage 2 Rook 기존 전투 — 통과.
+15. SETTINGS·F11·포커스·종료 — 통과.
+16. Knight 전투 가독성·공정성 — 통과.
+
+사용자 평가: **“Knight 공격이 명확하고 재미있음.”**
+이는 최초 실전 체감 의견이며 전체 게임 밸런스/장기 플레이 안정성/전체25스테이지 QA 완료가 아니다.
+정밀36/60/72틱 경계는 자동 검증 근거이며 GUI 육안 시간 측정으로 주장하지 않는다.
+최종 검수에서는 기능 코드를 변경하지 않고 문서의 GUI 상태를 갱신한다.
+커밋 메시지는 `feat: integrate stage three combat and progression`이다.
+
+### 남은 범위와 위험
+
+기존8틱 상한/원장 증가/DPI·다중 모니터/즉시 점프·돌진 연출 한계도 유지한다.
+Stage 4 이후/Bishop·Queen·King AI/보스5개/강화·저장·해금/최종 아트·음향은 추가하지 않았다.
+
 ## Task 1-L — Knight AI와 3종 혼합 전투 기반 (2026-11-12)
 
 상태: **구현·자동 테스트 608개 통과, 사용자 Windows 11 Stage 1~2 GUI 회귀 10/10 통과**.
