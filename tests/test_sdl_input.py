@@ -225,3 +225,35 @@ class SDLInputTests(unittest.TestCase):
         self.controls.handle_key(SimpleNamespace(type=769, key=6), self.player, self.combat,
                                  blocked=True, parry=self.parry, on_parry=delivered)
         delivered.assert_not_called()
+
+    def test_restart_requires_an_enabled_unblocked_fresh_r_press(self):
+        down, up = SimpleNamespace(type=768, key=ord('r')), SimpleNamespace(type=769, key=ord('r'))
+        self.assertFalse(self.controls.handle_restart(down, enabled=False))
+        self.assertFalse(self.controls.handle_restart(down, enabled=True))
+        self.controls.handle_restart(up, enabled=True)
+        self.assertFalse(self.controls.handle_restart(down, enabled=True, blocked=True))
+        self.assertFalse(self.controls.handle_restart(down, enabled=True))
+        self.controls.handle_restart(up, enabled=True)
+        self.assertTrue(self.controls.handle_restart(down, enabled=True))
+        self.assertFalse(self.controls.handle_restart(down, enabled=True))
+
+    def test_restart_physical_key_quarantine_prevents_ghost_actions(self):
+        self.c.SDL_SCANCODE_R = 21
+        physical = [0] * 512
+        for scan in (1, 5, 6, 21):
+            physical[scan] = 1
+        self.c.SDL_GetKeyboardState.return_value = physical
+        self.controls.reset_after_restart()
+        for value in (1, 32, 6):
+            self.key(value)
+        self.assertEqual(self.player.position, (5, 1))
+        self.assertIsNone(self.combat.active_attack)
+        self.assertIsNone(self.parry.last_attempt)
+        self.assertTrue(self.controls.restart_held)
+        for value in (1, 32, 6):
+            self.key(value, down=False)
+        for value in (1, 32, 6):
+            self.key(value)
+        self.assertEqual(self.player.position, (5, 2))
+        self.assertEqual(self.combat.active_attack.attack_id, 1)
+        self.assertEqual(self.parry.last_attempt.parry_id, 1)

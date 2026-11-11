@@ -67,6 +67,7 @@ class CombatResolver:
         self._event_parries = {}
         self._parry_results = {}
         self._last_parry_result = None
+        self._stopped = False
         self._validate_entities()
         # A restarted stage can share a Combat clock, but never player events.
         self.combat.bind_stage(encounter.ledger.stage_instance_id)
@@ -76,6 +77,21 @@ class CombatResolver:
     @property
     def last_parry_result(self):
         return self._last_parry_result
+
+    @property
+    def stopped(self):
+        return self._stopped
+
+    def stop(self):
+        """Retire a terminal session without deleting receipts or old results."""
+        if self.stopped:
+            return False
+        for enemy in self.encounter.enemies:
+            self.encounter.ledger.cancel_source(enemy.entity_instance_id)
+            enemy.current_attack = None
+        self._close_invalid_parries()
+        self._stopped = True
+        return True
 
     def parry_binding(self, attempt):
         return self._parry_bindings.get(attempt.key) if isinstance(attempt, ParryAttempt) else None
@@ -98,6 +114,8 @@ class CombatResolver:
         The attempt/cooldown is spent even when unbound. Never scan again for
         a later event; a repeated delivery returns its original immutable link.
         """
+        if self.stopped:
+            return None
         self._validate_entities()
         if (self.parry is None or self.parry is not self._parry_ref
                 or self.parry.stage_instance_id != self.encounter.ledger.stage_instance_id
@@ -200,6 +218,8 @@ class CombatResolver:
         entity references are rejected before a receipt or HP can be changed.
         A visual effect is never a new attack, even at the same tick.
         """
+        if self.stopped:
+            return None
         self._validate_entities()
         self._validate_damage(self.player_damage)
         if not isinstance(event, AttackEvent) or self.combat.attack_state(event) == 'unknown':
@@ -235,6 +255,8 @@ class CombatResolver:
         A bound ParryAttempt is evaluated before HP reduction, after exact
         time, position, death and existing hit-invulnerability checks.
         """
+        if self.stopped:
+            return None
         self._validate_entities()
         self._validate_damage(self.pawn_damage)
         self._close_invalid_parries()
@@ -305,6 +327,8 @@ class CombatResolver:
         tick are harmless; stale bulk advancement is rejected instead of
         applying a historical hit against a later player position.
         """
+        if self.stopped:
+            return ()
         self._validate_entities()
         self._close_invalid_parries()
         if self.encounter.tick == self.combat.tick:
@@ -328,7 +352,7 @@ class CombatResolver:
             raise TypeError('Resolution ticks must be an integer')
         if ticks < 0:
             raise ValueError('Resolution ticks cannot move backwards')
-        if not self.player.alive:
+        if self.stopped or not self.player.alive:
             return ()
         results = list(self.resolve_current_tick())
         for _ in range(ticks):

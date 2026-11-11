@@ -29,6 +29,8 @@ class SDLMouseMappingTests(unittest.TestCase):
             from combat_resolution import CombatResolver
             from health_renderer import HealthRenderer
             from parry_renderer import ParryResultRenderer
+            from game_renderer import GameFlowRenderer
+            from main import _new_game
             from types import SimpleNamespace
             assert s.SDL_Init(s.SDL_INIT_VIDEO) == 0
             try:
@@ -93,6 +95,16 @@ class SDLMouseMappingTests(unittest.TestCase):
                             ParryResultRenderer().draw(canvas, defense.last_parry_result, timer.tick)
                             HealthRenderer().draw(canvas, defender, defense.encounter.enemies,
                                                   timer.tick, attack_bonus=timer.pending_attack_bonus)
+                            ended = _new_game()
+                            ended.player.health.apply_damage(3, tick=0)
+                            ended.update_state()
+                            GameFlowRenderer().draw(canvas, ended)
+                            cleared = _new_game()
+                            for enemy in cleared.encounter.enemies:
+                                enemy.health.apply_damage(2, tick=0)
+                                cleared.encounter.deactivate(enemy.entity_instance_id)
+                            cleared.update_state()
+                            GameFlowRenderer().draw(canvas, cleared)
                             encounter.advance_to(39, (5,1))
                             EnemyAttackRenderer().draw(canvas, encounter.ledger)
                             parry = Parry()

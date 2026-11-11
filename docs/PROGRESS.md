@@ -1,5 +1,133 @@
 # CHECKMATE 개발 진행 기록
 
+## Task 1-H — Stage 1 게임 오버·클리어·R 재시작 (2026-11-11)
+
+상태: **구현·자동 테스트 429개 완료, 사용자 Windows 11 GUI 10개 모두 통과**.
+Task 1-G의 GUI 13개와 별도로 사용자가 이번 종료/재시작 GUI 10개를 직접 확인했다.
+사용자가 Task 1-H 최종 검수 후 지정 메시지의 커밋과 기존 main 일반 Push를 승인했다.
+Task 1-I/Stage 2 이후/보스/다른 AI/저장은 구현하지 않는다.
+
+### 시작 상태와 근거
+
+- 브랜치 main, 로컬 HEAD와 직접 조회한 원격 main 모두
+  `5731ee8030588b4536c69440e46f3af99ed027be`. 작업 시작 트리는 깨끗했고 기존 unittest **389개**가 통과했다.
+- AGENTS/현재 설계/결정/진행 기록, 원본 Stage 1/25개 JSON과 관련 전투/입력/시간/UI/테스트를 읽었다.
+  원본 PDF의 SHA256은 기존과 같으며 보존된 이미지 사본에서 기획서 p.26/발표용 p.6을 직접 확인했다.
+- 기획서 p.26: HP0이면 GAME_OVER 후 현재 챕터 처음부터, 전투 밖 화면은 AI/전투 시간 정지다.
+  일반 전멸 후 강화/다음 전투는 최신 요청에 따라 Stage 1 STAGE_CLEAR/재플레이까지만 구현한다.
+  강화·해금·저장이 없으므로 가상의 기록/보상을 표시하지 않는다.
+- 사용자가 제시한 2026-11-16 2차 발표 일정에 맞춰 Stage 1 실행 안정성을 우선한다.
+  교수님의 공식 2차 발표 요구사항은 아직 미확인이고 이번 구현을 공식 요건 충족으로 주장하지 않는다.
+
+### 구현과 실제 변경 파일 — 15개
+
+- 신규 코드 2개: `game.py`, `game_renderer.py`.
+- 기존 코드 4개: `main.py`, `combat_resolution.py`, `sdl_input.py`, `health_renderer.py`.
+- 신규 테스트 3개: `tests/test_game.py`, `tests/test_game_flow.py`, `tests/test_game_renderer.py`.
+- 기존 테스트 2개: `tests/test_sdl_input.py`, `tests/test_sdl_mouse_mapping.py`.
+- 문서 4개: `docs/GAME_DESIGN.md`, `docs/DECISIONS.md`, `docs/PROGRESS.md`, `docs/ASSET_PLAN.md`.
+
+`StageOneGame`은 기존 전투 객체를 소유하는 순수 Python 래퍼다.
+PLAYING→GAME_OVER 또는 STAGE_CLEAR를 한 번만 확정하고 종료 틱을 기록한다.
+HP0이면 게임 오버, 두 Pawn HP0이면 클리어이며 동시에 참이면 게임 오버가 우선한다.
+종료 후에는 전투/AI/이동/SPACE/Shift를 정지하고 판정기의 추가 피해/보상 경로도 stop한다.
+미처리 적 공격/패링 연결은 취소하되 이미 완료한 결과/영수증은 덮어쓰지 않는다.
+
+기존 입력→플레이어 공격→AI→적 피해 순서를 유지한다. 현재 입력 배치를 마친 뒤 종료를 확정하고,
+과거 경과 틱은 한 틱씩 처리해 종료 틱에서 즉시 멈춘다.
+같은 틱 마지막 Pawn의 치명타는 예약 공격을 먼저 취소한다.
+최종 처치와 같은 입력 배치의 R은 평가 당시 PLAYING이면 시작하지 않으며 해제 후 새 R을 받는다.
+세부 우선순위/전환 기술 정책은 [DECISIONS.md](DECISIONS.md)의 Task 1-H에 기록했다.
+
+종료 상태에서 **R키**를 누르면 `_new_game()`이 Stage 1의 Player/두 Enemy/Combat/Parry/
+PawnEncounter/Resolver/StageOneGame을 새로 만든다. HP·원본 배치·up 방향·ID 범위와
+공격/패링 기록·쿨타임·보너스·기절·무적·피격/성공 표시·상태가 초기값으로 복구된다.
+이전 판정기는 정지된 상태로 남고 과거 이벤트는 새 전투의 발행/소유 범위에서 거절된다.
+창/화면 설정/보드·전투 렌더러/SETTINGS는 재사용하며 SimulationClock 누적값을 reset한다.
+입력 큐를 비우고 새 래치를 물리 키 상태에 동기화하며 재시작한 프레임의 남은 게임 키는 차단한다.
+오래 누른 방향키/SPACE/Shift/R은 해제 후 새 누름까지 재동작하지 않는다.
+
+중앙 검정 계열 패널은 GAME OVER/STAGE CLEAR를 붉은색/금색 강조와 문구로 구별하고,
+실제 HP·남은 Pawn 수·R TO RESTART만 표시한다. 가짜 점수/보상/Stage 2 진행은 없다.
+SETTINGS는 오버레이보다 최상단이다. PLAYING의 기존 전투 UI와 1440×900/840×840/84px 배치는 유지한다.
+새 라이브러리/최종 아트/폰트/음향은 없고 종료 시 일시적 전투 효과와 행동 힌트를 숨긴다.
+
+### 실제 자동 검증
+
+```powershell
+.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+.\.venv\Scripts\python.exe validate_stage_data.py
+.\.venv\Scripts\python.exe -W error -m py_compile game.py game_renderer.py combat_resolution.py health_renderer.py main.py sdl_input.py tests/test_game.py tests/test_game_flow.py tests/test_game_renderer.py tests/test_sdl_input.py tests/test_sdl_mouse_mapping.py
+git diff --check
+git status --short
+```
+
+요청의 `..venv` 표기는 실제 존재하는 `.\.venv` 경로로 정정했다.
+
+- unittest **429개 통과**: 기존 389개 모두 유지 + 신규 40개.
+  순수 세션/상태 16 + 실제 main 재시작 통합 16 + 종료 UI 6 + SDL R/키 격리 2개다.
+  기존 테스트를 삭제/비활성화하거나 기대값을 바꿔 맞추지 않았다.
+- 스테이지 정적 검사 **25개 통과**, 관련 Python 11개 문법/import와 공백 검사 통과.
+  새 모듈 import는 Pico2D/창을 로딩하지 않는다. 시간/재시작 테스트는 실제 sleep 없이 가상 시계/정수 틱을 사용한다.
+- 정상/HP0/한 Pawn만 사망/둘 다 사망/동시 조건 우선/상태 한 번 전환/양 종료 시간 정지를 검사했다.
+  실제 39틱 치명 피격을 8틱 따라잡기에서 처리해 정확히 39틱에서 정지하는 것을 확인했다.
+- 사망/클리어 후 입력·추가 피해·보상 차단, 미처리 공격/연결 취소와 과거 성공 기록 보존을 검사했다.
+  마지막 Pawn의 예정 공격과 같은 틱 치명타에서 플레이어 HP가 유지되고 클리어함을 검사했다.
+- 새 세션의 HP/좌표/방향/실체 ID/틱/쿨타임/보너스/기절/무적/피격/패링 상태/새 원장을 검사했다.
+  이전 공격/패링 ID1과 새 ID1의 범위가 다르며 과거 이벤트로 새 전투에 피해를 줄 수 없음을 검증했다.
+- 두 종료 상태의 R, 유지 키·같은 폴링 배치의 후속 키/keyup/repress, 연속 재시작,
+  긴 벽시계 경과에도 새 0틱/누적시간 0, 창·화면 어댑터·보드·설정 렌더러 단일 생성을 검사했다.
+- R/F11/SETTINGS의 양쪽 순서와 포커스 상실/복귀 중 눌린 R, 사망 틱 직후 같은 프레임 재시작,
+  최종 처치와 R의 같은 틱 동작, 두 종료 상태의 메뉴/ESC/F11/X와 자원 정리를 검사했다.
+- 오버레이의 실제 HP/남은 적 수/문구/보드 내 배치, 반복 렌더링의 원장·HP·시계 무변이,
+  SETTINGS 최상단 순서와 종료 시 정지된 피격 효과를 숨기는 동작을 검사했다.
+  기존 실제 SDL dummy 테스트에 양 종료 화면의 실제 그리기 경로를 추가했다.
+  비표시 SDL 자동 검증은 실제 Windows GUI 사용자 플레이가 아니다.
+- 기존 일반/퍼펙트 패링·48틱 무적·36틱 공격·39틱 예고·4방향 Pawn/중복 점유/메뉴/전체 화면 회귀도 유지한다.
+
+### 보존 / Git / 남은 위험
+
+README/PDF 원본 2개/stage_data.json/기존 보드·테마/전투 수치/다른 챕터 데이터/의존성/AGENTS/Git 이력은 보존한다.
+최종 검수 시작 시 HEAD는 `5731ee8030588b4536c69440e46f3af99ed027be`이고 변경은 미커밋이었다.
+기존 수정 10개/신규 5개/스테이징 0개, 합집합 15개가 위 목록과 정확히 일치한다.
+특히 사용자 명령의 `tests/test_game_flow\.py`는 실제 파일 경로 `tests/test_game_flow.py`로 확인했다.
+원격 fetch 후 로컬 HEAD와 origin/main이 기준 SHA와 같음을 확인했다. 외부 변경/임의 병합은 없다.
+사용자 GUI 확인 전 반영 보류를 지켰으며 이후 Windows 11 GUI 10개 통과와 최종 반영 승인을 받았다.
+이번 마무리에서는 게임 코드·테스트를 변경하지 않고 문서의 사용자 결과/현재 상태만 갱신한다.
+최종 전체 unittest 429개/스테이지 25개와 Python 11개 문법/import/공백 검사를 재실행해 모두 통과했다.
+기존 테스트 삭제·비활성화와 누락·ignore·무관한 파일이 없음을 확인했다. 15개만 명시적으로 스테이징해 목록을 검사한다.
+커밋 메시지는 `feat: implement stage one game flow and restart`다.
+생성된 전체 SHA/원격 main 일치/커밋 파일 15개/깨끗한 작업 트리는 실제 Push 후 최종 보고에서 확인한다.
+
+기존 최대 8틱/초과 시간 폐기 정책의 시간 오차, 한 전투 내 원장/패링 기록 증가,
+실제 프레임 성능/DPI·다중 모니터/장기 밸런스/추적 AI의 최단 경로 미보장 위험은 유지한다.
+재시작은 새 객체를 만들므로 과거 전투 객체는 참조가 사라지면 회수될 수 있다.
+기본 Windows 11의 게임 시작·종료 상태·R·반복 재시작·설정/종료는 아래 사용자 GUI 10개 결과로 확인했다.
+정밀 틱/이벤트 격리는 자동 검증 근거이며 다른 DPI·다중 모니터와 장기 성능/입력감·밸런스는 별도 미검증이다.
+
+### 사용자 Windows 11 GUI 최종 검증 — 10개 모두 통과
+
+사용자가 실제 Windows 11 게임 화면에서 직접 확인해 아래 10개 항목 모두 통과했다고 보고했다.
+Codex가 직접 관찰한 GUI 결과나 비표시 SDL/정수 틱 자동 검증과 구분한다. 프로젝트 폴더 실행 명령:
+
+```powershell
+.\.venv\Scripts\python.exe main.py
+```
+
+1. 게임 시작 — 통과.
+2. 플레이 중 R키 입력 — 통과.
+3. 플레이어 HP0 → GAME_OVER — 통과.
+4. GAME_OVER 상태에서 전투·입력 정지 — 통과.
+5. GAME_OVER → R키 재시작 — 통과.
+6. Pawn 2개 처치 → STAGE_CLEAR — 통과.
+7. STAGE_CLEAR 상태에서 전투·입력 정지 — 통과.
+8. STAGE_CLEAR → R키 재시작 — 통과.
+9. 게임 오버·클리어 이후 반복 재시작 — 통과.
+10. SETTINGS·F11·ESC/X 정상 동작 — 통과.
+
+PLAYING의 R은 재시작하지 않는 동작이다. 정확한 정수 틱 경계·과거 이벤트/ID 격리·유령 키 방지는
+위 자동 테스트와 별도로 구분하며 사용자가 육안으로 정밀 측정했다고 주장하지 않는다.
+
 ## Task 1-G — 실제 일반·퍼펙트 패링과 전투 보상 (2026-11-11)
 
 상태: **구현·자동 테스트 389개 완료, 사용자 Windows 11 GUI 13개 모두 통과**.

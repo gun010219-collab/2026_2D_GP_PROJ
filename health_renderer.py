@@ -25,6 +25,7 @@ _GLYPHS = {
     'D': ('110', '101', '101', '101', '110'),
     'E': ('111', '100', '110', '100', '111'),
     'F': ('111', '100', '110', '100', '100'),
+    'G': ('111', '100', '101', '101', '111'),
     'H': ('101', '101', '111', '101', '101'),
     'I': ('111', '010', '010', '010', '111'),
     'K': ('101', '101', '110', '101', '101'),
@@ -82,7 +83,7 @@ class HealthRenderer:
                 canvas.draw_line(px, py, px - sx * length, py, *cls.HIT)
                 canvas.draw_line(px, py, px, py - sy * length, *cls.HIT)
 
-    def draw(self, canvas, player, enemies, tick, attack_bonus=None):
+    def draw(self, canvas, player, enemies, tick, attack_bonus=None, show_feedback=True):
         health = player.health
         # Compact actual information in the left margin; no fixed right HUD.
         canvas.draw_rectangle(30, 704, 270, 844, 17, 22, 27, filled=True)
@@ -93,15 +94,16 @@ class HealthRenderer:
         if health.current_hp:
             right = 44 + round(212 * health.current_hp / health.max_hp) - 1
             canvas.draw_rectangle(44, 772, right, 778, *self.HEALTH, filled=True)
-        if health.alive:
+        if health.alive and show_feedback:
             if attack_bonus is not None and attack_bonus > 0:
                 self._text(canvas, f'NEXT +{attack_bonus}', 150, 755, color=(255, 226, 116))
             self._text(canvas, 'PARRY WINDOW', 44, 743)
             self._text(canvas, 'SHIFT TO PARRY', 44, 723)
-        else:
+        elif not health.alive:
             self._text(canvas, 'DEAD', 44, 743, color=self.HIT)
             self._text(canvas, 'INPUT LOCKED', 44, 723)
-        self._hit_flash(canvas, player, tick)
+        if show_feedback:
+            self._hit_flash(canvas, player, tick)
 
         for enemy in enemies:
             if not enemy.active:
@@ -119,4 +121,5 @@ class HealthRenderer:
                 canvas.draw_rectangle(x - 18, y - 41, x + 18, y - 28,
                                       17, 22, 27, filled=True)
                 self._text(canvas, 'STUN', x - 15, y - 39, color=(255, 226, 116))
-            self._hit_flash(canvas, enemy, tick)
+            if show_feedback:
+                self._hit_flash(canvas, enemy, tick)

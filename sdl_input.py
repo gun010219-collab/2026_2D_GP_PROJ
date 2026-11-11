@@ -10,6 +10,7 @@ class GameplayInput:
         self.movement = InputController()
         self.attack = AttackInput()
         self.parry = ParryInput()
+        self.restart_held = False
         self.arrows = {canvas.SDLK_UP: 'up', canvas.SDLK_DOWN: 'down',
                        canvas.SDLK_LEFT: 'left', canvas.SDLK_RIGHT: 'right'}
         self.shifts = {canvas.SDLK_LSHIFT: 'left', canvas.SDLK_RSHIFT: 'right'}
@@ -24,6 +25,23 @@ class GameplayInput:
         return (event.type in (c.SDL_KEYDOWN, c.SDL_KEYUP)
                 and (event.key in self.arrows or event.key in self.shifts
                      or event.key == c.SDLK_SPACE))
+
+    def handle_restart(self, event, enabled=False, blocked=False):
+        """R is edge-triggered and immediate, outside the combat input queue."""
+        c = self.canvas
+        if event.type not in (c.SDL_KEYDOWN, c.SDL_KEYUP) or event.key != ord('r'):
+            return False
+        if event.type == c.SDL_KEYUP:
+            self.restart_held = False
+            return False
+        was_held = self.restart_held
+        self.restart_held = True
+        return enabled and not blocked and not was_held
+
+    def reset_after_restart(self):
+        """Quarantine physically held keys without producing gameplay commands."""
+        self.reconcile_physical_keys()
+        self.restart_held = True  # This accepted R press must be released first.
 
     def handle_key(self, event, player, combat, blocked=False, parry=None, occupied=(),
                    on_attack=None, on_parry=None):
@@ -66,6 +84,7 @@ class GameplayInput:
         self.movement.reconcile(())
         self.attack.reconcile(False)
         self.parry.reconcile(())
+        self.restart_held = False
 
     def reconcile_physical_keys(self):
         c = self.canvas
@@ -76,3 +95,6 @@ class GameplayInput:
         self.attack.reconcile(keys[c.SDL_SCANCODE_SPACE])
         self.parry.reconcile(side for scan, side in (
             (c.SDL_SCANCODE_LSHIFT, 'left'), (c.SDL_SCANCODE_RSHIFT, 'right')) if keys[scan])
+        scan = getattr(c, 'SDL_SCANCODE_R', None)
+        if type(scan) is int:
+            self.restart_held = bool(keys[scan])
