@@ -1,5 +1,103 @@
 # CHECKMATE 개발 진행 기록
 
+## Task 1-J — Rook AI와 Pawn/Rook 혼합 전투 기반 (2026-11-11)
+
+상태: **구현·자동 테스트 524개 통과, 사용자 Windows 11 Stage 1 GUI 회귀 8개 모두 통과**.
+사용자가 Task 1-J 최종 검수 후 지정 메시지의 커밋과 기존 main 일반 Push를 승인했다.
+Rook/Stage 2 혼합 전투는 자동 검증 범위이며 실제 Windows GUI 플레이 검증은 아직 하지 않았다.
+
+시작 HEAD/main은 `c63cf66052ffc5776080f5fa7d0133aaf871fc1f`, 시작 트리는 깨끗했다.
+기존 unittest 466개가 통과했고 공통 모델/Encounter 확장 후에도 같은 466개가 통과했다.
+원본 PDF p.12를 직접 추출해 확인했다. HP4/피해1/이동최대3칸·72틱/예고48틱/회복90틱의
+출처와 별도의 사용자 승인 경로 차단 정책은 DECISIONS의 Task 1-J에 기록한다.
+
+실제 변경 파일 — 12개(기존 수정8/신규4):
+
+- 수정 코드5개: `config.py`, `enemy.py`, `enemy_behaviors.py`, `combat_resolution.py`, `enemy_renderer.py`.
+- 신규 코드2개: `enemy_factory.py`, `rook_behavior.py`.
+- 신규 테스트2개: `tests/test_rook.py`, `tests/test_rook_combat.py`.
+- 문서: `docs/PROGRESS.md`, `docs/DECISIONS.md`, `docs/GAME_DESIGN.md`.
+
+`Enemy(kind='rook', forward=None)`는 HP4의 실제 객체이며 Pawn으로 위장하지 않는다.
+`EnemyEncounter`는 공통 틱/원장/대기·예고·회복·기절·비활성화를 관리하고 `PawnEncounter`는
+기존 Pawn 전용 API를 보존한다. StageCatalog 정의를 `create_stage_enemies()`로 읽어
+Stage 2의 Rook1/Pawn2를 원본 순서·배치·지연·새 HP/ID로 생성한다. 미지원 기물/옵션은 오류다.
+Rook은 최대3칸 직선 재배치와 고정 직선 공격 경로를 사용한다. 실제 hit_tick에 기존 피해/패링 판정 후
+돌진 위치를 한 번 확정한다. 경로에 남으면 피해 후 직전 칸, 회피하면 예약 목적지까지 이동한다.
+일반 패링은 피해만 무효화하고 중복 점유 없이 돌진을 마친다. 퍼펙트는 실제 공격자만 출발점에서
+60틱 기절시키고 공격 쿨타임 초기화/다음 공격 +2를 한 번 지급한다. 별도 무적/보상 원장을 만들지 않는다.
+미완료 공격은 사망/기절/전투 종료 시 취소하고 이동 계획도 해제하되 완료/취소/소비 이력은 보존한다.
+
+예고 후 다른 적이 경로에 들어오는 경우는 원문이 미정이어서 확인을 요청했고,
+사용자가 **전체 취소 후 회복**을 승인했다. AI 이동 뒤/앞선 돌진 이동 뒤 경로가 막히면 공격 전체를
+취소하고 취소 틱부터90틱 회복한다. 경고 범위를 축소하거나 Pawn 이동을 변경하지 않는다.
+피격/회피/무적/일반·퍼펙트/취소/중복 및 동일 틱 판정은 기존 단일 원장과 JSON 순서를 공유한다.
+
+### 자동 검증
+
+```powershell
+.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+.\.venv\Scripts\python.exe validate_stage_data.py
+.\.venv\Scripts\python.exe -O validate_stage_data.py
+.\.venv\Scripts\python.exe -W error -m py_compile config.py enemy.py enemy_behaviors.py combat_resolution.py enemy_renderer.py enemy_factory.py rook_behavior.py tests/test_rook.py tests/test_rook_combat.py
+git diff --check
+```
+
+- 전체 unittest **524개 통과**: 기존466개 유지+신규58개(모델/정의/기하/예약22, 전투/혼합/렌더36).
+  기존 테스트 파일은 수정하지 않았고 삭제·비활성화가 없다.
+- Rook 네 방향 돌진/예약 목적지/경고 중간 칸 피격/회피/정확한48틱 예고·90틱 회복,
+  일반·퍼펙트의0/1/7/8/18/19 경계와 단일 보상/기절60틱/다음 공격+2 단일 소비를 검증했다.
+- 취소 회복 [취소틱,취소틱+90), 같은 틱 사망·경로 진입·돌진 간 차단,
+  Pawn/Rook 및 Rook/Rook 동시 공격, 기존48틱 무적 끝 경계·외부/변조/이전 전투 이벤트 거절을 검증했다.
+- Stage 2 원본 정의의 세 기물을 실제 생성해601회 틱 진행 요청을 두 번 실행했고,
+  피해·AI 상태·위치가 같고 매 단계 점유 중복이 없었다. 고정 스폰에서168/306/444틱에 피해를 받으며
+  444틱 HP0 후 남은 요청은 전투 시간·AI 상태를 바꾸지 않는 것도 검증했다.
+- 기존 HEAD Pawn AI와 변경 코드의601틱 원본 배치 추적 결과를 직접 비교해 일치했다.
+정규화 추적 SHA256: `4caa3531585d5377bbe55cfd1bbf90acd771b794d70302b8df7b806ab4ce7353`.
+- 기존 StageCatalog의601틱 전투 비교 및 게임 오버/클리어/R/메뉴/F11/입력 회귀도 전체 테스트에서 통과했다.
+- 일반/`-O` 정적 검사25개, 변경 Python9개 문법/import·공백 검사도 통과했다.
+  녹화 캔버스 자동 검사로 성곽형 실루엣/보드 내 배치/경고와 실제 경로 일치/렌더 무변경을 확인했다.
+
+### 플레이 범위 / Windows GUI / Git
+
+실제 main은 원래 Stage 1의 Pawn 두 개만 생성하며 새 어댑터/Stage 2 선택/자동 전환을 넣지 않았다.
+Rook 성곽형 임시 렌더 분기는 자동 캔버스 검사만 했고 실제 Windows Rook GUI 검증으로 표현하지 않는다.
+현재 혼합 전투 재현 명령: `.\.venv\Scripts\python.exe -m unittest discover -s tests -p "test_rook*.py" -v`.
+
+### 사용자 Windows 11 Stage 1 GUI 회귀 — 8/8 통과
+
+사용자가 실제 Windows 11 게임 화면에서 다음 8개 항목 모두 통과했다고 보고했다.
+실행 명령은 `.\.venv\Scripts\python.exe main.py`이며 Task 1-I의 GUI 결과와 별개의 이번 회귀 기록이다.
+
+1. 기존 Stage 1 배치 — 통과.
+2. 이동·점유·SPACE 공격 — 통과.
+3. Pawn AI·피해 — 통과.
+4. 일반 패링 — 통과.
+5. 퍼펙트 패링 — 통과.
+6. 게임 오버와 재시작 — 통과.
+7. 스테이지 클리어와 재시작 — 통과.
+8. 설정·포커스·종료 — 통과.
+
+이 결과는 사용자 수동 GUI 검증이며 Codex 자동 테스트/정수 틱/601틱 비교와 구분한다.
+Rook 직선 공격·돌진·다른 적의 경로 진입 취소·Stage 2 혼합 전투를 Windows에서 플레이했다고 기록하지 않는다.
+
+### 최종 검수와 Git
+
+최종 검수 시작 시 HEAD는 위 Task 1-I 완료 SHA이며 기존 수정8개/신규4개/스테이징0개로 지정12개와 일치했다.
+`git fetch origin main` 후 로컬 HEAD와 origin/main 모두 같은 기준 SHA이며 외부 변경/임의 병합은 없다.
+이번 마무리는 기능 코드·테스트를 유지하고 세 문서의 GUI 결과와 현재 검증 범위만 갱신한다.
+전체 unittest524개/일반·최적화 정적 검사25개/문법·import·공백 검사를 재실행해 통과했고 기존466개 테스트 보존을 확인했다.
+지정12개만 명시적으로 스테이징해 목록을 검수한다. 커밋 메시지:
+`feat: implement rook AI and mixed enemy encounters`.
+생성된 전체 SHA·원격 main 일치·커밋12개·작업 트리 청결 상태는 실제 Push 후 최종 보고에서 확인한다.
+
+원본 JSON/README/PDF/에셋/StageCatalog/Stage 1 로더/main/입력/게임 상태/기존 Pawn 도형을 보존한다.
+Stage 2 GUI/진행, 다른 기물 AI, 보스·저장·강화/챕터 해금·최종 그래픽/음향은 구현하지 않았다.
+
+남은 위험은8틱 상한의 큰 프레임 지연, 전투 중 원장/패링 기록 증가, 실제 혼합 전투 입력감·밸런스,
+DPI/다중 모니터, Pawn 최단 경로 미보장이다. 현재 지형 장애물 모델이 없으며 향후 벽/지형 추가 시
+공통 점유와 Rook 경로 취소 검사를 함께 연결해야 한다. 돌진은 즉시 틱 행동이며 최종 이동 애니메이션은 없다.
+
 ## Task 1-I — 읽기 전용 스테이지 카탈로그 (2026-11-11)
 
 상태: **데이터 계층 구현·자동 테스트 466개 통과, 사용자 Windows 11 GUI 회귀 8개 모두 통과**.

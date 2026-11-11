@@ -1,4 +1,4 @@
-"""Stage 1 Pawn data/model and bounded HP, independent of rendering."""
+"""Pawn/Rook live combat model and legacy Stage 1 loading; no rendering."""
 from dataclasses import dataclass, field
 import json
 from math import isfinite
@@ -7,7 +7,7 @@ from uuid import uuid4
 
 from board import in_bounds
 from combat import _duration_ticks
-from config import BOARD_SIZE, PAWN_INITIAL_HP
+from config import BOARD_SIZE, PAWN_INITIAL_HP, ROOK_INITIAL_HP
 from health import Health
 
 
@@ -16,30 +16,37 @@ class Enemy:
     data_id: str
     col: int
     row: int
-    forward: tuple[int, int]
+    forward: tuple[int, int] | None
     initial_delay: float
     entity_instance_id: str = field(default_factory=lambda: uuid4().hex)
-    kind: str = field(default='pawn', init=False)
+    kind: str = field(default='pawn', kw_only=True)
     state: str = field(default='initial_wait', init=False)
     next_action_tick: int = field(default=0, init=False)
     stun_until_tick: int = field(default=0, init=False)
     current_attack: object = field(default=None, init=False, repr=False)
-    health: Health = field(default_factory=lambda: Health(PAWN_INITIAL_HP), init=False)
+    health: Health = field(init=False)
 
     def __post_init__(self):
+        if self.kind not in ('pawn', 'rook'):
+            raise ValueError('Only Pawn and Rook combat instances are supported')
+        label = self.kind.title()
         if not isinstance(self.data_id, str) or not self.data_id.strip():
-            raise ValueError('Pawn data ID must be a nonempty string')
+            raise ValueError(f'{label} data ID must be a nonempty string')
         if not isinstance(self.entity_instance_id, str) or not self.entity_instance_id.strip():
-            raise ValueError('Pawn instance ID must be a nonempty string')
+            raise ValueError(f'{label} instance ID must be a nonempty string')
         if not in_bounds(self.col, self.row):
-            raise ValueError('Pawn coordinates must be integers between 0 and 9')
-        if (not isinstance(self.forward, (list, tuple)) or len(self.forward) != 2
-                or any(type(v) is not int for v in self.forward) or tuple(self.forward) != (0, -1)):
-            raise ValueError('Stage 1 Pawn forward must be [0, -1]')
-        self.forward = tuple(self.forward)
+            raise ValueError(f'{label} coordinates must be integers between 0 and 9')
+        if self.kind == 'pawn':
+            if (not isinstance(self.forward, (list, tuple)) or len(self.forward) != 2
+                    or any(type(v) is not int for v in self.forward) or tuple(self.forward) != (0, -1)):
+                raise ValueError('Stage 1 Pawn forward must be [0, -1]')
+            self.forward = tuple(self.forward)
+        elif self.forward is not None:
+            raise ValueError('Rook has no Pawn forward vector; use None')
         if (type(self.initial_delay) not in (int, float) or not isfinite(self.initial_delay)
                 or not 0 <= self.initial_delay <= 10):
-            raise ValueError('Pawn initial_delay must be finite and between 0 and 10 seconds')
+            raise ValueError(f'{label} initial_delay must be finite and between 0 and 10 seconds')
+        self.health = Health(PAWN_INITIAL_HP if self.kind == 'pawn' else ROOK_INITIAL_HP)
 
     @property
     def position(self):

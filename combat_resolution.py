@@ -1,4 +1,4 @@
-"""Deterministic Stage 1 HP resolution; no SDL, rendering or private clock.
+"""Deterministic Pawn/Rook HP resolution; no SDL, rendering or private clock.
 
 Current-tick input is processed before resolve_current_tick(), following the
 PDF p.7 order. Historical catch-up is settled one integer tick at a time.
@@ -10,12 +10,12 @@ from dataclasses import dataclass
 from board import in_bounds
 from combat import AttackEvent, Combat, _duration_ticks
 from config import (
-    PAWN_ATTACK_DAMAGE, PLAYER_ATTACK_DAMAGE,
+    PAWN_ATTACK_DAMAGE, PLAYER_ATTACK_DAMAGE, ROOK_ATTACK_DAMAGE,
     PLAYER_HIT_INVULNERABILITY_SECONDS,
 )
 from enemy import Enemy
 from enemy_attack import EnemyAttackEvent
-from enemy_behaviors import PawnEncounter
+from enemy_behaviors import EnemyEncounter
 from health import Health
 from player import Player
 from parry import Parry, ParryAttempt
@@ -36,13 +36,14 @@ class DamageResult:
 class CombatResolver:
     def __init__(self, player, combat, encounter, *,
                  player_damage=PLAYER_ATTACK_DAMAGE,
-                 pawn_damage=PAWN_ATTACK_DAMAGE, parry=None):
+                 pawn_damage=PAWN_ATTACK_DAMAGE, parry=None, rook_damage=ROOK_ATTACK_DAMAGE):
         if not isinstance(player, Player):
             raise TypeError('Damage target/source must be a Player')
-        if not isinstance(combat, Combat) or not isinstance(encounter, PawnEncounter):
-            raise TypeError('Resolution requires a Combat and PawnEncounter')
+        if not isinstance(combat, Combat) or not isinstance(encounter, EnemyEncounter):
+            raise TypeError('Resolution requires a Combat and EnemyEncounter')
         self._validate_damage(player_damage)
         self._validate_damage(pawn_damage)
+        self._validate_damage(rook_damage)
         if parry is not None and not isinstance(parry, Parry):
             raise TypeError('Parry input model must be a Parry')
         self.player = player
@@ -57,6 +58,7 @@ class CombatResolver:
             raise ValueError('Player and enemy instance IDs must be distinct')
         self.player_damage = player_damage
         self.pawn_damage = pawn_damage
+        self.rook_damage = rook_damage
         self.player_invulnerability_ticks = _duration_ticks(PLAYER_HIT_INVULNERABILITY_SECONDS)
         self.player_invulnerable_until_tick = 0
         self.parry = parry
@@ -87,8 +89,7 @@ class CombatResolver:
         if self.stopped:
             return False
         for enemy in self.encounter.enemies:
-            self.encounter.ledger.cancel_source(enemy.entity_instance_id)
-            enemy.current_attack = None
+            self.encounter.cancel_attacks(enemy.entity_instance_id)
         self._close_invalid_parries()
         self._stopped = True
         return True
@@ -249,6 +250,12 @@ class CombatResolver:
         return result
 
     def resolve_enemy_attack(self, event):
+        result = self._adjudicate_enemy_attack(event)
+        if not self.stopped and isinstance(event, EnemyAttackEvent):
+            self.encounter.complete_attack(event, self.player.position)
+        return result
+
+    def _adjudicate_enemy_attack(self, event):
         """Adjudicate only an authentic due event at its exact hit_tick.
 
         Misses and invulnerability close the event without a damage receipt.
@@ -259,6 +266,7 @@ class CombatResolver:
             return None
         self._validate_entities()
         self._validate_damage(self.pawn_damage)
+        self._validate_damage(self.rook_damage)
         self._close_invalid_parries()
         ledger = self.encounter.ledger
         if not isinstance(event, EnemyAttackEvent) or ledger.state(event) == 'unknown':
@@ -283,6 +291,9 @@ class CombatResolver:
         if self.combat.tick > event.hit_tick:
             ledger.finish(event, 'expired')
             self._fail_parry(event, 'expired')
+            return None
+        if not self.encounter.prepare_attack(event):
+            self._fail_parry(event, 'cancelled')
             return None
         if not self.player.alive:
             ledger.finish(event, 'target_dead')
@@ -315,7 +326,8 @@ class CombatResolver:
             ledger.finish(event, 'expired')
             self._fail_parry(event, 'already_consumed')
             return None
-        result = self._apply(event, source.entity_instance_id, self.player)
+        amount = self.pawn_damage if source.kind == 'pawn' else self.rook_damage
+        result = self._apply(event, source.entity_instance_id, self.player, amount)
         self.player_invulnerable_until_tick = self.combat.tick + self.player_invulnerability_ticks
         ledger.finish(event, 'hit')
         return result

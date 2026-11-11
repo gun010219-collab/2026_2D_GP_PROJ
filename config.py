@@ -33,6 +33,14 @@ PAWN_MOVE_INTERVAL_SECONDS = 2.20
 PAWN_TELEGRAPH_SECONDS = 0.65
 PAWN_RECOVERY_SECONDS = 0.90
 
+# Rook baselines: game design PDF p.12/p.18; dash damage follows p.6.
+ROOK_INITIAL_HP = 4
+ROOK_MOVE_INTERVAL_SECONDS = 1.20
+ROOK_MOVE_MAX_CELLS = 3
+ROOK_TELEGRAPH_SECONDS = 0.80
+ROOK_RECOVERY_SECONDS = 1.50
+ROOK_ATTACK_DAMAGE = 1
+
 # Task 1-F initial PDF baselines, not final approved combat balance.
 # Game design PDF p.6 (player/damage/invulnerability), p.11 (Pawn HP).
 PLAYER_INITIAL_HP = 3
