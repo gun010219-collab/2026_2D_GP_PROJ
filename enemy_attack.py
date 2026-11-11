@@ -1,6 +1,6 @@
 """Scoped immutable enemy attack schedules and explicit single-use receipts.
 
-The ledger records telegraph/due/cancelled lifecycle only. Reaching hit_tick
+The ledger records telegraph/due/resolved/cancelled lifecycle. Reaching hit_tick
 does not apply damage, resolve a parry, or consume an event for any target.
 Records and cancellation tombstones live until this stage ledger is discarded.
 """
@@ -70,6 +70,7 @@ class EnemyAttackEvent:
 class _AttackRecord:
     event: EnemyAttackEvent
     state: str = 'telegraph'
+    outcome: str | None = None
 
 
 class EnemyAttackLedger:
@@ -134,9 +135,28 @@ class EnemyAttackLedger:
         self._consumed.add(receipt)
         return True
 
+    def finish(self, event, outcome):
+        """Finish one adjudicated event, including misses and invulnerable hits.
+
+        Target receipts remain available as history, but no new target can
+        consume a resolved event. This method itself never applies damage.
+        """
+        if outcome not in ('hit', 'miss', 'invulnerable', 'target_dead', 'expired'):
+            raise ValueError('Unknown enemy attack outcome')
+        record = self._record(event)
+        if record is None or record.state != 'due':
+            return False
+        record.state = 'resolved'
+        record.outcome = outcome
+        return True
+
+    def outcome(self, event):
+        record = self._record(event)
+        return None if record is None else record.outcome
+
     def cancel(self, event):
         record = self._record(event)
-        if record is None or record.state == 'cancelled':
+        if record is None or record.state in ('cancelled', 'resolved'):
             return False
         record.state = 'cancelled'
         return True

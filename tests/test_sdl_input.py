@@ -143,3 +143,53 @@ class SDLInputTests(unittest.TestCase):
             self.assertEqual(self.parry.last_attempt.start_tick, self.combat.active_attack.start_tick)
             self.assertEqual(self.combat.active_attack.target_cell, (5, 2))
             self.assertEqual(self.parry.next_parry_tick, 60)
+
+    def test_new_attack_callback_preserves_bool_consumption_and_exact_delivery(self):
+        delivered = []
+        down = SimpleNamespace(type=768, key=32)
+        up = SimpleNamespace(type=769, key=32)
+        for event in (down, down, up, down):
+            self.assertIs(self.controls.handle_key(event, self.player, self.combat,
+                                                   on_attack=delivered.append), True)
+        self.assertEqual(delivered, [self.combat.active_attack])
+        self.combat.advance(36)
+        self.controls.handle_key(up, self.player, self.combat, on_attack=delivered.append)
+        self.controls.handle_key(down, self.player, self.combat, on_attack=delivered.append)
+        self.assertEqual([event.attack_id for event in delivered], [1, 2])
+
+    def test_callback_runs_before_later_movement_and_never_on_effect_reads(self):
+        observed = []
+        self.controls.handle_key(SimpleNamespace(type=768, key=32), self.player, self.combat,
+                                 on_attack=lambda event: observed.append((event, self.player.position)))
+        self.key(4)
+        for _ in range(9):
+            self.assertIs(self.combat.active_attack, observed[0][0])
+        self.assertEqual(observed[0][1], (5, 1))
+        self.assertEqual(observed[0][0].target_cell, (5, 2))
+        self.assertEqual(len(observed), 1)
+
+    def test_blocked_or_invalid_target_does_not_deliver_attack(self):
+        delivered = Mock()
+        self.controls.handle_key(SimpleNamespace(type=768, key=32), self.player, self.combat,
+                                 blocked=True, on_attack=delivered)
+        self.controls.handle_key(SimpleNamespace(type=769, key=32), self.player, self.combat)
+        edge = Player(5, 9)
+        self.controls.handle_key(SimpleNamespace(type=768, key=32), edge, self.combat,
+                                 on_attack=delivered)
+        delivered.assert_not_called()
+
+    def test_dead_player_blocks_gameplay_but_releases_and_menu_keys_survive(self):
+        self.key(32)
+        self.key(1)
+        before = self.player.position, self.player.facing
+        self.player.health.apply_damage(3, tick=0)
+        self.combat.advance(60)
+        for key in (32, 1, 6):
+            self.key(key, down=False)
+            self.key(key)
+            self.key(key, down=False)
+        self.assertEqual((self.player.position, self.player.facing), before)
+        self.assertIsNone(self.parry.last_attempt)
+        self.assertEqual(self.combat.next_attack_tick, 36)
+        self.assertFalse(self.controls.attack.held)
+        self.assertFalse(self.key(27))

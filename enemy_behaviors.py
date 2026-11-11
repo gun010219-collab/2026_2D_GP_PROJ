@@ -1,4 +1,4 @@
-"""Tick-driven Stage 1 Pawn encounter. No damage, HP or parry results."""
+"""Tick-driven Stage 1 Pawn AI. CombatResolver owns damage adjudication."""
 from board import in_bounds
 from combat import _duration_ticks
 from config import PAWN_MOVE_INTERVAL_SECONDS, PAWN_RECOVERY_SECONDS, PAWN_TELEGRAPH_SECONDS
@@ -24,7 +24,7 @@ class PawnEncounter:
         if len({e.data_id for e in self.enemies}) != len(self.enemies):
             raise ValueError('Duplicate enemy data IDs')
         for enemy in self.enemies:
-            enemy.state = 'initial_wait'
+            enemy.state = 'initial_wait' if enemy.alive else 'inactive'
             enemy.current_attack = None
             enemy.next_action_tick = start_tick + enemy.initial_delay_ticks
         self._check_occupancy()
@@ -86,6 +86,8 @@ class PawnEncounter:
         due = []
         for now in range(self.tick + 1, tick + 1):
             for enemy in self.enemies:
+                if not enemy.alive and enemy.state != 'inactive':
+                    self.deactivate(enemy.entity_instance_id)
                 if not enemy.active:
                     continue
                 if enemy.current_attack is not None:
@@ -120,7 +122,7 @@ class PawnEncounter:
         return tuple(due)
 
     def deactivate(self, entity_instance_id):
-        """Cancel pending/previous events and disable AI; this is not a death system."""
+        """Cancel source attacks and release occupancy without removing history."""
         for enemy in self.enemies:
             if enemy.entity_instance_id == entity_instance_id:
                 self.ledger.cancel_source(entity_instance_id)

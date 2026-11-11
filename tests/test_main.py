@@ -113,7 +113,14 @@ class WindowLoopTests(unittest.TestCase):
         p = Player(5, 1)
         canvas = self.make_canvas()
         canvas.get_events.side_effect = batches + [[SimpleNamespace(type=256)]]
-        with patch.object(main, 'load_stage1_player', return_value=p):
+        # Input now belongs to fixed ticks. Give each render one deterministic
+        # tick instead of relying on OS sleep precision after display resets.
+        from config import FIXED_TIME_STEP
+        now = [0.0]
+        canvas.update_canvas.side_effect = lambda: now.__setitem__(0, now[0] + FIXED_TIME_STEP)
+        with patch.object(main, 'load_stage1_player', return_value=p), \
+                patch.object(main, 'perf_counter', side_effect=lambda: now[0]), \
+                patch.object(main, 'sleep'):
             self.run_with_canvas(canvas)
         return p
 
@@ -316,7 +323,7 @@ class WindowLoopTests(unittest.TestCase):
         self.assertEqual((combat.tick, encounter.tick), (1, 1))
         self.assertEqual(len(encounter.ledger.telegraphs), 1)
 
-    def test_f11_does_not_recreate_enemy_event_or_auto_consume(self):
+    def test_f11_does_not_recreate_enemy_event_and_damage_finishes_once(self):
         encounter = self.attack_encounter()
         encounter.advance_to(0, (5, 1))
         event = encounter.ledger.telegraphs[0]
@@ -325,9 +332,10 @@ class WindowLoopTests(unittest.TestCase):
         self.assertEqual((combat.tick, encounter.tick), (39, 39))
         self.assertEqual(encounter.ledger.telegraphs, ())
         self.assertEqual(encounter.enemies[0].state, 'recovering')
-        # A due event is still available for the future damage consumer.
-        self.assertEqual(encounter.ledger.state(event), 'due')
-        self.assertTrue(encounter.ledger.consume(event, 'player-instance'))
+        # Task 1-F now resolves this exact hit_tick. Replays stay rejected even
+        # for another target ID; F11 must not recreate or postpone the event.
+        self.assertEqual(encounter.ledger.state(event), 'resolved')
+        self.assertFalse(encounter.ledger.consume(event, 'player-instance'))
         encounter.advance_to(93, (5, 1))
         self.assertEqual(encounter.enemies[0].current_attack.attack_id, 2)
 

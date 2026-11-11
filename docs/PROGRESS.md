@@ -1,5 +1,245 @@
 # CHECKMATE 개발 진행 기록
 
+## Task 1-F — 실제 피해·HP·공격 이벤트 단일 소비 (2026-11-11)
+
+상태: **구현·자동 테스트 307개 완료, 사용자 Windows GUI 15개 모두 통과**.
+사용자가 최종 검수 후 지정 메시지로 커밋하고 기존 main에 일반 Push하는 것을 승인했다.
+48틱 경계와 HP0 이후 추가 안전 조건의 자동 검증은 아래 사용자 GUI 결과와 별도로 기록한다.
+다음 Task 1-G는 시작하지 않는다.
+
+### 시작 상태 / 목표 / 수용 기준
+
+- main HEAD `bbfff685365ae4c9bdc0007d83b07f1efe543dc0`, origin/main 추적 참조도 같은 커밋.
+  작업 시작 git status는 깨끗했으며 기존 unittest **221개**가 모두 통과했다.
+  초기 구현 단계에서는 원격 네트워크 조회나 Push를 실행하지 않았다.
+  최종 검수 시작에는 GitHub main을 직접 조회해 동일 SHA를 확인했다.
+- AGENTS/README/승인 설계/결정/진행 기록/Stage 1 JSON/관련 전체 코드와 기존 테스트를 검토했다.
+  두 PDF 원본은 이미지형임을 확인하고 임시 이미지 사본으로 해당 페이지를 직접 읽었다.
+- 목표: 고정 범위/정확한 hit_tick/공격·대상별 1회 소비로 실제 HP 감소, Pawn 비활성화,
+  플레이어 HP0 안전 정지, 실제 HP와 짧은 피격 표시. 기존 보드/입력/AI/창 기능을 보존한다.
+
+### 초기 HP·피해 수치와 근거
+
+| 항목 | 실제 적용 | 근거 |
+| --- | --- | --- |
+| 플레이어 초기/최대 HP | 3 | 게임기획서 p.6 |
+| Pawn 초기/최대 HP | 각 2 | 게임기획서 p.11 |
+| 플레이어 SPACE 피해 | 1 | 게임기획서 p.6 |
+| Pawn 공격 피해 | 1 | 게임기획서 p.6 |
+| 플레이어 실제 피격 후 무적 | 48틱 / 0.80초 | 게임기획서 p.6 |
+
+모두 원문의 초기 구현 기준선이며 사용자 최종 밸런스 승인값이 아니다.
+Pawn 피격 무적은 원문 근거가 없어 추가하지 않았다. Stage 1 JSON에는 수치를 넣지 않았다.
+기획서 p.7의 입력/플레이어 공격→AI→적 피해 순서, p.8의 목표 고정/사망 취소,
+p.9/10의 패링 우선순위, p.26의 HP0/전투 밖 시간 정지와 p.31의 ID 검증을 확인했다.
+패링 성공/보상과 실제 게임 오버/재시작 화면은 최신 사용자 요구로 다음 작업에 남긴다.
+
+### 실제 변경 파일 (22개)
+
+- 신규 논리/표시 3개: `health.py`, `combat_resolution.py`, `health_renderer.py`.
+- 기존 코드 8개: `config.py`, `player.py`, `enemy.py`, `combat.py`, `enemy_attack.py`,
+  `enemy_behaviors.py`, `sdl_input.py`, `main.py`.
+- 신규 테스트 4개: `tests/test_health.py`, `tests/test_combat_resolution.py`,
+  `tests/test_health_renderer.py`, `tests/test_damage_integration.py`.
+- 기존 테스트 3개: `tests/test_main.py`, `tests/test_sdl_input.py`, `tests/test_sdl_mouse_mapping.py`.
+- 문서 4개: `docs/DECISIONS.md`, `docs/GAME_DESIGN.md`, `docs/ASSET_PLAN.md`, `docs/PROGRESS.md`.
+
+`Health`는 범위 내 정수 HP와 실제 피격 틱/감소량만 관리한다. `CombatResolver`는
+인증된 공격/엔티티 참조, 위치/생존/48틱 무적을 확인한 뒤 대상별 소비→피해를 적용한다.
+플레이어 공격은 새로 생성된 이벤트만 콜백으로 전달하며 bool 입력 소비 계약은 유지한다.
+Combat과 적 ledger 모두 세션/단계/공격자/공격 ID 및 대상 인스턴스로 범위를 구분한다.
+적중뿐 아니라 빈 칸·회피·무적·늦은 전달도 완료 처리해 재전달/잔상으로 피해를 주지 않는다.
+원장은 이미 완료한 기록, 취소 이력 및 소비 영수증을 보존한다.
+
+Pawn HP0은 기존 deactivate/cancel_source로 AI/예약 공격을 중지하고 점유와 렌더링에서 제외한다.
+다른 Pawn은 독립적으로 계속 행동한다. 플레이어 HP0은 전투/AI와 게임 키를 정지하며
+메뉴/F11/ESC/X·렌더는 유지한다. 죽은 플레이어의 패링 가능 링과 피격 플래시는 숨긴다.
+두 Pawn 사망 시 자동 클리어/전환하지 않는다.
+
+기획서 p.7 순서에 맞춰 새 틱의 플레이어 공격을 AI/due 피해보다 먼저 처리한다.
+과거 틱은 각 정수 틱에서 즉시 해결하고, 이번 프레임 새 입력은 마지막 새 틱에 적용한다.
+0틱 프레임의 키 누름/해제는 다음 새 틱에 함께 순서대로 전달하며,
+기존에 대기 중인 입력은 8틱 따라잡기에서도 첫 틱에 적용한다.
+메뉴/포커스/F11 전환 시 대기 입력을 차단 처리해 예기치 않은 재실행을 막는다.
+같은 틱의 치명 공격은 Pawn 공격보다 우선하고, 적 공격끼리는 JSON/attack_id 순서를 유지한다.
+상세 정책과 향후 패링 연결점은 [DECISIONS.md](DECISIONS.md)의 Task 1-F에 기록했다.
+
+임시 HealthRenderer는 좌측 소형 HP 분수/바와 활성 Pawn별 HP 분수,
+실제 피해 후 6틱 연보라 모서리를 표시한다. 추가 이미지/폰트/사운드는 없다.
+PARRY: PREVIEW / NO BLOCK YET는 현재 Shift가 피해를 막지 않는 중간 구현임을 알린다.
+렌더링은 피해/소비/시간 진행을 호출하지 않는다.
+
+### 초기 구현 완료 시 자동 검증
+
+저장소 루트의 기존 .venv에서 다음을 실행했다.
+
+```powershell
+.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+.\.venv\Scripts\python.exe validate_stage_data.py
+.\.venv\Scripts\python.exe -W error -m py_compile health.py combat_resolution.py health_renderer.py config.py player.py enemy.py combat.py enemy_attack.py enemy_behaviors.py sdl_input.py main.py tests/test_health.py tests/test_combat_resolution.py tests/test_health_renderer.py tests/test_damage_integration.py tests/test_main.py tests/test_sdl_input.py tests/test_sdl_mouse_mapping.py
+.\.venv\Scripts\python.exe -c "import sys; import health, combat_resolution, health_renderer, main; assert 'pico2d' not in sys.modules; print('pure import OK; no window')"
+git diff --check
+git status --short
+```
+
+- unittest **301개 통과**: 기존 221개 유지 + 신규 80개.
+  Health 9 + 피해 판정 37 + HP 렌더링 11 + 실제 main 통합 19 + SDL 입력 4를 추가했다.
+- 기존 due 미소비를 전제한 main 테스트 1개는 실제 피해 완료/resolved 기대값으로 갱신했다.
+  이동 테스트 헬퍼는 OS sleep 정밀도 대신 가상 틱으로 실행하도록 보완했다.
+  테스트 삭제/비활성화 없이 기존 공격/패링/AI/설정/전체 화면 회귀 검증을 유지한다.
+- 스테이지 정적 검사 **25개 통과**. Python 문법/import/공백 검사 통과.
+  피해·사망·무적·시간 테스트에 실제 sleep을 쓰지 않는다.
+- HP 경계/비정상 피해/중복/빈 칸/9틱 잔상/세션·재시작/변조·잘못된 참조,
+  정확한 hit_tick/회피 후 재진입/무적48틱 경계/같은 틱 복수 공격/사망 예약 취소를 검사했다.
+- 기존 고정 target_cells 경고 테스트를 유지하고 피해가 그 범위에서만 발생함을 추가 검증했다.
+  반복 렌더 HP 불변, 모든 100칸의 HP 표시/피격 표시 경계, 추가 폰트/텍스처 할당 없음을 확인했다.
+- main 통합은 동일 틱 이동·치명 공격 우선/8틱 묶음/초기 1틱 프레임/0틱 빠른 누름·해제/
+  대기 회피 후 8틱 진행/SETTINGS/F11/포커스/플레이어 HP0 정지를 가상 SDL·시계로 검사했다.
+  기존 실제 SDL dummy 테스트도 피해 발생과 HealthRenderer의 실제 그리기 경로를 실행한다.
+  dummy는 오프스크린 자동 검증이며 사용자 Windows GUI 검증과 다르다.
+
+### 보존과 Git 상태
+
+README/두 PDF/stage_data.json은 변경 전후 Git diff가 없고 SHA256도 유지했다.
+JSON SHA256: `F4432B361DC736B6BD3BE999584160255EFCD7E803C8CD3873D548DF6D92D55F`.
+기존 1440×900/840×840/84px/원본 Pawn 2개 배치/4방향 추적/
+132·39·54틱/SPACE 36틱·효과9틱/Shift/F11/메뉴/ESC/X 규칙은 보존한다.
+의존성/원본 자료/AGENTS/기존 Git 이력은 변경하지 않았다.
+최종 검수 시작까지 main HEAD는 `bbfff685365ae4c9bdc0007d83b07f1efe543dc0`이며 변경은 미커밋이었다.
+사용자의 GUI 검증 전 커밋/Push 금지 지시를 준수했고, 이후 사용자가 아래 결과로 최종 반영을 승인했다.
+
+### 사용자 Windows GUI 최종 검증 — 15개 모두 통과
+
+사용자가 Windows에서 직접 실행해 다음 15개 결과를 보고했다.
+Codex가 직접 관찰한 결과가 아니며 unittest/비표시 SDL 자동 검증과 구분한다. 사용한 실행 명령:
+
+```powershell
+.\.venv\Scripts\python.exe main.py
+```
+
+1. 플레이어 HP 3 표시 — 통과.
+2. Pawn 두 개의 HP 2 표시 — 통과.
+3. SPACE 공격 시 Pawn HP 1 감소 — 통과.
+4. 동일 SPACE 공격 중복 피해 방지 — 통과.
+5. 공격이 빗나가면 HP 유지 — 통과.
+6. Pawn 공격 경고 정상 — 통과.
+7. 적중 시점에 경고 칸에 남아 있으면 HP 감소 — 통과.
+8. 경고 칸에서 벗어나면 피해 회피 — 통과.
+9. Pawn HP 0에서 행동·공격 중단 및 표시 제거 — 통과.
+10. 사망한 Pawn의 예약 공격 취소 — 통과.
+11. 두 Pawn HP 독립 관리 — 통과.
+12. SETTINGS 메뉴에서 HP 유지 및 전투 시간 정지 — 통과.
+13. F11 전환 후 HP·피해 정상 — 통과.
+14. 기존 방향키·SPACE·Shift 정상 — 통과.
+15. ESC/X 종료 및 반복 실행 정상 — 통과.
+
+정확한 48틱 경계와 플레이어 HP0 이후 추가 11개 안전 조건은 자동 테스트로 확인한다.
+사용자가 이 두 묶음을 Windows에서 별도로 측정/검증했다는 보고는 없으므로 수동 통과로 확대하지 않는다.
+
+### 최종 검수 — 무적 경계 및 HP0 안전 상태
+
+최종 검수에서는 전투 기능을 추가하거나 기존 코드를 다시 작성하지 않았다.
+기존 301개 테스트를 보존하고 두 기존 파일에 부족한 자동 테스트 **6개만 추가**했다.
+최종 전체 unittest는 **307개 통과**이며 Task 1-E의 221개 대비 총 86개를 추가한 결과다.
+신규 모듈/테스트 파일은 더 만들지 않아 전체 커밋 대상은 여전히 **22개**다.
+
+| 추가한 테스트 | 검증 내용 |
+| --- | --- |
+| test_paused_wall_time_preserves_active_invulnerability_until_ticks_resume | 실제 첫 피격 후 벽시계 180초 정지에도 무적 유지, +47틱 유지/+48틱 피해 |
+| test_invulnerability_counts_simulation_ticks_instead_of_render_frames | 120FPS 95프레임은 47틱, 96번째 프레임의 48틱 경계에서 피해 허용 |
+| test_fatal_historical_hit_blocks_fresh_inputs_and_stops_all_remaining_ticks | 실제 HP1→0 전환, 8틱 따라잡기 중 사망 즉시 정지, 큐·유지 키·새 입력·두 Pawn 정지 |
+| test_dead_player_settings_open_close_and_escape_exit_remain_available | 사망 후 메뉴 열기/ESC 닫기, F11, ESC 종료, 공격·패링 없음 |
+| test_live_post_hit_immunity_pauses_in_settings_then_ends_at_tick_87 | 실제 main에서 활성 무적 중 SETTINGS 정지/재개와 정확한 종료 |
+| test_live_post_hit_immunity_pauses_on_focus_loss_and_gain | 실제 main에서 포커스 상실·복귀의 긴 벽시계 지연 중 무적 유지 |
+
+처음 두 테스트는 `tests/test_combat_resolution.py`, 나머지 네 테스트는
+`tests/test_damage_integration.py`에 추가했다. 기존 경계·동시 공격 테스트에는
+차단 공격의 resolved 상태와 재전달 후 HP 불변 확인을 보강했다.
+테스트 삭제/비활성화/skip은 없다. 초기 구현 단계의 301개 결과는 위에 별도 보존한다.
+
+무적은 코드·테스트·문서 모두 **시작 포함/종료 제외 `[h,h+48)`**다.
+실제 첫 피격 h=39에서 HP가 3→2이고 무적 종료는 87이다.
+h+47=86에는 다른 유효 공격도 차단되고 h+48=87에는 다시 1 피해를 받는다.
+
+| 요청된 무적 검증 | 자동 검증 결과 |
+| --- | --- |
+| 첫 피격 1 감소·즉시 무적 활성 | 통과: 정확한 hit_tick/동일 틱 복수 Pawn 테스트 |
+| 종료 직전 +47 차단·+48 허용 | 통과: 기존 end-exclusive 경계 및 새 정지/프레임 테스트 |
+| 동일 틱 두 Pawn 일관 처리 | 통과: 첫 유효 공격만 피해, 다음 이벤트는 invulnerable로 완료 |
+| 차단 공격 소급 적용/중복 금지 | 통과: resolved 상태, consume 거절, 무적 종료 후 재전달에도 HP 불변 |
+| SETTINGS·포커스에서 무적 시간 정지 | 통과: 실제 main 경로에서 Combat.tick/종료틱 87 유지 |
+| 렌더 프레임과 전투 틱 구별 | 통과: 120FPS 및 반복 렌더링/0틱/8틱 회귀 테스트 |
+
+| 요청된 HP0 검증 | 자동 검증 결과 |
+| --- | --- |
+| HP 음수 방지·추가 피해 없음 | 통과: Health overkill/재피해 및 실제 사망 시 apply_damage 한 번 |
+| 방향키 위치·facing 고정 | 통과: Health/SDL 및 실제 사망 전환 통합 |
+| 새 SPACE 이벤트 없음 | 통과: 마지막 공격/쿨타임 값 보존, 사망 후 요청 거절 |
+| 새 Shift 시도 없음 | 통과: 이전 ParryAttempt ID/시각 유지 또는 시도 없음 |
+| 유지·큐·해제·재누름의 유령 조작 없음 | 통과: 실제 사망을 포함한 8틱/키 큐 통합 |
+| Pawn AI·전투 시간 정지 | 통과: 치명 피격 39틱에서 Combat/Encounter 고정, 다른 Pawn 예약도 유지 |
+| SETTINGS 열기/닫기 | 통과: 사망 중 실제 메뉴 상태/ESC 닫기 확인 |
+| F11 유지 | 통과: 기존 표시 어댑터 toggle 호출 및 전체 화면 회귀 테스트 |
+| ESC/X 종료 | 통과: 사망 중 ESC 종료와 기존 사망/X 및 자원 정리 테스트 |
+| 예외 없는 루프 유지 | 통과: 사망 후 반복 프레임/긴 경과/입력/메뉴에서도 정상 종료 |
+
+이는 안전한 사망 상태이며 GAME_OVER/재시작 UI 구현을 의미하지 않는다.
+위 무적/HP0 자동 검증을 추가 Windows 수동 검증 완료로 표현하지 않는다.
+
+### 최종 22개 파일 감사와 포함 대상
+
+요청된 `git status --short`, `git diff --name-only`, `git diff --cached --name-only`,
+`git ls-files --others --exclude-standard`, `git diff --check`를 실행했다.
+시작 시 **추적 수정 15 + 신규 미추적 7 + 스테이징 0**, 중복 없는 합집합은 정확히 22개다.
+위 기존 목록과 누락/추가 없이 일치하며 IDE에 표시된 9개만으로 판단하지 않았다.
+각 파일의 실제 존재와 `git check-ignore --no-index` 결과를 확인해 22개 모두 ignore 대상이 아님을 검증했다.
+Python 18개 모두 문법·실제 import를 검증했으며 import 중 Pico2D/창이 로딩되지 않는다.
+문서 4개는 import 대상이 아니며 현재 수치·구현/검증/후속 경계와 대조했다.
+
+| 파일 | Task 1-F 관련성과 검증 연결 |
+| --- | --- |
+| combat.py | 고정 공격/세션/영수증: 기존 combat 및 combat_resolution 테스트 |
+| combat_resolution.py | 실제 피해/48틱/단일 완료: combat_resolution 39개 및 main 통합 |
+| config.py | HP·피해·48틱 초기 기준선: health/config/피해 테스트 |
+| enemy.py | Pawn HP·생존·인스턴스: enemy/health/피해 테스트 |
+| enemy_attack.py | due/완료/대상별 소비: enemy_attack/피해 테스트 |
+| enemy_behaviors.py | 사망 비활성화/예약 취소: enemy_behaviors/pawn_tracking/피해 테스트 |
+| health.py | HP 범위/정수 피해/사망: health 9개 |
+| health_renderer.py | 실제 HP/피격 표시/무변이: health_renderer 11개 및 실제 SDL dummy |
+| main.py | 입력·틱별 피해·HP0/정지 연결: main/피해 통합/전체 화면 회귀 |
+| player.py | 플레이어 HP·사망 이동 차단: player/health/SDL/피해 통합 |
+| sdl_input.py | bool 계약/새 공격 전달/사망 차단: SDL 입력 15개 |
+| tests/test_combat_resolution.py | 실제 피해·범위·소비·무적 39개 |
+| tests/test_damage_integration.py | main의 실제 입력/시간/HP 연결 23개 |
+| tests/test_health.py | 초기 HP/경계/잘못된 피해/사망 9개 |
+| tests/test_health_renderer.py | HP UI/피격/렌더 불변 11개 |
+| tests/test_main.py | 기존 이동·공격·AI·설정·F11·종료 회귀 |
+| tests/test_sdl_input.py | 새 공격 콜백/사망 입력 및 기존 SDL 계약 |
+| tests/test_sdl_mouse_mapping.py | 실제 SDL dummy/마우스/피해 후 UI 경로 |
+| docs/ASSET_PLAN.md | 임시 HP/피격 표시와 최종 에셋 미제작 구분 |
+| docs/DECISIONS.md | 초기 수치/단일 소비/틱 순서/GUI 이후 반영 승인 |
+| docs/GAME_DESIGN.md | 실제 피해·HP 및 미구현 패링/승패 범위 |
+| docs/PROGRESS.md | 사용자 GUI/자동 결과/22개 감사·최종 반영 기록 |
+
+최종 unittest **307개**, 25개 스테이지 정적 검사, 변경 Python 18개 문법/import,
+공백/보존 파일 검사를 실행해 모두 통과했다. 요청의 `..venv` 표기는 실제 존재하는 `.\.venv` 경로로 정정했다.
+기능 코드 수정 없이 기존 테스트 파일 2개만 보완했으므로 사용자 GUI 15개 결과의 대상 구현을 바꾸지 않았다.
+README/PDF 2개/stage_data.json/AGENTS/requirements/.gitignore는 변경하지 않았다.
+위 22개 경로만 명시적으로 스테이징하고 cached name-status/check 및 개수를 검사한 후
+승인된 메시지로 커밋한다. 검증 실패/누락 시 커밋하지 않는다.
+
+### 남은 위험 / 다음 작업
+
+- 8틱 상한의 초과 시간 폐기로 큰 stall에서 전투 시간이 벽시계보다 느릴 수 있다.
+  무적/쿨타임/피격 효과는 모두 같은 전투 시계를 따라 함께 지연되며 별도 보정 시계를 만들지 않았다.
+- 장시간 원장 기록 증가·실제 프레임 성능·실제 DPI/다중 모니터·최종 UI 가독성은 미검증이다.
+  Pawn 추적의 제한적인 방문 기억/경로 탐색 한계는 Task 1-E 그대로다.
+- 패링 링은 아직 방어가 아니다. 실제 일반/퍼펙트 성공·피해 무효화·보상은 Task 1-G 범위다.
+  GAME_OVER/재시작 화면·클리어/전환·다른 AI·최종 에셋·사운드·저장은 미구현이다.
+- 사용자 GUI 15개 통과와 최종 반영 승인을 받았다. 최종 자동 검수와 22개 명시적 스테이징 검수 후
+  `feat: implement combat damage and health system`으로 커밋/기존 main 일반 Push한다.
+  생성된 전체 SHA·원격 SHA 일치·커밋 22개 목록·깨끗한 작업 트리는 실행 후 최종 보고에서 확인한다.
+
 ## Task 1-E — Stage 1 Pawn·AI·공격 예고 (2026-11-11)
 
 상태: 구현·자동 검증 완료, **사용자 Windows GUI 검증 21개 항목 모두 통과**.

@@ -29,6 +29,14 @@ PAWN_MOVE_INTERVAL_SECONDS = 2.20
 PAWN_TELEGRAPH_SECONDS = 0.65
 PAWN_RECOVERY_SECONDS = 0.90
 
+# Task 1-F initial PDF baselines, not final approved combat balance.
+# Game design PDF p.6 (player/damage/invulnerability), p.11 (Pawn HP).
+PLAYER_INITIAL_HP = 3
+PAWN_INITIAL_HP = 2
+PLAYER_ATTACK_DAMAGE = 1
+PAWN_ATTACK_DAMAGE = 1
+PLAYER_HIT_INVULNERABILITY_SECONDS = 0.80  # 48 shared combat ticks.
+
 
 def cell_center(col: int, row: int) -> tuple[float, float]:
     """Return a cell's canvas center; row zero is the bottom row."""

@@ -21,6 +21,8 @@ from enemy import load_stage1_enemies
 from enemy_behaviors import PawnEncounter
 from enemy_renderer import EnemyRenderer
 from enemy_attack_renderer import EnemyAttackRenderer
+from combat_resolution import CombatResolver
+from health_renderer import HealthRenderer
 
 
 def main():
@@ -34,10 +36,13 @@ def main():
     attack_renderer = AttackRenderer()
     parry = Parry()
     parry_renderer = ParryRenderer()
-    pawns = PawnEncounter(load_stage1_enemies(), start_tick=combat.tick)
-    pawns.advance_to(combat.tick, player.position)
+    pawns = PawnEncounter(load_stage1_enemies(), start_tick=combat.tick,
+                          combat_session_id=combat.combat_session_id,
+                          stage_instance_id=combat.stage_instance_id)
+    resolver = CombatResolver(player, combat, pawns)
     enemy_renderer = EnemyRenderer()
     enemy_attack_renderer = EnemyAttackRenderer()
+    health_renderer = HealthRenderer()
     clock = SimulationClock()
     canvas.open_canvas(WINDOW_WIDTH, WINDOW_HEIGHT)
     settings_renderer = None
@@ -51,6 +56,18 @@ def main():
         menu = SettingsMenu()
         settings_renderer = SettingsRenderer(canvas)
         controls = GameplayInput(canvas)
+        pending_gameplay = []
+
+        def flush_gameplay(blocked=False):
+            # Keep both down/up transitions in order, including quick taps
+            # between ticks. Blocked draining updates latches without actions.
+            queued = tuple(pending_gameplay)
+            pending_gameplay.clear()
+            for event in queued:
+                controls.handle_key(event, player, combat, blocked=blocked, parry=parry,
+                                    occupied=pawns.occupied_cells,
+                                    on_attack=resolver.resolve_player_attack)
+
         previously_focused = controls.focused
         previous_frame = perf_counter()
 
@@ -67,24 +84,52 @@ def main():
             focused = controls.focused
             focus_changed = focused != previously_focused
             if focus_changed:
+                flush_gameplay(blocked=True)
                 if focused:
                     controls.reconcile_physical_keys()
                 else:
                     controls.release_on_focus_loss()
                 clock.reset()
-            combat.advance(clock.advance(frame_start - previous_frame,
-                                         paused=menu.is_open or not focused or focus_changed))
-            pawns.advance_to(combat.tick, player.position)
+            steps = clock.advance(frame_start - previous_frame,
+                                  paused=menu.is_open or not focused or focus_changed
+                                  or not player.alive)
+            if pending_gameplay and steps > 1:
+                # These inputs arrived in a previous zero-step frame, before
+                # the first catch-up tick. Apply them there, not at the final
+                # tick alongside newly polled input from this frame.
+                resolver.advance(0)
+                combat.advance(1)
+                flush_gameplay()
+                resolver.resolve_current_tick()
+                steps -= 1
+            # Settle historical ticks before applying newly polled input. The
+            # final fresh tick stays open so player attacks precede enemy AI and
+            # damage (PDF p.7). Never apply present input to past hit_ticks.
+            if steps:
+                resolver.advance(steps - 1)
+            if steps and player.alive:
+                combat.advance(1)
             previous_frame = frame_start
             previously_focused = focused
             display_changed = False
             menu_changed = False
+            if pawns.tick < combat.tick and focused and not focus_changed and not menu.is_open:
+                flush_gameplay()
             for event in events:
+                blocked = (menu.blocks_gameplay() or display_changed or not focused
+                           or focus_changed or not player.alive)
+                if (not blocked and pawns.tick == combat.tick
+                        and controls.is_gameplay_key(event)):
+                    # A settled tick cannot accept later input ahead of damage
+                    # already resolved. Apply this transition at the next fresh
+                    # tick, before its AI, preserving the fixed-tick ordering.
+                    pending_gameplay.append(event)
+                    continue
                 # Gameplay releases survive modal, focus, and display transitions.
                 if controls.handle_key(event, player, combat,
-                                       blocked=menu.blocks_gameplay() or display_changed
-                                       or not focused or focus_changed, parry=parry,
-                                       occupied=pawns.occupied_cells):
+                                       blocked=blocked,
+                                       parry=parry, occupied=pawns.occupied_cells,
+                                       on_attack=resolver.resolve_player_attack):
                     continue
                 if display_changed or not focused:
                     continue
@@ -97,6 +142,8 @@ def main():
                 elif event.type == canvas.SDL_MOUSEBUTTONDOWN and event.button == canvas.SDL_BUTTON_LEFT:
                     action = menu.click(logical_mouse_to_canvas(event.x, event.y))
                 menu_changed = menu_changed or was_open != menu.is_open
+                if was_open != menu.is_open or action == 'toggle_fullscreen':
+                    flush_gameplay(blocked=True)
                 if action == 'quit':
                     running = False
                     break
@@ -106,6 +153,9 @@ def main():
                     display_changed = True
             if not running:
                 break
+            # Input may have killed a Pawn whose attack was due this tick.
+            # Its cancellation is visible before the encounter publishes due.
+            resolver.resolve_current_tick()
             if display_changed:
                 controls.reconcile_physical_keys()
             if display_changed or menu_changed or focus_changed:
@@ -120,8 +170,10 @@ def main():
             enemy_attack_renderer.draw(canvas, pawns.ledger)
             attack_renderer.draw(canvas, combat.active_attack)
             enemy_renderer.draw(canvas, pawns.enemies)
-            parry_renderer.draw(canvas, player, parry, combat.tick)
+            if player.alive:
+                parry_renderer.draw(canvas, player, parry, combat.tick)
             player_renderer.draw(canvas, player)
+            health_renderer.draw(canvas, player, pawns.enemies, combat.tick)
             settings_renderer.draw(menu, display)
             canvas.update_canvas()
             sleep(max(0.0, FIXED_TIME_STEP - (perf_counter() - frame_start)))

@@ -1,8 +1,11 @@
 """Logical player state and minimal Stage 1 spawn loading; no Pico2D."""
 import json
 from pathlib import Path
+from uuid import uuid4
 
 from board import in_bounds
+from config import PLAYER_INITIAL_HP
+from health import Health
 
 DIRECTIONS = {'up': (0, 1), 'down': (0, -1), 'left': (-1, 0), 'right': (1, 0)}
 
@@ -14,6 +17,16 @@ class Player:
         if facing not in DIRECTIONS:
             raise ValueError('Unknown player facing')
         self._col, self._row, self._facing = col, row, facing
+        self._entity_instance_id = uuid4().hex
+        self.health = Health(PLAYER_INITIAL_HP)
+
+    @property
+    def entity_instance_id(self):
+        return self._entity_instance_id
+
+    @property
+    def alive(self):
+        return self.health.alive
 
     @property
     def col(self):
@@ -34,6 +47,8 @@ class Player:
     def move(self, direction, occupied=()):
         if direction not in DIRECTIONS:
             raise ValueError('Unknown movement direction')
+        if not self.alive:
+            return False
         self._facing = direction
         dx, dy = DIRECTIONS[direction]
         col, row = self.col + dx, self.row + dy

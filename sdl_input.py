@@ -19,10 +19,24 @@ class GameplayInput:
         c = self.canvas
         return bool(c.SDL_GetWindowFlags(c.window) & c.SDL_WINDOW_INPUT_FOCUS)
 
-    def handle_key(self, event, player, combat, blocked=False, parry=None, occupied=()):
+    def is_gameplay_key(self, event):
+        c = self.canvas
+        return (event.type in (c.SDL_KEYDOWN, c.SDL_KEYUP)
+                and (event.key in self.arrows or event.key in self.shifts
+                     or event.key == c.SDLK_SPACE))
+
+    def handle_key(self, event, player, combat, blocked=False, parry=None, occupied=(),
+                   on_attack=None):
+        """Preserve the bool consumption contract; deliver new attacks immediately.
+
+        The callback receives only the event returned by this SPACE press, never
+        the renderer's active effect. Releases remain live when gameplay is dead
+        or blocked by a menu/display transition.
+        """
         c = self.canvas
         if event.type not in (c.SDL_KEYDOWN, c.SDL_KEYUP):
             return False
+        blocked = blocked or not player.alive
         if event.key in self.shifts:
             if event.type == c.SDL_KEYUP:
                 self.parry.key_up(self.shifts[event.key])
@@ -40,7 +54,9 @@ class GameplayInput:
             if event.type == c.SDL_KEYUP:
                 self.attack.key_up()
             else:
-                self.attack.key_down(player, combat, blocked)
+                attack = self.attack.key_down(player, combat, blocked)
+                if attack is not None and on_attack is not None:
+                    on_attack(attack)
             return True
         return False
 

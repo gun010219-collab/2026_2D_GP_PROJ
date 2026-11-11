@@ -1,4 +1,4 @@
-"""Stage 1 Pawn data/model. No rendering, health, damage or stage manager."""
+"""Stage 1 Pawn data/model and bounded HP, independent of rendering."""
 from dataclasses import dataclass, field
 import json
 from math import isfinite
@@ -7,7 +7,8 @@ from uuid import uuid4
 
 from board import in_bounds
 from combat import _duration_ticks
-from config import BOARD_SIZE
+from config import BOARD_SIZE, PAWN_INITIAL_HP
+from health import Health
 
 
 @dataclass
@@ -22,6 +23,7 @@ class Enemy:
     state: str = field(default='initial_wait', init=False)
     next_action_tick: int = field(default=0, init=False)
     current_attack: object = field(default=None, init=False, repr=False)
+    health: Health = field(default_factory=lambda: Health(PAWN_INITIAL_HP), init=False)
 
     def __post_init__(self):
         if not isinstance(self.data_id, str) or not self.data_id.strip():
@@ -44,7 +46,11 @@ class Enemy:
 
     @property
     def active(self):
-        return self.state != 'inactive'
+        return self.state != 'inactive' and self.alive
+
+    @property
+    def alive(self):
+        return self.health.alive
 
     @property
     def initial_delay_ticks(self):
