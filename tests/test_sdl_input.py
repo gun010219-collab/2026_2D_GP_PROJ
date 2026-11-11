@@ -193,3 +193,35 @@ class SDLInputTests(unittest.TestCase):
         self.assertEqual(self.combat.next_attack_tick, 36)
         self.assertFalse(self.controls.attack.held)
         self.assertFalse(self.key(27))
+
+    def test_new_parry_callback_delivers_only_accepted_attempt_once(self):
+        delivered = []
+        def send(value, down=True, blocked=False):
+            return self.controls.handle_key(SimpleNamespace(type=768 if down else 769, key=value),
+                                            self.player, self.combat, blocked=blocked,
+                                            parry=self.parry, on_parry=delivered.append)
+        for value in (6, 6, 7):
+            self.assertIs(send(value), True)
+        self.assertEqual(delivered, [self.parry.last_attempt])
+        send(6, down=False)
+        send(7, down=False)
+        send(6)  # Cooldown request creates no attempt/callback.
+        self.combat.advance(60)
+        send(6)
+        self.assertEqual(len(delivered), 1)
+        send(6, down=False)
+        send(7)
+        self.assertEqual([attempt.parry_id for attempt in delivered], [1, 2])
+
+    def test_blocked_and_reconciled_shifts_never_deliver_a_parry(self):
+        delivered = Mock()
+        event = SimpleNamespace(type=768, key=6)
+        self.controls.handle_key(event, self.player, self.combat, blocked=True,
+                                 parry=self.parry, on_parry=delivered)
+        self.c.SDL_GetKeyboardState.return_value[6] = 1
+        self.controls.reconcile_physical_keys()
+        self.controls.handle_key(event, self.player, self.combat,
+                                 parry=self.parry, on_parry=delivered)
+        self.controls.handle_key(SimpleNamespace(type=769, key=6), self.player, self.combat,
+                                 blocked=True, parry=self.parry, on_parry=delivered)
+        delivered.assert_not_called()

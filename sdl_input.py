@@ -26,7 +26,7 @@ class GameplayInput:
                      or event.key == c.SDLK_SPACE))
 
     def handle_key(self, event, player, combat, blocked=False, parry=None, occupied=(),
-                   on_attack=None):
+                   on_attack=None, on_parry=None):
         """Preserve the bool consumption contract; deliver new attacks immediately.
 
         The callback receives only the event returned by this SPACE press, never
@@ -41,8 +41,10 @@ class GameplayInput:
             if event.type == c.SDL_KEYUP:
                 self.parry.key_up(self.shifts[event.key])
             else:
-                self.parry.key_down(self.shifts[event.key], parry, combat.tick,
-                                    blocked=blocked or parry is None)
+                attempt = self.parry.key_down(self.shifts[event.key], parry, combat.tick,
+                                              blocked=blocked or parry is None)
+                if attempt is not None and on_parry is not None:
+                    on_parry(attempt)
             return True
         if event.key in self.arrows:
             if event.type == c.SDL_KEYUP:

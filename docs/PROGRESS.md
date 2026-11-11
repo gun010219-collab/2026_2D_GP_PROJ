@@ -1,5 +1,155 @@
 # CHECKMATE 개발 진행 기록
 
+## Task 1-G — 실제 일반·퍼펙트 패링과 전투 보상 (2026-11-11)
+
+상태: **구현·자동 테스트 389개 완료, 사용자 Windows 11 GUI 13개 모두 통과**.
+기존 Task 1-F 사용자 GUI 15개 통과와 이번 패링 GUI 13개 통과는 별도 결과다.
+사용자가 Task 1-G 최종 검수 후 지정 메시지로 커밋하고 기존 main에 일반 Push하는 것을 승인했다.
+Task 1-H 및 새로운 게임 기능은 시작하지 않는다.
+
+### 시작 확인 / 목표 / 근거
+
+- 브랜치 main, 시작 로컬 HEAD와 직접 조회한 GitHub main 모두
+  `9c81f90b90acfaa1f44b2b63b3cfdac96dc8bac1`. 시작 작업 트리는 깨끗했고 기존 unittest **307개**가 통과했다.
+- AGENTS/README/설계/결정/진행 기록, 전투·피해·입력·틱·HP·AI·원장·렌더러와 관련 테스트를 읽었다.
+  원본 두 PDF의 내용 보존을 확인하고 기획서 p.7/9/10, 발표용 p.5를 다시 직접 읽었다.
+- 목표/수용 기준: 입력 시 유효한 공격 하나 연결, 실제 hit_tick 일반/퍼펙트 판정,
+  피해 무효·보상 단일 지급, 원문의 퍼펙트 보상, 기존 48틱 무적/입력/시간/HP0 회귀 보호.
+  정수 틱 경계·원본과 기술 정책의 차이는 [DECISIONS.md](DECISIONS.md)의 Task 1-G에 기록했다.
+
+### 원문 규칙과 실제 적용
+
+| 항목 | 실제 적용 | 근거 |
+| --- | --- | --- |
+| 실제 퍼펙트 | `1 <= hit_tick - input_tick <= 7` | p.9의 0초 초과~0.12초 이하, 사용자 60Hz 정수 해석 |
+| 실제 일반 | `8 <= hit_tick - input_tick <= 18` | p.9의 0.12초 초과~0.30초 이하 |
+| delta 0 이하 / 19 이상 | 성공 불가 | 이미 적중/너무 이른 입력 |
+| 일반 보상 | 연결된 공격 피해 무효만 | p.10/발표용 p.5 |
+| 퍼펙트 보상 | 피해 무효→공격자 60틱 기절→공격 쿨타임 초기화→다음 공격 +2 | p.10 |
+| 다음 공격 소비 | 허용되어 새 이벤트를 발행할 때 소비, 빗나가도 소비 | p.10의 다음 공격 시도/명중 무관, 수락 기준 세부는 기술 해석 |
+| 중첩/만료 | +2 하나만 유지, 임의 만료시간 없음 | p.10의 연속 성공 +2 유지, 만료시간 근거 없음 |
+| 무적 | 기존 실제 피격 후 48틱이 패링보다 우선, 패링 자체는 새 무적 없음 | p.9/10 및 기존 Task 1-F |
+
+기존 8틱 금색 링은 입력 후 preview다. 실제 퍼펙트 판정과 동일하지 않으며,
+delta=18의 일반 성공은 preview 종료 틱에도 정상 발생한다. 원문 수치는 초기 구현 기준선이다.
+원문에 보너스 3초 만료·추가 HP 회복·일반 성공 보상·패링 후 추가 무적 근거는 없어 도입하지 않았다.
+Stage 1에 필요한 핵심 보상은 근거가 확인되어 모두 구현했으며 미확정 값을 완료로 포장하지 않는다.
+쿨타임/보드 밖으로 거절된 SPACE의 보너스 보존, 동률 정렬, 기절 종료 예약은 기술 정책으로 구분한다.
+
+### 실제 변경 파일 — 24개
+
+- 기존 코드 11개: `combat.py`, `combat_resolution.py`, `config.py`, `enemy.py`, `enemy_attack.py`,
+  `enemy_behaviors.py`, `health_renderer.py`, `main.py`, `parry.py`, `parry_renderer.py`, `sdl_input.py`.
+- 신규 순수 모듈 1개: `parry_resolution.py`.
+- 신규 테스트 4개: `tests/test_parry_resolution.py`, `tests/test_perfect_rewards.py`,
+  `tests/test_parry_feedback.py`, `tests/test_parry_integration.py`.
+- 기존 테스트 4개: `tests/test_damage_integration.py`, `tests/test_health_renderer.py`,
+  `tests/test_sdl_input.py`, `tests/test_sdl_mouse_mapping.py`.
+- 문서 4개: `docs/GAME_DESIGN.md`, `docs/DECISIONS.md`, `docs/PROGRESS.md`, `docs/ASSET_PLAN.md`.
+
+`Parry`는 불변 시도와 세션/단계별 발행 기록만 관리하고 성공 상태를 소유하지 않는다.
+새 `ParryBinding`/`ParryResult`와 hit-relative 등급 함수를 순수 모듈에 분리했다.
+실제 새 시도만 on_parry로 전달하며 기존 handle_key bool 계약과 pending_gameplay 순서를 유지한다.
+입력 때 기존 원장의 telegraph/범위/생존/미래 hit_tick을 확인해 한 공격에 고정 연결한다.
+여러 후보는 hit_tick→원장 attack_id→전체 scoped key 순이다. 연결 없음은 unbound로 끝나고 미래 공격을 찾지 않는다.
+적중 때 생존/범위/무적/취소/시도 소유권을 다시 확인하여 일반·퍼펙트를 확정한다.
+피해 무효도 기존 consume 영수증과 resolved/parried_normal 또는 parried_perfect로 한 번만 완료한다.
+일반은 추가 보상 없이 끝나고 퍼펙트만 완료 후 기절/초기화/+2를 지급한다.
+
+기절은 점유를 유지한 채 공격 주체만 `[h,h+60)` 동안 중지하고 남은 공격을 취소한다.
+60틱 종료에 현재 배치로 새 행동을 결정하며 과거 공격을 복원하지 않는다.
+보너스는 AttackEvent.damage_bonus 불변 스냅샷에 저장하고 기본 1에 +2를 합산한다.
+한 번 생성된 이벤트/잔상/이미 소비한 공격으로 재피해·재보상하거나 나중에 발행 전 공격을 강화하지 않는다.
+원래 HP2 Pawn은 보너스 공격 한 번으로 비활성화되며 최대 HP/데이터는 변경하지 않았다.
+
+일반 성공은 청색 PARRY SUCCESS, 퍼펙트는 금색 PERFECT PARRY로 기존 입력 링과 구분한다.
+연결 후 실패는 PARRY FAILED, 현재 연결 가능한 공격이 없으면 NO LINK를 중립색으로 표시한다.
+실제 결과만 18틱 표시하며 새 폰트/이미지/음향은 없다. NEXT +2와 STUN도 실제 상태만 표시한다.
+사망 플레이어의 성공/피격/패링 효과는 숨겨 정지 시계에서 계속 남지 않게 한다.
+
+### 실제 자동 검증
+
+```powershell
+.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+.\.venv\Scripts\python.exe validate_stage_data.py
+.\.venv\Scripts\python.exe -W error -m py_compile combat.py combat_resolution.py config.py enemy.py enemy_attack.py enemy_behaviors.py health_renderer.py main.py parry.py parry_renderer.py parry_resolution.py sdl_input.py tests/test_damage_integration.py tests/test_health_renderer.py tests/test_sdl_input.py tests/test_sdl_mouse_mapping.py tests/test_parry_resolution.py tests/test_perfect_rewards.py tests/test_parry_feedback.py tests/test_parry_integration.py
+git diff --check
+git status --short
+```
+
+- unittest **389개 통과**: 기존 307개 유지 + 신규 82개.
+  순수 실제 패링 36 + 보상/기절 19 + 결과 렌더링 12 + main 통합 13 + SDL 콜백 2개를 추가했다.
+- 기존 Task 1-F의 "main Shift가 피해를 막지 않음" 테스트 하나는 실제 연결된 퍼펙트가
+  정확한 hit_tick에 피해를 막는 새 기대값으로 갱신했다. 기존 Health UI 테스트는 바뀐 안내 문구만 갱신했다.
+  테스트 삭제/비활성화/skip 없이 기존 순수 preview·HP·48틱·AI·전체 화면·종료 회귀를 유지한다.
+- 25개 스테이지 정적 검사, 변경 Python 20개 문법/import, 공백 검사를 통과했다.
+  새 모듈을 import해도 Pico2D/창이 로딩되지 않는다. 피해·패링·기절 테스트는 실제 sleep을 쓰지 않는다.
+- delta 0/1/7/8/18/19를 순수 판정과 실제 main 입력 양쪽에서 검사했다.
+  preview 금색과 실제 normal의 차이, delta18에서 preview 종료와 성공의 분리도 검사했다.
+- 입력/적중 범위, 회피 후 재진입, 연결 이후 생성 공격 미검색, 동률/복수 공격, unbound/failed 구별,
+  취소/사망/무적/등록 시도·단계 변경/재시작·ID 재사용/같은 이벤트·시도 재전달을 검사했다.
+- 정상 성공에 기절/초기화/보너스/새 무적이 없고, 같은 틱의 다른 Pawn 공격은 별개로 피해를 주는 것을 검사했다.
+  퍼펙트 60틱 기절의 +59 유지/+60 재개, 독립 Pawn/점유 유지, 사망 중 해제,
+  쿨타임 초기화와 이전 ID/효과 무변이, 비중첩 +2/빗나감 소비/단계 초기화를 검사했다.
+- 실제 획득한 보너스가 resolver에서 피해 3을 한 번 주고 다음 공격은 피해 1임을 별도 테스트했다.
+  추가로 실제 main에서 원래 HP2 Pawn을 보너스 SPACE 한 번으로 비활성화하는 것을 검사했다.
+- 새 콜백은 양쪽 Shift·KEYUP·반복 누름·차단·동기화·쿨타임 때 중복 시도를 만들지 않는다.
+  main의 0틱 대기/8틱 따라잡기/과거 적중 소급 금지/SETTINGS/F11/포커스의 연결 보존도 검사했다.
+- 렌더 반복의 HP/보너스/연결/결과/시간 무변이, 정상·퍼펙트·실패 구별과 피드백 18틱 경계를 검사했다.
+  기존 실제 SDL dummy 테스트에서도 실제 퍼펙트 성공→보너스/기절→결과/UI 그리기를 실행했다.
+  이는 비표시 자동 검증이며 Windows GUI 사용자 플레이가 아니다.
+- 검수 중 발견한 잘못된 Parry 모델/단계 변경 후 과거 연결 재사용과,
+  Encounter 미동기화 직접 호출의 부분 성공 소비를 보완하고 회귀 테스트로 보호했다.
+
+### 보존 / Git / 남은 위험
+
+최종 검수 재개 시 HEAD는 `9c81f90b90acfaa1f44b2b63b3cfdac96dc8bac1`이며 변경은 미커밋이었다.
+이전 작업은 구현·자동 검증과 일부 GUI 문서 갱신까지 진행됐고 스테이징·커밋·Push는 없었다.
+실제 변경 합집합은 기존 수정 19개와 신규 5개, 총 24개로 위 목록과 일치한다.
+재개 후 전체 unittest 389개와 스테이지 25개 검사를 다시 실행해 모두 통과했다.
+변경 Python 20개 문법/import 및 diff/cached 공백 검사도 통과했고, 누락·ignore·무관한 파일이 없음을 확인했다.
+GitHub main을 재조회해 기준 SHA와 일치함을 확인했으며 게임 코드와 테스트는 이번 마무리에서 수정하지 않았다.
+설계/에셋 문서에 이미 기록된 GUI 결과는 중복 추가하지 않고 진행/결정 문서의 남은 상태를 갱신한다.
+이번 최종 단계에서 게임 코드·테스트를 다시 구현하거나 기능을 추가하지 않는다.
+사용자 승인 메시지: `feat: integrate parry resolution and perfect counter rewards`.
+전체 검증과 24개 명시적 스테이징 검수 후 정상 커밋/일반 Push하며, 생성된 전체 SHA와
+원격 main 일치·커밋 파일 24개·깨끗한 작업 트리는 실행 후 최종 보고에서 확인한다.
+README/PDF 2개/stage_data.json/기존 보드·테마/health.py/조작 기반/SimulationClock/의존성/Git 이력은 보존한다.
+5챕터/25스테이지/보스5전 목표, 1440×900/중앙840×840/84px 배치와 기존 시간·점유 규칙을 유지한다.
+게임 오버·재시작·클리어/전환·다른 기물/보스/저장/최종 에셋·음향은 구현하지 않았다.
+
+- 최대 8틱 및 초과 시간 폐기로 큰 stall에서 실제 벽시계보다 전투 시간이 늦을 수 있다.
+- 원장/패링 시도·연결·결과 기록은 인스턴스 수명 동안 증가한다. 장시간 성능·DPI/다중 모니터는 미검증이다.
+- 기본 Windows 11의 성공 피드백·보상·기존 조작은 아래 13개 사용자 GUI 결과로 확인했다.
+  일반 플레이의 장기 입력감/난이도 밸런스, 다른 DPI·다중 모니터는 별도 미검증이다.
+- Pawn 추적 AI는 최단 경로를 보장하지 않는다. 게임 오버·재시작·스테이지 클리어는 미구현이다.
+
+### 사용자 Windows 11 GUI 최종 검증 — 13개 모두 통과
+
+사용자가 실제 Windows 11 게임 화면에서 다음 13개 항목을 직접 확인해 모두 통과했다고 보고했다.
+Codex의 직접 GUI 관찰이나 비표시 SDL 자동 검증과 구분한다. 프로젝트 폴더 실행 명령:
+
+```powershell
+.\.venv\Scripts\python.exe main.py
+```
+
+1. Pawn의 붉은 공격 예고 정상 — 통과.
+2. 너무 이른 Shift 입력에서 성공 보상 미발생 — 통과.
+3. 일반 패링 성공 피드백 표시 — 통과.
+4. 일반 패링 성공 시 HP 유지 — 통과.
+5. 퍼펙트 패링 성공 피드백 구별 — 통과.
+6. 퍼펙트 패링 성공 시 HP 유지 — 통과.
+7. 퍼펙트 성공 후 Pawn 약 1초 기절 — 통과.
+8. 퍼펙트 성공 후 SPACE 공격 쿨타임 초기화 — 통과.
+9. 다음 SPACE 공격 +2 피해 적용 — 통과.
+10. 보너스 공격 빗나감 시 보너스 소비 — 통과.
+11. 공격 회피 시 부당한 패링 보상 없음 — 통과.
+12. SETTINGS·F11 전환 후 패링과 전투 기능 정상 — 통과.
+13. 기존 이동·공격·HP0 입력 차단·ESC/X 및 반복 실행 정상 — 통과.
+
+정확한 delta1/7/8/18, 기절60틱, 피해 무적48틱, 이벤트 단일 소비는 위 자동 테스트 결과로
+별도 기록한다. 사용자가 정확한 7/8틱 경계나 기절/무적의 정수 틱을 직접 시간 측정했다고 주장하지 않는다.
+
 ## Task 1-F — 실제 피해·HP·공격 이벤트 단일 소비 (2026-11-11)
 
 상태: **구현·자동 테스트 307개 완료, 사용자 Windows GUI 15개 모두 통과**.

@@ -1,7 +1,10 @@
 """Tick-driven Stage 1 Pawn AI. CombatResolver owns damage adjudication."""
 from board import in_bounds
 from combat import _duration_ticks
-from config import PAWN_MOVE_INTERVAL_SECONDS, PAWN_RECOVERY_SECONDS, PAWN_TELEGRAPH_SECONDS
+from config import (
+    PAWN_MOVE_INTERVAL_SECONDS, PAWN_RECOVERY_SECONDS, PAWN_TELEGRAPH_SECONDS,
+    PERFECT_PARRY_STUN_SECONDS,
+)
 from enemy_attack import EnemyAttackLedger
 
 
@@ -26,6 +29,7 @@ class PawnEncounter:
         for enemy in self.enemies:
             enemy.state = 'initial_wait' if enemy.alive else 'inactive'
             enemy.current_attack = None
+            enemy.stun_until_tick = 0
             enemy.next_action_tick = start_tick + enemy.initial_delay_ticks
         self._check_occupancy()
 
@@ -90,6 +94,13 @@ class PawnEncounter:
                     self.deactivate(enemy.entity_instance_id)
                 if not enemy.active:
                     continue
+                if enemy.state == 'stunned':
+                    if now < enemy.stun_until_tick:
+                        continue
+                    # Expiration creates a fresh ready action; cancelled attack
+                    # snapshots are never reused or moved to a later hit tick.
+                    enemy.state = 'waiting'
+                    enemy.next_action_tick = enemy.stun_until_tick
                 if enemy.current_attack is not None:
                     event = enemy.current_attack
                     if self.ledger.state(event) == 'cancelled':
@@ -121,12 +132,43 @@ class PawnEncounter:
         self.tick = tick
         return tuple(due)
 
+    def stun(self, entity_instance_id, tick, duration_ticks=None):
+        """Suspend one live source and cancel pending attacks at this tick.
+
+        The successful parry event must be finished before this call. Resolved
+        outcomes remain intact; only still-pending attacks are cancelled.
+        Reapplying a stun refreshes its end, without adding durations together.
+        """
+        self._validate_tick(tick)
+        if duration_ticks is None:
+            duration_ticks = _duration_ticks(PERFECT_PARRY_STUN_SECONDS)
+        if type(duration_ticks) is not int:
+            raise TypeError('Stun duration must be integer ticks')
+        if duration_ticks <= 0:
+            raise ValueError('Stun duration must be positive')
+        if not isinstance(entity_instance_id, str) or not entity_instance_id.strip():
+            raise ValueError('Stun source ID must be a nonempty string')
+        if tick != self.tick:
+            raise ValueError('Stun tick must match the current encounter tick')
+        for enemy in self.enemies:
+            if enemy.entity_instance_id == entity_instance_id:
+                if not enemy.active:
+                    return False
+                self.ledger.cancel_source(entity_instance_id)
+                enemy.current_attack = None
+                enemy.stun_until_tick = max(enemy.stun_until_tick, tick + duration_ticks)
+                enemy.next_action_tick = enemy.stun_until_tick
+                enemy.state = 'stunned'
+                return True
+        raise ValueError('Unknown enemy instance ID')
+
     def deactivate(self, entity_instance_id):
         """Cancel source attacks and release occupancy without removing history."""
         for enemy in self.enemies:
             if enemy.entity_instance_id == entity_instance_id:
                 self.ledger.cancel_source(entity_instance_id)
                 enemy.current_attack = None
+                enemy.stun_until_tick = 0
                 enemy.state = 'inactive'
                 return
         raise ValueError('Unknown enemy instance ID')

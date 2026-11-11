@@ -2,7 +2,8 @@
 
 Current-tick input is processed before resolve_current_tick(), following the
 PDF p.7 order. Historical catch-up is settled one integer tick at a time.
-Actual parry adjudication is deliberately deferred to Task 1-G.
+Parry links are selected at input, adjudicated at hit_tick, and never inferred
+from the input-relative preview ring.
 """
 from dataclasses import dataclass
 
@@ -17,6 +18,8 @@ from enemy_attack import EnemyAttackEvent
 from enemy_behaviors import PawnEncounter
 from health import Health
 from player import Player
+from parry import Parry, ParryAttempt
+from parry_resolution import ParryBinding, ParryResult, grade_for_delta
 
 
 @dataclass(frozen=True)
@@ -33,13 +36,15 @@ class DamageResult:
 class CombatResolver:
     def __init__(self, player, combat, encounter, *,
                  player_damage=PLAYER_ATTACK_DAMAGE,
-                 pawn_damage=PAWN_ATTACK_DAMAGE):
+                 pawn_damage=PAWN_ATTACK_DAMAGE, parry=None):
         if not isinstance(player, Player):
             raise TypeError('Damage target/source must be a Player')
         if not isinstance(combat, Combat) or not isinstance(encounter, PawnEncounter):
             raise TypeError('Resolution requires a Combat and PawnEncounter')
         self._validate_damage(player_damage)
         self._validate_damage(pawn_damage)
+        if parry is not None and not isinstance(parry, Parry):
+            raise TypeError('Parry input model must be a Parry')
         self.player = player
         self.combat = combat
         self.encounter = encounter
@@ -54,9 +59,110 @@ class CombatResolver:
         self.pawn_damage = pawn_damage
         self.player_invulnerability_ticks = _duration_ticks(PLAYER_HIT_INVULNERABILITY_SECONDS)
         self.player_invulnerable_until_tick = 0
+        self.parry = parry
+        self._parry_ref = parry
+        self._parry_bindings = {}
+        self._parry_attempts = {}
+        self._linked_events = {}
+        self._event_parries = {}
+        self._parry_results = {}
+        self._last_parry_result = None
         self._validate_entities()
         # A restarted stage can share a Combat clock, but never player events.
         self.combat.bind_stage(encounter.ledger.stage_instance_id)
+        if self.parry is not None:
+            self.parry.bind_stage(encounter.ledger.stage_instance_id)
+
+    @property
+    def last_parry_result(self):
+        return self._last_parry_result
+
+    def parry_binding(self, attempt):
+        return self._parry_bindings.get(attempt.key) if isinstance(attempt, ParryAttempt) else None
+
+    def parry_result(self, attempt):
+        return self._parry_results.get(attempt.key) if isinstance(attempt, ParryAttempt) else None
+
+    def _record_parry_result(self, binding, status, reason):
+        if binding.attempt_key in self._parry_results:
+            return self._parry_results[binding.attempt_key]
+        result = ParryResult(binding.parry_id, status, self.combat.tick,
+                             tuple(self.player.position), binding.linked_enemy_event_key, reason)
+        self._parry_results[binding.attempt_key] = result
+        self._last_parry_result = result
+        return result
+
+    def register_parry(self, attempt):
+        """Bind a genuine newly emitted attempt to one existing telegraph.
+
+        The attempt/cooldown is spent even when unbound. Never scan again for
+        a later event; a repeated delivery returns its original immutable link.
+        """
+        self._validate_entities()
+        if (self.parry is None or self.parry is not self._parry_ref
+                or self.parry.stage_instance_id != self.encounter.ledger.stage_instance_id
+                or not self.parry.owns(attempt)):
+            raise ValueError('Parry attempt was not emitted for this input model/stage')
+        if attempt.key in self._parry_bindings:
+            return self._parry_bindings[attempt.key]
+        if attempt.start_tick != self.combat.tick:
+            raise ValueError('A parry attempt must be registered at its input tick')
+        if not self.player.alive:
+            raise ValueError('A dead player cannot register a parry attempt')
+        ledger = self.encounter.ledger
+        candidates = []
+        for event in ledger.telegraphs:
+            source = self._enemies.get(event.source_entity_instance_id)
+            if (event.combat_session_id == ledger.combat_session_id
+                    and event.stage_instance_id == ledger.stage_instance_id
+                    and source is not None and source.active
+                    and ledger.state(event) == 'telegraph'
+                    and event.telegraph_start_tick <= self.combat.tick
+                    and self.player.position in event.target_cells
+                    and grade_for_delta(event.hit_tick - attempt.start_tick) is not None
+                    and event.key not in self._event_parries):
+                candidates.append(event)
+        # Numeric IDs are stable JSON publication order within this ledger;
+        # the complete scoped key is a final tie-break, never an unscoped ID.
+        event = min(candidates, key=lambda e: (e.hit_tick, e.attack_id, e.key)) if candidates else None
+        binding = ParryBinding(attempt.key, attempt.parry_id, attempt.start_tick,
+                               event.key if event else None, event.hit_tick if event else None,
+                               grade_for_delta(event.hit_tick - attempt.start_tick) if event else None)
+        self._parry_bindings[attempt.key] = binding
+        self._parry_attempts[attempt.key] = attempt
+        if event is None:
+            self._record_parry_result(binding, 'unbound', 'no_eligible_attack')
+        else:
+            self._linked_events[event.key] = event
+            self._event_parries[event.key] = binding
+        return binding
+
+    def _fail_parry(self, event, reason):
+        binding = self._event_parries.get(event.key)
+        if binding is not None:
+            self._record_parry_result(binding, 'failed', reason)
+
+    def _close_invalid_parries(self):
+        """Cancellation/death can finish a link without ever publishing due."""
+        for event_key, binding in self._event_parries.items():
+            if binding.attempt_key in self._parry_results:
+                continue
+            event = self._linked_events[event_key]
+            state = self.encounter.ledger.state(event)
+            source = self._enemies.get(event.source_entity_instance_id)
+            attempt = self._parry_attempts[binding.attempt_key]
+            if (self.parry is not self._parry_ref or self.parry is None
+                    or self.parry.stage_instance_id != self.encounter.ledger.stage_instance_id
+                    or not self.parry.owns(attempt)):
+                self._record_parry_result(binding, 'failed', 'stale_attempt')
+            elif state in ('cancelled', 'unknown', 'resolved'):
+                self._record_parry_result(binding, 'failed', state)
+            elif source is None or not source.active:
+                self._record_parry_result(binding, 'failed', 'source_dead')
+            elif not self.player.alive:
+                self._record_parry_result(binding, 'failed', 'target_dead')
+            elif self.combat.tick > event.hit_tick:
+                self._record_parry_result(binding, 'failed', 'expired')
 
     @staticmethod
     def _validate_damage(amount):
@@ -79,8 +185,9 @@ class CombatResolver:
                        for e in self.encounter.enemies)):
             raise ValueError('Enemy references do not match this encounter')
 
-    def _apply(self, event, source_id, target):
-        amount = self.player_damage if target is not self.player else self.pawn_damage
+    def _apply(self, event, source_id, target, amount=None):
+        if amount is None:
+            amount = self.player_damage if target is not self.player else self.pawn_damage
         before = target.health.current_hp
         actual = target.health.apply_damage(amount, tick=self.combat.tick)
         return DamageResult(event.key, source_id, target.entity_instance_id,
@@ -109,13 +216,15 @@ class CombatResolver:
         targets = [e for e in self.encounter.enemies if e.active and e.position == event.target_cell]
         if len(targets) > 1:
             raise ValueError('Multiple active enemies occupy the attack target')
+        amount = self.player_damage + self.combat.attack_damage_bonus(event)
         result = None
         if targets:
             target = targets[0]
             if self.combat.consume_attack(event, target.entity_instance_id):
-                result = self._apply(event, self._player_id, target)
+                result = self._apply(event, self._player_id, target, amount)
                 if not target.alive:
                     self.encounter.deactivate(target.entity_instance_id)
+                    self._close_invalid_parries()
         self.combat.finish_attack(event)
         return result
 
@@ -123,11 +232,12 @@ class CombatResolver:
         """Adjudicate only an authentic due event at its exact hit_tick.
 
         Misses and invulnerability close the event without a damage receipt.
-        This is the Task 1-G connection point for EnemyAttackEvent together
-        with the input-tick ParryAttempt, before the consume/apply boundary.
+        A bound ParryAttempt is evaluated before HP reduction, after exact
+        time, position, death and existing hit-invulnerability checks.
         """
         self._validate_entities()
         self._validate_damage(self.pawn_damage)
+        self._close_invalid_parries()
         ledger = self.encounter.ledger
         if not isinstance(event, EnemyAttackEvent) or ledger.state(event) == 'unknown':
             raise ValueError('Enemy attack was not scheduled for this combat/stage')
@@ -135,27 +245,53 @@ class CombatResolver:
         if source is None:
             raise ValueError('Enemy attack source does not match this encounter')
         state = ledger.state(event)
-        if state in ('cancelled', 'resolved'):
+        if state == 'cancelled':
+            self._fail_parry(event, 'cancelled')
+            return None
+        if state == 'resolved':
             return None
         if not source.active:
             self.encounter.deactivate(source.entity_instance_id)
+            self._fail_parry(event, 'source_dead')
             return None
         if self.combat.tick < event.hit_tick or state != 'due':
             return None
+        if self.encounter.tick != self.combat.tick:
+            raise ValueError('Enemy adjudication requires the encounter at the current combat tick')
         if self.combat.tick > event.hit_tick:
             ledger.finish(event, 'expired')
+            self._fail_parry(event, 'expired')
             return None
         if not self.player.alive:
             ledger.finish(event, 'target_dead')
+            self._fail_parry(event, 'target_dead')
             return None
         if self.player.position not in event.target_cells:
             ledger.finish(event, 'miss')
+            self._fail_parry(event, 'evaded')
             return None
         if self.combat.tick < self.player_invulnerable_until_tick:
             ledger.finish(event, 'invulnerable')
+            self._fail_parry(event, 'invulnerable')
             return None
+        binding = self._event_parries.get(event.key)
+        if (binding is not None and binding.attempt_key not in self._parry_results
+                and binding.expected_hit_tick == self.combat.tick
+                and binding.adjudication_grade == grade_for_delta(event.hit_tick - binding.parry_start_tick)
+                and binding.adjudication_grade in ('normal', 'perfect')):
+            if not ledger.consume(event, self._player_id):
+                ledger.finish(event, 'expired')
+                self._fail_parry(event, 'already_consumed')
+                return None
+            ledger.finish(event, 'parried_' + binding.adjudication_grade)
+            result = self._record_parry_result(binding, binding.adjudication_grade, 'success')
+            if binding.adjudication_grade == 'perfect':
+                self.encounter.stun(source.entity_instance_id, self.combat.tick)
+                self.combat.grant_perfect_counter()
+            return result
         if not ledger.consume(event, self._player_id):
             ledger.finish(event, 'expired')
+            self._fail_parry(event, 'already_consumed')
             return None
         result = self._apply(event, source.entity_instance_id, self.player)
         self.player_invulnerable_until_tick = self.combat.tick + self.player_invulnerability_ticks
@@ -170,6 +306,7 @@ class CombatResolver:
         applying a historical hit against a later player position.
         """
         self._validate_entities()
+        self._close_invalid_parries()
         if self.encounter.tick == self.combat.tick:
             return ()
         if self.encounter.tick != self.combat.tick - 1:
@@ -182,6 +319,7 @@ class CombatResolver:
             result = self.resolve_enemy_attack(event)
             if result is not None:
                 results.append(result)
+        self._close_invalid_parries()
         return tuple(results)
 
     def advance(self, ticks=1):

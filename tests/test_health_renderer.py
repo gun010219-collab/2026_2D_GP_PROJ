@@ -27,8 +27,8 @@ class HealthRendererTests(unittest.TestCase):
         with patch.object(self.renderer, '_text') as text:
             self.renderer.draw(Mock(), self.player, pawns, 0)
         labels = [call.args[1] for call in text.call_args_list]
-        self.assertEqual(labels, ['PLAYER HP', '2/3', 'PARRY: PREVIEW',
-                                  'NO BLOCK YET', '1/4', '5/6'])
+        self.assertEqual(labels, ['PLAYER HP', '2/3', 'PARRY WINDOW',
+                                  'SHIFT TO PARRY', '1/4', '5/6'])
 
     def test_next_render_reflects_health_change_without_cached_example_values(self):
         pawn = entity((1, 6), 3, 3)

@@ -16,7 +16,7 @@ from attack_renderer import AttackRenderer
 from simulation_clock import SimulationClock
 from sdl_input import GameplayInput
 from parry import Parry
-from parry_renderer import ParryRenderer
+from parry_renderer import ParryRenderer, ParryResultRenderer
 from enemy import load_stage1_enemies
 from enemy_behaviors import PawnEncounter
 from enemy_renderer import EnemyRenderer
@@ -36,10 +36,11 @@ def main():
     attack_renderer = AttackRenderer()
     parry = Parry()
     parry_renderer = ParryRenderer()
+    parry_result_renderer = ParryResultRenderer()
     pawns = PawnEncounter(load_stage1_enemies(), start_tick=combat.tick,
                           combat_session_id=combat.combat_session_id,
                           stage_instance_id=combat.stage_instance_id)
-    resolver = CombatResolver(player, combat, pawns)
+    resolver = CombatResolver(player, combat, pawns, parry=parry)
     enemy_renderer = EnemyRenderer()
     enemy_attack_renderer = EnemyAttackRenderer()
     health_renderer = HealthRenderer()
@@ -66,7 +67,8 @@ def main():
             for event in queued:
                 controls.handle_key(event, player, combat, blocked=blocked, parry=parry,
                                     occupied=pawns.occupied_cells,
-                                    on_attack=resolver.resolve_player_attack)
+                                    on_attack=resolver.resolve_player_attack,
+                                    on_parry=resolver.register_parry)
 
         previously_focused = controls.focused
         previous_frame = perf_counter()
@@ -129,7 +131,8 @@ def main():
                 if controls.handle_key(event, player, combat,
                                        blocked=blocked,
                                        parry=parry, occupied=pawns.occupied_cells,
-                                       on_attack=resolver.resolve_player_attack):
+                                       on_attack=resolver.resolve_player_attack,
+                                       on_parry=resolver.register_parry):
                     continue
                 if display_changed or not focused:
                     continue
@@ -173,7 +176,10 @@ def main():
             if player.alive:
                 parry_renderer.draw(canvas, player, parry, combat.tick)
             player_renderer.draw(canvas, player)
-            health_renderer.draw(canvas, player, pawns.enemies, combat.tick)
+            health_renderer.draw(canvas, player, pawns.enemies, combat.tick,
+                                 attack_bonus=combat.pending_attack_bonus)
+            parry_result_renderer.draw(canvas, resolver.last_parry_result if player.alive else None,
+                                       combat.tick)
             settings_renderer.draw(menu, display)
             canvas.update_canvas()
             sleep(max(0.0, FIXED_TIME_STEP - (perf_counter() - frame_start)))

@@ -24,10 +24,12 @@ _GLYPHS = {
     'C': ('111', '100', '100', '100', '111'),
     'D': ('110', '101', '101', '101', '110'),
     'E': ('111', '100', '110', '100', '111'),
+    'F': ('111', '100', '110', '100', '100'),
     'H': ('101', '101', '111', '101', '101'),
     'I': ('111', '010', '010', '010', '111'),
     'K': ('101', '101', '110', '101', '101'),
     'L': ('100', '100', '100', '100', '111'),
+    'M': ('101', '111', '111', '101', '101'),
     'N': ('101', '111', '111', '111', '101'),
     'O': ('111', '101', '101', '101', '111'),
     'P': ('111', '101', '111', '100', '100'),
@@ -37,8 +39,10 @@ _GLYPHS = {
     'U': ('101', '101', '101', '101', '111'),
     'V': ('101', '101', '101', '101', '010'),
     'W': ('101', '101', '111', '111', '101'),
+    'X': ('101', '101', '010', '101', '101'),
     'Y': ('101', '101', '010', '010', '010'),
     '/': ('001', '001', '010', '100', '100'),
+    '+': ('000', '010', '111', '010', '000'),
     ':': ('000', '010', '000', '010', '000'),
     ' ': ('000', '000', '000', '000', '000'),
 }
@@ -78,7 +82,7 @@ class HealthRenderer:
                 canvas.draw_line(px, py, px - sx * length, py, *cls.HIT)
                 canvas.draw_line(px, py, px, py - sy * length, *cls.HIT)
 
-    def draw(self, canvas, player, enemies, tick):
+    def draw(self, canvas, player, enemies, tick, attack_bonus=None):
         health = player.health
         # Compact actual information in the left margin; no fixed right HUD.
         canvas.draw_rectangle(30, 704, 270, 844, 17, 22, 27, filled=True)
@@ -90,8 +94,10 @@ class HealthRenderer:
             right = 44 + round(212 * health.current_hp / health.max_hp) - 1
             canvas.draw_rectangle(44, 772, right, 778, *self.HEALTH, filled=True)
         if health.alive:
-            self._text(canvas, 'PARRY: PREVIEW', 44, 743)
-            self._text(canvas, 'NO BLOCK YET', 44, 723)
+            if attack_bonus is not None and attack_bonus > 0:
+                self._text(canvas, f'NEXT +{attack_bonus}', 150, 755, color=(255, 226, 116))
+            self._text(canvas, 'PARRY WINDOW', 44, 743)
+            self._text(canvas, 'SHIFT TO PARRY', 44, 723)
         else:
             self._text(canvas, 'DEAD', 44, 743, color=self.HIT)
             self._text(canvas, 'INPUT LOCKED', 44, 723)
@@ -108,4 +114,9 @@ class HealthRenderer:
                                   17, 22, 27, filled=True)
             self._text(canvas, label, x - label_width / 2, y + 31,
                        color=self.HEALTH)
+            if (getattr(enemy, 'state', None) == 'stunned'
+                    and tick < enemy.stun_until_tick):
+                canvas.draw_rectangle(x - 18, y - 41, x + 18, y - 28,
+                                      17, 22, 27, filled=True)
+                self._text(canvas, 'STUN', x - 15, y - 39, color=(255, 226, 116))
             self._hit_flash(canvas, enemy, tick)

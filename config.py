@@ -19,10 +19,14 @@ ATTACK_COOLDOWN_SECONDS = 0.6
 ATTACK_EFFECT_SECONDS = 0.15  # Temporary visual feedback, independent of cooldown.
 MAX_SIMULATION_STEPS_PER_FRAME = 8
 
-# Task 1-D temporary input-relative parry windows, not success adjudication.
+# PDF parry timing baselines; Task 1-G adjudicates against actual hit ticks.
 PARRY_WINDOW_SECONDS = 0.30
 PERFECT_PARRY_WINDOW_SECONDS = 0.12  # Ceil to 8 ticks (~0.133s) at 60Hz.
 PARRY_COOLDOWN_SECONDS = 1.0  # Initial PDF baseline, not final balance.
+
+# Task 1-G perfect rewards from game design PDF p.10; initial baseline.
+PERFECT_PARRY_STUN_SECONDS = 1.0
+PERFECT_COUNTER_BONUS = 2  # Next accepted attack, nonstacking, including a miss.
 
 # Pawn timings from game design PDF p.11; initial implementation baselines.
 PAWN_MOVE_INTERVAL_SECONDS = 2.20

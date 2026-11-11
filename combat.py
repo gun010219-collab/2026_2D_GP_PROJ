@@ -8,7 +8,10 @@ from math import ceil, isfinite
 from uuid import uuid4
 
 from board import in_bounds
-from config import ATTACK_COOLDOWN_SECONDS, ATTACK_EFFECT_SECONDS, FIXED_TIME_STEP
+from config import (
+    ATTACK_COOLDOWN_SECONDS, ATTACK_EFFECT_SECONDS, FIXED_TIME_STEP,
+    PERFECT_COUNTER_BONUS,
+)
 from player import DIRECTIONS, Player
 
 
@@ -31,6 +34,7 @@ class AttackEvent:
     combat_session_id: str = ''
     stage_instance_id: str = ''
     source_entity_instance_id: str = ''
+    damage_bonus: int = 0
 
     def __post_init__(self):
         if type(self.attack_id) is not int or self.attack_id < 1:
@@ -39,6 +43,10 @@ class AttackEvent:
             raise TypeError('Attack start_tick must be an integer')
         if self.start_tick < 0:
             raise ValueError('Attack start_tick cannot be negative')
+        if type(self.damage_bonus) is not int:
+            raise TypeError('Attack damage_bonus must be an integer')
+        if self.damage_bonus < 0:
+            raise ValueError('Attack damage_bonus cannot be negative')
         for name in ('origin_cell', 'target_cell'):
             value = getattr(self, name)
             if (not isinstance(value, (tuple, list)) or len(value) != 2
@@ -82,6 +90,7 @@ class Combat:
         self._stage_instance_id = self._scope(stage_instance_id)
         self._attack_records = {}
         self._consumed = set()
+        self._pending_attack_bonus = 0
 
     @staticmethod
     def _scope(value):
@@ -105,6 +114,32 @@ class Combat:
         if stage_instance_id != self.stage_instance_id:
             self._stage_instance_id = stage_instance_id
             self._last_attack = None
+            self._pending_attack_bonus = 0
+
+    @property
+    def pending_attack_bonus(self):
+        return self._pending_attack_bonus
+
+    @property
+    def counter_ready(self):
+        return self.pending_attack_bonus > 0
+
+    def grant_perfect_counter(self):
+        """Reset attack availability and arm one PDF p.10 +2 counter.
+
+        The caller must already have consumed an authentic perfect parry.
+        Repeated grants replace the same +2; no expiration or stacking is
+        invented. Existing attacks, their IDs, effects and receipts survive.
+        """
+        self.next_attack_tick = self.tick
+        self._pending_attack_bonus = PERFECT_COUNTER_BONUS
+        return self.pending_attack_bonus
+
+    def attack_damage_bonus(self, event):
+        """Read an authentic event's immutable bonus, never consume it again."""
+        if self.attack_state(event) == 'unknown':
+            raise ValueError('Attack bonus requires an authentic combat/stage event')
+        return event.damage_bonus
 
     def _record(self, event):
         if not isinstance(event, AttackEvent):
@@ -160,11 +195,13 @@ class Combat:
             return None
         event = AttackEvent(self._next_attack_id, origin, facing, target, self.tick,
                             self.combat_session_id, self.stage_instance_id,
-                            player.entity_instance_id)
+                            player.entity_instance_id, self.pending_attack_bonus)
         self._next_attack_id += 1
         self.next_attack_tick = self.tick + self.cooldown_ticks
         self._last_attack = event
         self._attack_records[event.key] = _PlayerAttackRecord(event)
+        # The accepted attempt spends the bonus even when its target is empty.
+        self._pending_attack_bonus = 0
         return event
 
     def advance(self, ticks=1):

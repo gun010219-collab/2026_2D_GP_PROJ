@@ -28,6 +28,7 @@ class SDLMouseMappingTests(unittest.TestCase):
             from enemy_behaviors import PawnEncounter
             from combat_resolution import CombatResolver
             from health_renderer import HealthRenderer
+            from parry_renderer import ParryResultRenderer
             from types import SimpleNamespace
             assert s.SDL_Init(s.SDL_INIT_VIDEO) == 0
             try:
@@ -81,6 +82,17 @@ class SDLMouseMappingTests(unittest.TestCase):
                             damage.advance(39)
                             assert player.health.current_hp == 2
                             HealthRenderer().draw(canvas, player, damage.encounter.enemies, combat.tick)
+                            defender, timer, parry_state = load_stage1_player(), Combat(), Parry()
+                            defense = CombatResolver(defender, timer, PawnEncounter(
+                                (Enemy('parry-source', 4, 2, (0,-1), 0),)), parry=parry_state)
+                            defense.advance(32)
+                            defense.register_parry(parry_state.request(timer.tick))
+                            defense.advance(7)
+                            assert defense.last_parry_result.status == 'perfect'
+                            assert defender.health.current_hp == 3
+                            ParryResultRenderer().draw(canvas, defense.last_parry_result, timer.tick)
+                            HealthRenderer().draw(canvas, defender, defense.encounter.enemies,
+                                                  timer.tick, attack_bonus=timer.pending_attack_bonus)
                             encounter.advance_to(39, (5,1))
                             EnemyAttackRenderer().draw(canvas, encounter.ledger)
                             parry = Parry()

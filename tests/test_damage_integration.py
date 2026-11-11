@@ -96,13 +96,14 @@ class DamageIntegrationTests(unittest.TestCase):
         self.assertEqual(enemy.health.current_hp, 2)
         self.assertTrue(enemy.active)
 
-    def test_due_damage_is_at_exact_tick_and_preview_parry_does_not_block(self):
+    def test_exact_hit_tick_perfect_parry_prevents_damage(self):
         enemy = Enemy('attacker', 4, 2, (0, -1), 0)
         player, encounter, _, snapshots, _ = self.run_frames(
             [[] for _ in range(38)] + [[key(1073742049)], []], enemies=(enemy,))
         self.assertTrue(all(snapshot[1] == 3 for snapshot in snapshots[:-1]))
-        self.assertEqual((snapshots[-1][0], player.health.current_hp), (39, 2))
-        self.assertEqual(player.health.last_damage_tick, 39)
+        self.assertEqual((snapshots[-1][0], player.health.current_hp), (39, 3))
+        self.assertIsNone(player.health.last_damage_tick)
+        self.assertEqual(enemy.state, 'stunned')
         event = enemy.current_attack
         self.assertIsNone(event)
         self.assertEqual(encounter.ledger.telegraphs, ())

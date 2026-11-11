@@ -141,7 +141,8 @@ class EnemyAttackLedger:
         Target receipts remain available as history, but no new target can
         consume a resolved event. This method itself never applies damage.
         """
-        if outcome not in ('hit', 'miss', 'invulnerable', 'target_dead', 'expired'):
+        if outcome not in ('hit', 'miss', 'invulnerable', 'target_dead', 'expired',
+                           'parried_normal', 'parried_perfect'):
             raise ValueError('Unknown enemy attack outcome')
         record = self._record(event)
         if record is None or record.state != 'due':

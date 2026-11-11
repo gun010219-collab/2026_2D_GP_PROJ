@@ -22,6 +22,7 @@ class Enemy:
     kind: str = field(default='pawn', init=False)
     state: str = field(default='initial_wait', init=False)
     next_action_tick: int = field(default=0, init=False)
+    stun_until_tick: int = field(default=0, init=False)
     current_attack: object = field(default=None, init=False, repr=False)
     health: Health = field(default_factory=lambda: Health(PAWN_INITIAL_HP), init=False)
 
