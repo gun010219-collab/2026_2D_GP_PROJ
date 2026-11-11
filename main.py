@@ -17,6 +17,10 @@ from simulation_clock import SimulationClock
 from sdl_input import GameplayInput
 from parry import Parry
 from parry_renderer import ParryRenderer
+from enemy import load_stage1_enemies
+from enemy_behaviors import PawnEncounter
+from enemy_renderer import EnemyRenderer
+from enemy_attack_renderer import EnemyAttackRenderer
 
 
 def main():
@@ -30,6 +34,10 @@ def main():
     attack_renderer = AttackRenderer()
     parry = Parry()
     parry_renderer = ParryRenderer()
+    pawns = PawnEncounter(load_stage1_enemies(), start_tick=combat.tick)
+    pawns.advance_to(combat.tick, player.position)
+    enemy_renderer = EnemyRenderer()
+    enemy_attack_renderer = EnemyAttackRenderer()
     clock = SimulationClock()
     canvas.open_canvas(WINDOW_WIDTH, WINDOW_HEIGHT)
     settings_renderer = None
@@ -66,6 +74,7 @@ def main():
                 clock.reset()
             combat.advance(clock.advance(frame_start - previous_frame,
                                          paused=menu.is_open or not focused or focus_changed))
+            pawns.advance_to(combat.tick, player.position)
             previous_frame = frame_start
             previously_focused = focused
             display_changed = False
@@ -74,7 +83,8 @@ def main():
                 # Gameplay releases survive modal, focus, and display transitions.
                 if controls.handle_key(event, player, combat,
                                        blocked=menu.blocks_gameplay() or display_changed
-                                       or not focused or focus_changed, parry=parry):
+                                       or not focused or focus_changed, parry=parry,
+                                       occupied=pawns.occupied_cells):
                     continue
                 if display_changed or not focused:
                     continue
@@ -107,7 +117,9 @@ def main():
             canvas.SDL_SetRenderDrawColor(canvas.renderer, 0, 0, 0, 255)
             canvas.SDL_RenderClear(canvas.renderer)
             board_renderer.draw(canvas)
+            enemy_attack_renderer.draw(canvas, pawns.ledger)
             attack_renderer.draw(canvas, combat.active_attack)
+            enemy_renderer.draw(canvas, pawns.enemies)
             parry_renderer.draw(canvas, player, parry, combat.tick)
             player_renderer.draw(canvas, player)
             settings_renderer.draw(menu, display)

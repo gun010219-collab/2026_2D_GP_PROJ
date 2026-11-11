@@ -19,7 +19,7 @@ class GameplayInput:
         c = self.canvas
         return bool(c.SDL_GetWindowFlags(c.window) & c.SDL_WINDOW_INPUT_FOCUS)
 
-    def handle_key(self, event, player, combat, blocked=False, parry=None):
+    def handle_key(self, event, player, combat, blocked=False, parry=None, occupied=()):
         c = self.canvas
         if event.type not in (c.SDL_KEYDOWN, c.SDL_KEYUP):
             return False
@@ -34,7 +34,7 @@ class GameplayInput:
             if event.type == c.SDL_KEYUP:
                 self.movement.key_up(self.arrows[event.key])
             else:
-                self.movement.key_down(self.arrows[event.key], player, blocked)
+                self.movement.key_down(self.arrows[event.key], player, blocked, occupied)
             return True
         if event.key == c.SDLK_SPACE:
             if event.type == c.SDL_KEYUP:

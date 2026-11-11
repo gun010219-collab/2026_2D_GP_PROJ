@@ -6,7 +6,7 @@ class InputController:
     def __init__(self):
         self._held = set()
 
-    def key_down(self, direction, player, blocked=False):
+    def key_down(self, direction, player, blocked=False, occupied=()):
         if direction not in DIRECTIONS:
             return False
         if direction in self._held:
@@ -15,7 +15,7 @@ class InputController:
         self._held.add(direction)
         if blocked or chord_in_progress:
             return False
-        return player.move(direction)
+        return player.move(direction, occupied=occupied)
 
     def key_up(self, direction):
         self._held.discard(direction)

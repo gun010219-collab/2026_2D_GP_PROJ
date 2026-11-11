@@ -31,13 +31,13 @@ class Player:
     def position(self):
         return self.col, self.row
 
-    def move(self, direction):
+    def move(self, direction, occupied=()):
         if direction not in DIRECTIONS:
             raise ValueError('Unknown movement direction')
         self._facing = direction
         dx, dy = DIRECTIONS[direction]
         col, row = self.col + dx, self.row + dy
-        if not in_bounds(col, row):
+        if not in_bounds(col, row) or (col, row) in occupied:
             return False
         self._col, self._row = col, row
         return True

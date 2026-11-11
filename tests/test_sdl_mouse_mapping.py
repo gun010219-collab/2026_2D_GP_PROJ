@@ -22,6 +22,10 @@ class SDLMouseMappingTests(unittest.TestCase):
             from attack_renderer import AttackRenderer
             from parry import Parry
             from parry_renderer import ParryRenderer
+            from enemy import load_stage1_enemies, Enemy
+            from enemy_renderer import EnemyRenderer
+            from enemy_attack_renderer import EnemyAttackRenderer
+            from enemy_behaviors import PawnEncounter
             from types import SimpleNamespace
             assert s.SDL_Init(s.SDL_INIT_VIDEO) == 0
             try:
@@ -65,6 +69,12 @@ class SDLMouseMappingTests(unittest.TestCase):
                         try:
                             AttackRenderer().draw(canvas, Combat().request_attack(load_stage1_player()))
                             PlayerRenderer().draw(canvas, load_stage1_player())
+                            EnemyRenderer().draw(canvas, load_stage1_enemies())
+                            encounter = PawnEncounter((Enemy('test', 4, 2, (0,-1), 0),))
+                            encounter.advance_to(0, (5,1))
+                            EnemyAttackRenderer().draw(canvas, encounter.ledger)
+                            encounter.advance_to(39, (5,1))
+                            EnemyAttackRenderer().draw(canvas, encounter.ledger)
                             parry = Parry()
                             parry.request(0)
                             for tick in (0, 8, 18):

@@ -145,17 +145,22 @@ class WindowLoopTests(unittest.TestCase):
         with patch.dict(sys.modules, {'pico2d': SimpleNamespace(pico2d=canvas)}), \
                 patch.object(main, 'DisplaySettings'), patch.object(main, 'SettingsRenderer') as ui, \
                 patch.object(main, 'BoardRenderer') as board, patch.object(main, 'PlayerRenderer') as player, \
-                patch.object(main, 'AttackRenderer') as attack, patch.object(main, 'ParryRenderer') as parry:
+                patch.object(main, 'AttackRenderer') as attack, patch.object(main, 'ParryRenderer') as parry, \
+                patch.object(main, 'EnemyRenderer') as enemies, \
+                patch.object(main, 'EnemyAttackRenderer') as warning:
             order.attach_mock(board.return_value.draw, 'board')
+            order.attach_mock(warning.return_value.draw, 'warning')
             order.attach_mock(attack.return_value.draw, 'attack')
+            order.attach_mock(enemies.return_value.draw, 'enemies')
             order.attach_mock(parry.return_value.draw, 'parry')
             order.attach_mock(player.return_value.draw, 'player')
             order.attach_mock(ui.return_value.draw, 'settings')
             main.main()
-        self.assertEqual([call[0] for call in order.mock_calls], ['board', 'attack', 'parry', 'player', 'settings'])
+        self.assertEqual([call[0] for call in order.mock_calls],
+                         ['board', 'warning', 'attack', 'enemies', 'parry', 'player', 'settings'])
 
     def run_combat_frames(self, batches, frame_lengths=None, parry=None,
-                          focus_flags=None, held_shift=False):
+                          focus_flags=None, held_shift=False, encounter=None):
         from combat import Combat
         from config import FIXED_TIME_STEP
         canvas = self.make_canvas()
@@ -174,10 +179,12 @@ class WindowLoopTests(unittest.TestCase):
         canvas.update_canvas.side_effect = lambda: now.__setitem__(0, now[0] + next(lengths))
         combat = Combat()
         parry_state = parry if parry is not None else main.Parry()
+        pawns = encounter if encounter is not None else main.PawnEncounter(main.load_stage1_enemies())
         with patch.dict(sys.modules, {'pico2d': SimpleNamespace(pico2d=canvas)}), \
                 patch.object(main, 'DisplaySettings'), patch.object(main, 'SettingsRenderer'), \
                 patch.object(main, 'Combat', return_value=combat), \
                 patch.object(main, 'Parry', return_value=parry_state), \
+                patch.object(main, 'PawnEncounter', return_value=pawns), \
                 patch.object(main, 'perf_counter', side_effect=lambda: now[0]), patch.object(main, 'sleep'):
             main.main()
         return combat
@@ -284,6 +291,52 @@ class WindowLoopTests(unittest.TestCase):
             self.assertEqual(combat.active_attack.start_tick, parry.last_attempt.start_tick)
             self.assertEqual(combat.next_attack_tick, 36)
             self.assertEqual(parry.next_parry_tick, 60)
+
+    def attack_encounter(self):
+        from enemy import Enemy
+        from enemy_behaviors import PawnEncounter
+        return PawnEncounter((Enemy('test-pawn', 4, 2, (0, -1), 0),))
+
+    def test_enemy_time_and_warning_freeze_during_long_menu(self):
+        from config import FIXED_TIME_STEP
+        encounter = self.attack_encounter()
+        combat = self.run_combat_frames([[],
+            [SimpleNamespace(type=1025, button=1, x=1295, y=41)], [],
+            [SimpleNamespace(type=768, key=27)], [],
+        ], [FIXED_TIME_STEP, 10, 10, FIXED_TIME_STEP, FIXED_TIME_STEP], encounter=encounter)
+        self.assertEqual((combat.tick, encounter.tick), (2, 2))
+        event = encounter.ledger.telegraphs[0]
+        self.assertEqual((event.telegraph_start_tick, event.hit_tick), (0, 39))
+        self.assertFalse(encounter.ledger.consume(event, 'player-instance'))
+
+    def test_enemy_ai_freezes_through_focus_loss_and_gain(self):
+        encounter = self.attack_encounter()
+        combat = self.run_combat_frames([[], [], [], [], []],
+                                        focus_flags=[512, 0, 0, 512, 512], encounter=encounter)
+        self.assertEqual((combat.tick, encounter.tick), (1, 1))
+        self.assertEqual(len(encounter.ledger.telegraphs), 1)
+
+    def test_f11_does_not_recreate_enemy_event_or_auto_consume(self):
+        encounter = self.attack_encounter()
+        encounter.advance_to(0, (5, 1))
+        event = encounter.ledger.telegraphs[0]
+        combat = self.run_combat_frames([[], [SimpleNamespace(type=768, key=1073741892)]]
+                                        + [[] for _ in range(38)], encounter=encounter)
+        self.assertEqual((combat.tick, encounter.tick), (39, 39))
+        self.assertEqual(encounter.ledger.telegraphs, ())
+        self.assertEqual(encounter.enemies[0].state, 'recovering')
+        # A due event is still available for the future damage consumer.
+        self.assertEqual(encounter.ledger.state(event), 'due')
+        self.assertTrue(encounter.ledger.consume(event, 'player-instance'))
+        encounter.advance_to(93, (5, 1))
+        self.assertEqual(encounter.enemies[0].current_attack.attack_id, 2)
+
+    def test_player_cannot_enter_spawned_pawn_cell_but_facing_updates(self):
+        from enemy import Enemy
+        with patch.object(main, 'load_stage1_enemies',
+                          return_value=(Enemy('blocker', 6, 1, (0, -1), 10),)):
+            player = self.run_player_events([[SimpleNamespace(type=768, key=1073741903)]])
+        self.assertEqual((player.position, player.facing), ((5, 1), 'right'))
 
 
 if __name__ == '__main__':

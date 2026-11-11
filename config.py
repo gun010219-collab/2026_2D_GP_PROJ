@@ -24,6 +24,11 @@ PARRY_WINDOW_SECONDS = 0.30
 PERFECT_PARRY_WINDOW_SECONDS = 0.12  # Ceil to 8 ticks (~0.133s) at 60Hz.
 PARRY_COOLDOWN_SECONDS = 1.0  # Initial PDF baseline, not final balance.
 
+# Pawn timings from game design PDF p.11; initial implementation baselines.
+PAWN_MOVE_INTERVAL_SECONDS = 2.20
+PAWN_TELEGRAPH_SECONDS = 0.65
+PAWN_RECOVERY_SECONDS = 0.90
+
 
 def cell_center(col: int, row: int) -> tuple[float, float]:
     """Return a cell's canvas center; row zero is the bottom row."""

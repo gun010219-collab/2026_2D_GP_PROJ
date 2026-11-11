@@ -1,5 +1,145 @@
 # CHECKMATE 개발 진행 기록
 
+## Task 1-E — Stage 1 Pawn·AI·공격 예고 (2026-11-11)
+
+상태: 구현·자동 검증 완료, **사용자 Windows GUI 검증 21개 항목 모두 통과**.
+사용자가 Task 1-E 최종 검수 후 지정 메시지로 커밋하고 기존 main에 일반 Push하는 것을 승인했다.
+적 HP·플레이어 피해·패링 성공·적 사망·스테이지 클리어는 구현하지 않았다.
+
+### 같은 Task 1-E 내 이동 규칙 수정 (사용자 승인)
+
+- 수정 시작 시 기존 미커밋 20개 파일과 main HEAD `e121386b420c95dc74cb9f60e8aace118824d53f`를 확인했다.
+  변경 전 unittest 201개가 통과했다. 스테이징된 파일은 없었다.
+- PDF p.11의 초기 전진 규칙을 사용자 승인에 따라 상·하·좌·우 한 칸 추적으로 변경했다.
+  맨해튼 거리 우선, 동률 상→하→좌→우, 점유/경계 차단과 막힌 후보 대체를 적용했다.
+  정적인 추적 조건에서 방문 칸을 기억해 왕복을 막고, 플레이어나 다른 Pawn 점유가 바뀌면 기억을 초기화한다.
+  미방문 후보가 없으면 대기하며 복잡한 경로 탐색은 하지 않는다. 세부 선택과 한계는 DECISIONS에 기록했다.
+- 이번 수정 파일은 `enemy_behaviors.py`, `tests/test_enemy_behaviors.py`, 신규 `tests/test_pawn_tracking.py`,
+  `docs/DECISIONS.md`, `docs/GAME_DESIGN.md`, `docs/PROGRESS.md`의 **6개**다.
+  이전 201개 테스트는 유지하며, 이전 전진 전용 규칙을 전제한 3개 테스트의 기대 결과만 새 규칙에 맞췄다.
+- 이동으로 공격 방향을 회전시키지 않는다. JSON forward, 48/62틱 지연, 132틱 이동, 39틱 예고,
+  54틱 회복, 공격 우선 예약과 고정 목표를 유지한다. 기존 Task 1-E 구현/미추적 파일도 보존한다.
+- 이동 규칙 변경 직후에는 GUI 재검증을 기다리며 커밋·Push를 보류했다.
+  이후 아래 사용자 수동 검증 21개 항목이 모두 통과했으며 최종 반영을 승인받았다.
+
+### 시작 확인 / 목표 / 근거
+
+- 로컬/원격 main 모두 `e121386b420c95dc74cb9f60e8aace118824d53f`, 작업 트리 깨끗함.
+  AGENTS/승인 설계/결정/진행 기록, 데이터/검사기/게임·시간·설정 코드와 테스트를 확인했다.
+  기존 unittest 157개 모두 통과. 기존 자료·25개 스테이지 목표는 보존한다.
+- 수용 기준: JSON Pawn 2개 정확 로딩, 순수/틱 기반 AI, 고정 범위/예고·hit_tick 분리,
+  단일 발행/명시적 소비/취소 구조, 점유와 기존 이동·공격·패링·메뉴 기능 회귀 보호.
+- 게임기획서 p.5/7/8/11/21/31을 임시 이미지 사본으로 직접 확인했다.
+  Pawn 전진 2.20초, 전방 대각선의 플레이어 한 칸 공격, 예고 0.65초/회복 0.90초,
+  막힌 칸/마지막 행 대기·중복 점유 금지·예고 후 목표 고정이 초기 근거다.
+  전진 전용 이동/마지막 행 대기는 위 사용자 승인으로 변경했으며 원본 PDF는 보존한다.
+- 실제 JSON: s1_pawn_1=(1,6)/forward=(0,-1)/delay=.80, s1_pawn_2=(8,6)/forward=(0,-1)/delay=1.02.
+  지연/ID/좌표를 코드 상수로 복제하지 않는다. 단위 틱은 48/62, 이동132, 예고39, 회복54.
+- initial_delay=첫 행동 가능 시각, 예약 시 공격 우선, 단일 다음 행동 예약과 JSON 처리 순서는
+  문서에서 초기 기술 선택으로 구분했다. 독립적인 공격 속도/피해량은 추가하지 않았다.
+
+### 변경 파일 / 구현
+
+- `enemy.py`: 논리 Pawn 상태/UUID 인스턴스·원본 data ID, 파일 기준 Stage 1 로더.
+  잘못된 개수/종류/ID/좌표/forward/지연/중복 점유/파일을 원인 메시지로 거절한다.
+- `enemy_behaviors.py`: Combat.tick에 맞춰 경과 정수 틱을 순서대로 처리하는 PawnEncounter.
+  initial_wait/waiting/telegraph/recovering/inactive 상태, 공격 가능한 예약에서 한 칸 고정 예고,
+  예정 틱에 due 단일 반환, 회복 후 재행동. 취소/비활성 훅은 사망/HP 기능이 아니다.
+- `enemy_attack.py`: 별도 불변 EnemyAttackEvent, 세션/스테이지/공격자/공격 ID,
+  예고/적중 예정 틱, 불변 target_cells. ledger에 lifecycle/cancel/대상별 명시적 소비 기록.
+  due는 피해/패링 결과가 아니고 main은 소비를 호출하지 않는다.
+- `enemy_renderer.py`, `enemy_attack_renderer.py`: 임시 왕실 Pawn과 붉은 계열 빈 경고.
+  경고 좌표는 target_cells와 일치하고 렌더 반복으로 생성/소비/이동하지 않는다.
+- `config.py`: PDF 기반 초기 Pawn 시간 2.20/.65/.90초를 분리했다.
+- `player.py`, `input_controller.py`, `sdl_input.py`: 선택적 occupied 전달만 추가해
+  PDF 점유 규칙대로 활성 Pawn 진입을 차단한다. 기본 범위/방향/키 반복 정책은 유지한다.
+- `main.py`: 최소 로더/encounter 연결, Combat 틱 갱신 뒤 AI 경과 틱 처리,
+  실제 점유 전달과 보드/경고/공격/적/패링/플레이어/설정 순서 연결.
+- 새 테스트 파일 5개: test_enemy.py/test_enemy_behaviors.py/test_enemy_attack.py/test_enemy_renderers.py/test_pawn_tracking.py.
+  기존 test_main.py/test_sdl_mouse_mapping.py 확장.
+- DECISIONS/GAME_DESIGN/ASSET_PLAN/PROGRESS 갱신. Task 1-E 전체는 코드10개+테스트7개+문서4개=**21개 파일**.
+- README/PDF 2개/stage_data.json/기존 보드·테마/플레이어 그래픽/공격·패링·시간 로직/
+  설정·전체 화면 어댑터/의존성/AGENTS와 Git 이력은 보존했다.
+
+### 실제 자동 검증
+
+```powershell
+.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+.\.venv\Scripts\python.exe validate_stage_data.py
+.\.venv\Scripts\python.exe -W error -m py_compile enemy.py enemy_behaviors.py enemy_attack.py enemy_renderer.py enemy_attack_renderer.py config.py player.py input_controller.py sdl_input.py main.py
+.\.venv\Scripts\python.exe -c "import enemy, enemy_behaviors, enemy_attack, enemy_renderer, enemy_attack_renderer, main; print('import OK')"
+git diff --check
+```
+
+- 이동 규칙 수정 후 unittest **221개 통과**(기존201개 유지+추적 이동 신규20개),
+  스테이지 정적 검사 **25개 통과**. 수정 전 201개 통과 기록은 위 시작 확인과 구분한다.
+- 문법/import/공백 검사 통과. 시간 테스트는 sleep 없이 정수 틱/가상 경과로 수행했다.
+- 이번 수정의 `enemy_behaviors.py`, `tests/test_enemy_behaviors.py`, `tests/test_pawn_tracking.py`를
+  `python -W error -m py_compile`로 검사했고 순수 적 모듈 import에는 Pico2D가 로딩되지 않음을 확인했다.
+- 신규 20개 테스트는 4방향/정확한 한 칸/맨해튼 선택/동률/막힘 시 대체/점유·경계/반복 왕복 방지,
+  플레이어·다른 Pawn 점유 변화 후 재접근, 이동 후 공격 방향과 시간 유지, 8틱 묶음의 동일 결과를 검사한다.
+  실제 Stage 1 JSON과 고정 플레이어 (5,1)로 5,000틱을 진행해 중복 점유·재방문 없이
+  Pawn이 (4,2)/(6,2)에 도착하고 서로 다른 공격 이벤트를 생성하는 것을 확인했다. GUI 검증은 아니다.
+- 정확한 Pawn 2개/원본 ID/좌표/forward/지연, CWD 독립 로딩과 데이터 예외를 검사했다.
+- 48/62틱 최초 행동, 132틱 이동, 39틱 예고 종료, 54틱 회복, 경계/점유·player 차단과
+  facing 유지, 순차 틱과 묶음 갱신의 동일 결과를 검사했다.
+- ID 유일/불변 목표/단일 due 발행/취소/비활성, 대상별 소비/재전달 거절/재시작 ID 범위,
+  렌더 반복 무소비와 정확한 경고 셀을 검사했다. 소비 테스트는 피해 적용이 아니다.
+- main에서 SETTINGS·포커스 정지/F11/예약 유지·자동 소비 없음과 기존 입력 회귀를 검사했다.
+  SDL dummy에서 실제 Pawn/경고 그리기 경로도 실행했지만 Windows GUI 검증은 아니다.
+
+### 사용자 Windows GUI 최종 검증 — 21개 모두 통과
+
+사용자가 Windows에서 직접 실행해 아래 결과를 보고했다. Codex의 자동 테스트/SDL dummy 검사와 구분하며,
+Codex가 직접 GUI를 관찰한 결과로 기록하지 않는다. 실행 명령:
+
+```powershell
+.\.venv\Scripts\python.exe main.py
+```
+
+1. Stage 1 Pawn 두 개 정상 생성 — 통과.
+2. 시작 위치 (1,6), (8,6) 정상 — 통과.
+3. 기존 전진 전용이 아닌 플레이어 추적 이동 정상 — 통과.
+4. 한 번의 행동에서 정확히 한 칸 이동 — 통과.
+5. 대각선 이동·순간이동 없음 — 통과.
+6. 플레이어가 위에 있을 때 위쪽 이동 정상 — 통과.
+7. 플레이어 위치에 따른 좌우 이동 정상 — 통과.
+8. 게임판 밖 이동 차단 — 통과.
+9. 두 Pawn 중복 점유 차단 — 통과.
+10. 플레이어 위치로 Pawn 진입 차단 — 통과.
+11. 플레이어가 Pawn 점유 칸으로 이동하는 것 차단 — 통과.
+12. 이동 후보가 막힐 때 대체 방향 선택 또는 대기 — 통과.
+13. 두 칸 반복 왕복 현상 없음 — 통과.
+14. 플레이어 위치 변경 시 추적 방향 정상 갱신 — 통과.
+15. 기존 아래쪽 대각선 공격 예고 정상 — 통과.
+16. 공격 목표 고정 및 경고 종료 정상 — 통과.
+17. SETTINGS 메뉴에서 AI·공격 시간 정지 — 통과.
+18. 메뉴 종료 후 정상 재개 — 통과.
+19. F11 전환 후 Pawn 행동 정상 — 통과.
+20. 기존 방향키·SPACE·Shift 정상 — 통과.
+21. ESC·X 종료 및 반복 실행 정상 — 통과.
+
+위 21개 외 장시간 원장 기록 증가/실제 프레임 성능/다른 DPI/다중 모니터는 미검증이다.
+48/62틱 초기 지연과 132/39/54틱 경계는 자동 테스트로 검사했으며 GUI에서 정밀 측정했다고 주장하지 않는다.
+8틱 상한의 초과 시간 폐기 때문에 긴 stall에서는 전투 시간이 벽시계보다 늦을 수 있다.
+추적은 완전한 경로 탐색이 아니므로 유효한 미방문 칸을 소진한 고정 배치에서는 플레이어/점유 변화까지 대기할 수 있다.
+실제 패링은 입력틱과 적 hit_tick/해당 시점 범위·취소·소비를 함께 확인해야 하며 링 색으로 성공을 정하지 않는다.
+피해·HP·적 사망·보상·다른 적 AI·클리어·전환·저장·최종 에셋은 후속 작업이다.
+최종 승인 커밋 메시지: `feat: implement pawn tracking ai and attack telegraphs`.
+
+### 최종 파일 및 Git 검수
+
+- 시작 시 로컬 HEAD/직접 조회한 원격 main 모두 `e121386b420c95dc74cb9f60e8aace118824d53f`였다.
+- 사용자 지정 21개 경로와 추적 변경 11개·미추적 신규 10개의 합집합이 정확히 일치한다.
+  누락/의도하지 않은 추가 파일/ignore로 빠진 파일/삭제된 파일이 없고 시작 시 스테이징된 파일도 없었다.
+- 특별 확인 대상 `enemy_attack.py`, `tests/test_enemy_attack.py`, `tests/test_enemy_renderers.py`,
+  `tests/test_pawn_tracking.py`는 실제 존재하는 신규 파일이며 이번 명시적 스테이징 대상에 포함한다.
+- 기존 main의 테스트 157개를 포함한 총 221개 테스트가 존재하며 삭제·비활성화가 없음을 확인했다.
+  README/PDF 2개/stage_data.json/보드·테마와 기존 Git 이력은 보존한다.
+- 최종 마무리에서도 프로젝트 가상환경으로 전체 unittest **221개**, 스테이지 정적 검사 **25개**를
+  다시 실행해 모두 통과했다. 변경 Python 코드/테스트 17개의 문법 검사, import 검사,
+  `git diff --check`와 보호 파일의 HEAD 대비 무변경 검사도 통과했다.
+
 ## Task 1-D — 일반·퍼펙트 패링 가능 시간 기반 (2026-11-10)
 
 상태: 구현·자동 검증 완료. **사용자 Windows GUI 검증 19개 항목 모두 통과.**
