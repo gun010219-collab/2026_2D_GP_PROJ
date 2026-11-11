@@ -1,5 +1,125 @@
 # CHECKMATE 개발 진행 기록
 
+## Task 1-N — Bishop 고정형 색상 공격과 Stage 4 통합 (2026-11-12)
+
+상태: **구현·자동 테스트685개 통과, 사용자 Windows 11 GUI17/17 통과**.
+시작 main/추적 origin/main HEAD는 `3903d1e9b3591b245c3563c0f6f73deb08e13b3d`, 작업 트리는 깨끗했다.
+변경 전 기존639개를 실행해 통과했다. Task 1-M의 사용자 GUI16/16은 아래 이력으로 보존하며,
+이번 Stage 4 GUI/비숍 실전 조작감·밸런스 검증 결과로 재사용하지 않는다.
+
+### 원문 확인과 사용자 승인
+
+원본 게임기획서 p.14/p.18/p.8의 포함 이미지를 직접 추출해 확인했다. 원본 PDF는 변경하지 않았다.
+Bishop은 체스식 대각선 이동/광선 기물이 아니다. **이동하지 않는 고정형 지원 적**이다.
+HP3, 자신과 같은 색상50칸 전체 공격, 예고1.80초=108틱, 행동 후 회복4.00초=240틱이다.
+기본 피해1/48틱 무적은 p.6의 기존 공통 전투 기준선을 사용한다. 최종 밸런스 확정값은 아니다.
+경고는 자기 칸을 포함한 `(col+row)%2`가 같은 정확히50칸이며 다른 기물이 가리지 않는다.
+플레이어가 위험색에 진입하면 적중 때 피해·패링 대상이며, 상하좌우 한 칸으로 반대색에 회피할 수 있다.
+p.8의 고정 목표·정확한 hit_tick·사망/기절/종료 취소를 공유하고, 패링 후에도 Bishop은 원위치다.
+
+p.14는 반대색 Bishop 공격 동시 활성화 금지를 명시하지만 대기 순서는 정하지 않는다.
+기존 정적 검사는 두 Bishop을 반대색에 배치한다. 사용자에게 이 상황을 질문했고
+**“완료·취소 다음 틱에 재시도 (권장)”** 승인을 받은 뒤 구현했다.
+반대색의 telegraph/미처리 due가 있으면 이벤트·쿨타임을 만들지 않고 대기한다.
+완료/취소 틱t에도 시작하지 않고 t+1부터 JSON 순서로 재시도하며 같은 색은 동시 예고를 허용한다.
+공통 공격 원장/공격 계획 저장소와 색별 마지막 종료 틱만 사용하며 별도 피해·패링 원장은 없다.
+
+### 실제 변경 파일 — 19개
+
+- 수정 코드8개: `config.py`, `enemy.py`, `enemy_factory.py`, `enemy_behaviors.py`,
+  `combat_resolution.py`, `enemy_renderer.py`, `game.py`, `main.py`.
+- 신규 코드1개: `bishop_behavior.py`(50칸 기하학, 순수 Python).
+- 수정 테스트4개: `tests/test_rook.py`, `tests/test_knight.py`, `tests/test_stage_transition.py`, `tests/test_stage_three.py`.
+- 신규 테스트3개: `tests/test_bishop.py`, `tests/test_stage_four.py`, `tests/test_stage_four_sdl.py`.
+- 문서3개: `docs/PROGRESS.md`, `docs/DECISIONS.md`, `docs/GAME_DESIGN.md`.
+
+Enemy/factory는 Bishop HP/새 실행 ID/상태/지연을 생성하며 Pawn forward를 부여하지 않는다.
+EnemyEncounter의 대기→예고→due→회복·기절·비활성화와 CombatResolver/EnemyAttackLedger/Parry를 재사용한다.
+비숍의 공격 계획은 이동하지 않으며 Rook/Knight의 점유 경로 취소와 구분한다.
+입력으로 같은 틱에 비숍이 사망해도 반대색이 즉시 예고하지 않도록 취소 경로에 현재 Combat.tick을 전달한다.
+일반 패링은 피해만 막고, 퍼펙트는 실제 공격자만60틱 기절/공격 쿨타임 초기화/다음 공격+2 단일 소비다.
+기절 종료 시 새 행동으로 복귀하는 기존 정책을 공유한다. 정상 공격의 회복240틱에 기절60틱을 더하지 않는다.
+비숍 임시 실루엣은 좁은 사제형 몸체·갈라진 관·사선 홈이며 HP/50칸 경고와 겹치지 않도록 칸 안에 배치한다.
+
+### Stage 4 실제 실행 경로
+
+StageCatalog→create_stage_enemies()가 원본 순서와 배치를 그대로 생성한다.
+Chapter 1/플레이어(5,1)HP3, Bishop(2,8)HP3·0.8초, Rook(2,4)HP4·1.02초,
+Pawn(1,6)HP2·1.24초, Pawn(8,6)HP2·1.46초다. 지연은 기존 올림으로48/62/75/88틱이다.
+Stage 1~3 클리어 N은다음 Stage, Stage 4 클리어 N은무효다. 각 클리어 R은현재 Stage,
+Stage 1~4 게임 오버 R은Chapter 1 첫 전투인Stage 1이다. PLAYING/SETTINGS/포커스 상실에서는 전환을 차단한다.
+Stage 5~25 직접 생성은 거절한다. Stage 4 클리어는 챕터 완료/엔딩이 아니며 Chapter 1 보스는Stage 5다.
+N은강화 선택 구현 전 임시 흐름이다. 기존 창·설정·공통 렌더러·Stage 1 로더/API를 재사용한다.
+새 세션은 ID/HP/위치·방향/공격·패링·쿨타임/기절·무적/보너스/계획과 종료 틱/시계·입력을 초기화한다.
+유지 N/R/보류 입력/같은 프레임 다중 전환은 기존 경로로 차단한다.
+
+### 실제 자동 검증
+
+```powershell
+.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+.\.venv\Scripts\python.exe validate_stage_data.py
+.\.venv\Scripts\python.exe -O validate_stage_data.py
+.\.venv\Scripts\python.exe -W error -m py_compile bishop_behavior.py config.py enemy.py enemy_factory.py enemy_behaviors.py combat_resolution.py enemy_renderer.py game.py main.py tests/test_rook.py tests/test_knight.py tests/test_stage_transition.py tests/test_stage_three.py tests/test_bishop.py tests/test_stage_four.py tests/test_stage_four_sdl.py
+git diff --check
+```
+
+- **685개 통과 = 기존639개 + 신규46개**(비숍26개/Stage 4 논리·main19개/네이티브 SDL1개).
+  기존 테스트 삭제·비활성화는 없다. Bishop/Stage 4 미지원 기대값을 Queen·King/Stage 5로 갱신하고,
+  Stage 3 클리어 N/안내와 진행 행렬을 확장했다. 관련 테스트명4개를 현재 지원 범위에 맞춰 변경했다.
+- 100개 출발 칸의 정확히50칸/두 색의 합집합100칸·교집합0/원점 포함/비대각선 범위를 검사했다.
+- 108틱 직전/적중, 정상 회복 `[h,h+240)`과 종료 틱 재예고, 반대색의 due 대기/완료·취소 다음 틱,
+  같은 색 동시 공격/900틱 교대·회피/소스 사망이 AI보다 앞서는 동일 틱 경계를 검사했다.
+- 일반·퍼펙트 0/1/7/8/18/19틱, 무적 중 무보상/중복 소비/이전·변조·계획 없는 이벤트 거절,
+  일반의 무보상/퍼펙트60틱 종료·다음 공격3피해 처치/빗나감 소비·정지 취소를 검사했다.
+- 실제 main에서 Stage 3→4/원본 배치·HP/48틱 예고→156틱 피격/회피·재진입/패링/기절 종료216틱,
+  세션·키·시간 초기화/종료·재시작/포커스·SETTINGS·F11·ESC/X를 검증했다.
+  원본 Stage 4 무입력 시458틱 HP0에서 정지하고 R은Stage 1로 복귀했다.
+- 원본 Bishop/Rook/Pawn 혼합 및 별도4종 동일 틱 적중,601회 반복 요청의 점유·결정성을 확인했다.
+  사망 후 정지하므로 요청601회가 실제 전투601틱을 의미하지 않는다.
+- 기존 Pawn601틱 기준/Rook 취소·90틱 회복/Knight36틱 예고·72틱 회복/Stage 1~3 SDL 회귀 통과.
+- 실제 SDL N키 이벤트로 Stage 3→4를 연결해 숨겨진 한 창에서50칸 경고/실루엣/실제 HP/퍼펙트/양 종료를 그렸다.
+  이는 자동 SDL dummy 검증이며 사용자 Windows GUI 플레이가 아니다. 렌더 반복은 HP/원장/위치를 바꾸지 않는다.
+- 25개 스테이지 일반/`-O` 검사 및 변경 Python16개 문법/import 통과. import 시 Pico2D/SDL/창 생성 없음.
+  원본 JSON/PDF/README/아트·테마와 이전 개발 기록은 보존한다.
+
+### 사용자 Windows 11 GUI 최종 검증 — 17/17 통과
+
+초기에는 GUI 확인 전 커밋·Push를 보류했다. 이후 사용자가 실제 Windows 11 게임 화면에서
+다음17개 항목 모두 통과를 보고하고 최종 검수 후 지정 커밋 및 기존 main 일반 Push를 승인했다.
+실행 명령은 `.\.venv\Scripts\python.exe main.py`다. 아래는 사용자 수동 검증이며
+Codex unittest/가짜 SDL/SDL dummy 자동 검증과 구분한다.
+
+1. 기존 Stage 1~3 플레이 — 통과.
+2. Stage 1→2→3→4 진행 — 통과.
+3. Stage 4 초기 배치·HP — 통과.
+4. Bishop 고정 위치·외형 — 통과.
+5. 같은 색 50칸 공격 경고 — 통과.
+6. 공격 예고 시간·판정 — 통과.
+7. 위험색에 남았을 때 피해 — 통과.
+8. 반대색으로 한 칸 회피 — 통과.
+9. 경고 중 위험색 재진입 — 통과.
+10. Bishop 일반 패링 — 통과.
+11. Bishop 퍼펙트 패링 — 통과.
+12. Bishop·Rook 경고 동시 표시 — 통과.
+13. Bishop·Rook·Pawn 혼합 전투 — 통과.
+14. Stage 4 클리어·재플레이 — 통과.
+15. Stage 4 게임 오버·복귀 — 통과.
+16. 반복 진행·기본 화면 기능 — 통과.
+17. Bishop 전투 가독성·난이도 — 통과.
+
+사용자 Bishop 전투 체감 평가: **“공격이 명확하고 재미있음.”**
+정밀108/240/60틱·반대색 동시 금지는 자동 검증 근거이며 GUI 시간 측정으로 주장하지 않는다.
+Stage 4에는 Bishop 한 개만 있다. 복수 Bishop의 반대색 조정은 자동 검증이며 실제 Windows 플레이는 미검증이다.
+사용자 체감 의견을 장기 밸런스/모든 PC 환경/전체25스테이지 QA 완료로 표현하지 않는다.
+최종 검수에서는 기능 코드 변경 없이 문서의 GUI 상태를 갱신한다.
+커밋 메시지는 `feat: implement bishop AI and stage four combat`이다.
+
+### 남은 범위와 위험
+
+8틱 상한/원장 증가/DPI·다중 모니터/임시 도형·즉시 이동의 시각적 한계와 전체25스테이지 QA는 남아 있다.
+비숍 광역 공격과 복수 적 조합의 장기 밸런스도 계속 검토해야 한다.
+Stage 5 이후/Queen·King AI/보스5개/강화·저장·해금/최종 아트·음향은 추가하지 않았다.
+
 ## Task 1-M — Stage 3 실제 실행 경로와 Knight GUI 통합 (2026-11-12)
 
 상태: **구현·자동 테스트639개 통과, 사용자 Windows 11 GUI16/16 통과**.

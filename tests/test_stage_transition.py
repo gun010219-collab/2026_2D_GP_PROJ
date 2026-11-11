@@ -1,4 +1,4 @@
-"""Real Stage 1–3 sessions and main flow using deterministic fake SDL/time."""
+"""Supported stage sessions and main flow using deterministic fake SDL/time."""
 from types import SimpleNamespace
 import sys
 import unittest
@@ -65,7 +65,7 @@ def run_loop(batches, *, initial_stage=1, initial='clear', focus=None, lengths=N
         if not created:
             if initial_factory is not None:
                 return register(initial_factory())
-            if initial_stage in (2, 3):
+            if initial_stage in (2, 3, 4):
                 return register(original_stage(initial_stage))
         return register(original_one())
 
@@ -133,13 +133,13 @@ class StageSessionTests(unittest.TestCase):
         self.assertEqual(game.encounter.ledger.stage_instance_id, game.combat.stage_instance_id)
 
     def test_supported_clear_can_continue_and_restart_destinations_are_explicit(self):
-        for number in (1, 2, 3):
+        for number in (1, 2, 3, 4):
             for state in ('playing', 'dead', 'clear'):
                 with self.subTest(number=number, state=state):
                     game = main._new_stage_game(number)
                     finish(game, state)
                     self.assertEqual(game.next_stage_number,
-                                     number + 1 if number < 3 and state == 'clear' else None)
+                                     number + 1 if number < 4 and state == 'clear' else None)
                     self.assertEqual(game.restart_stage_number,
                                      None if state == 'playing' else 1 if state == 'dead' else number)
 
@@ -157,7 +157,7 @@ class StageSessionTests(unittest.TestCase):
         self.assertFalse(game.update_state())
 
     def test_unsupported_stage_and_invalid_metadata_fail_before_creating_entities(self):
-        for number in (0, *range(4, 26), -1):
+        for number in (0, *range(5, 26), -1):
             with self.subTest(number=number), self.assertRaises(ValueError):
                 main._new_stage_game(number)
         for number in (True, 2.0, '2', None):
@@ -165,7 +165,7 @@ class StageSessionTests(unittest.TestCase):
                 main._new_stage_game(number)
         game = main._new_game()
         args = (game.player, game.combat, game.encounter, game.parry, game.resolver)
-        for metadata in ({'stage_number': 4}, {'stage_number': True}, {'chapter': 2}, {'chapter': True}):
+        for metadata in ({'stage_number': 5}, {'stage_number': True}, {'chapter': 2}, {'chapter': True}):
             with self.subTest(metadata=metadata), self.assertRaises(ValueError):
                 StageGame(*args, **metadata)
 
@@ -342,9 +342,9 @@ class StageFlowMainTests(unittest.TestCase):
         self.assertEqual([e.kind for e in created[1].encounter.enemies], ['rook', 'pawn', 'pawn'])
         self.assertLess(clock.accumulator, FIXED_TIME_STEP)
 
-    def test_n_is_ignored_in_playing_game_over_and_stage_three_clear(self):
+    def test_n_is_ignored_in_playing_game_over_and_stage_four_clear(self):
         for number, state in ((1, 'playing'), (1, 'dead'), (2, 'playing'), (2, 'dead'),
-                              (3, 'playing'), (3, 'dead'), (3, 'clear')):
+                              (3, 'playing'), (3, 'dead'), (4, 'playing'), (4, 'dead'), (4, 'clear')):
             with self.subTest(number=number, state=state):
                 created, _, _, _, _, _ = run_loop([[key(N)], [], [key(N, False), key(N)]],
                                                  initial_stage=number, initial=state)

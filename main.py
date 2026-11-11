@@ -42,13 +42,13 @@ def _new_game():
 
 
 def _new_stage_game(stage_number):
-    """Construct Stage 1–3 sessions; catalog access alone never enables later play."""
+    """Construct Stage 1–4 sessions; catalog access alone never enables later play."""
     if type(stage_number) is not int:
         raise TypeError('Playable stage number must be an integer')
     if stage_number == 1:
         return _new_game()
-    if stage_number not in (2, 3):
-        raise ValueError('Only Stage 1 through Stage 3 are playable')
+    if stage_number not in (2, 3, 4):
+        raise ValueError('Only Stage 1 through Stage 4 are playable')
     definition = StageCatalog.load().get_stage(stage_number)
     player = Player(*definition.player_spawn)
     combat, parry = Combat(), Parry()

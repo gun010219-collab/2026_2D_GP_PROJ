@@ -1,4 +1,4 @@
-"""Deterministic Pawn/Rook/Knight HP resolution; no SDL/render/private clock.
+"""Deterministic supported-enemy HP resolution; no SDL/render/private clock.
 
 Current-tick input is processed before resolve_current_tick(), following the
 PDF p.7 order. Historical catch-up is settled one integer tick at a time.
@@ -11,7 +11,7 @@ from board import in_bounds
 from combat import AttackEvent, Combat, _duration_ticks
 from config import (
     PAWN_ATTACK_DAMAGE, PLAYER_ATTACK_DAMAGE, ROOK_ATTACK_DAMAGE,
-    KNIGHT_ATTACK_DAMAGE,
+    KNIGHT_ATTACK_DAMAGE, BISHOP_ATTACK_DAMAGE,
     PLAYER_HIT_INVULNERABILITY_SECONDS,
 )
 from enemy import Enemy
@@ -38,7 +38,7 @@ class CombatResolver:
     def __init__(self, player, combat, encounter, *,
                  player_damage=PLAYER_ATTACK_DAMAGE,
                  pawn_damage=PAWN_ATTACK_DAMAGE, parry=None, rook_damage=ROOK_ATTACK_DAMAGE,
-                 knight_damage=KNIGHT_ATTACK_DAMAGE):
+                 knight_damage=KNIGHT_ATTACK_DAMAGE, bishop_damage=BISHOP_ATTACK_DAMAGE):
         if not isinstance(player, Player):
             raise TypeError('Damage target/source must be a Player')
         if not isinstance(combat, Combat) or not isinstance(encounter, EnemyEncounter):
@@ -47,6 +47,7 @@ class CombatResolver:
         self._validate_damage(pawn_damage)
         self._validate_damage(rook_damage)
         self._validate_damage(knight_damage)
+        self._validate_damage(bishop_damage)
         if parry is not None and not isinstance(parry, Parry):
             raise TypeError('Parry input model must be a Parry')
         self.player = player
@@ -63,6 +64,7 @@ class CombatResolver:
         self.pawn_damage = pawn_damage
         self.rook_damage = rook_damage
         self.knight_damage = knight_damage
+        self.bishop_damage = bishop_damage
         self.player_invulnerability_ticks = _duration_ticks(PLAYER_HIT_INVULNERABILITY_SECONDS)
         self.player_invulnerable_until_tick = 0
         self.parry = parry
@@ -93,7 +95,7 @@ class CombatResolver:
         if self.stopped:
             return False
         for enemy in self.encounter.enemies:
-            self.encounter.cancel_attacks(enemy.entity_instance_id)
+            self.encounter.cancel_attacks(enemy.entity_instance_id, tick=self.combat.tick)
         self._close_invalid_parries()
         self._stopped = True
         return True
@@ -248,7 +250,7 @@ class CombatResolver:
             if self.combat.consume_attack(event, target.entity_instance_id):
                 result = self._apply(event, self._player_id, target, amount)
                 if not target.alive:
-                    self.encounter.deactivate(target.entity_instance_id)
+                    self.encounter.deactivate(target.entity_instance_id, tick=self.combat.tick)
                     self._close_invalid_parries()
         self.combat.finish_attack(event)
         return result
@@ -272,6 +274,7 @@ class CombatResolver:
         self._validate_damage(self.pawn_damage)
         self._validate_damage(self.rook_damage)
         self._validate_damage(self.knight_damage)
+        self._validate_damage(self.bishop_damage)
         self._close_invalid_parries()
         ledger = self.encounter.ledger
         if not isinstance(event, EnemyAttackEvent) or ledger.state(event) == 'unknown':
@@ -286,7 +289,7 @@ class CombatResolver:
         if state == 'resolved':
             return None
         if not source.active:
-            self.encounter.deactivate(source.entity_instance_id)
+            self.encounter.deactivate(source.entity_instance_id, tick=self.combat.tick)
             self._fail_parry(event, 'source_dead')
             return None
         if self.combat.tick < event.hit_tick or state != 'due':
@@ -332,7 +335,7 @@ class CombatResolver:
             self._fail_parry(event, 'already_consumed')
             return None
         amount = {'pawn': self.pawn_damage, 'rook': self.rook_damage,
-                  'knight': self.knight_damage}[source.kind]
+                  'knight': self.knight_damage, 'bishop': self.bishop_damage}[source.kind]
         result = self._apply(event, source.entity_instance_id, self.player, amount)
         self.player_invulnerable_until_tick = self.combat.tick + self.player_invulnerability_ticks
         ledger.finish(event, 'hit')

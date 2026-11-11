@@ -1,4 +1,4 @@
-"""Shared tick/ledger lifecycle for Pawn pursuit, Rook dash and Knight jump."""
+"""Shared tick/ledger lifecycle for Pawn/Rook/Knight/Bishop actions."""
 from board import in_bounds
 from combat import _duration_ticks
 from config import (
@@ -6,11 +6,13 @@ from config import (
     PERFECT_PARRY_STUN_SECONDS, ROOK_MOVE_INTERVAL_SECONDS,
     ROOK_RECOVERY_SECONDS, ROOK_TELEGRAPH_SECONDS,
     KNIGHT_RECOVERY_SECONDS, KNIGHT_TELEGRAPH_SECONDS,
+    BISHOP_RECOVERY_SECONDS, BISHOP_TELEGRAPH_SECONDS,
 )
 from enemy import Enemy
 from enemy_attack import EnemyAttackLedger
 from rook_behavior import attack_path, choose_move
 from knight_behavior import choose_landing
+from bishop_behavior import color_targets
 
 
 # Stable tie order; movement does not change the JSON attack-facing vector.
@@ -21,8 +23,8 @@ class EnemyEncounter:
     def __init__(self, enemies, start_tick=0, combat_session_id=None, stage_instance_id=None):
         self._validate_tick(start_tick)
         self.enemies = tuple(enemies)
-        if any(not isinstance(e, Enemy) or e.kind not in ('pawn', 'rook', 'knight') for e in self.enemies):
-            raise ValueError('Encounter supports live Pawn/Rook/Knight instances only')
+        if any(not isinstance(e, Enemy) or e.kind not in ('pawn', 'rook', 'knight', 'bishop') for e in self.enemies):
+            raise ValueError('Encounter supports live Pawn/Rook/Knight/Bishop instances only')
         self.ledger = EnemyAttackLedger(combat_session_id, stage_instance_id)
         self.move_ticks = _duration_ticks(PAWN_MOVE_INTERVAL_SECONDS)
         self.telegraph_ticks = _duration_ticks(PAWN_TELEGRAPH_SECONDS)
@@ -32,9 +34,14 @@ class EnemyEncounter:
         self.rook_recovery_ticks = _duration_ticks(ROOK_RECOVERY_SECONDS)
         self.knight_telegraph_ticks = _duration_ticks(KNIGHT_TELEGRAPH_SECONDS)
         self.knight_recovery_ticks = _duration_ticks(KNIGHT_RECOVERY_SECONDS)
+        self.bishop_telegraph_ticks = _duration_ticks(BISHOP_TELEGRAPH_SECONDS)
+        self.bishop_recovery_ticks = _duration_ticks(BISHOP_RECOVERY_SECONDS)
         self.tick = start_tick - 1
         self._movement_history = {}
         self._attack_moves = {}
+        # Live non-Pawn plans share one store; a Bishop's plan never moves it.
+        # Only the last release per color is needed, not another event ledger.
+        self._bishop_closed_tick = {}
         if len({e.entity_instance_id for e in self.enemies}) != len(self.enemies):
             raise ValueError('Duplicate enemy instance IDs')
         if len({e.data_id for e in self.enemies}) != len(self.enemies):
@@ -63,7 +70,7 @@ class EnemyEncounter:
 
     def _recovery_ticks(self, enemy):
         return {'pawn': self.recovery_ticks, 'rook': self.rook_recovery_ticks,
-                'knight': self.knight_recovery_ticks}[enemy.kind]
+                'knight': self.knight_recovery_ticks, 'bishop': self.bishop_recovery_ticks}[enemy.kind]
 
     def _choose_move(self, enemy, player_cell):
         """Greedy one-cell pursuit with bounded memory, not a pathfinder.
@@ -108,7 +115,7 @@ class EnemyEncounter:
         for now in range(self.tick + 1, tick + 1):
             for enemy in self.enemies:
                 if not enemy.alive and enemy.state != 'inactive':
-                    self.deactivate(enemy.entity_instance_id)
+                    self.deactivate(enemy.entity_instance_id, tick=now)
                 if not enemy.active:
                     continue
                 recovery_ticks = self._recovery_ticks(enemy)
@@ -122,7 +129,7 @@ class EnemyEncounter:
                 if enemy.current_attack is not None:
                     event = enemy.current_attack
                     if self.ledger.state(event) == 'cancelled':
-                        self._discard_attack_moves(enemy.entity_instance_id)
+                        self._discard_attack_moves(enemy.entity_instance_id, tick=now)
                         enemy.current_attack = None
                         enemy.state = 'waiting'
                         enemy.next_action_tick = now + recovery_ticks
@@ -143,6 +150,9 @@ class EnemyEncounter:
                     continue
                 if enemy.kind == 'knight':
                     self._begin_knight_action(enemy, player_cell, now)
+                    continue
+                if enemy.kind == 'bishop':
+                    self._begin_bishop_action(enemy, now)
                     continue
                 # A single ready-action reservation: attack takes priority over moving.
                 col, row = enemy.position
@@ -190,6 +200,23 @@ class EnemyEncounter:
         enemy.state = 'telegraph'
         enemy.next_action_tick = enemy.current_attack.hit_tick
 
+    def _begin_bishop_action(self, enemy, tick):
+        opposite = 1 - sum(enemy.position) % 2
+        pending_opposite = any(source.kind == 'bishop' and sum(origin) % 2 == opposite
+                              and self.ledger.state(event) in ('telegraph', 'due')
+                              for event, source, origin in self._attack_moves.values())
+        if pending_opposite or self._bishop_closed_tick.get(opposite) == tick:
+            # Approved: no event/cooldown is spent while waiting; try next tick.
+            enemy.state = 'waiting'
+            enemy.next_action_tick = tick + 1
+            return
+        enemy.current_attack = self.ledger.create(
+            enemy.entity_instance_id, tick, tick + self.bishop_telegraph_ticks,
+            color_targets(enemy.position))
+        self._attack_moves[enemy.current_attack.key] = (enemy.current_attack, enemy, enemy.position)
+        enemy.state = 'telegraph'
+        enemy.next_action_tick = enemy.current_attack.hit_tick
+
     def _cancel_obstructed_moves(self, tick):
         """Approved policy: cancel the WHOLE snapshot, recover from cancel tick.
 
@@ -198,6 +225,8 @@ class EnemyEncounter:
         Rook checks its whole path; Knight checks its single landing only.
         """
         for event, source, origin in tuple(self._attack_moves.values()):
+            if source.kind == 'bishop':
+                continue  # No ray/movement path; all 50 squares stay targeted.
             if self.ledger.state(event) not in ('telegraph', 'due'):
                 continue
             occupied = self.occupied_cells - {source.position}
@@ -210,13 +239,13 @@ class EnemyEncounter:
                     source.next_action_tick = tick + self._recovery_ticks(source)
 
     def prepare_attack(self, event):
-        """Verify attack movement has an actual AI-issued plan, not just an ID."""
+        """Verify a non-Pawn attack has an actual AI-issued plan, not just an ID."""
         source = next((e for e in self.enemies
                        if e.entity_instance_id == event.source_entity_instance_id), None)
-        if source is not None and source.kind in ('rook', 'knight'):
+        if source is not None and source.kind in ('rook', 'knight', 'bishop'):
             plan = self._attack_moves.get(event.key)
             if plan is None or plan[0] != event or plan[1] is not source:
-                action = 'dash' if source.kind == 'rook' else 'jump'
+                action = {'rook': 'dash', 'knight': 'jump', 'bishop': 'color attack'}[source.kind]
                 raise ValueError(f'{source.kind.title()} attack has no matching live {action} plan')
             self._cancel_obstructed_moves(self.tick)
         return self.ledger.state(event) == 'due'
@@ -228,6 +257,7 @@ class EnemyEncounter:
         that cell even on an invulnerable or normal-parried attack. Perfect
         parry stuns/cancels movement before this method and leaves its origin.
         A Knight stays at its origin if the player occupies its landing cell.
+        A Bishop never moves; closing its plan releases the opposite color.
         """
         plan = self._attack_moves.get(event.key)
         if plan is None or plan[0] != event:
@@ -237,6 +267,9 @@ class EnemyEncounter:
             return False
         del self._attack_moves[event.key]
         _, source, origin = plan
+        if source.kind == 'bishop':
+            self._bishop_closed_tick[sum(origin) % 2] = self.tick
+            return False  # Stationary even on hit, miss, invulnerability or parry.
         if (state != 'resolved' or event.hit_tick != self.tick
                 or self.ledger.outcome(event) not in ('hit', 'miss', 'invulnerable', 'parried_normal')
                 or not source.active or source.state == 'stunned' or source.position != origin):
@@ -257,10 +290,12 @@ class EnemyEncounter:
         self._cancel_obstructed_moves(self.tick)
         return True
 
-    def cancel_attacks(self, entity_instance_id):
+    def cancel_attacks(self, entity_instance_id, *, tick=None):
         """Release live plans while retaining ledger receipts and tombstones."""
+        if tick is not None:
+            self._validate_tick(tick)
         count = self.ledger.cancel_source(entity_instance_id)
-        self._discard_attack_moves(entity_instance_id)
+        self._discard_attack_moves(entity_instance_id, tick=tick)
         for enemy in self.enemies:
             if enemy.entity_instance_id == entity_instance_id:
                 enemy.current_attack = None
@@ -288,24 +323,28 @@ class EnemyEncounter:
             if enemy.entity_instance_id == entity_instance_id:
                 if not enemy.active:
                     return False
-                self.cancel_attacks(entity_instance_id)
+                self.cancel_attacks(entity_instance_id, tick=tick)
                 enemy.stun_until_tick = max(enemy.stun_until_tick, tick + duration_ticks)
                 enemy.next_action_tick = enemy.stun_until_tick
                 enemy.state = 'stunned'
                 return True
         raise ValueError('Unknown enemy instance ID')
 
-    def deactivate(self, entity_instance_id):
+    def deactivate(self, entity_instance_id, *, tick=None):
         """Cancel source attacks and release occupancy without removing history."""
         for enemy in self.enemies:
             if enemy.entity_instance_id == entity_instance_id:
-                self.cancel_attacks(entity_instance_id)
+                self.cancel_attacks(entity_instance_id, tick=tick)
                 enemy.stun_until_tick = 0
                 enemy.state = 'inactive'
                 return
         raise ValueError('Unknown enemy instance ID')
 
-    def _discard_attack_moves(self, entity_instance_id):
+    def _discard_attack_moves(self, entity_instance_id, *, tick=None):
+        closed_tick = max(0, self.tick) if tick is None else tick
+        for _, source, origin in self._attack_moves.values():
+            if source.entity_instance_id == entity_instance_id and source.kind == 'bishop':
+                self._bishop_closed_tick[sum(origin) % 2] = closed_tick
         self._attack_moves = {key: record for key, record in self._attack_moves.items()
                               if record[1].entity_instance_id != entity_instance_id}
 

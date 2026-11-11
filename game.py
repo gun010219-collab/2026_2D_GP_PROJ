@@ -1,4 +1,4 @@
-"""Stage 1–3 session outcomes and transition destinations; no SDL/rendering."""
+"""Stage 1–4 session outcomes and transition destinations; no SDL/rendering."""
 from enum import Enum
 
 from combat_resolution import CombatResolver
@@ -13,10 +13,10 @@ class GameState(str, Enum):
 class StageGame:
     """Own one combat instance. Restart creates a new instance, never rewinds it."""
     def __init__(self, player, combat, encounter, parry, resolver, *, stage_number=1, chapter=1):
-        if type(stage_number) is not int or stage_number not in (1, 2, 3):
-            raise ValueError('Only Stage 1 through Stage 3 combat sessions are supported')
+        if type(stage_number) is not int or stage_number not in (1, 2, 3, 4):
+            raise ValueError('Only Stage 1 through Stage 4 combat sessions are supported')
         if type(chapter) is not int or chapter != 1:
-            raise ValueError('Stage 1 through Stage 3 require Chapter 1')
+            raise ValueError('Stage 1 through Stage 4 require Chapter 1')
         if (not isinstance(resolver, CombatResolver) or resolver.player is not player
                 or resolver.combat is not combat or resolver.encounter is not encounter
                 or resolver.parry is not parry):
@@ -46,7 +46,7 @@ class StageGame:
     @property
     def next_stage_number(self):
         # Temporary direct continuation until the upgrade flow is implemented.
-        return (self.stage_number + 1 if self.stage_number < 3
+        return (self.stage_number + 1 if self.stage_number < 4
                 and self.state is GameState.STAGE_CLEAR else None)
 
     @property

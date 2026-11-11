@@ -47,6 +47,12 @@ KNIGHT_TELEGRAPH_SECONDS = 0.60
 KNIGHT_RECOVERY_SECONDS = 1.20
 KNIGHT_ATTACK_DAMAGE = 1
 
+# Stationary Bishop, PDF p.14/p.18; common enemy damage p.6.
+BISHOP_INITIAL_HP = 3
+BISHOP_TELEGRAPH_SECONDS = 1.80
+BISHOP_RECOVERY_SECONDS = 4.00
+BISHOP_ATTACK_DAMAGE = 1
+
 # Task 1-F initial PDF baselines, not final approved combat balance.
 # Game design PDF p.6 (player/damage/invulnerability), p.11 (Pawn HP).
 PLAYER_INITIAL_HP = 3

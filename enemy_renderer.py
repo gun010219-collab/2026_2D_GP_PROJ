@@ -1,4 +1,4 @@
-"""Temporary Pawn/Rook/Knight silhouettes; no combat mutation or resources."""
+"""Temporary supported-enemy silhouettes; no combat mutation or resources."""
 from config import TILE_SIZE, cell_center
 
 
@@ -9,6 +9,18 @@ class EnemyRenderer:
             if not enemy.active:
                 continue
             x, y = cell_center(enemy.col, enemy.row)
+            if enemy.kind == 'bishop':
+                # Narrow priest/miter silhouette, split crown and diagonal notch.
+                for left, bottom, right, top in (
+                        (-12, -18, 12, 4), (-10, 4, 10, 16),
+                        (-8, 16, -2, 25), (2, 16, 8, 25), (-22, -25, 22, -19)):
+                    canvas.draw_rectangle(x + left * unit, y + bottom * unit,
+                                          x + right * unit, y + top * unit,
+                                          214, 207, 185, filled=True)
+                canvas.draw_rectangle(x - 7 * unit, y - 17 * unit, x + 7 * unit, y + 3 * unit,
+                                      54, 48, 67, filled=True)
+                canvas.draw_line(x - 4 * unit, y + 7 * unit, x + 5 * unit, y + 16 * unit, 62, 48, 69)
+                continue
             if enemy.kind == 'knight':
                 # Bent neck, forward muzzle and one ear; keep the HP label
                 # above y+30 and the warning cell's outer border unobstructed.

@@ -20,7 +20,7 @@ PDF의 모든 시스템과 수치를 최신 확정 규칙으로 재승인한 것
 - 스테이지 구성·적 배치·ID·수치는 `stage_data.json`을 보존한다.
   향후 테마 선택은 그 데이터의 `chapter` 필드를 기준으로 한다.
   Task 1-I의 `stage_manager.StageCatalog`는 원본을 검증해 1~25번의 읽기 전용 정의를 제공한다.
-  카탈로그 자체는 데이터 조회만 제공한다. 실제 플레이 연결은 별도로 Stage 1~3에 구현했다.
+  카탈로그 자체는 데이터 조회만 제공한다. 실제 플레이 연결은 별도로 Stage 1~4에 구현했다.
 - 기본 조작 기준은 AGENTS.md의 방향키 이동 / SPACE 전방 공격 / Shift 패링 /
   ESC 일시정지다. 현재 버전은 방향키 1칸 이동을 구현했고, 설정 메뉴에서 ESC는 닫기,
   메뉴 밖에서는 종료다. Task 1-C는 SPACE 기본 공격 이벤트와 임시 효과를 구현했다.
@@ -31,7 +31,8 @@ PDF의 모든 시스템과 수치를 최신 확정 규칙으로 재승인한 것
   Task 1-K는 같은 루프에서 Stage 1 클리어→N→Stage 2 혼합 전투를 연결했다. 사용자 Windows 11 GUI15개 모두 통과했다.
   Task 1-L은 Knight와3종 혼합 전투 기반을 자동 검증했고 사용자 Windows 11 Stage 1~2 GUI 회귀10개 모두 통과했다.
   Task 1-M은 Stage 2 클리어→N→Stage 3과 Knight의 실제 main/GUI 실행 경로를 연결했고 사용자 Windows 11 GUI16개 모두 통과했다.
-  별도 일시정지 화면과 Stage 4 이후 전투/진행은 아직 구현하지 않았다.
+  Task 1-N은 원본의 고정형 Bishop과 Stage 4를 연결했고 사용자 Windows 11 GUI17개 모두 통과했다.
+  별도 일시정지 화면과 Stage 5 이후 전투/진행은 아직 구현하지 않았다.
 
 ## 승인된 챕터 구성
 
@@ -49,7 +50,24 @@ Pawn/Rook/Knight/Bishop/Queen/King의 식별 실루엣은 챕터 전반에 유�
 
 ## 구현 경계
 
-현재 Task 1-M의 main 실행 범위는 Stage 1~3이다. `_new_stage_game(3)`은 StageCatalog의 원본 배치와
+현재 Task 1-N의 main 실행 범위는 Stage 1~4다. Bishop은 원본 p.14의 **이동하지 않는 고정형 지원 적**이며
+대각선 이동/광선이 아니다. HP3/공통 피해1/같은 색50칸(자기 칸 포함)108틱 예고/정상 행동 후240틱 회복이다.
+50칸은 불변 target_cells로 경고와 실제 판정이 같으며 다른 적 점유가 범위를 가리거나 취소하지 않는다.
+플레이어 진입은 피해·패링 대상, 상하좌우 한 칸 회피는 반대색 안전 구역이다. 패링 후에도 비숍은 원위치다.
+반대색 예고·미처리 due가 있으면 대기하며 완료·취소 다음 틱부터 JSON 순서로 재시도한다. 같은 색은 동시 예고를 허용한다.
+이 대기 순서는 원문 p.14에 없어 사용자 승인을 받았다. 임의로 추가 회복240틱을 대기 비용으로 쓰지 않는다.
+공통 원장/HP/패링·무적·기절·반격과 기존 기절 종료 후 새 행동 복귀를 재사용한다. 원문 수치는 초기 밸런스 기준선이다.
+Stage 4는 Chapter 1/Player(5,1)HP3, Bishop(2,8)HP3·0.8초, Rook(2,4)HP4·1.02초,
+Pawn(1,6)HP2·1.24초, Pawn(8,6)HP2·1.46초를 원본 순서대로 새 객체로 만든다.
+Stage 1~3 클리어 N은다음 Stage, Stage 4 클리어 N은무효, 각 클리어 R은현재 Stage, 모든 게임 오버 R은Stage 1이다.
+N 직접 진행은 강화 전 임시 흐름이며 Stage 4 클리어는 Chapter 1 완료/엔딩이 아니다. 보스는Stage 5다.
+새 세션·입력·시간 격리와 창/SETTINGS/테마·보드·공통 렌더러를 재사용한다. 비숍 임시 실루엣은 좁은 사제형·갈라진 관이다.
+전체685개 자동 테스트와 네이티브 SDL dummy/25개 일반·최적화 검사는 통과했다.
+초기 GUI 대기 후 사용자가 Windows 11 GUI17개 모두 통과와 Bishop 체감 평가 “공격이 명확하고 재미있음.”을 보고했다.
+상세 항목은 PROGRESS에 사용자 수동 결과로 기록한다. 반대색 조정은 자동 검증이며 실제 복수 Bishop Windows 플레이,
+장기 밸런스/모든 PC 환경/전체25스테이지 QA 완료는 아니다. 사용자는 최종 검수 후 지정 커밋과 기존 main 일반 Push를 승인했다.
+
+Task 1-M 당시 main 실행 범위는 Stage 1~3이었다. `_new_stage_game(3)`은 StageCatalog의 원본 배치와
 create_stage_enemies()로 새 Player/Combat/Parry/EnemyEncounter/CombatResolver/StageGame을 만든다.
 Stage 3은 Chapter 1/플레이어(5,1)HP3, Knight(3,6)HP3·0.8초, Pawn(1,6)HP2·1.02초와 Pawn(8,6)HP2·1.24초다.
 Stage 1·2 클리어 N은 각각2·3으로 진행하고, Stage 3 클리어 N은 무효다. 각 클리어 R은현재 스테이지,
@@ -103,7 +121,7 @@ Rook 경고·피격·회피·플레이어 경로 진입·일반/퍼펙트·충�
 Task 1-J는 Rook/Pawn 공통 전투 기반을 구현했다. Rook 기준선은 원본 p.12/p.18의
 HP4/최대3칸 직선 재배치·72틱/공격 예고48틱/회복90틱과 p.6의 적 피해1이다.
 Task 1-J 당시 공통 Enemy/EnemyEncounter와 생성 어댑터는 Pawn/Rook을 지원했다.
-이후 Task 1-L에서 Knight를 추가했으며 Bishop/Queen/King의 실제 생성은 계속 오류다.
+이후 Task 1-L에서 Knight, Task 1-N에서 Bishop을 추가했으며 Queen/King의 실제 생성은 계속 오류다.
 Rook은 같은 행·열의 빈 경로를 예약하고 불변 target_cells로 예고·피해를 공유한다.
 피해/패링 판정 뒤 한 번 돌진하며 경로에 남은 플레이어 직전 칸, 회피하면 예약 목적지에 멈춘다.
 일반 패링은 피해만 막고, 퍼펙트는 해당 공격자를 출발 칸에서60틱 기절시키며 기존 반격 보상을 적용한다.
@@ -245,12 +263,12 @@ Task 1-I 당시 기존 Stage 1 로더의 입력/예외 계약을 유지하고 ma
 이후 Task 1-K는 그 공개 계약을 유지하면서 공통 StageGame과 Stage 2 생성 경로를 연결한다.
 실제 Stage 1은 여전히 같은 JSON의 (5,1) 플레이어와 Pawn 두 개만 생성한다.
 이후 Task 1-J에서 Pawn/Rook용 `enemy_factory`를 연결했고 Task 1-L에서 Knight를 추가했다.
-Bishop/Queen/King의 실제 생성/AI는 아직 미지원이다.
+Task 1-N에서 Bishop을 추가했다. Queen/King의 실제 생성/AI는 아직 미지원이다.
 Task 1-I는 사용자가 Windows 11에서 기존 Stage 1 회귀 GUI 8개 모두 통과를 보고했다.
 시작/이동·공격/Pawn AI·피해/일반·퍼펙트 패링·보상/게임 오버·클리어 재시작/설정·화면·종료를 확인했다.
 이 사용자 수동 결과는 601틱 비교·데이터 불변성 등의 자동 검증과 구분하며, 최종 검수 후 커밋·Push를 승인했다.
 
-범용 25개 스테이지 진행/전환, Stage 4 이후 실제 화면 플레이, Bishop/Queen/King 실제 생성·AI,
+범용 25개 스테이지 진행/전환, Stage 5 이후 실제 화면 플레이, Queen/King 실제 생성·AI,
 보스전, 최종 전투 이펙트/음향, 저장, 강화 선택, 챕터 해금은 미구현이다.
 5개 렌더링 루프나 챕터별 전투 로직을 만들지 않는다.
 

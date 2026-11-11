@@ -31,7 +31,7 @@ class KnightDefinitionTests(unittest.TestCase):
     def test_invalid_knight_model_fields_are_rejected(self):
         for change in ({'col': True}, {'row': 10}, {'forward': (0, -1)}, {'data_id': ''},
                        {'entity_instance_id': ''}, {'initial_delay': -1},
-                       {'initial_delay': float('inf')}, {'initial_delay': True}, {'kind': 'bishop'}):
+                       {'initial_delay': float('inf')}, {'initial_delay': True}, {'kind': 'queen'}):
             values = dict(data_id='k', col=4, row=3, forward=None, initial_delay=0, kind='knight')
             values.update(change)
             with self.subTest(change=change), self.assertRaises(ValueError):
@@ -59,9 +59,9 @@ class KnightDefinitionTests(unittest.TestCase):
         self.assertTrue({e.entity_instance_id for e in first}.isdisjoint(e.entity_instance_id for e in second))
         self.assertFalse(hasattr(stage.enemies[0], 'health'))
 
-    def test_bishop_queen_king_and_unknown_knight_options_are_still_rejected(self):
+    def test_queen_king_and_unknown_knight_options_are_still_rejected(self):
         catalog = StageCatalog.load()
-        for kind in ('bishop', 'queen', 'king'):
+        for kind in ('queen', 'king'):
             definition = next(e for s in catalog.stages for e in s.enemies if e.kind == kind)
             with self.subTest(kind=kind), self.assertRaises(UnsupportedEnemyError):
                 create_enemy(definition)
