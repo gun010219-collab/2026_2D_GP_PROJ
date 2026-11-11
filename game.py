@@ -1,4 +1,4 @@
-"""Small Stage 1 session/outcome model; no window, input or rendering state."""
+"""Stage 1/2 session outcomes and transition destinations; no SDL/rendering."""
 from enum import Enum
 
 from combat_resolution import CombatResolver
@@ -10,15 +10,21 @@ class GameState(str, Enum):
     STAGE_CLEAR = 'STAGE_CLEAR'
 
 
-class StageOneGame:
+class StageGame:
     """Own one combat instance. Restart creates a new instance, never rewinds it."""
-    def __init__(self, player, combat, encounter, parry, resolver):
+    def __init__(self, player, combat, encounter, parry, resolver, *, stage_number=1, chapter=1):
+        if type(stage_number) is not int or stage_number not in (1, 2):
+            raise ValueError('Only Stage 1 and Stage 2 combat sessions are supported')
+        if type(chapter) is not int or chapter != 1:
+            raise ValueError('Stage 1 and Stage 2 require Chapter 1')
         if (not isinstance(resolver, CombatResolver) or resolver.player is not player
                 or resolver.combat is not combat or resolver.encounter is not encounter
                 or resolver.parry is not parry):
-            raise ValueError('Stage 1 session must own the resolver entities and clocks')
+            raise ValueError(f'Stage {stage_number} session must own the resolver entities and clocks')
         if not encounter.enemies:
-            raise ValueError('Stage 1 session requires enemy data')
+            raise ValueError(f'Stage {stage_number} session requires enemy data')
+        self._stage_number = stage_number
+        self._chapter = chapter
         self.player = player
         self.combat = combat
         self.encounter = encounter
@@ -28,6 +34,26 @@ class StageOneGame:
         self._end_tick = None
         self._transition_count = 0
         self.update_state()
+
+    @property
+    def stage_number(self):
+        return self._stage_number
+
+    @property
+    def chapter(self):
+        return self._chapter
+
+    @property
+    def next_stage_number(self):
+        # Temporary direct continuation until the upgrade flow is implemented.
+        return 2 if self.stage_number == 1 and self.state is GameState.STAGE_CLEAR else None
+
+    @property
+    def restart_stage_number(self):
+        if self.playing:
+            return None
+        # Both supported stages are in Chapter 1. Death retries its first stage.
+        return 1 if self.state is GameState.GAME_OVER else self.stage_number
 
     @property
     def state(self):
@@ -87,3 +113,9 @@ class StageOneGame:
             self.combat.advance()
             results.extend(self.resolve_current_tick())
         return tuple(results)
+
+
+class StageOneGame(StageGame):
+    """Preserve the original five-argument Stage 1 constructor and behavior."""
+    def __init__(self, player, combat, encounter, parry, resolver):
+        super().__init__(player, combat, encounter, parry, resolver)

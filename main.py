@@ -9,7 +9,7 @@ from renderer import BoardRenderer
 from display_settings import DisplaySettings, logical_mouse_to_canvas
 from settings_menu import SettingsMenu
 from settings_renderer import SettingsRenderer
-from player import load_stage1_player
+from player import Player, load_stage1_player
 from player_renderer import PlayerRenderer
 from combat import Combat
 from attack_renderer import AttackRenderer
@@ -18,12 +18,14 @@ from sdl_input import GameplayInput
 from parry import Parry
 from parry_renderer import ParryRenderer, ParryResultRenderer
 from enemy import load_stage1_enemies
-from enemy_behaviors import PawnEncounter
+from enemy_behaviors import EnemyEncounter, PawnEncounter
+from enemy_factory import create_stage_enemies
+from stage_manager import StageCatalog
 from enemy_renderer import EnemyRenderer
 from enemy_attack_renderer import EnemyAttackRenderer
 from combat_resolution import CombatResolver
 from health_renderer import HealthRenderer
-from game import StageOneGame
+from game import StageGame, StageOneGame
 from game_renderer import GameFlowRenderer
 
 
@@ -39,6 +41,25 @@ def _new_game():
     return StageOneGame(player, combat, encounter, parry, resolver)
 
 
+def _new_stage_game(stage_number):
+    """Construct a supported session; never turn catalog access into Stage 3 play."""
+    if type(stage_number) is not int:
+        raise TypeError('Playable stage number must be an integer')
+    if stage_number == 1:
+        return _new_game()
+    if stage_number != 2:
+        raise ValueError('Only Stage 1 and Stage 2 are playable')
+    definition = StageCatalog.load().get_stage(stage_number)
+    player = Player(*definition.player_spawn)
+    combat, parry = Combat(), Parry()
+    encounter = EnemyEncounter(create_stage_enemies(definition), start_tick=combat.tick,
+                               combat_session_id=combat.combat_session_id,
+                               stage_instance_id=combat.stage_instance_id)
+    resolver = CombatResolver(player, combat, encounter, parry=parry)
+    return StageGame(player, combat, encounter, parry, resolver,
+                     stage_number=definition.number, chapter=definition.chapter)
+
+
 def main():
     # Import here so configuration and importing this module never open a window.
     # Use the implementation module: its live window handle is set by open_canvas.
@@ -46,7 +67,7 @@ def main():
 
     game = _new_game()
     player, combat, parry = game.player, game.combat, game.parry
-    pawns, resolver = game.encounter, game.resolver
+    encounter, resolver = game.encounter, game.resolver
     player_renderer = PlayerRenderer()
     attack_renderer = AttackRenderer()
     parry_renderer = ParryRenderer()
@@ -77,7 +98,7 @@ def main():
             pending_gameplay.clear()
             for event in queued:
                 controls.handle_key(event, player, combat, blocked=blocked, parry=parry,
-                                    occupied=pawns.occupied_cells,
+                                    occupied=encounter.occupied_cells,
                                     on_attack=resolver.resolve_player_attack,
                                     on_parry=resolver.register_parry)
 
@@ -128,25 +149,33 @@ def main():
             display_changed = False
             menu_changed = False
             restarted_this_frame = False
-            if (game.playing and pawns.tick < combat.tick and focused
+            if (game.playing and encounter.tick < combat.tick and focused
                     and not focus_changed and not menu.is_open):
                 flush_gameplay()
             for event in events:
-                if controls.handle_restart(event, enabled=not game.playing,
-                                           blocked=menu.is_open or display_changed
-                                           or not focused or focus_changed):
+                transition_blocked = (menu.is_open or display_changed or not focused
+                                      or focus_changed or restarted_this_frame)
+                destination = None
+                if controls.handle_restart(event, enabled=game.restart_stage_number is not None,
+                                           blocked=transition_blocked):
+                    destination = game.restart_stage_number
+                elif controls.handle_next(event, enabled=game.next_stage_number is not None,
+                                          blocked=transition_blocked):
+                    destination = game.next_stage_number
+                if destination is not None:
                     flush_gameplay(blocked=True)
-                    game = _new_game()
+                    game.resolver.stop()
+                    game = _new_stage_game(destination)
                     player, combat, parry = game.player, game.combat, game.parry
-                    pawns, resolver = game.encounter, game.resolver
+                    encounter, resolver = game.encounter, game.resolver
                     controls = GameplayInput(canvas)
-                    controls.reset_after_restart()
+                    controls.reset_after_transition(event.key)
                     clock.reset()
                     restarted_this_frame = True
                     continue
                 blocked = (menu.blocks_gameplay() or display_changed or not focused
                            or focus_changed or not game.playing or restarted_this_frame)
-                if (not blocked and pawns.tick == combat.tick
+                if (not blocked and encounter.tick == combat.tick
                         and controls.is_gameplay_key(event)):
                     # A settled tick cannot accept later input ahead of damage
                     # already resolved. Apply this transition at the next fresh
@@ -156,7 +185,7 @@ def main():
                 # Gameplay releases survive modal, focus, and display transitions.
                 if controls.handle_key(event, player, combat,
                                        blocked=blocked,
-                                       parry=parry, occupied=pawns.occupied_cells,
+                                       parry=parry, occupied=encounter.occupied_cells,
                                        on_attack=resolver.resolve_player_attack,
                                        on_parry=resolver.register_parry):
                     continue
@@ -182,7 +211,7 @@ def main():
                     display_changed = True
             if not running:
                 break
-            # Input may have killed a Pawn whose attack was due this tick.
+            # Input may have killed an enemy whose attack was due this tick.
             # Its cancellation is visible before the encounter publishes due.
             game.resolve_current_tick()
             if not game.playing:
@@ -199,17 +228,18 @@ def main():
             canvas.SDL_SetRenderDrawColor(canvas.renderer, 0, 0, 0, 255)
             canvas.SDL_RenderClear(canvas.renderer)
             board_renderer.draw(canvas)
-            enemy_attack_renderer.draw(canvas, pawns.ledger)
+            enemy_attack_renderer.draw(canvas, encounter.ledger)
             attack_renderer.draw(canvas, combat.active_attack if game.playing else None)
-            enemy_renderer.draw(canvas, pawns.enemies)
+            enemy_renderer.draw(canvas, encounter.enemies)
             if game.playing:
                 parry_renderer.draw(canvas, player, parry, combat.tick)
             player_renderer.draw(canvas, player)
-            health_renderer.draw(canvas, player, pawns.enemies, combat.tick,
+            health_renderer.draw(canvas, player, encounter.enemies, combat.tick,
                                  attack_bonus=combat.pending_attack_bonus if game.playing else None,
                                  show_feedback=game.playing)
             parry_result_renderer.draw(canvas, resolver.last_parry_result if game.playing else None,
                                        combat.tick)
+            game_renderer.draw_stage_label(canvas, game)
             game_renderer.draw(canvas, game)
             settings_renderer.draw(menu, display)
             canvas.update_canvas()

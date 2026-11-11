@@ -1,5 +1,115 @@
 # CHECKMATE 개발 진행 기록
 
+## Task 1-K — Stage 1→2 실제 전환과 Rook GUI 연결 (2026-11-11)
+
+상태: **구현·자동 테스트 560개 통과, 사용자 Windows 11 GUI 15개 모두 통과**.
+시작 main/추적 origin/main HEAD는 `6f231e6c0a404405b9d6e9a81b9127114cd28cca`이고 작업 트리는 깨끗했다.
+변경 전 기존 524개가 통과했다. Task 1-J의 사용자 Stage 1 GUI 8/8은 아래 이력으로 보존하며,
+그 결과와 별도로 사용자가 이번 Stage 1~2 GUI 15개 모두 통과를 보고했다.
+초기 구현 시 GUI 확인 전 커밋·Push를 보류했으며, 이후 사용자가 최종 검수와 지정 메시지의
+커밋 및 기존 main 일반 Push를 승인했다.
+
+### 실제 변경 파일 — 9개
+
+- 수정 코드4개: `game.py`, `main.py`, `sdl_input.py`, `game_renderer.py`.
+- 신규 테스트2개: `tests/test_stage_transition.py`, `tests/test_stage_transition_sdl.py`.
+- 문서3개: `docs/PROGRESS.md`, `docs/DECISIONS.md`, `docs/GAME_DESIGN.md`.
+
+`StageGame`이 같은 상태/전투 진행 코드를 사용하며 스테이지 번호·챕터·전환 목적지만 관리한다.
+`StageOneGame`의 기존 다섯 인자 생성자와 `main._new_game()`의 인자 없는 API는 보존한다.
+Stage 1의 기존 로더/인스턴스 배치/추적 AI/601틱 결과도 유지한다.
+`_new_stage_game(2)`는 StageCatalog의 읽기 전용 Stage 2와 create_stage_enemies()를 사용한다.
+플레이어(5,1)/up/HP3, Rook(2,4)/HP4/지연0.8초, Pawn(1,6)/HP2/1.02초,
+Pawn(8,6)/HP2/1.24초를 새 실행 ID와 Combat/Parry/EnemyEncounter/Resolver로 생성한다.
+
+### 진행과 재시작
+
+| 상태 | N | R |
+| --- | --- | --- |
+| PLAYING | 무효 | 무효 |
+| Stage 1 STAGE_CLEAR | 새 Stage 2 | 새 Stage 1 |
+| Stage 2 STAGE_CLEAR | 무효(Stage 3 없음) | 새 Stage 2 |
+| Stage 1/2 GAME_OVER | 무효 | Chapter 1 첫 전투인 새 Stage 1 |
+
+N 직접 진행은 강화 선택 구현 전의 **사용자 승인 임시 통합 절차**다.
+원본의 일반 전멸→강화 선택→다음 전투 목표를 삭제하거나 최종 진행 규칙으로 확정한 것이 아니다.
+게임 오버 우선/종료 한 번/전투 정지/미처리 공격과 연결 취소는 동일한 StageGame 경로를 재사용한다.
+전환은 기존 main 루프 안에서만 수행하며 창/화면 설정/공통 렌더러/SETTINGS는 재사용한다.
+
+새 세션은 HP·배치·방향·ID·전투0틱·공격/패링 기록과 쿨타임·보너스·기절·무적·피격/성공 표시를 초기화한다.
+이전 판정기를 stop하고 입력 큐를 차단 상태로 비운 뒤 새 키 래치를 물리 상태에 동기화한다.
+수락한 N/R은 해제 전 재사용하지 않으며 같은 이벤트 배치의 남은 전투/전환 키도 차단한다.
+SimulationClock 누적값과 프레임 기준을 재설정해 로드/종료 화면 시간이 새 전투에 누적되지 않는다.
+SETTINGS·포커스 전환·앞선 F11은 N/R을 차단하며 한 프레임에 세션 교체는 최대 한 번이다.
+
+실제 main의 같은 렌더러가 성곽형 Rook/두 Pawn/실제 적별 HP/고정 직선 경고/피격과 패링 결과를 그린다.
+왼쪽 상단에 실제 STAGE 번호를 작게 표시하고, 종료 패널도 번호/전체 남은 적 수/실제 R 목적지를 읽는다.
+Stage 1 클리어만 `N TO CONTINUE`, Stage 2 게임 오버는 `R TO STAGE 1`을 안내한다.
+1440×900/840×840/84px/Chapter 1 테마/SETTINGS 최상단은 유지한다. 가짜 점수/해금/보상은 없다.
+Rook/Pawn 전투 코드는 변경하지 않았다. 다른 활성 적 진입만 전체 취소+[t,t+90) 회복이고,
+플레이어 진입은 피격/패링 대상이다. 돌진은 기존처럼 해당 틱의 즉시 위치 변경이다.
+
+### 실제 자동 검증
+
+```powershell
+.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+.\.venv\Scripts\python.exe validate_stage_data.py
+.\.venv\Scripts\python.exe -O validate_stage_data.py
+.\.venv\Scripts\python.exe -W error -m py_compile main.py game.py game_renderer.py sdl_input.py tests/test_stage_transition.py tests/test_stage_transition_sdl.py
+git diff --check
+```
+
+- 전체 unittest **560개 통과**: 기존524개 유지+신규36개. 기존 테스트 파일은 수정/삭제/비활성화하지 않았다.
+- 새 세션·정확한 원본 스폰/HP/지연·종료 정책·Stage 3 거절·과거 공격/패링 거절·초기화 검사.
+- 실제 main과 가짜 SDL/정수 시계를 사용해 N/R/키 유지/배치 순서/보류 입력 큐/포커스·SETTINGS·F11을 검사.
+  최종 처치와 같은 배치의 N은 PLAYING에서 무효이고, 클리어 후 해제·새 누름부터 진행한다.
+- 실제 main에서 Rook 경고/168틱 피해/회피/일반·퍼펙트/기절·+2/SPACE 처치와 공격 취소를 검사.
+  다른 활성 적 진입의 전체 취소+90틱 회복, Stage 2 HP0의444틱 정지와 R의Stage 1 복귀도 확인했다.
+- SDL dummy 드라이버의 숨겨진 창/실제 키 이벤트/Pico2D 그리기로 Stage 1→2, Rook/Pawn·경고/HP/피해,
+  Stage 2 양 종료 화면 문구를 실행했다. 이 비표시 자동 검증은 사용자 Windows GUI 플레이가 아니다.
+- Stage 1의 기존601틱 전투 비교/고정 기준 추적, 일반·퍼펙트/48틱 무적/R/F11/ESC/X 회귀도 통과했다.
+- 스테이지 정적 검사25개는 일반/`-O` 모두 통과했고 변경 Python6개 문법/import·공백 검사도 통과했다.
+
+### 사용자 Windows 11 GUI 최종 검증 — 15/15 통과
+
+사용자가 실제 Windows 11 게임 화면에서 다음 15개 항목 모두 통과했다고 보고했다.
+실행 명령은 `.\.venv\Scripts\python.exe main.py`다. 아래는 사용자 수동 검증이며 Codex가 직접 관찰한 결과나
+자동 SDL dummy/정수 틱/601틱 비교와 구분한다. 정밀 7/8틱·90틱 경계는 자동 테스트의 검증 근거다.
+
+1. Stage 1 기존 플레이 — 통과.
+2. Stage 1 클리어 → N — 통과.
+3. Stage 2 초기 배치·HP — 통과.
+4. Rook 직선 경고 — 통과.
+5. 경고 경로에 남기 — 통과.
+6. 경고 경로에서 회피 — 통과.
+7. 플레이어의 경로 진입 — 통과.
+8. Rook 일반 패링 — 통과.
+9. Rook 퍼펙트 패링 — 통과.
+10. 혼합 전투와 충돌 — 통과.
+11. Stage 2 클리어 → R — 통과.
+12. Stage 2 게임 오버 → R — 통과.
+13. 반복 전환·N/R 입력 — 통과.
+14. SETTINGS·F11·포커스·종료 — 통과.
+15. Rook 전투 가독성·공정성 — 통과.
+
+사용자 체감 평가: **“Rook 전투가 명확하고 재미있음.”**
+이는 이번 플레이의 긍정적 주관 평가이며 장기 밸런스·전체 난이도·모든 환경의 검증 완료로 확장하지 않는다.
+현재 사용자가 보고한 기능 오류는 없다.
+
+### 최종 검수와 Git
+
+최종 검수 시작 시 HEAD는 위 Task 1-J 완료 SHA이며 기존 수정7개/신규2개/스테이징0개로 지정9개와 일치했다.
+`git fetch origin main` 후 로컬 HEAD와 origin/main 모두 같은 기준 SHA이며 외부 변경/임의 병합은 없다.
+이번 마무리는 정상 기능 코드·테스트를 유지하고 세 문서의 사용자 결과와 최신 상태만 갱신한다.
+전체 unittest560개/일반·최적화 정적 검사25개/문법·import·공백 검사를 재실행해 통과했고 기존524개 테스트 보존을 확인했다.
+지정9개만 명시적으로 스테이징해 목록을 검수한다. 커밋 메시지:
+`feat: integrate stage two combat and progression`.
+생성된 전체 SHA·원격 main 일치·커밋9개·작업 트리 청결 상태는 실제 Push 후 최종 보고에서 확인한다.
+
+원본 JSON/README/PDF/아트·테마/기존 전투 수치·AI·이력을 보존한다. Stage 3 이후/다른 AI/보스/강화·저장·해금은 없다.
+남은 위험은8틱 상한의 지연 오차·원장 증가·DPI/다중 모니터·장기 밸런스·즉시 돌진 애니메이션의 시각적 한계다.
+Stage 1~2의 실제 실행 경로와 사용자 GUI15개는 확인했으며 출품 품질/전체 게임 완성이나 장기 밸런스 완료를 의미하지 않는다.
+
 ## Task 1-J — Rook AI와 Pawn/Rook 혼합 전투 기반 (2026-11-11)
 
 상태: **구현·자동 테스트 524개 통과, 사용자 Windows 11 Stage 1 GUI 회귀 8개 모두 통과**.

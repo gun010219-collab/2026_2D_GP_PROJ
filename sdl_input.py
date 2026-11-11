@@ -11,6 +11,7 @@ class GameplayInput:
         self.attack = AttackInput()
         self.parry = ParryInput()
         self.restart_held = False
+        self.next_held = False
         self.arrows = {canvas.SDLK_UP: 'up', canvas.SDLK_DOWN: 'down',
                        canvas.SDLK_LEFT: 'left', canvas.SDLK_RIGHT: 'right'}
         self.shifts = {canvas.SDLK_LSHIFT: 'left', canvas.SDLK_RSHIFT: 'right'}
@@ -28,20 +29,35 @@ class GameplayInput:
 
     def handle_restart(self, event, enabled=False, blocked=False):
         """R is edge-triggered and immediate, outside the combat input queue."""
+        return self._handle_flow_key(event, ord('r'), 'restart_held', enabled, blocked)
+
+    def handle_next(self, event, enabled=False, blocked=False):
+        """N has its own latch; blocked presses are never buffered for later."""
+        return self._handle_flow_key(event, ord('n'), 'next_held', enabled, blocked)
+
+    def _handle_flow_key(self, event, key, latch, enabled, blocked):
         c = self.canvas
-        if event.type not in (c.SDL_KEYDOWN, c.SDL_KEYUP) or event.key != ord('r'):
+        if event.type not in (c.SDL_KEYDOWN, c.SDL_KEYUP) or event.key != key:
             return False
         if event.type == c.SDL_KEYUP:
-            self.restart_held = False
+            setattr(self, latch, False)
             return False
-        was_held = self.restart_held
-        self.restart_held = True
-        return enabled and not blocked and not was_held
+        was_held = getattr(self, latch)
+        setattr(self, latch, True)
+        return enabled and not blocked and not was_held and not getattr(event, 'repeat', False)
 
     def reset_after_restart(self):
         """Quarantine physically held keys without producing gameplay commands."""
+        self.reset_after_transition(ord('r'))
+
+    def reset_after_transition(self, trigger_key):
+        if trigger_key not in (ord('r'), ord('n')):
+            raise ValueError('Stage transitions require an R or N press')
         self.reconcile_physical_keys()
-        self.restart_held = True  # This accepted R press must be released first.
+        if trigger_key == ord('r'):
+            self.restart_held = True
+        else:
+            self.next_held = True
 
     def handle_key(self, event, player, combat, blocked=False, parry=None, occupied=(),
                    on_attack=None, on_parry=None):
@@ -85,6 +101,7 @@ class GameplayInput:
         self.attack.reconcile(False)
         self.parry.reconcile(())
         self.restart_held = False
+        self.next_held = False
 
     def reconcile_physical_keys(self):
         c = self.canvas
@@ -98,3 +115,6 @@ class GameplayInput:
         scan = getattr(c, 'SDL_SCANCODE_R', None)
         if type(scan) is int:
             self.restart_held = bool(keys[scan])
+        scan = getattr(c, 'SDL_SCANCODE_N', None)
+        if type(scan) is int:
+            self.next_held = bool(keys[scan])
