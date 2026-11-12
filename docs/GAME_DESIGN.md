@@ -52,6 +52,15 @@ Pawn/Rook/Knight/Bishop/Queen/King의 식별 실루엣은 챕터 전반에 유�
 
 ## 구현 경계
 
+**Task 1-S 기반:** 원본 강화3종(공격1/2/3, 최대 HP3/4/5/6, 이동18/15/12틱)의 순수 데이터와
+불변 Build/파생 Stats, 고정3옵션/MAX, Offer 단일 소비·Receipt 인증, ChapterRun 유지/초기화·보스 재플레이 stats를 구현했다.
+Player의 새 최대 HP 인자와 기존 Resolver 공격력 인자를 조합해 새 전투 능력치를 주입할 수 있다.
+이동 제한은 InputController에 명시적으로 구성하는 경로만 구현했다. 기존 호출과 실제 main 입력은 변경하지 않았다.
+사용자 승인5개·Task 1-R과의 관계는 [강화 설계13절](UPGRADE_SYSTEM_DESIGN.md)에 기록한다.
+Task 1-S 이후 기존 Stage 1~5 사용자 Windows GUI 회귀14/14는 모두 통과했다. 강화 UI·실제 강화 능력치 검증은 아니다.
+카드 UI/숫자·마우스/UPGRADE/실제 Stage 2~5 강화 전달·이동 제한 활성화·R/N 연결은 Task 1-T 미구현이다.
+현재 Stage 1~5/N 직접 진행·기본 능력치·Pulse와 SETTINGS/포커스는 그대로 유지한다. 아래 Q 기록은 실제 플레이 범위의 기준이다.
+
 **현재 Task 1-Q:** 실제 main 플레이 범위는 Stage 1~5다. StageCatalog boss 메타데이터로 Pulse와 BOSS CLEAR를 연결했다.
 Pulse는 전체100칸/120틱 예고/피해1/적중 H+480 재사용이다. 첫 사용 가능은240틱이며 King의 준비 상태와
 기존 공격 drain을 기다린다. 요청부터 새 적 행동을 막고 기존 이벤트·돌진·착지는 원래 시각에 해결한다.

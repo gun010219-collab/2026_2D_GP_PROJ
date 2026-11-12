@@ -1,5 +1,138 @@
 # CHECKMATE 개발 진행 기록
 
+## Task 1-S — 강화 데이터·챕터 진행·능력치·이동 간격 기반
+
+상태: **순수 기반 구현·전체 unittest823개 및 사용자 Windows GUI 회귀14/14 통과. 최종 검수 후 커밋·Push 승인**.
+시작 main HEAD와 fetch 후 origin/main은 `6b924c6b2762bfb60509890f0d765bb925c170e4`로 일치했다.
+시작 변경은 Task 1-R의 수정 docs/PROGRESS.md와 신규 docs/UPGRADE_SYSTEM_DESIGN.md뿐이며 스테이징은 비어 있었다.
+두 문서는 임시 폴더에 원본을 보관하고 분석 본문·당시 승인/미승인·테스트 계획을 보존했다. 최신 승인·구현은 강화 설계13절이다.
+
+### 사용자 승인5개와 실제 S 구현
+
+1. 이동18/15/12틱, Combat.tick 기준: 표와 선택적 InputController 게이트 구현.
+2. 첫 이동 즉시/성공만 간격/빠른 입력 버림/예약·자동 반복 없음/동시 키 기존 규칙/경계·점유 실패 무료 구현.
+   제한 중 새 입력은 facing도 변경하지 않는다. 제한 밖의 경계·점유 실패는 기존 Player.move 방향 갱신을 유지한다.
+3. 공격/HP/이동3개 고정 카드와 MAX: options 모델로 구현, 화면은 T다.
+4. 숫자1/2/3 또는 마우스의 한 번 선택: 단일 소비 명령 모델만 구현, SDL 연결은 T다.
+5. 게임 오버 강화 초기화·Chapter 1 Stage 1 재시작/보스 R 강화 유지/새 챕터 초기화: 순수 run 변환·stats로 검증했다.
+   일반 clear의 개발용 R 세부 정책은 미확정으로 유지하고 추가 기회를 만드는 API는 구현하지 않았다.
+
+- 원본 PDF p.19의 강화3종만 사용한다. 공격0/1/2강 피해1/2/3, HP0/1/2/3강 최대3/4/5/6, 이동0/1/2강18/15/12틱이다.
+- upgrades.py의 ChapterBuild/DerivedStats/UpgradeOption/UpgradeOffer/UpgradeReceipt는 불변이며 단계·bool·잘못된 수치를 거절한다.
+  파생값은 표에서 계산하고 별도 run 능력치 사본을 저장하지 않는다. MAX의 next 단계/값은 None이며 옵션3개는 유지한다.
+- ChapterRun은 현재 일반 stage 순서·owner 발행 동일 Offer·before Build를 검증해 한 번만 선택하고 Receipt를 기록한다.
+  같은 미소비 전투 통지는 동일 Offer를 반환한다. 이미 소비한 전투 instance·stale/foreign/복제 Offer·MAX·unknown 종류는 거절한다.
+  verify_receipt는 발행 동일 객체만 조회 인증하고 재적용하는 API는 없다. 실패 명령은 Build·기회·이력을 바꾸지 않는다.
+- 게임 오버/새 챕터는 새 무강화 run을 반환하고 이전 owner를 retired로 전환해 옛 Offer를 차단한다.
+  보스 재플레이는4회 선택 결과 stats를 유지하고 추가 Offer가 없다. 실제 StageGame clear·GAME_OVER·BOSS_CLEAR 확인은 T의 연결 책임이다.
+- Player에 keyword-only max_hp를 추가했다. 기존 Player(5,1)/load_stage1_player()는 HP3이며 새 Health로 회복·ID를 초기화한다.
+  기존 CombatResolver.player_damage 인자로 피해를 주입하며 Resolver/config/Health를 수정하지 않았다.
+- 별도 실제 전투 테스트 구성에서 공격 피해1/2/3, perfect 합산3/4/5, 미스 +2 소비·비중첩, 치명타 시 예약 취소,
+  Pulse 즉시 반사2 불변, 새 세션의 원장/ID/무적/기절/보너스/Pulse/입력 초기화를 검증했다. main 연결 완료가 아니다.
+- InputController(move_interval_ticks=...)와 key_down(...,tick=combat.tick)은 정수 deadline을 실제 적용한다.
+  제한 중/유지/동시 키/차단 입력은 예약하지 않고 reconcile은 기존 deadline을 지우지 않는다.
+  무구성 InputController()와 실제 GameplayInput/main은 이전 의미 그대로다. 새 전투에는 새 입력 객체를 만들어야 한다.
+
+### 실제 변경 파일 — 수정5개·신규7개, 총12개 (Task 1-R 이월 포함)
+
+- 수정 코드2개: player.py, input_controller.py.
+- 신규 코드2개: upgrades.py, chapter_run.py.
+- 신규 테스트4개: tests/test_upgrades.py(13개), tests/test_chapter_run.py(17개),
+  tests/test_move_cooldown.py(14개), tests/test_upgrade_combat.py(12개). 신규 총56개.
+- 문서4개: docs/UPGRADE_SYSTEM_DESIGN.md(이월 신규), docs/DECISIONS.md, docs/GAME_DESIGN.md, docs/PROGRESS.md.
+- main.py/sdl_input.py/game.py/CombatResolver/Health/config/기존 테스트/AGENTS/원본 JSON·PDF·README·에셋은 변경하지 않았다.
+
+### 실제 실행 검증
+
+GUI14/14 수령 후 최종 검수에서도 전체823개(실패/skip0), 기존767개 파일·메서드/신규56개 보존,
+25개 일반·-O 정적 검사, Python8개 문법·import/순수 계층 SDL 미로딩, 원본·main 보존 및 공백 검사를 재실행해 통과했다.
+이 최종 마무리에서는 기능 코드·테스트를 추가 수정하지 않았다.
+
+- `.\.venv\Scripts\python.exe -m unittest discover -s tests -v`: **823개 통과(기존767+신규56), 실패·skip0**.
+  기준 커밋의 기존 테스트 파일 전체 본문과767개 메서드를 대조해 수정·삭제·비활성화 없음을 확인했다.
+- 전체36개 Build의 파생 수치, 가능한4회 선택 조합, MAX/단일 소비/복제·외부 Receipt/다른 챕터·오래된 Offer 거절을 검증했다.
+- 이동0→17거절/18허용,14거절/15허용,11거절/12허용, 벽·점유 무료, 키 유지/빠른 입력 버림,
+  focus reconcile/메뉴 입력 격리, Combat 정지 중 deadline 보존, 새 세션·1틱/8틱 일정 일치를 검증했다.
+- 기존 Pawn601틱/Rook90틱/Knight36·72틱/Bishop108·240틱·반대색 조정/King72·48·90틱,
+  Pulse100·120·480틱/DRAINING·복원/반사/무적48틱/Stage 1~5 진행과 SDL dummy 회귀를 전체suite에서 통과했다.
+- 25개 스테이지 일반/`-O` 정적 검사 통과. 변경 Python8개 -W error py_compile/import 통과.
+  순수 모델·Player·입력 import 시 Pico2D/SDL 미로딩 확인. Git 공백 검사와 원본 콘텐츠 보존 검사 통과.
+  기존 main/sdl_input/game/전투 설정·판정/원본 자료의 Git 콘텐츠 해시도 기준 HEAD와 같았다.
+
+### 사용자 Windows GUI 최종 회귀 결과 — 14/14 통과
+
+사용자가 실제 Windows 11에서 아래14개를 직접 확인해 모두 통과했다고 보고했다. 실패0개·확인 불가0개다.
+
+1. Stage 1 시작·기본 이동 — 통과
+2. 이동 입력 유지·연속 입력 — 통과
+3. 공격 SPACE·HP — 통과
+4. 일반·퍼펙트 패링 — 통과
+5. Stage 1 Pawn 전투 — 통과
+6. Stage 2 Rook 전투 — 통과
+7. Stage 3 Knight 전투 — 통과
+8. Stage 4 Bishop 전투 — 통과
+9. Stage 4 → 5 진행 — 통과
+10. King 기본 전투·HP — 통과
+11. Pulse·DRAINING — 통과
+12. BOSS CLEAR·재시작 — 통과
+13. 게임 오버·세션 초기화 — 통과
+14. SETTINGS·F11·포커스·종료 — 통과
+
+이는 기존 Stage 1~5의 사용자 수동 회귀이며 강화 UI·강화 능력치의 실제 플레이 검증이 아니다.
+Python823개 자동 테스트 및 SDL dummy 비표시 실행과 별도 근거다. 정확한 강화·이동 틱은 자동 테스트로 검증한다.
+이번 최종 마무리에서 기능 코드·테스트를 수정하지 않으며 동일 GUI 검증을 다시 요청하지 않는다.
+최종 검증 통과 후12개 파일을 `feat: 강화 능력치 및 챕터 진행 기반 구현`으로 커밋하고 기존 main에 일반 Push하도록 승인받았다.
+전체 SHA·원격 대조·작업 트리 결과는 완료 보고에서 확인한다.
+
+### 이전 GUI 회귀 요청 — 당시 계획 이력
+
+Task 1-Q GUI18/18은 이전 수동 이력이다. 이번 S 자동 검증을 사용자 GUI 결과로 대신하지 않는다.
+아래는 결과 수령 전 작성한 기존 플레이 회귀 계획이다. 최신 결과는 위14/14 통과 기록을 따른다.
+
+1. Stage 1 시작/기본 HP3/방향키·SPACE·Shift·키 유지/해제·벽·적 점유가 이전처럼 동작한다.
+2. Stage 1~4 Pawn/Rook/Knight/Bishop의 예고·피해·일반/퍼펙트와 클리어/N 직접 진행을 확인한다.
+3. Stage 4→5 원본 배치·King HP8·이동·근접을 확인한다.
+4. Pulse100칸 경고·일반/퍼펙트·HP2 감소/기본 보상·일반 적 정지/재개를 확인한다.
+5. King 선처치 후 잔여 적 전투·BOSS CLEAR/N 무효/R Stage 5 재플레이·게임 오버 R Stage 1을 확인한다.
+6. 반복 N/R·누른 키 유지 후 새 세션 입력 격리를 확인한다.
+7. SETTINGS·F11·ESC/X·포커스 상실/복귀·레터박스/종료를 확인한다.
+
+현재 실제 플레이에는 강화 카드/새 능력치·이동 제한이 노출되지 않는 것이 정상이다. 정확한 강화·이동 틱은 자동 검증 근거다.
+당시 GUI 회귀 확인과 최종 승인 전 스테이징·커밋·Push를 보류했다. 메시지는 `feat: 강화 능력치 및 챕터 진행 기반 구현`이다.
+
+### T 연결과 남은 위험
+
+Task 1-T는 카드/숫자·마우스/UPGRADE/Stage 2~5 능력치·실제 이동 제한/게임 오버·보스 R 강화 유지/main 세션 교체다.
+일반 clear R 정책은 별도 확인하고, 다음 전투 생성 성공 전에 순수 select를 확정해 중복 강화가 생기지 않도록 연결해야 한다.
+모델은 명시적 기회만 처리하므로 실제 강화 클리어·전환 연결은 아직 없다. 강화 UI·실제 로그라이트 진행·강화 효과 Windows GUI는 미완료다.
+자동 테스트의 남은 실패는 없다. 8틱 상한/장시간 이벤트 증가/고DPI·다중 모니터/장기 밸런스/탐욕 경로·임시 연출 위험은 유지된다.
+Stage 6~25·Queen/강화의 영구 저장·챕터 해금·최종 아트/음향은 구현하지 않았다.
+
+## Task 1-R — 강화 원본 분석·통합 설계 (2026-11-12)
+
+상태: **설계 문서 작성·기존767개 회귀 통과. 강화 구현 없음, 핵심 정책 확인 대기. 커밋·Push 없음**.
+시작 main 작업 트리는 깨끗했고 HEAD/fetch 후 origin/main은 모두 `6b924c6b2762bfb60509890f0d765bb925c170e4`였다.
+Task 1-Q의 사용자 Windows GUI18/18은 기존 기능의 수동 이력으로 보존한다.
+
+- 신규 [강화 설계 문서](UPGRADE_SYSTEM_DESIGN.md)에 PDF 원본 A/기존 승인 B/기술 제안 C/확인 필요 D를 구분했다.
+- 원본 게임기획서 p.3~10/18~20/26~34를 페이지 이미지로 직접 확인했다. SHA256은
+  `09008eea37f0fdadb4eb86ecf1a52a56e901a33316dd02eed92dbda663f79d06`다. 추출 이미지는 OS 임시 폴더에만 생성했다.
+- p.19 표의3종: 일반 공격 피해1→2→3, 최대 HP3→4→5→6, 한 칸 이동 간격0.30→0.25→0.20초.
+  일반 전투 뒤4회/한 번1개/최대치 비활성화/전환 시 최대 HP 회복/재도전·새 챕터 강화 초기화는 원본 근거다.
+  패링 강화·새 공격속도·랜덤/희귀도 수치는 만들지 않았다. 카드 표시 수와 효과 종류 수는 구분했다.
+- 현재 이동은 시간 제한 없이 누름당 한 칸이므로 이동18/15/12틱 도입은 승인 확인이 필요한 실질적 충돌이다.
+  3종 고정 카드·숫자/마우스 입력, clear R의 진입 build 재사용 및 원본 표 채택 확인을 후속 결정 목록으로 제시했다.
+- ChapterBuild/DerivedStats/Offer/Receipt와 세션 바깥 ChapterRun을 제안했다. 강화 결과만 새 전투로 전달하고
+  HP는 새 최대치로 회복, 공격 원장/패링/무적/기절/일회성+2/Pulse snapshot은 새 세션으로 초기화하는 설계다.
+- 일반 전멸→UPGRADE→선택 단일 소비→다음 전투, Stage 5 BOSS CLEAR에는 추가 offer 없음,
+  GAME_OVER R은 새 run·무강화Stage 1을 권장한다. 메뉴/포커스/입력 격리·정지·생성 실패 원자성도 문서화했다.
+- 예상 수정 파일·작업 분할·선택지/효과/이월/초기화/단일 소비/이동 경계/기존767개·SDL·후속 GUI 테스트 계획을 작성했다.
+  미래 테스트를 현재 통과 개수에 포함하지 않는다.
+- 실제 실행: 전체 unittest767개 통과(실패/skip0),25개 스테이지 일반/`-O` 정적 검사 통과.
+  게임 코드·테스트 수정이 없어 새 강화 Python 문법/import 검사는 대상 없음. 문서 공백·링크·범위/원본 보존은 최종 확인한다.
+- 실제 변경: 신규 docs/UPGRADE_SYSTEM_DESIGN.md, 기존 docs/PROGRESS.md뿐이다. Stage 1~5/N/R/Pulse·원본 자료·에셋·README·AGENTS 유지.
+  강화·이동 간격·저장·해금·Stage 6 이후를 구현하지 않았고 스테이징·커밋·Push하지 않았다. 이번 새 GUI 실행도 하지 않았다.
+
 ## Task 1-Q — CHECKMATE PULSE·Stage 5 첫 보스전 (2026-11-12)
 
 상태: **구현·자동 테스트767개 및 사용자 Windows GUI18/18 통과. 최종 검수 후 커밋·Push 승인**.

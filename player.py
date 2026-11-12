@@ -11,14 +11,14 @@ DIRECTIONS = {'up': (0, 1), 'down': (0, -1), 'left': (-1, 0), 'right': (1, 0)}
 
 
 class Player:
-    def __init__(self, col, row, facing='up'):
+    def __init__(self, col, row, facing='up', *, max_hp=PLAYER_INITIAL_HP):
         if not in_bounds(col, row):
             raise ValueError('Player coordinates must be integers between 0 and 9')
         if facing not in DIRECTIONS:
             raise ValueError('Unknown player facing')
         self._col, self._row, self._facing = col, row, facing
         self._entity_instance_id = uuid4().hex
-        self.health = Health(PLAYER_INITIAL_HP)
+        self.health = Health(max_hp)
 
     @property
     def entity_instance_id(self):
