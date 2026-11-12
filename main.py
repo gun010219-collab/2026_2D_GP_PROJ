@@ -25,47 +25,60 @@ from enemy_renderer import EnemyRenderer
 from enemy_attack_renderer import EnemyAttackRenderer
 from combat_resolution import CombatResolver
 from health_renderer import HealthRenderer
-from game import StageGame, StageOneGame
+from game import GameState, StageGame, StageOneGame
 from game_renderer import GameFlowRenderer
+from stage_progression import StageProgression
+from upgrade_input import UpgradeInput
+from upgrade_renderer import UpgradeRenderer
+from upgrades import ChapterBuild, DerivedStats
 
 
-def _new_game():
+def _new_game(*, stats=None):
     """Fresh Stage 1 entities/ledgers; renderers, window and display stay owned by main."""
     player = load_stage1_player()
+    stats = ChapterBuild().stats if stats is None else stats
+    if not isinstance(stats, DerivedStats):
+        raise TypeError('Session stats must be DerivedStats')
+    if player.health.max_hp != stats.max_hp:
+        player = Player(*player.position, max_hp=stats.max_hp)
     combat = Combat()
     parry = Parry()
     encounter = PawnEncounter(load_stage1_enemies(), start_tick=combat.tick,
                                combat_session_id=combat.combat_session_id,
                                stage_instance_id=combat.stage_instance_id)
-    resolver = CombatResolver(player, combat, encounter, parry=parry)
+    resolver = CombatResolver(player, combat, encounter, parry=parry, player_damage=stats.attack_damage)
     return StageOneGame(player, combat, encounter, parry, resolver)
 
 
-def _new_stage_game(stage_number):
+def _new_stage_game(stage_number, *, stats=None):
     """Construct Stage 1–5 sessions; catalog access alone never enables later play."""
     if type(stage_number) is not int:
         raise TypeError('Playable stage number must be an integer')
     if stage_number == 1:
-        return _new_game()
+        return _new_game() if stats is None else _new_game(stats=stats)
     if stage_number not in (2, 3, 4, 5):
         raise ValueError('Only Stage 1 through Stage 5 are playable')
     definition = StageCatalog.load().get_stage(stage_number)
-    player = Player(*definition.player_spawn)
+    stats = ChapterBuild().stats if stats is None else stats
+    if not isinstance(stats, DerivedStats):
+        raise TypeError('Session stats must be DerivedStats')
+    player = Player(*definition.player_spawn, max_hp=stats.max_hp)
     combat, parry = Combat(), Parry()
     encounter = EnemyEncounter(create_stage_enemies(definition), start_tick=combat.tick,
                                combat_session_id=combat.combat_session_id,
                                stage_instance_id=combat.stage_instance_id, boss=definition.boss)
-    resolver = CombatResolver(player, combat, encounter, parry=parry)
+    resolver = CombatResolver(player, combat, encounter, parry=parry, player_damage=stats.attack_damage)
     return StageGame(player, combat, encounter, parry, resolver,
                      stage_number=definition.number, chapter=definition.chapter, boss=definition.boss)
 
 
-def main():
+def main(*, run=None):
     # Import here so configuration and importing this module never open a window.
     # Use the implementation module: its live window handle is set by open_canvas.
     from pico2d import pico2d as canvas
 
     game = _new_game()
+    flow = StageProgression(game, run)
     player, combat, parry = game.player, game.combat, game.parry
     encounter, resolver = game.encounter, game.resolver
     player_renderer = PlayerRenderer()
@@ -76,6 +89,8 @@ def main():
     enemy_attack_renderer = EnemyAttackRenderer()
     health_renderer = HealthRenderer()
     game_renderer = GameFlowRenderer()
+    upgrade_renderer = UpgradeRenderer()
+    selection = UpgradeInput()
     clock = SimulationClock()
     canvas.open_canvas(WINDOW_WIDTH, WINDOW_HEIGHT)
     settings_renderer = None
@@ -88,8 +103,14 @@ def main():
         display = DisplaySettings(canvas)
         menu = SettingsMenu()
         settings_renderer = SettingsRenderer(canvas)
-        controls = GameplayInput(canvas)
+        controls = GameplayInput(canvas, move_interval_ticks=flow.run.stats.move_interval_ticks)
         pending_gameplay = []
+
+        def prepare_controls(stats):
+            fresh = GameplayInput(canvas, move_interval_ticks=stats.move_interval_ticks)
+            fresh.prepare_session()
+            selection.reconcile(canvas)
+            return fresh
 
         def flush_gameplay(blocked=False):
             # Keep both down/up transitions in order, including quick taps
@@ -104,10 +125,14 @@ def main():
 
         previously_focused = controls.focused
         previous_frame = perf_counter()
+        flow.sync_offer()
+        if flow.offer is not None:
+            selection.reconcile(canvas)
 
         running = True
         while running:
             frame_start = perf_counter()
+            offer_at_frame_start = flow.offer
             events = canvas.get_events()
             # Pico2D 1.5.1 get_events() replaces the title with its FPS counter.
             canvas.SDL_SetWindowTitle(canvas.window, WINDOW_TITLE.encode('utf-8'))
@@ -124,6 +149,7 @@ def main():
                 else:
                     controls.release_on_focus_loss()
                 clock.reset()
+                selection.reconcile(canvas)
             steps = clock.advance(frame_start - previous_frame,
                                   paused=menu.is_open or not focused or focus_changed
                                   or not game.playing)
@@ -159,17 +185,20 @@ def main():
                 if controls.handle_restart(event, enabled=game.restart_stage_number is not None,
                                            blocked=transition_blocked):
                     destination = game.restart_stage_number
-                elif controls.handle_next(event, enabled=game.next_stage_number is not None,
+                elif controls.handle_next(event, enabled=False,
                                           blocked=transition_blocked):
                     destination = game.next_stage_number
                 if destination is not None:
+                    try:
+                        fresh_game, fresh_controls = flow.restart(_new_stage_game, prepare_controls)
+                    except Exception:
+                        flow.error = True
+                        continue
                     flush_gameplay(blocked=True)
-                    game.resolver.stop()
-                    game = _new_stage_game(destination)
+                    game, controls = fresh_game, fresh_controls
                     player, combat, parry = game.player, game.combat, game.parry
                     encounter, resolver = game.encounter, game.resolver
-                    controls = GameplayInput(canvas)
-                    controls.reset_after_transition(event.key)
+                    controls.restart_held = True
                     clock.reset()
                     restarted_this_frame = True
                     continue
@@ -190,6 +219,7 @@ def main():
                                        on_parry=resolver.register_parry):
                     continue
                 if display_changed or not focused:
+                    selection.handle(event, canvas, blocked=True)
                     continue
                 action = 'consumed'
                 was_open = menu.is_open
@@ -209,16 +239,41 @@ def main():
                     display.toggle()
                     # Discard stale mouse coordinates but keep processing key releases.
                     display_changed = True
+                choice = selection.handle(event, canvas,
+                    point=logical_mouse_to_canvas(event.x, event.y)
+                    if event.type == canvas.SDL_MOUSEBUTTONDOWN else None,
+                    blocked=(action != 'gameplay' or menu.is_open or menu_changed or display_changed
+                             or not focused or focus_changed or restarted_this_frame
+                             or game.state is not GameState.UPGRADE or flow.offer is None
+                             or flow.offer is not offer_at_frame_start))
+                if choice is not None and flow.offer.options[choice].enabled:
+                    try:
+                        fresh_game, fresh_controls = flow.choose(
+                            flow.offer, flow.offer.options[choice].kind, _new_stage_game, prepare_controls)
+                    except Exception:
+                        flow.error = True
+                        continue
+                    flush_gameplay(blocked=True)
+                    game, controls = fresh_game, fresh_controls
+                    player, combat, parry = game.player, game.combat, game.parry
+                    encounter, resolver = game.encounter, game.resolver
+                    clock.reset()
+                    restarted_this_frame = True
             if not running:
                 break
             # Input may have killed an enemy whose attack was due this tick.
             # Its cancellation is visible before the encounter publishes due.
             game.resolve_current_tick()
+            prior_offer = flow.offer
+            flow.sync_offer()
+            if flow.offer is not None and flow.offer is not prior_offer:
+                selection.reconcile(canvas)
             if not game.playing:
                 flush_gameplay(blocked=True)
                 clock.reset()
             if display_changed:
                 controls.reconcile_physical_keys()
+                selection.reconcile(canvas)
             if display_changed or menu_changed or focus_changed or restarted_this_frame:
                 # Neither modal time nor a synchronous display switch becomes catch-up debt.
                 clock.reset()
@@ -241,10 +296,13 @@ def main():
                                        combat.tick)
             game_renderer.draw_stage_label(canvas, game)
             game_renderer.draw(canvas, game)
+            if game.state is GameState.UPGRADE:
+                upgrade_renderer.draw(canvas, game, flow.offer, flow.error)
             settings_renderer.draw(menu, display)
             canvas.update_canvas()
             sleep(max(0.0, FIXED_TIME_STEP - (perf_counter() - frame_start)))
     finally:
+        flow.run.retire()
         # Release resources on normal exit and exceptions after canvas creation.
         try:
             if settings_renderer is not None:

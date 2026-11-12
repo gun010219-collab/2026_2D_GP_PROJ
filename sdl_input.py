@@ -5,9 +5,9 @@ from parry_input import ParryInput
 
 
 class GameplayInput:
-    def __init__(self, canvas):
+    def __init__(self, canvas, *, move_interval_ticks=None):
         self.canvas = canvas
-        self.movement = InputController()
+        self.movement = InputController(move_interval_ticks=move_interval_ticks)
         self.attack = AttackInput()
         self.parry = ParryInput()
         self.restart_held = False
@@ -59,6 +59,10 @@ class GameplayInput:
         else:
             self.next_held = True
 
+    def prepare_session(self):
+        """Reconcile before committing a prepared session, including held combat keys."""
+        self.reconcile_physical_keys()
+
     def handle_key(self, event, player, combat, blocked=False, parry=None, occupied=(),
                    on_attack=None, on_parry=None):
         """Preserve the bool consumption contract; deliver new attacks immediately.
@@ -84,7 +88,8 @@ class GameplayInput:
             if event.type == c.SDL_KEYUP:
                 self.movement.key_up(self.arrows[event.key])
             else:
-                self.movement.key_down(self.arrows[event.key], player, blocked, occupied)
+                self.movement.key_down(self.arrows[event.key], player, blocked, occupied,
+                                       tick=combat.tick)
             return True
         if event.key == c.SDLK_SPACE:
             if event.type == c.SDL_KEYUP:

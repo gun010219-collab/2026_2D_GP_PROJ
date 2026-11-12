@@ -55,7 +55,7 @@ class GameStateTests(unittest.TestCase):
         self.assertTrue(game.playing)
         second.health.apply_damage(2, tick=0)
         self.assertTrue(game.update_state())
-        self.assertEqual(game.state, GameState.STAGE_CLEAR)
+        self.assertEqual(game.state, GameState.UPGRADE)
         self.assertFalse(game.update_state())
         self.assertEqual(game.transition_count, 1)
 
@@ -144,7 +144,7 @@ class GameStateTests(unittest.TestCase):
         game.resolver.resolve_player_attack(game.combat.request_attack(game.player))
         game.resolve_current_tick()
         self.assertEqual((game.state, game.end_tick, game.player.health.current_hp),
-                         (GameState.STAGE_CLEAR, 39, 3))
+                         (GameState.UPGRADE, 39, 3))
         self.assertEqual(game.encounter.ledger.state(event), 'cancelled')
         self.assertIsNone(game.resolver.resolve_enemy_attack(event))
 
@@ -154,7 +154,7 @@ class GameStateTests(unittest.TestCase):
         game.update_state()
         game.player.health.apply_damage(3, tick=0)
         self.assertFalse(game.update_state())
-        self.assertEqual(game.state, GameState.STAGE_CLEAR)
+        self.assertEqual(game.state, GameState.UPGRADE)
         self.assertEqual(game.transition_count, 1)
 
     def test_invalid_step_counts_are_rejected_without_advancing(self):

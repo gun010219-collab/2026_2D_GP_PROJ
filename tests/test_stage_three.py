@@ -64,10 +64,10 @@ class StageThreeSessionTests(unittest.TestCase):
             if tie:
                 game.player.health.apply_damage(3, tick=0)
             self.assertTrue(game.update_state())
-            self.assertEqual(game.state, GameState.GAME_OVER if tie else GameState.STAGE_CLEAR)
+            self.assertEqual(game.state, GameState.GAME_OVER if tie else GameState.UPGRADE)
             self.assertFalse(game.update_state())
             self.assertEqual(game.transition_count, 1)
-            self.assertEqual(game.next_stage_number, None if tie else 4)
+            self.assertEqual(game.next_stage_number, None)
 
     def test_every_transition_builds_fresh_objects_and_rejects_previous_events(self):
         for before, after in ((1, 2), (2, 3), (3, 3), (3, 1)):
@@ -131,40 +131,46 @@ class StageThreeFlowTests(unittest.TestCase):
             if game.playing:
                 finish(game, 'clear')
         created, snapshots, _, _, _, clock = run_loop(
-            [[key(N), key(N, False)] for _ in range(4)], after_render=clear_each)
+            [batch for k in (49,49,50,50) for batch in ([key(k),key(k,False)], [])], after_render=clear_each)
         self.assertEqual([g.stage_number for g in created], [1, 2, 3, 4, 5])
-        self.assertEqual([s['stage'] for s in snapshots], [2, 3, 4, 5])
+        self.assertEqual([s['stage'] for s in snapshots], [2,2,3,3,4,4,5,5])
         self.assertTrue(all(s['tick'] == 0 for s in snapshots))
         self.assertEqual(clock.accumulator, 0)
 
     def test_third_stage_clear_replays_three_and_game_over_retries_one(self):
-        for state, target in (('clear', 3), ('dead', 1)):
-            created, snapshots, _, _, _, _ = run_loop([[key(R)], []], initial_stage=3, initial=state)
-            self.assertEqual([g.stage_number for g in created], [3, target])
-            self.assertEqual((snapshots[0]['tick'], snapshots[0]['hp']), (0, 3))
-            self.assertTrue(created[-1].playing)
+        for state in ('clear','dead'):
+            created,snapshots,_,_,_,_=run_loop([[key(R)],[]],initial_stage=3,initial=state)
+            self.assertEqual([g.stage_number for g in created],[3] if state=='clear' else [3,1])
+            self.assertEqual(snapshots[0]['tick'],0)
+            if state=='clear':
+                self.assertEqual(created[0].state,GameState.UPGRADE)
+                self.assertIsNone(created[0].next_stage_number)
+                self.assertIsNone(created[0].restart_stage_number)
+            else:
+                self.assertEqual(created[-1].player.health.current_hp,3)
+                self.assertTrue(created[-1].playing)
 
     def test_stage_three_keys_follow_playing_and_terminal_policy(self):
         for state in ('playing', 'dead', 'clear'):
             events = [key(N), key(R)] if state == 'playing' else [key(N)]
             created, _, _, _, _, _ = run_loop([events], initial_stage=3, initial=state)
-            self.assertEqual([g.stage_number for g in created], [3, 4] if state == 'clear' else [3])
+            self.assertEqual([g.stage_number for g in created], [3])
 
     def test_stage_two_clear_held_n_requires_release_before_third_stage(self):
         def clear_two(game, frame):
             if frame == 0:
                 finish(game, 'clear')
         created, snapshots, _, _, _, _ = run_loop(
-            [[key(N)], [key(N)], [key(N, repeat=True)], [key(N, False)], [key(N)]],
+            [[key(49)], [key(49)], [key(49, repeat=True)], [key(49, False)], [key(49)]],
             after_render=clear_two)
         self.assertEqual([s['count'] for s in snapshots], [2, 2, 2, 2, 3])
         self.assertEqual([g.stage_number for g in created], [1, 2, 3])
 
     def test_transition_to_three_blocks_same_batch_and_held_combat_keys(self):
         created, snapshots, _, _, _, _ = run_loop([
-            [key(N), key(UP), key(SPACE), key(SHIFT), key(R), key(N)],
+            [key(49), key(UP), key(SPACE), key(SHIFT), key(R), key(49)],
             [key(UP), key(SPACE), key(SHIFT), key(R)],
-            [key(UP, False), key(SPACE, False), key(SHIFT, False), key(R, False), key(N, False)],
+            [key(UP, False), key(SPACE, False), key(SHIFT, False), key(R, False), key(49, False)],
             [key(UP), key(SPACE), key(SHIFT)]], initial_stage=2)
         self.assertEqual([g.stage_number for g in created], [2, 3])
         self.assertTrue(all(s['position'] == (5, 1) and s['attack'] == s['parry'] == 0 for s in snapshots[:3]))
@@ -177,9 +183,9 @@ class StageThreeFlowTests(unittest.TestCase):
             if frame == 1:
                 finish(game, 'clear')
         created, snapshots, _, _, _, _ = run_loop(
-            [[], [key(SPACE)], [key(N)], [key(SPACE)], [key(SPACE, False)], [key(SPACE)]],
+            [[], [key(SPACE)], [], [key(49)], [key(SPACE)], [key(SPACE, False)], [key(SPACE)]],
             initial_stage=2, initial='playing',
-            lengths=[0, 0, FIXED_TIME_STEP, FIXED_TIME_STEP, FIXED_TIME_STEP, FIXED_TIME_STEP],
+            lengths=[0, 0, 0, FIXED_TIME_STEP, FIXED_TIME_STEP, FIXED_TIME_STEP, FIXED_TIME_STEP],
             after_render=clear_after_queue)
         self.assertEqual([g.stage_number for g in created], [2, 3])
         self.assertIsNone(created[0].combat.active_attack)
@@ -188,37 +194,32 @@ class StageThreeFlowTests(unittest.TestCase):
 
     def test_settings_focus_and_f11_block_transition_until_new_press(self):
         for batches, focus in (
-                ([[MENU, key(N)], [key(ESC), key(N)], [key(N, False)], [key(N)]], None),
-                ([[key(F11), key(N)], [key(N)], [key(N, False)], [key(N)]], None),
-                ([[], [key(N)], [key(N)], [key(N, False)], [key(N)]], [512, 0, 512, 512, 512])):
+                ([[MENU, key(49)], [key(ESC), key(49)], [key(49, False)], [key(49)]], None),
+                ([[key(F11), key(49)], [key(49)], [key(49, False)], [key(49)]], None),
+                ([[], [key(49)], [key(49)], [key(49, False)], [key(49)]], [512, 0, 512, 512, 512])):
             created, snapshots, _, _, _, _ = run_loop(batches, initial_stage=2, focus=focus)
             self.assertEqual([g.stage_number for g in created], [2, 3])
             self.assertTrue(all(s['stage'] == 2 for s in snapshots[:-1]))
 
     def test_stage_three_restart_is_blocked_by_settings_and_focus(self):
-        for batches, focus in (
-                ([[MENU, key(R)], [key(ESC), key(R)], [key(R, False)], [key(R)]], None),
-                ([[], [key(R)], [key(R)], [key(R, False)], [key(R)]], [512, 0, 512, 512, 512])):
-            created, snapshots, _, _, _, _ = run_loop(batches, initial_stage=3, focus=focus)
-            self.assertEqual([g.stage_number for g in created], [3, 3])
-            self.assertTrue(all(s['count'] == 1 for s in snapshots[:-1]))
+        for batches,focus in (([[MENU,key(R)],[key(ESC),key(R)],[key(R,False)],[key(R)]],None),
+                              ([[],[key(R)],[key(R)],[key(R,False)],[key(R)]],[512,0,512,512,512])):
+            created,snapshots,_,_,_,_=run_loop(batches,initial_stage=3,focus=focus)
+            self.assertEqual([g.stage_number for g in created],[3])
+            self.assertTrue(all(s['tick']==0 and s['state'] is GameState.UPGRADE for s in snapshots))
 
     def test_only_one_session_change_per_frame_in_both_key_orders(self):
-        for keys, expected in (([N, R, N], 3), ([R, N, R], 2)):
+        for keys, expected in (([49, R, 49], 3), ([R, 49, R], 3)):
             created, _, _, _, _, _ = run_loop([[key(k) for k in keys]], initial_stage=2)
             self.assertEqual([g.stage_number for g in created], [2, expected])
 
     def test_repeated_third_stage_restart_discards_clock_debt_and_landing(self):
-        def clear_again(game, frame):
-            finish(game, 'clear')
-        created, snapshots, _, _, _, clock = run_loop(
-            [[key(R), key(R, False)] for _ in range(6)], initial_stage=3,
-            lengths=[20] * 6, after_render=clear_again)
-        self.assertEqual(len(created), 7)
-        self.assertTrue(all(g.stage_number == 3 for g in created))
-        self.assertEqual(len({g.combat.stage_instance_id for g in created}), 7)
-        self.assertTrue(all(s['tick'] == 0 for s in snapshots))
-        self.assertEqual(clock.accumulator, 0)
+        created,snapshots,_,_,_,clock=run_loop([[key(R),key(R,False)] for _ in range(6)],initial_stage=3,lengths=[20]*6)
+        self.assertEqual(len(created),1)
+        self.assertTrue(all(s['tick']==0 and s['state'] is GameState.UPGRADE for s in snapshots))
+        self.assertEqual(created[0].transition_count,1)
+        self.assertEqual(clock.accumulator,0)
+        self.assertIsNone(created[0].restart_stage_number)
 
     def test_terminal_settings_f11_escape_and_window_close_remain_live(self):
         for state in ('dead', 'clear'):
@@ -293,8 +294,9 @@ class StageThreeMainCombatTests(unittest.TestCase):
         self.assertTrue(all(e.state != 'stunned' for e in game.encounter.enemies[1:]))
 
     def test_main_perfect_next_space_deals_three_and_cancels_knight_once(self):
-        created, _, _, _, _, _ = play_to(301, inputs={293: [key(SHIFT)],
-            301: [key(UP), key(UP, False), key(RIGHT), key(RIGHT, False), key(UP), key(SPACE)]})
+        created, _, _, _, _, _ = play_to(325, inputs={293: [key(SHIFT)],
+            301: [key(UP), key(UP, False)], 313: [key(RIGHT), key(RIGHT, False)],
+            325: [key(UP), key(SPACE)]})
         game = created[-1]
         self.assertEqual(game.encounter.enemies[0].health.current_hp, 0)
         self.assertFalse(game.encounter.enemies[0].active)
@@ -307,8 +309,8 @@ class StageThreeMainCombatTests(unittest.TestCase):
             if tick == 264:
                 events.append(game.encounter.enemies[0].current_attack)
                 game.encounter.enemies[0].health.apply_damage(2, tick=tick)
-        created, _, _, _, _, _ = play_to(300, inputs={299: [key(UP)],
-            300: [key(UP, False), key(RIGHT), key(RIGHT, False), key(UP), key(SPACE)]},
+        created, _, _, _, _, _ = play_to(300, inputs={265: [key(UP), key(UP, False)],
+            277: [key(RIGHT), key(RIGHT, False)], 300: [key(UP), key(SPACE)]},
             samples=(264,), observe=weaken)
         game = created[-1]
         self.assertFalse(game.encounter.enemies[0].active)
@@ -353,11 +355,11 @@ class StageThreeMainCombatTests(unittest.TestCase):
             knight.health.apply_damage(2, tick=0)
             return game
         created, snapshots, _, _, _, _ = run_loop(
-            [[key(SPACE), key(N)], [], [key(R)]], initial='playing',
+            [[key(SPACE), key(49)], [], [key(R)]], initial='playing',
             initial_factory=almost_clear)
-        self.assertEqual(snapshots[0]['state'], GameState.STAGE_CLEAR)
-        self.assertEqual([g.stage_number for g in created], [3, 3])
-        self.assertEqual(created[-1].encounter.enemies[0].health.current_hp, 3)
+        self.assertEqual(snapshots[0]['state'], GameState.UPGRADE)
+        self.assertEqual([g.stage_number for g in created], [3])
+        self.assertEqual(created[-1].encounter.enemies[0].health.current_hp, 0)
 
     def test_same_tick_knight_and_pawn_use_shared_invulnerability_and_ledger(self):
         factory = main._new_stage_game
@@ -412,8 +414,8 @@ class StageThreeRendererTests(unittest.TestCase):
                     GameFlowRenderer().draw(Mock(), game)
                 labels = [call.args[1] for call in text.call_args_list]
                 self.assertIn(f'STAGE {number}', labels)
-                self.assertEqual('N TO CONTINUE' in labels, state == 'clear')
-                self.assertIn('R TO RESTART' if state == 'clear' else 'R TO STAGE 1', labels)
+                self.assertNotIn('N TO CONTINUE', labels)
+                self.assertIn('UPGRADE' if state == 'clear' else 'R TO STAGE 1', labels)
                 self.assertFalse(any('CHAPTER CLEAR' in s or 'STAGE 4' in s or 'ENDING' in s for s in labels))
 
     def test_actual_stage_three_hp_and_single_cell_warning_render_without_mutation(self):

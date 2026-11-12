@@ -8,6 +8,7 @@ class GameState(str, Enum):
     PLAYING = 'PLAYING'
     GAME_OVER = 'GAME_OVER'
     STAGE_CLEAR = 'STAGE_CLEAR'
+    UPGRADE = 'UPGRADE'
     BOSS_CLEAR = 'BOSS_CLEAR'
 
 
@@ -53,13 +54,11 @@ class StageGame:
 
     @property
     def next_stage_number(self):
-        # Temporary direct continuation until the upgrade flow is implemented.
-        return (self.stage_number + 1 if self.stage_number < 5
-                and self.state is GameState.STAGE_CLEAR else None)
+        return None  # Ordinary clears must consume an upgrade through progression.
 
     @property
     def restart_stage_number(self):
-        if self.playing:
+        if self.playing or self.state is GameState.UPGRADE:
             return None
         # All supported stages are in Chapter 1. Death retries its first stage.
         return 1 if self.state is GameState.GAME_OVER else self.stage_number
@@ -87,7 +86,7 @@ class StageGame:
         if not self.player.alive:
             state = GameState.GAME_OVER
         elif all(not enemy.alive for enemy in self.encounter.enemies):
-            state = GameState.BOSS_CLEAR if self.boss else GameState.STAGE_CLEAR
+            state = GameState.BOSS_CLEAR if self.boss else GameState.UPGRADE
         else:
             return False
         self._state = state

@@ -15,6 +15,10 @@ class StageFiveSDLTests(unittest.TestCase):
             import sdl2 as s
             from pico2d import pico2d as canvas
             import main
+            from chapter_run import ChapterRun
+            run=ChapterRun()
+            for number in range(1,4):
+                run.select(run.offer_after_clear(number,f"prior-{number}"),("move","move","attack")[number-1])
             from config import FIXED_TIME_STEP
             from game import GameState
             now,started,phase=[0.0],[False],['start']
@@ -49,8 +53,8 @@ class StageFiveSDLTests(unittest.TestCase):
                 clear(g)
                 games.append(g)
                 return g
-            def create(n):
-                g=factory(n)
+            def create(n, **kwargs):
+                g=factory(n, **kwargs)
                 games.append(g)
                 return g
             def push(kind,key=None):
@@ -67,14 +71,14 @@ class StageFiveSDLTests(unittest.TestCase):
                 started[0]=True
                 s.SDL_FlushEvents(s.SDL_FIRSTEVENT,s.SDL_LASTEVENT)
                 if phase[0]=='start':
-                    push(s.SDL_KEYDOWN,s.SDLK_n)
-                    push(s.SDL_KEYUP,s.SDLK_n)
+                    push(s.SDL_KEYDOWN,s.SDLK_1)
+                    push(s.SDL_KEYUP,s.SDLK_1)
                     phase[0]='fight'
                 elif phase[0]=='fight' and games[-1].combat.tick==376:
                     push(s.SDL_KEYDOWN,s.SDLK_LSHIFT)
                 elif phase[0]=='clear':
-                    push(s.SDL_KEYDOWN,s.SDLK_n)
-                    push(s.SDL_KEYUP,s.SDLK_n)
+                    push(s.SDL_KEYDOWN,s.SDLK_1)
+                    push(s.SDL_KEYUP,s.SDLK_1)
                 elif phase[0]=='restart':
                     push(s.SDL_KEYDOWN,s.SDLK_r)
                     push(s.SDL_KEYUP,s.SDLK_r)
@@ -150,7 +154,7 @@ class StageFiveSDLTests(unittest.TestCase):
                  patch.object(main.HealthRenderer,'_text',side_effect=text), \\
                  patch.object(main,'perf_counter',side_effect=lambda:now[0]), \\
                  patch.object(main,'sleep'):
-                main.main()
+                main.main(run=run)
             assert opened==[(1440,900)] and closed==[True]
             assert [g.stage_number for g in games]==[4,5,5]
             assert warnings and all(len(cells)==len(set(cells))==100 for cells in warnings)

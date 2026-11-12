@@ -128,7 +128,7 @@ class WindowLoopTests(unittest.TestCase):
         down = SimpleNamespace(type=768, key=1073741906)
         up = SimpleNamespace(type=769, key=1073741906)
         p = self.run_player_events([[down, down], [up, down]])
-        self.assertEqual(p.position, (5, 3))
+        self.assertEqual(p.position, (5, 2))
 
     def test_menu_blocks_moves_and_key_release_is_not_lost(self):
         down = SimpleNamespace(type=768, key=1073741906)
@@ -137,13 +137,13 @@ class WindowLoopTests(unittest.TestCase):
             [down], [SimpleNamespace(type=1025, button=1, x=1295, y=41), up, down],
             [SimpleNamespace(type=768, key=27), down], [up, down],
         ])
-        self.assertEqual(p.position, (5, 3))
+        self.assertEqual(p.position, (5, 2))
 
     def test_f11_tail_release_does_not_latch_arrow(self):
         down = SimpleNamespace(type=768, key=1073741906)
         up = SimpleNamespace(type=769, key=1073741906)
         p = self.run_player_events([[down], [SimpleNamespace(type=768, key=1073741892), up], [down]])
-        self.assertEqual(p.position, (5, 3))
+        self.assertEqual(p.position, (5, 2))
 
     def test_board_player_menu_render_in_that_order(self):
         canvas = self.make_canvas()

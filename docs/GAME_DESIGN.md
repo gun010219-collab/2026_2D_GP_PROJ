@@ -52,16 +52,28 @@ Pawn/Rook/Knight/Bishop/Queen/King의 식별 실루엣은 챕터 전반에 유�
 
 ## 구현 경계
 
-**Task 1-S 기반:** 원본 강화3종(공격1/2/3, 최대 HP3/4/5/6, 이동18/15/12틱)의 순수 데이터와
+**현재 Task 1-T:** 실제 Stage 1~4 전멸은 UPGRADE이며 R/N을 차단한다. 공격/HP/이동3카드를 항상 표시하고,
+MAX를 제외한 카드 하나를 숫자1/2/3 또는 마우스로 선택하면 강화된 다음 Stage를 만든다.
+Stage 1~5 진입 시 누적 선택 수는0/1/2/3/4다. 피해1/2/3·HP3/4/5/6·이동18/15/12틱을 실제 전투에 전달한다.
+기본18틱 이동 제한은 첫 Stage부터 활성화되며 성공한 이동에만 간격을 소비하고 빠른 입력은 폐기한다.
+새 Stage는 최대 HP까지 회복하고 새 Player/Combat/Parry/Encounter/Pulse/원장/입력으로 시작한다.
+UPGRADE에서는 전체 전투 시간이 멈추고 렌더는 조회만 한다. 후보 전투/입력 준비가 실패하면 강화와 Offer를 유지한다.
+보스 전멸은 BOSS_CLEAR·추가 강화/N 없음·R 강화 유지 Stage 5, 모든 GAME_OVER R은 새 무강화 run/Stage 1이다.
+SETTINGS는 강화 화면 위에 표시하며 메뉴/F11/포커스·세션 교체 입력을 격리한다.
+사용자 최종 승인 A안과 기술 계약은 [강화 설계14절](UPGRADE_SYSTEM_DESIGN.md)에 기록한다.
+자동/SDL 검증과 **Task 1-T 사용자 Windows GUI20/20 통과**를 구분한다. 정확한 틱은 자동 검증 근거이며 모든 PC·장기 밸런스 검증은 아니다.
+아래 S/Q 설명은 당시 경계 및 보존된 전투 규칙이다.
+
+**Task 1-S 당시 기반(보존 이력):** 원본 강화3종(공격1/2/3, 최대 HP3/4/5/6, 이동18/15/12틱)의 순수 데이터와
 불변 Build/파생 Stats, 고정3옵션/MAX, Offer 단일 소비·Receipt 인증, ChapterRun 유지/초기화·보스 재플레이 stats를 구현했다.
 Player의 새 최대 HP 인자와 기존 Resolver 공격력 인자를 조합해 새 전투 능력치를 주입할 수 있다.
 이동 제한은 InputController에 명시적으로 구성하는 경로만 구현했다. 기존 호출과 실제 main 입력은 변경하지 않았다.
 사용자 승인5개·Task 1-R과의 관계는 [강화 설계13절](UPGRADE_SYSTEM_DESIGN.md)에 기록한다.
 Task 1-S 이후 기존 Stage 1~5 사용자 Windows GUI 회귀14/14는 모두 통과했다. 강화 UI·실제 강화 능력치 검증은 아니다.
-카드 UI/숫자·마우스/UPGRADE/실제 Stage 2~5 강화 전달·이동 제한 활성화·R/N 연결은 Task 1-T 미구현이다.
-현재 Stage 1~5/N 직접 진행·기본 능력치·Pulse와 SETTINGS/포커스는 그대로 유지한다. 아래 Q 기록은 실제 플레이 범위의 기준이다.
+당시 카드 UI/숫자·마우스/UPGRADE/실제 Stage 2~5 강화 전달·이동 제한 활성화·R/N 연결은 후속 T의 범위였다.
+당시 N 직접 진행·기본 능력치는 유지했으며 현재는 위 T 통합으로 대체했다. 아래 Q 기록의 전투 규칙은 유지한다.
 
-**현재 Task 1-Q:** 실제 main 플레이 범위는 Stage 1~5다. StageCatalog boss 메타데이터로 Pulse와 BOSS CLEAR를 연결했다.
+**Task 1-Q에서 완성해 유지한 전투:** 실제 main 플레이 범위는 Stage 1~5다. StageCatalog boss 메타데이터로 Pulse와 BOSS CLEAR를 연결했다.
 Pulse는 전체100칸/120틱 예고/피해1/적중 H+480 재사용이다. 첫 사용 가능은240틱이며 King의 준비 상태와
 기존 공격 drain을 기다린다. 요청부터 새 적 행동을 막고 기존 이벤트·돌진·착지는 원래 시각에 해결한다.
 마지막 완료 다음 틱 이후·King 회복 완료부터 예고를 시작한다. 일반 적 타이머는 Pulse 시작 S에서 저장해
@@ -72,7 +84,7 @@ Stage 5는 King 포함 전멸 BOSS CLEAR/N 무효/R Stage 5, Stage 1~5 GAME_OVER
 원장 단일 소비·피해 무적48틱·게임 오버 우선·새 세션/입력 격리를 유지한다.
 보스 HP/상태/100칸 경고/정리/클리어 UI는 임시 도형이며 SETTINGS가 최상단이다.
 기술적 틱 경계는 [King 설계14절](STAGE_5_KING_DESIGN.md), 자동 결과/사용자 GUI18/18의 별도 근거는 PROGRESS를 따른다.
-저장·Chapter 2 해금·강화·Queen·Stage 6 이후·최종 아트/음향은 미구현이다. 아래 Task 1-P 이전의 범위 기록은 당시 이력이다.
+저장·Chapter 2 해금·Queen·Stage 6 이후·최종 아트/음향은 미구현이다. 아래 Task 1-P 이전의 범위 기록은 당시 이력이다.
 
 Task 1-P의 실제 main 플레이는 여전히 **Stage 1~4**다. King 기본 전투는 원본 Stage 5 데이터로 생성한
 순수 Python 혼합 전투와 Pico2D/SDL dummy 자동 검증까지만 연결했다. Stage 5는 main/StageGame에서 거절하고

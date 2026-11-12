@@ -15,6 +15,10 @@ class StageFourSDLTests(unittest.TestCase):
             import sdl2 as s
             from pico2d import pico2d as canvas
             import main
+            from chapter_run import ChapterRun
+            run=ChapterRun()
+            for number in range(1,3):
+                run.select(run.offer_after_clear(number,f"prior-{number}"),("move","move","attack")[number-1])
             from config import FIXED_TIME_STEP
             from game_renderer import GameFlowRenderer
             now,frames,started=[0.0],[0],[False]
@@ -47,8 +51,8 @@ class StageFourSDLTests(unittest.TestCase):
                 clear(g)
                 games.append(g)
                 return g
-            def create(n):
-                g=factory(n)
+            def create(n, **kwargs):
+                g=factory(n, **kwargs)
                 games.append(g)
                 return g
             def push(kind,key=None):
@@ -62,8 +66,8 @@ class StageFourSDLTests(unittest.TestCase):
                 started[0]=True
                 s.SDL_FlushEvents(s.SDL_FIRSTEVENT,s.SDL_LASTEVENT)
                 if frames[0]==0:
-                    push(s.SDL_KEYDOWN,s.SDLK_n)
-                    push(s.SDL_KEYUP,s.SDLK_n)
+                    push(s.SDL_KEYDOWN,s.SDLK_1)
+                    push(s.SDL_KEYUP,s.SDLK_1)
                 elif frames[0]==19:
                     push(s.SDL_KEYDOWN,s.SDLK_LSHIFT)
                 elif frames[0]==21:
@@ -110,13 +114,13 @@ class StageFourSDLTests(unittest.TestCase):
                  patch.object(main.HealthRenderer,'_text',side_effect=text), \
                  patch.object(main,'perf_counter',side_effect=lambda:now[0]), \
                  patch.object(main,'sleep'):
-                main.main()
+                main.main(run=run)
             assert opened==[(1440,900)] and closed==[True]
             assert [g.stage_number for g in games]==[3,4]
             assert warnings and all(len(set(cells))==50 for cells in warnings)
             assert all((x+y)%2==0 for cells in warnings for x,y in cells)
             assert 'STAGE 4' in labels and '4/4' in labels and '2/2' in labels
-            assert 'STAGE CLEAR' in labels and 'GAME OVER' in labels and 'R TO STAGE 1' in labels
+            assert 'UPGRADE' in labels and 'GAME OVER' in labels and 'R TO STAGE 1' in labels
             print('PASS: actual SDL N event, Bishop fifty-cell warning, perfect and overlays')
         ''')
         result=subprocess.run([sys.executable,'-c',script],cwd=Path(__file__).resolve().parents[1],

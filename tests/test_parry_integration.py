@@ -111,11 +111,11 @@ class ParryIntegrationTests(unittest.TestCase):
         enemy = Enemy('attacker', 4, 2, (0, -1), 0)
         enemy.health.apply_damage(1, tick=0)
         batches = [[] for _ in range(40)]
-        batches[32] = [key(1073742049), key(1073741904), key(1073741904, False),
-                       key(1073741906), key(32)]
+        batches[21] = [key(1073742049), key(1073741904), key(1073741904, False)]
+        batches[39] = [key(1073741906), key(32)]
         player, _, combat, _, _, _, resolver, _ = self.run_loop(batches, enemies=(enemy,))
         self.assertEqual((enemy.health.current_hp, player.health.current_hp), (0, 3))
-        self.assertEqual((resolver.last_parry_result.status, resolver.last_parry_result.tick), ('failed', 32))
+        self.assertEqual((resolver.last_parry_result.status, resolver.last_parry_result.tick), ('failed', 39))
         self.assertEqual(combat.pending_attack_bonus, 0)
 
     def test_perfect_resets_cooldown_and_spends_bonus_on_next_real_space_event(self):
@@ -140,9 +140,10 @@ class ParryIntegrationTests(unittest.TestCase):
         self.assertEqual(encounter.enemies[0].state, 'recovering')
 
     def test_perfect_counter_space_kills_full_health_pawn_in_one_hit(self):
-        batches = [[] for _ in range(41)]
+        batches = [[] for _ in range(59)]
         batches[32] = [key(1073742049)]
-        batches[40] = [key(1073741904), key(1073741904, False), key(1073741906), key(32)]
+        batches[40] = [key(1073741904), key(1073741904, False)]
+        batches[58] = [key(1073741906), key(32)]
         player, encounter, combat, _, _, _, resolver, _ = self.run_loop(batches)
         source = encounter.enemies[0]
         self.assertEqual((source.health.max_hp, source.health.current_hp), (2, 0))

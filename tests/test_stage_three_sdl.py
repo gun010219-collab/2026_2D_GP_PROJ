@@ -15,6 +15,10 @@ class StageThreeSDLTests(unittest.TestCase):
             import sdl2 as s
             from pico2d import pico2d as canvas
             import main
+            from chapter_run import ChapterRun
+            run=ChapterRun()
+            for number in range(1,1):
+                run.select(run.offer_after_clear(number,f"prior-{number}"),("move","move","attack")[number-1])
             from config import FIXED_TIME_STEP
             from game_renderer import GameFlowRenderer
 
@@ -53,8 +57,8 @@ class StageThreeSDLTests(unittest.TestCase):
                 stages.append(game)
                 return game
 
-            def create(number):
-                game = stage_factory(number)
+            def create(number, **kwargs):
+                game = stage_factory(number, **kwargs)
                 stages.append(game)
                 return game
 
@@ -70,12 +74,12 @@ class StageThreeSDLTests(unittest.TestCase):
             def poll():
                 active[0] = True
                 s.SDL_FlushEvents(s.SDL_FIRSTEVENT,s.SDL_LASTEVENT)
-                if frames[0] in (0,1):
-                    push(s.SDL_KEYUP,s.SDLK_n)
-                    push(s.SDL_KEYDOWN,s.SDLK_n)
-                elif frames[0] == 38:
+                if frames[0] in (0,2):
+                    push(s.SDL_KEYUP,s.SDLK_1)
+                    push(s.SDL_KEYDOWN,s.SDLK_1)
+                elif frames[0] == 39:
                     push(s.SDL_KEYDOWN,s.SDLK_LSHIFT)
-                elif frames[0] == 40:
+                elif frames[0] == 41:
                     push(s.SDL_QUIT)
                 return real_poll()
 
@@ -87,13 +91,13 @@ class StageThreeSDLTests(unittest.TestCase):
                     assert stages[-1].stage_number == 2
                     clear(stages[-1])
                     GameFlowRenderer().draw(canvas,stages[-1])
-                if frames[0] == 1:
+                if frames[0] == 2:
                     game = stages[-1]
                     assert game.stage_number == 3 and game.combat.tick == 0
                     assert [e.kind for e in game.encounter.enemies] == ['knight','pawn','pawn']
                     assert [e.position for e in game.encounter.enemies] == [(3,6),(1,6),(8,6)]
                     assert [e.health.current_hp for e in game.encounter.enemies] == [3,2,2]
-                if frames[0] == 39:
+                if frames[0] == 40:
                     game = stages[-1]
                     assert game.combat.tick == 300
                     assert game.player.health.current_hp == 3
@@ -110,7 +114,7 @@ class StageThreeSDLTests(unittest.TestCase):
                             terminal.update_state()
                         GameFlowRenderer().draw(canvas,terminal)
                 real_present()
-                now[0] += (5 if frames[0] == 37 else 7 if frames[0] == 38 else 8) * FIXED_TIME_STEP
+                now[0] += (5 if frames[0] == 38 else 7 if frames[0] == 39 else 8) * FIXED_TIME_STEP
                 frames[0] += 1
 
             def warning(renderer,target_canvas,ledger):
@@ -138,15 +142,15 @@ class StageThreeSDLTests(unittest.TestCase):
                  patch.object(main.HealthRenderer,'_text',side_effect=text), \
                  patch.object(main,'perf_counter',side_effect=lambda:now[0]), \
                  patch.object(main,'sleep'):
-                main.main()
+                main.main(run=run)
             assert opened == [(1440,900)] and closed == [True]
             assert [g.stage_number for g in stages] == [1,2,3]
             assert ('knight','pawn','pawn') in kinds
             assert ((5,5),) in warnings and ((5,1),) in warnings
             assert all(len(cells) == 1 for cells in warnings)
             assert 'STAGE 3' in labels and '3/3' in labels and '2/2' in labels
-            assert 'STAGE CLEAR' in labels and 'GAME OVER' in labels
-            assert 'N TO CONTINUE' in labels and 'R TO STAGE 1' in labels
+            assert 'UPGRADE' in labels and 'GAME OVER' in labels
+            assert 'N TO CONTINUE' not in labels and 'R TO STAGE 1' in labels
             print('PASS: native SDL N events, Stage 3 main combat/drawing and perfect parry')
         ''')
         result = subprocess.run([sys.executable, '-c', script], cwd=Path(__file__).resolve().parents[1],

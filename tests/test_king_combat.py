@@ -294,7 +294,7 @@ class KingMixedTests(unittest.TestCase):
         self.assertNotEqual(e.enemies[1].position, before)
         e.enemies[1].health.apply_damage(2, tick=c.tick)
         game.update_state()
-        self.assertEqual(game.state, GameState.STAGE_CLEAR)
+        self.assertEqual(game.state, GameState.UPGRADE)
         self.assertTrue(r.stopped)
         tick = c.tick
         game.advance(100)
@@ -327,8 +327,8 @@ class KingMixedTests(unittest.TestCase):
         for x in g.encounter.enemies:
             x.health.apply_damage(x.health.current_hp, tick=0)
         g.update_state()
-        self.assertEqual(g.next_stage_number, 5)
-        self.assertEqual(g.restart_stage_number, 4)
+        self.assertIsNone(g.next_stage_number)
+        self.assertIsNone(g.restart_stage_number)
 
 
 class KingRenderTests(unittest.TestCase):

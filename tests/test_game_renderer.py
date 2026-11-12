@@ -39,7 +39,7 @@ class GameRendererTests(unittest.TestCase):
         with patch.object(HealthRenderer, '_text') as text:
             GameFlowRenderer().draw(canvas, game)
         labels = [call.args[1] for call in text.call_args_list]
-        self.assertIn('STAGE CLEAR', labels)
+        self.assertIn('UPGRADE', labels)
         self.assertIn('HP 2/3', labels)
         self.assertIn('PAWNS LEFT 0/2', labels)
         self.assertNotIn('GAME OVER', labels)

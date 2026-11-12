@@ -1,4 +1,5 @@
 """Supported stage sessions and main flow using deterministic fake SDL/time."""
+from chapter_run import ChapterRun
 from types import SimpleNamespace
 import sys
 import unittest
@@ -29,7 +30,8 @@ def finish(game, state):
         game.player.health.apply_damage(game.player.health.current_hp, tick=game.combat.tick)
     elif state == 'clear':
         for enemy in game.encounter.enemies:
-            enemy.health.apply_damage(enemy.health.current_hp, tick=game.combat.tick)
+            if enemy.alive:
+                enemy.health.apply_damage(enemy.health.current_hp, tick=game.combat.tick)
             game.encounter.deactivate(enemy.entity_instance_id)
     game.update_state()
 
@@ -39,7 +41,7 @@ def run_loop(batches, *, initial_stage=1, initial='clear', focus=None, lengths=N
     """Use actual factories/loop/renderers; replace only the desktop and time."""
     canvas = canvas_tests.WindowLoopTests().make_canvas()
     canvas.SDL_SCANCODE_R, canvas.SDL_SCANCODE_N = 21, 17
-    scans = {N: 17, R: 21, UP: 82, LEFT: 80, SPACE: 44, SHIFT: 225}
+    scans = {49:30,50:31,51:32,N: 17, R: 21, UP: 82, LEFT: 80, SPACE: 44, SHIFT: 225}
     flags = focus if focus is not None else [512] * len(batches)
     queued = iter(zip(batches + [[SimpleNamespace(type=256)]], flags + [flags[-1]]))
 
@@ -53,24 +55,29 @@ def run_loop(batches, *, initial_stage=1, initial='clear', focus=None, lengths=N
 
     canvas.get_events.side_effect = poll
     created, snapshots = [], []
+    run = ChapterRun()
     original_one, original_stage = main._new_game, main._new_stage_game
 
     def register(game):
         if not created:
             finish(game, initial)
+        if not created:
+            for stage in range(1,game.stage_number):
+                o=run.offer_after_clear(stage,f"fixture-{stage}")
+                run.select(o,("move","move","attack","hp")[stage-1])
         created.append(game)
         return game
 
-    def create_one():
+    def create_one(**kwargs):
         if not created:
             if initial_factory is not None:
                 return register(initial_factory())
             if initial_stage in (2, 3, 4, 5):
                 return register(original_stage(initial_stage))
-        return register(original_one())
+        return register(original_one(**kwargs))
 
-    def create_stage(number):
-        return create_one() if number == 1 else register(original_stage(number))
+    def create_stage(number, **kwargs):
+        return create_one(**kwargs) if number == 1 else register(original_stage(number, **kwargs))
 
     now = [0.0]
     elapsed = iter(lengths or [FIXED_TIME_STEP] * len(batches))
@@ -97,7 +104,7 @@ def run_loop(batches, *, initial_stage=1, initial='clear', focus=None, lengths=N
             patch.object(main, 'SimulationClock', return_value=clock), \
             patch.object(main, 'perf_counter', side_effect=lambda: now[0]), \
             patch.object(main, 'sleep'):
-        main.main()
+        main.main(run=run)
     canvas.open_canvas.assert_called_once_with(1440, 900)
     canvas.close_canvas.assert_called_once_with()
     board.assert_called_once_with(chapter=1)
@@ -139,9 +146,9 @@ class StageSessionTests(unittest.TestCase):
                     game = main._new_stage_game(number)
                     finish(game, state)
                     self.assertEqual(game.next_stage_number,
-                                     number + 1 if number < 5 and state == 'clear' else None)
+                                     None)
                     self.assertEqual(game.restart_stage_number,
-                                     None if state == 'playing' else 1 if state == 'dead' else number)
+                                     None if state in ('playing','clear') else 1)
 
     def test_stage_two_requires_all_three_deaths_and_death_wins_ties(self):
         game = main._new_stage_game(2)
@@ -266,10 +273,10 @@ class StageFlowMainTests(unittest.TestCase):
             game.encounter.deactivate(second.entity_instance_id)
             return game
         created, snapshots, _, _, _, _ = run_loop(
-            [[key(SPACE), key(N)], [key(N)], [key(N, False), key(N)]],
+            [[key(SPACE), key(49)], [key(49)], [key(49, False), key(49)]],
             initial='playing', initial_factory=almost_clear)
         self.assertEqual([s['count'] for s in snapshots], [1, 1, 2])
-        self.assertEqual(snapshots[0]['state'], GameState.STAGE_CLEAR)
+        self.assertEqual(snapshots[0]['state'], GameState.UPGRADE)
         self.assertEqual(created[-1].stage_number, 2)
 
     def test_stage_two_final_space_kill_clears_all_enemies_then_r_replays_two(self):
@@ -286,14 +293,14 @@ class StageFlowMainTests(unittest.TestCase):
         created, snapshots, _, _, _, _ = run_loop(
             [[key(SPACE)], [], [key(R)]], initial_stage=2, initial='playing',
             initial_factory=almost_clear_two)
-        self.assertEqual([g.stage_number for g in created], [2, 2])
-        self.assertEqual(snapshots[0]['state'], GameState.STAGE_CLEAR)
+        self.assertEqual([g.stage_number for g in created], [2])
+        self.assertEqual(snapshots[0]['state'], GameState.UPGRADE)
         self.assertTrue(created[0].resolver.stopped)
-        self.assertEqual([e.health.current_hp for e in created[-1].encounter.enemies], [4, 2, 2])
+        self.assertTrue(all(not e.alive for e in created[-1].encounter.enemies))
 
     def test_real_stage_two_death_stops_at_444_and_r_returns_to_chapter_start(self):
         created, snapshots, _, _, _, _ = run_loop(
-            [[] for _ in range(57)] + [[key(N)], [key(R)]],
+            [[] for _ in range(57)] + [[key(49)], [key(R)]],
             initial_stage=2, initial='playing', lengths=[8 * FIXED_TIME_STEP] * 59)
         dead, fresh = created
         self.assertEqual((dead.state, dead.combat.tick, dead.player.health.current_hp),
@@ -309,7 +316,7 @@ class StageFlowMainTests(unittest.TestCase):
                 pawn = game.encounter.enemies[1]
                 pawn.col, pawn.row = 4, 1
         created, _, _, _, _, _ = run_loop(
-            [[key(N)]] + [[] for _ in range(16)],
+            [[key(49)]] + [[] for _ in range(16)],
             lengths=[8 * FIXED_TIME_STEP] * 15 + [FIXED_TIME_STEP] * 2,
             after_render=obstruct)
         game = created[-1]
@@ -324,8 +331,8 @@ class StageFlowMainTests(unittest.TestCase):
             if frame == 1:
                 finish(game, 'clear')
         created, snapshots, _, _, _, _ = run_loop(
-            [[], [key(SPACE)], [key(N)], [key(SPACE)], [key(SPACE, False)], [key(SPACE)]],
-            initial='playing', lengths=[0, 0, FIXED_TIME_STEP, FIXED_TIME_STEP,
+            [[], [key(SPACE)], [], [key(49)], [key(SPACE)], [key(SPACE, False)], [key(SPACE)]],
+            initial='playing', lengths=[0, 0, 0, FIXED_TIME_STEP, FIXED_TIME_STEP,
                                          FIXED_TIME_STEP, FIXED_TIME_STEP],
             after_render=clear_after_queued_input)
         self.assertEqual(len(created), 2)
@@ -335,7 +342,7 @@ class StageFlowMainTests(unittest.TestCase):
                           created[-1].combat.active_attack.start_tick), (1, 3))
 
     def test_n_after_stage_one_clear_creates_real_stage_two_at_zero_without_new_window(self):
-        created, snapshots, _, _, _, clock = run_loop([[key(N)], []])
+        created, snapshots, _, _, _, clock = run_loop([[key(49)], []])
         self.assertEqual([g.stage_number for g in created], [1, 2])
         self.assertEqual((snapshots[0]['tick'], snapshots[0]['stage'], snapshots[0]['hp']), (0, 2, 3))
         self.assertTrue(created[0].resolver.stopped)
@@ -351,22 +358,29 @@ class StageFlowMainTests(unittest.TestCase):
                 self.assertEqual(len(created), 1)
 
     def test_r_replays_stage_two_clear_but_game_over_returns_to_stage_one(self):
-        for state, expected in (('clear', 2), ('dead', 1)):
-            with self.subTest(state=state):
-                created, snapshots, _, _, _, _ = run_loop([[key(R)], []], initial_stage=2, initial=state)
-                self.assertEqual([g.stage_number for g in created], [2, expected])
-                self.assertEqual((snapshots[0]['tick'], snapshots[0]['hp']), (0, 3))
+        for state in ('clear','dead'):
+            created,snapshots,_,_,_,_=run_loop([[key(R)],[]],initial_stage=2,initial=state)
+            self.assertEqual([g.stage_number for g in created],[2] if state=='clear' else [2,1])
+            self.assertEqual(snapshots[0]['tick'],0)
+            if state=='clear':
+                self.assertEqual(created[0].state,GameState.UPGRADE)
+                self.assertIsNone(created[0].next_stage_number)
+                self.assertIsNone(created[0].restart_stage_number)
+            else:
+                self.assertEqual(created[-1].player.health.current_hp,3)
                 self.assertTrue(created[-1].playing)
 
     def test_stage_one_clear_r_still_replays_stage_one(self):
-        created, _, _, _, _, _ = run_loop([[key(R)]])
-        self.assertEqual([g.stage_number for g in created], [1, 1])
+        created,snapshots,_,_,_,_=run_loop([[key(R)],[key(R,False),key(R),key(N)]])
+        self.assertEqual([g.stage_number for g in created],[1])
+        self.assertTrue(all(s['state'] is GameState.UPGRADE and s['tick']==0 for s in snapshots))
+        self.assertEqual(created[0].transition_count,1)
 
     def test_transition_blocks_tail_actions_and_physical_holds_until_release(self):
         created, snapshots, _, _, _, _ = run_loop([
-            [key(N), key(UP), key(SPACE), key(SHIFT), key(R)],
-            [key(N), key(UP), key(SPACE), key(SHIFT)],
-            [key(N, False), key(R, False), key(UP, False), key(SPACE, False), key(SHIFT, False)],
+            [key(49), key(UP), key(SPACE), key(SHIFT), key(R)],
+            [key(49), key(UP), key(SPACE), key(SHIFT)],
+            [key(49, False), key(R, False), key(UP, False), key(SPACE, False), key(SHIFT, False)],
             [key(UP), key(SPACE), key(SHIFT)],
         ])
         self.assertEqual(len(created), 2)
@@ -378,7 +392,7 @@ class StageFlowMainTests(unittest.TestCase):
         self.assertEqual((game.combat.active_attack.start_tick, game.parry.last_attempt.start_tick), (3, 3))
 
     def test_only_one_transition_per_batch_in_both_n_r_orders(self):
-        for keys, expected in (([N, R, R], 2), ([R, N, N], 1)):
+        for keys, expected in (([49, R, R], 2), ([R, 49, 49], 2)):
             with self.subTest(keys=keys):
                 created, _, _, _, _, _ = run_loop([[key(value) for value in keys]])
                 self.assertEqual([g.stage_number for g in created], [1, expected])
@@ -388,41 +402,37 @@ class StageFlowMainTests(unittest.TestCase):
             if frame == 0:
                 finish(game, 'clear')
         created, snapshots, _, _, _, _ = run_loop(
-            [[key(N)], [key(N)], [key(N, False)], [key(N)]], initial='playing',
+            [[key(49)], [key(49)], [key(49, False)], [key(49)]], initial='playing',
             after_render=clear_after_first)
         self.assertEqual([s['count'] for s in snapshots], [1, 1, 1, 2])
 
     def test_settings_block_n_until_menu_closed_release_and_new_press(self):
         created, snapshots, _, menu, _, _ = run_loop(
-            [[MENU, key(N)], [key(ESC), key(N)], [key(N, False)], [key(N)]])
+            [[MENU, key(49)], [key(ESC), key(49)], [key(49, False)], [key(49)]])
         self.assertEqual([s['count'] for s in snapshots], [1, 1, 1, 2])
         self.assertFalse(menu.is_open)
 
     def test_focus_loss_and_regained_hold_cannot_advance(self):
         created, snapshots, _, _, _, _ = run_loop(
-            [[], [key(N)], [], [key(N)], [key(N, False)], [key(N)]],
+            [[], [key(49)], [], [key(49)], [key(49, False)], [key(49)]],
             focus=[512, 0, 0, 512, 512, 512])
         self.assertEqual([s['count'] for s in snapshots], [1, 1, 1, 1, 1, 2])
 
     def test_f11_order_and_stage_two_settings_reuse_existing_adapters(self):
         created, snapshots, _, menu, display, _ = run_loop(
-            [[key(F11), key(N)], [key(N, False)], [key(N), key(F11)], [MENU], [key(ESC)]])
+            [[key(F11), key(49)], [key(49, False)], [key(49), key(F11)], [MENU], [key(ESC)]])
         self.assertEqual([s['count'] for s in snapshots], [1, 1, 2, 2, 2])
         self.assertEqual(display.return_value.toggle.call_count, 2)
         self.assertFalse(menu.is_open)
         self.assertEqual(created[-1].stage_number, 2)
 
     def test_repeated_stage_two_clear_replays_have_zero_clock_debt_and_unique_sessions(self):
-        def clear_again(game, frame):
-            finish(game, 'clear')
-        created, snapshots, _, _, _, clock = run_loop(
-            [[key(R), key(R, False)] for _ in range(6)], initial_stage=2,
-            lengths=[20] * 6, after_render=clear_again)
-        self.assertEqual(len(created), 7)
-        self.assertTrue(all(g.stage_number == 2 for g in created))
-        self.assertEqual(len({g.combat.stage_instance_id for g in created}), 7)
-        self.assertTrue(all(s['tick'] == 0 for s in snapshots))
-        self.assertEqual(clock.accumulator, 0)
+        created,snapshots,_,_,_,clock=run_loop([[key(R),key(R,False)] for _ in range(6)],initial_stage=2,lengths=[20]*6)
+        self.assertEqual(len(created),1)
+        self.assertTrue(all(s['tick']==0 and s['state'] is GameState.UPGRADE for s in snapshots))
+        self.assertEqual(created[0].transition_count,1)
+        self.assertEqual(clock.accumulator,0)
+        self.assertIsNone(created[0].restart_stage_number)
 
     def test_real_mixed_main_loop_renders_warns_and_applies_rook_damage(self):
         seen, warnings = [], []
@@ -436,7 +446,7 @@ class StageFlowMainTests(unittest.TestCase):
         with patch.object(main.EnemyRenderer, 'draw', draw_enemies), \
                 patch.object(main.EnemyAttackRenderer, 'draw', draw_warnings):
             created, snapshots, _, _, _, _ = run_loop(
-                [[key(N)]] + [[] for _ in range(22)], lengths=[8 * FIXED_TIME_STEP] * 23)
+                [[key(49)]] + [[] for _ in range(22)], lengths=[8 * FIXED_TIME_STEP] * 23)
         game = created[-1]
         self.assertEqual(game.stage_number, 2)
         self.assertIn(('rook', 'pawn', 'pawn'), seen)
@@ -448,10 +458,10 @@ class StageFlowMainTests(unittest.TestCase):
     def test_stage_two_main_loop_normal_and_perfect_parry_against_real_rook(self):
         for grade in ('normal', 'perfect'):
             if grade == 'perfect':
-                batches = [[key(N)]] + [[] for _ in range(20)] + [[key(SHIFT)], []]
+                batches = [[key(49)]] + [[] for _ in range(20)] + [[key(SHIFT)], []]
                 lengths = [8 * FIXED_TIME_STEP] * 20 + [FIXED_TIME_STEP, 7 * FIXED_TIME_STEP, FIXED_TIME_STEP]
             else:
-                batches = [[key(N)]] + [[] for _ in range(18)] + [[key(SHIFT)], [], [], []]
+                batches = [[key(49)]] + [[] for _ in range(18)] + [[key(SHIFT)], [], [], []]
                 lengths = [8 * FIXED_TIME_STEP] * 18 + [6 * FIXED_TIME_STEP, 8 * FIXED_TIME_STEP,
                                                        8 * FIXED_TIME_STEP, 2 * FIXED_TIME_STEP, FIXED_TIME_STEP]
             with self.subTest(grade=grade):
@@ -466,7 +476,7 @@ class StageFlowMainTests(unittest.TestCase):
                     self.assertEqual((source.state, source.stun_until_tick), ('stunned', 228))
 
     def test_hit_tick_move_evades_real_rook_in_main_loop(self):
-        batches = [[key(N)]] + [[] for _ in range(20)] + [[key(UP)]]
+        batches = [[key(49)]] + [[] for _ in range(20)] + [[key(UP)]]
         created, _, _, _, _, _ = run_loop(batches, lengths=[8 * FIXED_TIME_STEP] * 22)
         game = created[-1]
         self.assertEqual((game.combat.tick, game.player.position, game.player.health.current_hp),
@@ -474,18 +484,17 @@ class StageFlowMainTests(unittest.TestCase):
         self.assertEqual(game.encounter.enemies[0].position, (5, 1))
 
     def test_space_kills_rook_and_cancels_its_pending_attack_in_main(self):
-        def expose_one_hp_rook(game, frame):
-            if game.stage_number == 2 and frame == 20:
-                game.encounter.enemies[0].health.apply_damage(3, tick=game.combat.tick)
-        batches = [[key(N)]] + [[] for _ in range(20)] + [[key(LEFT)], [key(LEFT, False), key(LEFT)],
-                                                          [key(SPACE)]] + [[] for _ in range(5)]
-        created, _, _, _, _, _ = run_loop(batches,
-            lengths=[8 * FIXED_TIME_STEP] * 20 + [FIXED_TIME_STEP] * 9,
-            after_render=expose_one_hp_rook)
-        game = created[-1]
+        from tests.test_stage_three import play_to
+        def expose(game,tick):
+            if tick==144:
+                game.encounter.enemies[0].health.apply_damage(3,tick=tick)
+        created,_,_,_,_,_=play_to(170,factory=lambda: main._new_stage_game(2),
+            inputs={150:[key(LEFT),key(LEFT,False)],168:[key(LEFT),key(SPACE)]},
+            samples=(144,),observe=expose)
+        game=created[-1]
         self.assertFalse(game.encounter.enemies[0].active)
-        self.assertEqual((game.player.position, game.player.health.current_hp), ((3, 1), 3))
-        self.assertEqual(game.encounter.ledger.telegraphs, ())
+        self.assertEqual((game.player.position,game.player.health.current_hp),((3,1),3))
+        self.assertEqual(game.encounter.ledger.telegraphs,())
 
     def test_stage_two_terminal_menu_f11_esc_and_window_close_remain_available(self):
         for state in ('dead', 'clear'):
@@ -497,7 +506,7 @@ class StageFlowMainTests(unittest.TestCase):
             self.assertFalse(menu.is_open)
             display.return_value.toggle.assert_called_once_with()
         created, snapshots, _, _, _, _ = run_loop(
-            [[key(N), SimpleNamespace(type=256)]])
+            [[key(49), SimpleNamespace(type=256)]])
         self.assertEqual(len(created), 1)
         self.assertEqual(snapshots, [])
 
@@ -523,20 +532,21 @@ class StageFlowRendererTests(unittest.TestCase):
     def test_stage_one_clear_has_continue_hint_but_game_over_does_not(self):
         game = main._new_game()
         finish(game, 'clear')
-        self.assertIn('N TO CONTINUE', self.labels(game))
+        self.assertIn('UPGRADE', self.labels(game))
+        self.assertNotIn('N TO CONTINUE', self.labels(game))
         dead = main._new_game()
         finish(dead, 'dead')
         self.assertNotIn('N TO CONTINUE', self.labels(dead))
 
     def test_stage_two_shows_actual_stage_all_enemies_and_correct_restart_destination(self):
-        for state, expected in (('dead', 'R TO STAGE 1'), ('clear', 'R TO RESTART')):
+        for state, expected in (('dead', 'R TO STAGE 1'), ('clear', 'UPGRADE')):
             game = main._new_stage_game(2)
             finish(game, state)
             labels = self.labels(game)
             self.assertIn('STAGE 2', labels)
             self.assertIn(f'ENEMIES LEFT {3 if state == "dead" else 0}/3', labels)
             self.assertIn(expected, labels)
-            self.assertEqual('N TO CONTINUE' in labels, state == 'clear')
+            self.assertNotIn('N TO CONTINUE', labels)
             self.assertNotIn('STAGE 3', labels)
 
     def test_stage_labels_and_terminal_glyphs_fit_existing_layout_without_mutation(self):

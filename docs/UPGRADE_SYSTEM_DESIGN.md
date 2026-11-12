@@ -1,9 +1,10 @@
 # CHECKMATE — Task 1-R: 강화 선택 시스템 원본 분석과 통합 설계
 
-> 최신 상태 — Task 1-S: 사용자 최종 승인5개와 순수 기반 구현은 **13절**을 따른다.
-> 아래 Task 1-R 분석·미확정 제안·예정 테스트는 당시 이력으로 보존한다. UI와 실제 main 연결은 Task 1-T다.
+> 최신 상태 — Task 1-T: 실제 강화 UI·main 연결·일반 클리어 R/N 차단의 최종 승인은 **14절**을 따른다.
+> Task 1-S의 승인5개·순수 기반은13절, 아래 R/S 분석·미확정 제안은 당시 이력으로 보존한다.
+> Task 1-T 자동/SDL 검증과 사용자 Windows GUI20/20 통과를 별도 근거로 구분한다.
 
-상태: **분석·설계만 완료. 강화 기능·수치·입력 변경은 구현하지 않음. 핵심 정책 확인 후 후속 구현**.
+Task 1-R 당시 상태: **분석·설계만 완료. 강화 기능·수치·입력 변경은 구현하지 않음. 핵심 정책 확인 후 후속 구현**.
 기준 main: `6b924c6b2762bfb60509890f0d765bb925c170e4`. 현재 Stage 1~5/Pulse와 N 직접 진행을 유지한다.
 Task 1-Q의767개 자동 테스트와 사용자 Windows GUI18/18은 기존 구현의 검증 근거다.
 이 문서의 권장 구조·예정 테스트를 구현 완료나 새 사용자 승인으로 취급하지 않는다. 이번 작업은 커밋·Push하지 않는다.
@@ -327,3 +328,72 @@ S의 자동 테스트는 강화 UI·실제 로그라이트 진행 완료의 근�
 사용자 Windows 기존 Stage 1~5 GUI 회귀14/14 통과를 수령했다. Python823개·SDL dummy와 별도 근거이며
 강화 UI·강화 능력치 실제 플레이·정밀 틱의 GUI 측정 검증으로 표현하지 않는다.
 기존 Task 1-R 본문을 보존했으며 기능 변경 없는 최종 검수 후 커밋·기존 main 일반 Push를 승인받았다.
+
+## 14. Task 1-T — 최종 승인 A안과 실제 강화 진행 통합
+
+### 원본·사용자 승인·기술 결정
+
+- 원본 PDF p.19의 공격 피해1/2/3, 최대 HP3/4/5/6, 이동18/15/12틱과 챕터당 일반 강화4회를 유지한다.
+  원본 파일을 이번에 수정하거나 새 효과·수치를 만들지 않았다. 원본 분석 근거는1~12절에 보존한다.
+- 사용자 최종 승인 A안: Stage 1~4 전멸→UPGRADE→반드시 하나 선택→다음 Stage.
+  **UPGRADE의 R/N은 모두 무효**다. 일반 클리어 재플레이 R의 미확정 정책은 이번 승인으로 대체했다.
+- Stage 5는 전멸 BOSS_CLEAR, 추가 강화/N 없음, R은 기존4회 강화를 유지해 Stage 5 재플레이.
+  모든 GAME_OVER의 R은 새 ChapterRun·Stage 1·기본 피해1/HP3/이동18틱이다. 플레이어 사망 우선을 유지한다.
+- 기술 결정: StageGame은 전투 종료와 UPGRADE 상태를 소유하고, 작은 `StageProgression`이 상위 ChapterRun과
+  활성 전투를 연결한다. STAGE_CLEAR enum 이름은 외부 호환성을 위해 유지하되 일반 전멸에서는 발생하지 않는다.
+  StageGame.next_stage_number는 항상 None, UPGRADE.restart_stage_number도 None이다.
+
+### 실제 Offer 인증과 원자적 교체
+
+`sync_offer()`는 현재 StageGame의 일반 Stage/UPGRADE/생존 Player/전멸/종료1회/정지 Resolver와
+ChapterRun의 chapter/current_stage를 검증한다. 실제 Combat.stage_instance_id로만 Offer를 요청한다.
+반복 update는 같은 미소비 Offer를 돌려주며 렌더러는 생성·소비·세션 변경을 하지 않는다.
+
+`choose()`는 활성 Offer의 동일 객체·run/전투 ID·before_build와 MAX를 확인한다.
+candidate_build.stats로 다음 StageGame을 먼저 만들고 목적지·공격력·HP·새 객체/실행 ID·초기 시계·적 원본 상태를 검사한다.
+새 GameplayInput을 만들고 물리 키/마우스를 동기화하는 작업도 확정 전에 수행한다.
+이후 기존 ChapterRun.select()를 한 번 실행하고 Receipt 결과가 후보 Build와 같음을 확인한 뒤 활성 전투를 교체한다.
+기존 단일 소비와 소유권 모델을 복제하거나 private 속성을 수정하지 않는다.
+전투 또는 입력 준비 실패 시 Build/Receipt/Offer/종료 전투를 그대로 두고 새 입력으로 재시도한다.
+UI에는 재시도 안내를 표시한다. GAME_OVER와 BOSS_CLEAR의 새 전투 준비도 초기화/교체보다 먼저다.
+종료 시 공개 `ChapterRun.retire()`로 미소비 Offer를 폐기한다. 이전 Receipt는 조회 이력이며 새 run에 적용할 수 없다.
+
+### 능력치와 정수 틱 입력
+
+- `_new_game()`/`_new_stage_game(number)`의 기존 호출은 유효하고 선택적 `stats=`로만 확장했다.
+  새 Player/Health는 강화 max_hp까지 회복하고 Resolver.player_damage에 강화 공격력을 전달한다.
+  공격·패링·무적·기절·보너스·원장·Pulse·이동 래치를 이전 전투에서 가져오지 않는다.
+- 실제 main의 첫 Stage부터 GameplayInput에18틱, 강화 시15/12틱을 설정하고 KEYDOWN에 Combat.tick을 전달한다.
+  InputController의 기존 선택적 게이트를 그대로 사용한다. 첫 이동 즉시, 성공 후에만 마감 갱신,
+  제한 중 입력 폐기(facing 포함), 막힌 이동 무료, 유지/동시 키 차단을 유지한다.
+  미구성 InputController()/GameplayInput(canvas)의 호환 API는 그대로다. wall-clock 이동 시계를 추가하지 않는다.
+- 강화 화면·SETTINGS·포커스 정지에서는 Combat.tick이 멈춘다. Pulse의 일반 적만 정지하는 시간과 구분한다.
+  공격/패링 간격과 Pulse perfect 반사2는 강화 이동/공격력에 영향을 받지 않는다.
+
+### UI와 프레임 입력 경계
+
+- 중앙 보드 위 임시 도형3카드: 1 ATTACK / 2 MAX HP / 3 MOVE. 값은 Offer.options에서만 읽는다.
+  현재 단계/값·다음 값, 이동의 TICKS PER MOVE, MAX 비활성화를 표시한다. 별도 에셋·폰트 의존성은 없다.
+- 렌더와 클릭은 같은 CARD_RECTS를 사용한다. 기존 logical_mouse_to_canvas()를 한 번 사용하며
+  SDL 논리 좌표에 레터박스 보정을 중복 적용하지 않는다. 범위 밖은 선택하지 않는다.
+- UpgradeInput은 전투 큐와 독립적이다. 숫자 KEYDOWN/클릭의 새 눌림만 받고 반복/유지/MAX는 적용하지 않는다.
+  SETTINGS가 최상단이며 메뉴 버튼/메뉴/닫힌 프레임/F11/포커스 전환 프레임은 선택을 차단한다.
+- 프레임 시작 때의 Offer가 해당 프레임에서 유지될 때만 선택할 수 있다.
+  마지막 적 처치와 같은 이벤트 배치의 숫자/마우스를 새 강화 입력으로 소급하지 않는다.
+  정상 교체는 프레임당 한 번이며 뒤따른 숫자·클릭·방향/SPACE/Shift를 실행하지 않는다.
+  기존 pending_gameplay와 누적 시간을 비우고 새 물리 키 상태로 래치를 동기화한다.
+
+### 검증 범위와 후속 작업
+
+기존823개 테스트 메서드를 유지한다. 승인으로 대체된 STAGE_CLEAR/N/일반 R/무제한 빠른 이동의 기대만 갱신했다.
+옛 이름의 테스트 메서드는 이력 확인을 위해 남겨두었으며 실행 내용은 새 정책을 따른다.
+고급 Stage를 단독 시작하는 기존 전투 fixture는 run에 선행 선택을 명시적으로 구성한다.
+실제 처음부터 네 번 선택하는 main/SDL 경로는 별도 테스트로 검증하며 fixture를 플레이 완료라고 표현하지 않는다.
+피해·패링·원장·사망 우선·종료 정지·세션 격리의 기존 검증은 유지한다.
+
+단위/실제 main 자동 테스트와 native SDL dummy에서 네 번 선택·누적 stats·MAX·숫자/마우스·메뉴/포커스·
+보스 재플레이·게임 오버를 검증한다. 한 틱씩/최대8틱씩 같은 입력 일정도 비교한다. 최종 개수/명령은 PROGRESS에 기록한다.
+Task 1-S Windows GUI14/14는 과거 회귀 근거이며 **Task 1-T 사용자 Windows GUI20/20 통과**를 별도로 수령했다.
+강화 후 조작감/카드 가독성 등20항목을 수동 확인했으며 장기 밸런스·고DPI/다중 모니터·모든 PC 안정성 검증은 아니다.
+기능 코드 추가 수정 없이 최종 자동 검수 후 지정30개 파일 커밋·일반 Push를 승인받았다.
+Stage 6~25/Queen/새 챕터 해금·저장/최종 아트·사운드·배포는 미구현으로 유지한다.

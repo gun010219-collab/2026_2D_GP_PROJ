@@ -111,7 +111,7 @@ class DamageIntegrationTests(unittest.TestCase):
     def test_move_on_exact_hit_tick_avoids_damage_and_no_later_rehit(self):
         enemy = Enemy('attacker', 4, 2, (0, -1), 0)
         player, encounter, _, _, _ = self.run_frames(
-            [[] for _ in range(39)] + [[key(1073741903)], [],
+            [[] for _ in range(39)] + [[key(1073741903)]] + [[] for _ in range(17)] + [
                                      [key(1073741903, False), key(1073741904)]], enemies=(enemy,))
         self.assertEqual(player.position, (5, 1))
         self.assertEqual(player.health.current_hp, 3)
@@ -122,8 +122,8 @@ class DamageIntegrationTests(unittest.TestCase):
         enemy = Enemy('attacker', 4, 2, (0, -1), 0)
         enemy.health.apply_damage(1, tick=0)
         player, encounter, _, _, _ = self.run_frames(
-            [[] for _ in range(39)] + [[key(1073741904), key(1073741904, False),
-                                      key(1073741906), key(32)]], enemies=(enemy,))
+            [[] for _ in range(21)] + [[key(1073741904), key(1073741904, False)]] +
+            [[] for _ in range(17)] + [[key(1073741906), key(32)]], enemies=(enemy,))
         # Left moves to (4,1); after release, the blocked up press faces the
         # Pawn without entering its cell, so SPACE kills it before due.
         self.assertEqual(player.health.current_hp, 3)
@@ -303,7 +303,10 @@ class DamageIntegrationTests(unittest.TestCase):
         lengths = [FIXED_TIME_STEP] * 39 + [0, FIXED_TIME_STEP, FIXED_TIME_STEP]
         player, _, combat, snapshots, _ = self.run_frames(batches, enemies=(enemy,), lengths=lengths)
         self.assertEqual(snapshots[40][:3], (39, 2, (1,)))
-        self.assertEqual(snapshots[41][:3], (40, 2, (0,)))
+        # The quick turn is discarded by the approved 18-tick move gate;
+        # SPACE still executes at tick40 without undoing tick39 damage.
+        self.assertEqual(snapshots[41][:3], (40, 2, (1,)))
+        self.assertEqual(combat.active_attack.target_cell, (3, 1))
         self.assertEqual((player.health.last_damage_tick, combat.active_attack.start_tick), (39, 40))
 
     def test_modal_transition_discards_pending_quick_tap_without_attack(self):

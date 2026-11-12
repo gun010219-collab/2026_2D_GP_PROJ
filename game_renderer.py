@@ -8,12 +8,13 @@ class GameFlowRenderer:
     def draw(self, canvas, game):
         if game.playing:
             return
-        clear = game.state in (GameState.STAGE_CLEAR, GameState.BOSS_CLEAR)
+        clear = game.state in (GameState.UPGRADE, GameState.STAGE_CLEAR, GameState.BOSS_CLEAR)
         accent = (224, 192, 116) if clear else (196, 112, 107)
         x, y = WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2
         canvas.draw_rectangle(x - 300, y - 165, x + 300, y + 165, *accent, filled=True)
         canvas.draw_rectangle(x - 296, y - 161, x + 296, y + 161, 17, 20, 28, filled=True)
-        title = 'BOSS CLEAR' if game.state is GameState.BOSS_CLEAR else 'STAGE CLEAR' if clear else 'GAME OVER'
+        title = ('UPGRADE' if game.state is GameState.UPGRADE else
+                 'BOSS CLEAR' if game.state is GameState.BOSS_CLEAR else 'STAGE CLEAR' if clear else 'GAME OVER')
         self._center(canvas, title, 558, 6, accent)
         self._center(canvas, f'STAGE {game.stage_number}', 516, 3, (225, 218, 197))
         health = game.player.health
@@ -26,7 +27,8 @@ class GameFlowRenderer:
             self._center(canvas, 'N TO CONTINUE', 409, 3, (224, 192, 116))
         restart = ('R TO RESTART' if game.restart_stage_number == game.stage_number
                    else f'R TO STAGE {game.restart_stage_number}')
-        self._center(canvas, restart, 384, 4, (224, 192, 116))
+        if game.restart_stage_number is not None:
+            self._center(canvas, restart, 384, 4, (224, 192, 116))
         self._center(canvas, 'ESC TO EXIT', 343, 3, (213, 214, 218))
         self._center(canvas, 'SETTINGS / F11', 310, 2, (180, 184, 193))
 

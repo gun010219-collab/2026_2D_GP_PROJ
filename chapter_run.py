@@ -1,6 +1,6 @@
-"""Pure chapter upgrade ownership. Clear notifications are not wired to main.
+"""Pure chapter upgrade ownership, independent of combat and SDL.
 
-The future progression adapter must verify StageGame outcomes before requesting
+The progression adapter must verify StageGame outcomes before requesting
 offers. This model never observes or fabricates combat clears or unlocks.
 """
 from uuid import uuid4
@@ -107,7 +107,7 @@ class ChapterRun:
     def boss_replay_stats(self):
         """Return retained stats for a fresh boss session, without another offer.
 
-        The future caller must verify BOSS_CLEAR; no actual replay occurs here.
+        The caller must verify BOSS_CLEAR; no actual replay occurs here.
         """
         self._require_active()
         if self.current_stage != chapter_first_stage(self.chapter) + 4:
@@ -122,6 +122,13 @@ class ChapterRun:
         """Pure reset, not an unlock or a playable later-stage constructor."""
         self._require_active()
         fresh = ChapterRun(chapter)  # Validate before retiring the current owner.
+        self.retire()
+        return fresh
+
+    def retire(self):
+        """Invalidate pending commands on application exit; retain read-only history."""
+        if self.retired:
+            return False
         self._active_offer = None
         self._retired = True
-        return fresh
+        return True

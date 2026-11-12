@@ -15,6 +15,10 @@ class StageTransitionSDLTests(unittest.TestCase):
             import sdl2 as s
             from pico2d import pico2d as canvas
             import main
+            from chapter_run import ChapterRun
+            run=ChapterRun()
+            for number in range(1,1):
+                run.select(run.offer_after_clear(number,f"prior-{number}"),("move","move","attack")[number-1])
             from config import FIXED_TIME_STEP
             from game_renderer import GameFlowRenderer
 
@@ -50,8 +54,8 @@ class StageTransitionSDLTests(unittest.TestCase):
                 game.update_state()
                 return game
 
-            def create(number):
-                game = stage_factory(number)
+            def create(number, **kwargs):
+                game = stage_factory(number, **kwargs)
                 stages.append(game)
                 return game
 
@@ -68,8 +72,8 @@ class StageTransitionSDLTests(unittest.TestCase):
                 loop_started[0] = True
                 s.SDL_FlushEvents(s.SDL_FIRSTEVENT, s.SDL_LASTEVENT)
                 if frames[0] == 0:
-                    push(s.SDL_KEYDOWN, s.SDLK_n)
-                    push(s.SDL_KEYUP, s.SDLK_n)
+                    push(s.SDL_KEYDOWN, s.SDLK_1)
+                    push(s.SDL_KEYUP, s.SDLK_1)
                 elif frames[0] == 23:
                     push(s.SDL_QUIT)
                 return real_poll()
@@ -110,7 +114,7 @@ class StageTransitionSDLTests(unittest.TestCase):
                  patch.object(main.EnemyAttackRenderer, 'draw', draw_warning), \
                  patch.object(main, 'perf_counter', side_effect=lambda: now[0]), \
                  patch.object(main, 'sleep'):
-                main.main()
+                main.main(run=run)
             assert opened == [(1440,900)] and len(closed) == 1
             assert len(stages) == 1 and stages[0].stage_number == 2, (len(stages), frames)
             game = stages[0]

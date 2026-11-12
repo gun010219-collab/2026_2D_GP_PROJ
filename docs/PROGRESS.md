@@ -1,5 +1,135 @@
 # CHECKMATE 개발 진행 기록
 
+## Task 1-T — 강화 카드 UI·실제 Stage 1~5 진행 연동 (2026-11-12)
+
+상태: **구현·자동 검증 및 사용자 Windows GUI20/20 통과. 최종 검수 후 지정30개 파일 커밋·일반 Push 승인**.
+이번 최종 검수 시작 시 수정25개·미추적5개, 스테이징0개였으며 HEAD/fetch 후 origin/main은 기준 SHA와 같았다.
+기능 코드 추가 수정은 없고 문서만 최종 결과로 갱신했다. 동일 GUI 재검증은 요청하지 않는다.
+시작 main은 깨끗했고 HEAD와 fetch 후 origin/main은 기준 `bbe32ee63836ed4fc391a4eeabe2f9afd807a4d6`로 일치했다.
+기존 Task 1-R/S 설계와823개 테스트·사용자 GUI14/14, Q의18/18을 보존한다. 과거 GUI 결과를 T의 검증으로 재사용하지 않는다.
+
+### 승인과 실제 구현
+
+- 최종 A안: 일반 Stage 1~4 전멸→UPGRADE. R/N은 무효이며 반드시 카드 하나를 선택해 다음 Stage로 진입한다.
+  일반 clear R의 미확정 항목은 이번 승인으로 종료한다. STAGE_CLEAR enum은 호환 이름만 유지한다.
+- 고정 ATTACK/MAX HP/MOVE3카드·숫자1/2/3·마우스·MAX 비활성화. 화면 값은 Offer.options에서 조회한다.
+  임시 도형/기존 글리프만 사용하며 SETTINGS가 최상단이다. 반복 렌더는 선택·전투 생성·강화에 영향을 주지 않는다.
+- StageProgression은 실제 활성 StageGame의 생존/일반 전멸/UPGRADE/정지/전환1회와 ChapterRun/current_stage,
+  Combat의 실제 stage_instance_id를 인증하고 한 Offer만 생성한다. 임의 문자열 clear로 실제 main 보상을 발행하지 않는다.
+- 후보 Build로 새 전투와 새 입력을 먼저 준비/검증한 뒤 기존 ChapterRun.select()로 확정한다.
+  다음 전투/입력 생성 실패 시 기존 Offer/Build/Receipt/종료 화면을 보존하고 재시도한다.
+- 실제 새 전투에 피해1/2/3, HP3/4/5/6, 이동18/15/12틱을 적용한다. 새 Stage는 강화된 최대 HP까지 회복한다.
+  Stage 1~5 진입 시 누적 강화0/1/2/3/4, 보스 재플레이는4회 그대로다. 적/King HP와 Pulse 반사2는 강화로 바뀌지 않는다.
+- 실제 main의 기본 이동18틱 활성화. 첫 이동 즉시/성공만 간격 소비/빠른 입력 폐기/예약 없음,
+  유지·동시 키 차단/벽·점유 실패 무료를 기존 게이트로 처리한다. KEYDOWN에 Combat.tick을 전달한다.
+  무구성 InputController()/GameplayInput(canvas)의 기존 API는 유지한다.
+- UPGRADE에서는 전체 전투 시간을 정지한다. 처치 프레임 입력은 선택으로 소급하지 않으며 프레임당 한 선택만 확정한다.
+  세션 교체 시 pending_gameplay/키 래치/누적 시간을 초기화하고 실제 눌린 키와 동기화한다.
+  메뉴/F11/포커스 전환 프레임의 선택과 레터박스 밖 클릭을 차단한다.
+- GAME_OVER R은 새 무강화 ChapterRun/Stage 1, Stage 5 BOSS_CLEAR R은 기존 강화/새 Stage 5다.
+  새 Player/Health/Combat/Parry/Encounter/Pulse/원장/실행 ID를 만들고 임시 전투 보상은 이월하지 않는다.
+  재시작도 새 전투 준비 실패 전에 이전 진행을 폐기하지 않는다. 종료 시 retire()로 미소비 Offer를 무효화한다.
+
+### 실제 변경 파일 — 수정25개·신규5개, 총30개
+
+- 수정 코드5개: `chapter_run.py`, `game.py`, `game_renderer.py`, `main.py`, `sdl_input.py`.
+  ChapterRun의 선택/인증은 그대로 사용하고 종료용 공개 retire()만 추가했다.
+- 신규 코드3개: `stage_progression.py`, `upgrade_input.py`, `upgrade_renderer.py`.
+- 수정 테스트16개: `tests/test_damage_integration.py`, `tests/test_game.py`, `tests/test_game_flow.py`,
+  `tests/test_game_renderer.py`, `tests/test_king_combat.py`, `tests/test_main.py`, `tests/test_parry_integration.py`,
+  `tests/test_stage_five.py`, `tests/test_stage_five_sdl.py`, `tests/test_stage_four.py`, `tests/test_stage_four_sdl.py`,
+  `tests/test_stage_three.py`, `tests/test_stage_three_sdl.py`, `tests/test_stage_transition.py`,
+  `tests/test_stage_transition_sdl.py`, `tests/test_upgrade_combat.py`.
+- 신규 테스트2개: `tests/test_upgrade_flow.py`, `tests/test_upgrade_sdl.py`.
+- 수정 문서4개: `docs/UPGRADE_SYSTEM_DESIGN.md`, `docs/DECISIONS.md`, `docs/GAME_DESIGN.md`, `docs/PROGRESS.md`.
+
+기존 테스트 메서드명823개를 AST로 대조해 삭제0을 확인했다. 승인으로 대체된 N/일반 R/STAGE_CLEAR/빠른 이동 기대만 갱신했다.
+이전 이름을 유지한 테스트의 내용은 새 규칙을 검증한다. 빠른 연속 이동을 쓰던 전투 fixture는 승인된 간격으로 나누며
+적중 시점 공격 우선·원장 취소·패링·HP·세션 격리 검증을 유지한다. 무관한 테스트의 줄바꿈 변경은 원래 내용으로 복원했다.
+원본 JSON/PDF/PPTX/README/에셋, AGENTS, upgrades.py/Player/InputController/전투 Resolver/적 AI/config는 변경하지 않았다.
+
+### 자동 검증 — 사용자 GUI와 별도 근거
+
+- `.\.venv\Scripts\python.exe -m unittest discover -s tests -v`: **846개(기존823+신규23), 실패0·skip0**.
+- `.\.venv\Scripts\python.exe validate_stage_data.py`: 25개 통과.
+- `.\.venv\Scripts\python.exe -O validate_stage_data.py`: 25개 통과.
+- 변경 Python26개 py_compile/import 통과. 순수 upgrades/chapter_run/stage_progression은 Pico2D/SDL import를 막은 환경에서도 import 통과.
+- 신규 강화 통합/SDL23개 명시 실행 통과. 기존 Stage 1~5 SDL dummy를 포함한 전체 회귀 통과.
+- 같은 이동 입력 일정을1틱/최대8틱씩 main에서 처리한 결과 동일. 정확한18/15/12틱은 정수 틱 테스트이며 sleep에 의존하지 않는다.
+- Offer 인증·MAX·단일 소비·다음 세션/입력 준비 실패/재시도, 실제 HP·공격력 전달·이동 설정 전달,
+  게임 오버 초기화·보스 재플레이 강화 유지·새 세션 격리·종료 후 명령 무효화를 검사했다.
+- Native SDL dummy: 실제 main/Pico2D 이벤트/임시 카드 렌더, 네 번 선택→Stage 5,
+  숫자·마우스·MAX/동일 배치 중복 차단, SETTINGS 최상단/F11/포커스/종료와 보스 R/게임 오버 R을 검증했다.
+  테스트에서는 적 전멸을 결정적으로 구성한다. 사람의 실제 전투 완주/가독성/난이도/물리 모니터 검증은 아니다.
+- Pawn601틱/Rook90틱/Knight36·72틱/Bishop50칸·108·240틱/King72·48·90틱,
+  Pulse100칸·120틱·H+480/DRAINING·일반 적 시간 복원/perfect 반사2/피격 무적48틱 회귀를 유지한다.
+- `git diff --check` 통과. GUI 결과 수령 후 전체846개와 정적·문법/import·SDL 검사를 재실행했다.
+
+### 사용자 Windows 11 GUI 최종 결과 — 20/20 통과
+
+사용자가 실제 Windows 11에서 직접 수행한 결과를 수령했다. 통과20개·실패0개·확인 불가0개다.
+
+1. Stage 1 기본 능력치 — 통과
+2. 기본 이동 조작감 — 통과
+3. 일반 전투 → UPGRADE — 통과
+4. UPGRADE 중 조작 제한 — 통과
+5. 강화 카드3종 표시 — 통과
+6. 숫자1 — 공격력 강화 — 통과
+7. 숫자2 — 최대 HP 강화 — 통과
+8. 숫자3 — 이동 강화 — 통과
+9. 마우스 카드 선택 — 통과
+10. 공격력 MAX — 통과
+11. 최대 HP MAX — 통과
+12. 이동 MAX — 통과
+13. 강화 선택 중복 방지 — 통과
+14. 스테이지 전환·HP 회복 — 통과
+15. Stage 1~5 정상 진행 — 통과
+16. GAME OVER 초기화 — 통과
+17. King·Pulse 전투 회귀 — 통과
+18. BOSS CLEAR·강화 유지 — 통과
+19. SETTINGS·F11·포커스 — 통과
+20. 가독성·밸런스·종료 — 통과
+
+A. 위 결과는 사용자 Windows GUI 수동 검증이다.
+B. Python846개 자동 테스트는 정수 틱 경계·단일 소비·세션 격리 등을 검증하는 별도 근거다.
+C. SDL dummy는 실제 이벤트/렌더 경로의 비표시 자동 실행이며 사용자 GUI와 구분한다.
+GUI로 정확한 틱을 측정했거나 모든 PC·장기 강화 밸런스를 검증했다는 의미는 아니다.
+
+### 이전 사용자 Windows GUI 검증 절차 — 당시 요청 이력
+
+실행: 저장소에서 `.\.venv\Scripts\python.exe main.py`.
+현재 실제 진행은 전멸 후 강화 선택이며 기존 N 직접 진행을 사용하지 않는다.
+정확한 틱은 자동 테스트 근거로 판단하고 눈대중 측정이라고 기록하지 않는다.
+
+1. Stage 1 시작/첫 이동 즉시/빠른 재입력 폐기/키 유지 자동 반복 없음/동시 방향키 차단을 확인한다.
+2. 벽·적 점유 실패 후 정상 방향 입력, SPACE/Shift 독립 동작을 확인한다.
+3. Pawn 전투/일반·퍼펙트 패링/HP/피격 무적의 기존 조작을 확인한다.
+4. Stage 1 전멸 후 UPGRADE/현재 Stage/3카드/현재·다음 값/번호와 카드 순서를 확인한다.
+5. 강화 화면에서 R/N/방향키/SPACE/Shift가 진행이나 피해를 일으키지 않고 전투가 정지하는지 확인한다.
+6. 숫자1/2/3과 마우스로 각각 해당 카드만 선택되는지 확인한다. 한 번 선택하면 다음 전투만 하나 시작해야 한다.
+7. 선택 키 유지/빠른 반복/숫자+클릭 동시 입력/마지막 적 처치 직후 입력으로 중복·자동 선택이 없는지 확인한다.
+8. 경로 A: 공격→공격→HP→HP. 피해2/3, 공격 MAX 유지·숫자/클릭 차단, 다음 HP4/5와 Stage 5 누적값을 확인한다.
+9. 경로 B: 이동→이동→HP→공격. 다음 Stage의15/12틱 이동 변화·MOVE MAX·공격/패링 독립 동작을 확인한다.
+10. 경로 C: HP→HP→HP→공격. 다음 Stage HP4/4→5/5→6/6, HP MAX 차단을 확인한다.
+11. 각 전환에서 강화된 최대 HP로 회복하고 이전 공격/패링/입력 잔상이 없는지 확인한다.
+12. Stage 2 Rook/Stage 3 Knight/Stage 4 Bishop·혼합 전투를 확인하고 네 번 강화 후 Stage 5로 진입한다.
+13. Stage 5 원본 King/Rook/Pawn 배치·King HP8·기본 이동/근접/일반·퍼펙트 패링을 확인한다.
+14. Pulse 전체판 경고·일반/퍼펙트 패링·실제 King HP2 감소·기본 반격 보너스·일반 적 정지/재개를 확인한다.
+15. King 선처치 후 잔여 일반 적 전투, 전멸 BOSS CLEAR/추가 강화 없음/N 무효를 확인한다.
+16. BOSS CLEAR R이 강화 유지/최대 HP 회복/새 Stage 5로 재시작하는지 확인한다.
+17. Stage 1~5 GAME_OVER R이 무강화 Stage 1(피해1/HP3/이동18틱)로 초기화되는지 확인한다.
+18. UPGRADE 중 SETTINGS 최상단/선택 차단/ESC 메뉴 닫기·종료/F11/포커스 상실·복귀/창 X를 확인한다.
+19. 창 모드·전체 화면·레터박스에서 카드 영역 클릭이 일치하고 바깥 클릭/전환 중 클릭으로 선택되지 않는지 확인한다.
+20. 카드 가독성·조작감·강화 후 전투 난이도와 종료/재실행의 기본 안정성을 확인한다.
+
+### 남은 범위·위험과 다음 작업
+
+T의 Windows GUI20/20 결과를 수령했으며 기능 변경 없이 최종 검수·커밋·Push하도록 별도 지시받았다.
+커밋 메시지는 `feat: 강화 선택 화면 및 스테이지 진행 연동`이다. Git 성공 여부·최종 SHA는 작업 완료 보고에서 원격 재조회로 확인한다.
+8틱 프레임 상한과 장시간 원장 증가, 고DPI·다중 모니터, 강화 후 실제 조작감·장기 밸런스,
+King 탐욕 경로와 임시 그래픽/연출의 한계는 유지된다. 전체25스테이지 완주·모든 PC 안정성은 검증하지 않았다.
+Stage 6~25/Queen/Chapter 2 해금·저장/최종 아트·음향·배포는 미구현이며 이번 범위에 추가하지 않았다.
+
 ## Task 1-S — 강화 데이터·챕터 진행·능력치·이동 간격 기반
 
 상태: **순수 기반 구현·전체 unittest823개 및 사용자 Windows GUI 회귀14/14 통과. 최종 검수 후 커밋·Push 승인**.

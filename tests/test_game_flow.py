@@ -48,8 +48,8 @@ class GameFlowIntegrationTests(unittest.TestCase):
         created, snapshots = [], []
         original_factory = main._new_game
 
-        def create():
-            game = initial_factory() if not created and initial_factory is not None else original_factory()
+        def create(**kwargs):
+            game = initial_factory() if not created and initial_factory is not None else original_factory(**kwargs)
             if not created:
                 if initial == 'dead':
                     game.player.health.apply_damage(3, tick=0)
@@ -105,24 +105,30 @@ class GameFlowIntegrationTests(unittest.TestCase):
         created, snapshots, _, _, _, clock = self.run_loop(
             [[key(UP), key(SPACE), key(SHIFT)], [], []], initial='clear', lengths=[20, 20, 20])
         game = created[0]
-        self.assertTrue(all(s[:4] == (GameState.STAGE_CLEAR, 0, (5, 1), 3) for s in snapshots))
+        self.assertTrue(all(s[:4] == (GameState.UPGRADE, 0, (5, 1), 3) for s in snapshots))
         self.assertIsNone(game.combat.active_attack)
         self.assertIsNone(game.parry.last_attempt)
         self.assertEqual((game.transition_count, clock.accumulator), (1, 0))
 
     def test_both_outcomes_restart_into_fresh_original_stage_without_reopening_window(self):
-        for state in ('dead', 'clear'):
-            with self.subTest(state=state):
-                created, snapshots, _, _, _, clock = self.run_loop([[key(R)], []], initial=state)
-                old, new = created
-                self.assertTrue(old.resolver.stopped)
+        for state in ('dead','clear'):
+            created,snapshots,_,_,_,clock=self.run_loop([[key(R)],[]],initial=state)
+            old=created[0]
+            self.assertTrue(old.resolver.stopped)
+            self.assertEqual(clock.accumulator,0)
+            if state=='clear':
+                self.assertEqual(len(created),1)
+                self.assertEqual(old.state,GameState.UPGRADE)
+                self.assertIsNone(old.restart_stage_number)
+            else:
+                new=created[1]
                 self.assertTrue(new.playing)
-                self.assertEqual((snapshots[0][1], new.player.health.current_hp), (0, 3))
-                self.assertEqual(new.player.position, (5, 1))
-                self.assertEqual([e.health.current_hp for e in new.encounter.enemies], [2, 2])
-                self.assertNotEqual(old.player.entity_instance_id, new.player.entity_instance_id)
-                self.assertNotEqual(old.combat.stage_instance_id, new.combat.stage_instance_id)
-                self.assertEqual(clock.accumulator, 0)
+                self.assertEqual(snapshots[0][1], 0)
+                self.assertEqual((new.combat.tick,new.player.health.current_hp),(1,3))
+                self.assertEqual(new.player.position,(5,1))
+                self.assertEqual([e.health.current_hp for e in new.encounter.enemies],[2,2])
+                self.assertNotEqual(old.player.entity_instance_id,new.player.entity_instance_id)
+                self.assertNotEqual(old.combat.stage_instance_id,new.combat.stage_instance_id)
 
     def test_restart_ignores_tail_actions_and_quarantines_held_keys_until_release(self):
         created, snapshots, _, _, _, _ = self.run_loop([
@@ -236,8 +242,8 @@ class GameFlowIntegrationTests(unittest.TestCase):
         created, snapshots, _, _, _, _ = self.run_loop(
             [[key(SPACE), key(R)], [key(R, False), key(R)]],
             initial='playing', initial_factory=almost_clear)
-        self.assertEqual((snapshots[0][0], snapshots[0][-1]), (GameState.STAGE_CLEAR, 1))
-        self.assertEqual((snapshots[1][0], snapshots[1][-1]), (GameState.PLAYING, 2))
+        self.assertEqual((snapshots[0][0], snapshots[0][-1]), (GameState.UPGRADE, 1))
+        self.assertEqual((snapshots[1][0], snapshots[1][-1]), (GameState.UPGRADE, 1))
         self.assertEqual(created[0].end_tick, 0)
 
     def test_overlay_draws_after_game_and_before_settings(self):

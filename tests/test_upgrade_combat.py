@@ -189,7 +189,7 @@ class UpgradeCombatTests(unittest.TestCase):
         for e in g.encounter.enemies:
             e.health.apply_damage(e.health.current_hp,tick=0)
         g.update_state()
-        self.assertEqual(g.next_stage_number,5)
+        self.assertIsNone(g.next_stage_number)
 
 
 if __name__=='__main__':
