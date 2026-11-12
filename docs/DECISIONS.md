@@ -1,5 +1,15 @@
 # CHECKMATE 승인 결정
 
+## Task 1-W — Stage 6~9 진행 승인
+
+Stage1~9 실제 전투만 허용한다. Stage6~8 전멸 UPGRADE→각1회 선택→7/8/9,
+Stage9 DEV_BOUNDARY에서는 네 번째 Offer/Receipt를 발행·소비하지 않고 R/N을 차단한다.
+이 결정은 U 설계12절의 네 번째 Offer 사전 발행 제안과 V의 Stage6 경계를 대체한다.
+Stage10 준비 후 X에서9를 정상 UPGRADE로 교체한다. 현재10~25/Queen/보스10은 실행하지 않는다.
+Chapter2 GAME_OVER R은6으로 무강화 초기화, 숲 유지, 새 Run·세션·입력이다.
+Chapter1/Stage5 R·N과 강화 수치/AI/Pulse 규칙은 보존한다.
+기존 원자적 선택·단일 소비 구현을 재사용한다. 사용자 Windows 11 GUI18/18 통과를 수령했다. 최종 자동 검수 성공 시 지정17개 파일의 커밋·일반 Push를 승인받았다.
+
 ## Task 1-V — Chapter 2 진입·Stage 6·개발 경계 (2026-11-13)
 
 사용자의 Task 1-V 승인 정책과 중단 작업 재개 요청을 적용한다. 아래 Task 1-T/Q/P의

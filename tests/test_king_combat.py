@@ -320,7 +320,7 @@ class KingMixedTests(unittest.TestCase):
         # Task 1-V opens Stage 6; retain metadata rejection and the Stage 7 boundary.
         self.assertTrue(main._new_stage_game(5).boss)
         with self.assertRaises(ValueError):
-            main._new_stage_game(7)
+            main._new_stage_game(10)
         g = main._new_stage_game(4)
         with self.assertRaises(ValueError):
             StageGame(g.player, g.combat, g.encounter, g.parry, g.resolver, stage_number=5)

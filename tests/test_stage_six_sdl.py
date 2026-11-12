@@ -45,7 +45,7 @@ class StageSixSDLTests(unittest.TestCase):
                 games.append(game)
                 return game
             def create(n,**kwargs):
-                assert 1<=n<=6,n
+                assert 1<=n<=9,n
                 game=stage_factory(n,**kwargs)
                 if n!=1:games.append(game)
                 return game
@@ -88,21 +88,26 @@ class StageSixSDLTests(unittest.TestCase):
                 if f==12:push(s.SDL_KEYDOWN,s.SDLK_n,repeat=1)
                 if f==13:push(s.SDL_KEYUP,s.SDLK_n)
                 if f==14:tap(s.SDLK_r)
-                if f in (15,16,19,20,21,22,23):
-                    if f==19:tap(s.SDLK_F11)
-                    if f==20:tap(s.SDLK_ESCAPE)
-                    if f==21:flags[0]=0
-                    if f==22:flags[0]=s.SDL_WINDOW_INPUT_FOCUS
+                if f in (15,22,25,26,27,28,29):
+                    if f==25:tap(s.SDLK_F11)
+                    if f==26:tap(s.SDLK_ESCAPE)
+                    if f==27:flags[0]=0
+                    if f==28:flags[0]=s.SDL_WINDOW_INPUT_FOCUS
                     tap(s.SDLK_n)
                     tap(s.SDLK_r)
                     if f!=15:
                         tap(s.SDLK_UP)
                         tap(s.SDLK_SPACE)
                         tap(s.SDLK_LSHIFT)
-                if f==17:
+                if f==23:
                     push(s.SDL_MOUSEBUTTONDOWN,x=1295,y=41)
                     push(s.SDL_MOUSEBUTTONUP,x=1295,y=41)
-                if f==24:push(s.SDL_QUIT)
+                if f==30:push(s.SDL_QUIT)
+                if f in (17,19):tap(s.SDLK_1)
+                if f==20:tap(s.SDLK_1)  # MAX must not advance.
+                if f==21:
+                    push(s.SDL_MOUSEBUTTONDOWN,x=730,y=500)
+                    push(s.SDL_MOUSEBUTTONUP,x=730,y=500)
                 return poll_real()
             boundary_tick=[None]
             second_run=[None]
@@ -145,18 +150,27 @@ class StageSixSDLTests(unittest.TestCase):
                 if f==15:
                     clear(game)
                     boundary_tick[0]=game.combat.tick
-                if 16<=f<=23:
+                if f in (17,19,21):
+                    assert game.stage_number=={17:7,19:8,21:9}[f]
+                    assert len(flow.run.receipts)=={17:1,19:2,21:3}[f]
+                    assert game.resolver.player_damage=={17:2,19:3,21:3}[f]
+                    clear(game)
+                    boundary_tick[0]=game.combat.tick
+                if f==20:
+                    assert game.stage_number==8 and len(games)==10
+                if 22<=f<=29:
                     assert game.state is GameState.DEV_BOUNDARY
                     assert game.combat.tick==boundary_tick[0]
-                    assert flow.offer is None and len(flow.run.receipts)==0
+                    assert flow.offer is None and len(flow.run.receipts)==3
+                    assert flow.run.current_stage==9
                     assert game.restart_stage_number is None and game.next_stage_number is None
                     assert game.combat.active_attack is None and game.parry.last_attempt is None
                     assert game.player.position==(5,1)
-                    assert len(games)==8
+                    assert len(games)==11
                 present_real()
                 frame[0]+=1
                 now[0]+=FIXED_TIME_STEP
-                assert frame[0]<26
+                assert frame[0]<32
             def board(self,*args,**kwargs):
                 themes.append(self.theme.chapter)
                 board_real(self,*args,**kwargs)
@@ -176,10 +190,10 @@ class StageSixSDLTests(unittest.TestCase):
                  patch.object(main,'perf_counter',side_effect=lambda:now[0]), \
                  patch.object(main,'sleep'):
                 main.main(run=run)
-            assert [g.stage_number for g in games]==[1,2,3,4,5,5,6,6]
-            assert len({g.combat.stage_instance_id for g in games})==8
+            assert [g.stage_number for g in games]==[1,2,3,4,5,5,6,6,7,8,9]
+            assert len({g.combat.stage_instance_id for g in games})==11
             assert themes[0]==1 and themes[-1]==2
-            for label in ('STAGE 6','STAGE 6 CLEAR','CHAPTER 2 DEVELOPMENT','STAGE 7 NOT AVAILABLE'):
+            for label in ('STAGE 6','STAGE 9 CLEAR','CHAPTER 2 DEVELOPMENT','STAGE 10 NOT AVAILABLE'):
                 assert label in labels,label
             assert closed==[True]
             print('PASS: native main four upgrades/boss replay/N/forest/Stage6/death/boundary/settings/F11/focus/quit')

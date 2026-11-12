@@ -400,3 +400,21 @@ V 착수 전 조건:
 이번 실제 수정은 신규 이 문서와 docs/PROGRESS.md의 Task1-U 기록뿐이다.
 기능 코드/테스트/AGENTS/원본 JSON·PDF·README·에셋은 보존했고 스테이징0/커밋·Push 없음이다.
 정확한 검증 명령·결과와 기준 SHA는 [PROGRESS](PROGRESS.md)의 Task1-U에 기록한다.
+
+## 16. Task 1-W 최신 승인·실제 구현과 X 후속 조건
+
+## Task 1-W — Stage 6~9 진행 승인
+
+Stage1~9 실제 전투만 허용한다. Stage6~8 전멸 UPGRADE→각1회 선택→7/8/9,
+Stage9 DEV_BOUNDARY에서는 네 번째 Offer/Receipt를 발행·소비하지 않고 R/N을 차단한다.
+이 결정은 U 설계12절의 네 번째 Offer 사전 발행 제안과 V의 Stage6 경계를 대체한다.
+Stage10 준비 후 X에서9를 정상 UPGRADE로 교체한다. 현재10~25/Queen/보스10은 실행하지 않는다.
+Chapter2 GAME_OVER R은6으로 무강화 초기화, 숲 유지, 새 Run·세션·입력이다.
+Chapter1/Stage5 R·N과 강화 수치/AI/Pulse 규칙은 보존한다.
+기존 원자적 선택·단일 소비 구현을 재사용한다. W GUI는 미검증이며 검증 전 Git 반영은 금지한다.
+
+위1~15절은 U 당시 분석 원문이다. V는6 진입/전투와 당시6 개발경계를 구현했다.
+W는 원본7~9 전투와6~8 세 강화/숲/죽음→6을 연결했다.
+12절의 '9의4번째 Offer 단일 발행'은 당시 제안이며 최신 W 구현은9에서 발행 자체를 금지한다.
+Stage10 보스 정책 승인·구현·후보 검증 준비 후 X에서9를 UPGRADE로 바꿔 네 번째 선택을 연결한다.
+W는 Chapter2 정식 완료·저장·해금·후반 플레이·최종 아트/음향/엔딩을 구현하지 않는다.

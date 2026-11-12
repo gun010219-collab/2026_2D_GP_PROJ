@@ -59,9 +59,9 @@ class StageFiveTests(unittest.TestCase):
                 finish(g,'clear')
         created,snapshots,_,_,_,clock=run_loop([batch for k in (49,49,50,50) for batch in ([key(k),key(k,False)], [])]+[[key(N)],[]],after_render=clear)
         self.assertEqual([g.stage_number for g in created],[1,2,3,4,5,6])
-        self.assertEqual(snapshots[-1]['state'],GameState.DEV_BOUNDARY)
+        self.assertEqual(snapshots[-1]['state'],GameState.UPGRADE)
         self.assertEqual(clock.accumulator,0)
-        for n in range(7,26):
+        for n in range(10,26):
             with self.assertRaises(ValueError):
                 main._new_stage_game(n)
 

@@ -39,6 +39,13 @@ def clear(game):
     game.update_state()
 
 
+def boundary_flow(game):
+    run = ChapterRun(2)
+    for n, kind in zip(range(6, 9), ('attack', 'hp', 'move')):
+        run.select(run.offer_after_clear(n, 'boundary-fixture-'+str(n)), kind)
+    return StageProgression(game, run)
+
+
 class StageSixTests(unittest.TestCase):
     def test_catalog_roster_hp_positions_delays_and_fresh_clock(self):
         g = main._new_stage_game(6)
@@ -55,8 +62,8 @@ class StageSixTests(unittest.TestCase):
         self.assertEqual(g.encounter.ledger.combat_session_id,g.combat.combat_session_id)
 
     def test_only_explicit_supported_stages_are_executable(self):
-        self.assertEqual(SUPPORTED_STAGES,frozenset((1,2,3,4,5,6)))
-        for n in (*range(7,26),0,26,-1):
+        self.assertEqual(SUPPORTED_STAGES,frozenset(range(1,10)))
+        for n in (*range(10,26),0,26,-1):
             with self.subTest(stage=n),self.assertRaises(ValueError):
                 main._new_stage_game(n)
         for n in (True,False,6.0,'6',None):
@@ -69,7 +76,7 @@ class StageSixTests(unittest.TestCase):
         for chapter,boss in ((1,False),(3,False),(True,False),(2,True),(2,1)):
             with self.subTest(chapter=chapter,boss=boss),self.assertRaises(ValueError):
                 StageGame(*args,stage_number=6,chapter=chapter,boss=boss)
-        for n in (7,10,13,25,True):
+        for n in (10,13,25,True):
             with self.subTest(stage=n),self.assertRaises(ValueError):
                 StageGame(*args,stage_number=n,chapter=2)
         old = main._new_game()
@@ -91,10 +98,10 @@ class StageSixTests(unittest.TestCase):
         self.assertFalse(g.update_state())
         self.assertTrue(g.playing)
         clear(g)
-        self.assertEqual((g.state,g.transition_count,g.end_tick),(GameState.DEV_BOUNDARY,1,0))
+        self.assertEqual((g.state,g.transition_count,g.end_tick),(GameState.UPGRADE,1,0))
 
     def test_boundary_cancels_pending_attack_and_freezes_all_runtime(self):
-        g = stage_six()
+        g = main._new_stage_game(9)
         g.advance(200)
         pending = g.encounter.ledger.pending
         self.assertTrue(pending)
@@ -115,23 +122,23 @@ class StageSixTests(unittest.TestCase):
                                 len(g.encounter.ledger._records),tuple(e.position for e in g.encounter.enemies)))
 
     def test_boundary_has_no_upgrade_offer_n_or_r(self):
-        g = stage_six()
-        flow = StageProgression(g,ChapterRun(2))
+        g = main._new_stage_game(9)
+        flow = boundary_flow(g)
         clear(g)
         self.assertIsNone(g.next_stage_number)
         self.assertIsNone(g.restart_stage_number)
         self.assertIsNone(flow.sync_offer())
         self.assertIsNone(flow.offer)
-        self.assertEqual(flow.run.receipts,())
-        self.assertEqual(flow.run.build,ChapterBuild())
+        self.assertEqual(len(flow.run.receipts),3)
+        self.assertEqual(flow.run.build,ChapterBuild(1,1,1))
         with self.assertRaises(ValueError):
             flow.choose(None,'hp',main._new_stage_game)
         with self.assertRaises(ValueError):
             flow.restart(main._new_stage_game)
 
     def test_boundary_never_requests_or_consumes_upgrade_model_commands(self):
-        g = main._new_stage_game(6)
-        flow = StageProgression(g, ChapterRun(2))
+        g = main._new_stage_game(9)
+        flow = boundary_flow(g)
         clear(g)
         with patch.object(flow.run, 'offer_after_clear') as offer, \
              patch.object(flow.run, 'select') as select:
@@ -141,7 +148,7 @@ class StageSixTests(unittest.TestCase):
                     flow.choose(None, 'hp', main._new_stage_game)
             offer.assert_not_called()
             select.assert_not_called()
-        self.assertEqual(flow.run.receipts, ())
+        self.assertEqual(len(flow.run.receipts),3)
 
     def test_all_original_enemies_die_through_actual_attacks_and_parries(self):
         g = main._new_stage_game(6)
@@ -185,11 +192,11 @@ class StageSixTests(unittest.TestCase):
                     self.assertIsNone(g.resolver.resolve_player_attack(attack))
             g.resolve_current_tick()
         self.assertEqual((g.state, g.combat.tick, g.player.health.current_hp),
-                         (GameState.DEV_BOUNDARY, 389, 3))
+                         (GameState.UPGRADE, 389, 3))
         self.assertEqual(damaged_ids, {e.entity_instance_id for e in g.encounter.enemies})
         self.assertTrue(all(not e.alive and not e.active for e in g.encounter.enemies))
         self.assertFalse(g.encounter.occupied_cells)
-        self.assertIsNone(flow.sync_offer())
+        self.assertIsNotNone(flow.sync_offer())
         self.assertEqual(flow.run.receipts, ())
 
     def test_boundary_escape_and_window_close_exit_without_creating_a_stage(self):
@@ -198,8 +205,8 @@ class StageSixTests(unittest.TestCase):
         for exit_event in (key(ESC), SimpleNamespace(type=256)):
             with self.subTest(event=exit_event):
                 created, snapshots, canvas, *_ = run_loop(
-                    [[key(R), key(N)], [exit_event]], initial_stage=6)
-                self.assertEqual([g.stage_number for g in created], [6])
+                    [[key(R), key(N)], [exit_event]], initial_stage=9)
+                self.assertEqual([g.stage_number for g in created], [9])
                 self.assertEqual(snapshots[0]['state'], GameState.DEV_BOUNDARY)
                 canvas.close_canvas.assert_called_once_with()
 
@@ -213,7 +220,7 @@ class StageSixTests(unittest.TestCase):
         self.assertEqual(g.combat.tick,0)
 
     def test_boundary_does_not_change_after_later_outside_damage(self):
-        g = stage_six()
+        g = main._new_stage_game(9)
         clear(g)
         g.player.health.apply_damage(3,tick=0)
         self.assertFalse(g.update_state())
@@ -326,13 +333,13 @@ class StageSixTests(unittest.TestCase):
 
 class StageSixRendererTests(unittest.TestCase):
     def test_development_boundary_labels_no_unsupported_progress_prompts_and_read_only(self):
-        g = stage_six()
+        g = main._new_stage_game(9)
         clear(g)
         before = (g.state,g.combat.tick,g.transition_count,len(g.encounter.ledger._records))
         with patch.object(HealthRenderer,'_text') as text:
             for _ in range(3):GameFlowRenderer().draw(Mock(),g)
         labels = [call.args[1] for call in text.call_args_list]
-        for expected in ('STAGE 6 CLEAR','CHAPTER 2 DEVELOPMENT','STAGE 7 NOT AVAILABLE',
+        for expected in ('STAGE 9 CLEAR','CHAPTER 2 DEVELOPMENT','STAGE 10 NOT AVAILABLE',
                          'ESC TO EXIT','SETTINGS / F11'):
             self.assertIn(expected,labels)
         self.assertFalse(any(s.startswith(('R TO','N TO')) for s in labels))

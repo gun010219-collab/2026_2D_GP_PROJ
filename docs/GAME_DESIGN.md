@@ -20,7 +20,7 @@ PDF의 모든 시스템과 수치를 최신 확정 규칙으로 재승인한 것
 - 스테이지 구성·적 배치·ID·수치는 `stage_data.json`을 보존한다.
   향후 테마 선택은 그 데이터의 `chapter` 필드를 기준으로 한다.
   Task 1-I의 `stage_manager.StageCatalog`는 원본을 검증해 1~25번의 읽기 전용 정의를 제공한다.
-  카탈로그 자체는 데이터 조회만 제공한다. 실제 플레이 연결은 별도로 Stage 1~6에 구현했다.
+  카탈로그 자체는 데이터 조회만 제공한다. 실제 플레이 연결은 별도로 Stage 1~9에 구현했다.
 - 기본 조작 기준은 AGENTS.md의 방향키 이동 / SPACE 전방 공격 / Shift 패링 /
   ESC 일시정지다. 현재 버전은 방향키 1칸 이동을 구현했고, 설정 메뉴에서 ESC는 닫기,
   메뉴 밖에서는 종료다. Task 1-C는 SPACE 기본 공격 이벤트와 임시 효과를 구현했다.
@@ -35,7 +35,8 @@ PDF의 모든 시스템과 수치를 최신 확정 규칙으로 재승인한 것
   Task 1-P는 King 기본 이동·근접·보스 HP와 공통 전투 통합을 자동 검증했다. 사용자 Windows 11 Stage 1~4 GUI 회귀12/12도 모두 통과했다.
   Task 1-Q는 CHECKMATE PULSE와 Stage 4→5·BOSS CLEAR·재시작을 연결했다. 사용자 Windows GUI18/18 모두 통과했다.
   Task 1-V는 Stage 5 BOSS_CLEAR N으로 Chapter 2 Stage 6을 연결하고 전멸 후 개발 경계에서 멈춘다.
-  별도 일시정지 화면과 Stage 7 이후 실제 화면 전투/진행은 아직 구현하지 않았다.
+  Task 1-W는 Stage6~8 UPGRADE와 Stage7~9 전투를 연결했고9 전멸 후 개발 경계에서 멈춘다.
+  별도 일시정지 화면과 Stage10 이후 전투/진행은 미구현이다.
 
 ## 승인된 챕터 구성
 
@@ -53,7 +54,15 @@ Pawn/Rook/Knight/Bishop/Queen/King의 식별 실루엣은 챕터 전반에 유�
 
 ## 구현 경계
 
-**현재 Task 1-V:** Stage 5 BOSS_CLEAR R은 네 번 강화를 유지한 Stage 5 재플레이,
+**현재 Task 1-W:** Stage6~8 전멸 후 정상 강화 선택으로7→8→9 진행, 누적 Receipt0/1/2/3이다.
+Stage9 DEV_BOUNDARY는 네 번째 Offer/Receipt를 발행·소비하지 않으며10을 생성하지 않는다.
+Stage7 Knight2/Pawn2,8 Bishop/Rook/Knight/Pawn2,9 Bishop/Rook2/Knight/Pawn을 JSON 그대로 사용한다.
+숲 팔레트/기존 강화 수치·AI를 재사용한다.6~9 GAME_OVER R은 새 무강화 Run/Stage6이다.
+R/N/전투 입력 차단은9 경계로 이동하고 SETTINGS/F11/ESC/X를 유지한다.
+10~25/Queen/Stage10보스/저장·해금은 미구현이다. U의 네 번째 Offer 사전 발행은 W 최신 승인으로 대체하며 X에서 연결한다.
+W 자동 검증904개 통과와 사용자 Windows 11 GUI18/18 통과를 별도 근거로 기록한다. 아래 V는 당시 이력이다.
+
+**Task 1-V 당시:** Stage 5 BOSS_CLEAR R은 네 번 강화를 유지한 Stage 5 재플레이,
 N은 새 무강화 ChapterRun(2)의 Stage 6 진입이다. 새 Run/전투/입력/숲 보드 준비·검증 후에만
 전환을 확정한다. 실패하면 기존 Chapter 1 Run·Receipt·보스 종료 화면과 보드를 유지한다.
 이전 세션의 공격·패링·무적·보상·강화·키 입력·시간 누적은 새 챕터에 이월하지 않는다.

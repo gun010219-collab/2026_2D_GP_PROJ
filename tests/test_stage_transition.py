@@ -55,7 +55,7 @@ def run_loop(batches, *, initial_stage=1, initial='clear', focus=None, lengths=N
 
     canvas.get_events.side_effect = poll
     created, snapshots = [], []
-    run = ChapterRun(2 if initial_stage == 6 else 1)
+    run = ChapterRun(2 if initial_stage >= 6 else 1)
     original_one, original_stage = main._new_game, main._new_stage_game
 
     def register(game):
@@ -67,7 +67,7 @@ def run_loop(batches, *, initial_stage=1, initial='clear', focus=None, lengths=N
                 run = ChapterRun(game.chapter)
             for stage in range((game.chapter-1)*5+1,game.stage_number):
                 o=run.offer_after_clear(stage,f"fixture-{stage}")
-                run.select(o,("move","move","attack","hp")[stage-1])
+                run.select(o,("move","move","attack","hp")[(stage-1)%5])
         created.append(game)
         return game
 
@@ -75,7 +75,7 @@ def run_loop(batches, *, initial_stage=1, initial='clear', focus=None, lengths=N
         if not created:
             if initial_factory is not None:
                 return register(initial_factory())
-            if initial_stage in (2, 3, 4, 5, 6):
+            if initial_stage in range(2, 10):
                 return register(original_stage(initial_stage))
         return register(original_one(**kwargs))
 
@@ -170,7 +170,7 @@ class StageSessionTests(unittest.TestCase):
         self.assertFalse(game.update_state())
 
     def test_unsupported_stage_and_invalid_metadata_fail_before_creating_entities(self):
-        for number in (0, *range(7, 26), -1):
+        for number in (0, *range(10, 26), -1):
             with self.subTest(number=number), self.assertRaises(ValueError):
                 main._new_stage_game(number)
         for number in (True, 2.0, '2', None):

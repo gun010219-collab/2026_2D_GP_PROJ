@@ -14,10 +14,10 @@ class GameFlowRenderer:
         x, y = WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2
         canvas.draw_rectangle(x - 300, y - 165, x + 300, y + 165, *accent, filled=True)
         canvas.draw_rectangle(x - 296, y - 161, x + 296, y + 161, 17, 20, 28, filled=True)
-        title = ('STAGE 6 CLEAR' if boundary else 'UPGRADE' if game.state is GameState.UPGRADE else
+        title = (f'STAGE {game.stage_number} CLEAR' if boundary else 'UPGRADE' if game.state is GameState.UPGRADE else
                  'BOSS CLEAR' if game.state is GameState.BOSS_CLEAR else 'STAGE CLEAR' if clear else 'GAME OVER')
         self._center(canvas, title, 558, 6, accent)
-        self._center(canvas, 'CHAPTER 2 DEVELOPMENT' if boundary else f'STAGE {game.stage_number}',
+        self._center(canvas, f'CHAPTER {game.chapter} DEVELOPMENT' if boundary else f'STAGE {game.stage_number}',
                      516, 3, (225, 218, 197))
         health = game.player.health
         self._center(canvas, f'HP {health.current_hp}/{health.max_hp}', 475, 4, (231, 230, 220))
@@ -28,7 +28,7 @@ class GameFlowRenderer:
         if game.next_stage_number is not None:
             self._center(canvas, 'N TO CHAPTER 2', 409, 3, (224, 192, 116))
         if boundary:
-            self._center(canvas, 'STAGE 7 NOT AVAILABLE', 399, 3, (224, 192, 116))
+            self._center(canvas, f'STAGE {game.stage_number + 1} NOT AVAILABLE', 399, 3, (224, 192, 116))
         restart = ('R TO RESTART' if game.restart_stage_number == game.stage_number
                    else f'R TO STAGE {game.restart_stage_number}')
         if game.restart_stage_number is not None:
