@@ -15,6 +15,7 @@ from rook_behavior import attack_path, choose_move
 from knight_behavior import choose_landing
 from bishop_behavior import color_targets
 from king_behavior import choose_move as choose_king_move, melee_target
+from king_boss import KingPulse
 
 
 # Stable tie order; movement does not change the JSON attack-facing vector.
@@ -22,7 +23,7 @@ PAWN_MOVE_STEPS = ((0, 1), (0, -1), (-1, 0), (1, 0))
 
 
 class EnemyEncounter:
-    def __init__(self, enemies, start_tick=0, combat_session_id=None, stage_instance_id=None):
+    def __init__(self, enemies, start_tick=0, combat_session_id=None, stage_instance_id=None, *, boss=False):
         self._validate_tick(start_tick)
         self.enemies = tuple(enemies)
         if any(not isinstance(e, Enemy) or e.kind not in ('pawn', 'rook', 'knight', 'bishop', 'king') for e in self.enemies):
@@ -57,6 +58,10 @@ class EnemyEncounter:
             enemy.stun_until_tick = 0
             enemy.next_action_tick = start_tick + enemy.initial_delay_ticks
         self._check_occupancy()
+        kings = [e for e in self.enemies if e.kind == 'king']
+        if type(boss) is not bool or (boss and len(kings) != 1):
+            raise ValueError('Boss encounter requires exactly one King and a boolean boss flag')
+        self.pulse = KingPulse(self, kings[0], start_tick) if boss else None
 
     @staticmethod
     def _validate_tick(tick):
@@ -119,10 +124,16 @@ class EnemyEncounter:
         self._check_occupancy(player_cell)
         due = []
         for now in range(self.tick + 1, tick + 1):
+            if self.pulse is not None:
+                if not self.pulse.king.alive and self.pulse.king.state != 'inactive':
+                    self.deactivate(self.pulse.king.entity_instance_id, tick=now)
+                self.pulse.before_tick(now)
             for enemy in self.enemies:
                 if not enemy.alive and enemy.state != 'inactive':
                     self.deactivate(enemy.entity_instance_id, tick=now)
                 if not enemy.active:
+                    continue
+                if self.pulse is not None and self.pulse.frozen(enemy):
                     continue
                 recovery_ticks = self._recovery_ticks(enemy)
                 if enemy.state == 'stunned':
@@ -148,6 +159,8 @@ class EnemyEncounter:
                     continue
                 if any(source is enemy for _, source, _ in self._attack_moves.values()):
                     # AI-only callers must adjudicate a due move before advancing it.
+                    continue
+                if self.pulse is not None and self.pulse.blocks(enemy):
                     continue
                 if now < enemy.next_action_tick:
                     continue
@@ -181,6 +194,14 @@ class EnemyEncounter:
             self._cancel_obstructed_moves(now)
         self.tick = tick
         return tuple(event for event in due if self.ledger.state(event) == 'due')
+
+    def finish_tick(self):
+        """Called after due adjudication and movement completion, never by rendering."""
+        if self.pulse is not None:
+            self.pulse.after_tick(self.tick)
+
+    def is_pulse(self, event):
+        return self.pulse is not None and self.pulse.owns(event)
 
     def _begin_king_action(self, enemy, player_cell, tick):
         target = melee_target(enemy.position, player_cell)
@@ -263,6 +284,8 @@ class EnemyEncounter:
 
     def prepare_attack(self, event):
         """Verify a non-Pawn attack has an actual AI-issued plan, not just an ID."""
+        if event.attack_kind == 'king_pulse' and not self.is_pulse(event):
+            raise ValueError('Pulse attack was not issued by this boss controller')
         source = next((e for e in self.enemies
                        if e.entity_instance_id == event.source_entity_instance_id), None)
         if source is not None and source.kind in ('rook', 'knight', 'bishop', 'king'):
@@ -362,6 +385,8 @@ class EnemyEncounter:
                 self.cancel_attacks(entity_instance_id, tick=tick)
                 enemy.stun_until_tick = 0
                 enemy.state = 'inactive'
+                if self.pulse is not None and enemy is self.pulse.king:
+                    self.pulse.king_died(max(0, self.tick) if tick is None else tick)
                 return
         raise ValueError('Unknown enemy instance ID')
 

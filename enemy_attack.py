@@ -48,8 +48,11 @@ class EnemyAttackEvent:
     telegraph_start_tick: int
     hit_tick: int
     target_cells: tuple[tuple[int, int], ...]
+    attack_kind: str = 'basic'
 
     def __post_init__(self):
+        if self.attack_kind not in ('basic', 'king_pulse'):
+            raise ValueError('Unknown enemy attack kind')
         if type(self.attack_id) is not int or self.attack_id < 1:
             raise ValueError('attack_id must be a positive integer')
         for field in ('combat_session_id', 'stage_instance_id', 'source_entity_instance_id'):
@@ -91,10 +94,10 @@ class EnemyAttackLedger:
     def stage_instance_id(self):
         return self._stage_instance_id
 
-    def create(self, source_entity_instance_id, start_tick, hit_tick, target_cells):
+    def create(self, source_entity_instance_id, start_tick, hit_tick, target_cells, *, attack_kind='basic'):
         event = EnemyAttackEvent(self._next_attack_id, self.combat_session_id,
                                  self.stage_instance_id, source_entity_instance_id,
-                                 start_tick, start_tick, hit_tick, target_cells)
+                                 start_tick, start_tick, hit_tick, target_cells, attack_kind)
         self._next_attack_id += 1
         self._records[event.key] = _AttackRecord(event)
         return event
@@ -114,6 +117,11 @@ class EnemyAttackLedger:
     def telegraphs(self):
         return tuple(record.event for record in self._records.values()
                      if record.state == 'telegraph')
+
+    @property
+    def pending(self):
+        """All unfinished schedules, including due events without AI pointers."""
+        return tuple(r.event for r in self._records.values() if r.state in ('telegraph', 'due'))
 
     def mark_due(self, event, tick):
         _tick(tick, 'Current tick')

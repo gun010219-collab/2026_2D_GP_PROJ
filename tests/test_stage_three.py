@@ -47,7 +47,7 @@ class StageThreeSessionTests(unittest.TestCase):
 
     def test_future_stages_are_rejected_before_catalog_or_entity_creation(self):
         with patch.object(main.StageCatalog, 'load') as load:
-            for number in range(5, 26):
+            for number in range(6, 26):
                 with self.assertRaises(ValueError):
                     main._new_stage_game(number)
             load.assert_not_called()
@@ -132,8 +132,8 @@ class StageThreeFlowTests(unittest.TestCase):
                 finish(game, 'clear')
         created, snapshots, _, _, _, clock = run_loop(
             [[key(N), key(N, False)] for _ in range(4)], after_render=clear_each)
-        self.assertEqual([g.stage_number for g in created], [1, 2, 3, 4])
-        self.assertEqual([s['stage'] for s in snapshots], [2, 3, 4, 4])
+        self.assertEqual([g.stage_number for g in created], [1, 2, 3, 4, 5])
+        self.assertEqual([s['stage'] for s in snapshots], [2, 3, 4, 5])
         self.assertTrue(all(s['tick'] == 0 for s in snapshots))
         self.assertEqual(clock.accumulator, 0)
 

@@ -39,6 +39,8 @@
 - 기존 저장소에서만 작업하며 별도 GitHub 저장소를 만들지 않는다. 기본 브랜치는 `main`이다. 기존 커밋을 삭제·재작성·force push하지 않는다.
 - 기능별 작업 순서: **현황 조회 → 작은 수정 → 테스트 → diff/status 검토 → `docs/PROGRESS.md` 갱신 → 커밋 → Push 확인**.
 - 커밋 접두사: `feat:`, `fix:`, `test:`, `docs:`, `refactor:`, `chore:`. 커밋 및 Push 성공 여부는 반환된 커밋 SHA와 원격 브랜치를 실제 재조회해 확인한다.
+- CHECKMATE의 모든 신규 Git 커밋 메시지는 위 접두사를 유지하고, 콜론 뒤의 작업 설명을 명확한 한국어로 작성한다. 설명은 실제 변경·검증 범위에 맞추며 미구현·미검증 내용을 완료로 표현하지 않는다. 기존 영어 커밋 메시지나 Git 이력은 수정하지 않는다.
+- 사용자 GUI 검증을 완료하기 전에는 커밋·Push하지 않는다. 자동 검증 결과를 사용자 GUI 검증 완료로 대신하지 않는다.
 - 위험 명령(`git reset --hard`, `git clean -fd`, force push, 이력 재작성), 대량 파일 삭제, 자격증명 기록, 추적되지 않은 사용자 파일 덮어쓰기는 사전 승인 필수.
 - `.venv/`, `__pycache__/`, `*.pyc`, `.pytest_cache/`, 빌드 임시 파일, 개인 정보, 비밀 키, 사용자 게임 진행 `save.json`은 추적하지 않는다.
 - 기본 관리 문서: `docs/GAME_DESIGN.md`(승인된 규칙), `docs/ROADMAP.md`, `docs/PROGRESS.md`, `docs/DECISIONS.md`(변경 기록), `docs/BUGS.md`, `docs/TEST_PLAN.md`, `docs/ASSET_CREDITS.md`, `README.md`. 빈 문서를 무더기로 만들지 않고 필요 시 점진적으로 만든다.

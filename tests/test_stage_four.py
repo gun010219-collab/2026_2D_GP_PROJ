@@ -31,12 +31,13 @@ class StageFourFlowTests(unittest.TestCase):
 
     def test_clear_r_replays_four_death_r_returns_one_and_n_never_reaches_five(self):
         for state,target in (('clear',4),('dead',1)):
-            created,snapshots,_,_,_,_=run_loop([[key(N)],[key(R)]],initial_stage=4,initial=state)
+            created,snapshots,_,_,_,_=run_loop([[],[key(R)]],initial_stage=4,initial=state)
             self.assertEqual([g.stage_number for g in created],[4,target])
             self.assertEqual(snapshots[0]['count'],1)
             self.assertEqual((snapshots[1]['tick'],snapshots[1]['hp']),(0,3))
         with self.assertRaises(ValueError):
-            main._new_stage_game(5)
+            main._new_stage_game(6)
+        self.assertTrue(main._new_stage_game(5).boss)
 
     def test_playing_n_and_r_do_not_restart_four(self):
         created,_,_,_,_,_=run_loop([[key(N),key(R)]],initial_stage=4,initial='playing')
@@ -209,7 +210,7 @@ class StageFourMainCombatTests(unittest.TestCase):
                 e.health.apply_damage(e.health.current_hp,tick=0)
                 g.encounter.deactivate(e.entity_instance_id)
             return g
-        created,snapshots,_,_,_,_=run_loop([[key(SPACE),key(N)],[key(N,False),key(N)],[key(R)]],
+        created,snapshots,_,_,_,_=run_loop([[key(SPACE),key(N)],[key(N,False)],[key(R)]],
             initial='playing',initial_factory=almost_clear)
         self.assertEqual([g.stage_number for g in created],[4,4])
         self.assertEqual(snapshots[0]['state'],GameState.STAGE_CLEAR)
@@ -255,7 +256,7 @@ class StageFourRendererTests(unittest.TestCase):
                 HealthRenderer().draw(Mock(),g.player,g.encounter.enemies,g.combat.tick)
             labels=[call.args[1] for call in text.call_args_list]
             self.assertIn('STAGE 4',labels)
-            self.assertNotIn('N TO CONTINUE',labels)
+            self.assertEqual('N TO CONTINUE' in labels, state=='clear')
             self.assertFalse(any('CHAPTER CLEAR' in s or 'ENDING' in s or 'STAGE 5' in s for s in labels))
             if state=='playing':
                 self.assertEqual(labels.count('3/3'),2)

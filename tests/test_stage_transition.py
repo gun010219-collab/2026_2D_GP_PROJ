@@ -65,7 +65,7 @@ def run_loop(batches, *, initial_stage=1, initial='clear', focus=None, lengths=N
         if not created:
             if initial_factory is not None:
                 return register(initial_factory())
-            if initial_stage in (2, 3, 4):
+            if initial_stage in (2, 3, 4, 5):
                 return register(original_stage(initial_stage))
         return register(original_one())
 
@@ -139,7 +139,7 @@ class StageSessionTests(unittest.TestCase):
                     game = main._new_stage_game(number)
                     finish(game, state)
                     self.assertEqual(game.next_stage_number,
-                                     number + 1 if number < 4 and state == 'clear' else None)
+                                     number + 1 if number < 5 and state == 'clear' else None)
                     self.assertEqual(game.restart_stage_number,
                                      None if state == 'playing' else 1 if state == 'dead' else number)
 
@@ -157,7 +157,7 @@ class StageSessionTests(unittest.TestCase):
         self.assertFalse(game.update_state())
 
     def test_unsupported_stage_and_invalid_metadata_fail_before_creating_entities(self):
-        for number in (0, *range(5, 26), -1):
+        for number in (0, *range(6, 26), -1):
             with self.subTest(number=number), self.assertRaises(ValueError):
                 main._new_stage_game(number)
         for number in (True, 2.0, '2', None):
@@ -344,7 +344,7 @@ class StageFlowMainTests(unittest.TestCase):
 
     def test_n_is_ignored_in_playing_game_over_and_stage_four_clear(self):
         for number, state in ((1, 'playing'), (1, 'dead'), (2, 'playing'), (2, 'dead'),
-                              (3, 'playing'), (3, 'dead'), (4, 'playing'), (4, 'dead'), (4, 'clear')):
+                              (3, 'playing'), (3, 'dead'), (4, 'playing'), (4, 'dead'), (5, 'clear')):
             with self.subTest(number=number, state=state):
                 created, _, _, _, _, _ = run_loop([[key(N)], [], [key(N, False), key(N)]],
                                                  initial_stage=number, initial=state)

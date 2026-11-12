@@ -1,5 +1,135 @@
 # CHECKMATE 개발 진행 기록
 
+## Task 1-Q — CHECKMATE PULSE·Stage 5 첫 보스전 (2026-11-12)
+
+상태: **구현·자동 테스트767개 및 사용자 Windows GUI18/18 통과. 최종 검수 후 커밋·Push 승인**.
+시작은 깨끗한 main이며 HEAD와 fetch 후 origin/main 모두 `2bf8d3cf24d6eb492e501c849343792fa3f97a64`였다.
+Task 1-O·1-P 본문은 아래 이력으로 보존한다. Task 1-P 사용자 GUI12/12를 이번 변경의 수동 검증으로 재사용하지 않는다.
+
+### 목표·수용 기준과 실제 구현
+
+- 기존 EnemyEncounter/CombatResolver/Combat/EnemyAttackLedger/Parry/StageCatalog/StageGame/main을 확장한다.
+  목표는 Pulse100칸/120틱/피해1/H+480, drain 종료 보장, 일반 적 잔여 타이머 복원, 단일 반사2피해,
+  King 사망 예외, 실제 Stage 4→5/BOSS CLEAR/재시작과 기존725개 회귀다.
+- king_boss.py는 Encounter 소유 예약·정지 snapshot이며 독립 엔진이나 전투 시계가 아니다.
+  main이 카탈로그 boss 메타데이터로 Pulse를 활성화한다. 기존 일반 King 단위 전투는 근접 전용 계약을 유지한다.
+- NORMAL→DRAINING→PULSE_TELEGRAPH→PULSE_RESOLUTION→CLEANUP→NORMAL을 구현했다.
+  최초 사용 가능240틱 이후 King 준비/예고 상태에서 요청하고, 이동 대기·회복·기절은 끝낸다.
+  예고 중인 근접은 drain하되 원래48틱 적중과90틱 회복을 보존한다. DRAINING부터 새 적 행동을 막는다.
+  빈 drain은 요청 다음 틱, 기존 공격은 실제 원장/이동 계획 완료 다음 틱 이후·King 준비 시에 시작한다.
+- Pulse는 attack_kind와 실제 controller 발행/King/원장/계획으로 인증한다. 길이100만으로 특수 효과를 주지 않는다.
+  기존 불변 이벤트/ParryBinding/hit_tick/JSON 순서/피해 무적48틱/세션·단일 소비를 유지한다.
+- 일반 적은 S부터 R=H+30 직전까지 멈춘다. R에 state/행동/기절 잔여를 복원하며 준비된 적은 한 번만 행동한다.
+  S200/H320/R350에서 D260→410, 기절 잔여30→380을 실제 경계 틱까지 검증했다.
+  Bishop 대기와 과거 해제 기록/원장/피해 이력도 보존한다. 정지 중 SPACE로 죽은 일반 적은 복원하지 않는다.
+- 정상 판정 후 재사용은 H+480이다. H+30부터 King 일반 행동 가능, perfect 기절은 H+60까지 유지한다.
+  살아 있는 King의 예고 취소는 다음 판정 완료 틱 C에서 확인해 C+30 정리/C+480 재사용을 적용하는 기술 정책이다.
+  King 사망은 이 취소 정책보다 우선해 t+1 복원한다. 상세 결정은 King 설계14절과 DECISIONS에 기록했다.
+- Pulse normal은 피해 무효만, perfect는 King 즉시2피해+60틱 기절+공격 쿨타임 초기화+다음 공격+2다.
+  성공 원장/결과/보상을 먼저 확정해 HP1/2 반사 사망에도 보존한다. 중복 전달·사망 통지로 재적용/복원하지 않는다.
+  일반 근접 perfect에는 반사2피해가 없다. 실패·기존 무적도 원래 우선순위다.
+- King 사망 후 잔여 일반 적 전투를 유지한다. Stage 5 전멸은 boss 메타데이터에 따른 BOSS CLEAR,
+  Player HP0은 GAME_OVER 우선이다. 종료 후 시계·AI·피해·보상을 멈추고 snapshot을 폐기한다.
+- Stage 4 clear N→5, Stage 5 BOSS CLEAR N 무효/R→5, Stage 1~5 GAME_OVER R→1, Stage 6 이상 거절이다.
+  새 세션/King/일반 적/원장/Pulse controller와 입력 래치를 만들며 기존 창·설정을 재사용한다.
+- 임시 왕관/실제 KING HP/100칸 주황 경고/예고·DRAINING·정리 상태/BOSS CLEAR를 표시한다.
+  렌더링은 상태를 변경하지 않고 SETTINGS는 기존 최상단이다. 최종 아트·음향은 제작하지 않았다.
+
+### 실제 변경 파일 — 수정17개·신규4개, 총21개
+
+- 기존 코드8개: config.py, enemy_attack.py, enemy_behaviors.py, combat_resolution.py,
+  main.py, game.py, enemy_attack_renderer.py, game_renderer.py.
+- 신규 코드1개: king_boss.py.
+- 기존 테스트4개: tests/test_king_combat.py, tests/test_stage_four.py, tests/test_stage_three.py,
+  tests/test_stage_transition.py. 기존 Stage 5 거절/Stage 4 N 무효 기대를 새 승인 범위에 맞춰 갱신했다.
+  과거 이름의 테스트도 메서드 이름까지 보존하고, R 재플레이 사례는 이제 유효한 N 전환과 분리해 검증한다.
+- 신규 테스트3개: tests/test_king_pulse.py(30개), tests/test_stage_five.py(11개), tests/test_stage_five_sdl.py(1개).
+- 문서4개: docs/STAGE_5_KING_DESIGN.md, docs/DECISIONS.md, docs/GAME_DESIGN.md, docs/PROGRESS.md.
+- 개발 지침1개: AGENTS.md. 후속 사용자 요청으로 신규 커밋의 접두사 유지·설명 한국어 작성·실제 범위 준수와
+  GUI 검증 전 커밋·Push 금지를 명시했다. 기존 영어 메시지와 Git 이력은 수정하지 않는다.
+  이 후속 변경은 문서만 수정하며 게임 코드·테스트는 변경하지 않았다. 문서 diff와 Git 공백 검사로 확인한다.
+
+### 실제 실행한 자동 검증
+
+GUI18/18 수령 후 최종 검수에서도 아래 전체767개/25개 일반·-O/변경 Python16개 문법·import/공백 검사와
+기존725개 AST 보존·원본 콘텐츠 보존 검사를 재실행해 통과했다. Stage 5 SDL dummy도 명시적으로 재실행해 통과했다.
+이번 최종 검수에서 게임 코드와 테스트의 추가 수정은 없었다.
+
+- `.\.venv\Scripts\python.exe -m unittest discover -s tests -v`: **767개 통과**(기존725+신규42), 실패/skip 없음.
+  기준 HEAD의 모든 기존725개 테스트 메서드를 AST로 대조해 이름까지 보존했다. 삭제·비활성화하지 않았다.
+- 25개 스테이지 `validate_stage_data.py` 일반/`-O` 모두 통과했다.
+- 변경 Python16개 `-W error` py_compile/import 통과. 순수 논리 import 시 Pico2D/SDL 미로딩도 확인했다.
+- `git diff --check` 통과. JSON/README/PDF는 Git 필터 적용 콘텐츠 해시가 기준 HEAD와 같으며 에셋도 변경하지 않았다.
+  Windows CRLF 변환 안내는 Git 공백 오류와 구분한다. MAX_SIMULATION_STEPS_PER_FRAME=8은 변경하지 않았다.
+- Pulse: 첫240틱 가능/준비까지 연기, 빈 drain 경계, 모든 기물 기존 공격 drain, due 포인터 유실 시 조기 진입 방지,
+  기절/사망/취소/HP1·2·3/단일 반사/일반·perfect 경계/정지 중 처치/복원 실제 행동 시각/반복 정지 누적을 검증했다.
+- 1틱씩/8틱씩 총1200틱 결과가 시계/상태/HP/위치/타이머/원장 결과까지 같았다. sleep으로 시간 경계를 검증하지 않는다.
+- 실제 main 원본 Stage 5는 무입력 조건에서 요청264/S265/H385다. H-7 입력은 HP8→6/perfect+2/기절445,
+  H-18 입력은 normal/반사 없음, R415 복원과 SETTINGS/포커스 전체 시간 정지를 검증했다.
+- 실제 SDL dummy/Pico2D main: N으로4→5,100칸 렌더·HP8→6·perfect 피드백·CLEANUP·BOSS CLEAR·N 무효·R 새 Stage 5,
+  SETTINGS/ESC/F11/포커스 상실·복귀/종료를 비표시 창에서 실행했다. 실제 사용자 Windows 수동 검증과는 다르다.
+- 기존 Pawn601틱, Rook 경로 취소/90틱, Knight36/72틱, Bishop50칸/108/240틱/반대색 조정,
+  King72틱/근접48·90틱, 패링/무적48틱/세션·입력·Stage 1~4 회귀를 전체 suite에서 통과했다.
+
+### 사용자 Windows GUI 최종 결과 — 18/18 통과
+
+사용자가 실제 Windows 11에서 아래18개 항목을 모두 수행해 통과했다고 보고했다.
+검증 근거 A는 사용자 Windows GUI 수동 검증, B는 Codex Python 자동 테스트767개,
+C는 Codex SDL dummy 비표시 실행이다. 세 근거를 서로 대체하지 않는다.
+
+1. Stage 1~4 기존 전투 — 통과
+2. Stage 4 → 5 진행 — 통과
+3. Stage 5 원본 배치 — 통과
+4. King HP 및 외형 — 통과
+5. King 이동·근접 공격 — 통과
+6. King 근접 회피·패링 — 통과
+7. CHECKMATE PULSE 발생 — 통과
+8. Pulse 전체판 경고 — 통과
+9. Pulse 이동 회피 불가 — 통과
+10. Pulse 일반 패링 — 통과
+11. Pulse 퍼펙트 패링 — 통과
+12. DRAINING 기존 공격 마무리 — 통과
+13. Pulse 동안 일반 적 정지·재개 — 통과
+14. King 선처치·잔여 적 — 통과
+15. BOSS CLEAR 및 재플레이 — 통과
+16. 게임 오버 및 세션 격리 — 통과
+17. SETTINGS·F11·포커스 — 통과
+18. 가독성·난이도·종료 — 통과
+
+GUI로 정확한 틱을 측정했다고 주장하지 않으며 장기 밸런스와 모든 PC 환경 안정성은 미검증이다.
+이번 최종 마무리에서 기능 코드·테스트는 수정하지 않는다. 동일 GUI 검증을 다시 요청하지 않는다.
+최종 전체 unittest/정적 검사/문법·import/원본 보존/공백 검사를 재실행하고21개 파일만 검수·스테이징한다.
+승인된 메시지는 `feat: 체크메이트 펄스 및 5스테이지 보스전 구현`이며 기존 main에 일반 Push한다.
+최종 커밋 SHA·원격 대조·작업 트리는 완료 보고에서 확인한다.
+
+### 이전 사용자 GUI 확인 계획 — 당시 요청 이력
+
+저장소 폴더에서 `.\.venv\Scripts\python.exe main.py`로 실행한다. 개발용 N 직접 진행은 강화 구현 전의 임시 절차다.
+다음은 GUI 결과 수령 전에 작성한 수동 검증 계획이다. 최신 결과는 위18/18 통과 기록을 따른다.
+
+1. Stage 1~4를 클리어/N으로 진행하며 기존 조작·Pawn/Rook/Knight/Bishop·일반/퍼펙트·HP·게임 오버를 회귀 확인한다.
+2. Stage 4 클리어 N→Stage 5, STAGE 5/King 왕관/KING HP 8/8/Rook1·Pawn2의 원본 배치를 확인한다.
+3. King8방향 한 칸 이동·근접 한 칸 경고·회피·일반/퍼펙트 패링을 확인한다. 근접 perfect 자체로 King HP가2 줄지 않는다.
+4. 전투 시작4초 이후 행동 준비에 따라 Pulse가 요청되고 기존 적 예고가 끝난 뒤 전체100칸 주황 경고가 나오는지 확인한다.
+5. Pulse 예고·정리 중 일반 적이 멈추고 Player 이동/SPACE/Shift는 가능한지 확인한다. 이동만으로 전체판 공격을 피할 수 없다.
+6. Pulse 일반 패링은 HP 피해만 막고 King HP·NEXT +2 보상은 만들지 않는지 확인한다.
+7. Pulse perfect는 King 실제 HP가2 감소하고 성공 표시·STUN·NEXT +2가 함께 나타나는지 확인한다.
+8. 정리 구간 뒤 일반 적이 재개하고 King 기본 행동도 이어지는지 확인한다. perfect 기절은 정리보다 오래 유지된다.
+9. Pulse 예고/정리 중 King을 먼저 처치했을 때 경고 취소·일반 적 재개·잔여 적 생존 중 PLAYING을 확인한다.
+10. 모든 적 처치 시 BOSS CLEAR, N 무효, R→HP/배치/타이머가 초기화된 Stage 5를 확인한다.
+11. Stage 5 GAME OVER의 R→Stage 1, 반복 N/R·누른 키 유지 후 입력 격리를 확인한다.
+12. Pulse 중 SETTINGS 시간 정지/ESC 복귀/F11/포커스 상실·복귀/창 닫기와 경고·HP·패링 피드백 가독성을 확인한다.
+
+정확한 틱 경계와 이례적 동시 사망은 자동 검증으로 확인하며 GUI에서 정밀 측정을 요구하지 않는다.
+당시 사용자 결과와 최종 검수 전에는 스테이징·커밋·Push를 보류했으며21개 변경을 로컬 미커밋으로 보존했다.
+
+### 남은 위험·미구현
+
+자동 검증에서 남은 실패는 없다. 사용자 GUI18/18 통과는 초기 플레이 확인이며 장기 밸런스·DPI/다중 모니터는 미검증이다.
+8틱/프레임 상한은 긴 지연의 벽시계 시간을 버릴 수 있다. 1틱/8틱 결과 일치는 그 성능 위험의 해결을 뜻하지 않는다.
+기존 원장과 Pulse 발행 이력은 세션 동안 증가한다. 추적은 결정적 탐욕 정책이며 최단 경로를 보장하지 않는다.
+Chapter 2 해금·저장/강화/Queen AI/Stage 6 이후/보스 차별화/최종 아트·음향/25스테이지 전체 플레이 QA는 후속 범위다.
+
 ## Task 1-P — King 기본 AI·보스 HP·공통 근접 전투 (2026-11-12)
 
 상태: **기본 전투 구현·자동 테스트725개 및 사용자 Windows GUI 회귀12/12 통과, 최종 검수 통과**.

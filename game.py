@@ -1,4 +1,4 @@
-"""Stage 1–4 session outcomes and transition destinations; no SDL/rendering."""
+"""Stage 1–5 session outcomes and transition destinations; no SDL/rendering."""
 from enum import Enum
 
 from combat_resolution import CombatResolver
@@ -8,15 +8,18 @@ class GameState(str, Enum):
     PLAYING = 'PLAYING'
     GAME_OVER = 'GAME_OVER'
     STAGE_CLEAR = 'STAGE_CLEAR'
+    BOSS_CLEAR = 'BOSS_CLEAR'
 
 
 class StageGame:
     """Own one combat instance. Restart creates a new instance, never rewinds it."""
-    def __init__(self, player, combat, encounter, parry, resolver, *, stage_number=1, chapter=1):
-        if type(stage_number) is not int or stage_number not in (1, 2, 3, 4):
-            raise ValueError('Only Stage 1 through Stage 4 combat sessions are supported')
+    def __init__(self, player, combat, encounter, parry, resolver, *, stage_number=1, chapter=1, boss=False):
+        if type(stage_number) is not int or stage_number not in (1, 2, 3, 4, 5):
+            raise ValueError('Only Stage 1 through Stage 5 combat sessions are supported')
         if type(chapter) is not int or chapter != 1:
-            raise ValueError('Stage 1 through Stage 4 require Chapter 1')
+            raise ValueError('Stage 1 through Stage 5 require Chapter 1')
+        if type(boss) is not bool or boss != (stage_number == 5) or boss != (encounter.pulse is not None):
+            raise ValueError('Playable boss metadata must match the Stage 5 boss encounter')
         if (not isinstance(resolver, CombatResolver) or resolver.player is not player
                 or resolver.combat is not combat or resolver.encounter is not encounter
                 or resolver.parry is not parry):
@@ -25,6 +28,7 @@ class StageGame:
             raise ValueError(f'Stage {stage_number} session requires enemy data')
         self._stage_number = stage_number
         self._chapter = chapter
+        self._boss = boss
         self.player = player
         self.combat = combat
         self.encounter = encounter
@@ -44,9 +48,13 @@ class StageGame:
         return self._chapter
 
     @property
+    def boss(self):
+        return self._boss
+
+    @property
     def next_stage_number(self):
         # Temporary direct continuation until the upgrade flow is implemented.
-        return (self.stage_number + 1 if self.stage_number < 4
+        return (self.stage_number + 1 if self.stage_number < 5
                 and self.state is GameState.STAGE_CLEAR else None)
 
     @property
@@ -79,7 +87,7 @@ class StageGame:
         if not self.player.alive:
             state = GameState.GAME_OVER
         elif all(not enemy.alive for enemy in self.encounter.enemies):
-            state = GameState.STAGE_CLEAR
+            state = GameState.BOSS_CLEAR if self.boss else GameState.STAGE_CLEAR
         else:
             return False
         self._state = state

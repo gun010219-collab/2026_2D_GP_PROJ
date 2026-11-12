@@ -13,6 +13,7 @@ from config import (
     PAWN_ATTACK_DAMAGE, PLAYER_ATTACK_DAMAGE, ROOK_ATTACK_DAMAGE,
     KNIGHT_ATTACK_DAMAGE, BISHOP_ATTACK_DAMAGE, KING_ATTACK_DAMAGE,
     PLAYER_HIT_INVULNERABILITY_SECONDS,
+    KING_PULSE_REFLECT_DAMAGE,
 )
 from enemy import Enemy
 from enemy_attack import EnemyAttackEvent
@@ -101,6 +102,8 @@ class CombatResolver:
             self.encounter.cancel_attacks(enemy.entity_instance_id, tick=self.combat.tick)
         self._close_invalid_parries()
         self._stopped = True
+        if self.encounter.pulse is not None:
+            self.encounter.pulse.stop()
         return True
 
     def parry_binding(self, attempt):
@@ -331,8 +334,13 @@ class CombatResolver:
             ledger.finish(event, 'parried_' + binding.adjudication_grade)
             result = self._record_parry_result(binding, binding.adjudication_grade, 'success')
             if binding.adjudication_grade == 'perfect':
+                pulse = self.encounter.is_pulse(event)
                 self.encounter.stun(source.entity_instance_id, self.combat.tick)
                 self.combat.grant_perfect_counter()
+                if pulse:
+                    self._apply(event, self._player_id, source, KING_PULSE_REFLECT_DAMAGE)
+                    if not source.alive:
+                        self.encounter.deactivate(source.entity_instance_id, tick=self.combat.tick)
             return result
         if not ledger.consume(event, self._player_id):
             ledger.finish(event, 'expired')
@@ -369,6 +377,7 @@ class CombatResolver:
             result = self.resolve_enemy_attack(event)
             if result is not None:
                 results.append(result)
+        self.encounter.finish_tick()
         self._close_invalid_parries()
         return tuple(results)
 

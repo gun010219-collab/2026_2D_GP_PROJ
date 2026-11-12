@@ -1,8 +1,8 @@
 # CHECKMATE — Task 1-O: Stage 5 King 원본 분석과 구현 검토안
 
-> **현재 상태 — Task 1-P (2026-11-12):** 아래 1~12절은 Task 1-O 당시의 분석·미승인 제안을 원문 그대로 보존한 이력이다.
-> 최종 사용자 승인 7개와 실제 구현 범위는 **13절**을 따른다. 특히 R3의 최초48틱 제안과 R5의 사망 후30틱 정리 제안은 채택하지 않았다.
-> King 기본 이동·근접 전투는 구현·자동 검증했으며, Pulse와 Stage 5 실제 화면 진입은 아직 미구현이다.
+> **현재 상태 — Task 1-Q (2026-11-12):** 1~12절은 Task 1-O의 분석·미승인 제안, 13절은 Task 1-P의 승인·구현 이력이다.
+> 최종 사용자 승인 7개는 **13절**, Pulse·Stage 5의 최신 구현과 기술 경계는 **14절**을 따른다.
+> Pulse와 Stage 5 실제 main 진입을 구현했다. 사용자 Windows GUI18/18 통과를 수령했으며 자동 검증과 구분한다. 최종 검수 후 커밋·Push를 승인받았다.
 
 작성일: 2026-11-12. 기준 main: `7f79260e6b2683f19b4b9a3cadbe12d510c072f4`.
 
@@ -357,3 +357,58 @@ King 원본 HP/factory,72틱 이동,48/90틱 근접,패링 경계·60틱 기절�
 밸런스 검증도 완료하지 않았다. Pulse100칸/120틱/480틱·DRAINING·정지/복원·즉시2피해·30틱 정리·BOSS CLEAR·Stage 5 연결은
 Task 1-Q다. 원본 전체 보스전,5개 보스 차별화,최종 강화·저장·해금과 Stage 6 이후는 별도 작업이다.
 사용자 GUI 통과 및 최종 검수 후 커밋·기존 main 일반 Push 승인을 확인했다.
+
+## 14. Task 1-Q — CHECKMATE PULSE와 Stage 5 실제 전투 (2026-11-12)
+
+### 원본 A와 사용자 승인 B
+
+원본 p.16~18의 전체100칸/120틱 예고/피해1/완료 후480틱, p.10·16의 Pulse perfect 즉시2피해와 기본 보상을 적용했다.
+13절 승인 B의 첫 사용 가능240틱, DRAINING, King 사망 시 다음 틱 재개, 전멸 BOSS CLEAR/N 무효/R Stage 5,
+HP 페이즈 미도입을 유지한다. Task 1-Q 요청은 Stage 4→5 연결과 GUI 확인 전 커밋·Push 보류를 명시했다.
+Task 1-O의 최초48틱/사망 후30틱 권장안은 채택하지 않는다.
+
+### 기술 정책 C — 정확한 틱과 소유권
+
+- 기존 EnemyEncounter/CombatResolver/Combat/EnemyAttackLedger/Parry를 사용한다. king_boss.KingPulse는
+  Encounter 소유의 예약·정지 정보만 가지며 별도 전투 시계·피해 판정기·게임 루프가 아니다.
+  boss=true인 StageCatalog 정의가 main에서 Encounter와 StageGame으로 전달된다. 일반 King 단위 전투는 기존 근접 전용 계약이다.
+- NORMAL에서 next_use_tick 이상이면 새 일반 행동보다 Pulse 요청이 우선한다. 이동 대기/초기 지연/정상 회복/기절은
+  next_action_tick까지 끝낸다. 이미 예고 중인 King 근접은 DRAINING 요청을 걸되 기존 hit_tick과 회복90틱을 끝낸다.
+  요청이 걸린 틱부터 모든 적의 새 이동·공격을 막는다. 이미 발행한 이벤트/돌진/착지는 원래 시각에 해결한다.
+- 원장의 telegraph/due 전체와 이동 계획을 함께 검사한다. 포인터 None만으로 완료로 보지 않는다.
+  요청 q에서 기존 공격이 없으면 q 종료 후 다음 틱 q+1에 시작한다. 마지막 기존 공격·계획 완료 d 이후 d+1 이상,
+  King의 회복/기절도 완료한 첫 틱이 S다. 일반 적의 새 예약이 없어 실제 정상 이벤트는 유한 시간 안에 drain된다.
+- S에서 일반 적의 state/행동 deadline 잔여/기절 잔여를 저장한다. S부터 H=S+120, CLEANUP 종료 R=H+30 직전까지
+  일반 적의 AI와 타이머를 진행하지 않는다. R의 AI 처리 전에 deadline=R+max(0,D-S)로 복원한다.
+  이미 준비된 적은 R에 한 번만 행동한다. King은 정지 대상이 아니지만 전용 구간 중 이동·근접은 시작하지 않는다.
+  초기 대기/이동 대기/회복/기절/Bishop 재시도를 보존한다. 사망한 일반 적은 복원하지 않는다.
+  종료된 hit_tick/원장/Health 피해 이력/Bishop 과거 색상 해제 틱은 수정하지 않는다.
+- Pulse 이벤트는 불변 attack_kind='king_pulse'다. 전체100칸 길이만으로 특례를 판정하지 않는다.
+  원장 스코프·실제 King·controller 발행 기록·살아 있는 AI 계획까지 확인한 이벤트만 인증한다.
+  PULSE_RESOLUTION은 H의 AI due 발행부터 실제 판정까지이며 판정 종료 후 CLEANUP이 된다.
+- H의 결과를 소비한 뒤 재사용 기준은 H+480이다(hit/normal/perfect/기존 무적 모두 같은 기준).
+  H+30에 일반 적과 King 기본 행동을 재개하되 perfect King 기절 H+60은 끝까지 유지한다.
+  480틱 동안 King 기본 AI를 멈추지 않는다. 준비 시각에 King 행동 중이면 위 우선순위로 다음 Pulse를 연기한다.
+- 살아 있는 King의 예고가 외부 기절 등으로 취소되면 다음 판정 완료 틱 C에서 취소를 관찰하고 C+30까지 정리,
+  C+480까지 재사용을 제한한다. 미완료 이벤트는 되살리지 않는다. 실제 perfect는 먼저 resolved로 끝나므로 취소와 구분한다.
+- 성공 원장·ParryResult를 먼저 확정한 뒤 King60틱 기절/쿨타임 초기화/다음 공격+2와 즉시2피해를 적용한다.
+  Health가 HP를0으로 제한하며 반사로 사망해도 성공·보상은 보존한다. 기존 무적을 패링보다 먼저 검사한다.
+  일반 근접 perfect에는 반사가 없고 일반 Pulse 패링에는 기본 perfect 보상도 없다.
+- King 사망 t는 미완료 Pulse만 취소하고 정지 해제를 t+1에 예약한다. 중복 사망 통지는 복원을 지연하지 않는다.
+  DRAINING에서도 현재 틱 새 예약은 차단하고 다음 틱 일반 전투를 재개한다. resolved 결과를 취소로 덮어쓰지 않는다.
+  전멸/Player HP0은 StageGame이 기존 우선순위로 전투를 종료하고 정지 snapshot을 폐기한다. 종료 후 복원·보상은 없다.
+
+### 실제 연결·UI·검증 경계
+
+Stage 1~5가 기존 main 루프에서 플레이 가능하다. Stage 5 전멸은 카탈로그 boss 메타데이터에 따라 BOSS CLEAR,
+King만 사망하거나 일반 적만 전멸하면 PLAYING, Player HP0은 GAME_OVER 우선이다.
+Stage 4 clear N→5 / Stage 5 BOSS CLEAR N 무효·R→5 / Stage 1~5 GAME_OVER R→1 / Stage 6 이상 생성 거절이다.
+재시작은 새 HP/ID/원장/Pulse controller를 만들며 창·설정·렌더러를 재사용한다.
+
+왕관·실제 KING HP·CHECKMATE PULSE 이름/예고 카운트·DRAINING/정리 피드백·BOSS CLEAR를 임시 도형/글리프로 표시한다.
+Pulse100칸은 주황 경계/상단 표시로 근접 경고와 구별하며 배경 전체를 불투명하게 덮지 않는다.
+렌더링은 상태를 조회만 하고 SETTINGS는 기존 최상단이다. 정확한 검증 수와 GUI 절차는 PROGRESS의 Task 1-Q를 따른다.
+
+Chapter 2 해금·저장·강화·Queen AI·Stage 6 이후·최종 아트/음향은 미구현이다.
+사용자 Windows GUI18/18은 초기 조작·가독성·난이도 확인이다. Python767개 및 SDL dummy와 별도로 PROGRESS에 기록한다.
+정확한 틱 경계는 자동 검증 근거이며 장기 밸런스·DPI/다중 모니터·모든 PC 환경 안정성은 아직 검증하지 않았다.

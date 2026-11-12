@@ -20,7 +20,7 @@ PDF의 모든 시스템과 수치를 최신 확정 규칙으로 재승인한 것
 - 스테이지 구성·적 배치·ID·수치는 `stage_data.json`을 보존한다.
   향후 테마 선택은 그 데이터의 `chapter` 필드를 기준으로 한다.
   Task 1-I의 `stage_manager.StageCatalog`는 원본을 검증해 1~25번의 읽기 전용 정의를 제공한다.
-  카탈로그 자체는 데이터 조회만 제공한다. 실제 플레이 연결은 별도로 Stage 1~4에 구현했다.
+  카탈로그 자체는 데이터 조회만 제공한다. 실제 플레이 연결은 별도로 Stage 1~5에 구현했다.
 - 기본 조작 기준은 AGENTS.md의 방향키 이동 / SPACE 전방 공격 / Shift 패링 /
   ESC 일시정지다. 현재 버전은 방향키 1칸 이동을 구현했고, 설정 메뉴에서 ESC는 닫기,
   메뉴 밖에서는 종료다. Task 1-C는 SPACE 기본 공격 이벤트와 임시 효과를 구현했다.
@@ -33,7 +33,8 @@ PDF의 모든 시스템과 수치를 최신 확정 규칙으로 재승인한 것
   Task 1-M은 Stage 2 클리어→N→Stage 3과 Knight의 실제 main/GUI 실행 경로를 연결했고 사용자 Windows 11 GUI16개 모두 통과했다.
   Task 1-N은 원본의 고정형 Bishop과 Stage 4를 연결했고 사용자 Windows 11 GUI17개 모두 통과했다.
   Task 1-P는 King 기본 이동·근접·보스 HP와 공통 전투 통합을 자동 검증했다. 사용자 Windows 11 Stage 1~4 GUI 회귀12/12도 모두 통과했다.
-  별도 일시정지 화면과 Stage 5 이후 실제 화면 전투/진행은 아직 구현하지 않았다.
+  Task 1-Q는 CHECKMATE PULSE와 Stage 4→5·BOSS CLEAR·재시작을 연결했다. 사용자 Windows GUI18/18 모두 통과했다.
+  별도 일시정지 화면과 Stage 6 이후 실제 화면 전투/진행은 아직 구현하지 않았다.
 
 ## 승인된 챕터 구성
 
@@ -50,6 +51,19 @@ Pawn/Rook/Knight/Bishop/Queen/King의 식별 실루엣은 챕터 전반에 유�
 [에셋 계획](ASSET_PLAN.md)을 따른다. 이 변경은 AI·이동·공격 범위·피해량 변경을 포함하지 않는다.
 
 ## 구현 경계
+
+**현재 Task 1-Q:** 실제 main 플레이 범위는 Stage 1~5다. StageCatalog boss 메타데이터로 Pulse와 BOSS CLEAR를 연결했다.
+Pulse는 전체100칸/120틱 예고/피해1/적중 H+480 재사용이다. 첫 사용 가능은240틱이며 King의 준비 상태와
+기존 공격 drain을 기다린다. 요청부터 새 적 행동을 막고 기존 이벤트·돌진·착지는 원래 시각에 해결한다.
+마지막 완료 다음 틱 이후·King 회복 완료부터 예고를 시작한다. 일반 적 타이머는 Pulse 시작 S에서 저장해
+H+30의 R에 R+잔여 틱으로 복원한다. King은 기본 행동을 재개하며 perfect 기절60틱은 끝까지 지킨다.
+Pulse perfect는 피해 무효+King 즉시2피해+해당 King60틱 기절+공격 쿨타임 초기화+다음 공격+2다.
+일반 패링에는 반사/보상이 없고 기존 근접 perfect에는 즉시2피해가 없다. King 사망 시 일반 적은 다음 틱 재개한다.
+Stage 5는 King 포함 전멸 BOSS CLEAR/N 무효/R Stage 5, Stage 1~5 GAME_OVER R Stage 1, Stage 6 이상 생성은 거절한다.
+원장 단일 소비·피해 무적48틱·게임 오버 우선·새 세션/입력 격리를 유지한다.
+보스 HP/상태/100칸 경고/정리/클리어 UI는 임시 도형이며 SETTINGS가 최상단이다.
+기술적 틱 경계는 [King 설계14절](STAGE_5_KING_DESIGN.md), 자동 결과/사용자 GUI18/18의 별도 근거는 PROGRESS를 따른다.
+저장·Chapter 2 해금·강화·Queen·Stage 6 이후·최종 아트/음향은 미구현이다. 아래 Task 1-P 이전의 범위 기록은 당시 이력이다.
 
 Task 1-P의 실제 main 플레이는 여전히 **Stage 1~4**다. King 기본 전투는 원본 Stage 5 데이터로 생성한
 순수 Python 혼합 전투와 Pico2D/SDL dummy 자동 검증까지만 연결했다. Stage 5는 main/StageGame에서 거절하고
