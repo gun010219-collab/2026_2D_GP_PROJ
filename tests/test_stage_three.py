@@ -47,7 +47,7 @@ class StageThreeSessionTests(unittest.TestCase):
 
     def test_future_stages_are_rejected_before_catalog_or_entity_creation(self):
         with patch.object(main.StageCatalog, 'load') as load:
-            for number in range(6, 26):
+            for number in range(7, 26):
                 with self.assertRaises(ValueError):
                     main._new_stage_game(number)
             load.assert_not_called()

@@ -20,7 +20,7 @@ PDF의 모든 시스템과 수치를 최신 확정 규칙으로 재승인한 것
 - 스테이지 구성·적 배치·ID·수치는 `stage_data.json`을 보존한다.
   향후 테마 선택은 그 데이터의 `chapter` 필드를 기준으로 한다.
   Task 1-I의 `stage_manager.StageCatalog`는 원본을 검증해 1~25번의 읽기 전용 정의를 제공한다.
-  카탈로그 자체는 데이터 조회만 제공한다. 실제 플레이 연결은 별도로 Stage 1~5에 구현했다.
+  카탈로그 자체는 데이터 조회만 제공한다. 실제 플레이 연결은 별도로 Stage 1~6에 구현했다.
 - 기본 조작 기준은 AGENTS.md의 방향키 이동 / SPACE 전방 공격 / Shift 패링 /
   ESC 일시정지다. 현재 버전은 방향키 1칸 이동을 구현했고, 설정 메뉴에서 ESC는 닫기,
   메뉴 밖에서는 종료다. Task 1-C는 SPACE 기본 공격 이벤트와 임시 효과를 구현했다.
@@ -34,7 +34,8 @@ PDF의 모든 시스템과 수치를 최신 확정 규칙으로 재승인한 것
   Task 1-N은 원본의 고정형 Bishop과 Stage 4를 연결했고 사용자 Windows 11 GUI17개 모두 통과했다.
   Task 1-P는 King 기본 이동·근접·보스 HP와 공통 전투 통합을 자동 검증했다. 사용자 Windows 11 Stage 1~4 GUI 회귀12/12도 모두 통과했다.
   Task 1-Q는 CHECKMATE PULSE와 Stage 4→5·BOSS CLEAR·재시작을 연결했다. 사용자 Windows GUI18/18 모두 통과했다.
-  별도 일시정지 화면과 Stage 6 이후 실제 화면 전투/진행은 아직 구현하지 않았다.
+  Task 1-V는 Stage 5 BOSS_CLEAR N으로 Chapter 2 Stage 6을 연결하고 전멸 후 개발 경계에서 멈춘다.
+  별도 일시정지 화면과 Stage 7 이후 실제 화면 전투/진행은 아직 구현하지 않았다.
 
 ## 승인된 챕터 구성
 
@@ -52,7 +53,25 @@ Pawn/Rook/Knight/Bishop/Queen/King의 식별 실루엣은 챕터 전반에 유�
 
 ## 구현 경계
 
-**현재 Task 1-T:** 실제 Stage 1~4 전멸은 UPGRADE이며 R/N을 차단한다. 공격/HP/이동3카드를 항상 표시하고,
+**현재 Task 1-V:** Stage 5 BOSS_CLEAR R은 네 번 강화를 유지한 Stage 5 재플레이,
+N은 새 무강화 ChapterRun(2)의 Stage 6 진입이다. 새 Run/전투/입력/숲 보드 준비·검증 후에만
+전환을 확정한다. 실패하면 기존 Chapter 1 Run·Receipt·보스 종료 화면과 보드를 유지한다.
+이전 세션의 공격·패링·무적·보상·강화·키 입력·시간 누적은 새 챕터에 이월하지 않는다.
+
+Stage 6은 원본 JSON의 Player(5,1), Pawn(1,6)/(8,6)/(3,8), Rook(2,4),
+HP2/2/2/4·초기 지연48/62/75/88틱을 그대로 사용한다. 기존 Pawn/Rook AI와 경고·실제 피해·패링을 재사용한다.
+Chapter 2의 기존 Ancient Forest 팔레트를 보드/프레임/배경에 적용하며 최종 숲 아트를 구현한 것은 아니다.
+플레이어는 HP3/피해1/이동18틱으로 시작하고 Stage 6 GAME_OVER R은 새 무강화 Run/Stage 6이다.
+
+Stage 6 전멸은 DEV_BOUNDARY: STAGE 6 CLEAR / CHAPTER 2 DEVELOPMENT / STAGE 7 NOT AVAILABLE 표시다.
+Offer·Receipt 생성/소비와 R/N을 막고 전투 시간을 정지한다. SETTINGS/F11/메뉴 닫기 ESC/메뉴 밖 종료 ESC/X는 유지한다.
+Stage 7~25 생성은 명시적 실행 허용 목록으로 차단한다. Chapter 2 전체 완료·저장·영구 해금은 구현하지 않았다.
+Chapter 1 전체와 Chapter 2 Stage 6을 플레이할 수 있으며 Queen AI·Stage 10 보스·영구 저장/해금은 미구현이다.
+사용자 Windows 11 GUI12/12 통과를 수령했고 최종 검수에서 기능 코드는 변경하지 않았다.
+세부 승인과 자동 검증/사용자 GUI 결과는 [결정](DECISIONS.md)과 [진행 기록](PROGRESS.md)을 따른다.
+아래 T/S/Q 설명은 각 Task 당시의 경계와 보존된 규칙이다.
+
+**Task 1-T 당시 구현:** 실제 Stage 1~4 전멸은 UPGRADE이며 R/N을 차단한다. 공격/HP/이동3카드를 항상 표시하고,
 MAX를 제외한 카드 하나를 숫자1/2/3 또는 마우스로 선택하면 강화된 다음 Stage를 만든다.
 Stage 1~5 진입 시 누적 선택 수는0/1/2/3/4다. 피해1/2/3·HP3/4/5/6·이동18/15/12틱을 실제 전투에 전달한다.
 기본18틱 이동 제한은 첫 Stage부터 활성화되며 성공한 이동에만 간격을 소비하고 빠른 입력은 폐기한다.

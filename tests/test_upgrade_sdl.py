@@ -99,7 +99,8 @@ class UpgradeSDLTests(unittest.TestCase):
                     tap(s.SDLK_3)
                     tap(s.SDLK_SPACE)
                     tap(s.SDLK_UP)
-                if f in (18,20):tap(s.SDLK_n)
+                if f==18:tap(s.SDLK_1)  # Boss N enters Chapter 2 in the separate Stage 6 SDL path.
+                if f==20:tap(s.SDLK_n)
                 if f in (19,21):tap(s.SDLK_r)
                 if f==22:push(s.SDL_QUIT)
                 return poll_real()

@@ -317,10 +317,10 @@ class KingMixedTests(unittest.TestCase):
         self.assertEqual(traces[0][-1], traces[0][-2])
 
     def test_stage_five_main_stage_game_and_stage_four_continuation_stay_disabled(self):
-        # Task 1-Q opens Stage 5; retain metadata rejection and Stage 6 boundary.
+        # Task 1-V opens Stage 6; retain metadata rejection and the Stage 7 boundary.
         self.assertTrue(main._new_stage_game(5).boss)
         with self.assertRaises(ValueError):
-            main._new_stage_game(6)
+            main._new_stage_game(7)
         g = main._new_stage_game(4)
         with self.assertRaises(ValueError):
             StageGame(g.player, g.combat, g.encounter, g.parry, g.resolver, stage_number=5)

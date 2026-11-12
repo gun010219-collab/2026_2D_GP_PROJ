@@ -25,7 +25,7 @@ from enemy_renderer import EnemyRenderer
 from enemy_attack_renderer import EnemyAttackRenderer
 from combat_resolution import CombatResolver
 from health_renderer import HealthRenderer
-from game import GameState, StageGame, StageOneGame
+from game import GameState, StageGame, StageOneGame, SUPPORTED_STAGES
 from game_renderer import GameFlowRenderer
 from stage_progression import StageProgression
 from upgrade_input import UpgradeInput
@@ -51,13 +51,13 @@ def _new_game(*, stats=None):
 
 
 def _new_stage_game(stage_number, *, stats=None):
-    """Construct Stage 1–5 sessions; catalog access alone never enables later play."""
+    """Construct supported sessions; catalog access alone never enables later play."""
     if type(stage_number) is not int:
         raise TypeError('Playable stage number must be an integer')
     if stage_number == 1:
         return _new_game() if stats is None else _new_game(stats=stats)
-    if stage_number not in (2, 3, 4, 5):
-        raise ValueError('Only Stage 1 through Stage 5 are playable')
+    if stage_number not in SUPPORTED_STAGES:
+        raise ValueError('Only Stage 1 through Stage 6 are playable')
     definition = StageCatalog.load().get_stage(stage_number)
     stats = ChapterBuild().stats if stats is None else stats
     if not isinstance(stats, DerivedStats):
@@ -99,7 +99,7 @@ def main(*, run=None):
             raise RuntimeError('Pico2D could not create a window and renderer')
         canvas.hide_lattice()
         canvas.SDL_SetWindowTitle(canvas.window, WINDOW_TITLE.encode('utf-8'))
-        board_renderer = BoardRenderer(chapter=1)
+        board_renderer = BoardRenderer(chapter=game.chapter)
         display = DisplaySettings(canvas)
         menu = SettingsMenu()
         settings_renderer = SettingsRenderer(canvas)
@@ -111,6 +111,12 @@ def main(*, run=None):
             fresh.prepare_session()
             selection.reconcile(canvas)
             return fresh
+
+        def prepare_chapter(stats):
+            # These are the fallible resources for entry; commit only after both succeed.
+            fresh_controls = prepare_controls(stats)
+            fresh_board = BoardRenderer(chapter=2)
+            return fresh_controls, fresh_board
 
         def flush_gameplay(blocked=False):
             # Keep both down/up transitions in order, including quick taps
@@ -179,26 +185,35 @@ def main(*, run=None):
                     and not focus_changed and not menu.is_open):
                 flush_gameplay()
             for event in events:
-                transition_blocked = (menu.is_open or display_changed or not focused
+                transition_blocked = (menu.is_open or menu_changed or display_changed or not focused
                                       or focus_changed or restarted_this_frame)
                 destination = None
                 if controls.handle_restart(event, enabled=game.restart_stage_number is not None,
                                            blocked=transition_blocked):
                     destination = game.restart_stage_number
-                elif controls.handle_next(event, enabled=False,
+                elif controls.handle_next(event, enabled=game.next_stage_number is not None,
                                           blocked=transition_blocked):
                     destination = game.next_stage_number
                 if destination is not None:
                     try:
-                        fresh_game, fresh_controls = flow.restart(_new_stage_game, prepare_controls)
+                        if event.key == ord('n'):
+                            fresh_game, (fresh_controls, fresh_board) = flow.enter_next_chapter(
+                                _new_stage_game, prepare_chapter)
+                        else:
+                            fresh_game, fresh_controls = flow.restart(_new_stage_game, prepare_controls)
+                            fresh_board = board_renderer
                     except Exception:
                         flow.error = True
                         continue
                     flush_gameplay(blocked=True)
                     game, controls = fresh_game, fresh_controls
+                    board_renderer = fresh_board
                     player, combat, parry = game.player, game.combat, game.parry
                     encounter, resolver = game.encounter, game.resolver
-                    controls.restart_held = True
+                    if event.key == ord('n'):
+                        controls.next_held = True
+                    else:
+                        controls.restart_held = True
                     clock.reset()
                     restarted_this_frame = True
                     continue
@@ -295,7 +310,10 @@ def main(*, run=None):
             parry_result_renderer.draw(canvas, resolver.last_parry_result if game.playing else None,
                                        combat.tick)
             game_renderer.draw_stage_label(canvas, game)
-            game_renderer.draw(canvas, game)
+            if flow.error:
+                game_renderer.draw(canvas, game, error=True)
+            else:
+                game_renderer.draw(canvas, game)
             if game.state is GameState.UPGRADE:
                 upgrade_renderer.draw(canvas, game, flow.offer, flow.error)
             settings_renderer.draw(menu, display)

@@ -55,14 +55,17 @@ def run_loop(batches, *, initial_stage=1, initial='clear', focus=None, lengths=N
 
     canvas.get_events.side_effect = poll
     created, snapshots = [], []
-    run = ChapterRun()
+    run = ChapterRun(2 if initial_stage == 6 else 1)
     original_one, original_stage = main._new_game, main._new_stage_game
 
     def register(game):
+        nonlocal run
         if not created:
             finish(game, initial)
         if not created:
-            for stage in range(1,game.stage_number):
+            if game.chapter != run.chapter:
+                run = ChapterRun(game.chapter)
+            for stage in range((game.chapter-1)*5+1,game.stage_number):
                 o=run.offer_after_clear(stage,f"fixture-{stage}")
                 run.select(o,("move","move","attack","hp")[stage-1])
         created.append(game)
@@ -72,7 +75,7 @@ def run_loop(batches, *, initial_stage=1, initial='clear', focus=None, lengths=N
         if not created:
             if initial_factory is not None:
                 return register(initial_factory())
-            if initial_stage in (2, 3, 4, 5):
+            if initial_stage in (2, 3, 4, 5, 6):
                 return register(original_stage(initial_stage))
         return register(original_one(**kwargs))
 
@@ -107,7 +110,10 @@ def run_loop(batches, *, initial_stage=1, initial='clear', focus=None, lengths=N
         main.main(run=run)
     canvas.open_canvas.assert_called_once_with(1440, 900)
     canvas.close_canvas.assert_called_once_with()
-    board.assert_called_once_with(chapter=1)
+    expected_chapters = [created[0].chapter]
+    if created[0].chapter == 1 and any(g.chapter == 2 for g in created):
+        expected_chapters.append(2)
+    assert [c.kwargs['chapter'] for c in board.call_args_list] == expected_chapters
     display.assert_called_once_with(canvas)
     settings.assert_called_once_with(canvas)
     settings.return_value.close.assert_called_once_with()
@@ -164,7 +170,7 @@ class StageSessionTests(unittest.TestCase):
         self.assertFalse(game.update_state())
 
     def test_unsupported_stage_and_invalid_metadata_fail_before_creating_entities(self):
-        for number in (0, *range(6, 26), -1):
+        for number in (0, *range(7, 26), -1):
             with self.subTest(number=number), self.assertRaises(ValueError):
                 main._new_stage_game(number)
         for number in (True, 2.0, '2', None):
@@ -355,7 +361,9 @@ class StageFlowMainTests(unittest.TestCase):
             with self.subTest(number=number, state=state):
                 created, _, _, _, _, _ = run_loop([[key(N)], [], [key(N, False), key(N)]],
                                                  initial_stage=number, initial=state)
-                self.assertEqual(len(created), 1)
+                self.assertEqual(len(created), 2 if number==5 and state=='clear' else 1)
+                if number==5 and state=='clear':
+                    self.assertEqual(created[-1].stage_number,6)
 
     def test_r_replays_stage_two_clear_but_game_over_returns_to_stage_one(self):
         for state in ('clear','dead'):

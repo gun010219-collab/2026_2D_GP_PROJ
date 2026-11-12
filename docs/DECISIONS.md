@@ -1,5 +1,31 @@
 # CHECKMATE 승인 결정
 
+## Task 1-V — Chapter 2 진입·Stage 6·개발 경계 (2026-11-13)
+
+사용자의 Task 1-V 승인 정책과 중단 작업 재개 요청을 적용한다. 아래 Task 1-T/Q/P의
+Stage 5 BOSS_CLEAR N 차단과 Stage 6 실행 금지는 이번 범위에서 대체하며, 당시 기록은 보존한다.
+
+- Stage 5 BOSS_CLEAR R은 기존 네 번 강화와 Chapter 1 Run을 유지하는 Stage 5 재플레이다.
+  N은 네 Receipt와 실제 보스 전멸을 인증한 뒤 새 무강화 ChapterRun(2)/Stage 6으로 진입한다.
+  King만 사망했거나 GAME_OVER/UPGRADE/PLAYING 상태면 진입할 수 없다.
+- 새 Run·Stage 6 전투·GameplayInput의 물리 키 정합화·Chapter 2 BoardRenderer를 먼저 준비한다.
+  모두 성공해야 진행 소유자를 교체하고 기존 Run을 retire한다. 준비 실패 시 Chapter 1 Run/강화 이력/
+  BOSS_CLEAR/왕실 보드를 유지하고 재시도 오류를 표시한다. 실패 후 새 R/N 입력으로 다시 시도할 수 있다.
+- 진행 계층은 소유한 Game/Run 및 전투 객체·원장·세션 ID를 확인한다. 후보는 새 객체·세션, 카탈로그 목적지,
+  HP/피해/배치/지연/초기 시간과 Resolver의 객체 연결까지 검증한다. 이전 공격·패링·Receipt는 이월하지 않는다.
+- Stage 6은 JSON의 Pawn 3/Rook 1과 기존 AI/피해/경고/패링으로 전투하며 기존 숲 팔레트를 사용한다.
+  시작 HP3/피해1/이동18틱, GAME_OVER R은 새 무강화 Chapter 2 Run의 Stage 6이다.
+- Stage 6 전멸은 UPGRADE가 아닌 DEV_BOUNDARY다. Offer·Receipt를 생성하거나 소비하지 않는다.
+  전투 시간을 멈추고 R/N/전투 입력을 막으며 SETTINGS/F11/메뉴 ESC/메뉴 밖 ESC 종료/X를 유지한다.
+  화면에는 STAGE 6 CLEAR / CHAPTER 2 DEVELOPMENT / STAGE 7 NOT AVAILABLE을 표시한다.
+- 실행 허용 목록은 Stage 1~6이다. 카탈로그의 7~25 데이터 존재는 실행 권한이 아니며 계속 거절한다.
+  영구 저장·Chapter 2 해금·Chapter 2 전체 완료·Stage 10 보스·Queen·최종 아트/음향은 이번 구현 결과에 포함하지 않는다.
+
+기존 강화 수치·단일 소비·Stage 1~5 전투·King Pulse 규칙을 유지한다.
+Task 1-U의 [확장 설계](CHAPTER_EXPANSION_DESIGN.md)는 수정하지 않고 보존한다.
+자동 검증 결과와 사용자 Windows GUI12/12 통과 기록은 [진행 기록](PROGRESS.md)을 따른다.
+사용자 GUI 검증 전에는 스테이징·커밋·Push하지 않는다.
+
 ## Task 1-T — 강화 UI·실제 진행 최종 승인 A안
 
 사용자 최종 승인에 따라 일반 Stage 1~4 전멸 후 UPGRADE에서 반드시 한 번 강화한 뒤 다음 Stage로 진입한다.

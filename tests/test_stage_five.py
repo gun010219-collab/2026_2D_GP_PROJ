@@ -45,21 +45,23 @@ class StageFiveTests(unittest.TestCase):
                 self.assertEqual(g.encounter.pulse._remaining,{})
 
     def test_boss_clear_n_ignored_r_replays_and_game_over_r_returns_one(self):
+        # Historical method name retained; Task 1-V tests N entry separately.
         for state,target in (('clear',5),('dead',1)):
-            created,snapshots,_,_,_,_=run_loop([[key(N)],[key(R)]],initial_stage=5,initial=state)
+            created,snapshots,_,_,_,_=run_loop([[],[key(R)]],initial_stage=5,initial=state)
             self.assertEqual([g.stage_number for g in created],[5,target])
             self.assertEqual(snapshots[0]['count'],1)
             self.assertEqual((snapshots[1]['tick'],snapshots[1]['hp']),(0,4 if state=='clear' else 3))
 
     def test_progress_all_five_once_then_n_never_enters_six(self):
+        # Task 1-V approval replaces the old N block; preserve this method's identity.
         def clear(g,frame):
             if g.playing:
                 finish(g,'clear')
-        created,snapshots,_,_,_,clock=run_loop([batch for k in (49,49,50,50) for batch in ([key(k),key(k,False)], [])]+[[key(N)]],after_render=clear)
-        self.assertEqual([g.stage_number for g in created],[1,2,3,4,5])
-        self.assertEqual(snapshots[-1]['state'],GameState.BOSS_CLEAR)
+        created,snapshots,_,_,_,clock=run_loop([batch for k in (49,49,50,50) for batch in ([key(k),key(k,False)], [])]+[[key(N)],[]],after_render=clear)
+        self.assertEqual([g.stage_number for g in created],[1,2,3,4,5,6])
+        self.assertEqual(snapshots[-1]['state'],GameState.DEV_BOUNDARY)
         self.assertEqual(clock.accumulator,0)
-        for n in range(6,26):
+        for n in range(7,26):
             with self.assertRaises(ValueError):
                 main._new_stage_game(n)
 

@@ -1,7 +1,13 @@
-"""Stage 1–5 session outcomes and transition destinations; no SDL/rendering."""
+"""Supported stage session outcomes and transition destinations; no SDL/rendering."""
 from enum import Enum
 
 from combat_resolution import CombatResolver
+from stage_manager import StageCatalog
+from upgrades import chapter_first_stage
+
+
+# Catalog availability is not execution support. Expand only with verified tasks.
+SUPPORTED_STAGES = frozenset((1, 2, 3, 4, 5, 6))
 
 
 class GameState(str, Enum):
@@ -10,17 +16,20 @@ class GameState(str, Enum):
     STAGE_CLEAR = 'STAGE_CLEAR'
     UPGRADE = 'UPGRADE'
     BOSS_CLEAR = 'BOSS_CLEAR'
+    DEV_BOUNDARY = 'DEV_BOUNDARY'
 
 
 class StageGame:
     """Own one combat instance. Restart creates a new instance, never rewinds it."""
     def __init__(self, player, combat, encounter, parry, resolver, *, stage_number=1, chapter=1, boss=False):
-        if type(stage_number) is not int or stage_number not in (1, 2, 3, 4, 5):
-            raise ValueError('Only Stage 1 through Stage 5 combat sessions are supported')
-        if type(chapter) is not int or chapter != 1:
-            raise ValueError('Stage 1 through Stage 5 require Chapter 1')
-        if type(boss) is not bool or boss != (stage_number == 5) or boss != (encounter.pulse is not None):
-            raise ValueError('Playable boss metadata must match the Stage 5 boss encounter')
+        if type(stage_number) is not int or stage_number not in SUPPORTED_STAGES:
+            raise ValueError('Only Stage 1 through Stage 6 combat sessions are supported')
+        definition = StageCatalog.load().get_stage(stage_number)
+        if type(chapter) is not int or chapter != definition.chapter:
+            raise ValueError('Playable chapter metadata must match the stage catalog')
+        if (type(boss) is not bool or boss != definition.boss
+                or boss != (encounter.pulse is not None)):
+            raise ValueError('Playable boss metadata must match the catalog and encounter')
         if (not isinstance(resolver, CombatResolver) or resolver.player is not player
                 or resolver.combat is not combat or resolver.encounter is not encounter
                 or resolver.parry is not parry):
@@ -54,14 +63,14 @@ class StageGame:
 
     @property
     def next_stage_number(self):
-        return None  # Ordinary clears must consume an upgrade through progression.
+        # The progression owner additionally authenticates all four upgrades.
+        return 6 if self.stage_number == 5 and self.state is GameState.BOSS_CLEAR else None
 
     @property
     def restart_stage_number(self):
-        if self.playing or self.state is GameState.UPGRADE:
+        if self.playing or self.state in (GameState.UPGRADE, GameState.DEV_BOUNDARY):
             return None
-        # All supported stages are in Chapter 1. Death retries its first stage.
-        return 1 if self.state is GameState.GAME_OVER else self.stage_number
+        return chapter_first_stage(self.chapter) if self.state is GameState.GAME_OVER else self.stage_number
 
     @property
     def state(self):
@@ -86,7 +95,8 @@ class StageGame:
         if not self.player.alive:
             state = GameState.GAME_OVER
         elif all(not enemy.alive for enemy in self.encounter.enemies):
-            state = GameState.BOSS_CLEAR if self.boss else GameState.UPGRADE
+            state = (GameState.DEV_BOUNDARY if self.stage_number == 6 else
+                     GameState.BOSS_CLEAR if self.boss else GameState.UPGRADE)
         else:
             return False
         self._state = state

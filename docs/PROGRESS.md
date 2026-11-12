@@ -1,5 +1,176 @@
 # CHECKMATE 개발 진행 기록
 
+## Task 1-V — Chapter 2 진입·Stage 6 전투·개발 경계 (2026-11-13)
+
+상태: **구현·자동 검증 및 사용자 Windows GUI12/12 통과. 최종 검수 후 지정18개 파일 커밋·일반 Push 승인**.
+사용량 한도로 중단된 로컬 변경을 검토하고 이어서 수행했다. 시작 HEAD와 origin/main은 모두
+`eb7da8a2cefc5b012be417c7c4ebf28c760a1c23`, 인덱스는 비어 있었다.
+기존 Task 1-U의 CHAPTER_EXPANSION_DESIGN.md와 아래 PROGRESS 기록을 보존한다.
+중단된 전투/진행/UI 코드·기존 기대 갱신·신규 테스트를 재작성하지 않고 검증·보강했다.
+
+### 최종 검수·사용자 GUI 결과 (2026-11-13)
+
+사용자가 Windows 11 실제 게임에서 직접 수행한 수동 검증 결과를 수령했다.
+아래12개 모두 **통과**, 실패0·확인 불가0이다. Python/SDL dummy 자동 결과와 별도 근거다.
+
+1. Chapter 1 기존 진행 — 통과
+2. Stage 5 King·Pulse — 통과
+3. Stage 5 R 재플레이 — 통과
+4. Stage 5 N 챕터 이동 — 통과
+5. Chapter 2 능력치 초기화 — 통과
+6. Chapter 2 숲 테마 — 통과
+7. Stage 6 적 편성 — 통과
+8. Stage 6 전투 — 통과
+9. Stage 6 GAME OVER — 통과
+10. Stage 6 개발 경계 — 통과
+11. 개발 경계 입력 차단 — 통과
+12. 설정·입력·종료 회귀 — 통과
+
+최종 검수에서는 기능 코드·테스트를 추가 수정하지 않았다. GUI 재검증은 요청하지 않는다.
+전체 unittest 재실행888개 통과·실패0·오류0·skip0, 기존846개 AST 보존·신규42개를 재확인했다.
+원본4기를 실제 공격·패링으로 처치하는389틱 테스트와 SDL dummy 통합도 통과했다.
+389틱은 해당 테스트 입력 일정의 결과이며 사람 플레이 권장 시간이나 설계 상수가 아니다.
+일반/-O 정적 검사 각각25개, 변경 Python14개 문법/import, 순수 로직 SDL 독립성 검사를 통과했다.
+U 설계는 남아 있는 재개 전 백업과 바이트 동일하고 U 이후 기존 진행 본문도 보존했다.
+기존 테스트 diff를 검토해 승인된 N/지원 범위 변경 외 핵심 검증 삭제·skip 추가가 없음을 확인했다.
+
+시작 상태는 main, 수정14개·신규4개·인덱스 비어 있음이었다. 일반 fetch는 연결 실패했고
+권한 확장 fetch로 실제 origin/main이 기준 eb7da8a2cefc5b012be417c7c4ebf28c760a1c23임을 확인했다.
+변경 파일18개는 아래 실제 변경 범위와 같으며 U 문서를 포함한다. 원본 JSON/PDF/README/AGENTS/에셋은 유지한다.
+커밋 메시지는 `feat: 챕터 2 진입 및 6스테이지 전투 구현`, 부모는 위 기준 SHA다.
+이 기록을 포함하는 커밋 자체의 SHA는 자기 참조를 피하기 위해 최종 응답에서 보고한다.
+Push 후 실제 원격 main SHA와 로컬 HEAD·18개 커밋 파일·깨끗한 작업 트리를 재조회해 결과를 최종 응답에 기록한다.
+검증 통과 시에만 해당 커밋을 기존 origin/main에 일반 Push하며 이력 재작성은 하지 않는다.
+
+알려진 검수 오류는 없다. 장기 밸런스·모든 PC 환경은 여전히 미검증이다.
+Stage 7~25/Stage 10 보스/Queen/영구 저장·해금/최종 아트·음향은 후속 범위다.
+다음 Task 1-W는 승인 범위에 맞춰 Stage 7~9 연결과 정상 강화 흐름으로의 개발 경계 이동을 검토한다.
+아래 구현·자동 검증·GUI 체크리스트는 이번 최종 결과 수령 전 작성한 기록이다.
+
+### 구현·재개 결과
+
+- `game.py`: 실행 허용 Stage 1~6, 카탈로그 chapter/boss 검증, Stage 5 보스 clear의 N 목적지6,
+  Chapter별 GAME_OVER 재시작 목적지, Stage 6 전멸의 DEV_BOUNDARY와 R/N 차단을 연결했다.
+- `stage_progression.py`: 소유한 전투/Run/세션/원장 검증과 네 Receipt 인증 후 ChapterRun(2)를 준비한다.
+  후보 전투와 입력/보드 준비 성공 후에만 교체·기존 Run retire를 확정한다. 재개 시 후보 Resolver의
+  Player/Combat/Parry/Encounter 연결과 초기 종료/공격 상태 검사도 보강했다.
+- `main.py`: Stage 5 R 강화 유지 재플레이, N 무강화 Stage 6, 새 GameplayInput과 숲 보드 준비,
+  오류 시 기존 화면 유지·재시도 표시, 키 재입력/동일 프레임 전환 격리를 연결했다.
+  Stage 6 GAME_OVER R은 새 무강화 Chapter 2 Run/Stage 6을 만든다.
+- `game_renderer.py`: 보스 R/N 안내, 개발 경계 표시, Stage 6 재시작 안내와 준비 실패 문구를 표시한다.
+  개발 경계는 STAGE 6 CLEAR / CHAPTER 2 DEVELOPMENT / STAGE 7 NOT AVAILABLE이며 R/N 안내가 없다.
+- Stage 6은 JSON의 Player(5,1), Pawn(1,6)/(8,6)/(3,8), Rook(2,4)를 그대로 생성한다.
+  HP2/2/2/4, 초기 지연48/62/75/88틱, 기존 Pawn/Rook AI·실제 피해·패링을 사용한다.
+  플레이어는 HP3/피해1/이동18틱이며 Chapter 1 강화·공격/패링·무적·보상을 이월하지 않는다.
+- 기존 Chapter 2 Ancient Forest 팔레트를 재사용한다. 보드 크기/좌표와 기존 에셋을 변경하지 않았다.
+  개발 경계에서 Offer/Receipt 호출·소비·전투/R/N은 차단하고 SETTINGS/F11/ESC/X를 유지한다.
+- Stage 7~25 실제 생성은 계속 거절한다. JSON25개, ChapterRun 순수 모델, 강화 수치,
+  Stage 1~5 전투·King Pulse 규칙·최종25스테이지 목표는 유지한다. 저장·영구 해금을 추가하지 않았다.
+- DECISIONS/GAME_DESIGN에 최신 V 정책을 기록했다. 과거 N 차단 기록은 당시 이력으로 보존한다.
+
+### 실제 자동 검증
+
+- 시작 상태의 전체 테스트는882개 통과했다. 중단 작업에 이미 추가돼 있던36개를 보존하고 재개 시6개를 보강했다.
+- 최종 `.\.venv\Scripts\python.exe -m unittest discover -s tests -v`:
+  **888개 통과, 실패0·오류0·skip0** (28.333초).
+- 기준 커밋의 테스트 메서드를 파일/클래스/이름으로 AST 비교:
+  **기존846개 모두 보존, 신규42개, 누락0개**. 승인 변경으로 Stage 6 차단/보스 N 차단 기대만 갱신했다.
+  과거 이름이 남은 메서드도 삭제·비활성화하지 않았다.
+- 신규3개 테스트 파일에서 Stage 5→6/네 강화 초기화/새 소유자·ID/중복 진입 차단,
+  Run·전투·입력·보드 준비 실패 원자성, 재시도·R 대안, Stage 6 GAME_OVER 재시작을 검증했다.
+  재개 시 후보 Resolver 연결 오류, Run 생성 실패, 재시작 입력 준비 실패도 추가로 검증했다.
+- 실제 main의 원본 Stage 6 Rook은160틱 예고→208틱 적중,201틱 패링 입력으로 perfect가 된다.
+  1틱/8틱 프레임의 전투 결과가 일치한다. 별도 테스트 드라이버는 원본4기를 실제 이동 간격·공격 쿨타임·
+  피해 처리·패링으로 처치하고 **389틱/HP3에 DEV_BOUNDARY** 도달을 확인했다. 적 HP/위치·지연을 조작하지 않았다.
+- 개발 경계에서 Offer 발행/select 호출0회·Receipt0개, 전투 시간 정지·잔여 공격 취소,
+  R/N 차단, ESC/X 종료, 지원되지 않는7~25 차단을 확인했다.
+- SDL_VIDEODRIVER=dummy의 실제 SDL/Pico2D 이벤트·렌더 통합 테스트에서
+  Stage 1~4 네 강화→Stage 5 R→N→숲 Stage 6→GAME_OVER R→DEV_BOUNDARY,
+  SETTINGS/F11/포커스/키 반복/창 종료를 검증했다. 기존 SDL 회귀도 전체 테스트에 포함돼 통과했다.
+  종료 전투를 만드는 통합 fixture와 실제 적 처치 전투 테스트는 서로 다른 검증이다.
+- `.\.venv\Scripts\python.exe validate_stage_data.py`:25개 통과.
+- `.\.venv\Scripts\python.exe -O validate_stage_data.py`:25개 통과.
+- 변경/신규 Python14개 py_compile·import 통과, `git diff --check` 통과.
+  Git의 LF→CRLF 안내는 있으나 공백 오류는 없다.
+- CHAPTER_EXPANSION_DESIGN.md는 재개 전 스냅샷과 바이트 동일,
+  아래 Task 1-U 및 기존 진행 기록도 재개 전 본문 그대로 보존한다.
+
+### 실제 변경 범위와 남은 검증
+
+- 기능4개: `game.py`, `game_renderer.py`, `main.py`, `stage_progression.py`.
+- 기존 테스트7개: `test_chapter_run.py`, `test_king_combat.py`, `test_stage_five.py`,
+  `test_stage_four.py`, `test_stage_three.py`, `test_stage_transition.py`, `test_upgrade_sdl.py`.
+- 신규 테스트3개: `test_chapter_two_entry.py`, `test_stage_six.py`, `test_stage_six_sdl.py`.
+- 문서 수정3개: `DECISIONS.md`, `GAME_DESIGN.md`, `PROGRESS.md`.
+  기존 U의 미추적 `CHAPTER_EXPANSION_DESIGN.md`는 보존만 했다. 합계14개 수정·4개 미추적이다.
+- 알려진 자동 테스트 오류는 없다. Windows 데스크톱 실제 입력/가독성/전체화면 복원/장기 밸런스는 미검증이다.
+  기존 Task 1-T GUI20/20을 이번 V의 GUI 통과로 간주하지 않는다. 아래 체크리스트 결과를 받은 후 후속 Git 작업을 판단한다.
+  main/HEAD/origin/main 기준 유지, 인덱스 비어 있음. 스테이징·커밋·Push를 수행하지 않았다.
+
+### 사용자 Windows GUI 체크리스트 (최종 결과 수령 전 작성 이력)
+
+실행: 프로젝트 폴더에서 `.\.venv\Scripts\python.exe main.py`.
+
+1. Stage 1~4에서 이동/공격/일반·perfect 패링·HP가 정상이고 UPGRADE에서 숫자/마우스로 한 번씩 선택되는지 확인한다.
+2. 강화 중 R/N 차단, MAX 비활성화, 공격·HP·이동 효과가 Stage 2~5로 전달되는지 확인한다.
+3. Stage 5 King Pulse의100칸 경고·피해/패링·일반 적 정지/재개가 유지되는지 확인한다.
+4. Stage 5 전멸 BOSS CLEAR에서 R: 네 번 강화 유지·최대 HP 회복·Stage 5 새 전투를 확인한다.
+5. 재전멸 후 N: 숲 보드 Stage 6, HP3/피해1/기본 이동, Pawn3/Rook1과 새 시작 위치를 확인한다.
+6. N/R/SPACE/Shift/방향키를 누른 채 전환할 때 자동 연속 전환·유령 이동/공격/패링이 없는지 확인한다.
+7. Stage 6에서 Pawn/Rook의 이동·경고 범위·피해·회피·일반/perfect 패링·처치가 정상인지 확인한다.
+8. Stage 6 GAME_OVER 후 R: 숲 Stage 6·무강화·HP3·적4기와 새 전투로 재시작하는지 확인한다.
+9. Stage 6 전멸: 개발 경계 세 문구, 강화 카드 없음, R/N/숫자/전투 입력으로 진행되지 않음을 확인한다.
+10. 보스 종료/Stage 6 전투/개발 경계에서 SETTINGS 열기·닫기와 포커스 이탈/복귀가 정상인지 확인한다.
+11. 개발 경계의 F11 전체화면/창 복원·비율/레터박스·마우스 선택이 정상인지 확인한다.
+12. 메뉴 ESC는 닫기, 메뉴 밖 ESC와 창 X는 정상 종료하는지 각각 확인한다.
+
+## Task 1-U — Chapter 2~5 확장 공통 구조 분석·구현 설계
+
+상태: **분석·설계 완료. 기능 구현 없음, 스테이징·커밋·Push 없음**.
+시작 main 작업 트리와 인덱스는 깨끗했고 HEAD는 `eb7da8a2cefc5b012be417c7c4ebf28c760a1c23`이었다.
+일반 네트워크 fetch 실패 후 권한 확장 재조회가 성공했으며 origin/main도 기준 SHA와 같았다.
+기존 Task 1-R/S/T 기록과 사용자 Windows GUI20/20 이력을 보존했다. 이번에는 GUI를 새로 실행하지 않았다.
+
+### 실제 분석과 결과
+
+- 신규 [CHAPTER_EXPANSION_DESIGN.md](CHAPTER_EXPANSION_DESIGN.md)에 원본 근거/현재 승인·구현/기술 제안/승인 필요 항목을 구분했다.
+- AGENTS, GAME_DESIGN, DECISIONS, PROGRESS, 강화/King 설계, ART_DIRECTION, ASSET_PLAN, README,
+  요청된 실제 소스와 관련 테스트를 확인했다. 원장은 enemy_attack.py의 EnemyAttackLedger이며 별도 ledger/save 모듈은 없다.
+- 원본 게임기획서34쪽의 페이지 트리 이미지를 임시 폴더에 추출해 직접 확인했다.
+  p.15/18 Queen, p.16~18 공통 King/Pulse, p.19~20 강화/재도전, p.21~25 편성,
+  p.26~27 상태/저장·해금/최종 완료와 p.30~31/33 개발·검증 기준을 설계에 페이지 번호로 기록했다.
+  원본 SHA256은 `09008eea37f0fdadb4eb86ecf1a52a56e901a33316dd02eed92dbda663f79d06`로 유지했다.
+- JSON25개 전수 조사: 각5전/보스5·10·15·20·25, HP8/10/12/14/16, Player(5,1),
+  133기 구성·좌표·순서별 지연을 표로 기록했다. 기존 AI 재료는1~12/16/17/23,
+  Queen 필요13/14/15/18/19/20/21/22/24/25다. 적 생성 가능과 실제 플레이 가능을 구분했다.
+- Chapter2의6~10은 Queen 없이 구성된다. 6~9는 기존 AI를 재사용할 수 있으나10은 보스 정책·혼합 전투 검증이 필요하다.
+  공통 King/Pulse 재사용만으로 챕터별 보스 차별화·공모전 품질이 완성됐다고 하지 않는다.
+- 현재 실행 제한은 main/Game/flow 목적지1·5/보드chapter1에 나뉜다. ChapterRun은 이미5챕터를 모델링하므로 재작성하지 않는다.
+  catalog 조회·검증된 실행 허용 목록·사용자 해금 권한을 분리하고 새 전투/input/theme를 먼저 준비한 뒤 run을 교체하도록 제안했다.
+- V에서6만 열면6 전멸 후 후보7, W에서9 전멸 후 후보10이 차단되어 강화 선택을 확정할 수 없는 개발 경계를 명시했다.
+  V/W의 독립 개발 검증과 X까지 연결한 사용자 공개 완료를 구분한다. 가짜 전투나 기존 단일 소비 우회를 제안하지 않는다.
+- 저장은 원본4필드의 영구 진행만 분리하고 전투/강화는 저장하지 않는다. 원자 쓰기·버전·오류 복구·미지원 챕터 복구·중복 완료를 설계했다.
+  Queen 정지형 광선 계획, 기존 이동 계획 취소/완료 분기의 충돌, Pulse 정지·복원 연동 지점을 확인했다.
+- 기술 위험10개를 근거/조건/증상/가능성·영향/P0~P2/현재 방어·추가 테스트·시점으로 분류했다.
+  V/W/X→저장·해금→11~12→Queen→후반 챕터→엔딩→전체 QA 계획과 작업량·수용 기준을 기록했다.
+  저장은 V 개발 smoke 뒤라도 Chapter2의 영구 진행 공개 완료 전 통합하는 안을 권장한다.
+- 새 챕터 진입 UI/개발 경계/Stage10 Pulse·최종 차별화/저장 UX·순서/Queen 예외·엔딩 조작은 승인 필요로 남겼다.
+  기존 UPGRADE R/N 차단·Stage5 보스 R 강화 유지·강화 수치 등 승인 규칙을 미확정으로 되돌리지 않았다.
+
+### 이번 실제 검증과 변경 범위
+
+- `.\.venv\Scripts\python.exe -m unittest discover -s tests -v`: **846개 통과, 실패0·skip0**.
+- `.\.venv\Scripts\python.exe validate_stage_data.py`: **25개 통과**.
+- `.\.venv\Scripts\python.exe -O validate_stage_data.py`: **25개 통과**.
+- `git diff --check` 및 신규 문서 포함 공백/링크/변경 범위 검사 통과. 기존846개 테스트 파일·메서드와 기능 소스는 변경하지 않았다.
+- 사용자 Windows GUI20/20은 Task 1-T의 기존 수동 근거다. 위 Python/SDL dummy를 포함한 자동 회귀와 구분한다.
+  이번 분석으로 Stage6 실행/전체25 완주/장기 밸런스가 검증된 것은 아니다.
+- 실제 변경2개: 신규 `docs/CHAPTER_EXPANSION_DESIGN.md`, 수정 `docs/PROGRESS.md`.
+  코드·테스트·AGENTS·GAME_DESIGN·DECISIONS·원본 JSON/PDF/README·에셋은 보존했다.
+  인덱스 비어 있음, HEAD/원격 기준 유지, 커밋·Push 없음.
+- 다음 권장 작업: 설계14/15절의 V 진입·개발 경계 정책 확인 후 Stage6만 허용하는 최소 공통 구조 확장.
+  Stage10 정책/저장 통합 일정도 W/X 전에 확정한다. 이번에는 후속 구현을 시작하지 않는다.
+
 ## Task 1-T — 강화 카드 UI·실제 Stage 1~5 진행 연동 (2026-11-12)
 
 상태: **구현·자동 검증 및 사용자 Windows GUI20/20 통과. 최종 검수 후 지정30개 파일 커밋·일반 Push 승인**.
