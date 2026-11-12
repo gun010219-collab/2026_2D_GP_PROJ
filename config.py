@@ -53,6 +53,12 @@ BISHOP_TELEGRAPH_SECONDS = 1.80
 BISHOP_RECOVERY_SECONDS = 4.00
 BISHOP_ATTACK_DAMAGE = 1
 
+# King melee baseline: PDF p.16/p.18; movement interval approved 2026-11-12.
+KING_MOVE_INTERVAL_SECONDS = 1.20
+KING_TELEGRAPH_SECONDS = 0.80
+KING_RECOVERY_SECONDS = 1.50
+KING_ATTACK_DAMAGE = 1
+
 # Task 1-F initial PDF baselines, not final approved combat balance.
 # Game design PDF p.6 (player/damage/invulnerability), p.11 (Pawn HP).
 PLAYER_INITIAL_HP = 3

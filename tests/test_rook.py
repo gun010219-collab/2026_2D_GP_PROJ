@@ -70,12 +70,12 @@ class RookDataTests(unittest.TestCase):
 
     def test_unsupported_pieces_are_never_skipped_or_replaced(self):
         catalog = StageCatalog.load()
-        for kind in ('queen', 'king'):
+        for kind in ('queen',):
             definition = next(e for s in catalog.stages for e in s.enemies if e.kind == kind)
             with self.subTest(kind=kind), self.assertRaisesRegex(UnsupportedEnemyError, kind):
                 create_enemy(definition)
         with self.assertRaises(UnsupportedEnemyError):
-            create_stage_enemies(catalog.get_stage(5))
+            create_stage_enemies(catalog.get_stage(15))
 
     def test_factory_rejects_wrong_object_and_unknown_options(self):
         with self.assertRaises(TypeError):

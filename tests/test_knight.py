@@ -59,9 +59,9 @@ class KnightDefinitionTests(unittest.TestCase):
         self.assertTrue({e.entity_instance_id for e in first}.isdisjoint(e.entity_instance_id for e in second))
         self.assertFalse(hasattr(stage.enemies[0], 'health'))
 
-    def test_queen_king_and_unknown_knight_options_are_still_rejected(self):
+    def test_queen_and_unknown_knight_options_are_still_rejected(self):
         catalog = StageCatalog.load()
-        for kind in ('queen', 'king'):
+        for kind in ('queen',):
             definition = next(e for s in catalog.stages for e in s.enemies if e.kind == kind)
             with self.subTest(kind=kind), self.assertRaises(UnsupportedEnemyError):
                 create_enemy(definition)

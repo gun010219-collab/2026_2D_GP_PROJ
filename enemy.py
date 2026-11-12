@@ -1,5 +1,5 @@
-"""Pawn/Rook/Knight/Bishop live model and legacy Stage 1 loading."""
-from dataclasses import dataclass, field
+"""Supported live enemies and legacy Stage 1 loading; no graphics."""
+from dataclasses import InitVar, dataclass, field
 import json
 from math import isfinite
 from pathlib import Path
@@ -20,15 +20,16 @@ class Enemy:
     initial_delay: float
     entity_instance_id: str = field(default_factory=lambda: uuid4().hex)
     kind: str = field(default='pawn', kw_only=True)
+    boss_hp: InitVar[int | None] = field(default=None, kw_only=True)
     state: str = field(default='initial_wait', init=False)
     next_action_tick: int = field(default=0, init=False)
     stun_until_tick: int = field(default=0, init=False)
     current_attack: object = field(default=None, init=False, repr=False)
     health: Health = field(init=False)
 
-    def __post_init__(self):
-        if self.kind not in ('pawn', 'rook', 'knight', 'bishop'):
-            raise ValueError('Only Pawn, Rook, Knight and Bishop combat instances are supported')
+    def __post_init__(self, boss_hp):
+        if self.kind not in ('pawn', 'rook', 'knight', 'bishop', 'king'):
+            raise ValueError('Only Pawn, Rook, Knight, Bishop and King combat instances are supported')
         label = self.kind.title()
         if not isinstance(self.data_id, str) or not self.data_id.strip():
             raise ValueError(f'{label} data ID must be a nonempty string')
@@ -46,8 +47,15 @@ class Enemy:
         if (type(self.initial_delay) not in (int, float) or not isfinite(self.initial_delay)
                 or not 0 <= self.initial_delay <= 10):
             raise ValueError(f'{label} initial_delay must be finite and between 0 and 10 seconds')
-        self.health = Health({'pawn': PAWN_INITIAL_HP, 'rook': ROOK_INITIAL_HP,
-                              'knight': KNIGHT_INITIAL_HP, 'bishop': BISHOP_INITIAL_HP}[self.kind])
+        if self.kind == 'king':
+            if type(boss_hp) is not int or boss_hp <= 0:
+                raise ValueError('King requires an explicit positive integer boss_hp')
+            self.health = Health(boss_hp)
+        else:
+            if boss_hp is not None:
+                raise ValueError('boss_hp is only valid for a King')
+            self.health = Health({'pawn': PAWN_INITIAL_HP, 'rook': ROOK_INITIAL_HP,
+                                  'knight': KNIGHT_INITIAL_HP, 'bishop': BISHOP_INITIAL_HP}[self.kind])
 
     @property
     def position(self):

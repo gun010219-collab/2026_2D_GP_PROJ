@@ -1,4 +1,4 @@
-"""Shared tick/ledger lifecycle for Pawn/Rook/Knight/Bishop actions."""
+"""Shared tick/ledger lifecycle for supported enemies, including King melee."""
 from board import in_bounds
 from combat import _duration_ticks
 from config import (
@@ -7,12 +7,14 @@ from config import (
     ROOK_RECOVERY_SECONDS, ROOK_TELEGRAPH_SECONDS,
     KNIGHT_RECOVERY_SECONDS, KNIGHT_TELEGRAPH_SECONDS,
     BISHOP_RECOVERY_SECONDS, BISHOP_TELEGRAPH_SECONDS,
+    KING_MOVE_INTERVAL_SECONDS, KING_RECOVERY_SECONDS, KING_TELEGRAPH_SECONDS,
 )
 from enemy import Enemy
 from enemy_attack import EnemyAttackLedger
 from rook_behavior import attack_path, choose_move
 from knight_behavior import choose_landing
 from bishop_behavior import color_targets
+from king_behavior import choose_move as choose_king_move, melee_target
 
 
 # Stable tie order; movement does not change the JSON attack-facing vector.
@@ -23,8 +25,8 @@ class EnemyEncounter:
     def __init__(self, enemies, start_tick=0, combat_session_id=None, stage_instance_id=None):
         self._validate_tick(start_tick)
         self.enemies = tuple(enemies)
-        if any(not isinstance(e, Enemy) or e.kind not in ('pawn', 'rook', 'knight', 'bishop') for e in self.enemies):
-            raise ValueError('Encounter supports live Pawn/Rook/Knight/Bishop instances only')
+        if any(not isinstance(e, Enemy) or e.kind not in ('pawn', 'rook', 'knight', 'bishop', 'king') for e in self.enemies):
+            raise ValueError('Encounter supports live Pawn/Rook/Knight/Bishop/King instances only')
         self.ledger = EnemyAttackLedger(combat_session_id, stage_instance_id)
         self.move_ticks = _duration_ticks(PAWN_MOVE_INTERVAL_SECONDS)
         self.telegraph_ticks = _duration_ticks(PAWN_TELEGRAPH_SECONDS)
@@ -36,10 +38,13 @@ class EnemyEncounter:
         self.knight_recovery_ticks = _duration_ticks(KNIGHT_RECOVERY_SECONDS)
         self.bishop_telegraph_ticks = _duration_ticks(BISHOP_TELEGRAPH_SECONDS)
         self.bishop_recovery_ticks = _duration_ticks(BISHOP_RECOVERY_SECONDS)
+        self.king_move_ticks = _duration_ticks(KING_MOVE_INTERVAL_SECONDS)
+        self.king_telegraph_ticks = _duration_ticks(KING_TELEGRAPH_SECONDS)
+        self.king_recovery_ticks = _duration_ticks(KING_RECOVERY_SECONDS)
         self.tick = start_tick - 1
         self._movement_history = {}
         self._attack_moves = {}
-        # Live non-Pawn plans share one store; a Bishop's plan never moves it.
+        # Live non-Pawn plans share one store, including stationary attacks.
         # Only the last release per color is needed, not another event ledger.
         self._bishop_closed_tick = {}
         if len({e.entity_instance_id for e in self.enemies}) != len(self.enemies):
@@ -70,7 +75,8 @@ class EnemyEncounter:
 
     def _recovery_ticks(self, enemy):
         return {'pawn': self.recovery_ticks, 'rook': self.rook_recovery_ticks,
-                'knight': self.knight_recovery_ticks, 'bishop': self.bishop_recovery_ticks}[enemy.kind]
+                'knight': self.knight_recovery_ticks, 'bishop': self.bishop_recovery_ticks,
+                'king': self.king_recovery_ticks}[enemy.kind]
 
     def _choose_move(self, enemy, player_cell):
         """Greedy one-cell pursuit with bounded memory, not a pathfinder.
@@ -154,6 +160,9 @@ class EnemyEncounter:
                 if enemy.kind == 'bishop':
                     self._begin_bishop_action(enemy, now)
                     continue
+                if enemy.kind == 'king':
+                    self._begin_king_action(enemy, player_cell, now)
+                    continue
                 # A single ready-action reservation: attack takes priority over moving.
                 col, row = enemy.position
                 forward_col, forward_row = col + enemy.forward[0], row + enemy.forward[1]
@@ -172,6 +181,20 @@ class EnemyEncounter:
             self._cancel_obstructed_moves(now)
         self.tick = tick
         return tuple(event for event in due if self.ledger.state(event) == 'due')
+
+    def _begin_king_action(self, enemy, player_cell, tick):
+        target = melee_target(enemy.position, player_cell)
+        if target is not None:
+            enemy.current_attack = self.ledger.create(
+                enemy.entity_instance_id, tick, tick + self.king_telegraph_ticks, (target,))
+            self._attack_moves[enemy.current_attack.key] = (enemy.current_attack, enemy, enemy.position)
+            enemy.state = 'telegraph'
+            enemy.next_action_tick = enemy.current_attack.hit_tick
+        else:
+            enemy.col, enemy.row = choose_king_move(
+                enemy.position, player_cell, self.occupied_cells - {enemy.position})
+            enemy.state = 'waiting'
+            enemy.next_action_tick = tick + self.king_move_ticks
 
     def _begin_rook_action(self, enemy, player_cell, tick):
         occupied = self.occupied_cells - {enemy.position}
@@ -225,8 +248,8 @@ class EnemyEncounter:
         Rook checks its whole path; Knight checks its single landing only.
         """
         for event, source, origin in tuple(self._attack_moves.values()):
-            if source.kind == 'bishop':
-                continue  # No ray/movement path; all 50 squares stay targeted.
+            if source.kind in ('bishop', 'king'):
+                continue  # Stationary attacks have no movement path to obstruct.
             if self.ledger.state(event) not in ('telegraph', 'due'):
                 continue
             occupied = self.occupied_cells - {source.position}
@@ -242,10 +265,10 @@ class EnemyEncounter:
         """Verify a non-Pawn attack has an actual AI-issued plan, not just an ID."""
         source = next((e for e in self.enemies
                        if e.entity_instance_id == event.source_entity_instance_id), None)
-        if source is not None and source.kind in ('rook', 'knight', 'bishop'):
+        if source is not None and source.kind in ('rook', 'knight', 'bishop', 'king'):
             plan = self._attack_moves.get(event.key)
             if plan is None or plan[0] != event or plan[1] is not source:
-                action = {'rook': 'dash', 'knight': 'jump', 'bishop': 'color attack'}[source.kind]
+                action = {'rook': 'dash', 'knight': 'jump', 'bishop': 'color attack', 'king': 'melee'}[source.kind]
                 raise ValueError(f'{source.kind.title()} attack has no matching live {action} plan')
             self._cancel_obstructed_moves(self.tick)
         return self.ledger.state(event) == 'due'
@@ -270,6 +293,8 @@ class EnemyEncounter:
         if source.kind == 'bishop':
             self._bishop_closed_tick[sum(origin) % 2] = self.tick
             return False  # Stationary even on hit, miss, invulnerability or parry.
+        if source.kind == 'king':
+            return False  # Melee never moves and grants no Pulse-specific effect.
         if (state != 'resolved' or event.hit_tick != self.tick
                 or self.ledger.outcome(event) not in ('hit', 'miss', 'invulnerable', 'parried_normal')
                 or not source.active or source.state == 'stunned' or source.position != origin):

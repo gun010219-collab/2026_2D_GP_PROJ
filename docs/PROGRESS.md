@@ -1,5 +1,114 @@
 # CHECKMATE 개발 진행 기록
 
+## Task 1-P — King 기본 AI·보스 HP·공통 근접 전투 (2026-11-12)
+
+상태: **기본 전투 구현·자동 테스트725개 및 사용자 Windows GUI 회귀12/12 통과, 최종 검수 통과**.
+구현 및 최종 마무리 시작 main HEAD는 `7f79260e6b2683f19b4b9a3cadbe12d510c072f4`다.
+시작 시 Task 1-O의 미커밋 PROGRESS 수정과 신규 STAGE_5_KING_DESIGN.md가 있었고 모두 보존했다.
+Task 1-O 설계 1~12절과 아래 당시 진행 기록은 이력으로 유지하며, 설계 13절에 최신 승인과 구현 상태를 추가했다.
+
+### 근거·승인·실제 구현
+
+- 사용자 최종 승인 7개를 DECISIONS와 King 설계 13절에 B로 기록했다. 이동72틱/인접 한 칸 고정 근접은 구현했다.
+  Pulse240틱부터 사용 가능·DRAINING→전용→정리·King 사망 시 일반 적 다음 틱 재개·전멸 BOSS CLEAR/N 무효/R Stage 5와
+  HP 기반 페이즈 미도입은 승인된 정책이다. Pulse/복원/보스 UI·진입은 이번 구현 완료로 표시하지 않는다.
+  과거 R3의 최초48틱 제안 및 R5의 중도 사망 후30틱 제안은 최신 승인으로 대체됐음을 명시했다.
+- 원본 p.16의8방향 한 칸, p.16/18의 근접 예고48틱/회복90틱, p.6의 피해1을 초기 기준선으로 적용했다.
+  이동 주기72틱과 인접 플레이어 한 칸 표적은 사용자 승인이다. 최종 장기 밸런스 확정은 아니다.
+- 새 king_behavior는 순수 Python으로8방향 합법 후보·인접 공격을 계산한다. 플레이어/활성 적/경계 충돌을 제외하고
+  Chebyshev 최소 거리·고정 방향 동률 순서를 사용한다. 막히면72틱 뒤 재시도하며 최단 경로 보장은 없다.
+- StageDefinition.boss_hp를 King 실제 Health에 전달한다. Stage 5의 King8/Rook4/Pawn2/Pawn2,
+  원본 순서·좌표·지연48/62/75/88틱을 보존한다. King 기본 HP8을 고정하지 않았으며 다섯 보스 정의 HP8/10/12/14/16을 검증했다.
+  누락/잘못된 boss HP·boss 메타데이터는 명확히 거절한다. Queen 포함 전체 배치 생성은 계속 미지원 오류다.
+- 기존 Enemy/Encounter/CombatResolver/Health/AttackLedger/Parry의 시계·JSON 순서·48틱 무적·단일 소비를 재사용한다.
+  근접 한 칸 스냅샷은 H=S+48에만 판정하고, 정상 회복 `[H,H+90)` 후 행동한다. King은 공격 때 이동하지 않는다.
+  사망/기절/종료 시 남은 근접 취소, King 먼저 사망 시 잔여 일반 적 계속 행동을 검증했다.
+- 일반 패링은 피해 무효만, 근접 perfect는 해당 King60틱 기절·공격 쿨타임 초기화·다음 공격+2 비중첩/미스 소비다.
+  **Pulse 전용 King 즉시2피해는 근접에 적용하지 않는다.** 별도 피해 원장·전투 시계·Pulse 상태는 만들지 않았다.
+- 왕관/붉은 보석 임시 실루엣, 기존 실제 HP/한 칸 경고/피격·패링 결과를 렌더링한다. 반복 렌더가 상태를 변경하지 않는다.
+  실제 Pico2D/SDL dummy 비표시 렌더·근접 perfect를 자동 검사했으며 사용자 Windows 플레이 검증과 구분한다.
+
+### 실제 변경 파일 — 16개 (Task 1-O 이월 문서 포함)
+
+- 기존 코드6개: config.py, enemy.py, enemy_factory.py, enemy_behaviors.py, combat_resolution.py, enemy_renderer.py.
+- 신규 코드1개: king_behavior.py.
+- 기존 테스트3개: tests/test_rook.py, tests/test_knight.py, tests/test_bishop.py.
+  King 지원에 따라 미지원 기대를 Queen으로 갱신했다. 테스트 삭제/비활성화는 없고 두 메서드 이름을 이에 맞춰 변경했다.
+- 신규 테스트2개: tests/test_king.py, tests/test_king_combat.py (신규40개).
+- 문서4개: docs/STAGE_5_KING_DESIGN.md(이월 신규), docs/DECISIONS.md, docs/GAME_DESIGN.md, docs/PROGRESS.md.
+
+### 실행 검증 결과
+
+최종 마무리에서도 전체 unittest725개, 일반/`-O` 스테이지25개 검사, 변경 Python12개 문법·import,
+순수 논리의 Pico2D/SDL 미로딩 및 기존685개 테스트 메서드 보존(AST 대조)을 재검증해 모두 통과했다.
+Pawn/Rook/Knight/Bishop과 Stage 1~4 회귀를 포함하며 기존 테스트 삭제·비활성화는 없다.
+
+- 변경 전685개 통과, 확장 후 전체 `unittest discover -s tests -v` **725개 통과**.
+  기존685개 메서드 보존도 기준 커밋 AST와 대조했다(미지원 기대를 갱신한 두 이름만 대응).
+  Pawn601틱/Rook 경로 차단·90틱 회복/Knight36·72틱/Bishop50칸·108·240틱/반대색 조정과
+  Stage 1~4 진행·재시작·입력·SETTINGS/F11/포커스/ESC/X 회귀를 포함한다.
+- King 신규40개: HP/factory/읽기 전용 데이터/8방향 경계·점유/48틱 초기 지연·72틱 이동/48·90틱 근접,
+  delta0/1/7/8/18/19 패링/60틱 기절·반격/48틱 무적/동일 틱5종 판정/사망·취소·외부 세션/렌더 무변경·SDL dummy.
+- `validate_stage_data.py` 및 `python -O validate_stage_data.py`: **25개 스테이지 모두 통과**.
+- 변경 Python12개 `-W error -m py_compile` 및 import 통과. 순수 논리 모듈 import 시 Pico2D/SDL 미로딩 확인.
+- Git 공백 검사 통과. 원본 JSON/PDF 두 개 SHA256은 Task 1-O 확인값과 같고 README/에셋도 Git 변경이 없다.
+  Task 1-O 문서 기존 본문과 진행 기록을 백업과 비교해 보존 확인했다.
+
+### 사용자 Windows GUI 12/12 통과·최종 마무리·다음 범위
+
+현재 main 플레이는 **Stage 1~4 그대로**다. main._new_stage_game(5)/StageGame5 거절,
+Stage 4 클리어 N 무효를 자동 테스트로 유지했다. King은 정의→실제 혼합 전투 객체와 자동 렌더까지만 지원한다.
+사용자가 Windows 11에서 다음 기존 Stage 1~4 GUI 회귀 **12/12 전부 통과**를 보고했다(2026-11-12).
+이 결과는 사용자 수동 검증이며 이전 Task 1-N 결과나 자동 SDL dummy 결과와 구분한다.
+
+1. Stage 1 시작·기본 조작
+2. Stage 1 Pawn 전투
+3. 일반·퍼펙트 패링
+4. Stage 1→2 진행
+5. Stage 2 Rook 전투
+6. Stage 2→3 진행
+7. Stage 3 Knight 전투
+8. Stage 3→4 진행
+9. Stage 4 Bishop 전투
+10. Stage 4 혼합 전투·종료
+11. 게임 오버·반복 입력
+12. SETTINGS·F11·포커스·종료
+
+최종 마무리에서는 기존 구현·테스트를 수정하지 않고 문서의 GUI 대기 상태만 갱신했다.
+동일 GUI 회귀를 다시 요청하지 않으며 King Windows 플레이는 Task 1-Q 연결 후 검증한다.
+시작 Git 상태는 main, 수정12개·신규4개·스테이징0개이며 HEAD와 fetch 후 origin/main은 모두
+`7f79260e6b2683f19b4b9a3cadbe12d510c072f4`다. 원격 fetch 성공을 확인했다.
+사용자는 전체 검증 통과 후 정확히16개 파일을 `feat: implement king basic AI and combat`로 커밋하고
+기존 GitHub main에 일반 Push하도록 승인했다. 최종 SHA와 Push/작업 트리 결과는 완료 보고에서 확인한다.
+main.py/game.py/입력 루프와 원본 데이터/아트는 변경하지 않았다.
+Task 1-Q는 Pulse100칸·120틱 예고·480틱 재사용,240틱 이후 준비, DRAINING/일반 적 타이머 정지·복원,
+Pulse perfect 즉시2피해/30틱 정리/King 사망 해제, Stage 5 실제 진입·BOSS CLEAR·N/R 및 Windows 보스 GUI다.
+8틱/프레임 상한·원장 증가·DPI/다중 모니터·장기 밸런스·즉시 이동 연출/King 추적의 최단 경로 미보장은 미해결이다.
+Queen·Stage 6 이후·최종 강화/저장/해금/아트/음향과 전체25스테이지 QA는 별도 후속 작업이다.
+
+## Task 1-O — Stage 5 King 원본 분석·구현 검토안 (2026-11-12)
+
+상태: **분석 문서 작성, 핵심 정책 사용자 검토 대기**. King/Stage 5를 구현하지 않았다.
+시작 main HEAD는 `7f79260e6b2683f19b4b9a3cadbe12d510c072f4`이며 작업 트리는 깨끗했다.
+게임 코드·기존 테스트·원본 JSON/PDF/README/에셋과 Stage 1~4/N/R 동작은 변경하지 않는다.
+
+- 신규 문서: [STAGE_5_KING_DESIGN.md](STAGE_5_KING_DESIGN.md).
+- 실제 원본 PDF p.6~10/16~18/19~27/29~34를 확인해 근거 A/기존 승인 B/기술 제안 C/새 기획 승인 D를 구분했다.
+  요청된 docs/ROADMAP.md는 작업 공간에서 찾지 못했으며, 없는 내용을 추정하거나 일반 로드맵을 새로 만들지 않았다.
+- 원문은 King8방향 인접 이동/근접48틱 예고·90틱 회복, 전체100칸120틱 예고·피해1·완료 후480틱 재사용,
+  전체판 perfect의 즉시2피해+기본 보상, 기존 공격 종료 대기→전용 구간→30틱 정리 후 일반 적 재개를 명시한다.
+  King이 먼저 죽어도 잔여 적 전멸이 필요하고, 보스 클리어 뒤 추가 강화는 없다.
+- 이동 주기/근접 범위/첫 Pulse·행동 우선순위/정지·중단 경계/중간 버전 클리어 입력은 검토 대상으로 남겼다.
+  HP 기반 페이즈는 원문에 없으며 개발 로드맵의 Phase를 보스 페이즈로 해석하지 않는다.
+- 권장 기술안은 기존 이벤트를 원래 hit_tick에 끝낸 후 새 Pulse를 생성하고, 다른 적의 남은 deadline만 보존·복원하는 방식이다.
+  단일 Combat.tick과 불변 공격/ParryBinding을 유지하는 안이며, 승인 또는 구현 완료 상태가 아니다.
+- Stage 5 원본 데이터와 boss_hp8, 다섯 보스 HP8/10/12/14/16을 직접 조회했다.
+  현재 Enemy/factory는 King을, main은Stage 5를 명시적으로 거절한다. 실제 플레이 범위는 Stage 1~4다.
+- 이번 작업에서 기존 unittest685개와25개 일반/`-O` 정적 검사를 실행해 모두 통과했다.
+  새 King 단위/통합/GUI 테스트는 계획만 작성했다. 미래 테스트를 현재 통과 수에 포함하지 않는다.
+- 구현 단계별 예상 파일/통과 기준/동일 틱·타이머/보상·보스 클리어/다섯 보스 공통 경계와 위험을 문서화했다.
+  사용자 문서 검토 전 커밋·Push는 보류한다. 다음 작업은 검토안 R1~R7의 핵심 결정 확인 후 작은 King 구현 단계다.
+
 ## Task 1-N — Bishop 고정형 색상 공격과 Stage 4 통합 (2026-11-12)
 
 상태: **구현·자동 테스트685개 통과, 사용자 Windows 11 GUI17/17 통과**.

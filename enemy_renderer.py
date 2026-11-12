@@ -9,6 +9,20 @@ class EnemyRenderer:
             if not enemy.active:
                 continue
             x, y = cell_center(enemy.col, enemy.row)
+            if enemy.kind == 'king':
+                # Wide royal crown with a taller central cross, distinct from Rook.
+                for left, bottom, right, top in (
+                        (-18, -17, 18, 10), (-20, 8, 20, 16), (-20, 14, -13, 22),
+                        (13, 14, 20, 22), (-4, 14, 4, 27), (-9, 20, 9, 24),
+                        (-25, -25, 25, -19)):
+                    canvas.draw_rectangle(x + left * unit, y + bottom * unit,
+                                          x + right * unit, y + top * unit,
+                                          222, 192, 123, filled=True)
+                canvas.draw_rectangle(x - 12 * unit, y - 16 * unit, x + 12 * unit, y + 5 * unit,
+                                      45, 38, 53, filled=True)
+                canvas.draw_rectangle(x - 3 * unit, y - 2 * unit, x + 3 * unit, y + 4 * unit,
+                                      186, 78, 86, filled=True)
+                continue
             if enemy.kind == 'bishop':
                 # Narrow priest/miter silhouette, split crown and diagonal notch.
                 for left, bottom, right, top in (

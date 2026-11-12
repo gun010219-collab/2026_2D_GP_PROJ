@@ -55,7 +55,7 @@ class BishopDefinitionTests(unittest.TestCase):
         self.assertFalse(hasattr(stage.enemies[0],'health'))
         self.assertTrue({e.entity_instance_id for e in enemies}.isdisjoint(e.entity_instance_id for e in fresh))
 
-    def test_bad_bishop_fields_options_and_unimplemented_queen_king_are_rejected(self):
+    def test_bad_bishop_fields_options_and_unimplemented_queen_are_rejected(self):
         for change in ({'col':True},{'row':10},{'forward':(0,-1)},{'initial_delay':-1},
                        {'initial_delay':float('nan')},{'kind':'queen'}):
             values=dict(data_id='b',col=2,row=8,forward=None,initial_delay=0,kind='bishop')
@@ -65,7 +65,7 @@ class BishopDefinitionTests(unittest.TestCase):
         catalog=StageCatalog.load()
         with self.assertRaises(UnsupportedEnemyError):
             create_enemy(replace(catalog.get_stage(4).enemies[0],options={'forward':(0,-1)}))
-        for kind in ('queen','king'):
+        for kind in ('queen',):
             definition=next(e for s in catalog.stages for e in s.enemies if e.kind==kind)
             with self.assertRaises(UnsupportedEnemyError):
                 create_enemy(definition)

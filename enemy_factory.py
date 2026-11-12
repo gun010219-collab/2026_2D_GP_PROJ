@@ -10,19 +10,19 @@ class UnsupportedEnemyError(ValueError):
 def _check_supported(definition):
     if not isinstance(definition, EnemyDefinition):
         raise TypeError('Expected an EnemyDefinition')
-    if definition.kind not in ('pawn', 'rook', 'knight', 'bishop'):
+    if definition.kind not in ('pawn', 'rook', 'knight', 'bishop', 'king'):
         raise UnsupportedEnemyError(f'Unsupported combat piece: {definition.kind}')
     allowed = {'forward'} if definition.kind == 'pawn' else set()
     if set(definition.options) != allowed:
         raise UnsupportedEnemyError(f'Unsupported {definition.kind} options: {dict(definition.options)}')
 
 
-def create_enemy(definition):
+def create_enemy(definition, *, boss_hp=None):
     """Spawn HP/AI/IDs anew; definitions remain immutable and state-free."""
     _check_supported(definition)
     forward = definition.options['forward'] if definition.kind == 'pawn' else None
     return Enemy(definition.data_id, definition.col, definition.row, forward,
-                 definition.initial_delay, kind=definition.kind)
+                 definition.initial_delay, kind=definition.kind, boss_hp=boss_hp)
 
 
 def create_stage_enemies(stage):
@@ -31,7 +31,16 @@ def create_stage_enemies(stage):
         raise TypeError('Expected a StageDefinition')
     for definition in stage.enemies:
         _check_supported(definition)
-    enemies = tuple(create_enemy(definition) for definition in stage.enemies)
+    kings = [e for e in stage.enemies if e.kind == 'king']
+    if type(stage.boss) is not bool:
+        raise ValueError('Stage boss flag must be boolean')
+    if stage.boss:
+        if len(kings) != 1 or type(stage.boss_hp) is not int or stage.boss_hp <= 0:
+            raise ValueError('Boss stage requires exactly one King and positive integer boss_hp')
+    elif kings or stage.boss_hp is not None:
+        raise ValueError('Non-boss stage cannot contain a King or boss_hp')
+    enemies = tuple(create_enemy(definition, boss_hp=stage.boss_hp if definition.kind == 'king' else None)
+                    for definition in stage.enemies)
     ids = [e.data_id for e in enemies]
     positions = [stage.player_spawn, *(e.position for e in enemies)]
     if len(set(ids)) != len(ids) or len(set(positions)) != len(positions):
