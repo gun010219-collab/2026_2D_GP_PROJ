@@ -58,7 +58,7 @@ def _new_stage_game(stage_number, *, stats=None):
     if stage_number == 1:
         return _new_game() if stats is None else _new_game(stats=stats)
     if stage_number not in SUPPORTED_STAGES:
-        raise ValueError('Only Stage 1 through Stage 10 are playable')
+        raise ValueError('Only Stage 1 through Stage 12 are playable')
     definition = StageCatalog.load().get_stage(stage_number)
     stats = ChapterBuild().stats if stats is None else stats
     if not isinstance(stats, DerivedStats):
@@ -116,7 +116,7 @@ def main(*, run=None):
         def prepare_chapter(stats):
             # These are the fallible resources for entry; commit only after both succeed.
             fresh_controls = prepare_controls(stats)
-            fresh_board = BoardRenderer(chapter=2)
+            fresh_board = BoardRenderer(chapter=flow.run.chapter + 1)
             return fresh_controls, fresh_board
 
         def flush_gameplay(blocked=False):
@@ -260,7 +260,7 @@ def main(*, run=None):
                     if event.type == canvas.SDL_MOUSEBUTTONDOWN else None,
                     blocked=(action != 'gameplay' or menu.is_open or menu_changed or display_changed
                              or not focused or focus_changed or restarted_this_frame
-                             or game.state is not GameState.UPGRADE or flow.offer is None
+                             or not game.upgrade_selection_enabled or flow.offer is None
                              or flow.offer is not offer_at_frame_start))
                 if choice is not None and flow.offer.options[choice].enabled:
                     try:

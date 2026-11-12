@@ -95,7 +95,7 @@ class CombatBalanceTests(unittest.TestCase):
                 attack=r.build.attack_level;r=r.start_chapter(chapter+1)
                 self.assertEqual((r.entry_attack_level,r.build,r.receipts),(attack,ChapterBuild(attack),()))
         self.assertEqual(r.stats.attack_damage,16)
-        for n in range(11,26):
+        for n in range(13,26):
             with self.assertRaises(ValueError):main._new_stage_game(n)
 
     def test_candidate_low_high_damaged_and_wrong_profile_health_rejected(self):
@@ -135,7 +135,11 @@ class CombatBalanceTests(unittest.TestCase):
             d=StageCatalog.load().get_stage(n)
             enemies=create_stage_enemies(d,profile=profile_for(d.chapter))
             self.assertEqual([e.health.max_hp for e in enemies],[profile_for(d.chapter).hp(e.kind) for e in d.enemies])
-            with self.assertRaises(ValueError):main._new_stage_game(n)
+            if n == 11:
+                self.assertEqual([e.health.max_hp for e in main._new_stage_game(n).encounter.enemies],
+                                 [e.health.max_hp for e in enemies])
+            else:
+                with self.assertRaises(ValueError):main._new_stage_game(n)
 
     def test_four_build_styles_clear_all_ten_real_rosters(self):
         from tests.balance_driver import measure, STYLES

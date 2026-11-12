@@ -7,7 +7,7 @@ from upgrades import chapter_first_stage
 
 
 # Catalog availability is not execution support. Expand only with verified tasks.
-SUPPORTED_STAGES = frozenset(range(1, 11))
+SUPPORTED_STAGES = frozenset(range(1, 13))
 
 
 class GameState(str, Enum):
@@ -23,7 +23,7 @@ class StageGame:
     """Own one combat instance. Restart creates a new instance, never rewinds it."""
     def __init__(self, player, combat, encounter, parry, resolver, *, stage_number=1, chapter=1, boss=False):
         if type(stage_number) is not int or stage_number not in SUPPORTED_STAGES:
-            raise ValueError('Only Stage 1 through Stage 10 combat sessions are supported')
+            raise ValueError('Only Stage 1 through Stage 12 combat sessions are supported')
         definition = StageCatalog.load().get_stage(stage_number)
         if type(chapter) is not int or chapter != definition.chapter:
             raise ValueError('Playable chapter metadata must match the stage catalog')
@@ -64,7 +64,12 @@ class StageGame:
     @property
     def next_stage_number(self):
         # The progression owner additionally authenticates all four upgrades.
-        return 6 if self.stage_number == 5 and self.state is GameState.BOSS_CLEAR else None
+        return self.stage_number + 1 if self.stage_number in (5, 10) and self.state is GameState.BOSS_CLEAR else None
+
+    @property
+    def upgrade_selection_enabled(self):
+        """A legitimate offer may wait at the current development boundary."""
+        return self.state is GameState.UPGRADE and self.stage_number + 1 in SUPPORTED_STAGES
 
     @property
     def restart_stage_number(self):

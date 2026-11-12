@@ -195,7 +195,7 @@ class ChapterTwoEntryTests(unittest.TestCase):
         with self.assertRaises(ValueError):flow.enter_next_chapter(factory)
         self.assertEqual(factory.call_count,1)
         self.assertEqual(flow.run.current_stage,6)
-        with self.assertRaises(ValueError):main._new_stage_game(11)
+        with self.assertRaises(ValueError):main._new_stage_game(13)
 
     def test_stage_six_game_over_restarts_six_with_new_baseline_run(self):
         flow=completed_boss();flow.enter_next_chapter(main._new_stage_game)

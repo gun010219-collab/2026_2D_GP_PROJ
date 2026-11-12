@@ -175,7 +175,7 @@ class ChapterRunTests(unittest.TestCase):
             old.offer_after_clear(2,'late')
         import main
         with self.assertRaises(ValueError):
-            main._new_stage_game(11)
+            main._new_stage_game(13)
 
     def test_invalid_chapter_reset_does_not_retire_or_modify_current_owner(self):
         run=ChapterRun()

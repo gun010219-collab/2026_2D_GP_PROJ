@@ -86,7 +86,8 @@ class StageProgression:
                 or g.encounter.ledger.combat_session_id != g.combat.combat_session_id):
             raise ValueError('Prepared combat has incorrect stats, destination or session state')
         if (g.player.health is self.game.player.health or g.parry is self.game.parry
-                or g.combat is self.game.combat or g.encounter is self.game.encounter):
+                or g.combat is self.game.combat or g.encounter is self.game.encounter
+                or g.encounter.ledger is self.game.encounter.ledger):
             raise ValueError('Prepared combat reused runtime objects')
         old_ids = {self.game.player.entity_instance_id, *(e.entity_instance_id for e in self.game.encounter.enemies)}
         if old_ids & {g.player.entity_instance_id, *(e.entity_instance_id for e in g.encounter.enemies)}:
@@ -94,13 +95,15 @@ class StageProgression:
         old_health = {id(self.game.player.health), *(id(e.health) for e in self.game.encounter.enemies)}
         if old_health & {id(g.player.health), *(id(e.health) for e in g.encounter.enemies)}:
             raise ValueError('Prepared combat reused Health objects')
-        expected = [(e.kind, e.position, e.initial_delay_ticks) for e in g.encounter.enemies]
+        expected = [(e.data_id, e.kind, e.position, e.initial_delay_ticks, e.forward) for e in g.encounter.enemies]
         from enemy_factory import create_stage_enemies
         original = create_stage_enemies(d, profile=profile_for(d.chapter))
-        if (expected != [(e.kind, e.position, e.initial_delay_ticks) for e in original]
+        if (expected != [(e.data_id, e.kind, e.position, e.initial_delay_ticks, e.forward) for e in original]
                 or [e.health.current_hp for e in g.encounter.enemies] != [e.health.max_hp for e in original]
                 or [e.health.max_hp for e in g.encounter.enemies] != [e.health.max_hp for e in original]
-                or any(not e.active or e.stun_until_tick or e.current_attack is not None for e in g.encounter.enemies)):
+                or any(not e.active or e.stun_until_tick or e.current_attack is not None
+                       or e.state != 'initial_wait' or e.next_action_tick != e.initial_delay_ticks
+                       for e in g.encounter.enemies)):
             raise ValueError('Prepared combat has altered enemy data')
         prepared = prepare(stats)
         return g, prepared
@@ -111,6 +114,8 @@ class StageProgression:
                 or offer.stage_instance_id != self.game.combat.stage_instance_id
                 or offer.before_build != self.run.build):
             raise ValueError('Upgrade offer is stale, foreign or not active')
+        if not self.game.upgrade_selection_enabled:
+            raise ValueError(f'Stage {self.game.stage_number + 1} is not available')
         kind = upgrade_kind(kind)
         build = self.run.build.upgraded(kind)
         g, prepared = self._candidate(self.game.stage_number + 1, build.stats, factory, prepare)
@@ -123,24 +128,25 @@ class StageProgression:
     def _require_boss_clear(self):
         self._require_scope()
         g = self.game
-        if (g.stage_number != 5 or g.chapter != 1 or not g.boss
+        first = chapter_first_stage(self.run.chapter)
+        if (g.chapter not in (1, 2) or g.stage_number != g.chapter * 5 or not g.boss
                 or g.state is not GameState.BOSS_CLEAR or not g.player.alive
                 or not g.resolver.stopped or g.transition_count != 1
                 or g.end_tick != g.combat.tick or self.run.active_offer is not None
                 or not all(not e.alive for e in g.encounter.enemies)
                 or len(self.run.receipts) != 4
-                or tuple(r.offer.stage for r in self.run.receipts) != (1, 2, 3, 4)):
-            raise ValueError('Chapter entry requires the owned Chapter 1 boss clear and four upgrades')
+                or tuple(r.offer.stage for r in self.run.receipts) != tuple(range(first, first + 4))):
+            raise ValueError('Chapter entry requires an owned supported boss clear and four upgrades')
         for receipt in self.run.receipts:
             self.run.verify_receipt(receipt)
         if self.run.receipts[-1].after_build != self.run.build:
             raise ValueError('Boss clear build does not match its upgrade history')
 
     def enter_next_chapter(self, factory, prepare=lambda stats: None):
-        """Prepare Chapter 2 completely before retiring Chapter 1. No save/unlock."""
+        """Prepare the supported next chapter before retiring its owner. No save/unlock."""
         self._require_boss_clear()
-        fresh_run = ChapterRun(2, entry_attack_level=self.run.build.attack_level)
-        g, prepared = self._candidate(6, fresh_run.stats, factory, prepare)
+        fresh_run = ChapterRun(self.run.chapter + 1, entry_attack_level=self.run.build.attack_level)
+        g, prepared = self._candidate(fresh_run.current_stage, fresh_run.stats, factory, prepare)
         old_run = self.run
         self._install(g, fresh_run)
         old_run.retire()

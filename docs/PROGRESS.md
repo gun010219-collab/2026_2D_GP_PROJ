@@ -1,5 +1,165 @@
 # CHECKMATE 개발 진행 기록
 
+## Task 2-A — Chapter3 진입 및Stage11·12 (2026-11-13)
+
+상태: **구현·최종 자동 재검수 및 사용자 Windows GUI30/30 통과. 승인26개 파일의 한국어 커밋·기존 main 일반 Push 승인**.
+시작 main 작업 트리는 깨끗했고 HEAD와 fetch한 origin/main은 `d68dab0b5b9074600132029ca4f8b3ce17505603`였다.
+이전U/V/W/X/Y-A/Y-B 기록과 수동 GUI 결과·측정표는 보존한다. Y-B GUI25/25는 이번 변경의 GUI 검증으로 재사용하지 않는다.
+
+### 최종 재검수·사용자 Windows GUI30/30
+
+최종 검수 시작 HEAD/origin/main은 기준 SHA와 일치했고, 작업 트리는 수정22개·신규4개·인덱스 비어 있음이었다.
+이번 최종 검수에서 기능 코드와 테스트는 추가 수정하지 않았다. 문서만 갱신했다.
+사용자가 Windows 11 실제 게임에서 다음30항목을 직접 검증해 **통과30·실패0·확인 불가0·미검수0, 추가 오류·의견 없음**을 보고했다.
+
+1. Stage10 BOSS CLEAR 정상 — 통과
+2. N TO CHAPTER 3 문구 — 통과
+3. Stage10 N→Stage11 — 통과
+4. Chapter3 얼음 테마 — 통과
+5. 공격력 강화 계승 — 통과
+6. HP3·MOVE18 초기화 — 통과
+7. Stage11 Rook2 — 통과
+8. Stage11 Knight2 — 통과
+9. Stage11 Pawn1 — 통과
+10. Chapter3 적HP — 통과
+11. Stage11 실제 전투·패링 — 통과
+12. Stage11 전멸 UPGRADE — 통과
+13. 첫 강화 숫자/마우스 선택·MAX 차단 — 통과
+14. Stage12 진입·HP 회복 — 통과
+15. Stage12 Bishop2 — 통과
+16. Stage12 Rook1·Pawn2 — 통과
+17. 반대색 Bishop 공격 순서 — 통과
+18. Stage12 전투·패링 — 통과
+19. Stage12 전멸 정상 클리어 — 통과
+20. STAGE 13 NOT AVAILABLE / UPGRADE ON HOLD 표시 — 통과
+21. 강화 소비·Stage13 생성 및 R/N 우회 차단 — 통과
+22. Chapter3 GAME_OVER R→11 — 통과
+23. 재시작 진입 공격력 복원 — 통과
+24. Stage5→6 숲 테마 회귀 — 통과
+25. Stage10 HP40/Pulse 회귀 — 통과
+26. Pawn 접촉 공격 회귀 — 통과
+27. SETTINGS/F11 — 통과
+28. 포커스·레터박스 — 통과
+29. 유령 입력 없음 — 통과
+30. ESC/X 종료 — 통과
+
+사용자 Windows GUI는 Python unittest·SDL dummy·결정적 자동 전투와 별도 근거다.
+동일 GUI 재검증을 중복 요청하지 않았다. 장기 밸런스·모든 하드웨어 환경의 검증 완료를 뜻하지 않는다.
+
+- 최종 `.\.venv\Scripts\python.exe -m unittest discover -s tests -v`: **1007개 통과(37.872초), 실패0·오류0·skip0**.
+- 기준 SHA AST 비교: 기존978개 전부 보존·삭제0, 신규29개(진입10/전투·경계15/main·SDL4).
+- 일반/`-O` 스테이지 검사 각각25개 통과. 변경 Python21개 문법/import·SDL독립성·링크·공백·원본 보존 검사를 통과했다.
+- SDL dummy 실제 main의 챕터 전환·얼음 보드·숫자/마우스 선택·보류 Offer·생성 차단·재시작·설정/종료 및1틱/8틱 회귀 통과.
+- 같은3600틱 제한/입력 정책으로 기존40개+신규8개를 실제 공격·이동·패링으로 재실행해48/48 클리어했다.
+  Y-B40행의400개 값과 Chapter3 8행의88개 값, 총488개 측정 셀이 모두 일치했다. 기존 측정값을 수정하지 않았다.
+- 보스 인증·소유권·공격 계승·초기화·후보 실패 원자성·Stage12 Offer 보존·Stage13 우회 차단과 기존 전투 회귀를 재검토했다.
+- 원본JSON/validator·적 AI/Pawn 접촉·KingPulse·성장/HP·에셋·이전 개발 기록을 보존했다.
+- 아래 실제 목록의26개만 스테이징·커밋·일반 Push한다. 실제 새 SHA/Push/작업 트리 상태는 원격 재조회 후 최종 보고한다.
+  Stage12 Offer 보존은 현재 프로세스의 상태이며 영구 저장이 아니다. 종료/재실행은 기존 부트스트랩을 따른다.
+
+### 실제 구현
+
+- game.py: 실행1~12·보스 N목적지5→6/10→11·강화 선택 가능 목적지 조회. Stage12는 UPGRADE 유지.
+- stage_progression.py: Chapter1/2 보스 소유권·4Receipt/Stage순서 인증, 공격 계승 새 Run 생성, 준비 후 retire.
+  후보 적ID/방향/초기 행동 틱·Health·원장 재사용 검증도 보존/보강했다. Stage12 선택은 Factory/Receipt 소비 전에 명시적으로 거절한다.
+- main.py: 실제 목적지 챕터로 BoardRenderer 준비, Stage12 강화 입력 차단. 입력·전투·시계·큐 기존 경로 재사용.
+- game_renderer.py: 동적 N TO CHAPTER 2/3. upgrade_renderer.py: Stage12 정당한 Offer 보존 상태에서
+  카드를 숨기고 STAGE 13 NOT AVAILABLE / UPGRADE ON HOLD 표시. TRY AGAIN으로 오표시하지 않는다.
+- Stage11 원본 Rook2/Knight2/Pawn1, Stage12 원본 Bishop2/Rook1/Pawn2와 Chapter3 HP를 그대로 사용한다.
+  각 적 지연48/62/75/88/101틱, spawn(5,1), 비보스/원본boss_hp=null, 세션/Health/원장은 새 인스턴스다.
+- Stage11 첫 Offer를1회 소비해Stage12에 도달한다. Stage12 전멸 후 두 번째 Offer1개/Receipt1개/current_stage12 유지.
+  Chapter3 GAME_OVER는 진입 공격 단계로 새Run/Stage11·HP3/MOVE18/Receipt0. 강화·AI·HP·Pawn접촉·Pulse 수치 변경 없음.
+
+### 자동 검증 및 변경된 기대값
+
+- `.\.venv\Scripts\python.exe -m unittest discover -s tests -v`: 최종 **1007개 통과(38.181초), 실패0·오류0·skip0**.
+- 기준 SHA와 AST 비교로 기존978개 메서드 모두 보존·삭제0을 확인했다. 신규29개: 진입10개·Stage11/12 순수15개·main/SDL4개.
+- 기존 Stage11 이후 차단 기대는13 이후로, Stage10 N 차단/안내는 인증된11 진입/Chapter3 안내로 갱신했다.
+  메서드명은 당시 이력으로 보존하고 일반 Stage의 N·미지원 Queen·외부 Run/세션·다음Stage13 차단 검증은 유지한다.
+  과거 Stage10 SDL은 같은 보스 R·Chapter2 사망/숲 회귀를 보존하며 새 N진입은 신규 네이티브 SDL에서 검증한다.
+- 순수 테스트: 원본 편성·정확한HP/좌표/지연·세션/Health 독립성·공격 계승·보스 인증·복제/외부 Receipt 거절·MAX·단일 소비·전환 원자성.
+  Factory/입력/보드 실패, HP/ID/좌표/지연/세션/원장/Health 조작을 주입해 이전 보스/Run 보존과 재시도를 확인했다.
+- 네이티브 SDL dummy 실제 main: Stage10 클리어 fixture→N→얼음11→첫 강화(숫자 또는마우스)→12,
+  실제12 AI의 Bishop 예고/반대색 대기→전멸 fixture→보류 Offer·키/마우스/R/N 차단·오류flag없음.
+  별도 경로는 사망 fixture→R→Stage11·진입 공격력 복원. SETTINGS/F11/포커스/입력 격리·ESC/SDL_QUIT도 검증한다.
+  이 전환용 fixture를 실제 전투 클리어 근거로 사용하지 않는다.
+- 원본 두 Bishop을 분리한 순수 전투는48→156틱 첫 예고/perfect 후157→265틱 반대색 예고/normal을 확인한다.
+  사망 취소/색상해제와 원본 전체 혼합 전투1틱/8틱 결정성도 통과했다. 적 AI는 바꾸지 않았다.
+- 같은3600틱/입력 정책의 기존40개 측정은 Y-B400개 기본 셀과 모두 일치했다. 신규4빌드×2Stage의8개는 실제 이동/공격/패링으로 모두UPGRADE 클리어했다.
+  [새 측정표](BALANCE_CHAPTER3.md)에 공격력·HP·타수·피격·perfect·완료틱·종료상태를 기록한다. 사람 권장 시간/최종 밸런스가 아니다.
+- validator 일반/`-O` 각각25개 통과. 원본JSON/validator·Pawn/KingPulse·성장·HP·에셋을 보존한다.
+- 변경 Python21개 `py_compile`/import·순수 전투 SDL/Pico2D 독립성·문서 내부 링크·Git 공백 검사를 통과했다.
+  실제 변경은 수정22개·신규4개, 총26개다. HEAD/origin/main은 시작 SHA 그대로이고 인덱스는 비어 있다.
+  스테이징·커밋·Push를 실행하지 않았으며, 사용자 GUI 결과를 기다린다.
+
+### 실제 변경 파일
+
+- docs/BALANCE_CHAPTER3.md
+- docs/CHAPTER_EXPANSION_DESIGN.md
+- docs/DECISIONS.md
+- docs/GAME_DESIGN.md
+- docs/PROGRESS.md
+- game.py
+- game_renderer.py
+- main.py
+- stage_progression.py
+- tests/balance_driver.py
+- tests/test_chapter_run.py
+- tests/test_chapter_three_entry.py
+- tests/test_chapter_three_sdl.py
+- tests/test_chapter_two_entry.py
+- tests/test_chapter_two_stages.py
+- tests/test_combat_balance.py
+- tests/test_king_combat.py
+- tests/test_stage_eleven_twelve.py
+- tests/test_stage_five.py
+- tests/test_stage_four.py
+- tests/test_stage_six.py
+- tests/test_stage_ten.py
+- tests/test_stage_ten_sdl.py
+- tests/test_stage_three.py
+- tests/test_stage_transition.py
+- upgrade_renderer.py
+
+### Windows GUI 체크리스트 — 사용자 결과 수령 전 작성 이력
+
+`.\.venv\Scripts\python.exe main.py` 실행 후 확인한다.
+
+1. Stage10 BOSS CLEAR 정상
+2. N TO CHAPTER 3 문구
+3. Stage10 N→Stage11
+4. Chapter3 얼음 테마
+5. 공격력 강화 계승
+6. HP3·MOVE18 초기화
+7. Stage11 Rook2
+8. Stage11 Knight2
+9. Stage11 Pawn1
+10. Chapter3 적HP
+11. Stage11 실제 전투·패링
+12. Stage11 전멸 UPGRADE
+13. 첫 강화 숫자/마우스 선택·MAX 차단
+14. Stage12 진입·HP 회복
+15. Stage12 Bishop2
+16. Stage12 Rook1·Pawn2
+17. 반대색 Bishop 공격 순서
+18. Stage12 전투·패링
+19. Stage12 전멸 정상 클리어
+20. STAGE 13 NOT AVAILABLE 안내
+21. 강화 소비·Stage13 생성 및 R/N 우회 차단
+22. Chapter3 GAME_OVER R→11
+23. 재시작 진입 공격력 복원
+24. Stage5→6 숲 테마 회귀
+25. Stage10 HP40/Pulse 회귀
+26. Pawn 접촉 공격 회귀
+27. SETTINGS/F11
+28. 포커스·레터박스
+29. 유령 입력 없음
+30. ESC/X 종료
+
+원장/정수틱/실패 주입은 자동 검사 근거다. 이후 사용자 GUI30/30 통과를 수령했으며 장기 밸런스·모든 PC 환경은 미검증이다.
+최종 자동 재검수 성공 후 승인된26개 파일을 반영한다. Queen은 원본 옵션·공격/점유·예고/패링·원장 계약을 별도 설계/승인해야 한다.
+Stage13 준비 전에는 해당 Stage12 Offer를 소비하지 않는다. 승인 커밋 메시지는 `feat: 챕터 3 진입 및 11·12스테이지 구현`이다.
+
 ## Task 1-Y-B — Pawn 상하좌우 접촉 공격 (2026-11-13)
 
 상태: **구현·최종 자동 재검수 및 사용자 Windows GUI25/25 통과. 승인11개 파일의 한국어 커밋·main 일반 Push 승인**.

@@ -103,9 +103,13 @@ class StageTenTests(unittest.TestCase):
 
     def test_boss_clear_never_offers_or_enters_chapter_three(self):
         f=boss_flow();finish(f.game,'clear');factory=Mock()
-        self.assertIsNone(f.sync_offer());self.assertIsNone(f.game.next_stage_number)
+        self.assertIsNone(f.sync_offer());self.assertEqual(f.game.next_stage_number,11)
+        old=f.run
+        g,_=f.enter_next_chapter(main._new_stage_game)
+        self.assertEqual((g.stage_number,f.run.chapter,len(f.run.receipts)),(11,3,0))
+        self.assertTrue(old.retired)
         with self.assertRaises(ValueError):f.enter_next_chapter(factory)
-        factory.assert_not_called();self.assertEqual((f.run.chapter,len(f.run.receipts)),(2,4))
+        factory.assert_not_called()
 
     def test_game_over_resets_chapter_two_after_failed_retry(self):
         f=boss_flow();old=f.run;finish(f.game,'dead');before=state(f)
@@ -178,7 +182,7 @@ class StageTenTests(unittest.TestCase):
 
     def test_main_fourth_choice_then_boss_n_blocked_replay_and_death_retry(self):
         for terminal,target in (('clear',10),('dead',6)):
-            created,_,*_=run_loop([[key(N)],[key(R),key(N),key(SPACE),key(SHIFT),key(UP)]],initial_stage=10,initial=terminal)
+            created,_,*_=run_loop([[key(R),key(N),key(SPACE),key(SHIFT),key(UP)]],initial_stage=10,initial=terminal)
             self.assertEqual([g.stage_number for g in created],[10,target])
             self.assertEqual(created[-1].combat.tick,0)
 
@@ -189,7 +193,8 @@ class StageTenTests(unittest.TestCase):
             finish(g,'clear');GameFlowRenderer().draw(Mock(),g)
         labels=[c.args[1] for c in text.call_args_list]
         for label in ('KING HP 40/40','BOSS CLEAR','STAGE 10','R TO RESTART','ESC TO EXIT'):self.assertIn(label,labels)
-        self.assertFalse(any(s.startswith('N TO') or 'UNLOCK' in s or 'SAVED' in s for s in labels))
+        self.assertIn('N TO CHAPTER 3',labels)
+        self.assertFalse(any('UNLOCK' in s or 'SAVED' in s for s in labels))
 
     def test_original_stage_ten_can_be_cleared_by_real_attack_and_parry(self):
         for n in (10,):

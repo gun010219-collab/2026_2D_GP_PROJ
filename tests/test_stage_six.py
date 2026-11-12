@@ -62,8 +62,8 @@ class StageSixTests(unittest.TestCase):
         self.assertEqual(g.encounter.ledger.combat_session_id,g.combat.combat_session_id)
 
     def test_only_explicit_supported_stages_are_executable(self):
-        self.assertEqual(SUPPORTED_STAGES,frozenset(range(1,11)))
-        for n in (*range(11,26),0,26,-1):
+        self.assertEqual(SUPPORTED_STAGES,frozenset(range(1,13)))
+        for n in (*range(13,26),0,26,-1):
             with self.subTest(stage=n),self.assertRaises(ValueError):
                 main._new_stage_game(n)
         for n in (True,False,6.0,'6',None):
@@ -125,7 +125,7 @@ class StageSixTests(unittest.TestCase):
         g = main._new_stage_game(10)
         flow = boundary_flow(g)
         clear(g)
-        self.assertIsNone(g.next_stage_number)
+        self.assertEqual(g.next_stage_number,11)
         self.assertEqual(g.restart_stage_number,10)
         self.assertIsNone(flow.sync_offer())
         self.assertIsNone(flow.offer)
@@ -206,8 +206,8 @@ class StageSixTests(unittest.TestCase):
             with self.subTest(event=exit_event):
                 created, snapshots, canvas, *_ = run_loop(
                     [[key(N)], [exit_event]], initial_stage=10)
-                self.assertEqual([g.stage_number for g in created], [10])
-                self.assertEqual(snapshots[0]['state'], GameState.BOSS_CLEAR)
+                self.assertEqual([g.stage_number for g in created], [10,11])
+                self.assertEqual(snapshots[0]['state'], GameState.PLAYING)
                 canvas.close_canvas.assert_called_once_with()
 
     def test_simultaneous_player_death_has_priority_and_restarts_current_chapter(self):
@@ -342,7 +342,7 @@ class StageSixRendererTests(unittest.TestCase):
         for expected in ('BOSS CLEAR','STAGE 10','R TO RESTART',
                          'ESC TO EXIT','SETTINGS / F11'):
             self.assertIn(expected,labels)
-        self.assertFalse(any(s.startswith('N TO') for s in labels))
+        self.assertIn('N TO CHAPTER 3',labels)
         self.assertFalse(any('CHAPTER CLEAR' in s or 'UNLOCKED' in s or 'SAVED' in s
                              for s in labels))
         self.assertEqual(before,(g.state,g.combat.tick,g.transition_count,len(g.encounter.ledger._records)))

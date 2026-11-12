@@ -88,7 +88,7 @@ class StageTenSDLTests(unittest.TestCase):
                     tap(s.SDLK_SPACE)
                     tap(s.SDLK_LSHIFT)
                     tap(s.SDLK_UP)
-                if f in (24,26):tap(s.SDLK_n)
+                if f==26:tap(s.SDLK_n)  # Playing boss still blocks N; clear entry tested in Chapter3 SDL.
                 if f==29:
                     push(s.SDL_MOUSEBUTTONDOWN,x=1295,y=41)
                     push(s.SDL_MOUSEBUTTONUP,x=1295,y=41)
@@ -154,7 +154,7 @@ class StageTenSDLTests(unittest.TestCase):
                     clear(game)
                 if f==24:
                     assert game.state is GameState.BOSS_CLEAR and len(games)==12
-                    assert flow.offer is None and game.next_stage_number is None
+                    assert flow.offer is None and game.next_stage_number == 11
                 if f==25:
                     assert game.stage_number==10 and len(games)==13
                     assert game.encounter.pulse.king.health.current_hp==40

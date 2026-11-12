@@ -1,5 +1,25 @@
 # CHECKMATE 승인 결정
 
+## Task 2-A — Chapter3 전반부 승인 및 구현
+
+실제 실행 범위는Stage1~12다. Stage10 BOSS_CLEAR의 N으로Chapter3 Stage11에 진입한다.
+기존Stage5→6도 보존한다. Chapter1/2 소유 전투의 보스 포함 전멸·Player 생존·Resolver 정지·전환1회·종료틱 일치와
+현재 Run 소유의 정상4Receipt(1~4 또는6~9)·마지막 Build 일치를 인증한다. 임의 외부 Run/결과·복제 Receipt는 거절한다.
+새 Run에 현재 attack_level만 entry_attack_level로 계승하고 HP3/MOVE18/Receipt0/Offer없음으로 시작한다.
+전투·세션·입력·목적지 Board 준비 성공 뒤 설치하고 이전 Run을 retire한다. 실패 시 이전 보스 화면/Run/강화/테마를 보존한다.
+Chapter3에는 준비된 Frozen Palace 팔레트를 적용하며 새 그래픽이나 미끄러짐/빙결 규칙은 추가하지 않는다.
+Stage11은 원본 Rook2/Knight2/Pawn1, HP12/12/10/10/7이다. 전멸 UPGRADE 첫 Offer를 소비해Stage12에 진입한다.
+Stage12는 원본 Bishop2/Rook1/Pawn2, HP10/10/12/7/7이다. 반대색 Bishop의 기존 직렬 예고/회복/원장을 그대로 쓴다.
+Stage12 전멸은 DEV_BOUNDARY가 아닌 정상UPGRADE다. 정당한 두 번째 Offer를 발급하되 **선택은 보류**한다.
+Receipt는1개·current_stage12를 유지하고 키/마우스 선택을 막는다. 진행 API도 Factory 호출 전에 명시적으로Stage13 미지원 오류를 반환한다.
+화면에는 STAGE 13 NOT AVAILABLE / UPGRADE ON HOLD를 표시하며 일반 TRY AGAIN 오류로 표현하지 않는다.
+Stage13이 구현되면 이 Offer를 기존 선택 경로로 소비할 수 있다. 이번에는Stage13 생성/가짜 클리어/Receipt2 소비를 허용하지 않는다.
+Chapter3 GAME_OVER R은 새 Run/Stage11, 해당 챕터 진입 공격력·HP3/MOVE18/Receipt0이다. Stage10 보스 R은 현재4강화를 유지한다.
+성장/HP·Pawn접촉·다른 AI·King/Pulse·입력·60Hz/최대8틱 계약은 바꾸지 않는다.
+Stage13~25·Queen·Stage15 보스·Chapter4/5 진입·영구 저장/해금·최종 아트/음향은 미구현이다.
+사용자 Windows GUI30/30(실패0·확인 불가0·미검수0, 추가 의견 없음)을 수령했다.
+기능/테스트 추가 수정 없이 최종 자동1007개·48개 전투 재측정을 통과한 승인26개 파일을 커밋·일반 Push한다. 아래는 당시 이력이다.
+
 ## Task 1-Y-B — Pawn 인접 접촉 공격 승인
 
 기존 대각선 공격을 우선한다. 대각선이 아니며 실제 Player가 상하좌우 인접1칸이면

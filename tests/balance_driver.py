@@ -20,9 +20,9 @@ STYLES = {
 def measure(style, stage, limit=3600):
     choices=STYLES[style]
     run=ChapterRun()
-    if stage>=6:
+    for chapter in range(1, (stage-1)//5 + 1):
         for kind in choices:run.select(run.offer_after_clear(run.current_stage,str(run.current_stage)),kind)
-        run=run.start_chapter(2)
+        run=run.start_chapter(chapter+1)
     first=(stage-1)//5*5+1
     for kind in choices[:stage-first]:run.select(run.offer_after_clear(run.current_stage,str(run.current_stage)),kind)
     g=main._new_stage_game(stage,stats=run.stats)

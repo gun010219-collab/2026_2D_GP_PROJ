@@ -55,7 +55,7 @@ def run_loop(batches, *, initial_stage=1, initial='clear', focus=None, lengths=N
 
     canvas.get_events.side_effect = poll
     created, snapshots = [], []
-    run = ChapterRun(2 if initial_stage >= 6 else 1,entry_attack_level=entry_attack_level)
+    run = ChapterRun((initial_stage-1)//5+1,entry_attack_level=entry_attack_level)
     original_one, original_stage = main._new_game, main._new_stage_game
 
     def register(game):
@@ -75,7 +75,7 @@ def run_loop(batches, *, initial_stage=1, initial='clear', focus=None, lengths=N
         if not created:
             if initial_factory is not None:
                 return register(initial_factory())
-            if initial_stage in range(2, 11):
+            if initial_stage in range(2, 13):
                 return register(original_stage(initial_stage))
         return register(original_one(**kwargs))
 
@@ -111,8 +111,9 @@ def run_loop(batches, *, initial_stage=1, initial='clear', focus=None, lengths=N
     canvas.open_canvas.assert_called_once_with(1440, 900)
     canvas.close_canvas.assert_called_once_with()
     expected_chapters = [created[0].chapter]
-    if created[0].chapter == 1 and any(g.chapter == 2 for g in created):
-        expected_chapters.append(2)
+    for g in created[1:]:
+        if g.chapter != expected_chapters[-1]:
+            expected_chapters.append(g.chapter)
     assert [c.kwargs['chapter'] for c in board.call_args_list] == expected_chapters
     display.assert_called_once_with(canvas)
     settings.assert_called_once_with(canvas)
@@ -170,7 +171,7 @@ class StageSessionTests(unittest.TestCase):
         self.assertFalse(game.update_state())
 
     def test_unsupported_stage_and_invalid_metadata_fail_before_creating_entities(self):
-        for number in (0, *range(11, 26), -1):
+        for number in (0, *range(13, 26), -1):
             with self.subTest(number=number), self.assertRaises(ValueError):
                 main._new_stage_game(number)
         for number in (True, 2.0, '2', None):

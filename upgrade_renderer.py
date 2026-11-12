@@ -1,5 +1,6 @@
 """Read-only three-card view and shared logical hit rectangles."""
 from health_renderer import HealthRenderer
+from game import GameState
 from settings_menu import Rect
 from config import WINDOW_WIDTH
 
@@ -18,6 +19,11 @@ class UpgradeRenderer:
         canvas.draw_rectangle(310, 180, 1130, 740, 17, 20, 28, filled=True)
         self._center(canvas, 'UPGRADE', 675, 6)
         self._center(canvas, f'STAGE {game.stage_number} CLEAR', 626, 3)
+        if game.state is GameState.UPGRADE and not game.upgrade_selection_enabled:
+            self._center(canvas, f'STAGE {game.stage_number + 1} NOT AVAILABLE', 492, 4)
+            self._center(canvas, 'UPGRADE ON HOLD', 420, 4)
+            self._center(canvas, 'ESC TO EXIT  SETTINGS / F11', 255, 3)
+            return
         self._center(canvas, 'CHOOSE ONE  1 2 3 OR CLICK', 205, 3)
         for i, (rect, option) in enumerate(zip(CARD_RECTS, offer.options)):
             color = (224, 192, 116) if option.enabled else (110, 115, 122)

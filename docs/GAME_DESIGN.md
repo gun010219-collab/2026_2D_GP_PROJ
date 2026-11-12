@@ -54,7 +54,16 @@ Pawn/Rook/Knight/Bishop/Queen/King의 식별 실루엣은 챕터 전반에 유�
 
 ## 구현 경계
 
-**현재 Y-B:** Pawn은 대각선 기본 공격을 우선하며 상하좌우 인접1칸이면 이동 대신 접촉을 예고한다.
+**현재 Task2-A:** Stage1~12 플레이 경로를 연결했다. Stage10 전체 보스 클리어 N→Chapter3 Stage11,
+공격력만 계승·HP/MOVE 초기화·새 Run/세션, 기존 Frozen Palace 얼음 팔레트를 사용한다.
+Stage11 Rook2/Knight2/Pawn1(HP12/12/10/10/7) 전멸 후 첫 강화를 선택해Stage12로 진행한다.
+Stage12 Bishop2/Rook1/Pawn2(HP10/10/12/7/7) 전멸 후 정상UPGRADE·두 번째 Offer를 발급하지만,
+Stage13 미지원 동안 선택을 보류하고 Receipt1개/current_stage12를 보존한다. UI는 STAGE 13 NOT AVAILABLE을 표시한다.
+Chapter3 사망은 진입 공격력으로Stage11 재시작한다. Stage13~25/Queen/Stage15/저장·해금/최종아트는 미구현이다.
+실제 전투는 [Chapter3 측정표](BALANCE_CHAPTER3.md)를 따르며 사용자 Windows GUI30/30(실패0·확인 불가0·미검수0)을 수령했다. 자동1007개·SDL dummy·48개 전투 재측정은 별도 근거다.
+아래 Y-B 및 그 이전 범위 제한은 당시 개발 이력이다.
+
+**Task 1-Y-B 당시:** Pawn은 대각선 기본 공격을 우선하며 상하좌우 인접1칸이면 이동 대신 접촉을 예고한다.
 고정 대상1칸·39틱 예고·피해1·54틱 회복, 일반/퍼펙트 패링·기절60틱·+2·48틱 무적을 기존 전투 판정으로 처리한다.
 Player 셀 진입·즉시 충돌 피해·예고 중 추적은 없으며 사망/Stage 종료 취소·원장 단일 소비·Pulse 정지/복원을 유지한다.
 성장과 HP·Stage1~10 진행은 Y-A 기준을 유지한다. 새로운 기물·보스 패턴·Stage11+·Queen·저장/해금은 추가하지 않았다.
