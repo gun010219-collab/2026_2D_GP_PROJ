@@ -1,5 +1,175 @@
 # CHECKMATE 개발 진행 기록
 
+## Task 1-Y-A — 공격력16·챕터 계승·HP 밸런스 개편
+
+상태: **구현·최종 자동 재검수 및 사용자 Windows GUI22/22 통과. 검수 완료38개 파일의 한국어 커밋·기존 main 일반 Push 승인**.
+구현 작업 시작 당시 main은 깨끗했고 HEAD/origin/main은0bc48af2bf79003cc235401833f508ced40a5cc8였다.
+일반 fetch 실패 후 권한 확장 fetch로 실제 원격 기준 일치를 확인했다.
+기존 U/V/W/X 기록과 X GUI22/22는 당시 근거로 보존한다.
+
+### 최종 재검수·사용자 Windows GUI22/22 (2026-11-13)
+
+이번 최종 재검수 시작 HEAD와 fetch로 확인한 origin/main은 모두
+`0bc48af2bf79003cc235401833f508ced40a5cc8`였다. main 작업 트리는 수정34개·신규4개였고 인덱스는 비어 있었다.
+이번 최종 검수에서는 기능 코드·테스트를 추가 수정하지 않고 문서만 갱신했다.
+사용자가 아래 항목을 Windows 11 실제 게임에서 직접 확인하여 **통과22·실패0·확인 불가0**으로 보고했다.
+
+1. Stage 1 Pawn HP3·기본 공격력1 — 통과
+2. ATTACK 선택마다 피해량+1 — 통과
+3. Stage 2 Rook HP6 — 통과
+4. Stage 3 Knight HP5 — 통과
+5. Stage 4 Bishop HP5 — 통과
+6. Stage 5 King HP22·실제 감소 — 통과
+7. Stage 5 BOSS CLEAR R 강화 유지 — 통과
+8. Stage 5 N→Stage6 공격력 계승 — 통과
+9. Chapter2 HP3·MOVE18틱 초기화 — 통과
+10. Stage6 Pawn HP5 — 통과
+11. Chapter2 ATTACK 추가 강화 누적 — 통과
+12. GAME OVER R 진입 공격력 복원·챕터 내 강화 초기화 — 통과
+13. Stage10 King HP40·실제 감소 — 통과
+14. Stage10 King 근접·Pulse — 통과
+15. Stage10 BOSS CLEAR R 현재 강화 유지 — 통과
+16. Stage10 BOSS CLEAR N 차단 — 통과
+17. HP/MOVE MAX 선택 차단 — 통과
+18. 퍼펙트 패링+2·단일 소모·미스 소모 — 통과
+19. SETTINGS·F11·ESC/X — 통과
+20. 입력·포커스·레터박스 — 통과
+21. Stage1~10 진행 불가 오류 없음 — 통과
+22. 공격 횟수·적 HP·보스전 시간·난이도 체감 평가 — 통과
+
+검증 근거는 A. 사용자 Windows 11 수동 GUI, B. Python unittest,
+C. SDL dummy 비표시 main 통합, D. 결정적 자동 입력 밸런스 측정으로 구분한다.
+22번은 사용자 체감 평가이며 최종 밸런스 확정을 의미하지 않는다.
+공격력16 상한·Chapter3~5 프로필은 자동 테스트 근거이며, Chapter3~5 GUI·모든 하드웨어·장기 밸런스는 미검증이다.
+기능 코드가 바뀌지 않아 기존 GUI 결과를 유지하며 중복 GUI 검증을 요청하지 않았다.
+
+최종 재실행 명령과 결과:
+
+- `.\.venv\Scripts\python.exe -m unittest discover -s tests -v`: **938개, 30.850초, 실패0·오류0·skip0**.
+- 기준 SHA와 AST 비교: 기존921개 메서드 모두 보존, 삭제0·신규17개. 새 `test_combat_balance.py`에17개,
+  `balance_driver.py`는 unittest 메서드가 없는 측정 보조 도구다.
+- `validate_stage_data.py` 일반 및 `-O`: 각각25개 통과. 원본 JSON·검사기·AI·KingPulse·에셋 미변경.
+- 변경 Python32개 문법/import, 순수 로직 SDL/Pico2D 독립성, 문서 내부 링크·공백 검사를 통과했다.
+- SDL dummy main 통합은 전체 suite에서 통과했다. 계승·GAME_OVER 기준선 복원·보스 R/N·HP 표시·MAX·입력 격리를 포함하며,
+  전멸 fixture 기반 화면 전환과 실제 공격/패링 처치 검증을 구분한다.
+- `tests/balance_driver.py`의 `measure(style, stage, limit=3600)`으로 같은4빌드×10Stage의40개를 별도 재실행했다.
+  모두 클리어했고 기존 [측정표](BALANCE_Y_A.md)의400개 셀(각 행10개)이 전부 일치했다. 측정값은 변경하지 않았다.
+- 실제38개 파일(수정34·신규4)과 원본 자료 보존, 변경 기대값 및 안전 assertion 유지 여부를 최종 검토했다.
+
+### 구현
+
+- upgrades: ATTACK1~16/레벨0~15·+1/MAX, HP/MOVE 고정 수치 유지. 기존 Renderer는 두 자리 표시에 충분해 변경하지 않았다.
+- ChapterRun: 읽기 전용 entry_attack_level, 새 챕터에는 최종 공격 단계만 계승,
+  GAME_OVER는 진입 공격 단계로 새 Run/첫 Stage·HP/MOVE0·Receipt0, 보스 R은 Build 전체 유지.
+- StageProgression: 새 챕터 후보에 계승 stats, 사망 후보에 entry stats를 전달한다.
+  준비 성공 전 기존 Run을 폐기하지 않으며 후보 적HP 검증은 같은 승인 프로필 Factory 결과와 비교한다.
+- combat_balance: 승인 프로필 불변 데이터·엄격한 Chapter/HP 정수 검증을 한곳에 둔다.
+- Enemy: 생성 시 일반 max_hp 입력. Factory는 원본 boss 검증 후 명시적 런타임 profile로 Health 생성.
+  profile 미지정 raw API는 호환을 위해 원본 수치를 유지한다. 실제 main은 profile을 항상 전달한다.
+- Stage1 로더 기본 PawnHP3과 main 생성이 일치한다. JSON/catalog boss_hp는8/10/... 그대로,
+  실제 KingHP는22/40/60/85/110이다. Health/원장/적 ID/배치·지연/AI/Pulse는 보존한다.
+- Stage5 R/N·Stage10 R/N 및1~10 실행 범위를 유지한다. 접촉 피해·Chapter3·저장/해금은 추가하지 않았다.
+
+### 검증
+
+- 전체 unittest **938개 통과, 실패0·오류0·skip0**. 기존921개 AST 메서드 모두 보존, 신규17개.
+- 확장된192가지 Build 조합, MAX·계승·사망 초기화·보스 replay·실패 원자성·실제 전투·원장·Pulse·1vs8틱을 검증한다.
+- 구형 ATTACK2강 MAX fixture는 MOVE2강 또는 계승13→공격15레벨 fixture로 갱신했다.
+  원본 MAX 카드의 숫자/마우스 거절·다른 카드 선택 검증을 유지한다.
+- 기존 처치 직전 fixture의 HP는 새 최대HP-1로 조정하거나 맞는 피해량으로 설정했다.
+  마지막 실제 공격·미처리 공격 취소·정확한 종료 상태 검증은 제거하지 않았다.
+- Stage6 실제 무강화 처치 경로는 새HP에서965틱에 UPGRADE/HP3을 확인한다. 과거389틱은 구형 HP의 결과다.
+- 신규 test_combat_balance: 기본16/보너스18 실제피해·단일소비·MAX숫자/마우스·두자리Renderer,
+  계승/entry초기화·오래된Receipt·HP조작거절·Stage1일관성·3~5순수프로필·원본보스메타데이터·11+차단을 검증한다.
+- 결정적드라이버40개(4빌드×Stage1~10)를 실제 이동/공격/패링으로 완료했다.
+  [밸런스 측정표](BALANCE_Y_A.md)에 공격력·적HP·이론 타수·실제 적중·피격·perfect·틱·완료를 기록한다.
+  각 Stage를 해당 빌드의 누적stats로 독립 실행한 측정이며 사람 플레이 완주/난이도 권장치가 아니다.
+- 기존 SDL dummy main 회귀는 새HP/계승/변경된MAX fixture로 모두 통과한다.
+  실제 SDL과 전멸fixture·순수 실제 처치 테스트를 구분한다.
+- validator 일반/-O 각각25개 통과. 문법/import·SDL독립성·원본 자료/AI 보존·링크·공백 검사를 수행했다.
+
+### 남은 위험·후속
+
+공격16과 Chapter3~5는 현재GUI에서 전부 도달할 수 없어 자동모델 근거로 한정한다.
+자동드라이버의 정밀한 perfect 입력은 사람의 회피·조작 부담을 대표하지 않는다. 사용자 체감 평가22번은 통과했으며 장기 밸런스는 미검증이다.
+Y-B는 Pawn 셀진입 금지와 접촉공격 범위/예고/패링/48틱무적/원장 단일소비 정책 승인 후 착수한다.
+예정 메시지: feat: 공격력 계승 및 챕터별 적 체력 밸런스 개편
+
+### Windows GUI 체크리스트 (최종 결과 수령 전 작성 이력)
+
+프로젝트에서 .\\.venv\\Scripts\\python.exe main.py 실행 후 확인한다.
+
+1. Stage1 PawnHP3.
+2. Stage1 기본피해1.
+3. ATTACK 선택마다+1.
+4. Stage2 RookHP6.
+5. Stage3 KnightHP5.
+6. Stage4 BishopHP5.
+7. Stage5 KingHP22.
+8. Stage5 R 전체강화 유지.
+9. Stage5 N→Stage6 공격력 계승.
+10. Chapter2 HP/MOVE 초기화·HP3.
+11. Stage6 PawnHP5.
+12. Chapter2 추가 ATTACK 누적.
+13. Chapter2 GAME_OVER→진입 공격력 복원.
+14. Stage10 KingHP40.
+15. Stage10 Pulse 예고·패링·재개.
+16. Stage10 BOSS CLEAR R 전체강화 유지.
+17. Stage10 N 차단.
+18. HP/MOVE MAX 정상. 공격16 MAX는 자동 검증 근거.
+19. perfect+2 보상 단일 사용·미스 소모.
+20. SETTINGS/F11/ESC/X.
+21. 입력·포커스·레터박스.
+22. Stage1~10 전투시간·난이도 체감 평가.
+
+### 최종 파일·검수 결과
+
+최종 재검수 전체938개(30.850초), 기존921개 보존/신규17개/누락0·skip0. Python32개 문법/import·SDL독립성·링크·공백 검사 통과.
+수정34개·신규4개, 총38개다. 아래 목록은 이번 실제 변경 파일이다.
+
+- 수정: chapter_run.py
+- 수정: docs/CHAPTER_EXPANSION_DESIGN.md
+- 수정: docs/DECISIONS.md
+- 수정: docs/GAME_DESIGN.md
+- 수정: docs/PROGRESS.md
+- 수정: docs/UPGRADE_SYSTEM_DESIGN.md
+- 수정: enemy.py
+- 수정: enemy_factory.py
+- 수정: main.py
+- 수정: stage_progression.py
+- 수정: tests/test_chapter_run.py
+- 수정: tests/test_chapter_two_entry.py
+- 수정: tests/test_chapter_two_stages.py
+- 수정: tests/test_game.py
+- 수정: tests/test_game_flow.py
+- 수정: tests/test_health.py
+- 수정: tests/test_rook.py
+- 수정: tests/test_stage_five.py
+- 수정: tests/test_stage_five_sdl.py
+- 수정: tests/test_stage_four.py
+- 수정: tests/test_stage_four_sdl.py
+- 수정: tests/test_stage_manager.py
+- 수정: tests/test_stage_six.py
+- 수정: tests/test_stage_six_sdl.py
+- 수정: tests/test_stage_ten.py
+- 수정: tests/test_stage_ten_sdl.py
+- 수정: tests/test_stage_three.py
+- 수정: tests/test_stage_three_sdl.py
+- 수정: tests/test_stage_transition.py
+- 수정: tests/test_stage_transition_sdl.py
+- 수정: tests/test_upgrade_flow.py
+- 수정: tests/test_upgrade_sdl.py
+- 수정: tests/test_upgrades.py
+- 수정: upgrades.py
+- 신규: combat_balance.py
+- 신규: docs/BALANCE_Y_A.md
+- 신규: tests/balance_driver.py
+- 신규: tests/test_combat_balance.py
+
+구현 완료 당시 HEAD/origin/main은0bc48af2bf79003cc235401833f508ced40a5cc8, 인덱스 비어 있음·커밋/Push 없음이었다.
+이후 사용자 GUI22/22와 최종 자동 재검수 통과를 수령하여 위38개 경로만 스테이징·커밋·일반 Push한다.
+새 커밋 SHA와 실제 원격 main 일치·작업 트리 상태는 Push 후 재조회하여 최종 보고한다.
+
 ## Task 1-X — 네 번째 강화·Stage 10 King 보스전 (2026-11-13)
 
 상태: **구현·자동 검증 및 사용자 Windows GUI22/22 통과. 최종 검수 후 승인18개 파일 커밋·일반 Push 승인**.

@@ -1,3 +1,4 @@
+from combat_balance import profile_for
 """Catalog fidelity, validation, immutability and Stage 1 compatibility."""
 import copy
 from dataclasses import FrozenInstanceError
@@ -327,7 +328,7 @@ for constructor, expected in ((validate, AssertionError), (StageCatalog, StageDa
                          [(e.data_id, e.kind, e.position, e.options['forward'], e.initial_delay)
                           for e in stage.enemies])
         enemies[0].health.apply_damage(1, tick=0)
-        self.assertEqual(load_stage1_enemies()[0].health.current_hp, 2)
+        self.assertEqual(load_stage1_enemies()[0].health.current_hp, 3)
         self.assertNotEqual(enemies[0].entity_instance_id, load_stage1_enemies()[0].entity_instance_id)
         self.assertEqual(stage.enemies[0].position, (1, 6))
 
@@ -356,7 +357,7 @@ for constructor, expected in ((validate, AssertionError), (StageCatalog, StageDa
         stage = self.catalog.get_stage(1)
         player = Player(*stage.player_spawn)
         combat, parry = Combat(), Parry()
-        enemies = tuple(Enemy(e.data_id, e.col, e.row, e.options['forward'], e.initial_delay)
+        enemies = tuple(Enemy(e.data_id, e.col, e.row, e.options['forward'], e.initial_delay, max_hp=3)
                         for e in stage.enemies)
         encounter = PawnEncounter(enemies, combat_session_id=combat.combat_session_id,
                                   stage_instance_id=combat.stage_instance_id)

@@ -20,7 +20,7 @@ class StageFiveTests(unittest.TestCase):
         self.assertTrue(g.boss)
         self.assertEqual((g.chapter,g.player.position,snapshots[0]['tick']),(1,(5,1),0))
         self.assertEqual([(e.kind,e.position,e.health.current_hp,e.initial_delay_ticks) for e in g.encounter.enemies],
-                         [('king',(5,9),8,48),('rook',(2,4),4,62),('pawn',(1,6),2,75),('pawn',(8,6),2,88)])
+                         [('king',(5,9),22,48),('rook',(2,4),6,62),('pawn',(1,6),3,75),('pawn',(8,6),3,88)])
         self.assertEqual(g.encounter.pulse.next_use_tick,240)
 
     def test_only_total_annihilation_clears_and_player_death_wins(self):
@@ -80,7 +80,7 @@ class StageFiveTests(unittest.TestCase):
         for action in (lambda:fresh.resolver.resolve_enemy_attack(event),lambda:fresh.resolver.register_parry(attempt)):
             with self.assertRaises(ValueError):
                 action()
-        self.assertEqual(fresh.encounter.pulse.king.health.current_hp,8)
+        self.assertEqual(fresh.encounter.pulse.king.health.current_hp,22)
 
     def test_playing_n_r_and_held_inputs_cannot_restart_or_leak_into_replay(self):
         created,_,_,_,_,_=run_loop([[key(N),key(R)]],initial_stage=5,initial='playing')
@@ -112,7 +112,7 @@ class StageFiveTests(unittest.TestCase):
         self.assertEqual(seen[414][0],'CLEANUP')
         self.assertEqual(seen[415][0],'NORMAL')
         self.assertEqual((g.resolver.last_parry_result.status,g.combat.pending_attack_bonus),('perfect',2))
-        self.assertEqual(seen[385][2],6)
+        self.assertEqual(seen[385][2],20)
         self.assertEqual(seen[265][3],seen[414][3])
         self.assertEqual(pulse.king.stun_until_tick,445)
 
@@ -121,7 +121,7 @@ class StageFiveTests(unittest.TestCase):
         created,_,_,_,_,_=play_to(385,factory=lambda:factory(5),inputs={367:[key(SHIFT)]})
         g=created[-1]
         self.assertEqual(g.resolver.last_parry_result.status,'normal')
-        self.assertEqual((g.encounter.pulse.king.health.current_hp,g.combat.pending_attack_bonus,g.player.health.current_hp),(8,0,2))
+        self.assertEqual((g.encounter.pulse.king.health.current_hp,g.combat.pending_attack_bonus,g.player.health.current_hp),(22,0,2))
 
     def test_menu_and_focus_pause_whole_combat_during_pulse(self):
         factory=main._new_stage_game
@@ -156,7 +156,7 @@ class StageFiveTests(unittest.TestCase):
                 GameFlowRenderer().draw_stage_label(Mock(),g)
                 EnemyAttackRenderer().draw(Mock(),g.encounter.ledger)
         labels=[call.args[1] for call in text.call_args_list]
-        self.assertIn('KING HP 8/8',labels)
+        self.assertIn('KING HP 22/22',labels)
         self.assertIn('CHECKMATE PULSE',labels)
         self.assertIn('PARRY THE PULSE',labels)
         self.assertEqual(before,(g.combat.tick,pulse.state,tuple((e.position,e.health.current_hp,e.next_action_tick) for e in g.encounter.enemies)))

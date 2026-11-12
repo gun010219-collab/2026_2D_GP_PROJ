@@ -71,7 +71,7 @@ class UpgradeFlowTests(unittest.TestCase):
             self.assertEqual(sum((flow.run.build.attack_level,flow.run.build.hp_level,flow.run.build.move_level)),i)
         self.assertEqual(stages+[flow.game.stage_number],[1,2,3,4,5])
         self.assertEqual(flow.run.build,ChapterBuild(1,2,1))
-        self.assertEqual([e.health.max_hp for e in flow.game.encounter.enemies],[8,4,2,2])
+        self.assertEqual([e.health.max_hp for e in flow.game.encounter.enemies],[22,6,3,3])
 
     def test_factory_failure_does_not_consume_then_retry_commits_once(self):
         flow=StageProgression(main._new_game());o=clear(flow)
@@ -111,11 +111,11 @@ class UpgradeFlowTests(unittest.TestCase):
         for fake in (replace(o),ChapterRun().offer_after_clear(1,'foreign'),None):
             with self.assertRaises(ValueError):flow.choose(fake,'hp',factory)
         factory.assert_not_called()
-        flow.choose(o,'attack',main._new_stage_game)
-        flow.choose(clear(flow),'attack',main._new_stage_game)
+        flow.choose(o,'move',main._new_stage_game)
+        flow.choose(clear(flow),'move',main._new_stage_game)
         o=clear(flow)
-        self.assertTrue(o.options[0].is_max)
-        with self.assertRaises(ValueError):flow.choose(o,'attack',factory)
+        self.assertTrue(o.options[2].is_max)
+        with self.assertRaises(ValueError):flow.choose(o,'move',factory)
         factory.assert_not_called()
 
     def test_boss_clear_replay_retains_build_without_a_fifth_offer(self):
@@ -164,12 +164,12 @@ class UpgradeFlowTests(unittest.TestCase):
 
     def test_renderer_reads_real_values_and_max_without_consuming(self):
         flow=StageProgression(main._new_game())
-        for _ in range(2):flow.choose(clear(flow),'attack',main._new_stage_game)
+        for _ in range(2):flow.choose(clear(flow),'move',main._new_stage_game)
         o=clear(flow);before=(flow.run.build,flow.run.receipts,flow.game.combat.tick)
         with patch.object(UpgradeRenderer,'_text') as text:
             for _ in range(3):UpgradeRenderer().draw(Mock(),flow.game,o)
         labels=[x.args[1] for x in text.call_args_list]
-        for value in ('UPGRADE','1 ATTACK','2 MAX HP','3 MOVE','MAX','NOW 3','NEXT 4','NEXT 15'):
+        for value in ('UPGRADE','1 ATTACK','2 MAX HP','3 MOVE','MAX','NOW 12','NEXT 4','NEXT 2'):
             self.assertIn(value,labels)
         self.assertEqual(before,(flow.run.build,flow.run.receipts,flow.game.combat.tick))
 
@@ -191,8 +191,8 @@ class UpgradeFlowTests(unittest.TestCase):
     def test_main_max_keys_are_ignored_while_other_cards_can_advance(self):
         def terminal(g,frame):
             if g.playing:finish(g,'clear')
-        created,_,*_=run_loop([[key(49),key(49,False)],[],[key(49),key(49,False)],[],
-                                [key(49),key(49,False)],[key(50)]],after_render=terminal)
+        created,_,*_=run_loop([[key(51),key(51,False)],[],[key(51),key(51,False)],[],
+                                [key(51),key(51,False)],[key(50)]],after_render=terminal)
         self.assertEqual([g.stage_number for g in created],[1,2,3,4])
         self.assertEqual(created[-1].player.health.max_hp,4)
 
@@ -233,7 +233,7 @@ class UpgradeFlowTests(unittest.TestCase):
             created,_,*_=run_loop(batches,after_render=terminal)
             self.assertEqual([(g.player.health.max_hp,g.resolver.player_damage) for g in created],list(expected))
             self.assertEqual([g.stage_number for g in created],[1,2,3,4,5])
-            self.assertEqual(created[-1].encounter.pulse.king.health.max_hp,8)
+            self.assertEqual(created[-1].encounter.pulse.king.health.max_hp,22)
 
     def test_same_movement_schedule_is_identical_with_one_or_eight_tick_frames(self):
         schedule={0:[key(UP),key(UP,False)],17:[key(1073741903),key(1073741903,False)],

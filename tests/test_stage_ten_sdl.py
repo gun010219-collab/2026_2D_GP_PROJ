@@ -79,12 +79,12 @@ class StageTenSDLTests(unittest.TestCase):
                 if f in (2,4,6,8):tap({2:s.SDLK_1,4:s.SDLK_2,6:s.SDLK_3,8:s.SDLK_2}[f])
                 if f in (9,14,25,28):tap(s.SDLK_r)
                 if f==11:tap(s.SDLK_n)
-                if f in (17,19,20):tap(s.SDLK_1)
+                if f in (17,19,20):tap(s.SDLK_3)
                 if f==21:
                     push(s.SDL_MOUSEBUTTONDOWN,x=730,y=500)
                     push(s.SDL_MOUSEBUTTONUP,x=730,y=500)
                 if f==23:
-                    tap(s.SDLK_3)
+                    tap(s.SDLK_1)
                     tap(s.SDLK_SPACE)
                     tap(s.SDLK_LSHIFT)
                     tap(s.SDLK_UP)
@@ -122,7 +122,7 @@ class StageTenSDLTests(unittest.TestCase):
                     assert len(flow.run.receipts)==0 and flow.offer is None
                     assert game.player.position==(5,1) and game.combat.tick==0
                     assert game.combat.active_attack is None and game.parry.last_attempt is None
-                    assert (game.player.health.current_hp,game.resolver.player_damage)==(3,1)
+                    assert (game.player.health.current_hp,game.resolver.player_damage)==(3,2)
                     assert themes[-1]==2
                     second_run[0]=flow.run
                 if f==12:
@@ -147,7 +147,7 @@ class StageTenSDLTests(unittest.TestCase):
                 if f==23:
                     assert game.stage_number==10 and game.boss
                     assert flow.run.chapter==2 and len(flow.run.receipts)==4
-                    assert game.encounter.pulse.king.health.current_hp==10
+                    assert game.encounter.pulse.king.health.current_hp==40
                     assert game.player.health.current_hp==4 and game.resolver.player_damage==3
                     assert game.player.position==(5,1) and game.combat.tick==0
                     assert game.parry.last_attempt is None and game.combat.active_attack is None
@@ -157,7 +157,7 @@ class StageTenSDLTests(unittest.TestCase):
                     assert flow.offer is None and game.next_stage_number is None
                 if f==25:
                     assert game.stage_number==10 and len(games)==13
-                    assert game.encounter.pulse.king.health.current_hp==10
+                    assert game.encounter.pulse.king.health.current_hp==40
                     assert len(flow.run.receipts)==4
                     assert game.player.health.current_hp==4 and game.combat.tick==0
                 if f==27:
@@ -193,7 +193,7 @@ class StageTenSDLTests(unittest.TestCase):
             assert [g.stage_number for g in games]==[1,2,3,4,5,5,6,6,7,8,9,10,10,6]
             assert len({g.combat.stage_instance_id for g in games})==14
             assert themes[0]==1 and themes[-1]==2
-            for label in ('STAGE 6','STAGE 10','KING HP 10/10','BOSS CLEAR','R TO RESTART'):
+            for label in ('STAGE 6','STAGE 10','KING HP 40/40','BOSS CLEAR','R TO RESTART'):
                 assert label in labels,label
             assert closed==[True]
             print('PASS: native main four upgrades/boss replay/N/forest/Stage6/death/boundary/settings/F11/focus/quit')

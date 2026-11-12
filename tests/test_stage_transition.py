@@ -37,7 +37,7 @@ def finish(game, state):
 
 
 def run_loop(batches, *, initial_stage=1, initial='clear', focus=None, lengths=None,
-             after_render=None, initial_factory=None):
+             after_render=None, initial_factory=None, entry_attack_level=0):
     """Use actual factories/loop/renderers; replace only the desktop and time."""
     canvas = canvas_tests.WindowLoopTests().make_canvas()
     canvas.SDL_SCANCODE_R, canvas.SDL_SCANCODE_N = 21, 17
@@ -55,7 +55,7 @@ def run_loop(batches, *, initial_stage=1, initial='clear', focus=None, lengths=N
 
     canvas.get_events.side_effect = poll
     created, snapshots = [], []
-    run = ChapterRun(2 if initial_stage >= 6 else 1)
+    run = ChapterRun(2 if initial_stage >= 6 else 1,entry_attack_level=entry_attack_level)
     original_one, original_stage = main._new_game, main._new_stage_game
 
     def register(game):
@@ -127,7 +127,7 @@ class StageSessionTests(unittest.TestCase):
         self.assertIsInstance(game, StageGame)
         self.assertEqual((game.stage_number, game.chapter, game.player.position), (1, 1, (5, 1)))
         self.assertEqual([(e.kind, e.position, e.health.current_hp) for e in game.encounter.enemies],
-                         [('pawn', (1, 6), 2), ('pawn', (8, 6), 2)])
+                         [('pawn', (1, 6), 3), ('pawn', (8, 6), 3)])
         with patch.object(main, '_new_game', return_value=game) as legacy:
             self.assertIs(main._new_stage_game(1), game)
             legacy.assert_called_once_with()
@@ -139,7 +139,7 @@ class StageSessionTests(unittest.TestCase):
                           game.player.health.current_hp, game.combat.tick), (2, 1, (5, 1), 'up', 3, 0))
         self.assertEqual([(e.data_id, e.kind, e.position, e.initial_delay) for e in game.encounter.enemies],
                          [(e.data_id, e.kind, e.position, e.initial_delay) for e in definition.enemies])
-        self.assertEqual([e.health.current_hp for e in game.encounter.enemies], [4, 2, 2])
+        self.assertEqual([e.health.current_hp for e in game.encounter.enemies], [6, 3, 3])
         self.assertEqual([e.initial_delay_ticks for e in game.encounter.enemies], [48, 62, 75])
         self.assertIsNone(game.encounter.enemies[0].forward)
         self.assertEqual(game.encounter.ledger.combat_session_id, game.combat.combat_session_id)
@@ -274,8 +274,8 @@ class StageFlowMainTests(unittest.TestCase):
             game = original_factory()
             first, second = game.encounter.enemies
             first.col, first.row = 5, 2
-            first.health.apply_damage(1, tick=0)
-            second.health.apply_damage(2, tick=0)
+            first.health.apply_damage(first.health.max_hp-1, tick=0)
+            second.health.apply_damage(second.health.max_hp, tick=0)
             game.encounter.deactivate(second.entity_instance_id)
             return game
         created, snapshots, _, _, _, _ = run_loop(
@@ -294,7 +294,7 @@ class StageFlowMainTests(unittest.TestCase):
                 game.encounter.deactivate(enemy.entity_instance_id)
             last = game.encounter.enemies[-1]
             last.col, last.row = 5, 2
-            last.health.apply_damage(1, tick=0)
+            last.health.apply_damage(last.health.max_hp-1, tick=0)
             return game
         created, snapshots, _, _, _, _ = run_loop(
             [[key(SPACE)], [], [key(R)]], initial_stage=2, initial='playing',
@@ -495,7 +495,7 @@ class StageFlowMainTests(unittest.TestCase):
         from tests.test_stage_three import play_to
         def expose(game,tick):
             if tick==144:
-                game.encounter.enemies[0].health.apply_damage(3,tick=tick)
+                game.encounter.enemies[0].health.apply_damage(5,tick=tick)
         created,_,_,_,_,_=play_to(170,factory=lambda: main._new_stage_game(2),
             inputs={150:[key(LEFT),key(LEFT,False)],168:[key(LEFT),key(SPACE)]},
             samples=(144,),observe=expose)
@@ -525,12 +525,12 @@ class StageFlowRendererTests(unittest.TestCase):
         with patch.object(HealthRenderer, '_text') as text:
             HealthRenderer().draw(Mock(), game.player, game.encounter.enemies, 0)
         labels = [call.args[1] for call in text.call_args_list]
-        self.assertEqual(labels.count('4/4'), 1)
-        self.assertEqual(labels.count('2/2'), 2)
+        self.assertEqual(labels.count('6/6'), 1)
+        self.assertEqual(labels.count('3/3'), 3)
         game.encounter.enemies[0].health.apply_damage(1, tick=0)
         with patch.object(HealthRenderer, '_text') as text:
             HealthRenderer().draw(Mock(), game.player, game.encounter.enemies, 0)
-        self.assertIn('3/4', [call.args[1] for call in text.call_args_list])
+        self.assertIn('5/6', [call.args[1] for call in text.call_args_list])
 
     def labels(self, game):
         with patch.object(HealthRenderer, '_text') as text:

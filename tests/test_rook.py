@@ -1,3 +1,4 @@
+from combat_balance import profile_for
 """Rook source baselines, geometry and definition/live-instance boundaries."""
 from dataclasses import replace
 import unittest
@@ -49,7 +50,7 @@ class RookDataTests(unittest.TestCase):
         self.assertEqual(enemies[1].forward, (0, -1))
 
     def test_stage_one_factory_matches_legacy_loader(self):
-        actual = create_stage_enemies(StageCatalog.load().get_stage(1))
+        actual = create_stage_enemies(StageCatalog.load().get_stage(1), profile=profile_for(1))
         expected = load_stage1_enemies()
         def values(enemies):
             return [(e.data_id, e.kind, e.position, e.forward, e.initial_delay_ticks,

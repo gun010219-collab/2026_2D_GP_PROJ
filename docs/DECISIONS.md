@@ -1,5 +1,34 @@
 # CHECKMATE 승인 결정
 
+## Task 1-Y-A — 공격력 계승·런타임 HP 승인
+
+기본 ATTACK은1~16, 레벨0~15, 선택당+1이다. HP3/4/5/6·MOVE18/15/12는 유지한다.
+perfect 다음 공격+2는 기본 공격력 상한과 별개이며16+2=18까지 실제 피해를 준다.
+챕터 이동 시 최종 attack_level만 새 Run의 entry_attack_level로 계승하고 HP/MOVE·Offer/Receipt는 초기화한다.
+GAME_OVER는 현재 공격력이 아닌 해당 챕터 entry_attack_level로 새 Run을 만든다. 보스 R은 현재 Build 전체를 유지한다.
+프로필은 일반 적 Pawn/Rook/Knight/Bishop 및 King 순서로 다음과 같다.
+
+| Chapter | Pawn | Rook | Knight | Bishop | King |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| 1 | 3 | 6 | 5 | 5 | 22 |
+| 2 | 5 | 9 | 7 | 7 | 40 |
+| 3 | 7 | 12 | 10 | 10 | 60 |
+| 4 | 10 | 16 | 13 | 13 | 85 |
+| 5 | 13 | 20 | 16 | 16 | 110 |
+
+이는 원본 기획서 수치가 아닌 사용자 승인 초기 런타임 밸런스다.
+원본 JSON/catalog boss_hp8/10/12/14/16 및 validator 기준선은 그대로다.
+실제 main·StageProgression 후보 검증은 같은 combat_balance 프로필을 명시적으로 사용한다.
+Stage1 전용 로더 기본값도Chapter1 HP3이며 원본 배치/방향/지연은 보존한다.
+저수준 Enemy 기본 생성·profile 미지정 Factory는 기존 API 호환 수치를 유지하고,
+profile을 전달한 Factory와 실제 main은 새 런타임 Health를 생성 시 결정한다.
+일반 적에 boss_hp를 주거나 King에 일반 max_hp를 주는 잘못된 구성은 거절한다.
+기존AI/Pulse/패링·48틱무적/공격원장/입력·시간규칙은 불변이다.
+1~10만 실행한다.3~5챕터 성장·프로필은 순수모델 검증이며 실제11~25/Chapter3 진입은 차단한다.
+Pawn접촉피해는 Y-B 후속이며 이번에는 구현하지 않는다.
+사용자 Windows 11 GUI22/22(실패0·확인 불가0)를 수령했다. 최종 재검수에서 기능 코드·테스트를 바꾸지 않았으며,
+자동938개 및40개 측정 재실행 통과 후 승인38개 파일의 한국어 커밋·기존 main 일반 Push를 수행한다.
+
 ## Task 1-X — Chapter 2 보스 A안 최종 승인
 
 Stage1~10만 실행한다. W의 Stage9 DEV_BOUNDARY를 정상 UPGRADE로 대체하고 네 번째 Offer를

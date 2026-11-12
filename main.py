@@ -6,6 +6,7 @@ from config import (
     WINDOW_HEIGHT, WINDOW_TITLE, WINDOW_WIDTH,
 )
 from renderer import BoardRenderer
+from combat_balance import profile_for
 from display_settings import DisplaySettings, logical_mouse_to_canvas
 from settings_menu import SettingsMenu
 from settings_renderer import SettingsRenderer
@@ -64,7 +65,7 @@ def _new_stage_game(stage_number, *, stats=None):
         raise TypeError('Session stats must be DerivedStats')
     player = Player(*definition.player_spawn, max_hp=stats.max_hp)
     combat, parry = Combat(), Parry()
-    encounter = EnemyEncounter(create_stage_enemies(definition), start_tick=combat.tick,
+    encounter = EnemyEncounter(create_stage_enemies(definition, profile=profile_for(definition.chapter)), start_tick=combat.tick,
                                combat_session_id=combat.combat_session_id,
                                stage_instance_id=combat.stage_instance_id, boss=definition.boss)
     resolver = CombatResolver(player, combat, encounter, parry=parry, player_damage=stats.attack_damage)

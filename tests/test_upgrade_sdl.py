@@ -75,10 +75,10 @@ class UpgradeSDLTests(unittest.TestCase):
                 started[0]=True
                 s.SDL_FlushEvents(s.SDL_FIRSTEVENT,s.SDL_LASTEVENT)
                 f=frame[0]
-                if f in (1,2):tap(s.SDLK_1)
-                if f==4:click(450,499)
-                if f==6:tap(s.SDLK_1)
-                if f==7:click(450,499)
+                if f in (1,2):tap(s.SDLK_3)
+                if f==4:click(970,499)
+                if f==6:tap(s.SDLK_3)
+                if f==7:click(970,499)
                 if f==8:
                     click(1295,41)
                     tap(s.SDLK_2)
@@ -99,7 +99,7 @@ class UpgradeSDLTests(unittest.TestCase):
                     tap(s.SDLK_3)
                     tap(s.SDLK_SPACE)
                     tap(s.SDLK_UP)
-                if f==18:tap(s.SDLK_1)  # Boss N enters Chapter 2 in the separate Stage 6 SDL path.
+                if f==18:tap(s.SDLK_3)  # Boss N enters Chapter 2 in the separate Stage 6 SDL path.
                 if f==20:tap(s.SDLK_n)
                 if f in (19,21):tap(s.SDLK_r)
                 if f==22:push(s.SDL_QUIT)
@@ -125,8 +125,8 @@ class UpgradeSDLTests(unittest.TestCase):
                     assert run.active_offer is None and len(run.receipts)==4
                 if f==19:
                     assert g.stage_number==5 and g.playing
-                    assert g.player.health.current_hp==5 and g.resolver.player_damage==3
-                    assert g.encounter.pulse.king.health.max_hp==8
+                    assert g.player.health.current_hp==5 and g.resolver.player_damage==1
+                    assert g.encounter.pulse.king.health.max_hp==22
                     assert g.encounter.pulse.event is None
                     g.player.health.apply_damage(5,tick=g.combat.tick)
                     g.update_state()
@@ -164,7 +164,7 @@ class UpgradeSDLTests(unittest.TestCase):
                 main.main(run=run)
             assert [g.stage_number for g in games]==[1,2,3,4,5,5,1]
             assert len({g.combat.stage_instance_id for g in games})==7
-            assert [(g.player.health.max_hp,g.resolver.player_damage) for g in games]==[(3,1),(3,2),(3,3),(4,3),(5,3),(5,3),(3,1)]
+            assert [(g.player.health.max_hp,g.resolver.player_damage) for g in games]==[(3,1),(3,1),(3,1),(4,1),(5,1),(5,1),(3,1)]
             assert len(run.receipts)==4 and closed==[True]
             for value in ('UPGRADE','1 ATTACK','2 MAX HP','3 MOVE','MAX','NOW 3','NEXT 4','NEXT 15'):
                 assert value in labels,value

@@ -103,7 +103,7 @@ class StageFiveSDLTests(unittest.TestCase):
                 tick=g.combat.tick
                 if phase[0]=='fight' and tick==385:
                     assert g.resolver.last_parry_result.status=='perfect'
-                    assert g.encounter.pulse.king.health.current_hp==6
+                    assert g.encounter.pulse.king.health.current_hp==20
                     assert g.combat.pending_attack_bonus==2 and g.player.health.current_hp==2
                     assert g.encounter.pulse.king.stun_until_tick==445
                 if phase[0]=='fight' and tick==417:
@@ -115,7 +115,7 @@ class StageFiveSDLTests(unittest.TestCase):
                 elif phase[0]=='restart':
                     assert len(games)==3 and tick==0 and g.stage_number==5
                     assert g.encounter.pulse.event is None
-                    assert g.encounter.pulse.king.health.current_hp==8
+                    assert g.encounter.pulse.king.health.current_hp==22
                     phase[0]='menu'
                 elif phase[0]=='menu':
                     phase[0]='paused'
@@ -158,7 +158,7 @@ class StageFiveSDLTests(unittest.TestCase):
             assert opened==[(1440,900)] and closed==[True]
             assert [g.stage_number for g in games]==[4,5,5]
             assert warnings and all(len(cells)==len(set(cells))==100 for cells in warnings)
-            for label in ('STAGE 5','KING HP 8/8','KING HP 6/8','CHECKMATE PULSE',
+            for label in ('STAGE 5','KING HP 22/22','KING HP 20/22','CHECKMATE PULSE',
                           'CLEANUP','PERFECT PARRY','BOSS CLEAR','R TO RESTART'):
                 assert label in labels,label
             print('PASS: native Stage 5/Pulse/perfect/HP/clear/replay/settings/F11/focus/quit')

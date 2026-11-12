@@ -126,7 +126,7 @@ class GameFlowIntegrationTests(unittest.TestCase):
                 self.assertEqual(snapshots[0][1], 0)
                 self.assertEqual((new.combat.tick,new.player.health.current_hp),(1,3))
                 self.assertEqual(new.player.position,(5,1))
-                self.assertEqual([e.health.current_hp for e in new.encounter.enemies],[2,2])
+                self.assertEqual([e.health.current_hp for e in new.encounter.enemies],[3,3])
                 self.assertNotEqual(old.player.entity_instance_id,new.player.entity_instance_id)
                 self.assertNotEqual(old.combat.stage_instance_id,new.combat.stage_instance_id)
 
@@ -237,7 +237,7 @@ class GameFlowIntegrationTests(unittest.TestCase):
         def almost_clear():
             first, second = Enemy('last', 5, 2, (0, -1), 10), Enemy('dead', 8, 6, (0, -1), 10)
             first.health.apply_damage(1, tick=0)
-            second.health.apply_damage(2, tick=0)
+            second.health.apply_damage(3, tick=0)
             return game_tests.fixture((first, second))
         created, snapshots, _, _, _, _ = self.run_loop(
             [[key(SPACE), key(R)], [key(R, False), key(R)]],

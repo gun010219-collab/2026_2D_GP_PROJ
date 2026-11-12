@@ -33,7 +33,7 @@ class GameStateTests(unittest.TestCase):
         self.assertEqual(game.state, GameState.PLAYING)
         self.assertEqual((game.player.health.current_hp, game.player.position), (3, (5, 1)))
         self.assertEqual([(e.data_id, e.position, e.health.current_hp) for e in game.encounter.enemies],
-                         [('s1_pawn_1', (1, 6), 2), ('s1_pawn_2', (8, 6), 2)])
+                         [('s1_pawn_1', (1, 6), 3), ('s1_pawn_2', (8, 6), 3)])
         self.assertFalse(game.update_state())
         self.assertEqual((game.transition_count, game.end_tick), (0, None))
 
@@ -49,11 +49,11 @@ class GameStateTests(unittest.TestCase):
     def test_both_dead_pawns_clear_but_one_dead_pawn_does_not(self):
         game = fixture()
         first, second = game.encounter.enemies
-        first.health.apply_damage(2, tick=0)
+        first.health.apply_damage(3, tick=0)
         game.encounter.deactivate(first.entity_instance_id)
         self.assertFalse(game.update_state())
         self.assertTrue(game.playing)
-        second.health.apply_damage(2, tick=0)
+        second.health.apply_damage(3, tick=0)
         self.assertTrue(game.update_state())
         self.assertEqual(game.state, GameState.UPGRADE)
         self.assertFalse(game.update_state())
@@ -186,7 +186,7 @@ class FreshSessionTests(unittest.TestCase):
         self.assertEqual([e.position for e in new.encounter.enemies], [(1, 6), (8, 6)])
         for a, b in zip(old.encounter.enemies, new.encounter.enemies):
             self.assertNotEqual(a.entity_instance_id, b.entity_instance_id)
-            self.assertEqual((b.health.current_hp, b.state, b.stun_until_tick), (2, 'initial_wait', 0))
+            self.assertEqual((b.health.current_hp, b.state, b.stun_until_tick), (3, 'initial_wait', 0))
             self.assertIsNone(b.current_attack)
             self.assertIsNone(b.health.last_damage_tick)
         self.assertEqual((new.combat.tick, new.combat.next_attack_tick, new.parry.next_parry_tick,
@@ -217,7 +217,7 @@ class FreshSessionTests(unittest.TestCase):
             new.resolver.resolve_player_attack(attack)
         with self.assertRaises(ValueError):
             new.resolver.register_parry(attempt)
-        self.assertEqual([e.health.current_hp for e in new.encounter.enemies], [2, 2])
+        self.assertEqual([e.health.current_hp for e in new.encounter.enemies], [3, 3])
         self.assertEqual(new.combat.attack_state(fresh_attack), 'pending')
 
     def test_old_enemy_event_cannot_damage_fresh_session(self):

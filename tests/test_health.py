@@ -13,7 +13,7 @@ class HealthTests(unittest.TestCase):
         self.assertEqual(PLAYER_INITIAL_HP, 3)
         self.assertEqual(PAWN_INITIAL_HP, 2)
         self.assertEqual((player.health.current_hp, player.health.max_hp), (3, 3))
-        self.assertEqual([(e.health.current_hp, e.health.max_hp) for e in pawns], [(2, 2), (2, 2)])
+        self.assertEqual([(e.health.current_hp, e.health.max_hp) for e in pawns], [(3, 3), (3, 3)])
         self.assertIsNot(pawns[0].health, pawns[1].health)
         self.assertIsNone(player.health.last_damage_tick)
         self.assertTrue(player.alive)

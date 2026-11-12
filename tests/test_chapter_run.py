@@ -59,15 +59,15 @@ class ChapterRunTests(unittest.TestCase):
 
     def test_max_rejection_does_not_consume_the_opportunity(self):
         run=ChapterRun()
-        choose(run,'attack'); choose(run,'attack')
+        choose(run,'move'); choose(run,'move')
         o=run.offer_after_clear(3,'s3')
-        self.assertTrue(o.options[0].is_max)
+        self.assertTrue(o.options[2].is_max)
         with self.assertRaises(ValueError):
-            run.select(o,'attack')
+            run.select(o,'move')
         self.assertIs(run.active_offer,o)
         self.assertEqual(len(run.receipts),2)
         run.select(o,'hp')
-        self.assertEqual(run.build,ChapterBuild(2,1,0))
+        self.assertEqual(run.build,ChapterBuild(0,1,2))
 
     def test_external_equal_or_modified_offers_are_not_owner_issued(self):
         run=ChapterRun()
@@ -110,7 +110,7 @@ class ChapterRunTests(unittest.TestCase):
                 o=run.offer_after_clear(i+1,f's{i}')
                 self.assertEqual(len(o.options),3)
                 self.assertTrue(any(x.enabled for x in o.options))
-                if o.before_build.level(kind)==(3 if kind is UpgradeKind.HP else 2):
+                if o.before_build.level(kind)==(3 if kind is UpgradeKind.HP else 15 if kind is UpgradeKind.ATTACK else 2):
                     with self.assertRaises(ValueError):
                         run.select(o,kind)
                     break
@@ -169,7 +169,7 @@ class ChapterRunTests(unittest.TestCase):
         old=ChapterRun()
         choose(old,'attack')
         fresh=old.start_chapter(2)
-        self.assertEqual((fresh.chapter,fresh.current_stage,fresh.build),(2,6,ChapterBuild()))
+        self.assertEqual((fresh.chapter,fresh.current_stage,fresh.build),(2,6,ChapterBuild(1)))
         self.assertTrue(old.retired)
         with self.assertRaises(ValueError):
             old.offer_after_clear(2,'late')

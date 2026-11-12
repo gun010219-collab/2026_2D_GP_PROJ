@@ -40,9 +40,9 @@ class ChapterTwoEntryTests(unittest.TestCase):
         self.assertIs(flow.game,g)
         self.assertTrue(old_run.retired)
         self.assertEqual((flow.run.chapter,flow.run.current_stage,flow.run.build,flow.run.receipts),
-                         (2,6,ChapterBuild(),()))
+                         (2,6,ChapterBuild(1),()))
         self.assertEqual((g.chapter,g.stage_number,g.player.health.current_hp,g.player.health.max_hp,
-                          g.resolver.player_damage,g.combat.tick,g.encounter.tick),(2,6,3,3,1,0,-1))
+                          g.resolver.player_damage,g.combat.tick,g.encounter.tick),(2,6,3,3,2,0,-1))
         self.assertIsNone(g.encounter.pulse)
         self.assertNotEqual(old_run.run_id,flow.run.run_id)
         self.assertNotEqual(old_game.combat.stage_instance_id,g.combat.stage_instance_id)
@@ -55,7 +55,7 @@ class ChapterTwoEntryTests(unittest.TestCase):
             self.assertIs(flow.game,old_game)
             self.assertIs(flow.run,old_run)
             self.assertFalse(old_run.retired)
-            self.assertEqual(stats,ChapterBuild().stats)
+            self.assertEqual(stats,ChapterBuild(1).stats)
             return marker
         g,prepared=flow.enter_next_chapter(main._new_stage_game,prepare)
         self.assertIs(prepared,marker)
@@ -207,8 +207,8 @@ class ChapterTwoEntryTests(unittest.TestCase):
         self.assertEqual(snapshot(flow),before)
         fresh,_=flow.restart(main._new_stage_game)
         self.assertEqual((fresh.stage_number,flow.run.chapter,flow.run.current_stage),(6,2,6))
-        self.assertEqual((fresh.player.health.current_hp,fresh.resolver.player_damage),(3,1))
-        self.assertEqual(flow.run.build,ChapterBuild())
+        self.assertEqual((fresh.player.health.current_hp,fresh.resolver.player_damage),(3,2))
+        self.assertEqual(flow.run.build,ChapterBuild(1))
         self.assertTrue(old_run.retired)
         self.assertNotEqual(old_game.combat.stage_instance_id,fresh.combat.stage_instance_id)
 
@@ -286,7 +286,7 @@ class ChapterTwoEntryTests(unittest.TestCase):
                     self.assertFalse(retired)
                     self.assertTrue(error)
                 self.assertEqual(seen[-1][0].stage_number,6)
-                self.assertEqual(seen[-1][2],ChapterBuild())
+                self.assertEqual(seen[-1][2],ChapterBuild(1))
                 self.assertTrue(seen[-1][3])
                 self.assertFalse(seen[-1][4])
                 canvas.close_canvas.assert_called_once_with()
@@ -326,7 +326,7 @@ class ChapterTwoEntryTests(unittest.TestCase):
                                       created[-1].resolver.player_damage),(4,2))
                 else:
                     self.assertEqual((created[-1].player.health.current_hp,
-                                      created[-1].resolver.player_damage),(3,1))
+                                      created[-1].resolver.player_damage),(3,2))
 
     def test_main_failed_next_can_replay_in_same_batch_then_enter_on_new_press(self):
         original=main._new_stage_game;calls=[]
@@ -345,7 +345,7 @@ class ChapterTwoEntryTests(unittest.TestCase):
         self.assertEqual([g.stage_number for g in created],[5,5,6])
         self.assertEqual([s['stage'] for s in snapshots],[5,5,5,6])
         self.assertEqual((created[1].player.health.current_hp,created[1].resolver.player_damage),(4,2))
-        self.assertEqual((created[-1].player.health.current_hp,created[-1].resolver.player_damage),(3,1))
+        self.assertEqual((created[-1].player.health.current_hp,created[-1].resolver.player_damage),(3,2))
 
 
 if __name__=='__main__':unittest.main()

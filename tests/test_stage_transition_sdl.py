@@ -119,7 +119,7 @@ class StageTransitionSDLTests(unittest.TestCase):
             assert len(stages) == 1 and stages[0].stage_number == 2, (len(stages), frames)
             game = stages[0]
             assert [e.kind for e in game.encounter.enemies] == ['rook','pawn','pawn']
-            assert [e.health.current_hp for e in game.encounter.enemies] == [4,2,2]
+            assert [e.health.current_hp for e in game.encounter.enemies] == [6,3,3]
             assert ((3,1),(4,1),(5,1)) in warnings
             assert game.player.health.current_hp == 2
             assert game.player.health.last_damage_tick == 168

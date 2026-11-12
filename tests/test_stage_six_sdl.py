@@ -103,8 +103,8 @@ class StageSixSDLTests(unittest.TestCase):
                     push(s.SDL_MOUSEBUTTONDOWN,x=1295,y=41)
                     push(s.SDL_MOUSEBUTTONUP,x=1295,y=41)
                 if f==30:push(s.SDL_QUIT)
-                if f in (17,19):tap(s.SDLK_1)
-                if f==20:tap(s.SDLK_1)  # MAX must not advance.
+                if f in (17,19):tap(s.SDLK_3)
+                if f==20:tap(s.SDLK_3)  # MAX must not advance.
                 if f==21:
                     push(s.SDL_MOUSEBUTTONDOWN,x=730,y=500)
                     push(s.SDL_MOUSEBUTTONUP,x=730,y=500)
@@ -133,7 +133,7 @@ class StageSixSDLTests(unittest.TestCase):
                     assert len(flow.run.receipts)==0 and flow.offer is None
                     assert game.player.position==(5,1) and game.combat.tick==0
                     assert game.combat.active_attack is None and game.parry.last_attempt is None
-                    assert (game.player.health.current_hp,game.resolver.player_damage)==(3,1)
+                    assert (game.player.health.current_hp,game.resolver.player_damage)==(3,2)
                     assert themes[-1]==2
                     second_run[0]=flow.run
                 if f==12:
@@ -153,7 +153,7 @@ class StageSixSDLTests(unittest.TestCase):
                 if f in (17,19,21):
                     assert game.stage_number=={17:7,19:8,21:9}[f]
                     assert len(flow.run.receipts)=={17:1,19:2,21:3}[f]
-                    assert game.resolver.player_damage=={17:2,19:3,21:3}[f]
+                    assert game.resolver.player_damage=={17:2,19:2,21:2}[f]
                     clear(game)
                     boundary_tick[0]=game.combat.tick
                 if f==20:

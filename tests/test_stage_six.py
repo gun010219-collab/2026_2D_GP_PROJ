@@ -56,8 +56,8 @@ class StageSixTests(unittest.TestCase):
         self.assertIsNone(g.encounter.pulse)
         self.assertEqual([(e.data_id,e.kind,e.position,e.health.max_hp,e.initial_delay_ticks)
                           for e in g.encounter.enemies],
-                         [('s6_pawn_1','pawn',(1,6),2,48),('s6_pawn_2','pawn',(8,6),2,62),
-                          ('s6_pawn_3','pawn',(3,8),2,75),('s6_rook_1','rook',(2,4),4,88)])
+                         [('s6_pawn_1','pawn',(1,6),5,48),('s6_pawn_2','pawn',(8,6),5,62),
+                          ('s6_pawn_3','pawn',(3,8),5,75),('s6_rook_1','rook',(2,4),9,88)])
         self.assertEqual(g.encounter.ledger.stage_instance_id,g.combat.stage_instance_id)
         self.assertEqual(g.encounter.ledger.combat_session_id,g.combat.combat_session_id)
 
@@ -158,7 +158,7 @@ class StageSixTests(unittest.TestCase):
         # Deterministic test driver: walk to the nearest enemy, face it by
         # attempting an occupied move, attack, and parry imminent warnings.
         # All positions, HP, delays, cooldowns and damage use the real rules.
-        for tick in range(600):
+        for tick in range(2400):
             if not g.playing:
                 break
             if tick:
@@ -192,7 +192,7 @@ class StageSixTests(unittest.TestCase):
                     self.assertIsNone(g.resolver.resolve_player_attack(attack))
             g.resolve_current_tick()
         self.assertEqual((g.state, g.combat.tick, g.player.health.current_hp),
-                         (GameState.UPGRADE, 389, 3))
+                         (GameState.UPGRADE, 965, 3))
         self.assertEqual(damaged_ids, {e.entity_instance_id for e in g.encounter.enemies})
         self.assertTrue(all(not e.alive and not e.active for e in g.encounter.enemies))
         self.assertFalse(g.encounter.occupied_cells)

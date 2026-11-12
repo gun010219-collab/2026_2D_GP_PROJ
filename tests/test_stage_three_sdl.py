@@ -96,7 +96,7 @@ class StageThreeSDLTests(unittest.TestCase):
                     assert game.stage_number == 3 and game.combat.tick == 0
                     assert [e.kind for e in game.encounter.enemies] == ['knight','pawn','pawn']
                     assert [e.position for e in game.encounter.enemies] == [(3,6),(1,6),(8,6)]
-                    assert [e.health.current_hp for e in game.encounter.enemies] == [3,2,2]
+                    assert [e.health.current_hp for e in game.encounter.enemies] == [5,3,3]
                 if frames[0] == 40:
                     game = stages[-1]
                     assert game.combat.tick == 300
@@ -148,7 +148,7 @@ class StageThreeSDLTests(unittest.TestCase):
             assert ('knight','pawn','pawn') in kinds
             assert ((5,5),) in warnings and ((5,1),) in warnings
             assert all(len(cells) == 1 for cells in warnings)
-            assert 'STAGE 3' in labels and '3/3' in labels and '2/2' in labels
+            assert 'STAGE 3' in labels and '5/5' in labels and '3/3' in labels
             assert 'UPGRADE' in labels and 'GAME OVER' in labels
             assert 'N TO CONTINUE' not in labels and 'R TO STAGE 1' in labels
             print('PASS: native SDL N events, Stage 3 main combat/drawing and perfect parry')

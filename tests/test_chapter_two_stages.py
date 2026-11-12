@@ -19,8 +19,9 @@ from player import DIRECTIONS
 from tests import test_main as canvas_tests
 
 
-def flow_at(stage, choices=('attack', 'hp', 'move')):
-    flow = StageProgression(main._new_stage_game(6), ChapterRun(2))
+def flow_at(stage, choices=('attack', 'hp', 'move'), *, entry_attack_level=0):
+    run=ChapterRun(2,entry_attack_level=entry_attack_level)
+    flow = StageProgression(main._new_stage_game(6,stats=run.stats), run)
     for kind in choices[:stage-6]:
         flow.choose(clear(flow), kind, main._new_stage_game)
     return flow
@@ -73,7 +74,7 @@ class ChapterTwoStageTests(unittest.TestCase):
 
     def test_max_attack_and_move_reject_without_candidate_or_consumption(self):
         for kind,index in (('attack',0),('move',2)):
-            flow=flow_at(8,(kind,kind))
+            flow=flow_at(8,(kind,kind),entry_attack_level=13 if kind=='attack' else 0)
             o=clear(flow); before=state(flow); factory=Mock()
             self.assertFalse(o.options[index].enabled)
             with self.assertRaises(ValueError):flow.choose(o,kind,factory)
@@ -227,7 +228,7 @@ class ChapterTwoStageTests(unittest.TestCase):
             release=SimpleNamespace(type=1026,button=1,x=x,y=500)
             created,snapshots,*_=run_loop([[key(number),key(number,False)],[],
                 [key(number),key(number,False)],[],[key(number),key(number,False)],
-                [click,release],[key(50)]],initial_stage=6,after_render=terminal)
+                [click,release],[key(50)]],initial_stage=6,after_render=terminal,entry_attack_level=13 if number==49 else 0)
             self.assertEqual([g.stage_number for g in created],[6,7,8,9])
             self.assertEqual([s['stage'] for s in snapshots[-3:]],[8,8,9])
 

@@ -119,7 +119,7 @@ class StageFourSDLTests(unittest.TestCase):
             assert [g.stage_number for g in games]==[3,4]
             assert warnings and all(len(set(cells))==50 for cells in warnings)
             assert all((x+y)%2==0 for cells in warnings for x,y in cells)
-            assert 'STAGE 4' in labels and '4/4' in labels and '2/2' in labels
+            assert 'STAGE 4' in labels and '6/6' in labels and '3/3' in labels
             assert 'UPGRADE' in labels and 'GAME OVER' in labels and 'R TO STAGE 1' in labels
             print('PASS: actual SDL N event, Bishop fifty-cell warning, perfect and overlays')
         ''')

@@ -14,7 +14,7 @@ def offer(build=ChapterBuild()):
 class UpgradeDataTests(unittest.TestCase):
     def test_exact_three_types_and_value_tables_are_read_only(self):
         self.assertEqual(tuple(k.value for k in UpgradeKind), ('attack', 'hp', 'move'))
-        self.assertEqual(tuple(UPGRADE_VALUES.values()), ((1,2,3),(3,4,5,6),(18,15,12)))
+        self.assertEqual(tuple(UPGRADE_VALUES.values()), (tuple(range(1,17)),(3,4,5,6),(18,15,12)))
         with self.assertRaises(TypeError):
             UPGRADE_VALUES[UpgradeKind.ATTACK] = (99,)
 
@@ -23,14 +23,14 @@ class UpgradeDataTests(unittest.TestCase):
         self.assertEqual(ChapterBuild(2,3,2).stats, DerivedStats(3,6,12))
 
     def test_every_one_of_36_builds_has_exact_deterministic_stats(self):
-        for attack,hp,move in product(range(3),range(4),range(3)):
+        for attack,hp,move in product(range(16),range(4),range(3)):
             b=ChapterBuild(attack,hp,move)
-            expected=DerivedStats((1,2,3)[attack],(3,4,5,6)[hp],(18,15,12)[move])
+            expected=DerivedStats(attack+1,(3,4,5,6)[hp],(18,15,12)[move])
             self.assertEqual(b.stats,expected)
             self.assertEqual(b.stats,ChapterBuild(attack,hp,move).stats)
 
     def test_bad_levels_bool_negative_float_string_and_over_cap_rejected(self):
-        for field,cap in (('attack_level',2),('hp_level',3),('move_level',2)):
+        for field,cap in (('attack_level',15),('hp_level',3),('move_level',2)):
             for bad in (True,False,-1,cap+1,1.0,'1',None,[],float('nan')):
                 with self.subTest(field=field,bad=bad), self.assertRaises(ValueError):
                     ChapterBuild(**{field:bad})
@@ -55,7 +55,7 @@ class UpgradeDataTests(unittest.TestCase):
         second=first.upgraded(UpgradeKind.ATTACK)
         self.assertEqual((b.stats.attack_damage,first.stats.attack_damage,second.stats.attack_damage),(1,2,3))
         with self.assertRaises(ValueError):
-            second.upgraded('attack')
+            ChapterBuild(15).upgraded('attack')
         self.assertEqual(second,ChapterBuild(2,0,0))
 
     def test_unknown_effects_are_not_silently_mapped_to_a_card(self):
@@ -70,7 +70,7 @@ class UpgradeDataTests(unittest.TestCase):
                          [(1,2,2,3,True),(2,3,5,6,True),(1,2,15,12,True)])
 
     def test_max_cards_stay_present_without_fictitious_next_levels(self):
-        options=offer(ChapterBuild(2,3,2)).options
+        options=offer(ChapterBuild(15,3,2)).options
         self.assertEqual(len(options),3)
         for option in options:
             self.assertTrue(option.is_max)
@@ -86,7 +86,7 @@ class UpgradeDataTests(unittest.TestCase):
             o.options[0].current_level=2
 
     def test_invalid_option_and_offer_scope_payloads(self):
-        for kind,level in (('unknown',0),('attack',3),('hp',True),('move',-1)):
+        for kind,level in (('unknown',0),('attack',16),('hp',True),('move',-1)):
             with self.assertRaises(ValueError):
                 UpgradeOption(kind,level)
         for fields in ({'run_id':''},{'offer_id':' '},{'stage_instance_id':None},

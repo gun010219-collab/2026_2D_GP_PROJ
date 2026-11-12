@@ -54,7 +54,15 @@ Pawn/Rook/Knight/Bishop/Queen/King의 식별 실루엣은 챕터 전반에 유�
 
 ## 구현 경계
 
-**현재 Task 1-X:** Stage6~9 UPGRADE의 네 강화 후10 King HP10 보스전을 실행한다.
+**현재 Y-A:** Stage1~10 진행 유지. 공격1~16·챕터 간 공격단계 계승·HP/MOVE 초기화, 사망 시 entry 공격단계 복원.
+일반 적/King HP는 combat_balance의 승인 런타임 프로필, 원본JSON boss_hp와 구분한다.
+perfect+2·AI/Pulse/접촉 정책은 불변이며 Y-B 접촉피해는 미구현이다.
+상세 수치는 [최신 결정](DECISIONS.md), 자동 측정은 [밸런스 표](BALANCE_Y_A.md)를 따른다.
+Y-A 사용자 Windows 11 GUI22/22(실패0·확인 불가0), 자동 unittest938개, SDL dummy 및40개 결정적 측정 재실행을
+별도 근거로 확인했다. 체감 평가 통과는 장기 밸런스 확정이나 Chapter3~5 GUI 검증을 의미하지 않는다.
+아래 X는 당시 구현 이력이다.
+
+**Task 1-X 당시:** Stage6~9 UPGRADE의 네 강화 후10 King HP10 보스전을 실행한다.
 기존 Pulse와 숲 팔레트를 재사용하며 King 포함 전멸 BOSS_CLEAR, R강화유지10/N차단, Chapter2 GAME_OVER R무강화6이다.
 정상1~10에서 DEV_BOUNDARY는 나오지 않는다.11~25/Chapter3/영구해금·저장/Queen/차별화 패턴·최종아트는 미구현이다.
 X 자동921개 및 사용자 Windows GUI22/22 통과를 별도 근거로 기록한다.

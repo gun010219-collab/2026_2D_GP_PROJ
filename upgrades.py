@@ -1,4 +1,4 @@
-"""Immutable PDF p.19 upgrade values and offers; no input, rendering or clock."""
+"""Approved Y-A attack growth and retained HP/move values; immutable offers."""
 from dataclasses import dataclass
 from enum import Enum
 from types import MappingProxyType
@@ -11,7 +11,7 @@ class UpgradeKind(str, Enum):
 
 
 UPGRADE_VALUES = MappingProxyType({
-    UpgradeKind.ATTACK: (1, 2, 3),
+    UpgradeKind.ATTACK: tuple(range(1, 17)),
     UpgradeKind.HP: (3, 4, 5, 6),
     UpgradeKind.MOVE: (18, 15, 12),
 })

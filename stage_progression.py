@@ -1,5 +1,6 @@
 """Authenticate combat outcomes and prepare sessions before consuming upgrades."""
 from chapter_run import ChapterRun
+from combat_balance import profile_for
 from game import GameState, StageGame
 from stage_manager import StageCatalog
 from upgrades import ChapterBuild, chapter_first_stage, upgrade_kind
@@ -95,7 +96,7 @@ class StageProgression:
             raise ValueError('Prepared combat reused Health objects')
         expected = [(e.kind, e.position, e.initial_delay_ticks) for e in g.encounter.enemies]
         from enemy_factory import create_stage_enemies
-        original = create_stage_enemies(d)
+        original = create_stage_enemies(d, profile=profile_for(d.chapter))
         if (expected != [(e.kind, e.position, e.initial_delay_ticks) for e in original]
                 or [e.health.current_hp for e in g.encounter.enemies] != [e.health.max_hp for e in original]
                 or [e.health.max_hp for e in g.encounter.enemies] != [e.health.max_hp for e in original]
@@ -138,7 +139,7 @@ class StageProgression:
     def enter_next_chapter(self, factory, prepare=lambda stats: None):
         """Prepare Chapter 2 completely before retiring Chapter 1. No save/unlock."""
         self._require_boss_clear()
-        fresh_run = ChapterRun(2)
+        fresh_run = ChapterRun(2, entry_attack_level=self.run.build.attack_level)
         g, prepared = self._candidate(6, fresh_run.stats, factory, prepare)
         old_run = self.run
         self._install(g, fresh_run)
@@ -151,7 +152,7 @@ class StageProgression:
         if not self.game.resolver.stopped:
             raise ValueError('Restart requires a stopped terminal combat')
         if state is GameState.GAME_OVER and not self.game.player.alive:
-            stats, destination = ChapterBuild().stats, chapter_first_stage(self.run.chapter)
+            stats, destination = ChapterBuild(attack_level=self.run.entry_attack_level).stats, chapter_first_stage(self.run.chapter)
         elif (state is GameState.BOSS_CLEAR and self.game.boss and self.game.player.alive
               and all(not e.alive for e in self.game.encounter.enemies)):
             stats, destination = self.run.boss_replay_stats(), self.game.stage_number

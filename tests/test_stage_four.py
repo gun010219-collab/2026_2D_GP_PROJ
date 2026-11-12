@@ -26,7 +26,7 @@ class StageFourFlowTests(unittest.TestCase):
         g=created[-1]
         self.assertEqual((snapshots[0]['tick'],g.player.position,g.player.health.current_hp),(0,(5,1),3))
         self.assertEqual([(e.kind,e.position,e.health.current_hp) for e in g.encounter.enemies],
-                         [('bishop',(2,8),3),('rook',(2,4),4),('pawn',(1,6),2),('pawn',(8,6),2)])
+                         [('bishop',(2,8),5),('rook',(2,4),6),('pawn',(1,6),3),('pawn',(8,6),3)])
         self.assertLess(clock.accumulator,FIXED_TIME_STEP)
 
     def test_clear_r_replays_four_death_r_returns_one_and_n_never_reaches_five(self):
@@ -56,7 +56,7 @@ class StageFourFlowTests(unittest.TestCase):
                 enemy.health.apply_damage(enemy.health.current_hp,tick=0)
                 g.encounter.deactivate(enemy.entity_instance_id)
             self.assertFalse(g.update_state())
-            g.encounter.enemies[-1].health.apply_damage(2,tick=0)
+            g.encounter.enemies[-1].health.apply_damage(3,tick=0)
             if dead:
                 g.player.health.apply_damage(3,tick=0)
             g.update_state()
@@ -208,7 +208,7 @@ class StageFourMainCombatTests(unittest.TestCase):
             g=factory(4)
             b=g.encounter.enemies[0]
             b.col,b.row=5,2
-            b.health.apply_damage(2,tick=0)
+            b.health.apply_damage(b.health.max_hp-1,tick=0)
             for e in g.encounter.enemies[1:]:
                 e.health.apply_damage(e.health.current_hp,tick=0)
                 g.encounter.deactivate(e.entity_instance_id)
@@ -262,9 +262,9 @@ class StageFourRendererTests(unittest.TestCase):
             self.assertNotIn('N TO CONTINUE', labels)
             self.assertFalse(any('CHAPTER CLEAR' in s or 'ENDING' in s or 'STAGE 5' in s for s in labels))
             if state=='playing':
-                self.assertEqual(labels.count('3/3'),2)
-                self.assertEqual(labels.count('4/4'),1)
-                self.assertEqual(labels.count('2/2'),2)
+                self.assertEqual(labels.count('3/3'),3)
+                self.assertEqual(labels.count('6/6'),1)
+                self.assertEqual(labels.count('5/5'),1)
             elif state=='clear':
                 self.assertNotIn('R TO RESTART',labels)
             else:

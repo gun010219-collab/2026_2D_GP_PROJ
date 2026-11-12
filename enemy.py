@@ -9,6 +9,7 @@ from board import in_bounds
 from combat import _duration_ticks
 from config import BOARD_SIZE, PAWN_INITIAL_HP, ROOK_INITIAL_HP, KNIGHT_INITIAL_HP, BISHOP_INITIAL_HP
 from health import Health
+from combat_balance import profile_for
 
 
 @dataclass
@@ -21,13 +22,14 @@ class Enemy:
     entity_instance_id: str = field(default_factory=lambda: uuid4().hex)
     kind: str = field(default='pawn', kw_only=True)
     boss_hp: InitVar[int | None] = field(default=None, kw_only=True)
+    max_hp: InitVar[int | None] = field(default=None, kw_only=True)
     state: str = field(default='initial_wait', init=False)
     next_action_tick: int = field(default=0, init=False)
     stun_until_tick: int = field(default=0, init=False)
     current_attack: object = field(default=None, init=False, repr=False)
     health: Health = field(init=False)
 
-    def __post_init__(self, boss_hp):
+    def __post_init__(self, boss_hp, max_hp):
         if self.kind not in ('pawn', 'rook', 'knight', 'bishop', 'king'):
             raise ValueError('Only Pawn, Rook, Knight, Bishop and King combat instances are supported')
         label = self.kind.title()
@@ -48,13 +50,15 @@ class Enemy:
                 or not 0 <= self.initial_delay <= 10):
             raise ValueError(f'{label} initial_delay must be finite and between 0 and 10 seconds')
         if self.kind == 'king':
+            if max_hp is not None:
+                raise ValueError('King HP uses boss_hp only')
             if type(boss_hp) is not int or boss_hp <= 0:
                 raise ValueError('King requires an explicit positive integer boss_hp')
             self.health = Health(boss_hp)
         else:
             if boss_hp is not None:
                 raise ValueError('boss_hp is only valid for a King')
-            self.health = Health({'pawn': PAWN_INITIAL_HP, 'rook': ROOK_INITIAL_HP,
+            self.health = Health(max_hp if max_hp is not None else {'pawn': PAWN_INITIAL_HP, 'rook': ROOK_INITIAL_HP,
                                   'knight': KNIGHT_INITIAL_HP, 'bishop': BISHOP_INITIAL_HP}[self.kind])
 
     @property
@@ -74,7 +78,9 @@ class Enemy:
         return 0 if self.initial_delay == 0 else _duration_ticks(self.initial_delay)
 
 
-def load_stage1_enemies(path=None):
+def load_stage1_enemies(path=None, *, profile=profile_for(1)):
+    if profile != profile_for(1):
+        raise ValueError('Stage 1 requires Chapter 1 profile')
     source = Path(path) if path is not None else Path(__file__).resolve().with_name('stage_data.json')
     try:
         data = json.loads(source.read_text(encoding='utf-8'))
@@ -98,7 +104,7 @@ def load_stage1_enemies(path=None):
         try:
             if not isinstance(row, dict) or row.get('type') != 'pawn':
                 raise ValueError('Stage 1 supports Pawn entries only')
-            enemy = Enemy(row['id'], row['col'], row['row'], row['forward'], row['initial_delay'])
+            enemy = Enemy(row['id'], row['col'], row['row'], row['forward'], row['initial_delay'], max_hp=profile.pawn)
             if enemy.data_id in ids or enemy.position in occupied:
                 raise ValueError('Duplicate enemy ID or occupied spawn cell')
         except (KeyError, ValueError) as exc:

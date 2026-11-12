@@ -1,5 +1,6 @@
 """Stage definitions -> fresh supported enemy instances, never progression."""
 from enemy import Enemy
+from combat_balance import profile_for
 from stage_manager import EnemyDefinition, StageDefinition
 
 
@@ -17,15 +18,15 @@ def _check_supported(definition):
         raise UnsupportedEnemyError(f'Unsupported {definition.kind} options: {dict(definition.options)}')
 
 
-def create_enemy(definition, *, boss_hp=None):
+def create_enemy(definition, *, boss_hp=None, max_hp=None):
     """Spawn HP/AI/IDs anew; definitions remain immutable and state-free."""
     _check_supported(definition)
     forward = definition.options['forward'] if definition.kind == 'pawn' else None
     return Enemy(definition.data_id, definition.col, definition.row, forward,
-                 definition.initial_delay, kind=definition.kind, boss_hp=boss_hp)
+                 definition.initial_delay, kind=definition.kind, boss_hp=boss_hp, max_hp=max_hp)
 
 
-def create_stage_enemies(stage):
+def create_stage_enemies(stage, *, profile=None):
     """Preserve JSON order; reject unsupported entries instead of skipping them."""
     if not isinstance(stage, StageDefinition):
         raise TypeError('Expected a StageDefinition')
@@ -39,7 +40,11 @@ def create_stage_enemies(stage):
             raise ValueError('Boss stage requires exactly one King and positive integer boss_hp')
     elif kings or stage.boss_hp is not None:
         raise ValueError('Non-boss stage cannot contain a King or boss_hp')
-    enemies = tuple(create_enemy(definition, boss_hp=stage.boss_hp if definition.kind == 'king' else None)
+    if profile is not None and profile != profile_for(stage.chapter):
+        raise ValueError('Unapproved or wrong chapter HP profile')
+    enemies = tuple(create_enemy(definition,
+                    boss_hp=(profile.king if profile else stage.boss_hp) if definition.kind == 'king' else None,
+                    max_hp=profile.hp(definition.kind) if profile and definition.kind != 'king' else None)
                     for definition in stage.enemies)
     ids = [e.data_id for e in enemies]
     positions = [stage.player_spawn, *(e.position for e in enemies)]
