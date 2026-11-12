@@ -74,8 +74,10 @@ class PawnTrackingTests(unittest.TestCase):
         enemy = pawn()
         encounter = PawnEncounter((enemy,))
         encounter.advance_to(0, (4, 5))
-        self.assertEqual(enemy.position, (4, 3))
-        self.assertEqual(encounter.ledger.telegraphs, ())
+        self.assertEqual(enemy.position, (4, 4))
+        self.assertNotIn((4, 5), encounter.occupied_cells)
+        event, = encounter.ledger.telegraphs
+        self.assertEqual((event.attack_kind, event.target_cells), ('pawn_contact', ((4, 5),)))
 
     def test_all_neighbors_blocked_waits_without_duplicate_entities(self):
         enemy = pawn()
@@ -98,18 +100,28 @@ class PawnTrackingTests(unittest.TestCase):
             with self.subTest(origin=origin):
                 enemy = pawn(col=origin[0], row=origin[1])
                 encounter = PawnEncounter((enemy,))
+                # Preserve the old movement fallback contract even though an
+                # adjacent player now reserves contact before movement.
+                self.assertEqual(encounter._choose_move(enemy, target), expected)
                 encounter.advance_to(0, target)
-                self.assertEqual(enemy.position, expected)
+                self.assertEqual(enemy.position, origin)
                 self.assertTrue(in_bounds(*enemy.position))
+                self.assertNotEqual(enemy.position, target)
+                event, = encounter.ledger.telegraphs
+                self.assertEqual((event.attack_kind, event.target_cells), ('pawn_contact', (target,)))
 
     def test_static_context_never_revisits_cells_or_oscillates(self):
         enemy = pawn()
-        encounter = PawnEncounter((enemy,))
+        # Keep the movement-memory case separate from the new adjacent attack:
+        # stationary blockers prevent reaching either contact cell at the top corner.
+        blockers = (pawn('wall-left', 8, 9), pawn('wall-down', 9, 8))
+        encounter = PawnEncounter((enemy, *blockers))
+        for blocker in blockers:
+            blocker.next_action_tick = 132 * 122
         visited = {enemy.position}
         previous = enemy.position
         moves = 0
-        # A player on row 9 cannot enter a downward Pawn attack diagonal.
-        # This exercises detours and exhausted movement memory without attacks.
+        # The target is unreachable, exercising detours/exhausted memory without attacks.
         for tick in range(0, 132 * 120, 132):
             encounter.advance_to(tick, (9, 9))
             if enemy.position != previous:
@@ -121,6 +133,7 @@ class PawnTrackingTests(unittest.TestCase):
             previous = enemy.position
         self.assertGreater(moves, 10)
         self.assertLessEqual(len(visited), 99)
+        self.assertEqual(encounter.ledger.telegraphs, ())
         final_position = enemy.position
         encounter.advance_to(132 * 121, (9, 9))
         self.assertEqual(enemy.position, final_position)
@@ -228,7 +241,8 @@ class PawnTrackingTests(unittest.TestCase):
                                      + abs(enemy.row - previous[index][1]), 1)
                     visited[index].add(enemy.position)
                     previous[index] = enemy.position
-        self.assertEqual(previous, [(4, 2), (6, 2)])
+        self.assertEqual(previous, [(4, 1), (6, 1)])
+        self.assertTrue(all(event.attack_kind == 'pawn_contact' for event in due))
         self.assertEqual(len({event.key for event in due}), len(due))
         for enemy in encounter.enemies:
             self.assertTrue(any(event.source_entity_instance_id == enemy.entity_instance_id

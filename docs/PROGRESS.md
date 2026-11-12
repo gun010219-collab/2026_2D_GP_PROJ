@@ -1,5 +1,148 @@
 # CHECKMATE 개발 진행 기록
 
+## Task 1-Y-B — Pawn 상하좌우 접촉 공격 (2026-11-13)
+
+상태: **구현·최종 자동 재검수 및 사용자 Windows GUI25/25 통과. 승인11개 파일의 한국어 커밋·main 일반 Push 승인**.
+시작 main 작업 트리는 깨끗했고 HEAD와 fetch한 origin/main은 모두
+`8c224f81b58fb18ab5b04ac7df972c902c69d7f0`였다. 기존 U/V/W/X/Y-A 기록·Y-A GUI22/22와 원본 밸런스 측정표를 보존한다.
+Y-A GUI 결과는 변경된 Y-B 접촉 공격의 수동 검증으로 재사용하지 않는다.
+
+### 최종 재검수 및 사용자 Windows GUI25/25
+
+이번 최종 검수 시작 HEAD/origin/main은 기준 SHA와 일치했다. 작업 트리는 수정8개·신규3개, 인덱스는 비어 있었다.
+기능 코드와 테스트는 이번 최종 검수에서 추가 수정하지 않았다. 기존 구현을 재검토하고 문서만 갱신했다.
+사용자가 Windows 11 실제 게임에서 아래25항목을 직접 검증했다.
+**통과25·실패0·확인 불가0·미검수0, 추가 오류·개선 의견 없음**으로 최종 보고했다.
+
+1. Pawn 위쪽 인접 접촉 공격 — 통과
+2. Pawn 아래쪽 인접 접촉 공격 — 통과
+3. Pawn 왼쪽 인접 접촉 공격 — 통과
+4. Pawn 오른쪽 인접 접촉 공격 — 통과
+5. 기존 대각선 공격 — 통과
+6. 접촉 대상 한 칸 경고 표시 — 통과
+7. 예고 중 회피 후 HP 유지 — 통과
+8. 적중 시 HP 정확히1 감소 — 통과
+9. 동일 공격 중복 피해 없음 — 통과
+10. 일반 패링 피해 차단 — 통과
+11. 퍼펙트 패링 피해 차단 — 통과
+12. 퍼펙트 후 Pawn 기절·다음 공격+2 — 통과
+13. 접촉 경고 도중 Pawn 처치 시 공격 취소 — 통과
+14. 공격 후 회복·재공격 — 통과
+15. Pawn·Player·다른 적 중복 점유 없음 — 통과
+16. Stage1~4 전투·강화 — 통과
+17. Stage5 King HP22·Pulse — 통과
+18. Stage5 N→Stage6 공격력 계승 — 통과
+19. Stage6 숲의 Pawn 접촉 — 통과
+20. Stage6~9 진행·강화 — 통과
+21. Stage10 King HP40·Pulse·Pawn 혼합 전투 — 통과
+22. Stage10 BOSS CLEAR R 강화 유지·N 차단 — 통과
+23. Chapter2 GAME OVER 후 Stage6·진입 공격력 복원 — 통과
+24. SETTINGS·F11·포커스·레터박스 — 통과
+25. 유령 입력 없음·ESC/X 종료 — 통과
+
+검증 근거는 사용자 Windows GUI, Python unittest, SDL dummy 비표시 통합, 결정적 자동 전투 측정으로 구분한다.
+동일 GUI를 다시 요청하지 않았다. 정수 틱·원장 인증은 자동 검사 근거이며 모든 PC·장기 밸런스의 확정을 의미하지 않는다.
+
+최종 재실행 결과:
+
+- `.\.venv\Scripts\python.exe -m unittest discover -s tests -v`: **978개 통과(36.280초), 실패0·오류0·skip0**.
+- 기준 SHA AST 비교: 기존938개 보존·삭제0·신규40개(순수35/main·SDL5). 기존 안전 assertion 및 승인된 기대값 변경을 검토했다.
+- `validate_stage_data.py` 일반/`-O` 각각25개 통과.
+- SDL dummy 실제 main의 피해·회피·일반/퍼펙트 패링·실제 처치·재시작, 설정/F11/포커스/종료 통과.
+- 1틱/8틱 결정성·Pulse drain/정지/복원·혼합 전투·Stage1~10·성장/HP 회귀 통과.
+- 변경 Python7개 문법/import, SDL/Pico2D 독립성·문서 링크·공백·원본 JSON/검사기/성장/HP/Pulse/에셋 보존 검사 통과.
+- 같은 원본 `measure(style, stage, limit=3600)`으로40개를 다시 실행해40/40 클리어했고,
+  기존 Y-B 측정표의400개 기본 셀이 모두 일치했다. 완료 상태·피격·perfect·틱 값 모두 일치하여 측정값은 바꾸지 않았다.
+  Y-A 대비18개 단축·1개 증가·21개 동일, 피격 증가0이라는 비교도 유지된다.
+- 아래 실제 목록의11개(수정8·신규3)만 커밋한다. 커밋·Push 결과와 실제 SHA는 원격 재조회 뒤 최종 보고한다.
+
+### 구현 및 변경 근거
+
+- 기능 수정은 `enemy_attack.py`와 `enemy_behaviors.py` 두 파일이다.
+  `pawn_contact` 종류와 대각선→접촉→이동 우선순위를 추가했다.
+- 실제 Pawn 계획을 기존 계획 저장소에 등록하고, 원장/발행자/세션과 일치하는 접촉만 adjudication한다.
+  접촉은 움직이지 않는 계획이므로 dash/jump 이동 완료 처리에서 제외하며 판정 후 계획은 해제한다.
+- 기존 Resolver 피해·패링·48틱 무적·단일 소비·취소와 렌더러 경고1칸 표시를 그대로 사용한다.
+  일반 패링/퍼펙트·60틱 기절·다음 공격+2, 고정 타깃 회피, 사망/종료 취소를 검증했다.
+- KingPulse 코드를 바꾸지 않고 접촉 hit/MISS/normal/perfect drain·사망 취소·freeze/cleanup/잔여 타이머 복원을 검증했다.
+- 기존 테스트 메서드명은 유지했다. 인접 Player 우회/모서리 이동 기대값은 정지 접촉으로 바꾸고 점유 불변과 정확한 경고를 추가했다.
+  모서리 이동 후보 자체도 이전 기대값과 비교한다. 이동 메모리/진동 방지 테스트는 인접 셀을 막아 비전투 추적 검증을 계속한다.
+- Stage1 정지 Player 추적 결과는(4,1)/(6,1) 접촉 위치로 변경했다.
+  Stage6 실제 이동·공격·패링 처치는965→630틱으로 변경됐으며 HP3/UPGRADE·전체 원본 적 처치·중복 소비 검증은 유지한다.
+  이 틱은 드라이버 입력 일정의 결과이고 설계 상수나 사람 권장 시간은 아니다.
+- ATTACK1~16·계승/entry 기준선·HP/MOVE·적HP·King22/40·다른 AI·입력·Stage 범위는 변경하지 않았다.
+  Stage11~25/Queen/저장·해금/새 아트는 미구현 상태를 유지한다.
+
+### 자동 검증 근거
+
+- `.\.venv\Scripts\python.exe -m unittest discover -s tests -v`: **978개 통과(34.951초), 실패0·오류0·skip0**.
+  기준 SHA AST 비교: 기존938개 모두 보존·신규40개(순수35/main·SDL5), 삭제0·새skip0.
+- 순수 테스트는 네 방향/모서리/대각선·39/54/48/60틱 경계·실제 HP·회피·패링·원장 변조/미등록/외부 세션·사망/종료 취소를 검증한다.
+- 네이티브 SDL dummy4경로는 실제 main 이벤트/렌더 루프에서 접촉 피해→GAME_OVER225틱→R 새 Stage1,
+  방향키 회피, Shift 일반 패링, perfect 후 SPACE 실제 처치→UPGRADE를 검증했다.
+  SETTINGS 시간 정지·F11·포커스 손실/복귀·ESC/SDL_QUIT와 이전 접촉 세션 거절도 포함한다.
+  인접 스폰은 명시적 fixture지만 공격/피해/패링/처치는 실제 규칙이며 전멸 fixture로 접촉 성공을 대신하지 않았다.
+- 순수 접촉·혼합 적과 main 입력 일정 각각1틱/최대8틱 결정성이 일치한다. 기존 전체 SDL·보스·강화 회귀도 통과했다.
+- 원본 Stage1/2/5/6/10 적과 초기 지연을 사용한 접촉을 별도 확인했다.
+  Stage10은 먼저 도착하는 Knight111틱을 실제 perfect로 막아 Pawn127틱 피해와 기존 무적 우선순위를 구분했다.
+- `validate_stage_data.py` 일반/`-O` 각각25개 통과.
+- 변경 Python7개 `py_compile`/import·순수 로직 SDL/Pico2D 독립성·문서 내부 링크·`git diff --check` 통과.
+  원본 JSON/validator·Y-A 측정표/드라이버·AI 수치/Pulse/성장/HP·에셋을 보존했고 예상 외 파일은 없다.
+  HEAD/origin/main은 시작 SHA 유지, 인덱스 비어 있음. 스테이징·커밋·Push는 실행하지 않았다.
+- 원본 `tests/balance_driver.py` 같은 입력/3600틱 제한으로40개 재실행, **40/40 클리어·실패0**.
+  피격 증가는0개다. [Y-B 측정표](BALANCE_Y_B.md)에 실제 값과 Y-A 대비 변화/측정 한계를 별도로 기록한다.
+  자동 플레이 결과는 인간 플레이 난이도나 GUI 통과 근거가 아니다.
+
+### 실제 변경 파일
+
+수정8개·신규3개, 총11개:
+
+- 수정: enemy_attack.py
+- 수정: enemy_behaviors.py
+- 수정: tests/test_enemy_behaviors.py
+- 수정: tests/test_pawn_tracking.py
+- 수정: tests/test_stage_six.py
+- 수정: docs/DECISIONS.md
+- 수정: docs/GAME_DESIGN.md
+- 수정: docs/PROGRESS.md
+- 신규: tests/test_pawn_contact.py
+- 신규: tests/test_pawn_contact_sdl.py
+- 신규: docs/BALANCE_Y_B.md
+
+### Windows GUI 체크리스트 — 결과 수령 전 작성 이력
+
+프로젝트에서 `.\.venv\Scripts\python.exe main.py` 실행 후 확인한다.
+
+1. Stage1 Pawn 상단 인접 접촉
+2. Stage1 Pawn 하단 인접 접촉
+3. 왼쪽 인접 접촉
+4. 오른쪽 인접 접촉
+5. 기존 대각선 공격 정상
+6. 접촉 대상1칸 경고 및39틱 예고
+7. 예고 중 회피 후 HP 유지
+8. 예고 후 HP1 감소
+9. 동일 공격 중복 피해 없음
+10. 일반 패링 피해 차단
+11. 퍼펙트 패링 피해 차단
+12. 퍼펙트 Pawn 기절·다음 공격+2
+13. 접촉 예고 중 Pawn 사망 시 경고/공격 취소
+14. 접촉 후 회복·재공격 정상
+15. Pawn/Player 및 적 사이 같은 칸 점유 없음
+16. Stage1~4 전투·강화 회귀
+17. Stage5 King HP22/Pulse 회귀
+18. Stage5 N→Stage6 공격력 계승·HP/MOVE 초기화
+19. Stage6 숲 Pawn 접촉
+20. Stage6~9 진행·강화 회귀
+21. Stage10 King HP40/Pulse·Pawn 혼합 전투
+22. Stage10 BOSS CLEAR R 강화 유지/N 차단
+23. Chapter2 GAME_OVER R→Stage6·진입 공격력 복원
+24. SETTINGS/F11/포커스·레터박스
+25. 유령 입력 없음·ESC/X 정상 종료
+
+원장 소유권·정수 틱 경계·1틱/8틱 결정성은 자동 테스트 근거로 구분한다.
+위 체크리스트 작성 후 사용자 GUI25/25 결과를 수령했다. 여러 PC·장기 밸런스는 미검증이다.
+최종 자동 재검수 통과 후 `feat: 폰 접촉 공격 및 패링 판정 추가`로 승인11개 파일만 커밋·일반 Push한다.
+
 ## Task 1-Y-A — 공격력16·챕터 계승·HP 밸런스 개편
 
 상태: **구현·최종 자동 재검수 및 사용자 Windows GUI22/22 통과. 검수 완료38개 파일의 한국어 커밋·기존 main 일반 Push 승인**.

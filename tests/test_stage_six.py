@@ -192,7 +192,7 @@ class StageSixTests(unittest.TestCase):
                     self.assertIsNone(g.resolver.resolve_player_attack(attack))
             g.resolve_current_tick()
         self.assertEqual((g.state, g.combat.tick, g.player.health.current_hp),
-                         (GameState.UPGRADE, 965, 3))
+                         (GameState.UPGRADE, 630, 3))
         self.assertEqual(damaged_ids, {e.entity_instance_id for e in g.encounter.enemies})
         self.assertTrue(all(not e.alive and not e.active for e in g.encounter.enemies))
         self.assertFalse(g.encounter.occupied_cells)

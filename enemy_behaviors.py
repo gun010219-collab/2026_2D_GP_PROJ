@@ -45,7 +45,7 @@ class EnemyEncounter:
         self.tick = start_tick - 1
         self._movement_history = {}
         self._attack_moves = {}
-        # Live non-Pawn plans share one store, including stationary attacks.
+        # AI-issued plans share one store, including stationary Pawn contacts.
         # Only the last release per color is needed, not another event ledger.
         self._bishop_closed_tick = {}
         if len({e.entity_instance_id for e in self.enemies}) != len(self.enemies):
@@ -180,9 +180,14 @@ class EnemyEncounter:
                 col, row = enemy.position
                 forward_col, forward_row = col + enemy.forward[0], row + enemy.forward[1]
                 diagonal_cells = ((forward_col - 1, forward_row), (forward_col + 1, forward_row))
-                if player_cell in diagonal_cells and in_bounds(*player_cell):
+                diagonal = player_cell in diagonal_cells
+                contact = abs(player_cell[0] - col) + abs(player_cell[1] - row) == 1
+                if diagonal or contact:
                     enemy.current_attack = self.ledger.create(
-                        enemy.entity_instance_id, now, now + self.telegraph_ticks, (player_cell,))
+                        enemy.entity_instance_id, now, now + self.telegraph_ticks, (player_cell,),
+                        attack_kind='basic' if diagonal else 'pawn_contact')
+                    if not diagonal:
+                        self._attack_moves[enemy.current_attack.key] = (enemy.current_attack, enemy, enemy.position)
                     enemy.state = 'telegraph'
                     enemy.next_action_tick = enemy.current_attack.hit_tick
                 else:
@@ -269,7 +274,7 @@ class EnemyEncounter:
         Rook checks its whole path; Knight checks its single landing only.
         """
         for event, source, origin in tuple(self._attack_moves.values()):
-            if source.kind in ('bishop', 'king'):
+            if source.kind in ('pawn', 'bishop', 'king'):
                 continue  # Stationary attacks have no movement path to obstruct.
             if self.ledger.state(event) not in ('telegraph', 'due'):
                 continue
@@ -283,11 +288,16 @@ class EnemyEncounter:
                     source.next_action_tick = tick + self._recovery_ticks(source)
 
     def prepare_attack(self, event):
-        """Verify a non-Pawn attack has an actual AI-issued plan, not just an ID."""
+        """Authenticate AI plans for contact, movement and boss attacks."""
         if event.attack_kind == 'king_pulse' and not self.is_pulse(event):
             raise ValueError('Pulse attack was not issued by this boss controller')
         source = next((e for e in self.enemies
                        if e.entity_instance_id == event.source_entity_instance_id), None)
+        if event.attack_kind == 'pawn_contact':
+            plan = self._attack_moves.get(event.key)
+            if (source is None or source.kind != 'pawn' or plan is None
+                    or plan[0] != event or plan[1] is not source):
+                raise ValueError('Pawn contact attack has no matching live Pawn plan')
         if source is not None and source.kind in ('rook', 'knight', 'bishop', 'king'):
             plan = self._attack_moves.get(event.key)
             if plan is None or plan[0] != event or plan[1] is not source:
@@ -316,8 +326,8 @@ class EnemyEncounter:
         if source.kind == 'bishop':
             self._bishop_closed_tick[sum(origin) % 2] = self.tick
             return False  # Stationary even on hit, miss, invulnerability or parry.
-        if source.kind == 'king':
-            return False  # Melee never moves and grants no Pulse-specific effect.
+        if source.kind in ('pawn', 'king'):
+            return False  # Contact/melee never moves or grants a Pulse-specific effect.
         if (state != 'resolved' or event.hit_tick != self.tick
                 or self.ledger.outcome(event) not in ('hit', 'miss', 'invulnerable', 'parried_normal')
                 or not source.active or source.state == 'stunned' or source.position != origin):

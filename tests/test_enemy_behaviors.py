@@ -50,10 +50,11 @@ class PawnBehaviorTests(unittest.TestCase):
         e = pawn()
         encounter = PawnEncounter((e,))
         encounter.advance_to(0, (4, 3))
-        self.assertEqual(e.position, (4, 5))
+        self.assertEqual(e.position, (4, 4))
         self.assertNotEqual(e.position, (4, 3))
-        self.assertEqual(encounter.ledger.telegraphs, ())
-        self.assertEqual(e.next_action_tick, 132)
+        event, = encounter.ledger.telegraphs
+        self.assertEqual((event.attack_kind, event.target_cells), ('pawn_contact', ((4, 3),)))
+        self.assertEqual(e.next_action_tick, 39)
 
     def test_telegraph_fixed_target_and_due_once_without_auto_consume(self):
         encounter = PawnEncounter((pawn(),))
