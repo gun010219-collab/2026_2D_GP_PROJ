@@ -20,7 +20,7 @@ PDF의 모든 시스템과 수치를 최신 확정 규칙으로 재승인한 것
 - 스테이지 구성·적 배치·ID·수치는 `stage_data.json`을 보존한다.
   향후 테마 선택은 그 데이터의 `chapter` 필드를 기준으로 한다.
   Task 1-I의 `stage_manager.StageCatalog`는 원본을 검증해 1~25번의 읽기 전용 정의를 제공한다.
-  카탈로그 자체는 데이터 조회만 제공한다. 실제 플레이 연결은 별도로 Stage 1~9에 구현했다.
+  카탈로그 자체는 데이터 조회만 제공한다. 실제 플레이 연결은 별도로 Stage 1~10에 구현했다.
 - 기본 조작 기준은 AGENTS.md의 방향키 이동 / SPACE 전방 공격 / Shift 패링 /
   ESC 일시정지다. 현재 버전은 방향키 1칸 이동을 구현했고, 설정 메뉴에서 ESC는 닫기,
   메뉴 밖에서는 종료다. Task 1-C는 SPACE 기본 공격 이벤트와 임시 효과를 구현했다.
@@ -54,7 +54,13 @@ Pawn/Rook/Knight/Bishop/Queen/King의 식별 실루엣은 챕터 전반에 유�
 
 ## 구현 경계
 
-**현재 Task 1-W:** Stage6~8 전멸 후 정상 강화 선택으로7→8→9 진행, 누적 Receipt0/1/2/3이다.
+**현재 Task 1-X:** Stage6~9 UPGRADE의 네 강화 후10 King HP10 보스전을 실행한다.
+기존 Pulse와 숲 팔레트를 재사용하며 King 포함 전멸 BOSS_CLEAR, R강화유지10/N차단, Chapter2 GAME_OVER R무강화6이다.
+정상1~10에서 DEV_BOUNDARY는 나오지 않는다.11~25/Chapter3/영구해금·저장/Queen/차별화 패턴·최종아트는 미구현이다.
+X 자동921개 및 사용자 Windows GUI22/22 통과를 별도 근거로 기록한다.
+새 공격력 계승·일반 적HP·Pawn접촉피해 요청은 후속 미구현 요구사항이다. 아래 W/V는 당시 기록이다.
+
+**Task 1-W 당시:** Stage6~8 전멸 후 정상 강화 선택으로7→8→9 진행, 누적 Receipt0/1/2/3이다.
 Stage9 DEV_BOUNDARY는 네 번째 Offer/Receipt를 발행·소비하지 않으며10을 생성하지 않는다.
 Stage7 Knight2/Pawn2,8 Bishop/Rook/Knight/Pawn2,9 Bishop/Rook2/Knight/Pawn을 JSON 그대로 사용한다.
 숲 팔레트/기존 강화 수치·AI를 재사용한다.6~9 GAME_OVER R은 새 무강화 Run/Stage6이다.

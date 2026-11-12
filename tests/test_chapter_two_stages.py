@@ -110,21 +110,18 @@ class ChapterTwoStageTests(unittest.TestCase):
         self.assertEqual(len(flow.run.receipts),1)
 
     def test_boundary_preserves_three_receipts_and_never_builds_stage_ten(self):
-        flow=flow_at(9);before=flow.run.receipts;g=flow.game
-        with patch.object(flow.run,'offer_after_clear') as offer, patch.object(flow.run,'select') as select:
-            finish(g,'clear')
-            factory=Mock()
-            for _ in range(3):
-                self.assertIsNone(flow.sync_offer())
-                with self.assertRaises(ValueError):flow.choose(None,'hp',factory)
-                with self.assertRaises(ValueError):flow.restart(factory)
-                g.advance(1000)
-            offer.assert_not_called();select.assert_not_called();factory.assert_not_called()
-        self.assertEqual((g.state,g.combat.tick,g.transition_count,flow.run.current_stage),
-                         (GameState.DEV_BOUNDARY,0,1,9))
+        # Historical method identity: X replaces the W boundary with an offer.
+        flow=flow_at(9);before=flow.run.receipts
+        o=clear(flow)
+        self.assertIs(flow.sync_offer(),o)
+        self.assertEqual(flow.game.state,GameState.UPGRADE)
         self.assertEqual(flow.run.receipts,before)
-        self.assertIsNone(g.restart_stage_number)
-        self.assertIsNone(g.next_stage_number)
+        self.assertEqual(flow.run.current_stage,9)
+        self.assertIsNone(flow.game.restart_stage_number)
+        self.assertIsNone(flow.game.next_stage_number)
+        with self.assertRaises(ValueError):flow.restart(main._new_stage_game)
+        flow.choose(o,'hp',main._new_stage_game)
+        self.assertEqual((flow.game.stage_number,len(flow.run.receipts)),(10,4))
 
     def test_game_over_all_chapter_two_stages_reset_to_six_atomically(self):
         for n in range(6,10):
@@ -216,7 +213,7 @@ class ChapterTwoStageTests(unittest.TestCase):
                     if result:damaged.add(result.target_entity_instance_id)
                     self.assertIsNone(g.resolver.resolve_player_attack(attack))
                 g.resolve_current_tick()
-            self.assertEqual(g.state,GameState.DEV_BOUNDARY if n==9 else GameState.UPGRADE,
+            self.assertEqual(g.state,GameState.UPGRADE,
                              (n,g.combat.tick,g.player.health.current_hp))
             self.assertEqual(damaged,{e.entity_instance_id for e in g.encounter.enemies})
             self.assertFalse(g.encounter.occupied_cells)
@@ -249,6 +246,6 @@ class ChapterTwoStageTests(unittest.TestCase):
 
     def test_stage_ten_through_twenty_five_never_reach_catalog(self):
         with patch.object(main.StageCatalog,'load') as load:
-            for n in range(10,26):
+            for n in range(11,26):
                 with self.assertRaises(ValueError):main._new_stage_game(n)
             load.assert_not_called()

@@ -1,5 +1,151 @@
 # CHECKMATE 개발 진행 기록
 
+## Task 1-X — 네 번째 강화·Stage 10 King 보스전 (2026-11-13)
+
+상태: **구현·자동 검증 및 사용자 Windows GUI22/22 통과. 최종 검수 후 승인18개 파일 커밋·일반 Push 승인**.
+시작 main은 깨끗했고 HEAD/origin/main은41c881fcd9dfc75f4ef0ae65c803f2989072f24a였다.
+일반 fetch 연결 실패 후 권한 확장 fetch로 실제 원격 기준 일치를 확인했다.
+U/V/W 기록과 W 사용자 GUI18/18은 당시 근거로 보존하며 이번 GUI 검증으로 재사용하지 않는다.
+
+### 최종 검수·사용자 Windows GUI22/22
+
+사용자가 Windows 11 실제 게임에서 아래22개를 직접 확인해 모두 통과했다고 보고했다.
+**통과22·실패0·확인 불가0**이며 unittest/SDL dummy 자동 결과와 별도 근거다.
+
+1. Chapter 1 이동·공격·일반/퍼펙트 패링 — 통과
+2. Chapter 1 강화4회·MAX — 통과
+3. Stage 5 King·CHECKMATE PULSE — 통과
+4. Stage 5 R 강화 유지 재플레이 — 통과
+5. Stage 5 N→Stage 6 — 통과
+6. Chapter 2 기본 능력치·숲 테마 — 통과
+7. Stage 6~8 전투·강화 — 통과
+8. Stage 9 진입·강화3회 유지 — 통과
+9. Stage 9 전멸 후 UPGRADE — 통과
+10. 네 번째 강화 숫자·마우스 선택·MAX — 통과
+11. Stage 10 진입·HP 회복 — 통과
+12. King HP10/10 표시·피해에 따른 감소 — 통과
+13. Bishop1/Knight1/Pawn2 전투·경고 — 통과
+14. King 이동·근접 — 통과
+15. Pulse 경고·피해·일반/퍼펙트 패링 — 통과
+16. King 선처치 후 일반 적 전투 유지 — 통과
+17. 전체 전멸 후 BOSS CLEAR — 통과
+18. Stage 10 BOSS CLEAR N 차단 — 통과
+19. Stage 10 BOSS CLEAR R 강화4회 유지 재플레이 — 통과
+20. Stage 10 GAME_OVER R→무강화 Stage6 — 통과
+21. SETTINGS·F11·포커스·레터박스 — 통과
+22. 유령 입력 없음·ESC/X 정상 종료 — 통과
+
+최종 재검수에서 기능 코드·테스트 의미는 변경하지 않았다. 스테이징 공백 검사로 발견한 신규 test_stage_ten.py의 EOF 빈 줄1개만 제거했고 AST 동일을 확인했다. 전체 테스트를 재실행했으며 GUI 영향이 없어 재검증은 요청하지 않는다.
+Python 전체921개 통과·실패0·오류0·skip0, 기준904개 AST 보존·신규17개를 재확인했다.
+실제 공격·패링 처치/혼합 전투/Pulse drain·정지·복원/1vs8틱 결정성은 순수 전투 테스트,
+main 진행·입력·렌더는 SDL dummy 비표시 통합으로 구분했다.
+일반/-O 스테이지 각각25개, Python14개 문법/import·SDL독립성·문서링크·공백 검사를 통과했다.
+기존 코드 리뷰에서 수정할 결함을 발견하지 않았다. 원본 JSON/config/Enemy/Factory/AI/KingPulse/에셋과 U/V/W 기록을 보존했다.
+
+최종 작업 시작 main은 수정16·신규2·인덱스 비어 있음, HEAD41c881fcd9dfc75f4ef0ae65c803f2989072f24a였다.
+일반 fetch 연결 실패 후 권한 확장 fetch로 실제 원격 main 기준 일치를 확인했다.
+승인된18개만 검수하고 메시지 feat: 10스테이지 보스전 및 챕터 2 강화 완료로 커밋·일반 Push하도록 승인받았다.
+커밋 직전 원격을 재확인하고 Push 뒤 실제 원격 SHA/커밋 파일/작업 트리를 조회한다. SHA와 반영 결과는 최종 응답에 기록한다.
+정확한 틱·모든 PC 환경·장기 밸런스까지 사용자 GUI에서 검증한 것으로 해석하지 않는다.
+아래 초기 GUI 대기 및 미실행 체크리스트는 최종 결과 수령 전 작성 이력이다.
+
+### 신규 밸런스 피드백 — Task 1-Y 후속 후보, 미구현
+
+사용자가 X GUI 검증 후 새롭게 요청한 아래4개는 이번 커밋에서 구현하지 않는다.
+
+1. 다음 챕터로 이동할 때 공격력 업그레이드 유지.
+2. Chapter별 일반 적 HP 증가.
+3. Stage1부터 일반 적 HP와 공격력 상승량의 균형 개선.
+4. Pawn이 플레이어에게 접근·접촉할 경우 피해1 추가.
+
+이 요청은 X의 검증된 성장·전투 규칙과 별개다. 구현 완료·테스트 통과 항목이 아니다.
+Y에서 공격력 계승/MAX 충돌, ChapterRun·Receipt 인증과 게임오버 초기화,
+Chapter별 HP 프로필, Stage1 로더/일반 Factory HP 일관성, King 보스 HP 계약 보존을 검토한다.
+Pawn 플레이어 셀 진입 금지 정책과 접촉의 예고·패링·48틱 무적·원장 단일 소비 계약을 먼저 설계한다.
+피해/전투시간/장기밸런스 회귀 기준과 수치를 확정한 뒤 별도 구현·자동/GUI 검증한다.
+
+### 승인과 실제 구현
+
+- A안: Stage9 전멸 UPGRADE→네 번째 Offer→기존 원자적 선택→Stage10/Receipt4개다.
+- Stage10 boss=true, 원본 King HP10/Bishop1/Knight1/Pawn2, Player(5,1),
+  순서/ID/배치/초기지연48/62/75/88/101틱을 JSON/Factory 경로 그대로 사용한다.
+- 기존 King 이동72/근접48·90, Pulse100칸·120틱·H+480·정리30,
+  DRAINING·일반 적 타이머 저장/복원·perfect 반사2와 기본 보상을 재사용한다.
+  Stage5 HP8과 기존 AI/피해/패링 수치는 변경하지 않았다.
+- King만 사망하면 일반 전투 유지, 전멸 시 BOSS_CLEAR, 사망 동시 GAME_OVER 우선이다.
+- 보스 R은 같은 Run·네 강화 유지/최대 HP 회복·새 전투/입력/원장/Pulse/실행 ID로 Stage10 재플레이.
+  N 차단 및 강제 enter_next_chapter 호출 거절로 Stage11/Run3/저장/해금이 생성되지 않는다.
+- Chapter2 어떤 Stage GAME_OVER R도 새 무강화 Run/Stage6/HP3/피해1/이동18틱/Receipt0이다.
+- 기능 수정은 game.py(1~10 허용/Stage9 경계 제거), main.py(지원 범위 오류문구)뿐이다.
+  기존 ChapterRun/StageProgression/Factory/KingPulse/Resolver/렌더러가 이미 보스10을 지원해 재작성하지 않았다.
+  DEV_BOUNDARY enum·렌더 경로는 호환용으로 남지만 정상1~10 전투는 그 상태를 만들지 않는다.
+
+### 실제 자동 검증
+
+- 전체 unittest **921개 통과, 실패0·오류0·skip0**. 기준904개 AST 메서드 전부 보존, 신규17개.
+- 기존 지원 거절 대상을10에서11로 갱신하고, W 경계의 종료/공격취소/시간정지/조회무변경 검증을
+  Stage10 BOSS_CLEAR로 이동했다.9의 네 번째 Offer/단일 소비와10의 N차단/R재플레이 기대를 반영했다.
+- test_stage_ten.py 신규16개: 정확한 원본 편성·HP, 네 번째 선택/실패 원자성/복사·MAX거절,
+  전멸·사망우선, 보스 재플레이·실패 보존·N차단·죽음→6, 실제 Pulse normal/perfect·반사2·재사용,
+  일반 적 freeze/resume, King 사망 시 Pulse취소/다음틱 재개, 원본 혼합1vs8틱 결정성,
+  실제 공격·패링으로 원본 적5기 처치→BOSS_CLEAR, 실제 main/UI를 검증한다.
+- Bishop/ Knight 기존 예고가 살아 있는 스케줄 fixture에서 요청을 앞당겨 drain을 검증했다.
+  원래 hit_tick170/111은 유지되고 마지막 완료 후171에 Pulse를 시작한다. 실제 원본 스케줄 테스트와 구분한다.
+- test_stage_ten_sdl.py 신규1개: 실제 SDL/Pico2D main의1~5 네 강화/보스R/N/6죽음재시작/
+  6→7→8→9→네 번째 선택→10 HP10→BOSS_CLEAR/N무효/R강화유지→GAME_OVER/R무강화6,
+  숲/MAX/숫자·마우스/SETTINGS/F11/포커스/입력격리/종료를 검증했다.
+  SDL 종료 fixture와 실제 AI·공격·패링 전투 검증을 구분한다.
+- validate_stage_data.py 일반/-O 각각25개 통과. 변경 Python14개 문법/import, 순수 로직 SDL 독립성,
+  문서 내부 링크·Git 공백·원본 자료/AI/기존 문서 보존 검사를 수행했다.
+- 원본 JSON/검사기/PDF/README/AGENTS/에셋·의존성·시뮬레이션8틱 상한을 변경하지 않았다.
+
+### 남은 범위·Git
+
+알려진 자동 오류는 없다. Windows 실제 가독성·입력/복원·밸런스는 미검증이다.
+최종25스테이지·5보스 목표는 유지한다. 차별화 패턴/최종 아트·음향·Queen·저장·영구 해금·Chapter3·엔딩은 미구현이다.
+후속 Chapter3 진입은 보스 결과 인증·Stage11 지원·새 Run/테마 준비·저장/해금 정책 승인과 실패 복구 검증이 선행돼야 한다.
+예정 메시지: feat: 10스테이지 보스전 및 챕터 2 강화 완료
+GUI 결과 수령 전 스테이징·커밋·Push하지 않는다.
+
+### Windows GUI 체크리스트 (최종 결과 수령 전 작성 이력)
+
+프로젝트 폴더에서 .\\.venv\\Scripts\\python.exe main.py 실행 후 확인한다.
+
+1. Chapter1 이동·공격·패링.
+2. Chapter1 강화4회·MAX.
+3. Stage5 King/Pulse.
+4. Stage5 R 강화 유지 재플레이.
+5. Stage5 N→Stage6.
+6. Chapter2 무강화·HP3·숲 테마.
+7. Stage6~8 전투·강화.
+8. Stage9 진입·강화3회 유지.
+9. Stage9 전멸 UPGRADE (개발 경계 없음).
+10. 네 번째 카드 숫자/마우스 선택·MAX 거절.
+11. Stage10 진입·플레이어 최대 HP 회복.
+12. KING HP10/10 표시 및 실제 감소.
+13. Bishop/Knight/Pawn2 전투·경고·착지.
+14. King 이동·근접.
+15. Pulse100칸 경고·피해·일반/perfect 패링.
+16. King만 사망해도 일반 적 전투 유지.
+17. 전체 적 전멸 BOSS CLEAR·추가 강화 없음.
+18. BOSS CLEAR N 차단.
+19. BOSS CLEAR R 강화4회 유지·HP10 새 보스.
+20. Stage10 GAME_OVER R→무강화 Stage6.
+21. SETTINGS 최상단·F11 복원·포커스 복귀.
+22. 레터박스 클릭·키 유지 유령 입력·ESC/X 종료.
+
+### 실제 변경 파일·최종 상태
+
+수정16개·신규2개, 총18개다.
+기능: game.py, main.py.
+기존 테스트: test_chapter_run.py, test_chapter_two_entry.py, test_chapter_two_stages.py, test_king_combat.py,
+test_stage_five.py, test_stage_four.py, test_stage_six.py, test_stage_six_sdl.py, test_stage_three.py, test_stage_transition.py.
+신규: tests/test_stage_ten.py, tests/test_stage_ten_sdl.py.
+문서: CHAPTER_EXPANSION_DESIGN.md, DECISIONS.md, GAME_DESIGN.md, PROGRESS.md.
+전체921개(29.762초)·기존904개 보존/신규17개/누락0·skip0, Python14개·SDL독립성·링크·공백 검사 통과.
+U확장설계 원문 접두부와 W이후 기존PROGRESS 본문을 기준 커밋과 비교해 보존했다.
+인덱스 비어 있음. HEAD/origin/main은41c881fcd9dfc75f4ef0ae65c803f2989072f24a 유지.
+
 ## Task 1-W — Chapter 2 일반 전투·세 번 강화 확장 (2026-11-13)
 
 상태: **구현·자동 검증 및 사용자 Windows GUI18/18 통과. 최종 검수 후 승인17개 파일 커밋·일반 Push 승인**.

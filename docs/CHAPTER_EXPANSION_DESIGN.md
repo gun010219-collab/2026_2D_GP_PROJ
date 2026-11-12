@@ -418,3 +418,20 @@ W는 원본7~9 전투와6~8 세 강화/숲/죽음→6을 연결했다.
 12절의 '9의4번째 Offer 단일 발행'은 당시 제안이며 최신 W 구현은9에서 발행 자체를 금지한다.
 Stage10 보스 정책 승인·구현·후보 검증 준비 후 X에서9를 UPGRADE로 바꿔 네 번째 선택을 연결한다.
 W는 Chapter2 정식 완료·저장·해금·후반 플레이·최종 아트/음향/엔딩을 구현하지 않는다.
+
+## 17. Task 1-X 실제 구현·후속 경계
+
+## Task 1-X — Chapter 2 보스 A안 최종 승인
+
+Stage1~10만 실행한다. W의 Stage9 DEV_BOUNDARY를 정상 UPGRADE로 대체하고 네 번째 Offer를
+기존 choose/select 경로로 한 번 소비해 Stage10에 진입한다. 생성·입력·검증 실패 시 Offer/Build/Receipt3개를 보존한다.
+Stage10은 원본 King HP10/Bishop1/Knight1/Pawn2와 기존 King/Pulse를 재사용한다.
+King 포함 전멸만 BOSS_CLEAR, 플레이어 사망 우선, R은 같은 Run/강화4회 유지 Stage10 새 세션이다.
+N은 차단하며 enter_next_chapter도 Chapter1→2만 허용한다. Chapter2 GAME_OVER R은 새 무강화 Run/Stage6이다.
+Stage5 HP8/R/N과 기존 공격·패링·Pulse 정수틱 계약을 유지한다.
+새 패턴/페이즈/상태이상/피해 규칙·Chapter3·Queen·저장·해금은 추가하지 않는다.
+고대 수목왕 차별화·최종 아트/음향은 후속 작업이며 이번 숲/King은 기존 임시 렌더다.
+아래 U/V/W 경계 정책은 당시 이력이다. X 사용자 GUI22/22 통과를 수령했고 최종 자동 검수 성공 후 승인 파일만 Git 반영한다.
+
+기존1~16절은 당시 분석·구현 이력이다. Stage10 준비로 W의 네 번째 Offer 미발급 정책을 대체한다.
+Stage11 지원·Chapter3 진입·영구 저장/해금은 별도 승인 및 실패 원자성·저장복구 검증 뒤 연결한다.
