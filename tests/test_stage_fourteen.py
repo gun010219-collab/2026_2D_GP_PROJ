@@ -164,4 +164,3 @@ class StageFourteenTests(unittest.TestCase):
             self.assertEqual(g.player.health.current_hp,2 if grade=='hit' else 3)
             if grade=='perfect':self.assertEqual((q.stun_until_tick,g.combat.pending_attack_bonus),(181,2))
             self.assertIsNone(g.resolver.resolve_enemy_attack(event))
-
