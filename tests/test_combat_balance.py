@@ -128,7 +128,9 @@ class CombatBalanceTests(unittest.TestCase):
     def test_factory_rejects_wrong_profile_and_queen(self):
         d=StageCatalog.load().get_stage(6)
         with self.assertRaises(ValueError):create_stage_enemies(d,profile=profile_for(1))
-        with self.assertRaises(ValueError):create_stage_enemies(StageCatalog.load().get_stage(13),profile=profile_for(3))
+        es=create_stage_enemies(StageCatalog.load().get_stage(13),profile=profile_for(3))
+        self.assertTrue(any(e.kind=='queen' and e.health.max_hp==14 for e in es))
+        with self.assertRaises(ValueError):main._new_stage_game(13)
 
     def test_later_chapter_nonqueen_rosters_can_use_profile_without_play_permission(self):
         for n in (11,16,23):

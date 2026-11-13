@@ -81,3 +81,9 @@ def cell_center(col: int, row: int) -> tuple[float, float]:
         raise ValueError('Cell coordinates must be between 0 and 9')
     return (BOARD_LEFT + (col + 0.5) * TILE_SIZE,
             BOARD_BOTTOM + (row + 0.5) * TILE_SIZE)
+
+# Task2-B approved Queen contract (original source HP6 is not a runtime default).
+QUEEN_ATTACK_DAMAGE = 1
+QUEEN_TELEGRAPH_SECONDS = 1.20
+QUEEN_RECOVERY_SECONDS = 3.00
+QUEEN_MOVE_MAX_CELLS = 3

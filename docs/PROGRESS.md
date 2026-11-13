@@ -1,5 +1,97 @@
 # CHECKMATE 개발 진행 기록
 
+## Task 2-B — Queen 독립 AI 및 개발 미리보기
+
+시작 SHA/원격 main: `965656ed5630148fc84264f7592f17c1b2d694cd`, main 작업 트리 깨끗함.
+상태: 구현·사용자 Windows GUI20/20 통과. 최종 자동 재검수 성공 후 승인21개 파일 커밋·기존 main 일반 Push 승인.
+정책과 실행 명령은 [Queen 설계](QUEEN_AI_DESIGN.md)를 따른다. 기존 Task1/2-A 기록과 측정표는 보존했다.
+
+### 최종 재검수·사용자 Windows GUI20/20
+
+최종 검수 시작 HEAD/origin/main은 기준 SHA와 일치했고, 작업 트리는 수정16개·신규5개·인덱스 비어 있음이었다.
+이번 검수에서 기능 코드와 테스트는 추가 수정하지 않고 문서만 갱신했다.
+사용자가 Windows 11의 개발용 Queen 미리보기4종(Chapter3 solo/mixed, Chapter4 double, Chapter5 pulse)을 직접 실행했다.
+**통과20·실패0·확인 불가0·미검수0, 추가 오류·의견 없음**으로 보고했다.
+
+1. Chapter3 Queen HP14 표시 — 통과
+2. Chapter4 Queen HP18 표시 — 통과
+3. Chapter5 Queen HP22 표시 — 통과
+4. Queen 실루엣이 King·Bishop과 구별됨 — 통과
+5. 첫 행동 재배치 — 통과
+6. 한 번에 최대3칸 이동 — 통과
+7. Player·적 점유 통과/겹침 없음 — 통과
+8. 재배치 다음 행동에서 공격 예고 — 통과
+9. 네 대각선 경고 — 통과
+10. 첫 점유 칸 포함·뒤 칸 차단 — 통과
+11. 광선 회피 후 HP 유지 — 통과
+12. 적중 시 HP 정확히1 감소 — 통과
+13. 일반 패링 피해 차단 — 통과
+14. 퍼펙트 패링 피해 차단 — 통과
+15. 퍼펙트 후 Queen 기절 — 통과
+16. 다음 공격+2 보너스 — 통과
+17. 회복 후 다시 재배치 — 통과
+18. Queen 처치 시 미완료 경고/공격 취소 — 통과
+19. Mixed·Double·Pulse 이상 동작 없음 — 통과
+20. 방향키·SPACE·Shift·SETTINGS·F11·포커스·ESC/X 정상 — 통과
+
+사용자 Windows GUI와 Python unittest·SDL dummy/네이티브 SDL·결정적 자동 전투는 독립적인 근거다.
+같은 GUI를 다시 요청하지 않았다. 정확한 틱/원장 인증은 자동 검사 근거이며 모든 PC·장기 밸런스 확정을 의미하지 않는다.
+
+- 최종 `.\.venv\Scripts\python.exe -m unittest discover -s tests -v`: **1027개 통과(38.419초), 실패0·오류0·skip0**. 기존1007개 AST 보존·삭제0, 신규20개(순수18/네이티브SDL2).
+- validator 일반/-O 각각25개 통과. Python16개 문법/import·SDL독립성·문서 링크·공백·원본 데이터/이력 보존 검사 통과.
+- 네이티브 SDL 미리보기 실제 피해·Shift perfect/+2·리소스 해제 및 일반 main의 진행·입력·시계 회귀 통과.
+- 기존 드라이버/3600틱 조건으로48개 전투를 다시 실행했다.48/48 클리어·기존488개 측정값 전부 일치했다.
+  Stage1~10의40행400개와 Stage11~12의8행88개 값이며, 기존 표 수치를 수정하지 않았다.
+- CLI의 잘못된 chapter/scenario는 종료코드2로 거절했다.
+- Queen HP/기하/교대/72·180·60·48틱·패링/취소/계획 인증·Pulse drain/freeze/resume와 run_session 공유 경로를 검토했다.
+- Stage1~12 실행 범위, Stage12 보류 Offer·Stage13~25 생성 차단, 원본JSON/validator·기존 KingPulse·성장/HP·이전 측정표를 보존했다.
+- 아래21개만 커밋·일반 Push한다. 실제 SHA·원격 반영·작업 트리 결과는 Git 작업 후 재조회하여 최종 보고한다.
+
+Queen 순수 기하, 챕터 HP, 명시적 Enemy/Factory 생성, 교대 맵·정지형 계획·피해/패링·임시 왕관을 구현했다.
+main의 검증된 루프를 run_session으로 공유해 별도 StageGame/Stage13 우회 없이 개발 전투를 실행한다.
+HUD에 필요한 Q 글자를 추가했다. 새 아트·시계·공격 원장은 없다. KingPulse/기존 적 AI 수치는 유지한다.
+기존 Queen 생성 거절 테스트는 프로필 미지정 거절 또는 승인 Queen 생성 + 실제 Stage13 차단으로 갱신했다.
+
+자동 검사: 전체unittest1027개 통과(36.593초), 실패0·오류0·skip0.
+기준 SHA AST 비교: 기존1007개 전부 보존·삭제0·신규20개(순수18/네이티브SDL2).
+변경Python16개 문법/import·순수SDL독립성·문서링크·Git공백 통과.
+기존 raw Queen 생성 거절의 예외 계약을 유지하고 프로필을 지정한 Factory만 Queen을 생성한다. 기존48개 전투를3600틱 같은 입력으로 재실행해48/48 클리어·488개 셀 일치.
+Stage13~25 실행/Stage12 Offer 소비는 여전히 차단한다. validator 일반/-O 각각25개 통과.
+신규 순수 테스트는 기하·72/180/60/48틱·일반/perfect·위조/세션·취소·2Queen·혼합·Pulse drain/cleanup/재개/King사망·1/8틱을 확인한다.
+네이티브 SDL dummy는 실제 preview/main 공유 루프에서 Queen 피해1·Shift perfect/+2·HP14 유지·정상 종료를 확인한다.
+이 결과는 사용자 Windows GUI 통과가 아니다. 기존48개는 실제 이동/공격/패링이며 새 Queen 테스트는 명시적 순수 전투 fixture다.
+
+GUI 확인 항목: HP14/18/22, 독립 실루엣, 최초 재배치, 최대3칸/점유 차단, 다음틱 공격,
+네 광선·첫 점유 뒤 차단, 회피, 피해1, 일반/perfect, 기절/+2, 회복/재배치, 사망 취소,
+mixed/double/pulse, 방향키/SPACE/Shift·SETTINGS/F11·포커스·ESC/X. 정확한 정수틱/원장은 자동 검사 근거다.
+사용자 Windows GUI20/20 결과를 수령했다. 장기 밸런스·모든 하드웨어 환경은 미검증이다.
+Stage13/Queen 단계 배치·Stage15/저장·해금·최종 아트는 별도 후속 승인 범위다.
+최종 검수 후 승인 메시지 `feat: 퀸 AI 및 대각선 광선 전투 구현`로 커밋·일반 Push한다.
+
+실제 변경: 수정16개·신규5개, 총21개. 기능 코드에 새 Queen 수치만 추가했으며 정상 Stage 실행 제한은 유지한다.
+
+- combat_balance.py
+- combat_resolution.py
+- config.py
+- docs/CHAPTER_EXPANSION_DESIGN.md
+- docs/DECISIONS.md
+- docs/GAME_DESIGN.md
+- docs/PROGRESS.md
+- docs/QUEEN_AI_DESIGN.md
+- enemy.py
+- enemy_attack.py
+- enemy_behaviors.py
+- enemy_factory.py
+- enemy_renderer.py
+- health_renderer.py
+- main.py
+- queen_behavior.py
+- tests/test_combat_balance.py
+- tests/test_queen.py
+- tests/test_queen_preview_sdl.py
+- tests/test_stage_eleven_twelve.py
+- tools/queen_preview.py
+
 ## Task 2-A — Chapter3 진입 및Stage11·12 (2026-11-13)
 
 상태: **구현·최종 자동 재검수 및 사용자 Windows GUI30/30 통과. 승인26개 파일의 한국어 커밋·기존 main 일반 Push 승인**.

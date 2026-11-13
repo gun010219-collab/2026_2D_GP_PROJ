@@ -52,6 +52,13 @@ Pawn/Rook/Knight/Bishop/Queen/King의 식별 실루엣은 챕터 전반에 유�
 외형 및 효과 제작 기준은 [아트 디렉션](ART_DIRECTION.md), 제작 순서는
 [에셋 계획](ASSET_PLAN.md)을 따른다. 이 변경은 AI·이동·공격 범위·피해량 변경을 포함하지 않는다.
 
+## Queen 독립 구현 (Task2-B)
+
+Queen HP14/18/22·재배치와 대각선 교대·72틱 예고/피해1/180틱 회복을 구현했다.
+독립 개발 미리보기와 순수/SDL 자동 검증은 정상 Stage13 실행 권한과 구분한다.
+Stage1~12와 Stage12 보류 Offer는 유지한다. Queen 개발 미리보기의 사용자 Windows GUI20/20 통과를 수령했다. 최종 아트는 아니다.
+상세 정책/실행 명령은 [Queen 설계](QUEEN_AI_DESIGN.md)를 따른다. 아래 과거 Queen 미구현 문구는 당시 이력이다.
+
 ## 구현 경계
 
 **현재 Task2-A:** Stage1~12 플레이 경로를 연결했다. Stage10 전체 보스 클리어 N→Chapter3 Stage11,

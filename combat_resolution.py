@@ -10,7 +10,7 @@ from dataclasses import dataclass
 from board import in_bounds
 from combat import AttackEvent, Combat, _duration_ticks
 from config import (
-    PAWN_ATTACK_DAMAGE, PLAYER_ATTACK_DAMAGE, ROOK_ATTACK_DAMAGE,
+    QUEEN_ATTACK_DAMAGE, PAWN_ATTACK_DAMAGE, PLAYER_ATTACK_DAMAGE, ROOK_ATTACK_DAMAGE,
     KNIGHT_ATTACK_DAMAGE, BISHOP_ATTACK_DAMAGE, KING_ATTACK_DAMAGE,
     PLAYER_HIT_INVULNERABILITY_SECONDS,
     KING_PULSE_REFLECT_DAMAGE,
@@ -40,7 +40,7 @@ class CombatResolver:
                  player_damage=PLAYER_ATTACK_DAMAGE,
                  pawn_damage=PAWN_ATTACK_DAMAGE, parry=None, rook_damage=ROOK_ATTACK_DAMAGE,
                  knight_damage=KNIGHT_ATTACK_DAMAGE, bishop_damage=BISHOP_ATTACK_DAMAGE,
-                 king_damage=KING_ATTACK_DAMAGE):
+                 king_damage=KING_ATTACK_DAMAGE, queen_damage=QUEEN_ATTACK_DAMAGE):
         if not isinstance(player, Player):
             raise TypeError('Damage target/source must be a Player')
         if not isinstance(combat, Combat) or not isinstance(encounter, EnemyEncounter):
@@ -50,6 +50,7 @@ class CombatResolver:
         self._validate_damage(rook_damage)
         self._validate_damage(knight_damage)
         self._validate_damage(bishop_damage)
+        self._validate_damage(queen_damage)
         self._validate_damage(king_damage)
         if parry is not None and not isinstance(parry, Parry):
             raise TypeError('Parry input model must be a Parry')
@@ -69,6 +70,7 @@ class CombatResolver:
         self.knight_damage = knight_damage
         self.bishop_damage = bishop_damage
         self.king_damage = king_damage
+        self.queen_damage = queen_damage
         self.player_invulnerability_ticks = _duration_ticks(PLAYER_HIT_INVULNERABILITY_SECONDS)
         self.player_invulnerable_until_tick = 0
         self.parry = parry
@@ -282,6 +284,7 @@ class CombatResolver:
         self._validate_damage(self.knight_damage)
         self._validate_damage(self.bishop_damage)
         self._validate_damage(self.king_damage)
+        self._validate_damage(self.queen_damage)
         self._close_invalid_parries()
         ledger = self.encounter.ledger
         if not isinstance(event, EnemyAttackEvent) or ledger.state(event) == 'unknown':
@@ -348,7 +351,7 @@ class CombatResolver:
             return None
         amount = {'pawn': self.pawn_damage, 'rook': self.rook_damage,
                   'knight': self.knight_damage, 'bishop': self.bishop_damage,
-                  'king': self.king_damage}[source.kind]
+                  'king': self.king_damage, 'queen': self.queen_damage}[source.kind]
         result = self._apply(event, source.entity_instance_id, self.player, amount)
         self.player_invulnerable_until_tick = self.combat.tick + self.player_invulnerability_ticks
         ledger.finish(event, 'hit')

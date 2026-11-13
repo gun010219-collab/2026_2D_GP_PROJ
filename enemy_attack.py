@@ -51,7 +51,7 @@ class EnemyAttackEvent:
     attack_kind: str = 'basic'
 
     def __post_init__(self):
-        if self.attack_kind not in ('basic', 'king_pulse', 'pawn_contact'):
+        if self.attack_kind not in ('basic', 'king_pulse', 'pawn_contact', 'queen_diagonal'):
             raise ValueError('Unknown enemy attack kind')
         if type(self.attack_id) is not int or self.attack_id < 1:
             raise ValueError('attack_id must be a positive integer')

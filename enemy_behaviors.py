@@ -1,7 +1,9 @@
 """Shared tick/ledger lifecycle for supported enemies, including King melee."""
+from queen_behavior import choose_reposition, diagonal_targets
 from board import in_bounds
 from combat import _duration_ticks
 from config import (
+    QUEEN_TELEGRAPH_SECONDS, QUEEN_RECOVERY_SECONDS,
     PAWN_MOVE_INTERVAL_SECONDS, PAWN_RECOVERY_SECONDS, PAWN_TELEGRAPH_SECONDS,
     PERFECT_PARRY_STUN_SECONDS, ROOK_MOVE_INTERVAL_SECONDS,
     ROOK_RECOVERY_SECONDS, ROOK_TELEGRAPH_SECONDS,
@@ -26,8 +28,8 @@ class EnemyEncounter:
     def __init__(self, enemies, start_tick=0, combat_session_id=None, stage_instance_id=None, *, boss=False):
         self._validate_tick(start_tick)
         self.enemies = tuple(enemies)
-        if any(not isinstance(e, Enemy) or e.kind not in ('pawn', 'rook', 'knight', 'bishop', 'king') for e in self.enemies):
-            raise ValueError('Encounter supports live Pawn/Rook/Knight/Bishop/King instances only')
+        if any(not isinstance(e, Enemy) or e.kind not in ('pawn', 'rook', 'knight', 'bishop', 'king', 'queen') for e in self.enemies):
+            raise ValueError('Encounter supports live Pawn/Rook/Knight/Bishop/Queen/King instances only')
         self.ledger = EnemyAttackLedger(combat_session_id, stage_instance_id)
         self.move_ticks = _duration_ticks(PAWN_MOVE_INTERVAL_SECONDS)
         self.telegraph_ticks = _duration_ticks(PAWN_TELEGRAPH_SECONDS)
@@ -42,6 +44,9 @@ class EnemyEncounter:
         self.king_move_ticks = _duration_ticks(KING_MOVE_INTERVAL_SECONDS)
         self.king_telegraph_ticks = _duration_ticks(KING_TELEGRAPH_SECONDS)
         self.king_recovery_ticks = _duration_ticks(KING_RECOVERY_SECONDS)
+        self.queen_telegraph_ticks = _duration_ticks(QUEEN_TELEGRAPH_SECONDS)
+        self.queen_recovery_ticks = _duration_ticks(QUEEN_RECOVERY_SECONDS)
+        self.queen_steps = {e.entity_instance_id: 'reposition' for e in self.enemies if e.kind == 'queen'}
         self.tick = start_tick - 1
         self._movement_history = {}
         self._attack_moves = {}
@@ -81,7 +86,7 @@ class EnemyEncounter:
     def _recovery_ticks(self, enemy):
         return {'pawn': self.recovery_ticks, 'rook': self.rook_recovery_ticks,
                 'knight': self.knight_recovery_ticks, 'bishop': self.bishop_recovery_ticks,
-                'king': self.king_recovery_ticks}[enemy.kind]
+                'king': self.king_recovery_ticks, 'queen': self.queen_recovery_ticks}[enemy.kind]
 
     def _choose_move(self, enemy, player_cell):
         """Greedy one-cell pursuit with bounded memory, not a pathfinder.
@@ -164,6 +169,9 @@ class EnemyEncounter:
                     continue
                 if now < enemy.next_action_tick:
                     continue
+                if enemy.kind == 'queen':
+                    self._begin_queen_action(enemy, player_cell, now)
+                    continue
                 if enemy.kind == 'rook':
                     self._begin_rook_action(enemy, player_cell, now)
                     continue
@@ -207,6 +215,26 @@ class EnemyEncounter:
 
     def is_pulse(self, event):
         return self.pulse is not None and self.pulse.owns(event)
+
+    def _begin_queen_action(self, enemy, player_cell, tick):
+        occupied = self.occupied_cells - {enemy.position}
+        if self.queen_steps[enemy.entity_instance_id] == 'reposition':
+            enemy.col, enemy.row = choose_reposition(enemy.position, player_cell, occupied)
+            self.queen_steps[enemy.entity_instance_id] = 'diagonal_attack'
+            enemy.state = 'waiting'
+            enemy.next_action_tick = tick + 1
+            return
+        targets = diagonal_targets(enemy.position, player_cell, occupied)
+        if not targets:
+            enemy.next_action_tick = tick + 1
+            return
+        event = self.ledger.create(enemy.entity_instance_id, tick, tick + self.queen_telegraph_ticks,
+                                   targets, attack_kind='queen_diagonal')
+        enemy.current_attack = event
+        self._attack_moves[event.key] = (event, enemy, enemy.position)
+        self.queen_steps[enemy.entity_instance_id] = 'reposition'
+        enemy.state = 'telegraph'
+        enemy.next_action_tick = event.hit_tick
 
     def _begin_king_action(self, enemy, player_cell, tick):
         target = melee_target(enemy.position, player_cell)
@@ -274,7 +302,7 @@ class EnemyEncounter:
         Rook checks its whole path; Knight checks its single landing only.
         """
         for event, source, origin in tuple(self._attack_moves.values()):
-            if source.kind in ('pawn', 'bishop', 'king'):
+            if source.kind in ('pawn', 'bishop', 'king', 'queen'):
                 continue  # Stationary attacks have no movement path to obstruct.
             if self.ledger.state(event) not in ('telegraph', 'due'):
                 continue
@@ -293,6 +321,11 @@ class EnemyEncounter:
             raise ValueError('Pulse attack was not issued by this boss controller')
         source = next((e for e in self.enemies
                        if e.entity_instance_id == event.source_entity_instance_id), None)
+        if event.attack_kind == 'queen_diagonal' or (source is not None and source.kind == 'queen'):
+            plan = self._attack_moves.get(event.key)
+            if (source is None or source.kind != 'queen' or event.attack_kind != 'queen_diagonal'
+                    or plan is None or plan[0] != event or plan[1] is not source):
+                raise ValueError('Queen attack has no matching live diagonal plan')
         if event.attack_kind == 'pawn_contact':
             plan = self._attack_moves.get(event.key)
             if (source is None or source.kind != 'pawn' or plan is None
@@ -326,7 +359,7 @@ class EnemyEncounter:
         if source.kind == 'bishop':
             self._bishop_closed_tick[sum(origin) % 2] = self.tick
             return False  # Stationary even on hit, miss, invulnerability or parry.
-        if source.kind in ('pawn', 'king'):
+        if source.kind in ('pawn', 'king', 'queen'):
             return False  # Contact/melee never moves or grants a Pulse-specific effect.
         if (state != 'resolved' or event.hit_tick != self.tick
                 or self.ledger.outcome(event) not in ('hit', 'miss', 'invulnerable', 'parried_normal')
@@ -382,6 +415,8 @@ class EnemyEncounter:
                 if not enemy.active:
                     return False
                 self.cancel_attacks(entity_instance_id, tick=tick)
+                if enemy.kind == 'queen':
+                    self.queen_steps[entity_instance_id] = 'reposition'
                 enemy.stun_until_tick = max(enemy.stun_until_tick, tick + duration_ticks)
                 enemy.next_action_tick = enemy.stun_until_tick
                 enemy.state = 'stunned'

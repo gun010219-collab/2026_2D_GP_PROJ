@@ -74,12 +74,16 @@ def _new_stage_game(stage_number, *, stats=None):
 
 
 def main(*, run=None):
+    game = _new_game()
+    return run_session(game, StageProgression(game, run))
+
+
+def run_session(game, flow, *, game_renderer=None):
+    """Shared fixed-tick window loop; preview supplies no StageGame or progression."""
     # Import here so configuration and importing this module never open a window.
     # Use the implementation module: its live window handle is set by open_canvas.
     from pico2d import pico2d as canvas
 
-    game = _new_game()
-    flow = StageProgression(game, run)
     player, combat, parry = game.player, game.combat, game.parry
     encounter, resolver = game.encounter, game.resolver
     player_renderer = PlayerRenderer()
@@ -89,7 +93,7 @@ def main(*, run=None):
     enemy_renderer = EnemyRenderer()
     enemy_attack_renderer = EnemyAttackRenderer()
     health_renderer = HealthRenderer()
-    game_renderer = GameFlowRenderer()
+    game_renderer = GameFlowRenderer() if game_renderer is None else game_renderer
     upgrade_renderer = UpgradeRenderer()
     selection = UpgradeInput()
     clock = SimulationClock()

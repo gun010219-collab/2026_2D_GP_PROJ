@@ -9,6 +9,13 @@ class EnemyRenderer:
             if not enemy.active:
                 continue
             x, y = cell_center(enemy.col, enemy.row)
+            if enemy.kind == 'queen':
+                # Wide low crown, distinct from King's tall central cross.
+                for l,b,r,t in ((-19,-17,19,5),(-25,5,25,12),(-24,12,-17,22),
+                                (-10,12,-4,20),(4,12,10,20),(17,12,24,22),(-24,-25,24,-19)):
+                    canvas.draw_rectangle(x+l*unit,y+b*unit,x+r*unit,y+t*unit,218,207,239,filled=True)
+                canvas.draw_rectangle(x-10*unit,y-15*unit,x+10*unit,y+2*unit,57,48,77,filled=True)
+                continue
             if enemy.kind == 'king':
                 # Wide royal crown with a taller central cross, distinct from Rook.
                 for left, bottom, right, top in (

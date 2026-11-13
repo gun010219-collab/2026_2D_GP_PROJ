@@ -30,8 +30,8 @@ class Enemy:
     health: Health = field(init=False)
 
     def __post_init__(self, boss_hp, max_hp):
-        if self.kind not in ('pawn', 'rook', 'knight', 'bishop', 'king'):
-            raise ValueError('Only Pawn, Rook, Knight, Bishop and King combat instances are supported')
+        if self.kind not in ('pawn', 'rook', 'knight', 'bishop', 'king', 'queen'):
+            raise ValueError('Only Pawn, Rook, Knight, Bishop, Queen and King combat instances are supported')
         label = self.kind.title()
         if not isinstance(self.data_id, str) or not self.data_id.strip():
             raise ValueError(f'{label} data ID must be a nonempty string')
@@ -49,6 +49,8 @@ class Enemy:
         if (type(self.initial_delay) not in (int, float) or not isfinite(self.initial_delay)
                 or not 0 <= self.initial_delay <= 10):
             raise ValueError(f'{label} initial_delay must be finite and between 0 and 10 seconds')
+        if self.kind == 'queen' and (type(max_hp) is not int or max_hp <= 0):
+            raise ValueError('Queen requires explicit positive integer max_hp')
         if self.kind == 'king':
             if max_hp is not None:
                 raise ValueError('King HP uses boss_hp only')

@@ -139,8 +139,10 @@ class StageElevenTwelveTests(unittest.TestCase):
     def test_stage13_through25_and_queen_factory_still_rejected(self):
         for n in range(13,26):
             with self.assertRaises(ValueError):main._new_stage_game(n)
+        enemies=create_stage_enemies(StageCatalog.load().get_stage(13),profile=profile_for(3))
+        self.assertTrue(any(e.kind=='queen' and e.health.max_hp==14 for e in enemies))
         with self.assertRaises(ValueError):
-            create_stage_enemies(StageCatalog.load().get_stage(13),profile=profile_for(3))
+            create_stage_enemies(StageCatalog.load().get_stage(13),profile=profile_for(2))
 
     def test_original_two_bishops_serialize_opposite_colors_and_parry(self):
         # Isolate the two JSON Bishops to observe exact scheduling; full mixed fights below.

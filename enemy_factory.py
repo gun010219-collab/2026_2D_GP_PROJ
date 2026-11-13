@@ -11,7 +11,7 @@ class UnsupportedEnemyError(ValueError):
 def _check_supported(definition):
     if not isinstance(definition, EnemyDefinition):
         raise TypeError('Expected an EnemyDefinition')
-    if definition.kind not in ('pawn', 'rook', 'knight', 'bishop', 'king'):
+    if definition.kind not in ('pawn', 'rook', 'knight', 'bishop', 'king', 'queen'):
         raise UnsupportedEnemyError(f'Unsupported combat piece: {definition.kind}')
     allowed = {'forward'} if definition.kind == 'pawn' else set()
     if set(definition.options) != allowed:
@@ -21,6 +21,8 @@ def _check_supported(definition):
 def create_enemy(definition, *, boss_hp=None, max_hp=None):
     """Spawn HP/AI/IDs anew; definitions remain immutable and state-free."""
     _check_supported(definition)
+    if definition.kind == 'queen' and max_hp is None:
+        raise UnsupportedEnemyError('queen requires explicit HP')
     forward = definition.options['forward'] if definition.kind == 'pawn' else None
     return Enemy(definition.data_id, definition.col, definition.row, forward,
                  definition.initial_delay, kind=definition.kind, boss_hp=boss_hp, max_hp=max_hp)
@@ -32,6 +34,8 @@ def create_stage_enemies(stage, *, profile=None):
         raise TypeError('Expected a StageDefinition')
     for definition in stage.enemies:
         _check_supported(definition)
+    if any(e.kind == 'queen' for e in stage.enemies) and profile is None:
+        raise UnsupportedEnemyError('queen stage requires an explicit approved HP profile')
     kings = [e for e in stage.enemies if e.kind == 'king']
     if type(stage.boss) is not bool:
         raise ValueError('Stage boss flag must be boolean')
