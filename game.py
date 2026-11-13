@@ -7,7 +7,7 @@ from upgrades import chapter_first_stage
 
 
 # Catalog availability is not execution support. Expand only with verified tasks.
-SUPPORTED_STAGES = frozenset(range(1, 14))
+SUPPORTED_STAGES = frozenset(range(1, 15))
 
 
 class GameState(str, Enum):
@@ -23,7 +23,7 @@ class StageGame:
     """Own one combat instance. Restart creates a new instance, never rewinds it."""
     def __init__(self, player, combat, encounter, parry, resolver, *, stage_number=1, chapter=1, boss=False):
         if type(stage_number) is not int or stage_number not in SUPPORTED_STAGES:
-            raise ValueError('Only Stage 1 through Stage 13 combat sessions are supported')
+            raise ValueError('Only Stage 1 through Stage 14 combat sessions are supported')
         definition = StageCatalog.load().get_stage(stage_number)
         if type(chapter) is not int or chapter != definition.chapter:
             raise ValueError('Playable chapter metadata must match the stage catalog')

@@ -1,5 +1,18 @@
 # CHECKMATE 승인 결정
 
+## Task 2-D — Stage14 실전 및 Stage15 개발 경계
+
+Stage1~14만 실제 실행한다. Stage13 정상 UPGRADE의 세 번째 Offer를 선택하면 동일 Chapter3 Run에서 Receipt2→3, current_stage13→14로 진행한다.
+기존 Offer·이전 Receipt 인증, 후보 전투 검증·입력 준비 후 소비 순서를 재사용한다. Factory/입력 준비/메타데이터/적 편성·HP·좌표·지연·방향/Player/Resolver·세션·원장 실패는 기존 상태를 보존하고 재시도한다.
+Stage14는 원본 Queen1·Rook1·Bishop1·Pawn2, HP14/12/10/7/7, 지연48/62/75/88/101틱, spawn(5,1), 비보스이며 Pulse는 없다.
+Queen 광선·Rook 돌진·Bishop 짝수 색상50칸·Pawn 대각선/접촉 공격은 기존 AI 그대로다. Bishop에는 광선 차단 규칙을 추가하지 않는다.
+전체 전멸·Player 생존은 UPGRADE와 네 번째 Offer를 발급한다. Stage15 미지원으로 STAGE 15 NOT AVAILABLE / UPGRADE ON HOLD를 표시하며 Receipt3·Build·Offer를 유지한다.
+숫자/마우스/R/N 우회와 Stage15 Factory 호출을 차단한다. 보류 Offer는 현재 프로세스 상태이며 영구 저장이 아니다.
+Stage14 GAME_OVER R은 새 Chapter3 Run의 Stage11로 복귀하여 entry_attack_level·HP3·MOVE18·Receipt0 및 새 세션/원장을 적용한다.
+Stage15~25, Stage15 보스전, Chapter4 진입, 저장·해금, 새 아트/음향은 미구현이다. 이전 경계 기록은 당시 이력으로 보존한다.
+사용자가 직접 Windows 11에서 GUI30/30을 검증했다. 실패0·확인 불가0·미검수0, 추가 오류·의견 없음.
+최종 자동 재검수 성공 후 지정23개 파일의 한국어 커밋·기존main 일반 Push가 승인되었다. 실제 Git 결과는 최종 보고에서 확인한다.
+
 ## Task 2-C — Stage13 실전 및Stage14 개발 경계
 
 현재 실제 실행은Stage1~13이다. Stage12 정상UPGRADE의 두 번째 Offer를 선택하면 같은 Chapter3 Run의 Receipt가1→2,

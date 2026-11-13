@@ -58,7 +58,7 @@ def _new_stage_game(stage_number, *, stats=None):
     if stage_number == 1:
         return _new_game() if stats is None else _new_game(stats=stats)
     if stage_number not in SUPPORTED_STAGES:
-        raise ValueError('Only Stage 1 through Stage 13 are playable')
+        raise ValueError('Only Stage 1 through Stage 14 are playable')
     definition = StageCatalog.load().get_stage(stage_number)
     stats = ChapterBuild().stats if stats is None else stats
     if not isinstance(stats, DerivedStats):

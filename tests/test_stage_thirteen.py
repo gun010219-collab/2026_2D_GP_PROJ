@@ -114,11 +114,11 @@ class StageThirteenTests(unittest.TestCase):
         self.assertEqual(g.encounter.ledger.state(event),'cancelled');self.assertNotIn(event.key,g.encounter._attack_moves)
 
     def test_clear_third_offer_stops_combat_and_never_requests14(self):
-        f=at13();g=f.game;g.advance(80);pending=g.encounter.ledger.pending;o=clear(f);before=state(f)
-        self.assertEqual((o.stage,len(f.run.receipts),f.run.current_stage),(13,2,13))
+        f=at13();f.choose(clear(f),'hp',main._new_stage_game);g=f.game;g.advance(80);pending=g.encounter.ledger.pending;o=clear(f);before=state(f)
+        self.assertEqual((o.stage,len(f.run.receipts),f.run.current_stage),(14,3,14))
         self.assertIs(f.sync_offer(),o);factory=Mock()
         for kind in ('attack','hp','move'):
-            with self.assertRaisesRegex(ValueError,'Stage 14 is not available'):f.choose(o,kind,factory)
+            with self.assertRaisesRegex(ValueError,'Stage 15 is not available'):f.choose(o,kind,factory)
         factory.assert_not_called();g.advance(1000)
         self.assertEqual(state(f),before)
         for event in pending:self.assertEqual(g.encounter.ledger.state(event),'cancelled')
