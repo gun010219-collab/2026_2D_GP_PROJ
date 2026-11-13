@@ -52,6 +52,15 @@ Pawn/Rook/Knight/Bishop/Queen/King의 식별 실루엣은 챕터 전반에 유�
 외형 및 효과 제작 기준은 [아트 디렉션](ART_DIRECTION.md), 제작 순서는
 [에셋 계획](ASSET_PLAN.md)을 따른다. 이 변경은 AI·이동·공격 범위·피해량 변경을 포함하지 않는다.
 
+## 현재 구현 — Task2-C
+
+Stage1~13 플레이 경로를 지원한다. Chapter3는Stage11→강화1→12→강화2→13이며 얼음 테마를 유지한다.
+Stage13은 Queen1/Knight1/Pawn3(HP14/10/7/7/7) 실제 혼합 전투이며 기존 Queen AI를 재사용한다.
+Stage13 전멸 후UPGRADE·세 번째 Offer를 발급하지만 Stage14 미지원으로 소비를 보류한다(Receipt2개 유지).
+Stage13 사망은 진입 공격력으로Stage11 복귀한다. Stage14~25·Stage15·저장·해금은 미구현이다.
+자동 검증은 [Stage13 측정표](BALANCE_STAGE13.md)를 따르며 사용자 Windows GUI는 대기 중이다.
+아래 Task2-A/B 실행 제한은 당시 이력이다.
+
 ## Queen 독립 구현 (Task2-B)
 
 Queen HP14/18/22·재배치와 대각선 교대·72틱 예고/피해1/180틱 회복을 구현했다.

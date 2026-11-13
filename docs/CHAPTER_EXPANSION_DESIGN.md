@@ -522,3 +522,19 @@ Stage13~25, Stage15 보스, 영구 저장·해금, 최종 Queen 아트/효과/�
 방향키/SPACE/Shift·SETTINGS/F11·ESC/X는 공유 main 입력 경로다. 화면에 실제 HP/행동 단계/attack kind/tick을 표시한다.
 사용자 Windows 11 GUI20/20(실패0·확인 불가0·미검수0, 추가 의견 없음)을 수령했다.
 기능/테스트 추가 수정 없이 최종 자동 검수 후 승인21개 파일을 한국어 커밋·일반 Push한다.
+
+## Task 2-C — Stage13 실전 및Stage14 개발 경계
+
+현재 실제 실행은Stage1~13이다. Stage12 정상UPGRADE의 두 번째 Offer를 선택하면 같은 Chapter3 Run의 Receipt가1→2,
+current_stage가12→13이 된다. 후보 전투 검증·입력 준비 뒤에만 선택을 확정한다.
+choose는 기존 Offer/전투 소유권에 더해 이전 Receipt의 Stage 순서·발급자·최종Build 일치도 인증한다.
+Stage13은 원본 Queen1/Knight1/Pawn3, 정확한ID/좌표/지연48/62/75/88/101틱·spawn(5,1), 비보스다.
+런타임HP는14/10/7/7/7이며 기존 Chapter3 프로필을 사용한다. Queen AI/수치·Pawn접촉·다른 전투는 바꾸지 않았다.
+Stage13 전멸/Player생존은UPGRADE·정당한 세 번째 Offer를 발급한다. Stage14 미지원으로 선택은 보류하고
+Receipt2개/current_stage13·현재 Offer를 유지한다. STAGE 14 NOT AVAILABLE / UPGRADE ON HOLD를 표시한다.
+숫자/마우스/R/N 우회와 Stage14 Factory 호출을 차단한다. 보류는 현재 실행 중 상태이며 영구 저장이 아니다.
+Stage13 GAME_OVER R은 새ChapterRun3/Stage11, entry_attack_level·HP3/MOVE18/Receipt0·새 세션으로 복원한다.
+얼음 테마·main run_session·Queen 미리보기·Stage5/10 진행은 보존한다.
+Stage14~25/Stage15 보스/Chapter4 진입/저장·해금·새 아트/음향은 미구현이다.
+이전 Stage12 경계·Stage13 미지원 문구는 당시 이력이며 삭제하지 않는다. Task2-C 사용자 Windows GUI30/30 통과(실패/확인 불가/미검수0, 추가 의견 없음).
+최종 자동 재검수 성공 후 지정23개 파일의 한국어 커밋·기존main 일반 Push가 승인되었다.

@@ -116,6 +116,12 @@ class StageProgression:
             raise ValueError('Upgrade offer is stale, foreign or not active')
         if not self.game.upgrade_selection_enabled:
             raise ValueError(f'Stage {self.game.stage_number + 1} is not available')
+        receipts = self.run.receipts
+        if (tuple(r.offer.stage for r in receipts) != tuple(range(chapter_first_stage(self.run.chapter), self.game.stage_number))
+                or (receipts and receipts[-1].after_build != self.run.build)):
+            raise ValueError('Upgrade history does not match the current stage/build')
+        for receipt in receipts:
+            self.run.verify_receipt(receipt)
         kind = upgrade_kind(kind)
         build = self.run.build.upgraded(kind)
         g, prepared = self._candidate(self.game.stage_number + 1, build.stats, factory, prepare)

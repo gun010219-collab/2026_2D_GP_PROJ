@@ -92,7 +92,7 @@ class StageElevenTwelveTests(unittest.TestCase):
         o=clear(f)
         tick=g.combat.tick
         self.assertEqual((g.state,o.stage,f.run.current_stage,len(f.run.receipts)),(GameState.UPGRADE,12,12,1))
-        self.assertFalse(g.upgrade_selection_enabled)
+        self.assertTrue(g.upgrade_selection_enabled)
         self.assertIs(f.sync_offer(),o)
         self.assertIsNone(g.restart_stage_number)
         self.assertIsNone(g.next_stage_number)
@@ -102,22 +102,23 @@ class StageElevenTwelveTests(unittest.TestCase):
 
     def test_boundary_rejects_every_choice_before_factory_or_receipt(self):
         f=entered_three();f.choose(clear(f),'attack',main._new_stage_game)
+        f.choose(clear(f),'hp',main._new_stage_game)
         o=clear(f);before=state(f);factory=Mock();prepare=Mock()
         with patch.object(f.run,'select',wraps=f.run.select) as select:
             for kind in ('attack','hp','move'):
-                with self.assertRaisesRegex(ValueError,'Stage 13 is not available'):
+                with self.assertRaisesRegex(ValueError,'Stage 14 is not available'):
                     f.choose(o,kind,factory,prepare)
             select.assert_not_called()
         factory.assert_not_called();prepare.assert_not_called()
         self.assertEqual(state(f),before)
 
     def test_boundary_renderer_explains_hold_without_retry_or_card_prompts(self):
-        f=entered_three();f.choose(clear(f),'hp',main._new_stage_game);o=clear(f)
+        f=entered_three();f.choose(clear(f),'hp',main._new_stage_game);f.choose(clear(f),'hp',main._new_stage_game);o=clear(f)
         before=state(f)
         with patch.object(UpgradeRenderer,'_text') as text:
             UpgradeRenderer().draw(Mock(),f.game,o,error=True)
         labels=[c.args[1] for c in text.call_args_list]
-        for label in ('UPGRADE','STAGE 12 CLEAR','STAGE 13 NOT AVAILABLE','UPGRADE ON HOLD'):
+        for label in ('UPGRADE','STAGE 13 CLEAR','STAGE 14 NOT AVAILABLE','UPGRADE ON HOLD'):
             self.assertIn(label,labels)
         self.assertFalse(any('TRY AGAIN' in s or 'CHOOSE ONE' in s or 'N TO' in s for s in labels))
         self.assertEqual(state(f),before)
@@ -137,7 +138,7 @@ class StageElevenTwelveTests(unittest.TestCase):
         commands=b._commands;b.draw(Mock());self.assertIs(b._commands,commands)
 
     def test_stage13_through25_and_queen_factory_still_rejected(self):
-        for n in range(13,26):
+        for n in range(14,26):
             with self.assertRaises(ValueError):main._new_stage_game(n)
         enemies=create_stage_enemies(StageCatalog.load().get_stage(13),profile=profile_for(3))
         self.assertTrue(any(e.kind=='queen' and e.health.max_hp==14 for e in enemies))

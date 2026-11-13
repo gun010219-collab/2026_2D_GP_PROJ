@@ -42,7 +42,7 @@ class ChapterThreeSDLTests(unittest.TestCase):
             poll_real,present_real=canvas.get_events,canvas.update_canvas
             board_real=main.BoardRenderer.draw;text_real=main.HealthRenderer._text
             def create(n,**kw):
-                assert n in (11,12),n  # Stage13 must never even be requested.
+                assert n in (11,12,13),n  # Stage14 must never be requested.
                 g=factory_real(n,**kw);games.append(g);return g
             def progress(*a,**kw):
                 f=flow_real(*a,**kw);flows.append(f);return f
@@ -81,8 +81,13 @@ class ChapterThreeSDLTests(unittest.TestCase):
                 elif f==5:tap(s.SDLK_F11)
                 elif f==6:click(1295,41)
                 elif f==7:tap(s.SDLK_ESCAPE)
-                elif g.stage_number==12 and g.state is GameState.GAME_OVER:
+                elif g.stage_number in (12,13) and g.state is GameState.GAME_OVER:
                     tap(s.SDLK_r)
+                elif phase[0]==3:
+                    tap(s.SDLK_1)
+                elif g.stage_number==13 and g.playing and g.combat.tick==49:tap(s.SDLK_RIGHT)
+                elif g.stage_number==13 and g.playing and g.combat.tick==67:tap(s.SDLK_UP)
+                elif mode=='stage13death' and g.stage_number==13 and g.playing and g.combat.tick==113:tap(s.SDLK_LSHIFT)
                 elif phase[0]==2:
                     for k in (s.SDLK_1,s.SDLK_2,s.SDLK_3,s.SDLK_r,s.SDLK_n,s.SDLK_SPACE,s.SDLK_LSHIFT,s.SDLK_UP):tap(k)
                     click(450,500);click(730,500);click(990,500)
@@ -90,6 +95,7 @@ class ChapterThreeSDLTests(unittest.TestCase):
             def present():
                 if not started[0]:present_real();return
                 f=frame[0];g=games[-1];flow=flows[0]
+                if g.stage_number==13 and g.combat.tick==0 and phase[0]==3:phase[0]=0
                 if f==0:
                     assert g.state is GameState.BOSS_CLEAR and g.next_stage_number==11
                 if f==1:
@@ -112,24 +118,34 @@ class ChapterThreeSDLTests(unittest.TestCase):
                     a,b=g.encounter.enemies[:2]
                     assert a.current_attack and len(a.current_attack.target_cells)==50
                     assert b.current_attack is None  # Opposite-color serialization in real main.
-                    finish(g,'clear' if mode=='boundary' else 'dead')
+                    finish(g,'dead' if mode=='death' else 'clear')
                     phase[0]=1
                 elif phase[0]==1 and g.stage_number==12 and g.state is GameState.UPGRADE:
                     assert flow.offer.stage==12 and len(flow.run.receipts)==1
+                    phase[0]=3
+                elif g.stage_number==13 and g.playing and g.combat.tick>=121:
+                    qe=next(r.event for r in g.encounter.ledger._records.values() if r.event.attack_kind=='queen_diagonal')
+                    assert g.encounter.ledger.outcome(qe)==('parried_perfect' if mode=='stage13death' else 'hit')
+                    if mode=='stage13death':assert g.combat.pending_attack_bonus==2
+                    assert [e.health.max_hp for e in g.encounter.enemies]==[14,10,7,7,7]
+                    finish(g,'dead' if mode=='stage13death' else 'clear')
+                    phase[0]=4
+                elif phase[0]==4 and g.stage_number==13 and g.state is GameState.UPGRADE:
+                    assert flow.offer.stage==13 and len(flow.run.receipts)==2
                     held[0]=(flow.offer,flow.run.build,flow.run.receipts,flow.run.current_stage,g.combat.tick)
                     phase[0]=2
                 elif phase[0]==2:
                     assert (flow.offer,flow.run.build,flow.run.receipts,flow.run.current_stage,g.combat.tick)==held[0]
-                    assert not flow.error and g.state is GameState.UPGRADE and len(games)==3
+                    assert not flow.error and g.state is GameState.UPGRADE and len(games)==4
                     done[0]=True
-                if mode=='death' and len(games)==4:
+                if (mode=='death' and len(games)==4) or (mode=='stage13death' and len(games)==5):
                     assert g.stage_number==11 and g.combat.tick==0 and themes[-1]==3
                     assert (g.resolver.player_damage,g.player.health.current_hp,flow.run.stats.move_interval_ticks)==(5,3,18)
                     assert flow.run.receipts==() and flow.run.entry_attack_level==4
                     assert g.combat.stage_instance_id!=games[-2].combat.stage_instance_id
                     done[0]=True
                 present_real();frame[0]+=1;now[0]+=FIXED_TIME_STEP
-                assert frame[0]<130
+                assert frame[0]<240
             def board(self,*a,**kw):themes.append(self.theme.chapter);board_real(self,*a,**kw)
             def text(c,label,*a,**kw):labels.append(label);text_real(c,label,*a,**kw)
             with patch.object(canvas,'open_canvas',side_effect=open_window), \\
@@ -149,9 +165,9 @@ class ChapterThreeSDLTests(unittest.TestCase):
             assert done[0] and closed==[True] and themes[0]==2 and themes[-1]==3
             assert 'N TO CHAPTER 3' in labels
             if mode=='boundary':
-                assert 'STAGE 13 NOT AVAILABLE' in labels and 'UPGRADE ON HOLD' in labels
+                assert 'STAGE 14 NOT AVAILABLE' in labels and 'UPGRADE ON HOLD' in labels
                 assert not any('TRY AGAIN' in s for s in labels)
-            assert [g.stage_number for g in games]==([10,11,12] if mode=='boundary' else [10,11,12,11])
+            assert [g.stage_number for g in games]==([10,11,12,13] if mode=='boundary' else [10,11,12,13,11] if mode=='stage13death' else [10,11,12,11])
             print('PASS native Chapter3',mode,'ice/receipt/keyboard/mouse/settings/F11/focus/quit')
         ''')
         result=subprocess.run([sys.executable,'-c',script,mode],cwd=Path(__file__).resolve().parents[1],

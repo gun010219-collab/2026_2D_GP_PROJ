@@ -45,7 +45,9 @@ class QueenTests(unittest.TestCase):
             d=StageCatalog.load().get_stage(n)
             es=create_stage_enemies(d,profile=profile_for(d.chapter))
             self.assertTrue(any(e.kind=='queen' and e.health.max_hp==14 for e in es))
-            with self.assertRaises(ValueError):main._new_stage_game(n)
+            if n>=14:
+                with self.assertRaises(ValueError):main._new_stage_game(n)
+            else:self.assertEqual(main._new_stage_game(n).stage_number,13)
             with self.assertRaises(ValueError):create_stage_enemies(d)
 
     def test_candidate_order_blocking_and_three_cell_limit(self):
@@ -222,5 +224,5 @@ class QueenTests(unittest.TestCase):
             EnemyRenderer().draw(Mock(),g.encounter.enemies)
             EnemyAttackRenderer().draw(Mock(),g.encounter.ledger)
         self.assertEqual(before,(q.position,e.target_cells,g.player.health.current_hp))
-        for n in range(13,26):
+        for n in range(14,26):
             with self.assertRaises(ValueError):main._new_stage_game(n)

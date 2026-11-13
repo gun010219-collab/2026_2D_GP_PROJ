@@ -1,5 +1,108 @@
 # CHECKMATE 개발 진행 기록
 
+## Task 2-C — Stage13 첫 실전 (사용자 Windows GUI30/30 통과)
+
+시작 main/원격 기준은 `5d4156d38e94f5c8e1697478b60c79cfd4f22c1b`, 작업 트리/인덱스는 깨끗했다.
+기존 Task1/2-A/2-B 및 GUI/측정 이력을 보존한다. 이번 Stage13 GUI 결과는 사용자가 실제 Windows 11 게임에서 직접 검증한 독립 근거다.
+실행 범위와 main 오류 안내를1~13으로 변경했다. 기존 자동 목적지 기반 선택/렌더 구조를 재사용해 경계는Stage14로 이동한다.
+StageProgression.choose에 이전 Receipt 순서·발급자·최종Build 인증을 추가했으며 후보/입력 준비 전 소비하지 않는다.
+Factory/Stage·Chapter·boss·HP·원본ID/좌표/지연·Player손상·세션/StageID·원장/입력 실패를 주입해 기존Offer/Run/Receipt1 유지와 재시도를 검증한다.
+원본 Queen/전투/HP/JSON/validator/밸런스 드라이버는 변경하지 않았다. 기존 미래 Stage 차단 기대는14 이후로,
+경계 안전 테스트는13→14로 옮기고 Stage12 정상 강화 검증을 추가했다. 기존 메서드명과 실전 assertion을 유지한다.
+
+자동 검증: `.\.venv\Scripts\python.exe -m unittest discover -s tests -v` 최종 재실행 **1040개 통과, 37.985초, 실패0·오류0·skip0**.
+기준 SHA와 AST 비교에서 기존1027개 보존·삭제0·신규13개(순수12/네이티브SDL1 추가)를 확인했다.
+Stage13 정확한 편성/HP/세션·강화3종/MAX/복제Offer·Receipt 인증·Queen 지연/피해/회피/패링/기절·선처치/전체전멸·GAME_OVER 복원·1/8틱을 검증한다.
+원본 Queen 단독 타이밍 테스트는 다른 적의 예약을 늦춘 명시적 fixture이며 원본 전체혼합 실전 증거는4개 자동 전투다.
+네이티브SDL main은 기존10→11→12 경로 뒤 두 번째 강화로13에 진입한다. 실제 방향키로 고정광선에 접근해
+Queen 피해 또는Shift perfect를 판정한 후 전멸/사망 fixture로14경계/11재시작을 검증한다.
+숫자/마우스 선택·동일프레임입력·얼음테마·HP14/10/7/7/7·보류Offer·Receipt2·키/마우스/R/N 차단·오류flag없음·설정/종료를 포함한다.
+fixture 전멸은 진행 검증이며 실제 처치 성공으로 표시하지 않는다.
+기존48개/488측정값은 동일했고 새4개 실제 전투도 모두클리어했다. [Stage13 측정표](BALANCE_STAGE13.md)를 따른다.
+`.\.venv\Scripts\python.exe validate_stage_data.py` 및 같은 명령의 `-O` 실행: 각각25개 통과.
+변경 Python18개 문법/import, 순수 로직 SDL/Pico2D 독립성, 문서 내부 링크51개, `git diff --check` 통과.
+원본 JSON/validator/Queen 및 기존 AI/Pulse/성장/HP/드라이버/측정표/에셋 무변경, 이전 개발 기록 보존을 확인했다.
+최종 변경은 수정20개·신규3개=23개이며 아래 목록과 일치한다. HEAD/origin은 시작 SHA 그대로, 인덱스는 비어 있다.
+
+### 최종 자동 재검수 (GUI 검수 이후)
+
+- 전체 unittest를 직접 재실행: **1040개, 40.952초, 실패0·오류0·skip0**. 구현 단계37.985초와 별개 결과다.
+- 기준 SHA AST 비교: 기존1027개 모두 보존, 삭제0, 신규13개(순수12/네이티브SDL1). 기존 기대 변경은 Stage13 허용/Stage14 경계 이동이다.
+- validator 일반/-O 각각25개 통과. SDL dummy 및 네이티브 main/Queen preview 테스트, 1틱/8틱 결정성을 전체 suite에서 재검증했다.
+- 기존48개 실제 자동 전투 재실행48/48 클리어, 기존488개 측정값 모두 일치. 원본 측정표는 변경하지 않았다.
+- Stage13 4개 재측정: attack315/survival741/evasion417/balanced459틱, 전부UPGRADE·피격0. 적중6/16/11/10, perfect1/2/2/1, 남은HP3/5/3/4로 기록과 일치.
+- 변경Python18개 문법/import, 순수로직 SDL/Pico2D 독립성, 문서링크, Git공백 및 원본/AI/성장/HP/Pulse/측정표 보존을 확인했다.
+- Stage12 강화/Receipt2·후보 실패 원자성, Stage13 원본5기 및 Queen 실전, Stage14 보류/우회 차단, GAME_OVER Stage11 진입 공격력 복원을 재검증했다.
+- 기능 코드·테스트 추가 수정0. 이번 수정은 GUI 및 최종 검수 문서 기록이다. Push는 아직 수행 전이며 완료로 기록하지 않는다.
+
+### 실제 변경 파일
+
+- docs/BALANCE_STAGE13.md
+- docs/CHAPTER_EXPANSION_DESIGN.md
+- docs/DECISIONS.md
+- docs/GAME_DESIGN.md
+- docs/PROGRESS.md
+- game.py
+- main.py
+- stage_progression.py
+- tests/test_chapter_run.py
+- tests/test_chapter_three_sdl.py
+- tests/test_chapter_two_entry.py
+- tests/test_chapter_two_stages.py
+- tests/test_combat_balance.py
+- tests/test_king_combat.py
+- tests/test_queen.py
+- tests/test_stage_eleven_twelve.py
+- tests/test_stage_five.py
+- tests/test_stage_four.py
+- tests/test_stage_six.py
+- tests/test_stage_thirteen.py
+- tests/test_stage_thirteen_sdl.py
+- tests/test_stage_three.py
+- tests/test_stage_transition.py
+
+### Windows GUI 검수 — 사용자 직접 검증30/30 통과
+
+`.\.venv\Scripts\python.exe main.py` 실행 후 확인한다.
+
+1. Stage10 BOSS CLEAR — 통과
+2. N→Stage11 — 통과
+3. Stage11 얼음 테마 — 통과
+4. Stage11 클리어·첫 강화 — 통과
+5. Stage12 진입 — 통과
+6. Stage12 전투·클리어 — 통과
+7. Stage12 보류 안내 사라짐 — 통과
+8. 두 번째 강화 선택 가능 — 통과
+9. Stage12 숫자키 강화 — 통과
+10. Stage12 마우스 강화 — 통과
+11. Stage13 실제 진입 — 통과
+12. Queen1기 — 통과
+13. Knight1기 — 통과
+14. Pawn3기 — 통과
+15. Queen HP14 — 통과
+16. Knight HP10·Pawn HP7 — 통과
+17. Queen 첫 재배치 — 통과
+18. 네 대각선 경고 — 통과
+19. Queen 공격 회피 — 통과
+20. 실제 피해1 — 통과
+21. 일반 패링 — 통과
+22. 퍼펙트·기절·다음 공격+2 — 통과
+23. Knight 점프와 광선 혼합 — 통과
+24. Pawn 접촉과 광선 혼합 — 통과
+25. Queen 선처치 후 전투 지속 — 통과
+26. 전체 전멸 후UPGRADE — 통과
+27. STAGE 14 NOT AVAILABLE / UPGRADE ON HOLD — 통과
+28. 강화 소비·Stage14 생성·R/N 우회 차단 — 통과
+29. GAME_OVER R→Stage11·진입 공격력 복원 — 통과
+30. SETTINGS/F11/포커스/레터박스/ESC/X·유령 입력 없음 — 통과
+사용자 보고: 통과30·실패0·확인 불가0·미검수0, 추가 오류·의견 없음.
+사용자 Windows GUI, unittest, SDL 통합, 결정적 자동 전투는 각각 별도 근거다.
+정수틱/원장/실패 원자성은 자동검사 근거다. 장기 밸런스·모든 PC 환경은 미검증이다.
+최종 재검수 시작 HEAD/origin은 기준 SHA 그대로, 수정20개·신규3개·인덱스 비어 있음이었다.
+이번 최종 재검수에서는 기능 코드·테스트를 추가 수정하지 않았으며 동일 GUI 재검증은 필요하지 않다.
+모든 게이트 성공 후 지정23개 파일의 한국어 커밋·기존main 일반 Push가 승인되었다. 실제 Git 결과와 SHA는 최종 보고에서 확인한다.
+예정 메시지: `feat: 챕터 3 13스테이지 및 퀸 혼합 전투 연결`. 다음은 별도승인 후Task2-D Stage14 확장이다. Stage15 보스·Chapter4 진입은 별도 단계다.
+
 ## Task 2-B — Queen 독립 AI 및 개발 미리보기
 
 시작 SHA/원격 main: `965656ed5630148fc84264f7592f17c1b2d694cd`, main 작업 트리 깨끗함.
