@@ -1,5 +1,99 @@
 # CHECKMATE 개발 진행 기록
 
+### Task3-F2 사용자 Windows GUI 최종 승인
+
+사용자가 Windows 11에서 직접 STEP1 10/10·STEP2 12/12·STEP3 8/8, **전체30/30 통과**를 보고했다. 실패0·확인불가0·미검수0, 기능오류보고없음이며60초이상실행안정성도통과했다. 실제FPS/P95/P99는미제공이므로임의수치를작성하지않는다.
+
+Chapter1~4 승인HP 실험값의 구현 및 기능 검증은 완료했다. Stage20은King100/Queen24/Bishop18/Knight18×2/Pawn13·총HP191이다. **인간 플레이의 구체적인 체감 난이도 평가는 아직 미확정**이다.
+독립전투80/80→77/80 및 생존형Stage16(408틱)/회피형Stage19(395틱)/생존형Stage20(838틱)의GAME_OVER를보존한다. 실제HP이월연속전투는공격형20완료·생존형16/회피형18/균형형19사망이다. 관측한패링쿨다운과피격기록은원인분석근거지만실패의모든원인을확정하거나인간클리어불가능으로단정하지않는다.
+후속Task3-F3속도상향전누적HP손실·공격중첩·회피여유·실패빌드의밸런스위험을재평가한다. 이번최종화에는기능코드/테스트/HP/AI/시간/드라이버변경이없다. Chapter5·Stage21~25·영구저장/해금·최종아트/음향은미구현이다.
+
+
+### GUI 승인 후 최종 자동 재검증
+
+전체 unittest **1,195개·109.091초·실패0/오류0/skip0**를 직접 재실행했다. AST 비교에서 기존1,180개 전부보존·신규15개다. 일반/-O validator 각각25개·전체compileall·문법/import·순수SDL독립성·내부링크·신규포함공백/EOF검사통과. SDL dummy의네이티브DLL/실제main·Queen/Pulse/보스재도전/HP이월/사망재시작·1틱/8틱·7종FPS회귀가전체suite에포함됐다.
+기준커밋의combat_balance를별도프로세스메모리에로딩해이전80건을재측정했고현재HP로80건을재측정했다. 파일/AI/드라이버는바꾸지않았으며기존원자료의전/후측정필드가모두일치했다. 전80/80·후77/80와3건GAME_OVER를그대로확인했다. 실제HP이월연속146개스테이지기록도모두일치했다.
+기능코드/테스트의GUI이후추가수정0, 총42개(수정39/신규3) 범위를확인했다. 최종화문서외과거측정표/원자료는보존했다. 검증성공후지정파일만일반커밋·Push하며실제SHA/원격일치는Git작업후최종보고로확정한다. 인간난이도평가는미확정이고3-F3속도변경은미적용이다.
+
+아래는 구현 단계 당시의 기록이며, 현재 GUI 승인 상태는 위 최종 기록을 따른다.
+
+## Task 3-F2 — Chapter 1~4 적 HP 1차 실험 (Windows GUI 검수 대기)
+
+시작 main HEAD/origin은 `05744a4c1cbffbd8b32846dfa76e7f37bdd46056`이며 시작 작업 트리·인덱스는 깨끗했다. 변경 전 전체 **1,180개 테스트, 108.539초, 실패/오류/skip 0**과 독립 전투 **80/80**을 실제 재현한 뒤 HP를 수정했다.
+
+- 승인 프로필(Pawn/Rook/Knight/Bishop/King/Queen): Chapter1 `4/8/7/7/28/-`, Chapter2 `7/12/9/9/50/-`, Chapter3 `9/16/13/13/75/18`, Chapter4 `13/21/18/18/100/24`. Chapter5는 기존 `13/20/16/16/110/22` 그대로다.
+- Stage20은 `[100,24,18,18,18,13]`·6기·총HP191이다. 원본 boss_hp14는 보존한다. 다른 보스도 원본8/10/12와 런타임28/50/75를 구분한다.
+- 기능 코드 변경은 `combat_balance.py` 프로필과 설명뿐이다. 원본 JSON/validator·기존 AI/행동/예고/회복·피해/패링/48틱 무적·Pulse·공격 성장·강화·체력 이월·입력·테마·렌더링 코드는 무변경이다.
+- 기존 드라이버/강화 순서/BFS/공격/패링/3600틱 제한·독립 최대HP 시작·Stage20 공격형 마지막HP 예외를 보존했다. 변경 전후80건 전체를 [실험 보고서](BALANCE_HP_EXPERIMENT.md)와 [원자료](BALANCE_HP_EXPERIMENT.json)에 별도 보존하며 과거 측정표를 덮어쓰지 않는다.
+- 변경 후 독립 전투는 **77/80 클리어**다. 생존형Stage16은408틱(공격4/최대HP3, 피격3,perfect3), 회피형Stage19는395틱(공격8/최대HP3,피격3,perfect4), 생존형Stage20은838틱(공격5/최대HP6,피격6,perfect8)에 GAME_OVER다. 각각 Knight2/Rook2/Knight1이 치명타 소스다. 타임아웃/예외/교착으로 종료한 것은 아니다.
+- 실패 시 새 패링은 쿨다운 중이었고 기존 접근/패링 정책은 후속 공격의 회피를 계획하지 않는다. HP 증가로 중첩 공격 노출이 늘어난 결과이며 인간 플레이 불가능을 증명하지는 않는다. 드라이버 완화/HP 재조정/강제 회복/AI 정지로 성공을 만들지 않았다.
+- 실제 HP 이월을 적용한 Stage1 시작 연속 전투 네 빌드를 별도 실행했다. 공격형은Stage20 BOSS_CLEAR(654틱,남은HP2/4), 생존형은Stage16 GAME_OVER(408틱), 회피형은Stage18 GAME_OVER(123틱,시작HP1), 균형형은Stage19 GAME_OVER(149틱,시작HP1)다. 정상 choose/enter_next_chapter 경로와 새 Health를 사용하고 매 전환 현재HP 유지/HP+1·챕터 HP3을 검증했다.
+- Chapter별 네 빌드의 별도 연속 전투도 수행했다. Chapter1~3은각4/4완료, Chapter4는공격형1/4완료다. 이전챕터 표준 강화로 산출한 진입공격력을 사용하는 측정과 실제Stage1부터 연속 진행은 원자료에서 분리한다.
+- 최종 전체 **1,195개 테스트, 115.741초, 실패0·오류0·skip0**. AST로 기존1,180개 전부보존·삭제0·신규15개를 확인했다. HP 기대/HUD/처치 직전 fixture만 새 규칙에 맞췄고 인증·원자성·취소·사망우선 검증은 보존한다. 과거 전원클리어를 기대한 세 스타일은 정확한 GAME_OVER/틱/피격/perfect/HP0을 검증하며 테스트 통과를80/80클리어로 표현하지 않는다.
+- 일반/-O 스테이지검사 각각25개, 전체 compileall, 변경Python35개 문법/import 및 순수로직 SDL독립성 통과. 기존네이티브SDL DLL/dummy 실제main/렌더/숫자·마우스강화/HP표시/설정/F11/포커스/종료 경로와 Queen·Pulse·보스 재도전·GAME_OVER 회귀가 전체suite에 포함됐다. 1틱/8틱·7종FPS(30/60/120/144/160/180/240) 결과일치·고정60Hz/최대180FPS구조를 보존했다.
+- 전체 테스트 시간은 baseline보다7.202초 늘었다. 신규15개(단독실행2.412초), 더 긴 실제 전투 및 SDL 실행시간 변동이 포함된다. 회귀를 생략하지 않았다.
+- 현재 사용자 Windows GUI와 새 인간 난이도는 **미검증**이다. 실험 보고서에STEP1 10개/STEP2 12개/STEP3 8개의GUI30개 및 Stage1~20 플레이 기록 양식을 마련했다. 과거Task3-E의쉬움/패링없이클리어와Task3-F1 GUI30/30승인은이전규칙의이력이며이번실험승인이아니다.
+- Stage1~20만지원·Stage21~25/Chapter5·영구저장/해금·최종아트/음향미구현을유지한다. 후속Task3-F3 행동속도상향은 패링쿨다운중중첩/회피여유감소로 실패를악화시킬위험이있으므로이번실험의사용자평가후별도승인/전후측정이필요하다.
+- 이번작업은로컬구현/자동검증까지만이다. 스테이징·커밋·Push하지않는다.
+
+### Task3-F2 실제 변경 파일 — 수정39개·신규3개
+
+기능1개·기존테스트33개·기존문서5개를수정하고신규테스트/보고서/원자료를추가했다.
+
+수정:
+
+```text
+combat_balance.py
+docs/BALANCE_CHAPTER4.md
+docs/CHAPTER_EXPANSION_DESIGN.md
+docs/DECISIONS.md
+docs/GAME_DESIGN.md
+docs/PROGRESS.md
+tests/test_chapter_four_entry.py
+tests/test_chapter_three_entry.py
+tests/test_chapter_three_sdl.py
+tests/test_combat_balance.py
+tests/test_game.py
+tests/test_game_flow.py
+tests/test_health.py
+tests/test_hp_carryover_sdl.py
+tests/test_queen.py
+tests/test_queen_preview_sdl.py
+tests/test_stage_eighteen.py
+tests/test_stage_eleven_twelve.py
+tests/test_stage_fifteen.py
+tests/test_stage_five.py
+tests/test_stage_five_sdl.py
+tests/test_stage_four.py
+tests/test_stage_four_sdl.py
+tests/test_stage_fourteen.py
+tests/test_stage_manager.py
+tests/test_stage_nineteen.py
+tests/test_stage_seventeen.py
+tests/test_stage_six.py
+tests/test_stage_sixteen.py
+tests/test_stage_ten.py
+tests/test_stage_ten_sdl.py
+tests/test_stage_thirteen.py
+tests/test_stage_three.py
+tests/test_stage_three_sdl.py
+tests/test_stage_transition.py
+tests/test_stage_transition_sdl.py
+tests/test_stage_twenty.py
+tests/test_upgrade_flow.py
+tests/test_upgrade_sdl.py
+```
+
+신규:
+
+```text
+docs/BALANCE_HP_EXPERIMENT.json
+docs/BALANCE_HP_EXPERIMENT.md
+tests/test_enemy_hp_rebalance.py
+```
+
+문서내부링크71개·신규파일포함공백/EOF검사통과. 기존5개문서의모든과거행은순서대로보존했다. 마지막HEAD/origin은시작SHA그대로·main·인덱스비어있고42개변경은미스테이징이다.
+
 ## Task 3-F1 — 챕터 내 현재HP 이월 (사용자 Windows GUI30/30 통과)
 
 ### Task3-F1 사용자 Windows GUI 최종 승인

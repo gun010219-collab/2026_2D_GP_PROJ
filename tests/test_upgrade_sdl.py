@@ -126,7 +126,7 @@ class UpgradeSDLTests(unittest.TestCase):
                 if f==19:
                     assert g.stage_number==5 and g.playing
                     assert g.player.health.current_hp==5 and g.resolver.player_damage==1
-                    assert g.encounter.pulse.king.health.max_hp==22
+                    assert g.encounter.pulse.king.health.max_hp==28
                     assert g.encounter.pulse.event is None
                     g.player.health.apply_damage(5,tick=g.combat.tick)
                     g.update_state()

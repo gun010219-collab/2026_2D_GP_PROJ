@@ -24,8 +24,8 @@ class StageThirteenTests(unittest.TestCase):
         g=main._new_stage_game(13)
         self.assertEqual((g.chapter,g.boss,g.player.position,g.encounter.pulse),(3,False,(5,1),None))
         self.assertEqual([(e.data_id,e.kind,e.position,e.initial_delay_ticks,e.health.max_hp,e.forward) for e in g.encounter.enemies],
-            [('s13_queen_1','queen',(4,7),48,14,None),('s13_knight_1','knight',(3,6),62,10,None),
-             ('s13_pawn_1','pawn',(1,6),75,7,(0,-1)),('s13_pawn_2','pawn',(8,6),88,7,(0,-1)),('s13_pawn_3','pawn',(3,8),101,7,(0,-1))])
+            [('s13_queen_1','queen',(4,7),48,18,None),('s13_knight_1','knight',(3,6),62,13,None),
+             ('s13_pawn_1','pawn',(1,6),75,9,(0,-1)),('s13_pawn_2','pawn',(8,6),88,9,(0,-1)),('s13_pawn_3','pawn',(3,8),101,9,(0,-1))])
         self.assertEqual(g.encounter.queen_steps[g.encounter.enemies[0].entity_instance_id],'reposition')
         self.assertTrue(all(e.state=='initial_wait' and e.health.current_hp==e.health.max_hp for e in g.encounter.enemies))
 
@@ -108,7 +108,7 @@ class StageThirteenTests(unittest.TestCase):
 
     def test_queen_death_cancels_warning_without_clearing_other_four(self):
         g=main._new_stage_game(13);g.advance(49);q=g.encounter.enemies[0];event=q.current_attack
-        q.health.apply_damage(14,tick=g.combat.tick);g.encounter.deactivate(q.entity_instance_id,tick=g.combat.tick)
+        q.health.apply_damage(q.health.current_hp,tick=g.combat.tick);g.encounter.deactivate(q.entity_instance_id,tick=g.combat.tick)
         g.update_state();self.assertTrue(g.playing)
         self.assertEqual(sum(e.alive for e in g.encounter.enemies),4)
         self.assertEqual(g.encounter.ledger.state(event),'cancelled');self.assertNotIn(event.key,g.encounter._attack_moves)
@@ -155,4 +155,4 @@ class StageThirteenTests(unittest.TestCase):
             with self.subTest(style=style):
                 r=measure(style,13,limit=3600)
                 self.assertEqual(r['result'],'UPGRADE');self.assertGreater(r['remaining_hp'],0)
-                self.assertEqual(r['hp'],[14,10,7,7,7]);self.assertGreater(r['hits'],0)
+                self.assertEqual(r['hp'],[18,13,9,9,9]);self.assertGreater(r['hits'],0)

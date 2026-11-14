@@ -16,9 +16,9 @@ class StageSixteenTests(unittest.TestCase):
         g=main._new_stage_game(16);other=main._new_stage_game(16)
         self.assertEqual((g.chapter,g.boss,g.player.position,g.encounter.pulse),(4,False,(5,1),None))
         self.assertEqual([(e.data_id,e.kind,e.position,e.initial_delay_ticks,e.health.max_hp) for e in g.encounter.enemies],
-          [('s16_rook_1','rook',(2,4),48,16),('s16_rook_2','rook',(7,4),62,16),
-           ('s16_knight_1','knight',(3,6),75,13),('s16_knight_2','knight',(6,6),88,13),
-           ('s16_bishop_1','bishop',(2,8),101,13),('s16_pawn_1','pawn',(1,6),114,10)])
+          [('s16_rook_1','rook',(2,4),48,21),('s16_rook_2','rook',(7,4),62,21),
+           ('s16_knight_1','knight',(3,6),75,18),('s16_knight_2','knight',(6,6),88,18),
+           ('s16_bishop_1','bishop',(2,8),101,18),('s16_pawn_1','pawn',(1,6),114,13)])
         self.assertEqual(g.encounter.enemies[-1].forward,(0,-1))
         for a,b in zip(g.encounter.enemies,other.encounter.enemies):
             self.assertIsNot(a.health,b.health);self.assertNotEqual(a.entity_instance_id,b.entity_instance_id)
@@ -77,4 +77,9 @@ class StageSixteenTests(unittest.TestCase):
     def test_four_builds_clear_actual_roster(self):
         for style in STYLES:
             r=measure(style,16,limit=3600)
-            self.assertEqual(r['result'],'UPGRADE');self.assertEqual(r['hp'],[16,16,13,13,13,10]);self.assertGreater(r['remaining_hp'],0)
+            self.assertEqual(r['hp'],[21,21,18,18,18,13])
+            # F2: the unchanged survival policy now dies; this is a balance result.
+            if style=='survival':
+                self.assertEqual((r['result'],r['ticks'],r['received'],r['perfect'],r['remaining_hp']),('GAME_OVER',408,3,3,0))
+            else:
+                self.assertEqual(r['result'],'UPGRADE');self.assertGreater(r['remaining_hp'],0)

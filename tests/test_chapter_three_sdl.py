@@ -134,12 +134,12 @@ class ChapterThreeSDLTests(unittest.TestCase):
                     assert len(flow.run.receipts)==0 and flow.offer is None
                     assert not g.encounter.ledger.pending and g.parry.last_attempt is None
                     assert g.combat.active_attack is None and themes[-1]==3
-                    assert [e.health.max_hp for e in g.encounter.enemies]==[12,12,10,10,7]
+                    assert [e.health.max_hp for e in g.encounter.enemies]==[16,16,13,13,9]
                 if f==2:finish(g,'clear')  # Terminal fixture, not actual enemy combat proof.
                 if f==3:assert flow.offer.stage==11
                 if f==4:
                     assert g.stage_number==12 and g.combat.tick==0 and len(flow.run.receipts)==1
-                    assert [e.health.max_hp for e in g.encounter.enemies]==[10,10,12,7,7]
+                    assert [e.health.max_hp for e in g.encounter.enemies]==[13,13,16,9,9]
                     assert g.player.health.current_hp==(4 if mode=='boundary' else 3)
                     assert g.resolver.player_damage==(5 if mode=='boundary' else 6)
                     assert themes[-1]==3
@@ -156,7 +156,7 @@ class ChapterThreeSDLTests(unittest.TestCase):
                     qe=next(r.event for r in g.encounter.ledger._records.values() if r.event.attack_kind=='queen_diagonal')
                     assert g.encounter.ledger.outcome(qe)==('parried_perfect' if mode=='stage13death' else 'hit')
                     if mode=='stage13death':assert g.combat.pending_attack_bonus==2
-                    assert [e.health.max_hp for e in g.encounter.enemies]==[14,10,7,7,7]
+                    assert [e.health.max_hp for e in g.encounter.enemies]==[18,13,9,9,9]
                     finish(g,'dead' if mode=='stage13death' else 'clear')
                     phase[0]=4
                 elif phase[0]==4 and g.stage_number==13 and g.state is GameState.UPGRADE:
@@ -164,7 +164,7 @@ class ChapterThreeSDLTests(unittest.TestCase):
                     phase[0]=5
                 elif g.stage_number==14 and g.playing and g.combat.tick>=80:
                     assert len(flow.run.receipts)==3 and themes[-1]==3
-                    assert [e.health.max_hp for e in g.encounter.enemies]==[14,12,10,7,7]
+                    assert [e.health.max_hp for e in g.encounter.enemies]==[18,16,13,9,9]
                     q,r,b,*_=g.encounter.enemies
                     assert q.current_attack and q.current_attack.attack_kind=='queen_diagonal'
                     assert b.current_attack and len(b.current_attack.target_cells)==50
@@ -175,11 +175,11 @@ class ChapterThreeSDLTests(unittest.TestCase):
                     phase[0]=7
                 elif g.stage_number==15 and g.playing and phase[0]!=9:
                     assert len(flow.run.receipts)==4 and themes[-1]==3
-                    assert [e.health.max_hp for e in g.encounter.enemies]==[60,14,12,7,7]
+                    assert [e.health.max_hp for e in g.encounter.enemies]==[75,18,16,9,9]
                     ev=g.encounter.pulse.event
                     if ev and g.encounter.ledger.state(ev)=='resolved':
                         assert g.encounter.ledger.outcome(ev)=='parried_perfect'
-                        assert g.encounter.pulse.king.health.current_hp==58
+                        assert g.encounter.pulse.king.health.current_hp==73
                         finish(g,'dead' if mode=='stage15death' else 'clear');phase[0]=10
                 elif phase[0]==10 and g.stage_number==15 and g.state is GameState.BOSS_CLEAR:
                     assert flow.offer is None and g.next_stage_number==16
@@ -188,7 +188,7 @@ class ChapterThreeSDLTests(unittest.TestCase):
                     assert themes[-1]==4 and flow.run.chapter==4
                     assert flow.run.stats.attack_damage==held[0][1].stats.attack_damage
                     assert (g.player.health.max_hp,flow.run.stats.move_interval_ticks,len(flow.run.receipts))==(3,18,0)
-                    assert [e.health.max_hp for e in g.encounter.enemies]==[16,16,13,13,13,10]
+                    assert [e.health.max_hp for e in g.encounter.enemies]==[21,21,18,18,18,13]
                     assert held[0][0].retired
                     if phase[0]==12:
                         assert g.combat.tick==0;done[0]=True
@@ -200,7 +200,7 @@ class ChapterThreeSDLTests(unittest.TestCase):
                     phase[0]=13
                 elif g.stage_number==17 and g.playing:
                     assert themes[-1]==4 and len(flow.run.receipts)==1
-                    assert [e.health.max_hp for e in g.encounter.enemies]==[13,13,16,16,13,10]
+                    assert [e.health.max_hp for e in g.encounter.enemies]==[18,18,21,21,18,13]
                     if g.combat.tick>=80:
                         a,b=g.encounter.enemies[:2]
                         assert a.current_attack and len(a.current_attack.target_cells)==50
@@ -211,7 +211,7 @@ class ChapterThreeSDLTests(unittest.TestCase):
                     phase[0]=15
                 elif g.stage_number==18 and g.playing:
                     assert themes[-1]==4 and len(flow.run.receipts)==2
-                    assert [e.health.max_hp for e in g.encounter.enemies]==[18,13,16,16,10,10]
+                    assert [e.health.max_hp for e in g.encounter.enemies]==[24,18,21,21,13,13]
                     if g.combat.tick>=80:
                         q,b=g.encounter.enemies[:2]
                         assert q.current_attack and q.current_attack.attack_kind=='queen_diagonal'
@@ -222,7 +222,7 @@ class ChapterThreeSDLTests(unittest.TestCase):
                     phase[0]=17
                 elif g.stage_number==19 and g.playing:
                     assert themes[-1]==4 and len(flow.run.receipts)==3
-                    assert [e.health.max_hp for e in g.encounter.enemies]==[18,13,13,16,16,13,10]
+                    assert [e.health.max_hp for e in g.encounter.enemies]==[24,18,18,21,21,18,13]
                     if g.combat.tick>=80:
                         assert g.encounter.enemies[0].current_attack
                         assert g.encounter.enemies[1].current_attack
@@ -232,14 +232,14 @@ class ChapterThreeSDLTests(unittest.TestCase):
                     phase[0]=19
                 elif g.stage_number==20 and g.playing:
                     assert themes[-1]==4 and len(flow.run.receipts)==4
-                    assert [e.health.max_hp for e in g.encounter.enemies]==[85,18,13,13,13,10]
+                    assert [e.health.max_hp for e in g.encounter.enemies]==[100,24,18,18,18,13]
                     if phase[0]==24:
                         assert g.combat.tick==0;done[0]=True
                     else:
                         p=g.encounter.pulse
                         if p.event and g.encounter.ledger.state(p.event)=='resolved':
                             assert g.encounter.ledger.outcome(p.event)=='parried_perfect'
-                            assert p.king.health.current_hp==83
+                            assert p.king.health.current_hp==98
                             finish(g,'dead' if mode=='stage20death' else 'clear');phase[0]=21
                             held[1]=(flow.run,flow.run.build,flow.run.receipts,g.combat.tick)
                 elif g.stage_number==20 and g.state is GameState.BOSS_CLEAR:
@@ -253,7 +253,7 @@ class ChapterThreeSDLTests(unittest.TestCase):
                     phase[0]=9
                 elif phase[0]==9 and g.stage_number==15 and g.combat.tick==0:
                     assert (flow.run,flow.run.build,flow.run.receipts)==held[0]
-                    assert g.encounter.pulse.king.health.current_hp==60;done[0]=True
+                    assert g.encounter.pulse.king.health.current_hp==75;done[0]=True
                 if (mode=='death' and len(games)==4) or (mode=='stage13death' and len(games)==5) or (mode=='stage14death' and len(games)==6) or (mode=='stage15death' and len(games)==7):
                     assert g.stage_number==11 and g.combat.tick==0 and themes[-1]==3
                     assert (g.resolver.player_damage,g.player.health.current_hp,flow.run.stats.move_interval_ticks)==(5,3,18)

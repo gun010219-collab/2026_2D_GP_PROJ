@@ -710,3 +710,11 @@ StageProgression.choose()는클리어·Offer/Receipt인증/강화Build계산→�
 - Stage1~20지원·Stage21~25/Chapter5차단·영구저장/해금·최종아트/음향미구현을유지한다. GUI이후기능코드/테스트추가수정0이다.
 - 기존독립80전투의완전회복시작조건과새연속HP이월검증은별도근거다. 일반전성공은UPGRADE·보스전은BOSS_CLEAR이며80개모두를BOSS_CLEAR로기록하지않는다.
 - 최종자동검증성공후지정13개만기존main에한국어일반커밋·Push한다. 실제SHA/원격일치는Git작업후최종보고로확정한다.
+
+## Task 3-F2 — 적 HP 1차 실험 (Windows GUI 대기)
+
+이전 표와 승인 이력은 당시 규칙으로 보존한다. 새 HP와 전후80건·실제HP이월연속전투·실패원인은 [별도 실험 보고서](BALANCE_HP_EXPERIMENT.md)와 [원자료](BALANCE_HP_EXPERIMENT.json)에기록했다.
+Chapter1~4적HP만상향하며Chapter4는Pawn13/Rook21/Knight18/Bishop18/King100/Queen24다. Stage20은6기총HP191·원본boss_hp14보존이다. AI/시간/피해/패링/무적/Pulse/강화/HP이월/원본배치·지연과독립드라이버는무변경이다.
+변경전80/80→변경후77/80, 실패는생존형Stage16(408틱)/회피형Stage19(395틱)/생존형Stage20(838틱)실제GAME_OVER다. 연속Stage1~20은공격형만완료했고생존형16/회피형18/균형형19에서사망했다. 과거840개필드와같아야한다는검증으로결과를맞추지않는다.
+Stage16쉬움·Stage17비슷함·Stage20이후Stage1~20연속플레이평가결정과과거사용자플레이이력은보존한다. 새HP/이월조합의인간난이도는미검증이며GUI30개와기록양식이보고서에있다. Task3-F3속도상향은미적용이고회피여유/패링쿨다운중첩의추가위험을별도평가한다.
+Stage1~20지원·Stage21~25/Chapter5·저장/영구해금·최종아트/음향미구현유지. 사용자승인전스테이징·커밋·Push하지않는다.

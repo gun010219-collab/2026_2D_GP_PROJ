@@ -34,8 +34,8 @@ class StageTwentyTests(unittest.TestCase):
         self.assertEqual((g.chapter,g.boss,g.player.position),(4,True,(5,1)))
         self.assertEqual(StageCatalog.load().get_stage(20).boss_hp,14)
         self.assertEqual([(e.data_id,e.kind,e.position,e.initial_delay_ticks,e.health.max_hp) for e in es],
-          [('s20_king_1','king',(5,9),48,85),('s20_queen_1','queen',(4,7),62,18),('s20_bishop_1','bishop',(2,8),75,13),('s20_knight_1','knight',(3,6),88,13),('s20_knight_2','knight',(6,6),101,13),('s20_pawn_1','pawn',(1,6),114,10)])
-        self.assertEqual(sum(e.health.max_hp for e in es),152);self.assertIs(g.encounter.pulse.encounter,g.encounter);self.assertIs(g.encounter.pulse.king,es[0]);self.assertEqual(g.encounter.pulse.next_use_tick,240)
+          [('s20_king_1','king',(5,9),48,100),('s20_queen_1','queen',(4,7),62,24),('s20_bishop_1','bishop',(2,8),75,18),('s20_knight_1','knight',(3,6),88,18),('s20_knight_2','knight',(6,6),101,18),('s20_pawn_1','pawn',(1,6),114,13)])
+        self.assertEqual(sum(e.health.max_hp for e in es),191);self.assertIs(g.encounter.pulse.encounter,g.encounter);self.assertIs(g.encounter.pulse.king,es[0]);self.assertEqual(g.encounter.pulse.next_use_tick,240)
         self.assertTrue(all(e.forward==(0,-1) for e in es[-1:]))
 
     def test_third_choice_three_kinds_and_duplicate_rejection(self):
@@ -95,7 +95,7 @@ class StageTwentyTests(unittest.TestCase):
                 self.assertEqual(len(f.run.receipts),4)
 
     def test_pulse_normal_perfect_and_single_consumption(self):
-        for delta,status,hp,bonus in ((7,'perfect',83,2),(18,'normal',85,0)):
+        for delta,status,hp,bonus in ((7,'perfect',98,2),(18,'normal',100,0)):
             g,event=pulse_game(delta)
             self.assertEqual((len(event.target_cells),event.hit_tick-event.start_tick),(100,120))
             self.assertEqual((g.resolver.last_parry_result.status,g.encounter.pulse.king.health.current_hp,g.combat.pending_attack_bonus),(status,hp,bonus))
@@ -119,8 +119,8 @@ class StageTwentyTests(unittest.TestCase):
     def test_king_death_releases_pulse_without_reviving_dead_queen(self):
         g=main._new_stage_game(20);p=g.encounter.pulse
         while p.event is None and g.playing:g.advance()
-        q=g.encounter.enemies[1];q.health.apply_damage(18,tick=g.combat.tick);g.encounter.deactivate(q.entity_instance_id,tick=g.combat.tick)
-        k=p.king;k.health.apply_damage(85,tick=g.combat.tick);g.encounter.deactivate(k.entity_instance_id,tick=g.combat.tick)
+        q=g.encounter.enemies[1];q.health.apply_damage(q.health.current_hp,tick=g.combat.tick);g.encounter.deactivate(q.entity_instance_id,tick=g.combat.tick)
+        k=p.king;k.health.apply_damage(k.health.current_hp,tick=g.combat.tick);g.encounter.deactivate(k.entity_instance_id,tick=g.combat.tick)
         g.advance();self.assertTrue(g.playing);self.assertIsNone(p.freeze_tick);self.assertFalse(q.active)
         self.assertEqual(g.encounter.ledger.state(p.event),'cancelled')
 
@@ -134,7 +134,7 @@ class StageTwentyTests(unittest.TestCase):
             with self.assertRaises(RuntimeError):f.restart(Mock(side_effect=RuntimeError()) if fail=='factory' else main._new_stage_game,Mock(side_effect=RuntimeError()))
             self.assertEqual(state(f),before)
         new,_=f.restart(main._new_stage_game);self.assertIs(r,f.run);self.assertEqual(len(r.receipts),4)
-        self.assertEqual((new.stage_number,new.encounter.pulse.king.health.current_hp,new.player.health.current_hp),(20,85,r.stats.max_hp))
+        self.assertEqual((new.stage_number,new.encounter.pulse.king.health.current_hp,new.player.health.current_hp),(20,100,r.stats.max_hp))
         self.assertIsNot(g.encounter.pulse,new.encounter.pulse);self.assertNotEqual(g.combat.combat_session_id,new.combat.combat_session_id)
 
     def test_game_over_restores_entry_and_rejects_previous_pulse(self):
@@ -163,7 +163,12 @@ class StageTwentyTests(unittest.TestCase):
     def test_four_styles_actual_boss_clear(self):
         for style in STYLES:
             r=measure(style,20,limit=3600)
-            self.assertEqual(r['hp'],[85,18,13,13,13,10]);self.assertEqual(r['result'],'BOSS_CLEAR');self.assertGreater(r['remaining_hp'],0)
+            self.assertEqual(r['hp'],[100,24,18,18,18,13])
+            # F2: higher HP extends this unchanged policy until its sixth real hit.
+            if style=='survival':
+                self.assertEqual((r['result'],r['ticks'],r['received'],r['perfect'],r['remaining_hp']),('GAME_OVER',838,6,8,0))
+            else:
+                self.assertEqual(r['result'],'BOSS_CLEAR');self.assertGreater(r['remaining_hp'],0)
 
     def test_queen_perfect_has_no_king_reflection(self):
         g=main._new_stage_game(20)
@@ -174,13 +179,13 @@ class StageTwentyTests(unittest.TestCase):
         self.assertIn(g.player.position,ev.target_cells)
         g.advance(ev.hit_tick-7-g.combat.tick);g.resolver.register_parry(g.parry.request(g.combat.tick));g.advance(7)
         self.assertEqual(g.encounter.ledger.outcome(ev),'parried_perfect')
-        self.assertEqual((g.encounter.enemies[0].health.current_hp,g.combat.pending_attack_bonus,q.stun_until_tick),(85,2,ev.hit_tick+60))
+        self.assertEqual((g.encounter.enemies[0].health.current_hp,g.combat.pending_attack_bonus,q.stun_until_tick),(100,2,ev.hit_tick+60))
 
     def test_pulse_reflection_kills_king_and_resumes_others(self):
         g=main._new_stage_game(20);p=g.encounter.pulse
         while p.event is None and g.playing:g.advance()
         # Low-health fixture isolates the lethal reflection branch, not a clear measurement.
-        p.king.health.apply_damage(83,tick=g.combat.tick)
+        p.king.health.apply_damage(p.king.health.current_hp-2,tick=g.combat.tick)
         ev=p.event;g.advance(ev.hit_tick-7-g.combat.tick);g.resolver.register_parry(g.parry.request(g.combat.tick));g.advance(7)
         self.assertFalse(p.king.alive);self.assertTrue(g.playing)
         g.advance();self.assertIsNone(p.freeze_tick)

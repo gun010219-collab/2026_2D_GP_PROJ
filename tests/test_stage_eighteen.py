@@ -24,10 +24,10 @@ class StageEighteenTests(unittest.TestCase):
         g=main._new_stage_game(18)
         self.assertEqual((g.chapter,g.boss,g.player.position,g.encounter.pulse),(4,False,(5,1),None))
         self.assertEqual([(e.data_id,e.kind,e.position,e.initial_delay_ticks,e.health.max_hp) for e in g.encounter.enemies],[
-          ('s18_queen_1','queen',(4,7),48,18),('s18_bishop_1','bishop',(2,8),62,13),
-          ('s18_rook_1','rook',(2,4),75,16),('s18_rook_2','rook',(7,4),88,16),
-          ('s18_pawn_1','pawn',(1,6),101,10),('s18_pawn_2','pawn',(8,6),114,10)])
-        self.assertEqual(sum(e.health.max_hp for e in g.encounter.enemies),83)
+          ('s18_queen_1','queen',(4,7),48,24),('s18_bishop_1','bishop',(2,8),62,18),
+          ('s18_rook_1','rook',(2,4),75,21),('s18_rook_2','rook',(7,4),88,21),
+          ('s18_pawn_1','pawn',(1,6),101,13),('s18_pawn_2','pawn',(8,6),114,13)])
+        self.assertEqual(sum(e.health.max_hp for e in g.encounter.enemies),110)
         self.assertEqual([e.forward for e in g.encounter.enemies[-2:]],[(0,-1)]*2)
         self.assertEqual(len(queen_ray_targets((4,7))),31)
 
@@ -185,4 +185,4 @@ class StageEighteenTests(unittest.TestCase):
 
     def test_four_styles_real_six_enemy_combat(self):
         for style in STYLES:
-            r=measure(style,18,limit=3600);self.assertEqual(r['hp'],[18,13,16,16,10,10]);self.assertEqual(r['result'],'UPGRADE');self.assertGreater(r['remaining_hp'],0)
+            r=measure(style,18,limit=3600);self.assertEqual(r['hp'],[24,18,21,21,13,13]);self.assertEqual(r['result'],'UPGRADE');self.assertGreater(r['remaining_hp'],0)

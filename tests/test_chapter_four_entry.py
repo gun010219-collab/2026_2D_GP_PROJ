@@ -166,7 +166,7 @@ class ChapterFourEntryTests(unittest.TestCase):
         g, _ = f.restart(main._new_stage_game)
         self.assertIs(f.run, run)
         self.assertEqual((f.run.build, f.run.receipts), (build, receipts))
-        self.assertEqual((g.stage_number, g.encounter.pulse.king.health.current_hp), (15, 60))
+        self.assertEqual((g.stage_number, g.encounter.pulse.king.health.current_hp), (15, 75))
 
     def test_entry_cannot_repeat_from_chapter_four_or_upgrade(self):
         f = entered_four()

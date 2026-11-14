@@ -24,11 +24,11 @@ class StageNineteenTests(unittest.TestCase):
         g=main._new_stage_game(19)
         self.assertEqual((g.chapter,g.boss,g.player.position,g.encounter.pulse),(4,False,(5,1),None))
         self.assertEqual([(e.data_id,e.kind,e.position,e.initial_delay_ticks,e.health.max_hp) for e in g.encounter.enemies],[
-          ('s19_queen_1','queen',(4,7),48,18),('s19_knight_1','knight',(3,6),62,13),
-          ('s19_knight_2','knight',(6,6),75,13),('s19_rook_1','rook',(2,4),88,16),
-          ('s19_rook_2','rook',(7,4),101,16),('s19_bishop_1','bishop',(2,8),114,13),
-          ('s19_pawn_1','pawn',(1,6),128,10)])
-        self.assertEqual(sum(e.health.max_hp for e in g.encounter.enemies),99)
+          ('s19_queen_1','queen',(4,7),48,24),('s19_knight_1','knight',(3,6),62,18),
+          ('s19_knight_2','knight',(6,6),75,18),('s19_rook_1','rook',(2,4),88,21),
+          ('s19_rook_2','rook',(7,4),101,21),('s19_bishop_1','bishop',(2,8),114,18),
+          ('s19_pawn_1','pawn',(1,6),128,13)])
+        self.assertEqual(sum(e.health.max_hp for e in g.encounter.enemies),133)
         self.assertEqual(g.encounter.enemies[-1].forward,(0,-1))
         self.assertEqual(len(queen_ray_targets((4,7))),31)
 
@@ -132,7 +132,12 @@ class StageNineteenTests(unittest.TestCase):
 
     def test_four_styles_real_seven_enemy_combat(self):
         for style in STYLES:
-            r=measure(style,19,limit=3600);self.assertEqual(r['hp'],[18,13,13,16,16,13,10]);self.assertEqual(r['result'],'UPGRADE');self.assertGreater(r['remaining_hp'],0)
+            r=measure(style,19,limit=3600);self.assertEqual(r['hp'],[24,18,18,21,21,18,13])
+            # F2: preserve the real failed evasion measurement rather than force a clear.
+            if style=='evasion':
+                self.assertEqual((r['result'],r['ticks'],r['received'],r['perfect'],r['remaining_hp']),('GAME_OVER',395,3,4,0))
+            else:
+                self.assertEqual(r['result'],'UPGRADE');self.assertGreater(r['remaining_hp'],0)
 
     def test_queen_two_knights_and_bishop_real_snapshots(self):
         g=main._new_stage_game(19);q,k1,k2=g.encounter.enemies[:3]

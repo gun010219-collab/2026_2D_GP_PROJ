@@ -128,7 +128,7 @@ class StageSessionTests(unittest.TestCase):
         self.assertIsInstance(game, StageGame)
         self.assertEqual((game.stage_number, game.chapter, game.player.position), (1, 1, (5, 1)))
         self.assertEqual([(e.kind, e.position, e.health.current_hp) for e in game.encounter.enemies],
-                         [('pawn', (1, 6), 3), ('pawn', (8, 6), 3)])
+                         [('pawn', (1, 6), 4), ('pawn', (8, 6), 4)])
         with patch.object(main, '_new_game', return_value=game) as legacy:
             self.assertIs(main._new_stage_game(1), game)
             legacy.assert_called_once_with()
@@ -140,7 +140,7 @@ class StageSessionTests(unittest.TestCase):
                           game.player.health.current_hp, game.combat.tick), (2, 1, (5, 1), 'up', 3, 0))
         self.assertEqual([(e.data_id, e.kind, e.position, e.initial_delay) for e in game.encounter.enemies],
                          [(e.data_id, e.kind, e.position, e.initial_delay) for e in definition.enemies])
-        self.assertEqual([e.health.current_hp for e in game.encounter.enemies], [6, 3, 3])
+        self.assertEqual([e.health.current_hp for e in game.encounter.enemies], [8, 4, 4])
         self.assertEqual([e.initial_delay_ticks for e in game.encounter.enemies], [48, 62, 75])
         self.assertIsNone(game.encounter.enemies[0].forward)
         self.assertEqual(game.encounter.ledger.combat_session_id, game.combat.combat_session_id)
@@ -496,7 +496,7 @@ class StageFlowMainTests(unittest.TestCase):
         from tests.test_stage_three import play_to
         def expose(game,tick):
             if tick==144:
-                game.encounter.enemies[0].health.apply_damage(5,tick=tick)
+                game.encounter.enemies[0].health.apply_damage(game.encounter.enemies[0].health.current_hp-1,tick=tick)
         created,_,_,_,_,_=play_to(170,factory=lambda: main._new_stage_game(2),
             inputs={150:[key(LEFT),key(LEFT,False)],168:[key(LEFT),key(SPACE)]},
             samples=(144,),observe=expose)
@@ -526,12 +526,12 @@ class StageFlowRendererTests(unittest.TestCase):
         with patch.object(HealthRenderer, '_text') as text:
             HealthRenderer().draw(Mock(), game.player, game.encounter.enemies, 0)
         labels = [call.args[1] for call in text.call_args_list]
-        self.assertEqual(labels.count('6/6'), 1)
-        self.assertEqual(labels.count('3/3'), 3)
+        self.assertEqual(labels.count('8/8'), 1)
+        self.assertEqual(labels.count('3/3'), 1)
         game.encounter.enemies[0].health.apply_damage(1, tick=0)
         with patch.object(HealthRenderer, '_text') as text:
             HealthRenderer().draw(Mock(), game.player, game.encounter.enemies, 0)
-        self.assertIn('5/6', [call.args[1] for call in text.call_args_list])
+        self.assertIn('7/8', [call.args[1] for call in text.call_args_list])
 
     def labels(self, game):
         with patch.object(HealthRenderer, '_text') as text:

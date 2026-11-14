@@ -26,8 +26,8 @@ from tests.test_stage_transition import finish
 class StageElevenTwelveTests(unittest.TestCase):
     def test_exact_original_rosters_ids_delays_hp_and_metadata(self):
         for n, kinds, positions, hp in (
-                (11, ['rook','rook','knight','knight','pawn'], [(2,4),(7,4),(3,6),(6,6),(1,6)], [12,12,10,10,7]),
-                (12, ['bishop','bishop','rook','pawn','pawn'], [(2,8),(7,8),(2,4),(1,6),(8,6)], [10,10,12,7,7])):
+                (11, ['rook','rook','knight','knight','pawn'], [(2,4),(7,4),(3,6),(6,6),(1,6)], [16,16,13,13,9]),
+                (12, ['bishop','bishop','rook','pawn','pawn'], [(2,8),(7,8),(2,4),(1,6),(8,6)], [13,13,16,9,9])):
             g = main._new_stage_game(n)
             d = StageCatalog.load().get_stage(n)
             self.assertEqual((g.chapter, g.boss, d.boss_hp, g.player.position), (3, False, None, (5,1)))
@@ -141,7 +141,7 @@ class StageElevenTwelveTests(unittest.TestCase):
         for n in range(21,26):
             with self.assertRaises(ValueError):main._new_stage_game(n)
         enemies=create_stage_enemies(StageCatalog.load().get_stage(13),profile=profile_for(3))
-        self.assertTrue(any(e.kind=='queen' and e.health.max_hp==14 for e in enemies))
+        self.assertTrue(any(e.kind=='queen' and e.health.max_hp==18 for e in enemies))
         with self.assertRaises(ValueError):
             create_stage_enemies(StageCatalog.load().get_stage(13),profile=profile_for(2))
 

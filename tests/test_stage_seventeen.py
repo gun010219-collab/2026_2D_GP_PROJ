@@ -23,10 +23,10 @@ class StageSeventeenTests(unittest.TestCase):
         g=main._new_stage_game(17)
         self.assertEqual((g.chapter,g.boss,g.player.position,g.encounter.pulse),(4,False,(5,1),None))
         self.assertEqual([(e.data_id,e.kind,e.position,e.initial_delay_ticks,e.health.max_hp) for e in g.encounter.enemies],
-          [('s17_bishop_1','bishop',(2,8),48,13),('s17_bishop_2','bishop',(7,8),62,13),
-           ('s17_rook_1','rook',(2,4),75,16),('s17_rook_2','rook',(7,4),88,16),
-           ('s17_knight_1','knight',(3,6),101,13),('s17_pawn_1','pawn',(1,6),114,10)])
-        self.assertEqual(sum(e.health.max_hp for e in g.encounter.enemies),81)
+          [('s17_bishop_1','bishop',(2,8),48,18),('s17_bishop_2','bishop',(7,8),62,18),
+           ('s17_rook_1','rook',(2,4),75,21),('s17_rook_2','rook',(7,4),88,21),
+           ('s17_knight_1','knight',(3,6),101,18),('s17_pawn_1','pawn',(1,6),114,13)])
+        self.assertEqual(sum(e.health.max_hp for e in g.encounter.enemies),109)
         self.assertEqual(g.encounter.enemies[-1].forward,(0,-1))
         self.assertEqual(BoardRenderer(chapter=4).theme.name,'Obsidian Caldera')
 
@@ -189,4 +189,4 @@ class StageSeventeenTests(unittest.TestCase):
     def test_four_builds_clear_original_six_enemy_combat(self):
         for style in STYLES:
             r=measure(style,17,limit=3600)
-            self.assertEqual(r['hp'],[13,13,16,16,13,10]);self.assertEqual(r['result'],'UPGRADE');self.assertGreater(r['remaining_hp'],0)
+            self.assertEqual(r['hp'],[18,18,21,21,18,13]);self.assertEqual(r['result'],'UPGRADE');self.assertGreater(r['remaining_hp'],0)

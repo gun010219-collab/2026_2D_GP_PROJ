@@ -39,7 +39,7 @@ class QueenPreviewSDLTests(unittest.TestCase):
                 if not started[0]:present_real();return
                 if g.combat.tick==73:
                     q=g.encounter.enemies[0]
-                    assert q.health.current_hp==14
+                    assert q.health.current_hp==18
                     if sys.argv[1]=='parry':
                         assert g.player.health.current_hp==3 and g.combat.pending_attack_bonus==2
                         assert g.resolver.last_parry_result.status=='perfect'

@@ -41,7 +41,7 @@ class StageThreeSessionTests(unittest.TestCase):
             self.assertEqual([(e.data_id, e.kind, e.position, e.initial_delay) for e in game.encounter.enemies],
                              [(e.data_id, e.kind, e.position, e.initial_delay) for e in definition.enemies])
             self.assertEqual(game.encounter.ledger.stage_instance_id, game.combat.stage_instance_id)
-        self.assertEqual([e.health.current_hp for e in game.encounter.enemies], [5, 3, 3])
+        self.assertEqual([e.health.current_hp for e in game.encounter.enemies], [7, 4, 4])
         self.assertEqual([e.initial_delay_ticks for e in game.encounter.enemies], [48, 62, 75])
         self.assertEqual([e.position for e in game.encounter.enemies], [(3, 6), (1, 6), (8, 6)])
 
@@ -295,7 +295,7 @@ class StageThreeMainCombatTests(unittest.TestCase):
 
     def test_main_perfect_next_space_deals_three_and_cancels_knight_once(self):
         def weaken_counter(game,tick):
-            if tick==264:game.encounter.enemies[0].health.apply_damage(2,tick=tick)
+            if tick==264:game.encounter.enemies[0].health.apply_damage(game.encounter.enemies[0].health.current_hp-3,tick=tick)
         created, _, _, _, _, _ = play_to(325, samples=(264,), observe=weaken_counter, inputs={293: [key(SHIFT)],
             301: [key(UP), key(UP, False)], 313: [key(RIGHT), key(RIGHT, False)],
             325: [key(UP), key(SPACE)]})
@@ -310,7 +310,7 @@ class StageThreeMainCombatTests(unittest.TestCase):
         def weaken(game, tick):
             if tick == 264:
                 events.append(game.encounter.enemies[0].current_attack)
-                game.encounter.enemies[0].health.apply_damage(4, tick=tick)
+                game.encounter.enemies[0].health.apply_damage(game.encounter.enemies[0].health.current_hp-1, tick=tick)
         created, _, _, _, _, _ = play_to(300, inputs={265: [key(UP), key(UP, False)],
             277: [key(RIGHT), key(RIGHT, False)], 300: [key(UP), key(SPACE)]},
             samples=(264,), observe=weaken)
@@ -354,7 +354,7 @@ class StageThreeMainCombatTests(unittest.TestCase):
                 game.encounter.deactivate(e.entity_instance_id)
             knight = game.encounter.enemies[0]
             knight.col, knight.row = 5, 2
-            knight.health.apply_damage(4, tick=0)
+            knight.health.apply_damage(knight.health.current_hp-1, tick=0)
             return game
         created, snapshots, _, _, _, _ = run_loop(
             [[key(SPACE), key(49)], [], [key(R)]], initial='playing',
@@ -429,8 +429,8 @@ class StageThreeRendererTests(unittest.TestCase):
             GameFlowRenderer().draw_stage_label(Mock(), game)
         labels = [call.args[1] for call in text.call_args_list]
         self.assertIn('STAGE 3', labels)
-        self.assertEqual(labels.count('3/3'), 3)
-        self.assertEqual(labels.count('5/5'), 1)
+        self.assertEqual(labels.count('3/3'), 1)
+        self.assertEqual(labels.count('7/7'), 1)
         before = (game.combat.tick, game.player.health.current_hp,
                   tuple(e.position for e in game.encounter.enemies), game.combat.pending_attack_bonus)
         for _ in range(3):

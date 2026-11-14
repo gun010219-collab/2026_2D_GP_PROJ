@@ -1,4 +1,4 @@
-"""Approved Y-A runtime HP; original catalog data remains unchanged."""
+"""Task 3-F2 experimental runtime HP; original catalog data remains unchanged."""
 from dataclasses import dataclass
 from types import MappingProxyType
 
@@ -32,10 +32,10 @@ class CombatProfile:
 
 
 PROFILES = MappingProxyType({
-    1: CombatProfile(1,3,6,5,5,22),
-    2: CombatProfile(2,5,9,7,7,40),
-    3: CombatProfile(3,7,12,10,10,60,14),
-    4: CombatProfile(4,10,16,13,13,85,18),
+    1: CombatProfile(1,4,8,7,7,28),
+    2: CombatProfile(2,7,12,9,9,50),
+    3: CombatProfile(3,9,16,13,13,75,18),
+    4: CombatProfile(4,13,21,18,18,100,24),
     5: CombatProfile(5,13,20,16,16,110,22),
 })
 

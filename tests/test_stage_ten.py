@@ -43,11 +43,11 @@ class StageTenTests(unittest.TestCase):
         self.assertEqual((g.chapter,g.boss,g.player.position),(2,True,(5,1)))
         self.assertEqual([(e.data_id,e.kind,e.position,e.initial_delay_ticks,e.health.max_hp)
                           for e in g.encounter.enemies],
-            [('s10_king_1','king',(5,9),48,40),('s10_bishop_1','bishop',(2,8),62,7),
-             ('s10_knight_1','knight',(3,6),75,7),('s10_pawn_1','pawn',(1,6),88,5),
-             ('s10_pawn_2','pawn',(8,6),101,5)])
-        self.assertEqual(g.encounter.pulse.king.health.current_hp,40)
-        self.assertEqual(main._new_stage_game(5).encounter.pulse.king.health.max_hp,22)
+            [('s10_king_1','king',(5,9),48,50),('s10_bishop_1','bishop',(2,8),62,9),
+             ('s10_knight_1','knight',(3,6),75,9),('s10_pawn_1','pawn',(1,6),88,7),
+             ('s10_pawn_2','pawn',(8,6),101,7)])
+        self.assertEqual(g.encounter.pulse.king.health.current_hp,50)
+        self.assertEqual(main._new_stage_game(5).encounter.pulse.king.health.max_hp,28)
         self.assertEqual(g.encounter.pulse.next_use_tick,240)
 
     def test_fourth_offer_selects_once_and_propagates_stats(self):
@@ -97,7 +97,7 @@ class StageTenTests(unittest.TestCase):
         self.assertEqual(state(f),before)
         g,_=f.restart(main._new_stage_game)
         self.assertIs(f.run,run);self.assertEqual(len(run.receipts),4)
-        self.assertEqual((g.stage_number,g.player.health.current_hp,g.encounter.pulse.king.health.current_hp),(10,5,40))
+        self.assertEqual((g.stage_number,g.player.health.current_hp,g.encounter.pulse.king.health.current_hp),(10,5,50))
         for attr in ('player','combat','parry','encounter','resolver'):self.assertIsNot(getattr(g,attr),getattr(old,attr))
         self.assertNotEqual(g.combat.stage_instance_id,old.combat.stage_instance_id)
 
@@ -120,7 +120,7 @@ class StageTenTests(unittest.TestCase):
         self.assertEqual((g.stage_number,f.run.build,f.run.receipts,g.player.health.current_hp),(6,ChapterBuild(),(),3))
 
     def test_original_pulse_perfect_reflects_two_and_normal_does_not(self):
-        for delta,status,hp,bonus in ((7,'perfect',38,2),(18,'normal',40,0)):
+        for delta,status,hp,bonus in ((7,'perfect',48,2),(18,'normal',50,0)):
             g,event=pulse_game(delta)
             self.assertEqual((len(event.target_cells),event.hit_tick-event.start_tick),(100,120))
             self.assertEqual((g.resolver.last_parry_result.status,g.encounter.pulse.king.health.current_hp,
@@ -192,7 +192,7 @@ class StageTenTests(unittest.TestCase):
             GameFlowRenderer().draw_stage_label(Mock(),g)
             finish(g,'clear');GameFlowRenderer().draw(Mock(),g)
         labels=[c.args[1] for c in text.call_args_list]
-        for label in ('KING HP 40/40','BOSS CLEAR','STAGE 10','R TO RESTART','ESC TO EXIT'):self.assertIn(label,labels)
+        for label in ('KING HP 50/50','BOSS CLEAR','STAGE 10','R TO RESTART','ESC TO EXIT'):self.assertIn(label,labels)
         self.assertIn('N TO CHAPTER 3',labels)
         self.assertFalse(any('UNLOCK' in s or 'SAVED' in s for s in labels))
 

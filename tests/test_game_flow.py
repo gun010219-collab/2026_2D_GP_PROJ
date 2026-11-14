@@ -126,7 +126,7 @@ class GameFlowIntegrationTests(unittest.TestCase):
                 self.assertEqual(snapshots[0][1], 0)
                 self.assertEqual((new.combat.tick,new.player.health.current_hp),(1,3))
                 self.assertEqual(new.player.position,(5,1))
-                self.assertEqual([e.health.current_hp for e in new.encounter.enemies],[3,3])
+                self.assertEqual([e.health.current_hp for e in new.encounter.enemies],[4,4])
                 self.assertNotEqual(old.player.entity_instance_id,new.player.entity_instance_id)
                 self.assertNotEqual(old.combat.stage_instance_id,new.combat.stage_instance_id)
 

@@ -35,7 +35,7 @@ def fixture(two=False,king=False):
 
 class QueenTests(unittest.TestCase):
     def test_profiles_factory_and_no_implicit_default(self):
-        for chapter,hp in ((3,14),(4,18),(5,22)):
+        for chapter,hp in ((3,18),(4,24),(5,22)):
             self.assertEqual(profile_for(chapter).hp('queen'),hp)
         for chapter in (1,2):
             with self.assertRaises(ValueError):profile_for(chapter).hp('queen')
@@ -44,7 +44,7 @@ class QueenTests(unittest.TestCase):
         for n in (13,14,15):
             d=StageCatalog.load().get_stage(n)
             es=create_stage_enemies(d,profile=profile_for(d.chapter))
-            self.assertTrue(any(e.kind=='queen' and e.health.max_hp==14 for e in es))
+            self.assertTrue(any(e.kind=='queen' and e.health.max_hp==18 for e in es))
             if n>=16:
                 with self.assertRaises(ValueError):main._new_stage_game(n)
             else:self.assertEqual(main._new_stage_game(n).stage_number,n)
@@ -115,7 +115,7 @@ class QueenTests(unittest.TestCase):
             g,q,e=fixture();g.advance(72-delta)
             g.resolver.register_parry(g.parry.request(g.combat.tick));g.advance(delta)
             self.assertEqual(g.encounter.ledger.outcome(e),'parried_'+status)
-            self.assertEqual((g.player.health.current_hp,q.health.current_hp),(3,14))
+            self.assertEqual((g.player.health.current_hp,q.health.current_hp),(3,18))
             self.assertEqual(g.combat.pending_attack_bonus,2 if status=='perfect' else 0)
             if status=='perfect':
                 self.assertEqual(q.stun_until_tick,132)
@@ -161,7 +161,7 @@ class QueenTests(unittest.TestCase):
         for mode in ('death','stun','stop'):
             g,q,e=fixture();g.advance(20)
             if mode=='death':
-                q.health.apply_damage(14,tick=20);g.encounter.deactivate(q.entity_instance_id,tick=20)
+                q.health.apply_damage(q.health.current_hp,tick=20);g.encounter.deactivate(q.entity_instance_id,tick=20)
             elif mode=='stun':g.encounter.stun(q.entity_instance_id,20)
             else:g.resolver.stop()
             self.assertEqual(g.encounter.ledger.state(e),'cancelled')
@@ -176,7 +176,7 @@ class QueenTests(unittest.TestCase):
             g.advance();self.assertEqual(p.state,'DRAINING')
             if outcome=='miss':g.player.move('right')
             elif outcome=='death':
-                q.health.apply_damage(14,tick=1);g.encounter.deactivate(q.entity_instance_id,tick=1)
+                q.health.apply_damage(q.health.current_hp,tick=1);g.encounter.deactivate(q.entity_instance_id,tick=1)
             elif outcome in ('normal','perfect'):
                 at=54 if outcome=='normal' else 65
                 g.advance(at-g.combat.tick);g.resolver.register_parry(g.parry.request(at))

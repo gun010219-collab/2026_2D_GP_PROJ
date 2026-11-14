@@ -25,8 +25,8 @@ class StageFourteenTests(unittest.TestCase):
         a,b=main._new_stage_game(14),main._new_stage_game(14)
         self.assertEqual((a.chapter,a.boss,a.player.position,a.encounter.pulse),(3,False,(5,1),None))
         self.assertEqual([(e.data_id,e.kind,e.position,e.initial_delay_ticks,e.health.max_hp,e.forward) for e in a.encounter.enemies],
-            [('s14_queen_1','queen',(4,7),48,14,None),('s14_rook_1','rook',(2,4),62,12,None),
-             ('s14_bishop_1','bishop',(2,8),75,10,None),('s14_pawn_1','pawn',(1,6),88,7,(0,-1)),('s14_pawn_2','pawn',(8,6),101,7,(0,-1))])
+            [('s14_queen_1','queen',(4,7),48,18,None),('s14_rook_1','rook',(2,4),62,16,None),
+             ('s14_bishop_1','bishop',(2,8),75,13,None),('s14_pawn_1','pawn',(1,6),88,9,(0,-1)),('s14_pawn_2','pawn',(8,6),101,9,(0,-1))])
         for x,y in zip(a.encounter.enemies,b.encounter.enemies):
             self.assertIsNot(x.health,y.health);self.assertNotEqual(x.entity_instance_id,y.entity_instance_id)
         self.assertNotEqual(a.combat.combat_session_id,b.combat.combat_session_id)
@@ -138,7 +138,7 @@ class StageFourteenTests(unittest.TestCase):
     def test_four_styles_actual_combat(self):
         for style in STYLES:
             r=measure(style,14,limit=3600)
-            self.assertEqual(r['hp'],[14,12,10,7,7]);self.assertEqual(r['result'],'UPGRADE');self.assertGreater(r['remaining_hp'],0)
+            self.assertEqual(r['hp'],[18,16,13,9,9]);self.assertEqual(r['result'],'UPGRADE');self.assertGreater(r['remaining_hp'],0)
 
     def test_stage14_queen_actual_delay_warning_and_parries(self):
         for grade,delta in (('hit',None),('normal',18),('perfect',7),('miss',None)):

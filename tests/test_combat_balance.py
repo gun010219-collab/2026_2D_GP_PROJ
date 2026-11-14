@@ -31,7 +31,7 @@ class CombatBalanceTests(unittest.TestCase):
         r.select(o,'hp');self.assertEqual(r.stats,DerivedStats(16,4,18))
 
     def test_exact_profiles_are_read_only_and_strict(self):
-        expected=((3,6,5,5,22),(5,9,7,7,40),(7,12,10,10,60),(10,16,13,13,85),(13,20,16,16,110))
+        expected=((4,8,7,7,28),(7,12,9,9,50),(9,16,13,13,75),(13,21,18,18,100),(13,20,16,16,110))
         for chapter,row in enumerate(expected,1):
             self.assertEqual(tuple(profile_for(chapter).hp(k) for k in ('pawn','rook','knight','bishop','king')),row)
         for v in (True,0,6,1.0,None):
@@ -43,11 +43,11 @@ class CombatBalanceTests(unittest.TestCase):
     def test_stage_one_and_catalog_factory_use_same_runtime_hp(self):
         legacy=load_stage1_enemies()
         factory=create_stage_enemies(StageCatalog.load().get_stage(1),profile=profile_for(1))
-        self.assertEqual([e.health.current_hp for e in legacy],[3,3])
-        self.assertEqual([e.health.max_hp for e in factory],[3,3])
+        self.assertEqual([e.health.current_hp for e in legacy],[4,4])
+        self.assertEqual([e.health.max_hp for e in factory],[4,4])
 
     def test_original_boss_metadata_and_runtime_hp_are_distinct(self):
-        for n,original,runtime in ((5,8,22),(10,10,40),(15,12,60),(20,14,85),(25,16,110)):
+        for n,original,runtime in ((5,8,28),(10,10,50),(15,12,75),(20,14,100),(25,16,110)):
             d=StageCatalog.load().get_stage(n);self.assertEqual(d.boss_hp,original)
             # Later Queen encounters remain unsupported; verify King alone.
             from enemy_factory import create_enemy
@@ -117,7 +117,7 @@ class CombatBalanceTests(unittest.TestCase):
             if bonus:g.combat.grant_perfect_counter()
             event=g.combat.request_attack(g.player);result=g.resolver.resolve_player_attack(event)
             self.assertEqual(result.amount,damage)
-            self.assertEqual(k.health.current_hp,22-damage)
+            self.assertEqual(k.health.current_hp,28-damage)
             self.assertIsNone(g.resolver.resolve_player_attack(event))
             self.assertEqual(g.combat.pending_attack_bonus,0)
 
@@ -129,7 +129,7 @@ class CombatBalanceTests(unittest.TestCase):
         d=StageCatalog.load().get_stage(6)
         with self.assertRaises(ValueError):create_stage_enemies(d,profile=profile_for(1))
         es=create_stage_enemies(StageCatalog.load().get_stage(13),profile=profile_for(3))
-        self.assertTrue(any(e.kind=='queen' and e.health.max_hp==14 for e in es))
+        self.assertTrue(any(e.kind=='queen' and e.health.max_hp==18 for e in es))
         with self.assertRaises(ValueError):main._new_stage_game(21)
 
     def test_later_chapter_nonqueen_rosters_can_use_profile_without_play_permission(self):
