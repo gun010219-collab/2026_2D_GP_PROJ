@@ -156,16 +156,17 @@ class StageEighteenTests(unittest.TestCase):
 
     def test_third_offer_holds_without_factory_and_restart_restores_entry(self):
         from tests.test_stage_twenty import at20
-        f=at20();g=f.game;g.advance(100);pending=g.encounter.ledger.pending
-        clear(f);before=state(f);factory=Mock()
-        self.assertIsNone(f.offer);self.assertIsNone(f.sync_offer())
-        self.assertEqual((g.state,f.run.current_stage,len(f.run.receipts)),(GameState.BOSS_CLEAR,20,4))
+        f=at20();clear(f);f.enter_next_chapter(main._new_stage_game)
+        g=f.game;g.advance(100);pending=g.encounter.ledger.pending
+        o=clear(f);before=state(f);factory=Mock()
+        self.assertIs(f.offer,o);self.assertIs(f.sync_offer(),o)
+        self.assertEqual((g.state,f.run.current_stage,len(f.run.receipts)),(GameState.UPGRADE,21,0))
         for kind in ('attack','hp','move'):
-            with self.assertRaises(ValueError):f.choose(None,kind,factory)
+            with self.assertRaises(ValueError):f.choose(o,kind,factory)
         with self.assertRaises(ValueError):f.enter_next_chapter(factory)
         factory.assert_not_called();g.advance(999);self.assertEqual(state(f),before)
         for ev in pending:self.assertEqual(g.encounter.ledger.state(ev),'cancelled')
-        self.assertIsNone(g.next_stage_number);self.assertEqual(g.restart_stage_number,20)
+        self.assertIsNone(g.next_stage_number);self.assertIsNone(g.restart_stage_number)
         f=at18();old=f.game;run=f.run;old.advance(100);events=old.encounter.ledger.pending
         attempt=old.parry.request(old.combat.tick);old.resolver.register_parry(attempt)
         finish(old,'dead');new,_=f.restart(main._new_stage_game)

@@ -14,7 +14,7 @@ def card_at(point):
 
 class UpgradeRenderer:
     def draw(self, canvas, game, offer, error=False):
-        if offer is None:
+        if offer is None or (game.stage_number == 21 and not game.upgrade_selection_enabled):
             return
         canvas.draw_rectangle(310, 180, 1130, 740, 17, 20, 28, filled=True)
         self._center(canvas, 'UPGRADE', 675, 6)

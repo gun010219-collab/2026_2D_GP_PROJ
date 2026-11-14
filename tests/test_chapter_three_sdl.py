@@ -87,7 +87,7 @@ class ChapterThreeSDLTests(unittest.TestCase):
                 elif phase[0]==19:
                     if mode=='chapter4':tap(s.SDLK_2)
                     else:click(450,500)
-                elif phase[0]==21:tap(s.SDLK_n);phase[0]=22
+                elif phase[0]==21:tap(s.SDLK_UP);phase[0]=22
                 elif phase[0]==23:tap(s.SDLK_r);phase[0]=24
                 elif phase[0]==17:
                     if mode=='chapter4':tap(s.SDLK_3)
@@ -243,7 +243,7 @@ class ChapterThreeSDLTests(unittest.TestCase):
                             finish(g,'dead' if mode=='stage20death' else 'clear');phase[0]=21
                             held[1]=(flow.run,flow.run.build,flow.run.receipts,g.combat.tick)
                 elif g.stage_number==20 and g.state is GameState.BOSS_CLEAR:
-                    assert flow.offer is None and g.next_stage_number is None
+                    assert flow.offer is None and g.next_stage_number==21
                     if phase[0]==21:held[1]=(flow.run,flow.run.build,flow.run.receipts,g.combat.tick)
                     if phase[0]==22:
                         assert held[1]==(flow.run,flow.run.build,flow.run.receipts,g.combat.tick)
@@ -281,8 +281,8 @@ class ChapterThreeSDLTests(unittest.TestCase):
             assert done[0] and closed==[True] and themes[0]==2 and themes[-1]==(4 if mode in ('chapter4','stage16death','stage17death','stage18death','stage19death','stage20death') else 3)
             assert 'N TO CHAPTER 3' in labels
             if mode=='chapter4':
-                assert 'N TO CHAPTER 4' in labels and 'CHAPTER 5 NOT AVAILABLE' in labels
-                assert 'N TO CHAPTER 5' not in labels
+                assert 'N TO CHAPTER 4' in labels and 'N TO CHAPTER 5' in labels
+                assert 'CHAPTER 5 NOT AVAILABLE' not in labels
             if mode=='boundary':
                 assert 'BOSS CLEAR' in labels and 'R TO RESTART' in labels
                 assert not any('TRY AGAIN' in s for s in labels)

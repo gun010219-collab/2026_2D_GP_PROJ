@@ -126,7 +126,7 @@ class StageTwentyTests(unittest.TestCase):
 
     def test_boss_clear_replay_no_offer_and_n_blocked(self):
         f=at20();g=f.game;r=f.run;finish(g,'clear');before=state(f);factory=Mock()
-        self.assertIsNone(f.sync_offer());self.assertIsNone(g.next_stage_number)
+        self.assertIsNone(f.sync_offer());self.assertEqual(g.next_stage_number,21)
         with patch.object(ChapterRun,'receipts',new_callable=PropertyMock,return_value=()):
             with self.assertRaises(ValueError):f.enter_next_chapter(factory)
         factory.assert_not_called()
@@ -209,11 +209,12 @@ class StageTwentyTests(unittest.TestCase):
         f=at20();finish(f.game,'clear');g=f.game
         with patch.object(GameFlowRenderer,'_center') as text:GameFlowRenderer().draw(Mock(),g)
         labels=[c.args[1] for c in text.call_args_list]
-        self.assertIn('CHAPTER 5 NOT AVAILABLE',labels);self.assertIn('R TO RESTART',labels);self.assertNotIn('N TO CHAPTER 5',labels)
+        self.assertIn('N TO CHAPTER 5',labels);self.assertIn('R TO RESTART',labels);self.assertNotIn('CHAPTER 5 NOT AVAILABLE',labels)
         factory=Mock()
-        with self.assertRaises(ValueError):f.enter_next_chapter(factory)
+        with patch.object(ChapterRun,'receipts',new_callable=PropertyMock,return_value=()):
+            with self.assertRaises(ValueError):f.enter_next_chapter(factory)
         factory.assert_not_called()
         with patch.object(main.StageCatalog,'load') as catalog:
-            for n in range(21,26):
+            for n in range(22,26):
                 with self.assertRaises(ValueError):main._new_stage_game(n)
             catalog.assert_not_called()

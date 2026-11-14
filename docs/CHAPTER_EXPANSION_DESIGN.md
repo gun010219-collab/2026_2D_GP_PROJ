@@ -1,5 +1,24 @@
 # CHECKMATE — Task 1-U: Chapter 2~5 확장 분석·구현 설계
 
+### Task4-A 사용자 Windows GUI 최종 승인
+
+사용자가 Windows11에서 STEP1 10/10·STEP2 12/12·STEP3 8/8, **전체30/30 통과**를 보고했다. 실패0·확인불가0·미검수0·기능오류보고없음, Stage21의60초이상실제실행안정성도통과했다. 실제FPS/P95/P99는측정하지않았으므로수치를작성하지않는다.
+검수는 **테스트용Chapter4 강화기록을생성해Stage20부터시작**했다. 따라서Stage20 BOSS_CLEAR→N→21의실제GUI전환및Stage21전투/클리어/재시작/개발경계는승인됐지만 **Stage1~21 인간연속완주는미검증**이다. 독립자동전투및SDL fixture와이검수범위를구분한다.
+Stage21구현은원본7기·HP123·Gothic Throne기존팔레트·공격레벨만계승/HP3/MOVE18/Receipt0·정상Offer보존을유지한다. 실측은3/4클리어이며생존형은341틱Knight2치명타GAME_OVER다. 기존1~20은77/80이다. 실패와패링쿨다운중피격기록을성공으로바꾸거나밸런스를조정하지않는다.
+Stage22~25및Stage25최종보스·최종아트/음향·영구저장/해금·엔딩은미구현이다. 다음Task4-B에서Stage22를별도구현하며이번최종화에서는착수하지않는다. GUI이후기능코드/테스트추가수정없이문서만확정하고최종자동검증통과후승인된일반커밋/Push를진행한다.
+
+아래구현단계당시의GUI대기기록은과거이력이며현재승인은위최종결과를따른다.
+
+
+## Task 4-A — Chapter5 진입·Stage21 실제 전투 (Windows GUI 대기)
+
+시작main/origin `88cba6460e828cf25d833b13c9801fcb37103b06`·트리/인덱스깨끗함, 변경전1204개113.495초통과·실패/오류/skip0. Stage20의실제BOSS_CLEAR와Receipt4/Run/Session/Build를인증한N진입을Chapter5까지확장했다. 후보검증/입력/보드준비성공후새Run설치→이전Run retire순서를유지한다. 준비실패는기존상태보존·재시도다.
+Stage21은기존Gothic Throne팔레트와원본7기Queen22/Rook20×2/Knight16×2/Bishop16/Pawn13·총HP123을사용한다. 공격레벨만계승·HP3/3·MOVE18·Receipt0·새객체/ID/입력/보간이며HP이월규칙과기존AI/HP/시간/패링/Pulse/60Hz/180FPS는불변이다.
+Stage21전멸은UPGRADE로종료하고첫Offer를동일하게보존하지만화면은STAGE21 CLEAR/STAGE22 NOT AVAILABLE·강화카드없음이다. 숫자/마우스/N/R소비차단·22~25미지원이다. 사망R은새Chapter5 Stage21·진입공격력·HP3/3·MOVE18·Receipt0으로복원한다. Stage20 BOSS_CLEAR R은기존전체Build/Receipt4/최대HP회복이다.
+기존Stage1~20은77/80및기존핵심기록전부일치했다. Stage21은공격432틱/HP2·회피651틱/HP2·균형651틱/HP2 UPGRADE, 생존형341틱GAME_OVER(치명타Knight2)로3/4클리어다. 드라이버의Chapter5공격력산출시Chapter4마지막ATTACK MAX는기존Stage20과같이HP로선택한다. 이전80건정책/결과는불변이다.
+[Stage21 실측 및 GUI30개](BALANCE_STAGE21.md)와 [84건 원자료](BALANCE_STAGE21.json)에근거를기록했다. 전환fixture와실제적처치측정을구분하며인간난이도/가독성/60초안정성은미검증이다. Chapter5팔레트는기존구현·Stage21실전은이번구현·Stage22~25/Stage25최종보스·영구저장/해금·최종아트/음향/엔딩은미구현이다. 다음Task4-B는Stage22이며이번에활성화하지않는다. GUI승인전스테이징/커밋/Push하지않는다.
+
+
 ## 1. 목표·기준·근거 구분
 
 상태: **분석·설계 완료. 기능 구현·새 규칙 승인·Stage 6 활성화·저장·커밋·Push 없음**.

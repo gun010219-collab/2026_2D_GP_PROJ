@@ -8,7 +8,7 @@ class GameFlowRenderer:
     def draw(self, canvas, game, error=False):
         if game.playing:
             return
-        boundary = game.state is GameState.DEV_BOUNDARY
+        boundary = game.state is GameState.DEV_BOUNDARY or (game.stage_number == 21 and game.state is GameState.UPGRADE and not game.upgrade_selection_enabled)
         clear = boundary or game.state in (GameState.UPGRADE, GameState.STAGE_CLEAR, GameState.BOSS_CLEAR)
         accent = (224, 192, 116) if clear else (196, 112, 107)
         x, y = WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2
@@ -27,8 +27,6 @@ class GameFlowRenderer:
                      (202, 204, 209))
         if game.next_stage_number is not None:
             self._center(canvas, f'N TO CHAPTER {game.chapter + 1}', 409, 3, (224, 192, 116))
-        if game.state is GameState.BOSS_CLEAR and game.stage_number==20:
-            self._center(canvas, 'CHAPTER 5 NOT AVAILABLE', 409, 3, (224, 192, 116))
         if boundary:
             self._center(canvas, f'STAGE {game.stage_number + 1} NOT AVAILABLE', 399, 3, (224, 192, 116))
         restart = ('R TO RESTART' if game.restart_stage_number == game.stage_number

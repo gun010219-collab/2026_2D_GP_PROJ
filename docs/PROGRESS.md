@@ -1,5 +1,88 @@
 # CHECKMATE 개발 진행 기록
 
+### Task4-A 사용자 Windows GUI 최종 승인
+
+사용자가 Windows11에서 STEP1 10/10·STEP2 12/12·STEP3 8/8, **전체30/30 통과**를 보고했다. 실패0·확인불가0·미검수0·기능오류보고없음, Stage21의60초이상실제실행안정성도통과했다. 실제FPS/P95/P99는측정하지않았으므로수치를작성하지않는다.
+검수는 **테스트용Chapter4 강화기록을생성해Stage20부터시작**했다. 따라서Stage20 BOSS_CLEAR→N→21의실제GUI전환및Stage21전투/클리어/재시작/개발경계는승인됐지만 **Stage1~21 인간연속완주는미검증**이다. 독립자동전투및SDL fixture와이검수범위를구분한다.
+Stage21구현은원본7기·HP123·Gothic Throne기존팔레트·공격레벨만계승/HP3/MOVE18/Receipt0·정상Offer보존을유지한다. 실측은3/4클리어이며생존형은341틱Knight2치명타GAME_OVER다. 기존1~20은77/80이다. 실패와패링쿨다운중피격기록을성공으로바꾸거나밸런스를조정하지않는다.
+Stage22~25및Stage25최종보스·최종아트/음향·영구저장/해금·엔딩은미구현이다. 다음Task4-B에서Stage22를별도구현하며이번최종화에서는착수하지않는다. GUI이후기능코드/테스트추가수정없이문서만확정하고최종자동검증통과후승인된일반커밋/Push를진행한다.
+
+### Task4-A GUI 승인 후 최종 자동 재검증
+
+전체 unittest **1225개·112.494초·실패0/오류0/skip0** 직접 재실행. 기존1204개AST메서드전부보존·신규21개다. 일반/-O각25개·전체compileall·문법/import·순수SDL독립성·링크/공백/EOF검사통과. 네이티브SDL dummy의실제main Stage20 N→21·클리어/Stage22차단·GAME_OVER R재시작및Queen/Pulse/HP이월/패링·1틱/8틱·7종FPS회귀를전체suite에서검증했다.
+Stage1~21 독립84건의모든반환필드를재측정해기존원자료와완전히일치했다. 기존1~20은77/80, Stage21은3/4(공격432틱HP2·생존341틱GAME_OVER·회피/균형651틱HP2)로실패를보존했다. 원자료와과거측정표를덮어쓰지않았다.
+변경36개(수정31/신규5)를전수검토했다. GUI이후기능코드/테스트추가수정0, 원본JSON·HP·AI/시간·Pulse·HP이월·강화·60Hz/180FPS보호파일무변경이다. 검증성공후Task4-A지정파일만일반커밋·Push하며실제SHA/원격일치는최종보고에서확정한다. 사용자GUI는테스트용Stage20부터의범위에한정되며인간Stage1~21연속완주는미검증이다.
+
+아래구현단계당시의GUI대기기록은과거이력이며현재승인은위최종결과를따른다.
+
+
+## Task 4-A — Chapter5 진입·Stage21 실제 전투 (Windows GUI 대기)
+
+시작main/origin `88cba6460e828cf25d833b13c9801fcb37103b06`·트리/인덱스깨끗함, 변경전1204개113.495초통과·실패/오류/skip0. Stage20의실제BOSS_CLEAR와Receipt4/Run/Session/Build를인증한N진입을Chapter5까지확장했다. 후보검증/입력/보드준비성공후새Run설치→이전Run retire순서를유지한다. 준비실패는기존상태보존·재시도다.
+Stage21은기존Gothic Throne팔레트와원본7기Queen22/Rook20×2/Knight16×2/Bishop16/Pawn13·총HP123을사용한다. 공격레벨만계승·HP3/3·MOVE18·Receipt0·새객체/ID/입력/보간이며HP이월규칙과기존AI/HP/시간/패링/Pulse/60Hz/180FPS는불변이다.
+Stage21전멸은UPGRADE로종료하고첫Offer를동일하게보존하지만화면은STAGE21 CLEAR/STAGE22 NOT AVAILABLE·강화카드없음이다. 숫자/마우스/N/R소비차단·22~25미지원이다. 사망R은새Chapter5 Stage21·진입공격력·HP3/3·MOVE18·Receipt0으로복원한다. Stage20 BOSS_CLEAR R은기존전체Build/Receipt4/최대HP회복이다.
+기존Stage1~20은77/80및기존핵심기록전부일치했다. Stage21은공격432틱/HP2·회피651틱/HP2·균형651틱/HP2 UPGRADE, 생존형341틱GAME_OVER(치명타Knight2)로3/4클리어다. 드라이버의Chapter5공격력산출시Chapter4마지막ATTACK MAX는기존Stage20과같이HP로선택한다. 이전80건정책/결과는불변이다.
+[Stage21 실측 및 GUI30개](BALANCE_STAGE21.md)와 [84건 원자료](BALANCE_STAGE21.json)에근거를기록했다. 전환fixture와실제적처치측정을구분하며인간난이도/가독성/60초안정성은미검증이다. Chapter5팔레트는기존구현·Stage21실전은이번구현·Stage22~25/Stage25최종보스·영구저장/해금·최종아트/음향/엔딩은미구현이다. 다음Task4-B는Stage22이며이번에활성화하지않는다. GUI승인전스테이징/커밋/Push하지않는다.
+
+
+### Task4-A 최종 자동 검증
+
+전체 **1225개 unittest·114.429초·실패0/오류0/skip0**. 기준1204개AST메서드전부보존·삭제0·신규21개(진입11/Stage21전투8/SDL2)다. 일반/-O validator각25개·전체compileall·변경Python문법/import·순수SDL독립성·내부링크/신규포함공백/EOF검사가통과했다.
+네이티브SDL dummy/소프트웨어렌더/실제main·SDL KEYDOWN/KEYUP로Stage20 N→21·클리어/Offer보류/숫자/N/R차단·GAME_OVER R→21을직접실행했다. main Factory/입력/BoardRenderer실패원자성·재시도는별도mocked SDL테스트로검증했다. 기존SETTINGS/F11/포커스/레터박스/보간/종료회귀도전체suite에포함한다. SDL전멸fixture는화면/전환근거이며실제적처치근거는별도84건측정이다.
+Stage21의실제Queen광선스냅샷·일반/퍼펙트패링/피해·중복소비차단·Knight소스별취소·Bishop50칸·7기점유·동시사망GAME_OVER우선·1틱/8틱및7종FPS(30/60/120/144/160/180/240)결과일치를검증했다. Chapter4HP/MOVE강화가있는빌드의보스R유지와N진입시공격레벨만계승/HP3/MOVE18초기화를별도로검증했다.
+기존80건핵심기록일치·77/80, Stage21실제4건은3성공/1사망으로측정결과를숨기지않는다. 원본JSON/HP/AI/행동시간/Pulse/피해/패링/HP이월/60Hz/180FPS파일은무변경이다. 실제WindowsGUI30개는대기이며인간가독성/난이도/60초안정성수치를작성하지않았다.
+main HEAD/origin은시작SHA그대로·작업변경36개미스테이징·인덱스비어있음이다. git add/commit/push를실행하지않았다.
+
+### Task4-A 실제 변경 파일
+
+수정31개·신규5개, 총36개다. 기존테스트의미지원범위/개발경계기대만Stage22로갱신했고메서드를삭제하지않았다.
+
+수정:
+
+```text
+docs/CHAPTER_EXPANSION_DESIGN.md
+docs/DECISIONS.md
+docs/GAME_DESIGN.md
+docs/PROGRESS.md
+game.py
+game_renderer.py
+main.py
+stage_progression.py
+tests/balance_driver.py
+tests/test_chapter_run.py
+tests/test_chapter_three_sdl.py
+tests/test_chapter_two_entry.py
+tests/test_chapter_two_stages.py
+tests/test_combat_balance.py
+tests/test_enemy_action_pacing.py
+tests/test_enemy_hp_rebalance.py
+tests/test_king_combat.py
+tests/test_queen.py
+tests/test_queen_laser.py
+tests/test_stage_eighteen.py
+tests/test_stage_eleven_twelve.py
+tests/test_stage_five.py
+tests/test_stage_four.py
+tests/test_stage_nineteen.py
+tests/test_stage_seventeen.py
+tests/test_stage_six.py
+tests/test_stage_sixteen.py
+tests/test_stage_three.py
+tests/test_stage_transition.py
+tests/test_stage_twenty.py
+upgrade_renderer.py
+```
+
+신규:
+
+```text
+docs/BALANCE_STAGE21.json
+docs/BALANCE_STAGE21.md
+tests/test_chapter_five_entry.py
+tests/test_chapter_five_sdl.py
+tests/test_stage_twenty_one.py
+```
+
 ### Task3-F3A 사용자 최종 확정
 
 사용자가실험결과와기준선유지를승인했다. **Pawn132/Rook72/King72틱·기존예고/회복·HP프로필·HP이월그대로**, 공격속도상향은보류한다. 현재난이도평가는 **적절함**이며과거쉬움평가는HP상향전이력으로보존한다.

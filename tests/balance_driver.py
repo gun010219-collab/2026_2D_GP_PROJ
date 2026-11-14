@@ -21,7 +21,7 @@ def measure(style, stage, limit=3600):
     choices=STYLES[style]
     run=ChapterRun()
     for chapter in range(1, (stage-1)//5 + 1):
-        for kind in choices:run.select(run.offer_after_clear(run.current_stage,str(run.current_stage)),kind)
+        for kind in (('attack','attack','attack','hp') if chapter==4 and style=='attack' else choices):run.select(run.offer_after_clear(run.current_stage,str(run.current_stage)),kind)
         run=run.start_chapter(chapter+1)
     first=(stage-1)//5*5+1
     for kind in (('attack','attack','attack','hp') if stage==20 and style=='attack' else choices)[:stage-first]:run.select(run.offer_after_clear(run.current_stage,str(run.current_stage)),kind)
