@@ -24,10 +24,11 @@ def measure(style, stage, limit=3600):
         for kind in choices:run.select(run.offer_after_clear(run.current_stage,str(run.current_stage)),kind)
         run=run.start_chapter(chapter+1)
     first=(stage-1)//5*5+1
-    for kind in choices[:stage-first]:run.select(run.offer_after_clear(run.current_stage,str(run.current_stage)),kind)
+    for kind in (('attack','attack','attack','hp') if stage==20 and style=='attack' else choices)[:stage-first]:run.select(run.offer_after_clear(run.current_stage,str(run.current_stage)),kind)
     g=main._new_stage_game(stage,stats=run.stats)
     movement=InputController(move_interval_ticks=run.stats.move_interval_ticks)
     hits=damage=perfect=0
+    pulse_events=set();reflected=0
     original=tuple(e.health.max_hp for e in g.encounter.enemies)
     for tick in range(limit):
         if not g.playing:break
@@ -52,12 +53,20 @@ def measure(style, stage, limit=3600):
             result=g.resolver.resolve_player_attack(attack)
             if result:hits+=1
         hp=g.player.health.current_hp
+        pulse=g.encounter.pulse
+        king_hp=pulse.king.health.current_hp if pulse else 0
         previous=g.resolver.last_parry_result
         g.resolve_current_tick()
+        if pulse and pulse.event is not None:pulse_events.add(pulse.event.key)
+        if pulse and pulse.event and pulse.event.hit_tick==tick:
+            reflected+=max(0,king_hp-pulse.king.health.current_hp)
         damage+=int(g.player.health.current_hp<hp)
         result=g.resolver.last_parry_result
         perfect+=int(result is not previous and result is not None and result.status=='perfect')
-    return dict(style=style,stage=stage,attack=run.stats.attack_damage,hp=list(original),
+    row=dict(style=style,stage=stage,attack=run.stats.attack_damage,hp=list(original),
                 basic_hits=[ceil(h/run.stats.attack_damage) for h in original],
                 ticks=g.combat.tick,hits=hits,received=damage,perfect=perfect,
                 result=g.state.value,remaining_hp=g.player.health.current_hp)
+
+    if stage==20:row.update(pulse_events=len(pulse_events),reflected_damage=reflected,max_hp=run.stats.max_hp,move_ticks=run.stats.move_interval_ticks,pulse_outcomes=[(r.state,r.outcome) for r in g.encounter.ledger._records.values() if r.event.attack_kind=='king_pulse'])
+    return row

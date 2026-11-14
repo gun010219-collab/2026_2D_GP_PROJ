@@ -27,6 +27,8 @@ class GameFlowRenderer:
                      (202, 204, 209))
         if game.next_stage_number is not None:
             self._center(canvas, f'N TO CHAPTER {game.chapter + 1}', 409, 3, (224, 192, 116))
+        if game.state is GameState.BOSS_CLEAR and game.stage_number==20:
+            self._center(canvas, 'CHAPTER 5 NOT AVAILABLE', 409, 3, (224, 192, 116))
         if boundary:
             self._center(canvas, f'STAGE {game.stage_number + 1} NOT AVAILABLE', 399, 3, (224, 192, 116))
         restart = ('R TO RESTART' if game.restart_stage_number == game.stage_number

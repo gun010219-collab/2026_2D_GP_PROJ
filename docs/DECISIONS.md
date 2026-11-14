@@ -1,5 +1,33 @@
 # CHECKMATE 승인 결정
 
+## Task 3-E — Stage20 보스 지원/Chapter5 차단
+
+### Task3-E GUI 최종 승인 및 Stage1~20 사용자 통합 플레이 결과
+
+사용자가 실제 Windows 11 게임에서 직접 검수했다.
+
+- Stage20 GUI STEP1 10/10·STEP2 12/12·STEP3 8/8, **전체30/30 통과**. 실패0·확인불가0·미검수0, 기능 오류 보고 없음.
+- 60초 이상 실행 안정성 통과. 실제FPS/P95/P99 값은 미제공이며 임의작성하지 않는다. 자동 SDL dummy 계측과구분한다.
+- 사용자가 현재구현된 **Stage1~20 전체를 직접 플레이 완료**했다고 보고했다. 추가기능오류 보고없음.
+- 사용자평가: 전반적으로모든스테이지가쉬움, 일반전과King보스전모두난이도상승부족, **패링을전혀사용하지않아도클리어가능**, 전체난이도를소폭높이길희망한다.
+- Chapter1 게임오버0회만확인됐다. Chapter2~4의개별사망횟수/세부스테이지별피격·시간·패링수치·강화선택등은미제공이다. 아래기록양식의미제공칸은임의로채우지않는다.
+- 결론: **Stage1~20 기능및사용자플레이검수완료,전투밸런스개선필요**. 기능통과와난이도적정성은구분한다.
+- 밸런스개선은후속 **Task3-F**로분리한다. 이번최종화에서는HP/피해/공격주기/경고시간/AI/Pulse/강화효과/원본JSON/기존측정조건을변경하지않는다. 구체적수치안·회귀측정·사용자재검증은후속작업이다.
+- GUI승인이후기능코드/테스트추가수정0. Stage1~20지원·Stage21~25/Chapter5차단·영구저장/해금/최종아트·음향미구현을유지한다.
+- 모든최종자동검증성공후지정30개만기존main에한국어일반커밋·Push한다. 실제SHA/원격일치는작업후최종보고에서확정한다.
+
+아래는 구현 당시 자동검증·GUI/통합QA 대기 기록이다. 현재 사용자 승인 및 플레이 결과는 위 최종 기록을 따른다.
+
+Stage1~20 실제지원·Chapter1~4 각5스테이지·King보스5/10/15/20을지원한다. Stage21~25/Chapter5진입은미지원이다. Stage19 정상UPGRADE/전체7기사망/생존/Resolver정지/현재Run·Offer·소유Receipt3개의순서를인증한뒤네번째ATTACK/HP/MOVE를허용한다. 기존후보생성·편성/HP/세션/원장/KingPulse소유권검증·입력준비성공후Receipt4를확정한다. 실패시Stage19 Offer/Build/Receipt3/Run을보존하고재시도한다.
+Stage20 원본King(5,9)48틱HP85,Queen(4,7)62틱HP18,Bishop(2,8)75틱HP13,Knight(3,6)88틱HP13,Knight(6,6)101틱HP13,Pawn(1,6)114틱HP10의순서/ID s20_*/좌표/지연을유지한다. 총6기/HP152·Chapter4·boss=true·spawn(5,1)·Pawn forward(0,-1)·Obsidian Caldera다. 원본boss_hp14는수정하지않고기존Chapter4프로필King85를사용한다. 동일Run/Receipt4/Offer없음·새최대HP회복·새객체/Health/세션/StageID/Ledger/Pulse/입력/보간세션을사용한다.
+King8방향추적/근접48예고90회복72이동/피해1·Pulse240요청기준/120예고100칸/480쿨다운/30정리를그대로재사용한다. NORMAL→DRAINING에서신규일반예약을막고기존이벤트/도약계획종료를기다린뒤일반5기의상태/남은시간/기절/Queen교대를동결하고복원한다. 정수틱/기존원장만사용하며새패턴/시계없음. 원본정지Player관찰은264틱DRAINING·265틱Pulse경고(240에무조건시작하지않음)였다.
+Pulse일반은반사0,퍼펙트는King반사2/기절60/보너스2/단일소비를검증한다. Queen퍼펙트는Queen에만적용하며King반사0이다. King사망은Pulse취소·일반적조기재개이며남은적자동처치/클리어없음. 정지중사망한Queen부활없음·반사로King사망·도약대기계획종료·타이머복원·King단독추적/근접을검증한다.
+Queen8방향관통72/180·불변논리셀/충전발사잔광, Bishop50칸108/240,Knight2기독립도약/점유,Pawn대각선/접촉,공유48틱무적/소스패링/취소를보존한다. 초기Queen(4,7)31칸과실제재배치후원점을구분한다.
+6기전체전멸·Player생존은BOSS_CLEAR 단일종료/Resolver정지/시간정지/공격취소/Receipt4/Offer없음이며추가강화없음이다. 동시사망은GAME_OVER우선이다. next_stage_number=None, enter_next_chapter()는Chapter4→5를거부한다. N/직접Factory로Stage21~25우회불가,읽기전용 CHAPTER 5 NOT AVAILABLE와기존R TO RESTART를표시한다. DEV_BOUNDARY로상태를바꾸지않는다.
+BOSS_CLEAR R은같은Run/Build/Receipt4로새Stage20·KingHP85/전적HP·Player최대HP/새Pulse/원장/ID를복원한다. GAME_OVER R은이전Run을retire하고새Chapter4Run Stage16·진입공격력/HP3/MOVE18/Receipt0/Offer없음으로복원한다. 재도전Factory/입력실패원자성/이전이벤트격리를검증한다.
+1440×900/10×10/840×840/84px/원점(300,30)·용암테마/설정/F11/ESC·X/포커스/좌표/입력/표시보간/60Hz/최대180FPS목표를보존한다. AI/HP/강화/전투원장/원본JSON/validator/과거측정표를변경하지않는다. Stage20측정공격형의마지막선택만HP로오버라이드하고기존STYLES와Stage1~19조건은그대로다.
+Stage20 GUI 및Stage1~20연속Windows난이도QA는대기다. 과거Stage16쉬움/17비슷함의견을보존하며전체연속플레이후평가한다. Stage21~25/Chapter5/영구저장·해금/최종아트·음향은미구현이다. 최종5챕터25스테이지5보스목표를유지한다. 이번에git add/commit/push하지않는다.
+
 ## Task 3-D — Stage19 지원/Stage20 개발 경계
 
 ### Task3-D 사용자 Windows GUI 최종 승인

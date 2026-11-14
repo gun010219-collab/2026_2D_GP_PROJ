@@ -1,5 +1,166 @@
 # CHECKMATE 개발 진행 기록
 
+## Task 3-E — Stage20 Chapter4 King 보스전 (GUI30/30·Stage1~20 사용자 플레이 완료)
+
+### Task3-E GUI 최종 승인 및 Stage1~20 사용자 통합 플레이 결과
+
+사용자가 실제 Windows 11 게임에서 직접 검수했다.
+
+- Stage20 GUI STEP1 10/10·STEP2 12/12·STEP3 8/8, **전체30/30 통과**. 실패0·확인불가0·미검수0, 기능 오류 보고 없음.
+- 60초 이상 실행 안정성 통과. 실제FPS/P95/P99 값은 미제공이며 임의작성하지 않는다. 자동 SDL dummy 계측과구분한다.
+- 사용자가 현재구현된 **Stage1~20 전체를 직접 플레이 완료**했다고 보고했다. 추가기능오류 보고없음.
+- 사용자평가: 전반적으로모든스테이지가쉬움, 일반전과King보스전모두난이도상승부족, **패링을전혀사용하지않아도클리어가능**, 전체난이도를소폭높이길희망한다.
+- Chapter1 게임오버0회만확인됐다. Chapter2~4의개별사망횟수/세부스테이지별피격·시간·패링수치·강화선택등은미제공이다. 아래기록양식의미제공칸은임의로채우지않는다.
+- 결론: **Stage1~20 기능및사용자플레이검수완료,전투밸런스개선필요**. 기능통과와난이도적정성은구분한다.
+- 밸런스개선은후속 **Task3-F**로분리한다. 이번최종화에서는HP/피해/공격주기/경고시간/AI/Pulse/강화효과/원본JSON/기존측정조건을변경하지않는다. 구체적수치안·회귀측정·사용자재검증은후속작업이다.
+- GUI승인이후기능코드/테스트추가수정0. Stage1~20지원·Stage21~25/Chapter5차단·영구저장/해금/최종아트·음향미구현을유지한다.
+- 모든최종자동검증성공후지정30개만기존main에한국어일반커밋·Push한다. 실제SHA/원격일치는작업후최종보고에서확정한다.
+
+### GUI 승인 및 사용자 전체 플레이 후 최종 자동 재검증
+
+- 전체 unittest 실제재실행 **1166개 통과,107.554초,실패0·오류0·skip0**. 구현단계110.679초와별도실행이다.
+- 기준SHA 기존1150개 AST메서드전부보존·삭제0·신규16개. GUI이후기능/테스트추가수정0.
+- 일반/-O validator 각각25개·compileall전체·변경Python25개문법/import·SDL독립성·내부링크61개·신규포함공백검사통과.
+- 기존Stage1~19 실제76/76클리어·796개기록값일치. Stage20 실제4/4 BOSS_CLEAR·493/1126/745/745틱·남은HP4/2/3/4·보고측정값일치. Pulse발급각1회/공격형취소반사0·나머지퍼펙트반사2도일치.
+- Queen/Bishop/Knight/Pawn·Pulse DRAINING/동결/복원/사망·BOSS_CLEAR R/사망R/Chapter5차단·실제main SDL dummy/네이티브·1/8틱·7종FPS결정성회귀통과. 60Hz/180FPS목표/표시보간구조와기존규칙·측정조건보존.
+- 사용자Stage1~20플레이완료보고와난이도개선요구를자동검증과구분해기록했다. Task3-F는후속밸런스작업이며이번에는수치를변경하지않았다.
+- 수정29개·신규1개=30개만검토했다. 원본데이터/AI/HP/강화/과거측정표/개발이력을보존했다.
+- 커밋전main HEAD/origin은시작SHA·인덱스비어있음. 모든게이트통과후지정30개만한국어커밋·일반Push하며실제SHA와원격일치는작업후보고서에서확정한다.
+
+아래는 구현 당시 자동검증·GUI/통합QA 대기 기록이다. 현재 사용자 승인 및 플레이 결과는 위 최종 기록을 따른다.
+
+시작main HEAD/origin `7274e4ce31e632b1143bd62ff0a0cd4af8d2a4ee`, 트리/인덱스깨끗함. 변경전1150개96.287초통과(실패/오류/skip0).
+
+Stage1~20 실제지원·Chapter1~4 각5스테이지·King보스5/10/15/20을지원한다. Stage21~25/Chapter5진입은미지원이다. Stage19 정상UPGRADE/전체7기사망/생존/Resolver정지/현재Run·Offer·소유Receipt3개의순서를인증한뒤네번째ATTACK/HP/MOVE를허용한다. 기존후보생성·편성/HP/세션/원장/KingPulse소유권검증·입력준비성공후Receipt4를확정한다. 실패시Stage19 Offer/Build/Receipt3/Run을보존하고재시도한다.
+Stage20 원본King(5,9)48틱HP85,Queen(4,7)62틱HP18,Bishop(2,8)75틱HP13,Knight(3,6)88틱HP13,Knight(6,6)101틱HP13,Pawn(1,6)114틱HP10의순서/ID s20_*/좌표/지연을유지한다. 총6기/HP152·Chapter4·boss=true·spawn(5,1)·Pawn forward(0,-1)·Obsidian Caldera다. 원본boss_hp14는수정하지않고기존Chapter4프로필King85를사용한다. 동일Run/Receipt4/Offer없음·새최대HP회복·새객체/Health/세션/StageID/Ledger/Pulse/입력/보간세션을사용한다.
+King8방향추적/근접48예고90회복72이동/피해1·Pulse240요청기준/120예고100칸/480쿨다운/30정리를그대로재사용한다. NORMAL→DRAINING에서신규일반예약을막고기존이벤트/도약계획종료를기다린뒤일반5기의상태/남은시간/기절/Queen교대를동결하고복원한다. 정수틱/기존원장만사용하며새패턴/시계없음. 원본정지Player관찰은264틱DRAINING·265틱Pulse경고(240에무조건시작하지않음)였다.
+Pulse일반은반사0,퍼펙트는King반사2/기절60/보너스2/단일소비를검증한다. Queen퍼펙트는Queen에만적용하며King반사0이다. King사망은Pulse취소·일반적조기재개이며남은적자동처치/클리어없음. 정지중사망한Queen부활없음·반사로King사망·도약대기계획종료·타이머복원·King단독추적/근접을검증한다.
+Queen8방향관통72/180·불변논리셀/충전발사잔광, Bishop50칸108/240,Knight2기독립도약/점유,Pawn대각선/접촉,공유48틱무적/소스패링/취소를보존한다. 초기Queen(4,7)31칸과실제재배치후원점을구분한다.
+6기전체전멸·Player생존은BOSS_CLEAR 단일종료/Resolver정지/시간정지/공격취소/Receipt4/Offer없음이며추가강화없음이다. 동시사망은GAME_OVER우선이다. next_stage_number=None, enter_next_chapter()는Chapter4→5를거부한다. N/직접Factory로Stage21~25우회불가,읽기전용 CHAPTER 5 NOT AVAILABLE와기존R TO RESTART를표시한다. DEV_BOUNDARY로상태를바꾸지않는다.
+BOSS_CLEAR R은같은Run/Build/Receipt4로새Stage20·KingHP85/전적HP·Player최대HP/새Pulse/원장/ID를복원한다. GAME_OVER R은이전Run을retire하고새Chapter4Run Stage16·진입공격력/HP3/MOVE18/Receipt0/Offer없음으로복원한다. 재도전Factory/입력실패원자성/이전이벤트격리를검증한다.
+1440×900/10×10/840×840/84px/원점(300,30)·용암테마/설정/F11/ESC·X/포커스/좌표/입력/표시보간/60Hz/최대180FPS목표를보존한다. AI/HP/강화/전투원장/원본JSON/validator/과거측정표를변경하지않는다. Stage20측정공격형의마지막선택만HP로오버라이드하고기존STYLES와Stage1~19조건은그대로다.
+Stage20 GUI 및Stage1~20연속Windows난이도QA는대기다. 과거Stage16쉬움/17비슷함의견을보존하며전체연속플레이후평가한다. Stage21~25/Chapter5/영구저장·해금/최종아트·음향은미구현이다. 최종5챕터25스테이지5보스목표를유지한다. 이번에git add/commit/push하지않는다.
+
+신규순수15개·SDL경로1개를추가했다. Stage15검증시나리오를실제Stage20편성에적용하고,추가King단독추적/근접·Chapter5HUD/Factory차단을검증한다. 후보Pulse/King참조/HP/세션/원장/편성오류원자성도검증한다. 기존메서드이름과목적을보존하며Stage20경계검사는새BOSS_CLEAR/Chapter5차단으로옮긴다.
+SDL은실제main/Pico2D/네이티브SDL dummy로Stage10→20숫자네번째HP선택·Pulse실제Shift퍼펙트/반사·BOSS_CLEAR N차단/R새20재도전,별도마우스네번째ATTACK선택·GAME_OVER R→16을검증한다. 전멸/사망fixture는전환검증이며실제처치는별도무강제실전측정이다. 최초SDL N차단검사의종료스냅샷캡처시점을수정했으며게임기능결함/수치변경은없었다.
+[Chapter4 밸런스](BALANCE_CHAPTER4.md)에새4빌드실측/성장비교와Pulse발급·반사결과를기록한다. 아래는모두사용자검수대기다.
+
+### Stage20 Windows GUI 30개 — 미검증
+
+실행 `.\.venv\Scripts\python.exe main.py`. 정상진행으로Stage19까지플레이한다. 공격력MAX시네번째ATTACK대신HP선택,숫자와마우스는별도플레이에서확인한다. 성능은 `$env:CHECKMATE_FRAME_STATS='1'`로설정후실행하고60초이상측정,종료후 `Remove-Item Env:CHECKMATE_FRAME_STATS`로해제한다. 항목별통과/실패/확인불가와의견을회신한다.
+
+STEP1 강화·진입 (10개)
+
+1. 기존Stage1~19정상진행.
+2. Stage19전체7기전멸후UPGRADE.
+3. Stage20미지원문구제거/네번째카드활성.
+4. 숫자강화선택.
+5. 별도플레이마우스강화선택.
+6. ATTACK/HP/MOVE반영·MAX비활성/중복소비없음.
+7. Stage20진입·최대HP회복/입력·보간잔상없음.
+8. King1기HP85.
+9. Queen18/Bishop13/Knight13×2/Pawn10총6기.
+10. 용암테마/중앙보드/기존HUD유지.
+
+STEP2 혼합보스전 (12개)
+
+11. King추적/점유차단.
+12. King대각선포함근접경고/피해.
+13. Queen재배치/8방향관통/충전·발사·잔광.
+14. Bishop색상50칸경고.
+15. Knight2기도약·착지/중복점유없음.
+16. Pawn대각선·접촉혼합공격.
+17. Pulse DRAINING에서진행공격/도약완료대기.
+18. Pulse100칸경고·현재상태표시.
+19. Pulse중일반5기정지·종료후정상재개.
+20. 일반패링피해차단/King반사없음.
+21. Pulse퍼펙트King반사2·기절·다음공격+2.
+22. Queen퍼펙트King반사0/소스기절·공유무적.
+
+STEP3 종료·재시작·성능 (8개)
+
+23. King선처치Pulse정리/나머지전투지속.
+24. 전체6기전멸BOSS_CLEAR·추가Offer없음.
+25. CHAPTER5 NOT AVAILABLE·N진입불가.
+26. BOSS_CLEAR R로같은빌드Stage20/HP85재도전.
+27. GAME_OVER R→16·진입공격력·HP3/MOVE18.
+28. SETTINGS/ESC·F11반복/포커스/레터박스/마우스·유령입력.
+29. 보간/실제FPS·60초이상프레임안정성/CPU/지연.
+30. ESC/X종료·경고가독성/보스진행시간/피로도/난이도의견.
+
+### Stage1~20 연속 플레이 통합 QA — 미실시 기록 양식
+
+GUI기능검수와별도로Stage1부터20까지한Run진행을검사한다. 죽으면해당챕터재시작경로와누적시도수를기록한다. Chapter2/3/4진입시공격력만계승·HP3/MOVE18·Receipt0초기화,보스R은기존빌드유지를확인한다. MAX카드는선택불가이며특정강화가강제되는지평가한다. 중단/실패도그대로남기며완주로바꾸지않는다.
+
+| Stage | 시도/결과 | 진입공격/HP/MOVE | 선택강화 | 남은HP/피격 | 패링시도/성공/실패원인 | 클리어시간 | 경고/입력/피로도 메모 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | 대기 | — | — | — | — | — | — |
+| 2 | 대기 | — | — | — | — | — | — |
+| 3 | 대기 | — | — | — | — | — | — |
+| 4 | 대기 | — | — | — | — | — | — |
+| 5 | 대기 | — | — | — | — | — | — |
+| 6 | 대기 | — | — | — | — | — | — |
+| 7 | 대기 | — | — | — | — | — | — |
+| 8 | 대기 | — | — | — | — | — | — |
+| 9 | 대기 | — | — | — | — | — | — |
+| 10 | 대기 | — | — | — | — | — | — |
+| 11 | 대기 | — | — | — | — | — | — |
+| 12 | 대기 | — | — | — | — | — | — |
+| 13 | 대기 | — | — | — | — | — | — |
+| 14 | 대기 | — | — | — | — | — | — |
+| 15 | 대기 | — | — | — | — | — | — |
+| 16 | 대기 | — | — | — | — | — | — |
+| 17 | 대기 | — | — | — | — | — | — |
+| 18 | 대기 | — | — | — | — | — | — |
+| 19 | 대기 | — | — | — | — | — | — |
+| 20 | 대기 | — | — | — | — | — | — |
+
+총플레이시간/사망위치/챕터재시작·초기화오류/일반전대비보스난이도/체력회복기회/강화선택편향/패링실패원인/반복패턴지루함/경고가독성/진행불가·입력오류를기록한다. 실제사용자결과수령전난이도적정/완주성공으로확정하지않는다.
+
+### 최종 자동검증 결과
+
+- `.\.venv\Scripts\python.exe -m unittest discover -s tests -v`: **1166개 통과,110.679초,실패0·오류0·skip0**. 기준1150개 AST보존·삭제0·신규16개(순수15/SDL1).
+- 일반/-O validator 각각25개통과, `python -m compileall -q .` 전체성공. 변경Python25개문법/import·순수로직SDL독립성·문서내부링크61개·신규포함줄끝/파일끝공백·git diff --check 통과.
+- 기존Stage1~19 실제76/76클리어·796기록필드일치(48/488+Queen12/132+Stage16~19각4/44). 신규20 실제4/4 BOSS_CLEAR·493/1126/745/745틱·남은HP4/2/3/4.
+- Stage20순수검사15개별도통과후전체suite재검증. 실제Stage20 Pulse100칸/120틱·DRAINING·Knight계획정리·Queen교대/5기동결/잔여시간복원·일반/퍼펙트반사2/Queen반사0·King사망조기해제·반사사망·보스R/사망R/Chapter5차단통과.
+- 네이티브SDL dummy/main경로·설정/입력/종료,기존Stage5/10/15보스,1/8틱·Stage1~20의30/60/120/144/160/180/240FPS 전투동일성회귀통과. 60Hz전투/180FPS목표/보간구현은무변경이다.
+- 짧은SDL소프트웨어/VSync=True계측FPS166.90·mean5.992ms·P95 6.088ms·P99 6.135ms는사용자Windows60초검증을대체하지않는다. GUI와연속난이도QA는미실시다.
+- 기능변경은지원목록/오류안내(game.py/main.py)와읽기전용Chapter5미지원안내(game_renderer.py)다. StageProgression/AI/Pulse/원장/HP/성장/원본JSON/validator는보존했다. 테스트드라이버는Stage20만마지막HP선택및계측필드를추가했으며기존STYLES/입력정책/이전결과는그대로다.
+- 수정29개·신규1개=30개. main HEAD/origin은시작SHA그대로·인덱스비어있음. git add/commit/push미실시. 다음은사용자WindowsGUI검수및Stage1~20연속QA다.
+
+### 실제 변경 파일
+
+- docs/BALANCE_CHAPTER4.md
+- docs/CHAPTER_EXPANSION_DESIGN.md
+- docs/DECISIONS.md
+- docs/GAME_DESIGN.md
+- docs/PROGRESS.md
+- game.py
+- game_renderer.py
+- main.py
+- tests/balance_driver.py
+- tests/test_chapter_four_sdl.py
+- tests/test_chapter_run.py
+- tests/test_chapter_three_sdl.py
+- tests/test_chapter_two_entry.py
+- tests/test_chapter_two_stages.py
+- tests/test_combat_balance.py
+- tests/test_king_combat.py
+- tests/test_queen.py
+- tests/test_queen_laser.py
+- tests/test_render_timing.py
+- tests/test_stage_eighteen.py
+- tests/test_stage_eleven_twelve.py
+- tests/test_stage_five.py
+- tests/test_stage_four.py
+- tests/test_stage_nineteen.py
+- tests/test_stage_seventeen.py
+- tests/test_stage_six.py
+- tests/test_stage_sixteen.py
+- tests/test_stage_three.py
+- tests/test_stage_transition.py
+- tests/test_stage_twenty.py (신규)
+
 ## Task 3-D — Stage19 고밀도7기 전투 (사용자 Windows GUI30/30 통과)
 
 ### Task3-D 사용자 Windows GUI 최종 승인
