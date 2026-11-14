@@ -120,7 +120,7 @@ class StageElevenTwelveTests(unittest.TestCase):
         f=at14();f.choose(clear(f),'attack',main._new_stage_game);finish(f.game,'clear');before=state(f)
         with patch.object(HealthRenderer,'_text') as text:GameFlowRenderer().draw(Mock(),f.game)
         labels=[c.args[1] for c in text.call_args_list]
-        self.assertIn('BOSS CLEAR',labels);self.assertFalse(any('N TO' in s for s in labels))
+        self.assertIn('BOSS CLEAR',labels);self.assertIn('N TO CHAPTER 4',labels)
         self.assertEqual(state(f),before)
 
     def test_boss_next_chapter_prompts_are_dynamic(self):
@@ -138,7 +138,7 @@ class StageElevenTwelveTests(unittest.TestCase):
         commands=b._commands;b.draw(Mock());self.assertIs(b._commands,commands)
 
     def test_stage13_through25_and_queen_factory_still_rejected(self):
-        for n in range(16,26):
+        for n in range(17,26):
             with self.assertRaises(ValueError):main._new_stage_game(n)
         enemies=create_stage_enemies(StageCatalog.load().get_stage(13),profile=profile_for(3))
         self.assertTrue(any(e.kind=='queen' and e.health.max_hp==14 for e in enemies))

@@ -110,7 +110,8 @@ class StageFourteenTests(unittest.TestCase):
         self.assertEqual((g.stage_number,len(f.run.receipts)),(15,4))
         finish(g,'clear');factory=Mock();before=state(f)
         self.assertIsNone(f.sync_offer())
-        with self.assertRaises(ValueError):f.enter_next_chapter(factory)
+        with patch.object(ChapterRun,'receipts',new_callable=PropertyMock,return_value=()):
+            with self.assertRaises(ValueError):f.enter_next_chapter(factory)
         factory.assert_not_called();self.assertEqual(state(f),before)
 
     def test_death_restarts11_entry_stats_and_rejects_old_events(self):

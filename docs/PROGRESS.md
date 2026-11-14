@@ -1,5 +1,125 @@
 # CHECKMATE 개발 진행 기록
 
+## Task 3-A — Chapter4 Stage16 (사용자 Windows GUI25/25 통과)
+
+시작 HEAD/origin/main: `3291625df662ab1082de08546c95557d020d61e4`, main 작업트리/인덱스 깨끗함.
+변경전1092개 unittest를56.234초에재현했다(실패/오류/skip0).
+
+현재 실제 실행 범위는 Stage1~16이다. Stage17~25/Chapter5/Stage20 네 번째 보스전/영구저장·해금은 미구현이다. 최종25스테이지·5보스 목표는 유지한다.
+정상 Chapter3 Stage15 BOSS_CLEAR(전체전멸·Player생존·Resolver정지·단일종료·현재Run/세션/소유Receipt4개)를 인증한 경우 N으로Chapter4 Stage16에 진입한다.
+기존 후보 전투·입력·목적지BoardRenderer 준비와 검증이 모두 성공한 뒤 새Run을 설치하고 이전Run을 retire한다. 실패하면 Stage15 BOSS_CLEAR·Build·Receipt4·입력·보드를 유지하고 재시도한다.
+Chapter3 최종 attack_level만 새 ChapterRun4.entry_attack_level로 계승한다. HP3/MOVE18/Receipt0/Offer없음·새Run/세션/StageID/Player/Health/Combat/Parry/Enemy/Resolver/Ledger·새입력과 보간세션을 사용한다.
+Stage16은 원본 Rook2·Knight2·Bishop1·Pawn1, spawn(5,1), 지연48/62/75/88/101/114틱, HP16/16/13/13/13/10이다. 비보스이며King/Pulse없음, Pawn forward(0,-1)을 보존한다.
+기존 Obsidian Caldera 팔레트와BoardRenderer로용암테마를 적용한다. 840×840/84px/1440×900·설정/좌표보정은 유지한다. 화상/지형피해/이동제약은 추가하지 않는다.
+적6기전멸·Player생존은 UPGRADE 및 Stage16 첫Offer를 발급한다. Stage17 미지원으로 선택을 보류하며 STAGE 17 NOT AVAILABLE / UPGRADE ON HOLD를 표시한다. 숫자/마우스/R/N 우회·Stage17 Factory 호출을 차단한다.
+GAME_OVER R은 새ChapterRun4 Stage16·진입공격력·HP3/MOVE18/Receipt0으로 복원한다. Stage15 BOSS_CLEAR R은 기존Chapter3 강화4회·KingHP60으로재플레이한다.
+Stage5→6/Stage10→11, 기존6종AI·Queen8방향관통·KingPulse·전투60Hz·180FPS목표/보간은 변경하지 않는다.
+사용자 Windows GUI25/25 승인을 수령했다. 최종 자동검증 성공 후 지정29개 파일 커밋·기존main 일반 Push가 승인되었다. 최종아트·음향·저장은 미구현이다.
+
+기능변경은game.py지원목록/보스다음목적지,main.py오류안내,stage_progression.py인증Chapter확장뿐이다. 테마/입력/원본/AI/보간코드는재사용한다.
+신규테스트는Chapter4정상진입/기존Receipt인증/외부Run거부/객체격리/실패원자성·재시도·Stage16데이터/전투/경계/재시작·실제main경로를검증한다.
+네이티브SDL은실제Stage10→11→12→13→14→15의강화/Queen/Pulse 경로후N으로16에진입한다. 용암보드/공격력/HP·MOVE초기화/6기경고후전멸·사망fixture로Stage17보류와새Stage16재시작을확인한다.
+SDL의강제전멸은진행검증이며실제적처치는4빌드측정으로분리한다. Bishop단독타이밍은다른적예약을늦춘명시적fixture다.
+기존60개실제전투620필드일치·신규16 4/4클리어는 [Chapter4 실측](BALANCE_CHAPTER4.md)을따른다.
+초기회귀의구형Stage16미지원기대1건을정책에맞게갱신했다. 실제진행/전투결함이나AI·밸런스수정은없다.
+- 최종 `.\.venv\Scripts\python.exe -m unittest discover -s tests -v`: **1111개 통과,76.843초,실패0·오류0·skip0**.
+- 기준SHA AST: 기존1092개 전부 보존·삭제0·신규19개(진입10/Stage16전투6/main·SDL3). 기존메서드명 유지, Stage16 미지원 기대만 Stage17 경계/정상진입으로 갱신했다.
+- 일반/-O validator 각각25개 통과, compileall 전체 성공. 네이티브SDL3개별도 재실행도 통과했고전체suite에서도 검증했다.
+- 변경Python24개 문법/import·순수전투 SDL독립성·문서내부링크56개·신규포함 줄끝/파일끝 공백 및Git공백 검사 통과.
+- 원본JSON/validator/AI·Queen8방향·KingPulse/성장·HP/60Hz·180FPS·보간/테마/기존측정표·과거이력 무변경. 변경은수정25개·신규4개=29개.
+- Stage16 신규실전4/4클리어(363/898/579/579틱), 기존Stage1~15 60개실전620필드일치. 기능코드에서 전투를약화하거나드라이버를바꾸지않았다.
+- HEAD는시작SHA그대로,인덱스비어있음. 스테이징·커밋·Push를수행하지않았다.
+
+### 최종 자동 재검증 — GUI 승인 이후
+
+- 전체 unittest 직접 재실행: **1111개,63.833초,실패0·오류0·skip0**. 구현 단계76.843초와 별개 결과다.
+- 기준SHA AST 기존1092개 보존·삭제0·신규19개. 기존 구형Stage16차단 기대만 Stage17경계/정상진입으로 옮기며 테스트 목적을 유지했다.
+- 일반/-O 각각25개 통과·compileall 전체 성공. SDL dummy/네이티브 main의Stage15N→16/용암/클리어UPGRADE/Stage17보류/사망재시작/준비실패원자성, Queen/Pulse, 60Hz/180FPS·결정성 회귀 통과.
+- Stage1~15 실제60개 재실행·620필드 일치. Stage16 실제4빌드도4/4 UPGRADE·44필드 일치(완료363/898/579/579틱·남은HP3/1/3/3).
+- 변경Python24개 문법/import·SDL독립성·문서링크56개·신규포함 줄끝/파일끝 및Git공백 검사 통과. 원본/전투수치/기존AI/성장·HP/측정표/개발이력 보존.
+- 시작HEAD/origin은기준SHA, 수정25개·신규4개·인덱스비어있음. 실제구성은 기능3/기존테스트18/기존문서4/신규테스트3/신규문서1로총29개다.
+- GUI 이후 기능·테스트 추가 수정0. 문서의GUI승인·난이도피드백·최종수치만 보완했으며 동일GUI재검수를 요청하지 않는다.
+- 모든게이트성공후 지정29개만 한국어커밋·기존main 일반Push한다. 실제Git SHA/원격반영은작업후 최종보고로확정한다.
+
+### 실제 변경 파일
+
+- docs/BALANCE_CHAPTER4.md
+- docs/CHAPTER_EXPANSION_DESIGN.md
+- docs/DECISIONS.md
+- docs/GAME_DESIGN.md
+- docs/PROGRESS.md
+- game.py
+- main.py
+- stage_progression.py
+- tests/test_chapter_four_entry.py
+- tests/test_chapter_four_sdl.py
+- tests/test_chapter_run.py
+- tests/test_chapter_three_sdl.py
+- tests/test_chapter_two_entry.py
+- tests/test_chapter_two_stages.py
+- tests/test_combat_balance.py
+- tests/test_king_combat.py
+- tests/test_queen.py
+- tests/test_queen_laser.py
+- tests/test_render_timing.py
+- tests/test_stage_eleven_twelve.py
+- tests/test_stage_fifteen.py
+- tests/test_stage_five.py
+- tests/test_stage_four.py
+- tests/test_stage_fourteen.py
+- tests/test_stage_six.py
+- tests/test_stage_sixteen.py
+- tests/test_stage_thirteen.py
+- tests/test_stage_three.py
+- tests/test_stage_transition.py
+
+### 사용자 Windows GUI 최종 승인 — 25/25
+
+사용자가 Windows 11 실제 게임에서 직접 검수했다.
+
+- STEP1 Chapter4 진입:9/9 통과
+- STEP2 Stage16 혼합 전투:11/11 통과
+- STEP3 클리어·재시작·성능:5/5 통과
+- 합계25/25, 실패0·확인 불가0·미검수0. 기능 오류 발견 없음.
+- 60초 이상 프레임 안정성도 통과했다. 구체적 평균FPS/P95/P99는 제공되지 않아 임의 기입하지 않는다.
+- 사용자 의견: **Stage16의 난이도가 낮음**. 후속 Chapter4 밸런스 개선 항목으로 추적하며 이번 최종화에서는 HP/AI/피해/지연/강화 수치를 변경하지 않는다. 변경안은 별도 승인·회귀·GUI 검수를 거친다.
+- GUI 이후 기능 코드·테스트 추가 수정0, 동일 GUI 재검수는 필요하지 않다. 자동검증/SDL/실전측정과 사용자 GUI는 별도 근거다.
+- 최종 자동 재검증 성공 후 Task3-A 지정29개만 한국어 커밋·기존main 일반 Push가 승인되었다. 수행 전인 Git 작업을 완료로 기록하지 않는다.
+
+### 구현 단계 Windows GUI 권장25개 (이력)
+
+`.\.venv\Scripts\python.exe main.py`로실행한다. 각항목은통과/실패/확인불가로보고한다. 최종 사용자 검수 결과는 위 단계별25/25 기록을 따른다.
+
+1. Stage15 King/Pulse/Queen8방향 기존전투
+2. King선처치후전투지속·전체전멸BOSS CLEAR
+3. N TO CHAPTER 4 표시
+4. Stage15 N→Stage16 진입
+5. Obsidian Caldera 용암테마
+6. 840×840/84px 및1440×900 유지
+7. Chapter3 공격력만계승
+8. HP3·MOVE기본초기화
+9. 이전공격/패링/보너스/무적/입력/보간잔상없음
+10. Rook2기 HP16
+11. Knight2기 HP13
+12. Bishop1기 HP13
+13. Pawn1기 HP10
+14. Stage16 실제이동·혼합공격
+15. Rook돌진·기물점유차단
+16. Knight도약·착지
+17. Bishop50칸경고·배경대비
+18. Pawn대각선/접촉·경고대비
+19. 피해·회피·공유무적
+20. 일반/퍼펙트패링·기절·보너스
+21. 적사망시공격취소·전체6기전멸UPGRADE
+22. STAGE17 NOT AVAILABLE / UPGRADE ON HOLD
+23. 숫자/마우스/R/N으로강화소비·Stage17우회불가
+24. Stage16 GAME_OVER R→새Stage16·진입공격력복원 및별도Stage15보스R회귀
+25. SETTINGS/F11/포커스/레터박스/ESC/X·180FPS계측·보간/유령입력
+
+정확한틱/원장/소유권/전환원자성은자동검사근거다. 사용자 환경의 가독성·경고대비·안정성 검수는 통과했고, 난이도가 낮다는 의견은 후속 개선 대상으로 보존한다. 다양한 하드웨어 성능과 장기 밸런스 확정은 미검증이다.
+추가브랜치·저장파일·미승인 콘텐츠를 생성하지 않는다. 검수 성공 후 Git 반영하며 실제 SHA/원격 결과는 최종 보고에서 확인한다.
+다음Task는별도승인후Stage17연결과Stage18경계·Chapter4혼합전투검증을권장한다. Stage20보스/영구저장/최종아트는별도범위다.
+
 ## Task 2-G — Queen8방향 관통 레이저 (사용자 Windows GUI48/48 통과)
 
 시작 main/HEAD/origin: `326fae6491b42bdae4694c8b3baac7bbebb91ae1`, 작업트리/인덱스 깨끗함.

@@ -61,7 +61,7 @@ class StageFiveTests(unittest.TestCase):
         self.assertEqual([g.stage_number for g in created],[1,2,3,4,5,6])
         self.assertEqual(snapshots[-1]['state'],GameState.UPGRADE)
         self.assertEqual(clock.accumulator,0)
-        for n in range(16,26):
+        for n in range(17,26):
             with self.assertRaises(ValueError):
                 main._new_stage_game(n)
 

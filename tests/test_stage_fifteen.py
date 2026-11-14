@@ -126,8 +126,9 @@ class StageFifteenTests(unittest.TestCase):
 
     def test_boss_clear_replay_no_offer_and_n_blocked(self):
         f=at15();g=f.game;r=f.run;finish(g,'clear');before=state(f);factory=Mock()
-        self.assertIsNone(f.sync_offer());self.assertIsNone(g.next_stage_number)
-        with self.assertRaises(ValueError):f.enter_next_chapter(factory)
+        self.assertIsNone(f.sync_offer());self.assertEqual(g.next_stage_number,16)
+        with patch.object(ChapterRun,'receipts',new_callable=PropertyMock,return_value=()):
+            with self.assertRaises(ValueError):f.enter_next_chapter(factory)
         factory.assert_not_called()
         for fail in ('factory','input'):
             with self.assertRaises(RuntimeError):f.restart(Mock(side_effect=RuntimeError()) if fail=='factory' else main._new_stage_game,Mock(side_effect=RuntimeError()))

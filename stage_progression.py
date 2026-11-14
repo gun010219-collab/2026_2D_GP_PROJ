@@ -139,7 +139,7 @@ class StageProgression:
         self._require_scope()
         g = self.game
         first = chapter_first_stage(self.run.chapter)
-        if (g.chapter not in (1, 2) or g.stage_number != g.chapter * 5 or not g.boss
+        if (g.chapter not in (1, 2, 3) or g.stage_number != g.chapter * 5 or not g.boss
                 or g.state is not GameState.BOSS_CLEAR or not g.player.alive
                 or not g.resolver.stopped or g.transition_count != 1
                 or g.end_tick != g.combat.tick or self.run.active_offer is not None

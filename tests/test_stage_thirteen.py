@@ -122,7 +122,7 @@ class StageThirteenTests(unittest.TestCase):
         factory.assert_not_called();g.advance(1000)
         self.assertEqual(state(f),before)
         for event in pending:self.assertEqual(oldledger.state(event),'cancelled')
-        self.assertEqual(g.restart_stage_number,15);self.assertIsNone(g.next_stage_number)
+        self.assertEqual(g.restart_stage_number,15);self.assertEqual(g.next_stage_number,16)
 
     def test_game_over_resets_entry_stats_and_old_attacks(self):
         f=at13();old=f.game;oldrun=f.run;old.advance(80);events=old.encounter.ledger.pending

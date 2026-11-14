@@ -247,6 +247,6 @@ class ChapterTwoStageTests(unittest.TestCase):
 
     def test_stage_ten_through_twenty_five_never_reach_catalog(self):
         with patch.object(main.StageCatalog,'load') as load:
-            for n in range(16,26):
+            for n in range(17,26):
                 with self.assertRaises(ValueError):main._new_stage_game(n)
             load.assert_not_called()

@@ -565,3 +565,29 @@ Stage15 next_stage_number는 None이며 Chapter4 N·Stage16 Factory·Run 생성�
 Stage16~25/저장·영구해금/최종 아트·음향·보스별 새 패턴은 미구현이다. Chapter1~3 스테이지 연결과 전체 최종작품 완성은 구분한다.
 사용자가 실제 Windows 11 게임에서 GUI30/30을 직접 검수했다. 실패0·확인 불가0·미검수0, 기능 오류 보고 없음.
 움직임 끊김 체감과180FPS 개선 요청은 Task2-F 후속 요구로 추적한다. 최종 검수 성공 후 지정25개 한국어 커밋·기존main 일반 Push가 승인되었다. 실제 Git 결과는 최종 보고에서 확인한다.
+
+## Task 3-A — 실제 Chapter4 첫 전투
+
+현재 실제 실행 범위는 Stage1~16이다. Stage17~25/Chapter5/Stage20 네 번째 보스전/영구저장·해금은 미구현이다. 최종25스테이지·5보스 목표는 유지한다.
+정상 Chapter3 Stage15 BOSS_CLEAR(전체전멸·Player생존·Resolver정지·단일종료·현재Run/세션/소유Receipt4개)를 인증한 경우 N으로Chapter4 Stage16에 진입한다.
+기존 후보 전투·입력·목적지BoardRenderer 준비와 검증이 모두 성공한 뒤 새Run을 설치하고 이전Run을 retire한다. 실패하면 Stage15 BOSS_CLEAR·Build·Receipt4·입력·보드를 유지하고 재시도한다.
+Chapter3 최종 attack_level만 새 ChapterRun4.entry_attack_level로 계승한다. HP3/MOVE18/Receipt0/Offer없음·새Run/세션/StageID/Player/Health/Combat/Parry/Enemy/Resolver/Ledger·새입력과 보간세션을 사용한다.
+Stage16은 원본 Rook2·Knight2·Bishop1·Pawn1, spawn(5,1), 지연48/62/75/88/101/114틱, HP16/16/13/13/13/10이다. 비보스이며King/Pulse없음, Pawn forward(0,-1)을 보존한다.
+기존 Obsidian Caldera 팔레트와BoardRenderer로용암테마를 적용한다. 840×840/84px/1440×900·설정/좌표보정은 유지한다. 화상/지형피해/이동제약은 추가하지 않는다.
+적6기전멸·Player생존은 UPGRADE 및 Stage16 첫Offer를 발급한다. Stage17 미지원으로 선택을 보류하며 STAGE 17 NOT AVAILABLE / UPGRADE ON HOLD를 표시한다. 숫자/마우스/R/N 우회·Stage17 Factory 호출을 차단한다.
+GAME_OVER R은 새ChapterRun4 Stage16·진입공격력·HP3/MOVE18/Receipt0으로 복원한다. Stage15 BOSS_CLEAR R은 기존Chapter3 강화4회·KingHP60으로재플레이한다.
+Stage5→6/Stage10→11, 기존6종AI·Queen8방향관통·KingPulse·전투60Hz·180FPS목표/보간은 변경하지 않는다.
+사용자 Windows GUI25/25 승인을 수령했다. 최종 자동검증 성공 후 지정29개 파일 커밋·기존main 일반 Push가 승인되었다. 최종아트·음향·저장은 미구현이다.
+
+### 사용자 Windows GUI 최종 승인 — 25/25
+
+사용자가 Windows 11 실제 게임에서 직접 검수했다.
+
+- STEP1 Chapter4 진입:9/9 통과
+- STEP2 Stage16 혼합 전투:11/11 통과
+- STEP3 클리어·재시작·성능:5/5 통과
+- 합계25/25, 실패0·확인 불가0·미검수0. 기능 오류 발견 없음.
+- 60초 이상 프레임 안정성도 통과했다. 구체적 평균FPS/P95/P99는 제공되지 않아 임의 기입하지 않는다.
+- 사용자 의견: **Stage16의 난이도가 낮음**. 후속 Chapter4 밸런스 개선 항목으로 추적하며 이번 최종화에서는 HP/AI/피해/지연/강화 수치를 변경하지 않는다. 변경안은 별도 승인·회귀·GUI 검수를 거친다.
+- GUI 이후 기능 코드·테스트 추가 수정0, 동일 GUI 재검수는 필요하지 않다. 자동검증/SDL/실전측정과 사용자 GUI는 별도 근거다.
+- 최종 자동 재검증 성공 후 Task3-A 지정29개만 한국어 커밋·기존main 일반 Push가 승인되었다. 수행 전인 Git 작업을 완료로 기록하지 않는다.
