@@ -591,3 +591,17 @@ Stage5→6/Stage10→11, 기존6종AI·Queen8방향관통·KingPulse·전투60Hz
 - 사용자 의견: **Stage16의 난이도가 낮음**. 후속 Chapter4 밸런스 개선 항목으로 추적하며 이번 최종화에서는 HP/AI/피해/지연/강화 수치를 변경하지 않는다. 변경안은 별도 승인·회귀·GUI 검수를 거친다.
 - GUI 이후 기능 코드·테스트 추가 수정0, 동일 GUI 재검수는 필요하지 않다. 자동검증/SDL/실전측정과 사용자 GUI는 별도 근거다.
 - 최종 자동 재검증 성공 후 Task3-A 지정29개만 한국어 커밋·기존main 일반 Push가 승인되었다. 수행 전인 Git 작업을 완료로 기록하지 않는다.
+
+## Task 3-B — Chapter4 두 번째 일반전 Stage17
+
+실제 실행 지원은 Stage1~17, 개발 경계는 Stage18~25다. Stage16 정상 UPGRADE에서 숫자키 또는 마우스로 첫 강화를 선택하면 동일 ChapterRun(4)에서 Receipt0→1·current_stage16→17로 진행한다. ATTACK/HP/MOVE 기존 수치와 MAX 제한을 유지한다.
+기존 StageProgression.choose()의 클리어·Offer/Receipt 소유권 인증 → 후보 생성·편성/HP/세션/원장 검증 → 입력 준비 → Receipt 소비·새 전투 설치 순서를 재사용한다. 실패하면 Stage16 UPGRADE·Run·Build·Offer·Receipt0·기존 전투/입력을 보존하고 동일 Offer로 재시도한다.
+Stage17은 원본 순서의 Bishop2·Rook2·Knight1·Pawn1, HP13/13/16/16/13/10·총HP81, spawn(5,1), 지연48/62/75/88/101/114틱이다. Pawn forward(0,-1), 비보스·King/Pulse없음, Obsidian Caldera 용암 테마를 보존한다.
+Stage17 전체6기 사망·Player 생존은 UPGRADE·두 번째 Offer(stage17)를 발급한다. Receipt1개·current_stage17·같은 Offer를 유지하고 STAGE 18 NOT AVAILABLE / UPGRADE ON HOLD로 선택을 보류한다. 숫자·마우스·R/N으로 Stage18을 생성하거나 Receipt2개로 우회할 수 없다.
+Stage17 GAME_OVER의 R은 새Chapter4 Run·Stage16·진입공격력·HP3/MOVE18/Receipt0으로 복원한다. Stage16 첫 강화와 이전 공격/패링/무적/기절/입력/표시 모션은 이월하지 않는다. Stage15 BOSS_CLEAR R 재플레이와 기존 Chapter 진입 정책을 유지한다.
+
+Bishop (2,8)은 짝수50칸, (7,8)은 홀수50칸을 각각 고정 target_cells로 공격한다. 기존 AI는 반대 색 공격이 telegraph/due이거나 종료한 동일 틱에는 다음 Bishop 발급을 기다린다. 따라서 두 반대 색 경고를 동시 전체판 공격으로 새로 만들지 않는다.
+다른4기의 예약만 늦춘 명시적 타이밍 fixture에서 첫 Bishop은 start48/hit156, 두 번째는 start157/hit265였다(예고108틱). 일반 혼합 전투에서는 사망·기절·점유·패링에 따라 후속 발급 시점이 달라질 수 있다. 두 범위는 각50칸·서로소이며 경고/피해가 같은 불변 스냅샷을 사용한다.
+원본6기 혼합 전투의 실제 Bishop156틱 피해 뒤 Rook195틱 공격은 공유48틱 무적으로 차단되고 208틱 공격은 적중한다. 이벤트 재전달은 다시 소비되지 않는다. 양쪽 Bishop의 회피/일반/퍼펙트 패링·실제 소스만 기절60틱·보너스+2·사망 취소를 검증한다.
+
+기존 Stage16 측정과 사용자 난이도 낮음 의견을 보존하고 Stage17 결과를 [Chapter4 밸런스](BALANCE_CHAPTER4.md)에 별도 추가한다. 실제 운영 수치는 바꾸지 않는다. Stage18~25·Stage20 보스·저장/해금은 미구현이며 최종25스테이지·5보스 목표를 유지한다. 사용자 Windows GUI30/30 승인을 수령했다. 최종 자동 재검증 성공 후 기존main 일반 커밋·Push로 확정하며 실제Git 결과는 최종보고에서 확인한다.

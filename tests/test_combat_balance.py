@@ -95,7 +95,7 @@ class CombatBalanceTests(unittest.TestCase):
                 attack=r.build.attack_level;r=r.start_chapter(chapter+1)
                 self.assertEqual((r.entry_attack_level,r.build,r.receipts),(attack,ChapterBuild(attack),()))
         self.assertEqual(r.stats.attack_damage,16)
-        for n in range(17,26):
+        for n in range(18,26):
             with self.assertRaises(ValueError):main._new_stage_game(n)
 
     def test_candidate_low_high_damaged_and_wrong_profile_health_rejected(self):
@@ -130,7 +130,7 @@ class CombatBalanceTests(unittest.TestCase):
         with self.assertRaises(ValueError):create_stage_enemies(d,profile=profile_for(1))
         es=create_stage_enemies(StageCatalog.load().get_stage(13),profile=profile_for(3))
         self.assertTrue(any(e.kind=='queen' and e.health.max_hp==14 for e in es))
-        with self.assertRaises(ValueError):main._new_stage_game(17)
+        with self.assertRaises(ValueError):main._new_stage_game(18)
 
     def test_later_chapter_nonqueen_rosters_can_use_profile_without_play_permission(self):
         for n in (11,16,23):

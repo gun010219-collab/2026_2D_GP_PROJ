@@ -5,6 +5,17 @@
 PDF의 모든 시스템과 수치를 최신 확정 규칙으로 재승인한 것은 아니다.
 별도 업로드 PPTX 및 v3.0 Markdown 원문은 현재 작업 공간에서 확인되지 않았다.
 
+## Task 3-B — 현재 Stage1~17 실행 지원, Stage18~25 미지원
+
+실제 실행 지원은 Stage1~17, 개발 경계는 Stage18~25다. Stage16 정상 UPGRADE에서 숫자키 또는 마우스로 첫 강화를 선택하면 동일 ChapterRun(4)에서 Receipt0→1·current_stage16→17로 진행한다. ATTACK/HP/MOVE 기존 수치와 MAX 제한을 유지한다.
+기존 StageProgression.choose()의 클리어·Offer/Receipt 소유권 인증 → 후보 생성·편성/HP/세션/원장 검증 → 입력 준비 → Receipt 소비·새 전투 설치 순서를 재사용한다. 실패하면 Stage16 UPGRADE·Run·Build·Offer·Receipt0·기존 전투/입력을 보존하고 동일 Offer로 재시도한다.
+Stage17은 원본 순서의 Bishop2·Rook2·Knight1·Pawn1, HP13/13/16/16/13/10·총HP81, spawn(5,1), 지연48/62/75/88/101/114틱이다. Pawn forward(0,-1), 비보스·King/Pulse없음, Obsidian Caldera 용암 테마를 보존한다.
+Stage17 전체6기 사망·Player 생존은 UPGRADE·두 번째 Offer(stage17)를 발급한다. Receipt1개·current_stage17·같은 Offer를 유지하고 STAGE 18 NOT AVAILABLE / UPGRADE ON HOLD로 선택을 보류한다. 숫자·마우스·R/N으로 Stage18을 생성하거나 Receipt2개로 우회할 수 없다.
+Stage17 GAME_OVER의 R은 새Chapter4 Run·Stage16·진입공격력·HP3/MOVE18/Receipt0으로 복원한다. Stage16 첫 강화와 이전 공격/패링/무적/기절/입력/표시 모션은 이월하지 않는다. Stage15 BOSS_CLEAR R 재플레이와 기존 Chapter 진입 정책을 유지한다.
+
+Stage17의 두 Bishop은 반대색50칸씩 공격하되 기존 반대색 예약 대기를 유지한다. 두 경고를 동시에 발급하는 신규 패턴은 추가하지 않는다. Rook2/Knight/Pawn의 기존 혼합 전투를 재사용한다. 60Hz 고정 전투·최대180FPS 목표 및 이동 보간·Queen8방향/Pulse는 유지한다.
+Task3-A의 Stage16 난이도 낮음 피드백은 후속 밸런스 검토 대상으로 남긴다. Stage17은 사용자 Windows GUI30/30 검수를 통과했다. 자동검증과 사용자 직접 검수를 구분한다. 아래 Task3-A 이하 기록은 당시의 개발 경계와 승인 이력이다. Stage18~25·네 번째 보스·영구저장/해금·최종아트/음향은 미구현이다.
+
 ## Task 3-A — Chapter4 진입 및 Stage16 (사용자 Windows GUI25/25 통과)
 
 현재 실제 실행 범위는 Stage1~16이다. Stage17~25/Chapter5/Stage20 네 번째 보스전/영구저장·해금은 미구현이다. 최종25스테이지·5보스 목표는 유지한다.

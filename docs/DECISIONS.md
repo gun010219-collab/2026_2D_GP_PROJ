@@ -1,5 +1,34 @@
 # CHECKMATE 승인 결정
 
+## Task 3-B — Stage17 지원, Stage18 개발 경계
+
+### 사용자 Windows 11 GUI 최종 승인 및 난이도 평가 방침
+
+사용자가 실제 Windows 11 게임에서 Task3-B GUI 검수를 완료했다.
+
+- STEP1 Stage16 강화 및 Stage17 진입: 10/10 통과.
+- STEP2 Stage17 혼합 전투: 12/12 통과.
+- STEP3 클리어·재시작·성능: 8/8 통과.
+- 합계 **30/30 통과, 실패0·확인불가0·미검수0**, 기능 오류 발견 없음.
+- 60초 이상 프레임 안정성 통과. 구체적인 평균FPS/P95/P99는 제공받지 않았으므로 사용자 실측 수치를 임의로 기입하지 않는다. 기존 SDL dummy 계측과 구분한다.
+- 사용자 의견: Stage16 난이도가 낮게 느껴졌고 Stage17은 Stage16과 비슷하게 느껴졌다. 단일 스테이지 플레이만으로 정확히 평가하기 어렵다.
+- **Stage20 구현 후 Stage1부터 Stage20까지 연속 플레이하여 전체 난이도를 평가한다.** 이번 최종화에서는 HP·AI·공격시간·강화수치를 조절하지 않는다.
+- GUI 승인 이후 기능 코드·테스트 수정0. 최종 자동 재검증이 모두 통과하면 지정25개만 기존main에 일반 커밋·Push한다. 실제 Git 반영 결과는 작업 후 보고에서 확정한다.
+
+아래는 Task3-B 구현 시점의 정책 및 당시 검수 상태 기록이다. 현재 GUI 승인은 위 최종 결과를 따른다.
+
+실제 실행 지원은 Stage1~17, 개발 경계는 Stage18~25다. Stage16 정상 UPGRADE에서 숫자키 또는 마우스로 첫 강화를 선택하면 동일 ChapterRun(4)에서 Receipt0→1·current_stage16→17로 진행한다. ATTACK/HP/MOVE 기존 수치와 MAX 제한을 유지한다.
+기존 StageProgression.choose()의 클리어·Offer/Receipt 소유권 인증 → 후보 생성·편성/HP/세션/원장 검증 → 입력 준비 → Receipt 소비·새 전투 설치 순서를 재사용한다. 실패하면 Stage16 UPGRADE·Run·Build·Offer·Receipt0·기존 전투/입력을 보존하고 동일 Offer로 재시도한다.
+Stage17은 원본 순서의 Bishop2·Rook2·Knight1·Pawn1, HP13/13/16/16/13/10·총HP81, spawn(5,1), 지연48/62/75/88/101/114틱이다. Pawn forward(0,-1), 비보스·King/Pulse없음, Obsidian Caldera 용암 테마를 보존한다.
+Stage17 전체6기 사망·Player 생존은 UPGRADE·두 번째 Offer(stage17)를 발급한다. Receipt1개·current_stage17·같은 Offer를 유지하고 STAGE 18 NOT AVAILABLE / UPGRADE ON HOLD로 선택을 보류한다. 숫자·마우스·R/N으로 Stage18을 생성하거나 Receipt2개로 우회할 수 없다.
+Stage17 GAME_OVER의 R은 새Chapter4 Run·Stage16·진입공격력·HP3/MOVE18/Receipt0으로 복원한다. Stage16 첫 강화와 이전 공격/패링/무적/기절/입력/표시 모션은 이월하지 않는다. Stage15 BOSS_CLEAR R 재플레이와 기존 Chapter 진입 정책을 유지한다.
+
+Bishop (2,8)은 짝수50칸, (7,8)은 홀수50칸을 각각 고정 target_cells로 공격한다. 기존 AI는 반대 색 공격이 telegraph/due이거나 종료한 동일 틱에는 다음 Bishop 발급을 기다린다. 따라서 두 반대 색 경고를 동시 전체판 공격으로 새로 만들지 않는다.
+다른4기의 예약만 늦춘 명시적 타이밍 fixture에서 첫 Bishop은 start48/hit156, 두 번째는 start157/hit265였다(예고108틱). 일반 혼합 전투에서는 사망·기절·점유·패링에 따라 후속 발급 시점이 달라질 수 있다. 두 범위는 각50칸·서로소이며 경고/피해가 같은 불변 스냅샷을 사용한다.
+원본6기 혼합 전투의 실제 Bishop156틱 피해 뒤 Rook195틱 공격은 공유48틱 무적으로 차단되고 208틱 공격은 적중한다. 이벤트 재전달은 다시 소비되지 않는다. 양쪽 Bishop의 회피/일반/퍼펙트 패링·실제 소스만 기절60틱·보너스+2·사망 취소를 검증한다.
+
+사용자 Stage16 난이도가 낮다는 의견을 보존한다. 수치 변경은 별도 승인 대상으로 두며 이번에는 AI/HP/피해/강화/경고주기를 조절하지 않는다. Stage17 자동4빌드의 성공과 실제 인간 난이도는 구분한다. Stage17 GUI는 대기이며 자동검증 후 커밋·Push하지 않는다. Stage18~25·저장/영구해금·Stage20 보스·최종 아트/음향은 미구현이다.
+
 ## Task 3-A — Chapter4 진입 및 Stage16 (사용자 Windows GUI25/25 통과)
 
 현재 실제 실행 범위는 Stage1~16이다. Stage17~25/Chapter5/Stage20 네 번째 보스전/영구저장·해금은 미구현이다. 최종25스테이지·5보스 목표는 유지한다.

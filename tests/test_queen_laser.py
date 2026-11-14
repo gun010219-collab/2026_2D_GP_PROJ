@@ -116,5 +116,5 @@ class QueenLaserTests(unittest.TestCase):
             for _ in range(160):
                 g.advance()
                 r=EnemyAttackRenderer();r.tick=g.combat.tick;r.source_cells={e.entity_instance_id:e.position for e in g.encounter.enemies if e.active};r.draw(Mock(),g.encounter.ledger)
-        for n in range(17,26):
+        for n in range(18,26):
             with self.assertRaises(ValueError):main._new_stage_game(n)

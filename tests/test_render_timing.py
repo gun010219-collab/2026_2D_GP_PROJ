@@ -46,7 +46,7 @@ class FrameTimingTests(unittest.TestCase):
         self.assertEqual(c.advance(1/180),0)
 
     def test_all_stages_same_combat_at_seven_render_rates(self):
-        for stage in range(1,17):
+        for stage in range(1,18):
             expected=None
             for fps in (30,60,120,144,160,180,240):
                 g=main._new_stage_game(stage);clock=SimulationClock();motion=RenderMotion()

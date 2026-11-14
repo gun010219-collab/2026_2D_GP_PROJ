@@ -75,7 +75,7 @@ def run_loop(batches, *, initial_stage=1, initial='clear', focus=None, lengths=N
         if not created:
             if initial_factory is not None:
                 return register(initial_factory())
-            if initial_stage in range(2, 17):
+            if initial_stage in range(2, 18):
                 return register(original_stage(initial_stage))
         return register(original_one(**kwargs))
 
@@ -171,7 +171,7 @@ class StageSessionTests(unittest.TestCase):
         self.assertFalse(game.update_state())
 
     def test_unsupported_stage_and_invalid_metadata_fail_before_creating_entities(self):
-        for number in (0, *range(17, 26), -1):
+        for number in (0, *range(18, 26), -1):
             with self.subTest(number=number), self.assertRaises(ValueError):
                 main._new_stage_game(number)
         for number in (True, 2.0, '2', None):

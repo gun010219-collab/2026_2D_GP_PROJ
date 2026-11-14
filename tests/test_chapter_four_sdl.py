@@ -1,4 +1,4 @@
-"""Native main through Stage15 N, lava Stage16, held17 and death/restart."""
+"""Native main through Stage15 N, lava Stage16/17, held18 and death/restart."""
 import unittest
 from types import SimpleNamespace
 import sys
@@ -57,3 +57,6 @@ class ChapterFourSDLTests(unittest.TestCase):
                 self.assertEqual(snapshots[3][0].stage_number,16)
                 self.assertTrue(snapshots[3][2]);self.assertFalse(snapshots[3][3])
                 self.assertEqual(board_calls[0],3);self.assertEqual(board_calls[-1],4)
+
+    def test_native_mouse_first_upgrade17_death_resets_to16(self):
+        existing.ChapterThreeSDLTests().native_path('stage17death')
