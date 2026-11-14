@@ -42,7 +42,7 @@ class ChapterThreeSDLTests(unittest.TestCase):
             poll_real,present_real=canvas.get_events,canvas.update_canvas
             board_real=main.BoardRenderer.draw;text_real=main.HealthRenderer._text
             def create(n,**kw):
-                assert n in (11,12,13,14),n  # Stage15 must never be requested.
+                assert n in (11,12,13,14,15),n  # Stage16 must never be requested.
                 g=factory_real(n,**kw);games.append(g);return g
             def progress(*a,**kw):
                 f=flow_real(*a,**kw);flows.append(f);return f
@@ -81,8 +81,14 @@ class ChapterThreeSDLTests(unittest.TestCase):
                 elif f==5:tap(s.SDLK_F11)
                 elif f==6:click(1295,41)
                 elif f==7:tap(s.SDLK_ESCAPE)
-                elif g.stage_number in (12,13,14) and g.state is GameState.GAME_OVER:
+                elif g.stage_number in (12,13,14,15) and g.state is GameState.GAME_OVER:
                     tap(s.SDLK_r)
+                elif phase[0]==7:
+                    if mode=='boundary':tap(s.SDLK_2)
+                    else:click(450,500)
+                elif phase[0]==8:tap(s.SDLK_n)
+                elif phase[0]==9:tap(s.SDLK_r)
+                elif g.stage_number==15 and g.encounter.pulse.event is not None and g.playing and g.combat.tick==g.encounter.pulse.event.hit_tick-8:tap(s.SDLK_LSHIFT)
                 elif phase[0]==5:
                     if mode=='boundary':tap(s.SDLK_1)
                     else:click(450,500)
@@ -98,7 +104,7 @@ class ChapterThreeSDLTests(unittest.TestCase):
             def present():
                 if not started[0]:present_real();return
                 f=frame[0];g=games[-1];flow=flows[0]
-                if g.stage_number in (13,14) and g.combat.tick==0 and phase[0] in (3,5):phase[0]=0
+                if g.stage_number in (13,14,15) and g.combat.tick==0 and phase[0] in (3,5,7):phase[0]=0
                 if f==0:
                     assert g.state is GameState.BOSS_CLEAR and g.next_stage_number==11
                 if f==1:
@@ -146,20 +152,32 @@ class ChapterThreeSDLTests(unittest.TestCase):
                     phase[0]=6
                 elif phase[0]==6 and g.stage_number==14 and g.state is GameState.UPGRADE:
                     assert flow.offer.stage==14 and len(flow.run.receipts)==3
-                    held[0]=(flow.offer,flow.run.build,flow.run.receipts,flow.run.current_stage,g.combat.tick)
-                    phase[0]=2
-                elif phase[0]==2:
-                    assert (flow.offer,flow.run.build,flow.run.receipts,flow.run.current_stage,g.combat.tick)==held[0]
-                    assert not flow.error and g.state is GameState.UPGRADE and len(games)==5
-                    done[0]=True
-                if (mode=='death' and len(games)==4) or (mode=='stage13death' and len(games)==5) or (mode=='stage14death' and len(games)==6):
+                    phase[0]=7
+                elif g.stage_number==15 and g.playing and phase[0]!=9:
+                    assert len(flow.run.receipts)==4 and themes[-1]==3
+                    assert [e.health.max_hp for e in g.encounter.enemies]==[60,14,12,7,7]
+                    ev=g.encounter.pulse.event
+                    if ev and g.encounter.ledger.state(ev)=='resolved':
+                        assert g.encounter.ledger.outcome(ev)=='parried_perfect'
+                        assert g.encounter.pulse.king.health.current_hp==58
+                        finish(g,'dead' if mode=='stage15death' else 'clear');phase[0]=10
+                elif phase[0]==10 and g.stage_number==15 and g.state is GameState.BOSS_CLEAR:
+                    assert flow.offer is None and g.next_stage_number is None
+                    held[0]=(flow.run,flow.run.build,flow.run.receipts);phase[0]=8
+                elif phase[0]==8:
+                    assert (flow.run,flow.run.build,flow.run.receipts)==held[0] and len(games)==6
+                    phase[0]=9
+                elif phase[0]==9 and g.stage_number==15 and g.combat.tick==0:
+                    assert (flow.run,flow.run.build,flow.run.receipts)==held[0]
+                    assert g.encounter.pulse.king.health.current_hp==60;done[0]=True
+                if (mode=='death' and len(games)==4) or (mode=='stage13death' and len(games)==5) or (mode=='stage14death' and len(games)==6) or (mode=='stage15death' and len(games)==7):
                     assert g.stage_number==11 and g.combat.tick==0 and themes[-1]==3
                     assert (g.resolver.player_damage,g.player.health.current_hp,flow.run.stats.move_interval_ticks)==(5,3,18)
                     assert flow.run.receipts==() and flow.run.entry_attack_level==4
                     assert g.combat.stage_instance_id!=games[-2].combat.stage_instance_id
                     done[0]=True
                 present_real();frame[0]+=1;now[0]+=FIXED_TIME_STEP
-                assert frame[0]<380
+                assert frame[0]<1000
             def board(self,*a,**kw):themes.append(self.theme.chapter);board_real(self,*a,**kw)
             def text(c,label,*a,**kw):labels.append(label);text_real(c,label,*a,**kw)
             with patch.object(canvas,'open_canvas',side_effect=open_window), \\
@@ -179,9 +197,9 @@ class ChapterThreeSDLTests(unittest.TestCase):
             assert done[0] and closed==[True] and themes[0]==2 and themes[-1]==3
             assert 'N TO CHAPTER 3' in labels
             if mode=='boundary':
-                assert 'STAGE 15 NOT AVAILABLE' in labels and 'UPGRADE ON HOLD' in labels
+                assert 'BOSS CLEAR' in labels and 'R TO RESTART' in labels
                 assert not any('TRY AGAIN' in s for s in labels)
-            assert [g.stage_number for g in games]==([10,11,12,13,14] if mode=='boundary' else [10,11,12,13,14,11] if mode=='stage14death' else [10,11,12,13,11] if mode=='stage13death' else [10,11,12,11])
+            assert [g.stage_number for g in games]==([10,11,12,13,14,15,15] if mode=='boundary' else [10,11,12,13,14,15,11] if mode=='stage15death' else [10,11,12,13,14,11] if mode=='stage14death' else [10,11,12,13,11] if mode=='stage13death' else [10,11,12,11])
             print('PASS native Chapter3',mode,'ice/receipt/keyboard/mouse/settings/F11/focus/quit')
         ''')
         result=subprocess.run([sys.executable,'-c',script,mode],cwd=Path(__file__).resolve().parents[1],

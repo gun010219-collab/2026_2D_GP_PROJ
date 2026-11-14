@@ -42,7 +42,7 @@ class StageFourFlowTests(unittest.TestCase):
                 self.assertEqual(created[-1].player.health.current_hp,3)
                 self.assertTrue(created[-1].playing)
         with self.assertRaises(ValueError):
-            main._new_stage_game(15)
+            main._new_stage_game(16)
         self.assertTrue(main._new_stage_game(5).boss)
 
     def test_playing_n_and_r_do_not_restart_four(self):

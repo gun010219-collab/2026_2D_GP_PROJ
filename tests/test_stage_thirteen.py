@@ -114,15 +114,15 @@ class StageThirteenTests(unittest.TestCase):
         self.assertEqual(g.encounter.ledger.state(event),'cancelled');self.assertNotIn(event.key,g.encounter._attack_moves)
 
     def test_clear_third_offer_stops_combat_and_never_requests14(self):
-        f=at13();f.choose(clear(f),'hp',main._new_stage_game);g=f.game;g.advance(80);pending=g.encounter.ledger.pending;o=clear(f);before=state(f)
-        self.assertEqual((o.stage,len(f.run.receipts),f.run.current_stage),(14,3,14))
+        f=at13();f.choose(clear(f),'hp',main._new_stage_game);g=f.game;g.advance(80);pending=g.encounter.ledger.pending;oldledger=g.encounter.ledger;o=clear(f);self.assertTrue(g.upgrade_selection_enabled);f.choose(o,'attack',main._new_stage_game);g=f.game;finish(g,'clear');o=f.sync_offer();before=state(f)
+        self.assertIsNone(o);self.assertEqual((len(f.run.receipts),f.run.current_stage),(4,15))
         self.assertIs(f.sync_offer(),o);factory=Mock()
         for kind in ('attack','hp','move'):
-            with self.assertRaisesRegex(ValueError,'Stage 15 is not available'):f.choose(o,kind,factory)
+            with self.assertRaises(ValueError):f.choose(o,kind,factory)
         factory.assert_not_called();g.advance(1000)
         self.assertEqual(state(f),before)
-        for event in pending:self.assertEqual(g.encounter.ledger.state(event),'cancelled')
-        self.assertIsNone(g.restart_stage_number);self.assertIsNone(g.next_stage_number)
+        for event in pending:self.assertEqual(oldledger.state(event),'cancelled')
+        self.assertEqual(g.restart_stage_number,15);self.assertIsNone(g.next_stage_number)
 
     def test_game_over_resets_entry_stats_and_old_attacks(self):
         f=at13();old=f.game;oldrun=f.run;old.advance(80);events=old.encounter.ledger.pending

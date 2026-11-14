@@ -105,18 +105,13 @@ class StageFourteenTests(unittest.TestCase):
             if ev:self.assertEqual(g.encounter.ledger.state(ev),'cancelled');self.assertNotIn(ev.key,g.encounter._attack_moves)
 
     def test_fourth_offer_is_held_before_factory_and_render(self):
-        from upgrade_renderer import UpgradeRenderer
-        f=at14();o=clear(f);before=state(f);factory=Mock()
-        self.assertEqual((f.run.current_stage,len(f.run.receipts),o.stage),(14,3,14))
-        self.assertIs(f.sync_offer(),o)
-        for kind in ('attack','hp','move'):
-            with self.assertRaisesRegex(ValueError,'Stage 15 is not available'):f.choose(o,kind,factory)
-        factory.assert_not_called();f.game.advance(999);self.assertEqual(state(f),before)
-        with patch.object(UpgradeRenderer,'_text') as text:UpgradeRenderer().draw(Mock(),f.game,o,error=True)
-        labels=[c.args[1] for c in text.call_args_list]
-        self.assertIn('STAGE 15 NOT AVAILABLE',labels);self.assertIn('UPGRADE ON HOLD',labels)
-        self.assertFalse(any('TRY AGAIN' in s for s in labels))
-        self.assertIsNone(f.game.next_stage_number);self.assertIsNone(f.game.restart_stage_number)
+        f=at14();o=clear(f);self.assertTrue(f.game.upgrade_selection_enabled)
+        g,_=f.choose(o,'attack',main._new_stage_game)
+        self.assertEqual((g.stage_number,len(f.run.receipts)),(15,4))
+        finish(g,'clear');factory=Mock();before=state(f)
+        self.assertIsNone(f.sync_offer())
+        with self.assertRaises(ValueError):f.enter_next_chapter(factory)
+        factory.assert_not_called();self.assertEqual(state(f),before)
 
     def test_death_restarts11_entry_stats_and_rejects_old_events(self):
         f=at14();old=f.game;r=f.run;old.advance(80);events=old.encounter.ledger.pending

@@ -551,3 +551,17 @@ Stage14 GAME_OVER R은 새 Chapter3 Run의 Stage11로 복귀하여 entry_attack_
 Stage15~25, Stage15 보스전, Chapter4 진입, 저장·해금, 새 아트/음향은 미구현이다. 이전 경계 기록은 당시 이력으로 보존한다.
 사용자가 직접 Windows 11에서 GUI30/30을 검증했다. 실패0·확인 불가0·미검수0, 추가 오류·의견 없음.
 최종 자동 재검수 성공 후 지정23개 파일의 한국어 커밋·기존main 일반 Push가 승인되었다. 실제 Git 결과는 최종 보고에서 확인한다.
+
+## Task 2-E — Stage15 구현 결과
+
+Stage1~15를 실제 실행하며 Stage16~25와 Chapter4 진입은 차단한다.
+Stage14 네 번째 강화를 선택하면 동일 Chapter3 Run에서 Receipt3→4, current_stage14→15가 된다. 기존 Offer/Receipt 인증·후보 검증·입력 준비 후 소비 순서를 보존한다.
+Stage15는 원본 King/Queen/Rook/Pawn/Pawn, spawn(5,1), 지연48/62/75/88/101틱, 런타임 HP60/14/12/7/7이다. 원본 JSON boss_hp12는 보존한다.
+KingPulse는 기존 AI/시계/원장을 재사용한다. 후보 전투와 StageGame 생성에서 실제 King1기, Pulse의 Encounter 및 King 객체 참조를 추가 인증한다.
+Queen/Rook/Pawn 공격 종료와 이동계획 정리 후 Pulse를 발급하고, 일반 적 타이머와 Queen 교대 상태를 정지·복원한다. 전투 수치는 변경하지 않는다.
+King 선처치 후 남은 적 전투는 지속된다. Player생존·적5기 전멸만 BOSS_CLEAR이며 새 Offer를 발급하지 않는다.
+BOSS_CLEAR R은 동일 Run/Build/Receipt4·새 Stage15/KingHP60/Pulse로 재플레이한다. GAME_OVER R은 새 Chapter3 Run/Stage11, entry_attack_level·HP3/MOVE18/Receipt0으로 복원한다.
+Stage15 next_stage_number는 None이며 Chapter4 N·Stage16 Factory·Run 생성을 차단한다. Stage5/10의 기존 N 전환은 유지한다.
+Stage16~25/저장·영구해금/최종 아트·음향·보스별 새 패턴은 미구현이다. Chapter1~3 스테이지 연결과 전체 최종작품 완성은 구분한다.
+사용자가 실제 Windows 11 게임에서 GUI30/30을 직접 검수했다. 실패0·확인 불가0·미검수0, 기능 오류 보고 없음.
+움직임 끊김 체감과180FPS 개선 요청은 Task2-F 후속 요구로 추적한다. 최종 검수 성공 후 지정25개 한국어 커밋·기존main 일반 Push가 승인되었다. 실제 Git 결과는 최종 보고에서 확인한다.

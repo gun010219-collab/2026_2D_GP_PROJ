@@ -1,5 +1,126 @@
 # CHECKMATE 개발 진행 기록
 
+## Task 2-E — Stage15 세 번째 King 보스전 (사용자 Windows GUI30/30 통과)
+
+시작 HEAD/origin/main: `1001d97801858c7f585ef5b95e985b6a3672e942`, main 작업 트리/인덱스 깨끗함.
+
+Stage1~15를 실제 실행하며 Stage16~25와 Chapter4 진입은 차단한다.
+Stage14 네 번째 강화를 선택하면 동일 Chapter3 Run에서 Receipt3→4, current_stage14→15가 된다. 기존 Offer/Receipt 인증·후보 검증·입력 준비 후 소비 순서를 보존한다.
+Stage15는 원본 King/Queen/Rook/Pawn/Pawn, spawn(5,1), 지연48/62/75/88/101틱, 런타임 HP60/14/12/7/7이다. 원본 JSON boss_hp12는 보존한다.
+KingPulse는 기존 AI/시계/원장을 재사용한다. 후보 전투와 StageGame 생성에서 실제 King1기, Pulse의 Encounter 및 King 객체 참조를 추가 인증한다.
+Queen/Rook/Pawn 공격 종료와 이동계획 정리 후 Pulse를 발급하고, 일반 적 타이머와 Queen 교대 상태를 정지·복원한다. 전투 수치는 변경하지 않는다.
+King 선처치 후 남은 적 전투는 지속된다. Player생존·적5기 전멸만 BOSS_CLEAR이며 새 Offer를 발급하지 않는다.
+BOSS_CLEAR R은 동일 Run/Build/Receipt4·새 Stage15/KingHP60/Pulse로 재플레이한다. GAME_OVER R은 새 Chapter3 Run/Stage11, entry_attack_level·HP3/MOVE18/Receipt0으로 복원한다.
+Stage15 next_stage_number는 None이며 Chapter4 N·Stage16 Factory·Run 생성을 차단한다. Stage5/10의 기존 N 전환은 유지한다.
+Stage16~25/저장·영구해금/최종 아트·음향·보스별 새 패턴은 미구현이다. Chapter1~3 스테이지 연결과 전체 최종작품 완성은 구분한다.
+사용자가 실제 Windows 11 게임에서 GUI30/30을 직접 검수했다. 실패0·확인 불가0·미검수0, 기능 오류 보고 없음.
+움직임 끊김 체감과180FPS 개선 요청은 Task2-F 후속 요구로 추적한다. 최종 검수 성공 후 지정25개 한국어 커밋·기존main 일반 Push가 승인되었다. 실제 Git 결과는 최종 보고에서 확인한다.
+
+기능 변경: game.py 지원 범위/생성 소유권, main.py 오류 안내, stage_progression.py 후보 Pulse 참조 인증.
+기존 Queen/KingPulse/적AI/전투수치/입력/렌더러/밸런스 드라이버는 무변경이다. 과거 미지원 기록을 삭제하지 않는다.
+신규 테스트는 정확한 데이터, 강화3종/MAX/위조·후보실패/재시도, Pulse/Queen 패링 구분, 정지·복원/사망, 보스R와GAME_OVER R, N 차단, 결정성, 실제4빌드 전투를 검증한다.
+Queen 단독 타이밍은 다른 적 예약을 늦춘 fixture, 반사 사망은 King잔여HP2 fixture다. 이는 실제4빌드 클리어와 구분한다.
+SDL은 실제 main 숫자/마우스 네 번째 강화와 Pulse퍼펙트를 사용한 뒤 전멸/사망 fixture로 BOSS_CLEAR/N차단/R재플레이 또는 Stage11 복원을 검사한다. 전멸 fixture를 실제 처치로 주장하지 않는다.
+- 전체 `.\.venv\Scripts\python.exe -m unittest discover -s tests -v`: **1066개 통과, 53.795초, 실패0·오류0·skip0**.
+- 기준 SHA AST: 기존1052개 전부 보존·삭제0·신규14개(순수13/네이티브SDL1). 기존 경계 목적은 Stage16 차단 및 보스 Offer없음/N차단으로 갱신했다.
+- 일반/-O validator 각각25개 통과. SDL dummy/네이티브 main 및 Queen preview 회귀·동일 프레임 입력·포커스/설정·종료·1틱/8틱 결정성 통과.
+- 기존56개 실제 전투 재실행, 576개 기록값 일치. 신규Stage15 4/4 BOSS_CLEAR, 공격형511/생존형951/회피형566/균형형566틱. 기존 측정표/드라이버 무변경.
+- 변경 Python20개 문법/import, 순수전투 SDL/Pico2D 독립성, 문서 내부링크53개, Git공백 및 신규 미추적 파일의 줄끝/파일끝 빈줄 검사 통과.
+- 원본 JSON/validator/AI/KingPulse/전투수치/성장/HP/에셋/측정표와 이전Task 이력을 보존했다.
+- 초기 검사의 잘못된 boss fixture·렌더러 패치 및 SDL replay 종료 조건을 테스트에서 수정했다. 새 Pulse 참조 인증 외 전투 AI/수치 변경은 없다. [Stage15 실측](BALANCE_STAGE15.md)을 따른다.
+
+### 최종 자동 재검수 — 사용자 GUI 이후
+
+- 전체 unittest 직접 재실행: **1066개, 54.130초, 실패0·오류0·skip0**. 이전 구현 단계53.795초와 별개 결과다.
+- 기준 SHA AST 비교: 기존1052개 전부 보존·삭제0, 신규14개(순수13·네이티브SDL1). Stage16~25 차단 및 보스 소유권·Offer없음·N차단 목적을 유지한다.
+- 일반/-O validator 각각25개 통과. SDL dummy/네이티브 실제main, Pulse퍼펙트, 보스R/GAME_OVER R, Queen preview, 설정/포커스/종료 및1틱/8틱 결정성 통과.
+- 기존56개 실제 전투 재실행56/56, 576개 기록값 일치. 신규Stage15 4/4 BOSS_CLEAR·44개 필드도 전부 일치했다. 기존 측정표는 변경하지 않았다.
+- Stage15 attack/survival/evasion/balanced: 완료511/951/566/566틱, 피격0/1/0/0, 적중10/24/14/14, perfect2/5/2/2, 남은HP3/5/3/4.
+- 변경Python20개 문법/import·SDL독립성·문서링크53개·전체 신규/수정 파일 줄끝/파일끝 공백·Git공백 검사 및 원본 JSON/validator/AI/KingPulse/성장/HP/드라이버/에셋/과거 이력 보존을 확인했다.
+- 시작 HEAD/origin은 기준 SHA, 수정22개·신규3개·인덱스 비어 있음이었다. 이번 검수에서는 GUI/후속목표 및 재실행 결과 문서만 갱신했다.
+- 모든 게이트 성공 후 지정25개 파일만 커밋·일반 Push한다. 아직 수행 전인 Git 반영을 완료로 기록하지 않는다.
+
+### 실제 변경 파일 — 수정22·신규3, 총25개
+
+- docs/BALANCE_STAGE15.md
+- docs/CHAPTER_EXPANSION_DESIGN.md
+- docs/DECISIONS.md
+- docs/GAME_DESIGN.md
+- docs/PROGRESS.md
+- game.py
+- main.py
+- stage_progression.py
+- tests/test_chapter_run.py
+- tests/test_chapter_three_sdl.py
+- tests/test_chapter_two_entry.py
+- tests/test_chapter_two_stages.py
+- tests/test_combat_balance.py
+- tests/test_king_combat.py
+- tests/test_queen.py
+- tests/test_stage_eleven_twelve.py
+- tests/test_stage_fifteen.py
+- tests/test_stage_fifteen_sdl.py
+- tests/test_stage_five.py
+- tests/test_stage_four.py
+- tests/test_stage_fourteen.py
+- tests/test_stage_six.py
+- tests/test_stage_thirteen.py
+- tests/test_stage_three.py
+- tests/test_stage_transition.py
+
+### 사용자 직접 Windows GUI30/30 — 전부 통과
+
+`.\.venv\Scripts\python.exe main.py` 실행하여 사용자가 실제 Windows 11에서 아래30개 항목을 직접 검수했다.
+숫자/마우스와 보스R/GAME_OVER R은 별도 플레이에서 확인한다. 정확한 틱·원장 내부 상태는 자동검사 근거다.
+
+1. Stage10 BOSS CLEAR — 통과
+2. N→Stage11 얼음 테마 — 통과
+3. Stage11 클리어·첫 강화 — 통과
+4. Stage12 클리어·두 번째 강화 — 통과
+5. Stage13 Queen 혼합 전투 — 통과
+6. Stage13 클리어·세 번째 강화 — 통과
+7. Stage14 혼합 전투 — 통과
+8. Stage14 클리어 UPGRADE — 통과
+9. STAGE15 NOT AVAILABLE 안내 제거 — 통과
+10. 네 번째 강화 숫자키 선택 — 통과
+11. 네 번째 강화 마우스 선택 (별도 플레이) — 통과
+12. Stage15 진입·얼음 테마 — 통과
+13. King1기 HP60 — 통과
+14. Queen HP14·네 대각선 광선 — 통과
+15. Rook HP12·Pawn2기 HP7 — 통과
+16. King 근접 경고·피해 — 통과
+17. Queen/Rook/Pawn 혼합 공격 — 통과
+18. Pulse DRAINING 공격 완료 대기 — 통과
+19. Pulse100칸·120틱 예고 — 통과
+20. Pulse 중 일반 적 행동 정지 — 통과
+21. Pulse 종료 후 AI 정상 재개 — 통과
+22. 일반 패링 — 통과
+23. Queen 퍼펙트·King 반사0 — 통과
+24. Pulse 퍼펙트·King 반사2 — 통과
+25. 피격 무적·중복 피해 차단 — 통과
+26. King 선처치 후 전투 지속 — 통과
+27. 전체5기 전멸 BOSS CLEAR·Offer 없음 — 통과
+28. Chapter4 N 차단·R Stage15 재플레이 — 통과
+29. GAME_OVER R→Stage11·진입 공격력 복원 — 통과
+30. SETTINGS/F11/포커스/레터박스/ESC/X·유령 입력 없음 — 통과
+
+사용자 GUI는 unittest·SDL·정수틱·자동 전투와 별개 근거다. 장기 밸런스·모든하드웨어 성능은 미검증이다.
+이번 최종 검수에서 기능 코드·테스트는 추가 수정하지 않았다. 동일 GUI 재검증은 필요하지 않다.
+예정 메시지: `feat: 챕터 3 15스테이지 킹 보스전 및 펄스 혼합 전투 구현`. 다음 우선 작업은 Task2-F 공통180FPS 목표 렌더링·시각 보간이며, Chapter4 진입/Stage16은 별도 콘텐츠 승인 범위다.
+
+### Task2-F 후속 승인 목표 — 미구현
+
+사용자 의견: "움직임이 조금 끊기는 느낌이 있다. 기존 개발 내용과 앞으로 개발할 내용 전체를 180프레임에 맞추고 싶다."
+Task2-E GUI30/30 기능 통과와 별개인 개선 의견이며 삭제하거나 오류 없음으로 대체하지 않는다.
+기존 Stage1~15와 향후 Stage16~25에 공통으로 최대180FPS 목표 렌더링을 적용할 예정이다.
+전투는 기존60Hz 고정 틱을 유지하며 프레임 제한과 전투 누적기를 분리한다. FIXED_TIME_STEP을1/180로 바꾸지 않는다.
+Player/적 격자 이동의 시각 보간은 표시 전용이며 충돌·공격·패링·무적·KingPulse·Queen 정수 틱 판정을 바꾸지 않는다.
+현재 config.FIXED_TIME_STEP=1/60, main.run_session의 sleep은 이 값으로 제한되고 player_renderer는 실제 격자 좌표를cell_center로 바로 표시한다.
+후속 작업은 FPS/프레임시간 계측, pause/포커스/F11 누적 초기화, VSync/모니터주사율 영향, 낮은 성능 PC의 제한 정책과 하드웨어별 실측을 포함한다.
+Stage1~15 전체 회귀·기존 자동 전투 기록 보존·새 Windows GUI 검수를 수행한다. 실제 측정 전180FPS 도달을 보장하지 않는다.
+이번 Task2-E에서는 렌더링/보간/FPS 관련 기능 코드를 변경하지 않았다. Task2-F는 현재 완료 기능이 아니다.
+
+
 ## Task 2-D — Stage14 실전 (사용자 Windows GUI30/30 통과)
 
 시작 HEAD/origin/main은 `11833e7c9aa38d3f6715ae2c3e01baa2e87efe7a`, main 작업 트리·인덱스는 깨끗했다.

@@ -20,6 +20,7 @@ from upgrades import ChapterBuild
 from upgrade_renderer import UpgradeRenderer
 from tests.test_chapter_three_entry import entered_three, state
 from tests.test_upgrade_flow import clear
+from tests.test_stage_transition import finish
 
 
 class StageElevenTwelveTests(unittest.TestCase):
@@ -104,24 +105,22 @@ class StageElevenTwelveTests(unittest.TestCase):
         f=entered_three();f.choose(clear(f),'attack',main._new_stage_game)
         f.choose(clear(f),'hp',main._new_stage_game)
         f.choose(clear(f),'attack',main._new_stage_game)
-        o=clear(f);before=state(f);factory=Mock();prepare=Mock()
+        o=clear(f);f.choose(o,'attack',main._new_stage_game);finish(f.game,'clear');o=f.sync_offer();before=state(f);factory=Mock();prepare=Mock()
         with patch.object(f.run,'select',wraps=f.run.select) as select:
             for kind in ('attack','hp','move'):
-                with self.assertRaisesRegex(ValueError,'Stage 15 is not available'):
+                with self.assertRaises(ValueError):
                     f.choose(o,kind,factory,prepare)
             select.assert_not_called()
         factory.assert_not_called();prepare.assert_not_called()
         self.assertEqual(state(f),before)
 
     def test_boundary_renderer_explains_hold_without_retry_or_card_prompts(self):
-        f=entered_three();f.choose(clear(f),'hp',main._new_stage_game);f.choose(clear(f),'hp',main._new_stage_game);f.choose(clear(f),'attack',main._new_stage_game);o=clear(f)
-        before=state(f)
-        with patch.object(UpgradeRenderer,'_text') as text:
-            UpgradeRenderer().draw(Mock(),f.game,o,error=True)
+        from game_renderer import GameFlowRenderer
+        from tests.test_stage_fourteen import at14
+        f=at14();f.choose(clear(f),'attack',main._new_stage_game);finish(f.game,'clear');before=state(f)
+        with patch.object(HealthRenderer,'_text') as text:GameFlowRenderer().draw(Mock(),f.game)
         labels=[c.args[1] for c in text.call_args_list]
-        for label in ('UPGRADE','STAGE 14 CLEAR','STAGE 15 NOT AVAILABLE','UPGRADE ON HOLD'):
-            self.assertIn(label,labels)
-        self.assertFalse(any('TRY AGAIN' in s or 'CHOOSE ONE' in s or 'N TO' in s for s in labels))
+        self.assertIn('BOSS CLEAR',labels);self.assertFalse(any('N TO' in s for s in labels))
         self.assertEqual(state(f),before)
 
     def test_boss_next_chapter_prompts_are_dynamic(self):
@@ -139,7 +138,7 @@ class StageElevenTwelveTests(unittest.TestCase):
         commands=b._commands;b.draw(Mock());self.assertIs(b._commands,commands)
 
     def test_stage13_through25_and_queen_factory_still_rejected(self):
-        for n in range(15,26):
+        for n in range(16,26):
             with self.assertRaises(ValueError):main._new_stage_game(n)
         enemies=create_stage_enemies(StageCatalog.load().get_stage(13),profile=profile_for(3))
         self.assertTrue(any(e.kind=='queen' and e.health.max_hp==14 for e in enemies))

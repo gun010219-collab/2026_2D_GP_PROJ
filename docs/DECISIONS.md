@@ -1,5 +1,32 @@
 # CHECKMATE 승인 결정
 
+## Task 2-E — Stage15 King 보스전
+
+Stage1~15를 실제 실행하며 Stage16~25와 Chapter4 진입은 차단한다.
+Stage14 네 번째 강화를 선택하면 동일 Chapter3 Run에서 Receipt3→4, current_stage14→15가 된다. 기존 Offer/Receipt 인증·후보 검증·입력 준비 후 소비 순서를 보존한다.
+Stage15는 원본 King/Queen/Rook/Pawn/Pawn, spawn(5,1), 지연48/62/75/88/101틱, 런타임 HP60/14/12/7/7이다. 원본 JSON boss_hp12는 보존한다.
+KingPulse는 기존 AI/시계/원장을 재사용한다. 후보 전투와 StageGame 생성에서 실제 King1기, Pulse의 Encounter 및 King 객체 참조를 추가 인증한다.
+Queen/Rook/Pawn 공격 종료와 이동계획 정리 후 Pulse를 발급하고, 일반 적 타이머와 Queen 교대 상태를 정지·복원한다. 전투 수치는 변경하지 않는다.
+King 선처치 후 남은 적 전투는 지속된다. Player생존·적5기 전멸만 BOSS_CLEAR이며 새 Offer를 발급하지 않는다.
+BOSS_CLEAR R은 동일 Run/Build/Receipt4·새 Stage15/KingHP60/Pulse로 재플레이한다. GAME_OVER R은 새 Chapter3 Run/Stage11, entry_attack_level·HP3/MOVE18/Receipt0으로 복원한다.
+Stage15 next_stage_number는 None이며 Chapter4 N·Stage16 Factory·Run 생성을 차단한다. Stage5/10의 기존 N 전환은 유지한다.
+Stage16~25/저장·영구해금/최종 아트·음향·보스별 새 패턴은 미구현이다. Chapter1~3 스테이지 연결과 전체 최종작품 완성은 구분한다.
+사용자가 실제 Windows 11 게임에서 GUI30/30을 직접 검수했다. 실패0·확인 불가0·미검수0, 기능 오류 보고 없음.
+움직임 끊김 체감과180FPS 개선 요청은 Task2-F 후속 요구로 추적한다. 최종 검수 성공 후 지정25개 한국어 커밋·기존main 일반 Push가 승인되었다. 실제 Git 결과는 최종 보고에서 확인한다.
+
+### Task2-F 후속 승인 목표 — 미구현
+
+사용자 의견: "움직임이 조금 끊기는 느낌이 있다. 기존 개발 내용과 앞으로 개발할 내용 전체를 180프레임에 맞추고 싶다."
+Task2-E GUI30/30 기능 통과와 별개인 개선 의견이며 삭제하거나 오류 없음으로 대체하지 않는다.
+기존 Stage1~15와 향후 Stage16~25에 공통으로 최대180FPS 목표 렌더링을 적용할 예정이다.
+전투는 기존60Hz 고정 틱을 유지하며 프레임 제한과 전투 누적기를 분리한다. FIXED_TIME_STEP을1/180로 바꾸지 않는다.
+Player/적 격자 이동의 시각 보간은 표시 전용이며 충돌·공격·패링·무적·KingPulse·Queen 정수 틱 판정을 바꾸지 않는다.
+현재 config.FIXED_TIME_STEP=1/60, main.run_session의 sleep은 이 값으로 제한되고 player_renderer는 실제 격자 좌표를cell_center로 바로 표시한다.
+후속 작업은 FPS/프레임시간 계측, pause/포커스/F11 누적 초기화, VSync/모니터주사율 영향, 낮은 성능 PC의 제한 정책과 하드웨어별 실측을 포함한다.
+Stage1~15 전체 회귀·기존 자동 전투 기록 보존·새 Windows GUI 검수를 수행한다. 실제 측정 전180FPS 도달을 보장하지 않는다.
+이번 Task2-E에서는 렌더링/보간/FPS 관련 기능 코드를 변경하지 않았다. Task2-F는 현재 완료 기능이 아니다.
+
+
 ## Task 2-D — Stage14 실전 및 Stage15 개발 경계
 
 Stage1~14만 실제 실행한다. Stage13 정상 UPGRADE의 세 번째 Offer를 선택하면 동일 Chapter3 Run에서 Receipt2→3, current_stage13→14로 진행한다.

@@ -68,6 +68,10 @@ class StageProgression:
         g = candidate
         if (not isinstance(g, StageGame) or g is self.game or g.stage_number != number
                 or g.chapter != d.chapter or g.boss != d.boss or not g.playing
+                or (g.encounter.pulse is not None) != d.boss
+                or (d.boss and (len([e for e in g.encounter.enemies if e.kind == 'king']) != 1
+                    or g.encounter.pulse.encounter is not g.encounter
+                    or g.encounter.pulse.king is not next(e for e in g.encounter.enemies if e.kind == 'king')))
                 or g.resolver.player is not g.player or g.resolver.combat is not g.combat
                 or g.resolver.parry is not g.parry or g.resolver.encounter is not g.encounter
                 or g.transition_count != 0 or g.end_tick is not None
