@@ -155,10 +155,10 @@ class StageEighteenTests(unittest.TestCase):
         g.player.health.apply_damage(3,tick=0);g.update_state();self.assertEqual(g.state,GameState.GAME_OVER)
 
     def test_third_offer_holds_without_factory_and_restart_restores_entry(self):
-        f=at18();g=f.game;g.advance(100);events=g.encounter.ledger.pending;o=clear(f);before=state(f);factory=Mock()
-        self.assertEqual((o.stage,f.run.current_stage,len(f.run.receipts)),(18,18,2));self.assertIs(f.sync_offer(),o)
+        f=at18();f.choose(clear(f),'hp',main._new_stage_game);g=f.game;g.advance(100);events=g.encounter.ledger.pending;o=clear(f);before=state(f);factory=Mock()
+        self.assertEqual((o.stage,f.run.current_stage,len(f.run.receipts)),(19,19,3));self.assertIs(f.sync_offer(),o)
         for kind in ('attack','hp','move'):
-            with self.assertRaisesRegex(ValueError,'Stage 19 is not available'):f.choose(o,kind,factory)
+            with self.assertRaisesRegex(ValueError,'Stage 20 is not available'):f.choose(o,kind,factory)
         factory.assert_not_called();g.advance(100);self.assertEqual(state(f),before)
         for ev in events:self.assertEqual(g.encounter.ledger.state(ev),'cancelled')
         f=at18();old=f.game;run=f.run;old.advance(100);events=old.encounter.ledger.pending

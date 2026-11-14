@@ -63,3 +63,6 @@ class ChapterFourSDLTests(unittest.TestCase):
 
     def test_native_second_mouse_upgrade18_death_returns16(self):
         existing.ChapterThreeSDLTests().native_path('stage18death')
+
+    def test_native_third_mouse_upgrade19_death_returns16(self):
+        existing.ChapterThreeSDLTests().native_path('stage19death')

@@ -634,3 +634,30 @@ Stage19~25·Stage20네번째보스·Chapter5실행·영구저장/해금·최종�
 - **Stage20 완료 후 Stage1~20 연속 플레이로 전체 난이도를 평가한다.** 현재 무단 수치 조정은 하지 않는다.
 - Stage20보스/Chapter5/최종아트·음향/영구저장·해금은 미구현이다. 초기Queen(4,7)은31칸이며 실제공격은재배치원점기준이다.
 - 최종 자동검증이 모두 통과하면 Task3-C 지정26개만 기존main에 일반커밋·Push한다. 실제Git 결과는 작업후 최종보고에서확정한다.
+
+## Task 3-D — Chapter4 네번째 일반전 Stage19
+
+실제 실행은 Stage1~19 지원·Stage20~25 차단이다. Stage18 정상UPGRADE·적6기전멸·생존·Resolver정지·현재Run/Offer/Receipt2개의순서·소유권을인증한뒤세번째ATTACK/HP/MOVE를선택한다. 후보생성·원본편성/HP/ID/세션/원장검증·입력준비성공후에만Receipt3개째를확정해동일Chapter4Run Stage19로진행한다. 새최대HP회복·새객체/Health/ID/원장/입력/보간세션을사용한다. Factory/입력/후보오류·위조/복제/외부/오래된Offer·타RunReceipt·MAX·중복요청실패는기존Stage18/Build/Offer/Receipt2를보존하고재시도한다.
+Stage19 원본순서: Queen(4,7)HP18, Knight(3,6)HP13, Knight(6,6)HP13, Rook(2,4)HP16, Rook(7,4)HP16, Bishop(2,8)HP13, Pawn(1,6)HP10. 총7기·HP99·Chapter4·비보스·King/Pulse없음·spawn(5,1)·Pawn forward(0,-1)이다. 각s19_* 원본ID/순서/좌표/지연을보존한다.
+지연은48/62/75/88/101/114/**128틱**이다. 지시서127틱은2.12×60=127.2를정수틱으로올리는기존_duration_ticks()와다르다. 원본2.12초/기존올림계약을유지해128틱으로검증한다. 원본JSON/수치변경없음.
+Queen은48틱재배치→49틱발급→121틱판정(72틱예고/180회복),8방향끝까지관통·불변논리셀스냅샷·충전/발사/잔광을유지한다. 초기(4,7)31칸과재배치후실제원점을구분한다. Knight2기·Rook2기·Bishop짝수50칸(108예고/240회복)·Pawn의기존AI/점유/패링/소스기절/보너스/사망취소·공유48틱무적/원장단일소비를재사용한다. 새패턴·상태이상·용암피해·이동제약없음.
+원본정지Player관찰에서Knight는62→98/75→111틱발급/적중으로서로다른L자착지(5,5)/(5,4)를사용했다. 이값은이번관찰/고정입력검증이며다른입력·점유에서강제하는AI시간표가아니다. Queen121/Rook208적중뒤Rook221/Bishop222는공유무적으로차단됐다. Bishop판정분리fixture는다른소스예약을늦추며실제7기전투측정과구분한다.
+Stage19전체7기전멸·Player생존은UPGRADE·네번째Offer(stage19)를발급한다. Receipt3/current_stage19/Offer동일성을보존하며 STAGE 20 NOT AVAILABLE / UPGRADE ON HOLD를표시한다. 숫자/마우스/N/R로Stage20생성·Receipt4소비불가,미완료공격취소·전투시간정지다. 동시Player/마지막적사망은GAME_OVER우선이다.
+Stage19 GAME_OVER R은새Chapter4Run Stage16·진입공격력·HP3/MOVE18/Receipt0으로복원한다. 이전3강화/보류Offer/공격/패링/무적/기절/입력/표시잔상은이월하지않는다. Stage15보스R와Chapter1~3재시작을보존한다.
+Obsidian Caldera/1440×900/840×840/타일84/원점(300,30)·설정/F11/ESC·X/포커스/좌표/표시보간·60Hz/독립180FPS목표를보존한다. Stage20보스/Stage21~25/Chapter5/영구저장·해금/최종아트·음향은미구현이다.
+Stage16쉬움·Stage17비슷함의견을보존한다. **Stage20완료후Stage1~20연속플레이로전체난이도를평가한다.** 이번에AI/HP/공격시간/강화수치를조정하지않는다. Task3-D사용자WindowsGUI는대기이며git add/commit/push미실시다.
+
+### Task3-D 사용자 Windows GUI 최종 승인
+
+사용자가 실제 Windows 11 게임에서 직접 검수했다.
+
+- STEP1 Stage18→19 강화 및 진입: **10/10 통과**.
+- STEP2 Stage19 고밀도7기 혼합 전투: **12/12 통과**.
+- STEP3 클리어·개발경계·재시작·성능: **8/8 통과**.
+- 전체 **30/30 통과,실패0·확인불가0·미검수0**. Queen8방향/Knight2/Rook2/Bishop/Pawn 혼합·패링·공격/점유에서 기능 오류 보고 없음.
+- 네번째Offer보류·Stage20~25차단·GAME_OVER R→새Chapter4Run Stage16복원도 통과했다.
+- 60초 이상 Windows 실행 안정성 통과. 실제FPS/P95/P99는 제공받지 않아 임의수치를 기입하지 않는다. 기존짧은SDL dummy 계측과 구분한다.
+- GUI 이후 기능코드·테스트 수정0. Stage1~19실행·Stage20~25미지원·원본7기·HP/AI/강화값·2.12초Pawn128틱·기존측정표와개발이력을보존한다.
+- **Stage20 구현후 Stage1~20 연속 플레이로 전체난이도를 평가한다.** 이번최종화에서 전투수치를 조정하지 않는다.
+- Stage20보스/Stage21~25/영구저장·해금/Chapter5/최종아트·음향은 미구현이다.
+- 모든최종자동검증 성공후 지정27개만기존main에한국어일반커밋·Push한다. 실제Git SHA와원격반영은작업후최종보고에서확정한다.
