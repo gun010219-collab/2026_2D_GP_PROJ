@@ -62,8 +62,8 @@ class StageSixTests(unittest.TestCase):
         self.assertEqual(g.encounter.ledger.combat_session_id,g.combat.combat_session_id)
 
     def test_only_explicit_supported_stages_are_executable(self):
-        self.assertEqual(SUPPORTED_STAGES,frozenset(range(1,18)))
-        for n in (*range(18,26),0,26,-1):
+        self.assertEqual(SUPPORTED_STAGES,frozenset(range(1,19)))
+        for n in (*range(19,26),0,26,-1):
             with self.subTest(stage=n),self.assertRaises(ValueError):
                 main._new_stage_game(n)
         for n in (True,False,6.0,'6',None):

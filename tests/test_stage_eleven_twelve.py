@@ -138,7 +138,7 @@ class StageElevenTwelveTests(unittest.TestCase):
         commands=b._commands;b.draw(Mock());self.assertIs(b._commands,commands)
 
     def test_stage13_through25_and_queen_factory_still_rejected(self):
-        for n in range(18,26):
+        for n in range(19,26):
             with self.assertRaises(ValueError):main._new_stage_game(n)
         enemies=create_stage_enemies(StageCatalog.load().get_stage(13),profile=profile_for(3))
         self.assertTrue(any(e.kind=='queen' and e.health.max_hp==14 for e in enemies))

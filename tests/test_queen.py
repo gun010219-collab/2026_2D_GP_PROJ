@@ -224,5 +224,5 @@ class QueenTests(unittest.TestCase):
             EnemyRenderer().draw(Mock(),g.encounter.enemies)
             EnemyAttackRenderer().draw(Mock(),g.encounter.ledger)
         self.assertEqual(before,(q.position,e.target_cells,g.player.health.current_hp))
-        for n in range(18,26):
+        for n in range(19,26):
             with self.assertRaises(ValueError):main._new_stage_game(n)

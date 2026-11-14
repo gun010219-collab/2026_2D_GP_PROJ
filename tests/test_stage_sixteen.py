@@ -26,16 +26,16 @@ class StageSixteenTests(unittest.TestCase):
         self.assertNotEqual(board.theme,BoardRenderer(chapter=3).theme);board.draw(Mock())
 
     def test_clear_holds_first_offer_without_factory_or_retry_error(self):
-        f=entered_four();f.choose(clear(f),'attack',main._new_stage_game);g=f.game;g.advance(120);pending=g.encounter.ledger.pending;o=clear(f);before=state(f)
-        self.assertEqual((g.state,f.run.current_stage,len(f.run.receipts),o.stage),(GameState.UPGRADE,17,1,17))
+        f=entered_four();f.choose(clear(f),'attack',main._new_stage_game);f.choose(clear(f),'hp',main._new_stage_game);g=f.game;g.advance(120);pending=g.encounter.ledger.pending;o=clear(f);before=state(f)
+        self.assertEqual((g.state,f.run.current_stage,len(f.run.receipts),o.stage),(GameState.UPGRADE,18,2,18))
         self.assertIs(f.sync_offer(),o);factory=Mock()
         for kind in ('attack','hp','move'):
-            with self.assertRaisesRegex(ValueError,'Stage 18 is not available'):f.choose(o,kind,factory)
+            with self.assertRaisesRegex(ValueError,'Stage 19 is not available'):f.choose(o,kind,factory)
         factory.assert_not_called();g.advance(999);self.assertEqual(state(f),before)
         for ev in pending:self.assertEqual(g.encounter.ledger.state(ev),'cancelled')
         with patch.object(UpgradeRenderer,'_text') as text:UpgradeRenderer().draw(Mock(),g,o,error=True)
         labels=[c.args[1] for c in text.call_args_list]
-        self.assertIn('STAGE 18 NOT AVAILABLE',labels);self.assertIn('UPGRADE ON HOLD',labels)
+        self.assertIn('STAGE 19 NOT AVAILABLE',labels);self.assertIn('UPGRADE ON HOLD',labels)
         self.assertFalse(any('TRY AGAIN' in s for s in labels))
         self.assertIsNone(g.next_stage_number);self.assertIsNone(g.restart_stage_number)
 

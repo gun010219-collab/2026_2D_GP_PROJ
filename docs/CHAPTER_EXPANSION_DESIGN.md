@@ -605,3 +605,32 @@ Bishop (2,8)은 짝수50칸, (7,8)은 홀수50칸을 각각 고정 target_cells�
 원본6기 혼합 전투의 실제 Bishop156틱 피해 뒤 Rook195틱 공격은 공유48틱 무적으로 차단되고 208틱 공격은 적중한다. 이벤트 재전달은 다시 소비되지 않는다. 양쪽 Bishop의 회피/일반/퍼펙트 패링·실제 소스만 기절60틱·보너스+2·사망 취소를 검증한다.
 
 기존 Stage16 측정과 사용자 난이도 낮음 의견을 보존하고 Stage17 결과를 [Chapter4 밸런스](BALANCE_CHAPTER4.md)에 별도 추가한다. 실제 운영 수치는 바꾸지 않는다. Stage18~25·Stage20 보스·저장/해금은 미구현이며 최종25스테이지·5보스 목표를 유지한다. 사용자 Windows GUI30/30 승인을 수령했다. 최종 자동 재검증 성공 후 기존main 일반 커밋·Push로 확정하며 실제Git 결과는 최종보고에서 확인한다.
+
+## Task 3-C — Chapter4 세 번째 일반전 Stage18
+
+실제 지원은 Stage1~18이며 Stage19~25는 차단한다. Stage17 정상 클리어·생존·Resolver정지·현재Run/Offer/Receipt1개 인증 후 ATTACK/HP/MOVE 두 번째 강화를 허용한다. 동일 ChapterRun4·Receipt1→2·current_stage17→18·active_offer없음·선택stats/최대HP회복을 적용한다.
+기존 StageProgression.choose()의 후보 편성/HP/세션/원장 검증·입력 준비 후 Receipt 소비 순서를 재사용한다. Factory/입력/잘못된 후보/위조·복제·외부·과거Offer/Receipt/MAX/중복선택 실패는 기존Stage17 UPGRADE·Build·Offer·Receipt1·Run을 보존하고 재시도한다. 새Player/Health/Combat/Parry/Encounter/Resolver/Ledger/세션/StageID와 입력·보간 세션을 사용한다.
+Stage18 원본 순서는 Queen(4,7)HP18/Bishop(2,8)HP13/Rook(2,4)HP16/Rook(7,4)HP16/Pawn(1,6)HP10/Pawn(8,6)HP10, 총83이다. 원본ID s18_queen_1/s18_bishop_1/s18_rook_1/s18_rook_2/s18_pawn_1/s18_pawn_2·지연48/62/75/88/101/114틱·spawn(5,1)·Pawn forward(0,-1)을 유지한다. 비보스·King/Pulse없음·Obsidian Caldera 테마다.
+Queen 최초48틱 재배치,49틱 실제논리원점에서 광선 발급·121틱 적중(예고72/회복180)을 재사용한다. Bishop은62틱 발급·170틱 판정·50칸으로 경고가 공존한다. Queen8방향관통·점유무관·불변스냅샷·충전/발사/잔광·소스별패링/기절/보너스/사망취소를 유지한다. 원본 혼합 전투에서Queen121/Bishop170 피해 후Rook195 공격은 공유48틱무적으로 차단된다.
+지시서의 초기좌표(4,7) 32칸 예시는 실제기하와 다르다. 자신의 셀 제외한 N/NE/E/SE/S/SW/W/NW 길이2+2+5+5+7+4+4+2=31칸이다. 승인된8방향보드끝규칙을 유지해31칸으로 검증하며, 선행 재배치 후 실제공격은 새원점 기준으로 검증한다. 공격범위코드는 변경하지 않았다.
+Stage18 전체6기 사망·Player생존은 UPGRADE·세 번째Offer(stage18)를 발급한다. Receipt2/current_stage18/Offer동일성을 보존하며 STAGE 19 NOT AVAILABLE / UPGRADE ON HOLD로 선택을 보류한다. 숫자·마우스·R/N으로Stage19 생성/Receipt3소비를 금지한다.
+Stage18 GAME_OVER R은 새Chapter4Run·Stage16·진입공격력·HP3/MOVE18/Receipt0으로 복원한다. 이전두강화/이벤트/패링/보너스/무적/기절/입력/표시잔상은 이월하지 않는다. 기존Stage15보스R/Chapter1~3와Queen/Pulse를 보존한다.
+60Hz/최대180FPS목표/표시전용보간/1440×900·840×840·84px·원점(300,30)/설정/F11/레터박스/입력계약을 유지한다. 새용암피해/상태이상/패턴/엔진은 추가하지 않는다.
+Stage16은쉬웠고Stage17은비슷했다는 사용자평가를 보존한다. **Stage20 구현후 Stage1~20 연속플레이로 전체난이도를 평가한다.** 현재HP/AI/공격주기/강화수치를 조정하지 않는다.
+Stage19~25·Stage20네번째보스·Chapter5실행·영구저장/해금·최종아트/음향은 미구현이다. 최종5챕터/25스테이지/5보스목표를 유지한다. 이번Task3-C 사용자WindowsGUI는 미검증이며 git add/commit/push하지 않는다.
+
+### Task3-C 사용자 Windows GUI 최종 승인
+
+사용자가 실제 Windows 11 게임에서 직접 검수했다.
+
+- STEP1 Stage17→18 강화 및 진입: **10/10 통과**.
+- STEP2 Stage18 Queen 혼합 전투: **12/12 통과**.
+- STEP3 클리어·재시작·성능: **8/8 통과**.
+- 전체 **30/30 통과,실패0·확인불가0·미검수0**, 기능 오류 보고 없음.
+- Queen8방향 충전/발사/잔광·Bishop/Rook/Pawn 혼합·패링·Stage19 경계·Chapter4 재시작을 승인했다.
+- 60초 이상 Windows 안정성도 통과했다. 실제 평균FPS/P95/P99는 제공받지 않아 임의수치를 기입하지 않는다. 기존 SDL dummy 계측과 별도 근거다.
+- GUI 승인 이후 기능 코드·테스트 수정0. 전투수치·원본JSON·기존AI·성장·HP와 과거기록을 보존한다.
+- Stage1~18 지원·Stage19~25 미지원·Stage18 세 번째Offer 보류·GAME_OVER R→16을 유지한다.
+- **Stage20 완료 후 Stage1~20 연속 플레이로 전체 난이도를 평가한다.** 현재 무단 수치 조정은 하지 않는다.
+- Stage20보스/Chapter5/최종아트·음향/영구저장·해금은 미구현이다. 초기Queen(4,7)은31칸이며 실제공격은재배치원점기준이다.
+- 최종 자동검증이 모두 통과하면 Task3-C 지정26개만 기존main에 일반커밋·Push한다. 실제Git 결과는 작업후 최종보고에서확정한다.
