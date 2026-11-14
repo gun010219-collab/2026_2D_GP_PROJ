@@ -94,7 +94,7 @@ class ChapterThreeSDLTests(unittest.TestCase):
                     else:click(450,500)
                 elif phase[0]==3:
                     tap(s.SDLK_1)
-                elif g.stage_number==13 and g.playing and g.combat.tick==49:tap(s.SDLK_RIGHT)
+                elif g.stage_number==13 and g.playing and g.combat.tick==49:tap(s.SDLK_UP)
                 elif g.stage_number==13 and g.playing and g.combat.tick==67:tap(s.SDLK_UP)
                 elif mode=='stage13death' and g.stage_number==13 and g.playing and g.combat.tick==113:tap(s.SDLK_LSHIFT)
                 elif phase[0]==2:

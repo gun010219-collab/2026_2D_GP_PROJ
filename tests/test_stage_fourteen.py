@@ -90,8 +90,8 @@ class StageFourteenTests(unittest.TestCase):
         self.assertEqual(qe.attack_kind,'queen_diagonal');self.assertEqual(len(be.target_cells),50)
         self.assertEqual(set(be.target_cells),set(color_targets((2,8))))
         self.assertTrue(set(qe.target_cells)&set(be.target_cells))
-        self.assertEqual(q.position,(4,4))
-        self.assertEqual(attack_path((2,4),(6,4),{q.position}),())
+        self.assertEqual(q.position,(5,6))
+        self.assertEqual(attack_path((q.col-2,q.row),(q.col+2,q.row),{q.position}),())
         frozen=qe.target_cells
         b.health.apply_damage(10,tick=80);g.encounter.deactivate(b.entity_instance_id,tick=80)
         self.assertEqual(qe.target_cells,frozen);self.assertEqual(g.encounter.ledger.state(be),'cancelled')
@@ -147,7 +147,7 @@ class StageFourteenTests(unittest.TestCase):
             g.advance(47);q=g.encounter.enemies[0];self.assertEqual(q.position,(4,7))
             self.assertIsNone(q.current_attack);g.advance();self.assertIsNone(q.current_attack)
             g.advance();event=q.current_attack;self.assertEqual((event.start_tick,event.hit_tick),(49,121))
-            g.advance();g.player.move('right',occupied=g.encounter.occupied_cells)
+            g.advance();g.player.move('up',occupied=g.encounter.occupied_cells)
             g.advance(18);g.player.move('up',occupied=g.encounter.occupied_cells)
             self.assertIn(g.player.position,event.target_cells)
             if delta:

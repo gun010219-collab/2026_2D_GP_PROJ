@@ -74,11 +74,11 @@ class QueenTests(unittest.TestCase):
 
     def test_ray_order_range_and_first_occupant_included(self):
         cells=diagonal_targets((4,4),(9,9),{(6,6),(2,2)})
-        self.assertEqual(cells[:2],((5,5),(6,6)))
-        self.assertNotIn((7,7),cells);self.assertNotIn((1,1),cells)
+        self.assertEqual(cells[:5],((4,5),(4,6),(4,7),(4,8),(4,9)))
+        self.assertIn((7,7),cells);self.assertIn((1,1),cells);self.assertEqual(len(cells),35)
         self.assertIn((8,0),cells);self.assertIn((0,8),cells)
         self.assertNotIn((4,4),cells);self.assertEqual(len(cells),len(set(cells)))
-        self.assertEqual(diagonal_targets((0,0),(2,2)),((1,1),(2,2)))
+        self.assertEqual(len(diagonal_targets((0,0),(2,2))),27)
 
     def test_initial_reposition_next_tick_attack_and_recovery(self):
         g=PreviewCombat();q=g.encounter.enemies[0];q.next_action_tick=48

@@ -1,5 +1,110 @@
 # CHECKMATE 개발 진행 기록
 
+## Task 2-G — Queen8방향 관통 레이저 (사용자 Windows GUI48/48 통과)
+
+시작 main/HEAD/origin: `326fae6491b42bdae4694c8b3baac7bbebb91ae1`, 작업트리/인덱스 깨끗함.
+변경 전1082개 unittest를51.531초에 재현했다(실패/오류/skip0).
+
+Queen은 N/NE/E/SE/S/SW/W/NW 고정 순서로 보드 끝까지 8방향을 동시에 공격한다. 자신의 셀 제외·중복 없는 정수 좌표이며 (4,4)에서35셀이다.
+Player/아군/점유는 레이저를 차단하지 않는다. 예고 시작 시 queen_ray_targets로 계산하여 기존 EnemyAttackEvent.target_cells 불변 스냅샷에 저장하고 다시 추적하지 않는다.
+기존 diagonal_targets 호출 호환 API와 queen_diagonal/diagonal_attack 문자열은 레거시 명칭으로 유지한다. 이제 네 방향을 뜻하지 않는다.
+재배치 후보의 공격 가능성만 새8방향으로 평가한다. 최초재배치/8방향최대3칸/점유통과금지/맨해튼거리·고정후보순서/행동교대는 유지한다.
+HP14/18/22·피해1·예고72틱·회복180틱·기절60틱·퍼펙트+2·무적48틱·60Hz·180FPS목표·이동보간은 무변경이다.
+연출은 정확한 target_cells의 보라색 테두리·가늘어진 빔과 충전원(72틱), 판정후3틱 밝은 빔, 이후12틱까지 옅은잔광으로 구분한다. 빔은 공격 원점의 논리 셀에서 그리며 보간 좌표를 사용하지 않는다.
+잔광은 이미 resolved된 공격의 표시일 뿐 추가 피해가 없다. 원장 visual 조회는 읽기전용이며 새 이벤트·피해·틱·소비를 만들지 않는다.
+renderer는 세션+이벤트key로 경로를 캐시하고 현재경고/잔광만 유지한다. 취소/소스사망/전투종료/세션교체 시 제거한다. main은 실제 combat.tick/살아있는source논리좌표/playing을 제공한다.
+KingPulse DRAINING·일반AI 정지/복원·Queen 계획정리·Queen퍼펙트 반사0·Pulse퍼펙트반사2는 기존 규칙 그대로다. 타 기물 범위·원장 인증·단일소비는 유지한다.
+Stage1~15만 실행하며 Stage16~25/Chapter4는 차단한다. 과거4방향/차단 규칙과 측정표는 당시 이력으로 보존하며 새정책으로 대체됐음을 구분한다.
+사용자 Windows GUI48/48 통과를 수령했다. 최종 자동 재검수 통과 후 지정17개 파일 커밋·기존main 일반 Push가 승인되었다.
+
+기존 테스트 메서드는 삭제하지 않고4방향/차단의 기하 기대를 관통으로, 실제전투 이동입력을 새 고정광선에 맞춰 갱신했다. 검증력/실제 피해·회피·패링·소유권·취소·혼합Pulse 목적은 보존했다.
+첫 회귀의9개 실패는 구형 범위·재배치/입력일정 기대였다. 실제Stage테스트에서 여전히 움직인 후 맞기/회피/패링을 검사하며 강제 전멸로 대체하지 않았다.
+- 최종 `.\.venv\Scripts\python.exe -m unittest discover -s tests -v`: **1092개 통과,50.212초,실패0·오류0·skip0**.
+- AST 기존1082개 메서드 전부 보존·삭제0·신규10개. 기존5개 테스트 파일의 구형 기하·재배치/입력 기대만 승인 정책에 맞게 갱신했다.
+- 일반/-O validator 각각25개 통과, compileall 전체 성공. 기존SDL dummy/네이티브 main·Queen preview·보스R/GAME_OVER·Pulse·1틱/8틱 및Task2-F7개FPS결정성 회귀 통과.
+- 변경Python12개 문법/import·SDL독립성·문서링크53개·신규포함 줄끝/파일끝 공백 및Git공백 검사 통과.
+- 원본JSON/validator/성장·HP/전투수치/KingPulse·타기물AI/60Hz·180FPS·RenderMotion·기존 측정표/Task2-E·2-F이력 보존.
+- 실제 변경은 수정14개·신규3개=17개. HEAD는시작SHA 그대로,인덱스비어있음. 기능구현·자동검증 단계이며 GUI통과로기록하지 않는다. 신규테스트는 모든100원점 기하oracle·관통·35셀·결정성·HP1회피·원장·연출3단계/취소/세션·반복렌더불변을 검사한다.
+[Queen 새밸런스 및 렌더 비용](BALANCE_QUEEN_2G.md)에48개 불변회귀, 새12개 실전, SDL단기비용 비교를 기록했다. 원본측정표는 무변경이다.
+사용자 최종 GUI48개 결과는 아래에 기록했다. 구현 단계 권장25개 체크리스트는 참고 이력으로 보존한다.
+
+### 최종 자동 재검수 — GUI48/48 이후
+
+- 전체 unittest를 직접 재실행: **1092개,55.715초,실패0·오류0·skip0**. 이전 구현50.212초와 별개 결과다.
+- 기준 SHA AST: 기존1082개 전부 보존·삭제0·신규10개. 승인된8방향/관통/재배치 변경에 해당하는 기대만 갱신했고 목적과 메서드는 유지했다.
+- 일반/-O validator 각각25개 통과, compileall 전체 성공. SDL dummy·네이티브 main/Queen preview/Pulse/재시작/경계/Task2-F계측·결정성 회귀 통과.
+- Queen없는 Stage1~12 실제전투48/48·488기록값 일치. 새8방향 Stage13~15 실제전투12/12·132기록값 일치. 기존 과거 측정표는 수정하지 않았다.
+- 변경Python12개 문법/import·SDL독립성·문서링크53개·신규포함 줄끝/파일끝 빈줄·Git공백 및 원본/HP/전투수치/KingPulse/타기물AI/60Hz/180FPS/보간·이전이력 보존을 확인했다.
+- 사용자 GUI48/48 및60초 이상 안정성 통과는 독립근거다. 사용자 평균FPS/P95/P99가 제공되지 않아 임의 수치를 작성하지 않았다.
+- 시작 수정14·신규3·인덱스 비어 있음. GUI 이후 기능/테스트 추가 수정0. 게이트 성공 후 지정17개만 한국어 커밋·일반 Push하며, 수행 전인 Git 반영을 완료로 기록하지 않는다.
+
+### 실제 변경 파일
+
+- docs/BALANCE_QUEEN_2G.md
+- docs/DECISIONS.md
+- docs/GAME_DESIGN.md
+- docs/PROGRESS.md
+- docs/QUEEN_AI_DESIGN.md
+- enemy_attack.py
+- enemy_attack_renderer.py
+- enemy_behaviors.py
+- main.py
+- queen_behavior.py
+- tests/test_chapter_three_sdl.py
+- tests/test_queen.py
+- tests/test_queen_laser.py
+- tests/test_stage_fifteen.py
+- tests/test_stage_fourteen.py
+- tests/test_stage_thirteen.py
+- tools/queen_laser_benchmark.py
+
+### 최종 사용자 Windows GUI 검수 — 48/48 통과
+
+사용자가 Windows 11 실제 게임에서 최종 검수를 직접 완료했다고 보고했다.
+
+- STEP1 Queen 단독 전투:8/8 통과
+- STEP2 Queen2기 동시 전투:10/10 통과
+- STEP3 Queen+KingPulse:12/12 통과
+- STEP4 실제 Stage13~15 및 성능:18/18 통과
+- 합계48/48, 실패0·확인 불가0·미검수0. 기능 오류나 추가 수정 요구 없음.
+- 60초 이상 Windows 프레임 안정성 검수도 통과했다. 평균FPS/P95/P99 숫자는 제공되지 않았으므로 임의 기입하지 않는다. 아래 dummy 렌더 비용이나 자동 프레임 계측을 사용자 측정값으로 대체하지 않는다.
+- 사용자 GUI와 unittest/SDL/정수틱/자동 전투는 별도 근거다. GUI 이후 기능 코드·테스트 추가 수정0이며 동일 GUI 재검수는 필요하지 않다.
+- 최종 자동 검수 성공 후 Task2-G 지정17개 파일만 한국어 커밋·기존 main 일반 Push가 승인되었다. 실제 Git 결과는 최종 보고에서 확인한다.
+
+### 구현 단계 Windows GUI 실행 및 권장 체크리스트 (이력)
+
+`.\.venv\Scripts\python.exe main.py`, 또는 `tools/queen_preview.py --chapter 3 --scenario solo`/`mixed`/`double`/`pulse`를 사용한다.
+프레임은 `$env:CHECKMATE_FRAME_STATS="1"`로5초마다계측하고 종료후 `Remove-Item Env:CHECKMATE_FRAME_STATS`로 해제한다.
+
+1. 기존 Stage1~12 진행·강화 회귀
+2. Queen 중심8방향 경고
+3. 4대각선이 보드끝까지
+4. 상하좌우가 보드끝까지
+5. Player 뒤쪽도 레이저가 이어짐
+6. 다른적 뒤쪽도 관통
+7. Queen 자기셀은 피해범위에서 제외
+8. 고정논리원점과 이동보간의 정합
+9. 보라색충전이 일반붉은경고와 구별
+10. 발사임박 충전강도 가독성
+11. 밝은/어두운 얼음타일 경고
+12. 공격순간 중심광·외곽강조
+13. 발사후 잔광소멸 및 추가피해 없음
+14. 경고밖 회피·HP보존
+15. 일반패링
+16. 퍼펙트·Queen기절·다음공격+2·King반사0
+17. Queen 사망시 경고·잔광 정리
+18. 단독Queen 실제전투
+19. Queen2기 경고/피격무적
+20. Stage13 Queen/Knight/Pawn 실전
+21. Stage14 Queen/Rook/Bishop/Pawn 실전
+22. Stage15 Queen/Pulse DRAINING·정지·복원
+23. King 선처치/전체전멸·보스R·GAME_OVER복원·Chapter4차단
+24. SETTINGS/F11/포커스/레터박스/ESC/X·세션교체 잔광없음
+25. 180FPS계측·이동보간·60초 프레임안정성
+
+사용자 환경의 단독/복수Queen·Pulse·실전/성능 검수는 통과했다. 장기 밸런스 및 다양한 하드웨어 전체에 대한 성능 보장은 미검증이다.
+예정메시지: `feat: 퀸 8방향 관통 레이저 및 공격 연출 개선`. 최종 검수 후 Git 반영한다. 수행 전인 Push를 완료로 기록하지 않는다.
+
 ## Task 2-F — 독립 렌더링·모션 보간 (사용자 Windows GUI25/25 통과)
 
 시작 HEAD/origin/main: `bce58fd65bc307f6590c4136f3c034fbe53dcf1e`, main 작업 트리/인덱스 깨끗함.

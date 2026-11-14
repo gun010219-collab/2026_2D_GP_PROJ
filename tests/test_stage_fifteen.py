@@ -168,7 +168,7 @@ class StageFifteenTests(unittest.TestCase):
         g=main._new_stage_game(15)
         for e in (g.encounter.enemies[0],*g.encounter.enemies[2:]):e.next_action_tick=1000
         g.advance(63);q=g.encounter.enemies[1];ev=q.current_attack
-        g.advance(1);g.player.move('right',occupied=g.encounter.occupied_cells)
+        g.advance(1);g.player.move('up',occupied=g.encounter.occupied_cells)
         g.advance(18);g.player.move('up',occupied=g.encounter.occupied_cells)
         self.assertIn(g.player.position,ev.target_cells)
         g.advance(ev.hit_tick-7-g.combat.tick);g.resolver.register_parry(g.parry.request(g.combat.tick));g.advance(7)

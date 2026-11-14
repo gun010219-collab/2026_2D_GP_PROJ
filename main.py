@@ -342,6 +342,9 @@ def run_session(game, flow, *, game_renderer=None):
             canvas.SDL_SetRenderDrawColor(canvas.renderer, 0, 0, 0, 255)
             canvas.SDL_RenderClear(canvas.renderer)
             board_renderer.draw(canvas)
+            enemy_attack_renderer.tick = combat.tick
+            enemy_attack_renderer.active = game.playing
+            enemy_attack_renderer.source_cells = {e.entity_instance_id: e.position for e in encounter.enemies if e.active}
             enemy_attack_renderer.draw(canvas, encounter.ledger)
             attack_renderer.draw(canvas, combat.active_attack if game.playing else None)
             enemy_renderer.draw(canvas, encounter.enemies)

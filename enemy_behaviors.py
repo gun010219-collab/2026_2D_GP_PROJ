@@ -1,5 +1,5 @@
 """Shared tick/ledger lifecycle for supported enemies, including King melee."""
-from queen_behavior import choose_reposition, diagonal_targets
+from queen_behavior import choose_reposition, queen_ray_targets
 from board import in_bounds
 from combat import _duration_ticks
 from config import (
@@ -224,7 +224,7 @@ class EnemyEncounter:
             enemy.state = 'waiting'
             enemy.next_action_tick = tick + 1
             return
-        targets = diagonal_targets(enemy.position, player_cell, occupied)
+        targets = queen_ray_targets(enemy.position)
         if not targets:
             enemy.next_action_tick = tick + 1
             return
@@ -325,7 +325,7 @@ class EnemyEncounter:
             plan = self._attack_moves.get(event.key)
             if (source is None or source.kind != 'queen' or event.attack_kind != 'queen_diagonal'
                     or plan is None or plan[0] != event or plan[1] is not source):
-                raise ValueError('Queen attack has no matching live diagonal plan')
+                raise ValueError('Queen attack has no matching live laser plan')
         if event.attack_kind == 'pawn_contact':
             plan = self._attack_moves.get(event.key)
             if (source is None or source.kind != 'pawn' or plan is None

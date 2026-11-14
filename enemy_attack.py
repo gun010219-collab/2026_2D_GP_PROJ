@@ -123,6 +123,15 @@ class EnemyAttackLedger:
         """All unfinished schedules, including due events without AI pointers."""
         return tuple(r.event for r in self._records.values() if r.state in ('telegraph', 'due'))
 
+    def laser_visuals(self, tick, tail_ticks=12):
+        """Read-only presentation snapshots; resolved glow never becomes damage."""
+        _tick(tick, 'Visual tick')
+        _tick(tail_ticks, 'Glow duration')
+        return tuple(r.event for r in self._records.values()
+                     if r.event.attack_kind == 'queen_diagonal'
+                     and (r.state in ('telegraph', 'due')
+                          or (r.state == 'resolved' and 0 <= tick-r.event.hit_tick < tail_ticks)))
+
     def mark_due(self, event, tick):
         _tick(tick, 'Current tick')
         record = self._record(event)

@@ -93,7 +93,7 @@ class StageThirteenTests(unittest.TestCase):
             g.advance(47);q=g.encounter.enemies[0];self.assertEqual(q.position,(4,7))
             self.assertIsNone(q.current_attack);g.advance();self.assertIsNone(q.current_attack)
             g.advance();event=q.current_attack;self.assertEqual((event.start_tick,event.hit_tick),(49,121))
-            g.advance();g.player.move('right',occupied=g.encounter.occupied_cells)
+            g.advance();g.player.move('up',occupied=g.encounter.occupied_cells)
             g.advance(18);g.player.move('up',occupied=g.encounter.occupied_cells)
             self.assertIn(g.player.position,event.target_cells)
             if delta:
