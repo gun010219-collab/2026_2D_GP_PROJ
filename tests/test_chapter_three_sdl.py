@@ -100,7 +100,7 @@ class ChapterThreeSDLTests(unittest.TestCase):
                     else:click(450,500)
                 elif phase[0]==7:
                     if mode=='boundary':tap(s.SDLK_2)
-                    else:click(450,500)
+                    else:click(730,500)  # HP +1 sustains the long no-attack transition fixture under carryover.
                 elif phase[0]==8:
                     tap(s.SDLK_n if mode in ('chapter4','stage16death','stage17death','stage18death','stage19death','stage20death') else s.SDLK_SPACE)
                 elif phase[0]==9:tap(s.SDLK_r)

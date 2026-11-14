@@ -2,13 +2,19 @@
 
 
 class Health:
-    def __init__(self, max_hp):
+    def __init__(self, max_hp, *, initial_hp=None):
         if type(max_hp) is not int:
             raise TypeError('Maximum HP must be an integer')
         if max_hp <= 0:
             raise ValueError('Maximum HP must be positive')
+        if initial_hp is None:
+            initial_hp = max_hp
+        if type(initial_hp) is not int:
+            raise TypeError('Initial HP must be an integer')
+        if not 1 <= initial_hp <= max_hp:
+            raise ValueError('Initial HP must be in 1..maximum HP')
         self._max_hp = max_hp
-        self._current_hp = max_hp
+        self._current_hp = initial_hp
         self._last_damage_tick = None
         self._last_damage_amount = 0
 

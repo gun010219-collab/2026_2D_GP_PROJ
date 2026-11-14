@@ -62,8 +62,13 @@ class StageProgression:
     def offer(self):
         return self.run.active_offer
 
-    def _candidate(self, number, stats, factory, prepare):
-        candidate = factory(number, stats=stats)
+    def _candidate(self, number, stats, factory, prepare, *, initial_hp=None):
+        expected_hp = stats.max_hp if initial_hp is None else initial_hp
+        if type(expected_hp) is not int or not 1 <= expected_hp <= stats.max_hp:
+            raise ValueError('Prepared initial HP is invalid')
+        # Preserve existing full-health factory call compatibility.
+        candidate = (factory(number, stats=stats) if expected_hp == stats.max_hp
+                     else factory(number, stats=stats, initial_hp=expected_hp))
         d = StageCatalog.load().get_stage(number)
         g = candidate
         if (not isinstance(g, StageGame) or g is self.game or g.stage_number != number
@@ -76,7 +81,8 @@ class StageProgression:
                 or g.resolver.parry is not g.parry or g.resolver.encounter is not g.encounter
                 or g.transition_count != 0 or g.end_tick is not None
                 or g.combat.tick != 0 or g.encounter.tick != -1 or g.resolver.stopped
-                or g.player.health.max_hp != stats.max_hp or g.player.health.current_hp != stats.max_hp
+                or g.player.health.max_hp != stats.max_hp or g.player.health.current_hp != expected_hp
+                or g.player.health.last_damage_tick is not None or g.player.health.last_damage_amount != 0
                 or g.resolver.player_damage != stats.attack_damage or g.player.position != d.player_spawn
                 or g.player.facing != 'up' or g.combat.pending_attack_bonus != 0
                 or g.combat.active_attack is not None
@@ -128,7 +134,12 @@ class StageProgression:
             self.run.verify_receipt(receipt)
         kind = upgrade_kind(kind)
         build = self.run.build.upgraded(kind)
-        g, prepared = self._candidate(self.game.stage_number + 1, build.stats, factory, prepare)
+        old_hp = self.game.player.health.current_hp
+        if (type(old_hp) is not int or not 1 <= old_hp <= self.run.stats.max_hp
+                or self.game.player.health.max_hp != self.run.stats.max_hp):
+            raise ValueError('Current player HP does not match the owned build')
+        next_hp = old_hp + build.stats.max_hp - self.run.stats.max_hp
+        g, prepared = self._candidate(self.game.stage_number + 1, build.stats, factory, prepare, initial_hp=next_hp)
         receipt = self.run.select(offer, kind)
         if self.run.verify_receipt(receipt).after_build != build:
             raise RuntimeError('Committed receipt differs from prepared build')

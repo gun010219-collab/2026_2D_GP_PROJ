@@ -61,7 +61,7 @@ class StageElevenTwelveTests(unittest.TestCase):
             self.assertIs(f.run,run)
             self.assertEqual((g.stage_number,len(run.receipts)),(12,1))
             self.assertEqual(g.resolver.player_damage,run.stats.attack_damage)
-            self.assertEqual(g.player.health.current_hp,run.stats.max_hp)
+            self.assertEqual(g.player.health.current_hp,2+int(kind=='hp'))
             with self.assertRaises(ValueError):f.choose(o,kind,Mock())
 
     def test_first_choice_factory_input_and_corrupt_candidate_are_atomic(self):

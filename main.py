@@ -37,14 +37,14 @@ from upgrade_renderer import UpgradeRenderer
 from upgrades import ChapterBuild, DerivedStats
 
 
-def _new_game(*, stats=None):
+def _new_game(*, stats=None, initial_hp=None):
     """Fresh Stage 1 entities/ledgers; renderers, window and display stay owned by main."""
     player = load_stage1_player()
     stats = ChapterBuild().stats if stats is None else stats
     if not isinstance(stats, DerivedStats):
         raise TypeError('Session stats must be DerivedStats')
-    if player.health.max_hp != stats.max_hp:
-        player = Player(*player.position, max_hp=stats.max_hp)
+    if player.health.max_hp != stats.max_hp or initial_hp is not None:
+        player = Player(*player.position, max_hp=stats.max_hp, initial_hp=initial_hp)
     combat = Combat()
     parry = Parry()
     encounter = PawnEncounter(load_stage1_enemies(), start_tick=combat.tick,
@@ -54,11 +54,13 @@ def _new_game(*, stats=None):
     return StageOneGame(player, combat, encounter, parry, resolver)
 
 
-def _new_stage_game(stage_number, *, stats=None):
+def _new_stage_game(stage_number, *, stats=None, initial_hp=None):
     """Construct supported sessions; catalog access alone never enables later play."""
     if type(stage_number) is not int:
         raise TypeError('Playable stage number must be an integer')
     if stage_number == 1:
+        if initial_hp is not None:
+            return _new_game(stats=stats, initial_hp=initial_hp)
         return _new_game() if stats is None else _new_game(stats=stats)
     if stage_number not in SUPPORTED_STAGES:
         raise ValueError('Only Stage 1 through Stage 20 are playable')
@@ -66,7 +68,7 @@ def _new_stage_game(stage_number, *, stats=None):
     stats = ChapterBuild().stats if stats is None else stats
     if not isinstance(stats, DerivedStats):
         raise TypeError('Session stats must be DerivedStats')
-    player = Player(*definition.player_spawn, max_hp=stats.max_hp)
+    player = Player(*definition.player_spawn, max_hp=stats.max_hp, initial_hp=initial_hp)
     combat, parry = Combat(), Parry()
     encounter = EnemyEncounter(create_stage_enemies(definition, profile=profile_for(definition.chapter)), start_tick=combat.tick,
                                combat_session_id=combat.combat_session_id,

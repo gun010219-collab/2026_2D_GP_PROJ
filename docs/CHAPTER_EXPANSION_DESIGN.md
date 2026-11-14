@@ -687,3 +687,26 @@ Stage20 GUI 및Stage1~20연속Windows난이도QA는대기다. 과거Stage16쉬�
 - 밸런스개선은후속 **Task3-F**로분리한다. 이번최종화에서는HP/피해/공격주기/경고시간/AI/Pulse/강화효과/원본JSON/기존측정조건을변경하지않는다. 구체적수치안·회귀측정·사용자재검증은후속작업이다.
 - GUI승인이후기능코드/테스트추가수정0. Stage1~20지원·Stage21~25/Chapter5차단·영구저장/해금/최종아트·음향미구현을유지한다.
 - 모든최종자동검증성공후지정30개만기존main에한국어일반커밋·Push한다. 실제SHA/원격일치는작업후최종보고에서확정한다.
+
+## Task 3-F1 — 챕터 내 체력 관리
+
+일반전클리어/강화의자동최대HP회복을폐지한다. 동일챕터Stage1~5/6~10/11~15/16~20진행에서ATTACK/MOVE는현재HP유지,HP강화는최대HP와현재HP를각각+1한다. next_current_hp=old_current_hp+(HP선택시1),항상1이상새최대이하이며HP MAX정책은유지한다. 보스직전네번째강화에도같다.
+Health/Player/StageFactory에keyword-only initial_hp를추가했다. 생략또는None은기존처럼최대HP이고명시값은정수1..max만허용한다. 새Health생성으로값을초기화하며내부필드주입/apply_damage로이월값을맞추지않는다. 새스테이지는피해tick없음/피해amount0/무적0/보너스0/패링없음이며기존객체/ID/공격/입력/보간상태를재사용하지않는다.
+StageProgression.choose()는클리어·Offer/Receipt인증/강화Build계산→이월HP계산→독립후보생성/전체검증→입력준비→Receipt소비/설치를유지한다. 후보의현재HP가계산값과정확히일치해야하며가짜최대회복/HP부족/같은Health/피해이벤트로만든초기상태도거부한다. 실패시기존현재/최대HP·Build·Offer·Receipt·Run을보존하고재시도한다. 완전회복후보는기존Factory stats호출형식을보존하며이월이필요하면initial_hp를전달한다. 사용자정의Factory는이경우새keyword를받아야한다.
+새챕터Stage5→6/10→11/15→16은공격레벨만계승하고새Run·HP3/3·MOVE18/Receipt0으로시작한다. GAME_OVER R은해당챕터시작1/6/11/16·진입공격력·HP3/3·MOVE18/Receipt0이다. BOSS_CLEAR R은같은Run/Build/Receipt4를유지하고새보스전Player최대HP로회복한다. 일반UPGRADE에서R재도전/스킵은불가다.
+기존후보메타데이터·적편성/HP/좌표/ID/세션/원장/Pulse검증은그대로다. HP이월외적HP/AI속도/공격경고·회복/피해/패링/48틱무적/Pulse/공격력성장/원본JSON/테마/입력/60Hz/180FPS목표/보간/Stage1~20지원·Stage21~25차단을변경하지않는다.
+기존balance_driver.measure()는독립스테이지완전회복전투조건그대로이며이번수정없음이다. 새연속전투검증은별도tests/test_hp_carryover.py의fight()로실제이동/공격/패링을사용한다. 전멸fixture진행검증과실제적처치근거를구분한다.
+새규칙의Stage1~20인간난이도/WindowsGUI는대기다. 기존사용자평가(Stage1~20쉬움/패링없이클리어/Chapter1사망0·Chapter2~4미제공)와Task3-E승인기록을보존한다. 후속Task3-F2는적HP증가,Task3-F3는적행동속도증가검토예정이며이번에적용하지않는다. Chapter5/영구저장·해금/최종아트·음향은미구현이다.
+
+### Task3-F1 사용자 Windows GUI 최종 승인
+
+사용자가 실제 Windows 11에서 직접 검수했다.
+
+- STEP1 10/10·STEP2 12/12·STEP3 8/8, **전체30/30 통과**. 실패0·확인불가0·미검수0, GUI오류보고없음.
+- 60초이상실행안정성통과. 실제FPS/P95/P99수치는미제공이므로임의작성하지않으며기존SDL dummy계측과구분한다.
+- 챕터내현재HP이월완료: ATTACK/MOVE는현재HP유지,HP강화는현재/최대각+1이다. 새챕터및GAME_OVER는HP3/3, BOSS_CLEAR R은같은Build최대HP로회복한다. 기존인증/원자성/새객체와이벤트격리를유지한다.
+- 새체력이월규칙의 **Stage1~20 전체난이도평가는아직미완료**다. 과거Task3-E사용자전체플레이/쉬움/패링없이클리어/Chapter1사망0·기타미제공기록은이전규칙의검수이력으로보존한다.
+- 적HP상향은후속Task3-F2,적이동/공격등행동속도조정은Task3-F3예정이다. 이번에적HP/AI/시간/패링/Pulse/성장/원본JSON/독립측정조건을변경하지않는다.
+- Stage1~20지원·Stage21~25/Chapter5차단·영구저장/해금·최종아트/음향미구현을유지한다. GUI이후기능코드/테스트추가수정0이다.
+- 기존독립80전투의완전회복시작조건과새연속HP이월검증은별도근거다. 일반전성공은UPGRADE·보스전은BOSS_CLEAR이며80개모두를BOSS_CLEAR로기록하지않는다.
+- 최종자동검증성공후지정13개만기존main에한국어일반커밋·Push한다. 실제SHA/원격일치는Git작업후최종보고로확정한다.

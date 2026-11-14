@@ -1,5 +1,113 @@
 # CHECKMATE 개발 진행 기록
 
+## Task 3-F1 — 챕터 내 현재HP 이월 (사용자 Windows GUI30/30 통과)
+
+### Task3-F1 사용자 Windows GUI 최종 승인
+
+사용자가 실제 Windows 11에서 직접 검수했다.
+
+- STEP1 10/10·STEP2 12/12·STEP3 8/8, **전체30/30 통과**. 실패0·확인불가0·미검수0, GUI오류보고없음.
+- 60초이상실행안정성통과. 실제FPS/P95/P99수치는미제공이므로임의작성하지않으며기존SDL dummy계측과구분한다.
+- 챕터내현재HP이월완료: ATTACK/MOVE는현재HP유지,HP강화는현재/최대각+1이다. 새챕터및GAME_OVER는HP3/3, BOSS_CLEAR R은같은Build최대HP로회복한다. 기존인증/원자성/새객체와이벤트격리를유지한다.
+- 새체력이월규칙의 **Stage1~20 전체난이도평가는아직미완료**다. 과거Task3-E사용자전체플레이/쉬움/패링없이클리어/Chapter1사망0·기타미제공기록은이전규칙의검수이력으로보존한다.
+- 적HP상향은후속Task3-F2,적이동/공격등행동속도조정은Task3-F3예정이다. 이번에적HP/AI/시간/패링/Pulse/성장/원본JSON/독립측정조건을변경하지않는다.
+- Stage1~20지원·Stage21~25/Chapter5차단·영구저장/해금·최종아트/음향미구현을유지한다. GUI이후기능코드/테스트추가수정0이다.
+- 기존독립80전투의완전회복시작조건과새연속HP이월검증은별도근거다. 일반전성공은UPGRADE·보스전은BOSS_CLEAR이며80개모두를BOSS_CLEAR로기록하지않는다.
+- 최종자동검증성공후지정13개만기존main에한국어일반커밋·Push한다. 실제SHA/원격일치는Git작업후최종보고로확정한다.
+
+### GUI 승인 후 최종 자동 재검증
+
+- 전체unittest 직접재실행 **1180개통과,107.690초,실패0·오류0·skip0**. 구현단계112.507초와별도실행이다.
+- 기준SHA기존1166개AST메서드전부보존·삭제0·신규14개. GUI이후기능코드/테스트추가수정0.
+- 일반/-O validator 각25개·compileall전체·변경Python8개문법/import·순수SDL독립성·문서내부링크61개·신규포함공백검사통과.
+- 기존독립80/80클리어(일반64 UPGRADE/보스16 BOSS_CLEAR)·840개비교필드일치. 기존드라이버·측정조건/과거표무변경이다.
+- 일반전/보스진입HP이월·HP+1·모든지원챕터진입/사망초기화/보스재도전·위조HP후보/Offer/Receipt·실패원자성통과. 새실전Stage1→2→3 HP2이월과실제main 네이티브SDL dummy/숫자/마우스/표시/설정/입력경로도통과.
+- Queen/KingPulse/공격·패링/1틱·8틱/7종FPS/Stage1~20지원·21~25차단회귀통과. 원본JSON/적HP·AI·행동시간·패링/Pulse수치/강화효과/렌더구조보존.
+- 사용자GUI30/30과안정성승인은자동결과와구분한다. 새HP규칙의Stage1~20전체난이도평가는미완료이며Task3-F2/F3는후속작업이다.
+- 수정11개·신규2개=13개만검토했다. 커밋전HEAD/origin은시작SHA·인덱스비어있음. 모든게이트통과후지정파일만한국어커밋·일반Push하고실제SHA/원격일치는최종보고에서확정한다.
+
+아래는 구현 단계 및 당시 GUI 대기 상태의 기록이다. 현재최종승인은 위 결과를 따른다.
+
+시작main HEAD/origin `a1a199ff4cd61aa8f92546e903f97253018b9e5f`, 트리/인덱스깨끗함. 변경전1166개106.262초통과·실패/오류/skip0.
+
+일반전클리어/강화의자동최대HP회복을폐지한다. 동일챕터Stage1~5/6~10/11~15/16~20진행에서ATTACK/MOVE는현재HP유지,HP강화는최대HP와현재HP를각각+1한다. next_current_hp=old_current_hp+(HP선택시1),항상1이상새최대이하이며HP MAX정책은유지한다. 보스직전네번째강화에도같다.
+Health/Player/StageFactory에keyword-only initial_hp를추가했다. 생략또는None은기존처럼최대HP이고명시값은정수1..max만허용한다. 새Health생성으로값을초기화하며내부필드주입/apply_damage로이월값을맞추지않는다. 새스테이지는피해tick없음/피해amount0/무적0/보너스0/패링없음이며기존객체/ID/공격/입력/보간상태를재사용하지않는다.
+StageProgression.choose()는클리어·Offer/Receipt인증/강화Build계산→이월HP계산→독립후보생성/전체검증→입력준비→Receipt소비/설치를유지한다. 후보의현재HP가계산값과정확히일치해야하며가짜최대회복/HP부족/같은Health/피해이벤트로만든초기상태도거부한다. 실패시기존현재/최대HP·Build·Offer·Receipt·Run을보존하고재시도한다. 완전회복후보는기존Factory stats호출형식을보존하며이월이필요하면initial_hp를전달한다. 사용자정의Factory는이경우새keyword를받아야한다.
+새챕터Stage5→6/10→11/15→16은공격레벨만계승하고새Run·HP3/3·MOVE18/Receipt0으로시작한다. GAME_OVER R은해당챕터시작1/6/11/16·진입공격력·HP3/3·MOVE18/Receipt0이다. BOSS_CLEAR R은같은Run/Build/Receipt4를유지하고새보스전Player최대HP로회복한다. 일반UPGRADE에서R재도전/스킵은불가다.
+기존후보메타데이터·적편성/HP/좌표/ID/세션/원장/Pulse검증은그대로다. HP이월외적HP/AI속도/공격경고·회복/피해/패링/48틱무적/Pulse/공격력성장/원본JSON/테마/입력/60Hz/180FPS목표/보간/Stage1~20지원·Stage21~25차단을변경하지않는다.
+기존balance_driver.measure()는독립스테이지완전회복전투조건그대로이며이번수정없음이다. 새연속전투검증은별도tests/test_hp_carryover.py의fight()로실제이동/공격/패링을사용한다. 전멸fixture진행검증과실제적처치근거를구분한다.
+새규칙의Stage1~20인간난이도/WindowsGUI는대기다. 기존사용자평가(Stage1~20쉬움/패링없이클리어/Chapter1사망0·Chapter2~4미제공)와Task3-E승인기록을보존한다. 후속Task3-F2는적HP증가,Task3-F3는적행동속도증가검토예정이며이번에적용하지않는다. Chapter5/영구저장·해금/최종아트·음향은미구현이다.
+
+승인예시3/3 ATTACK→3/3,2/3 ATTACK→2/3,1/3 MOVE→1/3,3/3 HP→4/4,2/3 HP→3/4,1/3 HP→2/4,2/4 HP→3/5를검증한다. 모든16개일반전전환/네보스진입·새챕터3개·GAME_OVER4개·보스R4개를검증한다. 오류/원자성/위조/MAX/중복/사망차단·새피격이력/무적격리도검증한다.
+기존SDL장거리fixture는Stage13실제피해가자동회복되지않아기존HP카드를선택하도록조정했다. Shift/Pulse실제판정·전체진행·N차단/R재시작은유지했다. 기존Stage11강화테스트는메서드명을유지하고현재HP기대를2+(HP선택시1)로갱신했다. 초기7건실패는이구형회복기대/fixture가원인이었으며기존규칙을되돌리지않았다.
+새네이티브SDL dummy는HP2로시작해MOVE숫자/HP마우스선택,2/3→2/3→2/3→3/4→4/5·보스R5/5·GAME_OVER R3/3을검증한다. 기존설정/F11/포커스/입력/창정리경로도유지한다. 기존HealthRenderer를수정하지않고새실제HP와피해기록없음을확인한다.
+
+### 새 연속 전투 실측 — 기존 독립 측정과 별도
+
+기존과같은BFS이동/실제공격/패링정책으로원본Stage1→2→3을싸웠다. 테스트시작HP2/3은초기값fixture이며전투중강제무적/적HP조작/전멸없음이다. 매번ATTACK선택후실제잔여HP를새Player에이월했다.
+
+| Stage | 시작HP | 완료틱 | 남은HP | 결과 | 다음Stage 이월HP |
+| --- | --- | ---: | ---: | --- | ---: |
+| 1 | 2/3 | 324 | 2 | UPGRADE | 2 |
+| 2 | 2/3 | 277 | 2 | UPGRADE | 2 |
+| 3 | 2/3 | 252 | 2 | UPGRADE | 2 |
+
+Stage4까지Receipt3개가정상설치됐다. 이3전투결과만으로새규칙의Stage1~20연속클리어나인간난이도를확정하지않는다.
+
+### Windows GUI 30개 — 미검증
+
+실행 `.\.venv\Scripts\python.exe main.py`. 실제로피격후스테이지를클리어하여확인한다. 숫자와마우스는별도플레이로검사한다. 성능계측은 `$env:CHECKMATE_FRAME_STATS='1'` 설정후실행/60초이상확인,종료후 `Remove-Item Env:CHECKMATE_FRAME_STATS`로해제한다. 항목별통과/실패/확인불가와이전규칙대비난이도를회신한다.
+
+STEP1 일반전 이월·강화 (10개)
+
+1. 시작HP3/3표시.
+2. Stage1에서피격후현재HP감소.
+3. HP2로클리어후ATTACK선택·다음HP2유지.
+4. HP1로클리어후MOVE선택·다음HP1유지.
+5. HP3/3에서HP선택→4/4.
+6. HP2/3에서HP선택→3/4.
+7. HP1/3에서HP선택→2/4.
+8. 다음HP강화2/4→3/5·최대초과없음.
+9. HP MAX카드차단.
+10. 숫자/마우스강화·반복입력중복회복없음.
+
+STEP2 챕터·보스·재시작 (12개)
+
+11. Stage4→5네번째강화HP이월.
+12. Stage5 BOSS_CLEAR R은같은빌드최대HP회복.
+13. Stage5 N→6은공격계승·HP3/3·MOVE18.
+14. Stage9→10 HP이월.
+15. Stage10 BOSS_CLEAR R은최대HP회복.
+16. Stage10 N→11 HP3/3초기화.
+17. Stage14→15 HP이월.
+18. Stage15 BOSS_CLEAR R은최대HP회복.
+19. Stage15 N→16 HP3/3초기화.
+20. Stage19→20 HP이월·기존Queen/Pulse정상.
+21. Stage20 BOSS_CLEAR R은최대HP회복·N으로Chapter5진입불가.
+22. 각챕터GAME_OVER R→1/6/11/16·진입공격력/HP3/3/강화초기화.
+
+STEP3 통합·표시·입력·성능 (8개)
+
+23. 새Stage첫화면HP실제값정합성.
+24. 새Stage시작피격flash/피해문구잔상없음.
+25. 이전무적/패링/기절/보너스이월없음.
+26. 일반UPGRADE R/N우회불가.
+27. SETTINGS/ESC/숫자·마우스정상.
+28. F11/포커스/레터박스/유령입력·보간잔상없음.
+29. 60초이상프레임안정성·ESC/X정상종료.
+30. Stage1~20새규칙연속플레이난이도/강화선택/사망위치의견.
+
+### 최종 자동검증 결과 및 변경 파일
+
+- `.\.venv\Scripts\python.exe -m unittest discover -s tests -v`: **1180개 통과,112.507초,실패0·오류0·skip0**. 기준1166개 AST보존·삭제0·신규14개(순수13/네이티브SDL1).
+- 일반/-O validator 각각25개통과, `python -m compileall -q .` 전체성공. 변경Python8개문법/import·SDL독립성·문서내부링크61개·신규포함줄끝/파일끝공백·git diff --check 통과.
+- 기존독립Stage1~20 80/80클리어·840개기존비교필드일치(1~19의796+20의44). 독립드라이버/측정표/Stage20오버라이드/Pulse관측도보존했다. 새연속Stage1→2→3은위별도표의HP이월을검증했다.
+- 실제main 네이티브SDL dummy·Queen/Pulse/기존적·보스/사망재시작·Chapter5차단·입력/설정·1/8틱·7종렌더FPS회귀통과. 새낮은HP전환도7종FPS동일성을검증했다.
+- 최초회귀143.588초는구형회복전제의장거리SDL가미도달끝점까지2000프레임대기한영향이다. 실제HP카드선택으로새계약에맞춘뒤112.507초에전부통과했다. 회귀검사를생략하지않았다.
+- GUI/새Stage1~20인간난이도는검수대기다. 짧은SDL dummy소프트웨어/VSync=True의FPS166.91/P95 6.125ms/P99 6.220ms는실제Windows60초결과가아니다.
+- 기능수정health.py/player.py/main.py/stage_progression.py,기존테스트수정test_chapter_three_sdl.py/test_stage_eleven_twelve.py,신규test_hp_carryover.py/test_hp_carryover_sdl.py,문서5개로총수정11개·신규2개=13개다.
+- main HEAD/origin은시작SHA,인덱스비어있음. git add/commit/push미실시. 기존Task3-E및이전기록/원본데이터/적AI·수치·강화효과/전투/렌더계약을보존했다.
+
 ## Task 3-E — Stage20 Chapter4 King 보스전 (GUI30/30·Stage1~20 사용자 플레이 완료)
 
 ### Task3-E GUI 최종 승인 및 Stage1~20 사용자 통합 플레이 결과
