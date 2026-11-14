@@ -1,5 +1,8 @@
 """CHECKMATE window bootstrap. Run with the project's virtual environment."""
 from time import perf_counter, sleep
+import os
+from frame_timing import FramePacer, FrameStats
+from render_motion import RenderMotion
 
 from config import (
     FIXED_TIME_STEP,
@@ -97,6 +100,9 @@ def run_session(game, flow, *, game_renderer=None):
     upgrade_renderer = UpgradeRenderer()
     selection = UpgradeInput()
     clock = SimulationClock()
+    pacer, stats, motion = FramePacer(), FrameStats(), RenderMotion()
+    measure_frames = os.environ.get("CHECKMATE_FRAME_STATS") == "1"
+    next_report = None
     canvas.open_canvas(WINDOW_WIDTH, WINDOW_HEIGHT)
     settings_renderer = None
     try:
@@ -140,9 +146,13 @@ def run_session(game, flow, *, game_renderer=None):
         if flow.offer is not None:
             selection.reconcile(canvas)
 
+        motion.update((player, *encounter.enemies), 0.0, session=combat.combat_session_id)
         running = True
         while running:
             frame_start = perf_counter()
+            visual_elapsed = max(0.0, frame_start - previous_frame)
+            tick_before = combat.tick
+            session_before = combat.combat_session_id
             offer_at_frame_start = flow.offer
             events = canvas.get_events()
             # Pico2D 1.5.1 get_events() replaces the title with its FPS counter.
@@ -299,6 +309,35 @@ def run_session(game, flow, *, game_renderer=None):
                 clock.reset()
                 previous_frame = perf_counter()
 
+            visual_reset = (display_changed or menu_changed or focus_changed or restarted_this_frame
+                            or menu.is_open or not focused or not game.playing or steps >= 8
+                            or visual_elapsed > 0.15)
+            frozen = set()
+            if combat.active_attack is not None or parry.active_at(combat.tick):
+                frozen.add(player.entity_instance_id)
+            if encounter.pulse is not None:
+                frozen.update(e.entity_instance_id for e in encounter.enemies if encounter.pulse.frozen(e))
+            motion.update((player, *encounter.enemies), visual_elapsed,
+                          session=combat.combat_session_id, snap=visual_reset, frozen=frozen)
+            player_renderer.positions = enemy_renderer.positions = health_renderer.positions = motion.positions
+            if measure_frames:
+                active_sample = (not (display_changed or menu_changed or focus_changed or restarted_this_frame
+                                      or menu.is_open or not focused or not game.playing)
+                                 and session_before == combat.combat_session_id)
+                stats.record(frame_start, max(0, combat.tick-tick_before) if active_sample else 0, active_sample)
+                if next_report is None:
+                    next_report = frame_start + 5.0
+                    # Inspect actual SDL renderer flags; never force a VSync change.
+                    import ctypes
+                    import sdl2
+                    info = sdl2.SDL_RendererInfo()
+                    if sdl2.SDL_GetRendererInfo(canvas.renderer, ctypes.byref(info)) == 0:
+                        print('CHECKMATE RENDERER', info.name, 'flags=', info.flags,
+                              'vsync=', bool(info.flags & sdl2.SDL_RENDERER_PRESENTVSYNC), flush=True)
+                if frame_start >= next_report:
+                    stats.log()
+                    next_report = frame_start + 5.0
+
             # RenderClear clears the whole output, including letterbox bars.
             canvas.SDL_SetRenderDrawColor(canvas.renderer, 0, 0, 0, 255)
             canvas.SDL_RenderClear(canvas.renderer)
@@ -323,8 +362,10 @@ def run_session(game, flow, *, game_renderer=None):
                 upgrade_renderer.draw(canvas, game, flow.offer, flow.error)
             settings_renderer.draw(menu, display)
             canvas.update_canvas()
-            sleep(max(0.0, FIXED_TIME_STEP - (perf_counter() - frame_start)))
+            sleep(pacer.remaining(perf_counter() - frame_start))
     finally:
+        if measure_frames:
+            stats.log()
         flow.run.retire()
         # Release resources on normal exit and exceptions after canvas creation.
         try:

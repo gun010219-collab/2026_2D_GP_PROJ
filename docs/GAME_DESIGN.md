@@ -5,6 +5,21 @@
 PDF의 모든 시스템과 수치를 최신 확정 규칙으로 재승인한 것은 아니다.
 별도 업로드 PPTX 및 v3.0 Markdown 원문은 현재 작업 공간에서 확인되지 않았다.
 
+## Task 2-F 현재 표시 계층 — 사용자 Windows GUI25/25 통과
+
+전투는 FIXED_TIME_STEP=1/60과 기존 SimulationClock/정수 Combat.tick/최대8틱 누적 상한을 유지한다. 실제 실행은Stage1~15, Stage16~25는 차단한다.
+렌더 목표는180FPS 상한이며 FramePacer가 1/180에서 실제 프레임 작업시간(렌더·Present 포함)을 빼고 남은 시간만 sleep한다. busy-wait/VSync 강제 변경은 없다.
+새 RenderMotion은 entity_instance_id와 전투 세션으로 추적하는 표시 전용 상태다. 약0.10초 smoothstep, Knight는18px 높이의 도약 곡선을 사용한다.
+Pawn/King 단일셀, Rook 직선/Queen 직선·대각선 다중셀 이동을 보간한다. Bishop은 고정한다. 직선/대각선이 아닌 관측 변위는 안전하게 정착한다.
+일반30FPS의2틱 프레임도 보간하며,8틱 catch-up 또는150ms초과 지연은 snap으로 복구한다. 모달/F11/포커스/종료/세션 교체도 snap하며 잔여 모션을 이월하지 않는다.
+Pulse가 정지시킨 일반 적은 논리 중심으로 정착한다. 공격/패링 중 Player도 논리 셀에 정착하여 판정 위치를 우선한다. 사망/비활성 객체는 모션 저장소에서 제거한다.
+실제 점유 중심의 작은 사각 기준점은 보간 중에만 표시한다. HP·STUN은 기물 표시좌표를 따른다. 공격/적 경고·피격 코너·패링 이펙트는 논리 셀 기준이며 보간좌표로 판정하지 않는다.
+렌더러 draw 호출은 이전 API로도 동작하며 positions 스냅샷을 선택적으로 읽는다. draw를 반복해도 전투/Health/원장/모션을 갱신하지 않는다.
+CHECKMATE_FRAME_STATS=1일 때만 bounded600프레임 계측을 켠다. 실제 프레임 시작 간격으로 FPS/평균/P95/P99/max(ms)·활성시뮬레이션Hz를 계산해5초마다 및 종료시 출력한다.
+SDL_RendererInfo로 보고된 renderer 이름/flags/VSync를 출력하되 드라이버 강제 설정은 하지 않는다. Pico2D의 FPS창제목 덮어쓰기와 충돌하지 않도록 콘솔을 사용한다.
+Pico2D1.5.1 open_canvas는 현재 기본sync=False로 accelerated를 요청하고 실패시software로 폴백하며 update_canvas는SDL_RenderPresent를 호출한다. 실제 Present/OS sleep/하드웨어 주사율 영향은 실측해야 한다.
+180FPS는 목표이며 달성을 보장하지 않는다. 기존 전투/AI/밸런스/데이터/측정표는 무변경이다. 사용자가 실제 Windows 11 게임에서 GUI25/25을 직접 검수했다. 실패0·확인 불가0·미검수0. 최종 자동 재검수 성공 후 Task2-F 파일만 한국어 커밋·기존main 일반 Push가 승인되었다.
+
 ## Task 2-E — Stage15 King 보스전
 
 Stage1~15를 실제 실행하며 Stage16~25와 Chapter4 진입은 차단한다.

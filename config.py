@@ -13,6 +13,8 @@ BOARD_RIGHT = BOARD_LEFT + BOARD_PIXEL_SIZE
 BOARD_TOP = BOARD_BOTTOM + BOARD_PIXEL_SIZE
 
 FIXED_TIME_STEP = 1.0 / 60.0
+RENDER_TARGET_FPS = 180
+MOTION_SECONDS = 0.10  # Display only; minimum logical movement interval is 12 ticks.
 
 # Task 1-C implementation baselines, not final combat balance.
 ATTACK_COOLDOWN_SECONDS = 0.6

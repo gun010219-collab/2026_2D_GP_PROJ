@@ -5,6 +5,7 @@ advances combat time, or changes health. The small glyphs are original procedura
 UI placeholders and can be replaced with a proper text renderer later.
 """
 from config import TILE_SIZE, cell_center
+from render_motion import display_center
 
 
 # Three by five pixel glyphs, top row first. Only the small HUD's alphabet is used.
@@ -51,6 +52,8 @@ _GLYPHS = {
 
 
 class HealthRenderer:
+    positions = None  # Optional read-only pixel snapshot, supplied by main.
+
     HIT_FLASH_TICKS = 6
     TEXT = (232, 231, 220)
     HEALTH = (143, 209, 158)
@@ -109,7 +112,7 @@ class HealthRenderer:
         for enemy in enemies:
             if not enemy.active:
                 continue
-            x, y = cell_center(*enemy.position)
+            x, y = display_center(enemy, self.positions)
             label = f'{enemy.health.current_hp}/{enemy.health.max_hp}'
             label_width = (len(label) * 4 - 1) * 2
             canvas.draw_rectangle(x - label_width / 2 - 3, y + 30,

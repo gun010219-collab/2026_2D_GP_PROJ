@@ -1,11 +1,17 @@
 """Temporary procedural silver/blue player marker, replaceable by sprites."""
 from config import TILE_SIZE, cell_center
+from render_motion import display_center
 from player import DIRECTIONS
 
 
 class PlayerRenderer:
+    positions = None  # Optional read-only pixel snapshot, supplied by main.
+
     def draw(self, canvas, player):
-        x, y = cell_center(player.col, player.row)
+        x, y = display_center(player, self.positions)
+        logical_x, logical_y = cell_center(*player.position)
+        if (x, y) != (logical_x, logical_y):
+            canvas.draw_rectangle(logical_x-4, logical_y-4, logical_x+4, logical_y+4, 132, 190, 214)
         unit = TILE_SIZE / 84
         r = round(28 * unit)
         # Dark outline + cyan rim remain legible on both marble tile values.

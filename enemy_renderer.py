@@ -1,14 +1,20 @@
 """Temporary supported-enemy silhouettes; no combat mutation or resources."""
 from config import TILE_SIZE, cell_center
+from render_motion import display_center
 
 
 class EnemyRenderer:
+    positions = None  # Optional read-only pixel snapshot, supplied by main.
+
     def draw(self, canvas, enemies):
         unit = TILE_SIZE / 84
         for enemy in enemies:
             if not enemy.active:
                 continue
-            x, y = cell_center(enemy.col, enemy.row)
+            x, y = display_center(enemy, self.positions)
+            logical_x, logical_y = cell_center(*enemy.position)
+            if (x, y) != (logical_x, logical_y):
+                canvas.draw_rectangle(logical_x-4, logical_y-4, logical_x+4, logical_y+4, 132, 190, 214)
             if enemy.kind == 'queen':
                 # Wide low crown, distinct from King's tall central cross.
                 for l,b,r,t in ((-19,-17,19,5),(-25,5,25,12),(-24,12,-17,22),

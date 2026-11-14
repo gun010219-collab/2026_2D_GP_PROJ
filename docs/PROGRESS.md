@@ -1,5 +1,63 @@
 # CHECKMATE 개발 진행 기록
 
+## Task 2-F — 독립 렌더링·모션 보간 (사용자 Windows GUI25/25 통과)
+
+시작 HEAD/origin/main: `bce58fd65bc307f6590c4136f3c034fbe53dcf1e`, main 작업 트리/인덱스 깨끗함.
+변경 전 기준 unittest1066개를 직접 재현했다(54.696초, 실패/오류/skip0).
+
+전투는 FIXED_TIME_STEP=1/60과 기존 SimulationClock/정수 Combat.tick/최대8틱 누적 상한을 유지한다. 실제 실행은Stage1~15, Stage16~25는 차단한다.
+렌더 목표는180FPS 상한이며 FramePacer가 1/180에서 실제 프레임 작업시간(렌더·Present 포함)을 빼고 남은 시간만 sleep한다. busy-wait/VSync 강제 변경은 없다.
+새 RenderMotion은 entity_instance_id와 전투 세션으로 추적하는 표시 전용 상태다. 약0.10초 smoothstep, Knight는18px 높이의 도약 곡선을 사용한다.
+Pawn/King 단일셀, Rook 직선/Queen 직선·대각선 다중셀 이동을 보간한다. Bishop은 고정한다. 직선/대각선이 아닌 관측 변위는 안전하게 정착한다.
+일반30FPS의2틱 프레임도 보간하며,8틱 catch-up 또는150ms초과 지연은 snap으로 복구한다. 모달/F11/포커스/종료/세션 교체도 snap하며 잔여 모션을 이월하지 않는다.
+Pulse가 정지시킨 일반 적은 논리 중심으로 정착한다. 공격/패링 중 Player도 논리 셀에 정착하여 판정 위치를 우선한다. 사망/비활성 객체는 모션 저장소에서 제거한다.
+실제 점유 중심의 작은 사각 기준점은 보간 중에만 표시한다. HP·STUN은 기물 표시좌표를 따른다. 공격/적 경고·피격 코너·패링 이펙트는 논리 셀 기준이며 보간좌표로 판정하지 않는다.
+렌더러 draw 호출은 이전 API로도 동작하며 positions 스냅샷을 선택적으로 읽는다. draw를 반복해도 전투/Health/원장/모션을 갱신하지 않는다.
+CHECKMATE_FRAME_STATS=1일 때만 bounded600프레임 계측을 켠다. 실제 프레임 시작 간격으로 FPS/평균/P95/P99/max(ms)·활성시뮬레이션Hz를 계산해5초마다 및 종료시 출력한다.
+SDL_RendererInfo로 보고된 renderer 이름/flags/VSync를 출력하되 드라이버 강제 설정은 하지 않는다. Pico2D의 FPS창제목 덮어쓰기와 충돌하지 않도록 콘솔을 사용한다.
+Pico2D1.5.1 open_canvas는 현재 기본sync=False로 accelerated를 요청하고 실패시software로 폴백하며 update_canvas는SDL_RenderPresent를 호출한다. 실제 Present/OS sleep/하드웨어 주사율 영향은 실측해야 한다.
+180FPS는 목표이며 달성을 보장하지 않는다. 기존 전투/AI/밸런스/데이터/측정표는 무변경이다. 사용자가 실제 Windows 11 게임에서 GUI25/25을 직접 검수했다. 실패0·확인 불가0·미검수0. 최종 자동 재검수 성공 후 Task2-F 파일만 한국어 커밋·기존main 일반 Push가 승인되었다.
+
+기존1066개 테스트 파일은 수정하지 않았다. 새 테스트는7개FPS×15개Stage 전투흔적 비교·시계0/1/복수틱/정지·invalid시간·FPS/P95/P99 계산·보간/차단/전환/사망/6기물/반복렌더 불변·실제main 입력·실시간SDL 계측을 검증한다.
+- 최종 `.\.venv\Scripts\python.exe -m unittest discover -s tests -v`: **1082개 통과, 57.856초, 실패0·오류0·skip0**.
+- AST: 기존1066개 전부 보존·삭제0, 기존 테스트 파일 내용 무변경, 신규16개(순수15/네이티브SDL1).
+- 변경Python9개 문법/import·순수로직 SDL독립성, 문서 내부링크52개, 신규 포함 줄끝/파일끝 공백 및 `git diff --check` 통과.
+- 최종 suite 단기 숨김SDL 실측:166.72FPS, 평균5.998ms, P95 6.089/P99 6.394/max7.025ms, active_sim_hz59.60(samples207). 실제Windows60초 성능을 대신하지 않는다.
+- config에서 새 표시 상수2개를 제외한 기존 모든 AST가 동일하며, SimulationClock/게임·진행·AI·판정·입력·성장/HP·원본/측정표/에셋은 무변경이다.
+- 변경 수정8개·신규5개=13개. HEAD는 시작 SHA 그대로, 인덱스는 비어 있다.
+기존56개576필드 및Stage15 4개44필드 실제전투 재측정 일치. Stage15 완료511/951/566/566틱 BOSS_CLEAR로 동일했다. 기존 드라이버/측정표 무변경.
+일반/-O validator 각각25개 통과. `.\.venv\Scripts\python.exe -m compileall -q .` 전체 성공.
+### 최종 재검수 — 사용자 GUI 이후
+
+- 사용자 직접 Windows GUI25/25 통과, 실패0·확인 불가0·미검수0. 창/목표FPS/실제계측/Player·6종적 보간/판정/보스/Stage1~15/화면전환/60초 안정성/CPU·발열·지연/종료를 확인했다.
+- 실제 `.\.venv\Scripts\python.exe -m unittest discover -s tests -v` 재실행: **1082개, 51.837초, 실패0·오류0·skip0**. 이전57.856초와 별개다.
+- AST 기존1066개 전부 보존·기존 테스트 파일 내용 무변경, 신규16개. 7개FPS×15개Stage 결정성, SDL dummy·네이티브/입력/모달/재시작·Queen preview 회귀 통과.
+- 일반/-O 각각25개 통과. compileall 전체 성공, 변경Python9개 문법/import·순수SDL독립성·문서링크·신규포함 줄끝/파일끝 공백 검사 통과.
+- 기존56개 실제 전투 재실행56/56·576개 기록값 일치. Stage15 4/4 BOSS_CLEAR·44필드 일치(완료511/951/566/566틱). 기존 측정표/드라이버 무변경.
+- 최종 단기dummy SDL 실측:167.58FPS/평균5.967ms/P95 6.064/P99 6.087/max6.351ms/active_sim_hz59.62(samples208). 사용자 실제FPS 수치나60초 통합통계로 대체하지 않는다.
+- 전투60Hz/상한8틱/원장/입력/성장·HP/AI/원본JSON·validator/Stage1~15·Stage16차단/에셋/기존 이력을 보존했다.
+- 시작 SHA는 기준과 일치, 수정8개·신규5개·인덱스 비어 있음이었다. GUI 이후 기능/테스트 추가 수정0. 모든 게이트 성공 후 지정13개만 커밋·일반 Push한다. 아직 수행 전인 Git 결과는 완료로 적지 않는다.
+
+### 실제 변경 파일
+
+- config.py
+- docs/DECISIONS.md
+- docs/GAME_DESIGN.md
+- docs/PROGRESS.md
+- docs/RENDERING_180FPS.md
+- enemy_renderer.py
+- frame_timing.py
+- health_renderer.py
+- main.py
+- player_renderer.py
+- render_motion.py
+- tests/test_frame_telemetry_sdl.py
+- tests/test_render_timing.py
+
+사용자 실행·25개 체크리스트와 단기dummy 실측/한계는 [180FPS 검수 절차](RENDERING_180FPS.md)를 따른다.
+사용자는 실제Windows에서 렌더 품질,60초 이상 안정성,CPU부하·발열·프레임지연을 통과로 보고했다. 다양한 하드웨어·주사율 전체에 대한 성능 보장은 미검증이다. 사용자 GUI 결과는25/25 통과로 수령했다. 이번 최종 검수에서 기능 코드·테스트는 추가 수정하지 않으며 동일 GUI 재검증을 요구하지 않는다.
+이전Task2-E의GUI30/30 및개발기록은 그대로 보존한다.
+
 ## Task 2-E — Stage15 세 번째 King 보스전 (사용자 Windows GUI30/30 통과)
 
 시작 HEAD/origin/main: `1001d97801858c7f585ef5b95e985b6a3672e942`, main 작업 트리/인덱스 깨끗함.
