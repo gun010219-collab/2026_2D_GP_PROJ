@@ -127,15 +127,9 @@ class StageTwentyTwoTests(unittest.TestCase):
             g.advance();cells=[e.position for e in g.encounter.enemies if e.active];self.assertEqual(len(cells),len(set(cells)))
 
     def test_clear_boundary_preserves_second_offer_and_blocks_factory(self):
-        f=at22();f.choose(clear(f),'hp',main._new_stage_game);f.choose(clear(f),'hp',main._new_stage_game);o=clear(f);factory=Mock();self.assertEqual((f.game.state,len(f.run.receipts),o.stage),(GameState.UPGRADE,3,24))
-        for _ in range(3):self.assertIs(f.sync_offer(),o)
-        for kind in ('attack','hp','move'):
-            with self.assertRaises(ValueError):f.choose(o,kind,factory)
-        factory.assert_not_called()
-        with patch.object(GameFlowRenderer,'_center') as t:GameFlowRenderer().draw(Mock(),f.game)
-        self.assertIn('STAGE 25 NOT AVAILABLE',[c.args[1] for c in t.call_args_list])
-        with patch.object(UpgradeRenderer,'_text') as t:UpgradeRenderer().draw(Mock(),f.game,o)
-        t.assert_not_called()
+        # All ordinary stages now progress; final boss forbids a new chapter/offer.
+        from tests.test_stage_twenty_five import assert_final_boundary
+        assert_final_boundary(self)
 
     def test_game_over_resets_entry_attack_and_player_death_priority(self):
         f=at21();f.choose(clear(f),'attack',main._new_stage_game);r=f.run;old=f.game

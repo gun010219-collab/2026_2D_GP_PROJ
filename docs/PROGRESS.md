@@ -1,5 +1,101 @@
 # CHECKMATE 개발 진행 기록
 
+## Task4-E 최종 승인 — Windows GUI30/30 통과
+
+사용자가Windows11에서 STEP1 10/10·STEP2 12/12·STEP3 8/8, **전체30/30 통과**를보고했다. 실패/기능오류보고없음·60초이상실행안정성통과다. Stage24네 번째강화/Receipt4·Stage25 King110/8기HP233·KingPulse경고/패링/반사/정리·King사망후잔여전투·최종BOSS_CLEAR/완료화면·Chapter6/Stage26차단·보스재도전/GAME_OVER Stage21복귀·SETTINGS/F11/ESC를승인했다. 이번최종화에서는기능코드/테스트/원자료를추가변경하지않는다.
+
+검수는Stage24직접시작용테스트세션을사용했다. **Stage1~25 인간연속완주는미검증**이며실제FPS/P95/P99는미측정이다. 임의값을기록하지않는다.
+기존96건모든반환값/메타데이터·91/96을보존하고Stage25독립4/4·누적95/100을유지한다. 독립은합성유효강화이력/최대HP시작이며연속성공을의미하지않는다. 실제HP이월연속은공격Stage25 HP4클리어, 균형HP1진입후136틱Rook2사망(다음패링176틱), 생존Stage21 341틱·회피Stage22 245틱사망으로이후미진입이다. 실패/피격/잔여적기록과과거측정표/JSON을보존한다.
+
+**핵심 전투 콘텐츠: Stage1~25 및 보스전5개 구현 완료.** 게임전체출품완성·최종밸런스·인간캠페인완주·최종그래픽·저장·정식엔딩·배포검증완료를의미하지않는다.
+미완료/미구현: 최종아트/UI/VFX/보스시각·음향/BGM·효과음·영구저장/해금·정식엔딩/크레딧·전체캠페인QA·에셋출처/라이선스정리·배포빌드/설치안내·신규환경실행검증.
+향후우선순위는콘텐츠확장보다실제플레이경험·시각적완성도·안정성·배포품질개선이다. 이번에는신규시스템/아트/사운드/저장을구현하지않는다.
+
+### GUI 최종 승인 후 전체 재검증
+
+이번최종화에서전체 unittest **1285개·124.549초·실패0/오류0/skip0**를재실행했다. 구현단계1,285개·127.160초와구분한다. AST로기존1,267개메서드전부보존·신규18개를확인했다. 기능코드/테스트/원자료는이번최종화시작시해시와일치하며GUI이후추가변경없음이다.
+일반/-O Stage데이터검사각25개·전체compileall·문법/import·순수SDL독립성·문서링크·신규포함공백/EOF검사가통과했다. SDL네이티브dummy 실제main Stage24→25/Receipt4/HP이월·KingPulse/King사망후잔여전투·최종BOSS_CLEAR/화면·Chapter6/26차단·R보스재도전/사망Stage21복귀·기존Chapter1~4 N전환·적6종/패링·1틱/8틱·7종FPS회귀가전체suite에서통과했다.
+별도임시파일로100건독립전투와Chapter5연속전투/Stage25상세관측을재실행해모든반환값/메타데이터/피격/반사/King사망기록과일치했다. 기존96건91/96·신규4/4·누적95/100, 공격연속최종HP4완료/균형136틱사망(다음패링176틱)/생존21·회피22사망을보존했다. 원자료JSON과과거표는덮어쓰지않았다.
+수정33/신규3·총36개전수검토·PROGRESS목록과실제Git변경일치·무관한파일없음이다. 모든게이트통과후지정36개만일반커밋·Push한다. 실제SHA/원격일치/Clean은반영후최종보고에서확정한다. 핵심25스테이지/5보스구현완료와인간연속완주·출품완성·최종밸런스·아트/음향/저장/엔딩/배포미완료를구분하며신규기능은추가하지않았다.
+
+아래GUI대기/미커밋표기는구현당시의이력이다. 최신승인상태는위최종승인기록을따른다.
+
+
+## Task4-E — Stage25 최종보스·네 번째 강화 (Windows GUI 대기)
+
+시작main HEAD/origin `f72846bba8330ba92d5e40725ef8fe4a1bd1cada`·트리/인덱스깨끗함. 변경전1,267개·112.931초·실패/오류/skip0이다.
+Stage1~25/Chapter1~5/보스5전의핵심전투를구현했다. Stage26이상/Chapter6은없으며기존Chapter1~4 N전환인증은유지한다. Stage24정상클리어의네 번째강화는기존후보검증/입력준비후Receipt소비원자성으로같은Run·Receipt3→4·새전투/입력/표시보간으로전환한다.
+
+Stage25원본King110/Queen22/Rook20×2/Knight16×2/Bishop16/Pawn13·8기HP233, 원본boss_hp16과런타임HP를구분한다. 원본JSON/프로필/AI/시간/패링/무적/Pulse/HP이월/강화/60Hz/180FPS/팔레트는불변이다. MAX16/6/12·ATTACK/MOVE현재HP유지·HP각+1을유지한다. 공격형네 번째선택은MOVE이며ATTACK/HP동시MAX를우회하지않는다.
+
+KingPulse DRAINING/100칸/정지·복원/반사2·King먼저사망시잔여적전투를기존정책그대로재사용한다. 최종전8기전멸+생존만BOSS_CLEAR·전투정지·추가Offer없음·Receipt4다. 임시CHECKMATE/ALL25 STAGES CLEARED/FINAL BOSS DEFEATED/R TO REPLAY BOSS/ESC TO EXIT를표시한다. N/Chapter6/26이상차단, R은같은보스/Run/빌드/Receipt4·최대HP·새세션/Pulse다. GAME_OVER R은새Chapter5 Stage21·진입공격·HP3/3·MOVE18·Receipt0이다.
+
+기존96건모든반환값/메타데이터일치·91/96, 신규Stage25독립4/4·누적95/100이다. 공격638틱HP5/Pulse1반사2, 생존1428틱HP3/Pulse2반사4, 회피807틱HP2/Pulse1반사2, 균형854틱HP1/Pulse1반사2다. 독립은각빌드최대HP시작·합성유효강화이력이며인간/연속완주가아니다.
+실제HP이월연속은공격Stage25 HP4클리어, 균형Stage25 HP1진입후136틱Rook2사망(다음패링176틱), 생존Stage21 341틱/회피Stage22 245틱사망으로이후미진입이다. 기존연속기록/실패를보존하고드라이버/밸런스를완화하지않는다.
+
+[실측·GUI30개·검수전용Stage24시작](BALANCE_STAGE25.md), [100건+연속/관측원자료](BALANCE_STAGE25.json).WindowsGUI·60초안정성·실제FPS/P95/P99·인간연속완주는미검증이다.
+핵심전투콘텐츠25스테이지구현은게임전체출품완성을의미하지않는다. 영구저장/해금/최종아트·UI·VFX/보스연출/BGM·효과음/정식엔딩·크레딧/배포빌드·설치/에셋출처·라이선스/신규환경QA/전체밸런스는후속과제다. 도형중심낮은시각품질평가를보존하고다음은시각품질·게임경험·안정성·배포품질을우선한다. GUI승인전git add/commit/push하지않는다.
+
+### Task4-E 실제 변경 파일 — 수정33개·신규3개·총36개
+
+기능 변경은game.py/main.py지원범위·오류문구와game_renderer.py최종BOSS_CLEAR표시분기다. 기존StageProgression·AI·전투시계/Pulse/HP/성장/입력구조는그대로다. 드라이버는Stage25공격형네 번째MOVE와Stage25 Pulse기록만추가했고기존96건결과는불변이다. 이전일반개발경계fixture는최종보스후추가Offer/Chapter6금지검증으로갱신하고모든메서드를보존했다.
+
+수정:
+
+```text
+docs/CHAPTER_EXPANSION_DESIGN.md
+docs/DECISIONS.md
+docs/GAME_DESIGN.md
+docs/PROGRESS.md
+game.py
+game_renderer.py
+main.py
+tests/balance_driver.py
+tests/test_chapter_five_sdl.py
+tests/test_chapter_run.py
+tests/test_chapter_two_entry.py
+tests/test_chapter_two_stages.py
+tests/test_combat_balance.py
+tests/test_enemy_action_pacing.py
+tests/test_enemy_hp_rebalance.py
+tests/test_king_combat.py
+tests/test_queen.py
+tests/test_queen_laser.py
+tests/test_stage_eighteen.py
+tests/test_stage_eleven_twelve.py
+tests/test_stage_five.py
+tests/test_stage_four.py
+tests/test_stage_nineteen.py
+tests/test_stage_seventeen.py
+tests/test_stage_six.py
+tests/test_stage_sixteen.py
+tests/test_stage_three.py
+tests/test_stage_transition.py
+tests/test_stage_twenty.py
+tests/test_stage_twenty_four.py
+tests/test_stage_twenty_one.py
+tests/test_stage_twenty_three.py
+tests/test_stage_twenty_two.py
+```
+
+신규:
+
+```text
+docs/BALANCE_STAGE25.json
+docs/BALANCE_STAGE25.md
+tests/test_stage_twenty_five.py
+```
+
+### Task4-E 최종 자동 검증
+
+전체 unittest **1,285개·127.160초·실패0/오류0/skip0**를실행했다. 변경전1,267개·112.931초와구분한다. AST비교로기존1,267개메서드전부보존·신규18개·삭제0을확인했다.
+일반/-O Stage검사각25개·전체compileall·변경Python문법/import·순수SDL독립성·문서링크·신규포함공백/EOF검사가통과했다. SDL네이티브dummy 실제main Stage24→25 숫자/마우스네 번째MOVE·최종화면/N차단/R보스재도전·25사망R→21이통과했다. 기존Chapter1~4 N전환/Queen/Pulse/패링/HP이월/SETTINGS/F11/포커스/레터박스/보간·1틱/8틱/30/60/120/144/160/180/240FPS회귀가전체suite에서통과했다.
+별도임시원자료로100건독립전투·실제Chapter5연속·Stage25상세관측을재실행해전부일치했다. 기존96건전필드/메타데이터불변·91/96, 신규4/4·누적95/100이다. 독립생존형성공은합성유효성장이력/최대HP시작조건이며이전GAME_OVER우회를의미하지않는다. 연속균형형HP1진입/136틱Rook2사망과이전생존/회피사망을보존한다.
+원본stage_data.json·HP프로필/AI/행동/공격/패링/무적/KingPulse·HP이월/강화·60Hz/180FPS·과거측정표는Git기준무변경이다. 수정33/신규3·총36개는미스테이징·인덱스비어있음·main HEAD/origin시작SHA그대로이며git add/commit/push는실행하지않았다. WindowsGUI/60초안정성/인간Stage1~25연속완주/실제FPS·P95·P99는미검증이다.
+
+아래기존Task기록은당시범위/승인의이력이며최신범위는이Task4-E를따른다.
+
+
 ## Task4-D 최종 승인 — Windows GUI30/30 통과
 
 사용자가Windows11에서 STEP1 10/10·STEP2 12/12·STEP3 8/8, **전체30/30 통과**를보고했다. 기능오류보고없음·60초이상실행안정성·이중Queen전투/공격경고·세 번째강화/Receipt3·Stage25경계·GAME_OVER후Chapter5재시작을승인했다. 이번최종화에서는기능코드/테스트를추가변경하지않는다.

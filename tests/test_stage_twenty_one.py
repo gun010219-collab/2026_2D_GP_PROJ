@@ -25,28 +25,14 @@ class StageTwentyOneTests(unittest.TestCase):
         self.assertEqual(BoardRenderer(chapter=5).theme.name,'Gothic Throne')
 
     def test_clear_holds_one_offer_without_cards_or_receipt_consumption(self):
-        f=entered_five();f.choose(clear(f),'hp',main._new_stage_game);f.choose(clear(f),'hp',main._new_stage_game);f.choose(clear(f),'hp',main._new_stage_game);g=f.game;g.advance(80);pending=g.encounter.ledger.pending;o=clear(f)
-        self.assertEqual((g.state,len(f.run.receipts),g.transition_count),(GameState.UPGRADE,3,1))
-        for _ in range(3):self.assertIs(f.sync_offer(),o)
-        for kind in ('attack','hp','move'):
-            factory=Mock()
-            with self.assertRaises(ValueError):f.choose(o,kind,factory)
-            factory.assert_not_called()
-        self.assertIs(f.offer,o);self.assertEqual(len(f.run.receipts),3)
-        for e in pending:self.assertEqual(g.encounter.ledger.state(e),'cancelled')
-        with patch.object(GameFlowRenderer,'_center') as text:GameFlowRenderer().draw(Mock(),g)
-        labels=[c.args[1] for c in text.call_args_list]
-        self.assertIn('STAGE 24 CLEAR',labels);self.assertIn('STAGE 25 NOT AVAILABLE',labels);self.assertNotIn('UPGRADE',labels)
-        with patch.object(UpgradeRenderer,'_text') as text:UpgradeRenderer().draw(Mock(),g,o)
-        text.assert_not_called()
-        g.advance(1000);self.assertEqual(g.combat.tick,g.end_tick)
+        # All ordinary stages now progress; final boss forbids a new chapter/offer.
+        from tests.test_stage_twenty_five import assert_final_boundary
+        assert_final_boundary(self)
 
     def test_boundary_keyboard_mouse_n_r_do_not_install_another_stage(self):
-        from types import SimpleNamespace
-        games,snapshots,*_=run_loop([[key(49),key(N),key(R)],[SimpleNamespace(type=1025,button=1,x=450,y=500)]],initial_stage=24)
-        self.assertEqual(len(games),1);self.assertTrue(all(s['stage']==24 for s in snapshots))
-        for n in range(25,26):
-            with self.assertRaises(ValueError):main._new_stage_game(n)
+        # All ordinary stages now progress; final boss forbids a new chapter/offer.
+        from tests.test_stage_twenty_five import assert_final_boundary
+        assert_final_boundary(self)
 
     def test_actual_mixed_ai_snapshots_independent_cancel_and_occupancy(self):
         g=main._new_stage_game(21);g.advance(110)

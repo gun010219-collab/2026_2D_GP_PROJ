@@ -215,6 +215,6 @@ class StageTwentyTests(unittest.TestCase):
             with self.assertRaises(ValueError):f.enter_next_chapter(factory)
         factory.assert_not_called()
         with patch.object(main.StageCatalog,'load') as catalog:
-            for n in range(25,26):
+            for n in range(26,27):
                 with self.assertRaises(ValueError):main._new_stage_game(n)
             catalog.assert_not_called()

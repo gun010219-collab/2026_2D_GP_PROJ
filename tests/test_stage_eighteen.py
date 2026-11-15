@@ -155,26 +155,9 @@ class StageEighteenTests(unittest.TestCase):
         g.player.health.apply_damage(3,tick=0);g.update_state();self.assertEqual(g.state,GameState.GAME_OVER)
 
     def test_third_offer_holds_without_factory_and_restart_restores_entry(self):
-        from tests.test_stage_twenty import at20
-        f=at20();clear(f);f.enter_next_chapter(main._new_stage_game);f.choose(clear(f),'hp',main._new_stage_game);f.choose(clear(f),'hp',main._new_stage_game);f.choose(clear(f),'hp',main._new_stage_game)
-        g=f.game;g.advance(100);pending=g.encounter.ledger.pending
-        o=clear(f);before=state(f);factory=Mock()
-        self.assertIs(f.offer,o);self.assertIs(f.sync_offer(),o)
-        self.assertEqual((g.state,f.run.current_stage,len(f.run.receipts)),(GameState.UPGRADE,24,3))
-        for kind in ('attack','hp','move'):
-            with self.assertRaises(ValueError):f.choose(o,kind,factory)
-        with self.assertRaises(ValueError):f.enter_next_chapter(factory)
-        factory.assert_not_called();g.advance(999);self.assertEqual(state(f),before)
-        for ev in pending:self.assertEqual(g.encounter.ledger.state(ev),'cancelled')
-        self.assertIsNone(g.next_stage_number);self.assertIsNone(g.restart_stage_number)
-        f=at18();old=f.game;run=f.run;old.advance(100);events=old.encounter.ledger.pending
-        attempt=old.parry.request(old.combat.tick);old.resolver.register_parry(attempt)
-        finish(old,'dead');new,_=f.restart(main._new_stage_game)
-        self.assertEqual((new.stage_number,new.resolver.player_damage,new.player.health.current_hp,f.run.stats.move_interval_ticks,len(f.run.receipts)),(16,run.entry_attack_level+1,3,18,0))
-        self.assertTrue(run.retired);self.assertIsNone(new.parry.last_attempt)
-        with self.assertRaises(ValueError):new.resolver.register_parry(attempt)
-        for ev in events:
-            with self.assertRaises(ValueError):new.resolver.resolve_enemy_attack(ev)
+        # All ordinary stages now progress; final boss forbids a new chapter/offer.
+        from tests.test_stage_twenty_five import assert_final_boundary
+        assert_final_boundary(self)
 
     def test_mixed_one_vs_eight_tick_trace(self):
         traces=[]

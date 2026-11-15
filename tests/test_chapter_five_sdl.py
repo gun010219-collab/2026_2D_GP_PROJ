@@ -99,7 +99,7 @@ class ChapterFiveSDLTests(unittest.TestCase):
                         finish(f.game,'dead' if sys.argv[1]=='22dead' else 'clear')
                 if i==5:
                     if sys.argv[1]=='22dead':tap(s.SDLK_r)
-                    elif sys.argv[1] in ('clear','23dead','24dead'):
+                    elif sys.argv[1] in ('clear','23dead','24dead','25dead'):
                         if sys.argv[2]=='keyboard':tap(s.SDLK_2)
                         else:
                             e=s.SDL_Event();e.type=s.SDL_MOUSEBUTTONDOWN;e.button.button=1;e.button.x=730;e.button.y=500;s.SDL_PushEvent(e)
@@ -110,7 +110,7 @@ class ChapterFiveSDLTests(unittest.TestCase):
                         finish(f.game,'dead' if sys.argv[1]=='23dead' else 'clear')
                 if i==7:
                     if sys.argv[1]=='23dead':tap(s.SDLK_r)
-                    elif sys.argv[1] in ('clear','24dead'):
+                    elif sys.argv[1] in ('clear','24dead','25dead'):
                         if sys.argv[2]=='keyboard':tap(s.SDLK_2)
                         else:
                             e=s.SDL_Event();e.type=s.SDL_MOUSEBUTTONDOWN;e.button.button=1;e.button.x=730;e.button.y=500;s.SDL_PushEvent(e)
@@ -121,11 +121,21 @@ class ChapterFiveSDLTests(unittest.TestCase):
                         finish(f.game,'dead' if sys.argv[1]=='24dead' else 'clear')
                 if i==9:
                     if sys.argv[1]=='24dead':tap(s.SDLK_r)
-                    elif sys.argv[1]=='clear':
-                        for k in (s.SDLK_1,s.SDLK_2,s.SDLK_3,s.SDLK_r,s.SDLK_n):tap(k)
+                    elif sys.argv[1] in ('clear','25dead'):
+                        if sys.argv[2]=='keyboard':tap(s.SDLK_3)
+                        else:
+                            e=s.SDL_Event();e.type=s.SDL_MOUSEBUTTONDOWN;e.button.button=1;e.button.x=1010;e.button.y=500;s.SDL_PushEvent(e)
                 if i==10:
                     if sys.argv[1] in ('dead','22dead','23dead','24dead'):assert f.game.stage_number==21 and f.game.playing and f.run.receipts==() and f.game.player.health.current_hp==3
-                    else:assert f.game.stage_number==24 and len(f.run.receipts)==3 and f.game.state is GameState.UPGRADE and f.offer.stage==24
+                    else:
+                        assert f.game.stage_number==25 and len(f.run.receipts)==4 and f.game.player.health.current_hp==6
+                        finish(f.game,'dead' if sys.argv[1]=='25dead' else 'clear')
+                        if sys.argv[1]=='clear':assert f.game.state is GameState.BOSS_CLEAR and f.sync_offer() is None and f.game.next_stage_number is None
+                if i==11:
+                    if sys.argv[1] in ('clear','25dead'):tap(s.SDLK_n);tap(s.SDLK_r)
+                if i==12:
+                    if sys.argv[1]=='clear':assert f.game.stage_number==25 and f.game.playing and len(f.run.receipts)==4
+                    else:assert f.game.stage_number==21 and f.game.playing and f.run.receipts==() and f.game.player.health.current_hp==3
                     event=s.SDL_Event();event.type=s.SDL_QUIT;s.SDL_PushEvent(event)
                 return real_poll()
             def draw():
@@ -134,9 +144,9 @@ class ChapterFiveSDLTests(unittest.TestCase):
             with patch.object(canvas,'open_canvas',side_effect=open_window),patch.object(canvas,'close_canvas',side_effect=close_window),patch.object(canvas,'get_events',side_effect=poll),patch.object(canvas,'update_canvas',side_effect=draw),patch.object(canvas,'SDL_GetWindowFlags',return_value=s.SDL_WINDOW_INPUT_FOCUS),patch.object(main,'_new_game',return_value=old),patch.object(main,'StageProgression',return_value=f),patch.object(main,'perf_counter',side_effect=lambda:now[0]),patch.object(main,'sleep'),patch.object(main.HealthRenderer,'_text',side_effect=label),patch.object(main.UpgradeRenderer,'_text',side_effect=label):
                 main.main(run=run)
             assert old.combat.stage_instance_id!=f.game.combat.stage_instance_id and run.retired
-            if sys.argv[1]=='clear':assert 'STAGE 24 CLEAR' in labels and 'STAGE 25 NOT AVAILABLE' in labels and 'CHOOSE ONE  1 2 3 OR CLICK' in labels
+            if sys.argv[1]=='clear':assert 'ALL 25 STAGES CLEARED' in labels and 'R TO REPLAY BOSS' in labels and 'CHOOSE ONE  1 2 3 OR CLICK' in labels
             print('PASS native Stage20 N Stage21',sys.argv[1])
         ''')
-        for outcome,method in (('clear','keyboard'),('clear','mouse'),('dead','keyboard'),('22dead','mouse'),('23dead','keyboard'),('23dead','mouse'),('24dead','keyboard'),('24dead','mouse')):
+        for outcome,method in (('clear','keyboard'),('clear','mouse'),('dead','keyboard'),('22dead','mouse'),('23dead','keyboard'),('23dead','mouse'),('24dead','keyboard'),('24dead','mouse'),('25dead','keyboard'),('25dead','mouse')):
             result=subprocess.run([sys.executable,'-c',script,outcome,method],cwd=Path(__file__).resolve().parents[1],env={**os.environ,'SDL_VIDEODRIVER':'dummy'},capture_output=True,text=True,timeout=30)
             self.assertEqual(result.returncode,0,result.stdout+result.stderr)

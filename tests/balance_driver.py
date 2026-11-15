@@ -24,7 +24,7 @@ def measure(style, stage, limit=3600):
         for kind in (('attack','attack','attack','hp') if chapter==4 and style=='attack' else choices):run.select(run.offer_after_clear(run.current_stage,str(run.current_stage)),kind)
         run=run.start_chapter(chapter+1)
     first=(stage-1)//5*5+1
-    for kind in (('hp','hp','hp','attack') if stage in (22,23,24) and style=='attack' else ('attack','attack','attack','hp') if stage==20 and style=='attack' else choices)[:stage-first]:run.select(run.offer_after_clear(run.current_stage,str(run.current_stage)),kind)
+    for kind in (('hp','hp','hp','move') if stage==25 and style=='attack' else ('hp','hp','hp','attack') if stage in (22,23,24) and style=='attack' else ('attack','attack','attack','hp') if stage==20 and style=='attack' else choices)[:stage-first]:run.select(run.offer_after_clear(run.current_stage,str(run.current_stage)),kind)
     g=main._new_stage_game(stage,stats=run.stats)
     movement=InputController(move_interval_ticks=run.stats.move_interval_ticks)
     hits=damage=perfect=0
@@ -68,5 +68,5 @@ def measure(style, stage, limit=3600):
                 ticks=g.combat.tick,hits=hits,received=damage,perfect=perfect,
                 result=g.state.value,remaining_hp=g.player.health.current_hp)
 
-    if stage==20:row.update(pulse_events=len(pulse_events),reflected_damage=reflected,max_hp=run.stats.max_hp,move_ticks=run.stats.move_interval_ticks,pulse_outcomes=[(r.state,r.outcome) for r in g.encounter.ledger._records.values() if r.event.attack_kind=='king_pulse'])
+    if stage in (20,25):row.update(pulse_events=len(pulse_events),reflected_damage=reflected,max_hp=run.stats.max_hp,move_ticks=run.stats.move_interval_ticks,pulse_outcomes=[(r.state,r.outcome) for r in g.encounter.ledger._records.values() if r.event.attack_kind=='king_pulse'])
     return row

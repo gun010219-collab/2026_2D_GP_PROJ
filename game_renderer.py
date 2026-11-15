@@ -14,6 +14,14 @@ class GameFlowRenderer:
         x, y = WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2
         canvas.draw_rectangle(x - 300, y - 165, x + 300, y + 165, *accent, filled=True)
         canvas.draw_rectangle(x - 296, y - 161, x + 296, y + 161, 17, 20, 28, filled=True)
+        if game.stage_number == 25 and game.state is GameState.BOSS_CLEAR:
+            for label, row, scale in (('CHECKMATE', 558, 6), ('ALL 25 STAGES CLEARED', 516, 3),
+                                      ('FINAL BOSS DEFEATED', 475, 3), ('R TO REPLAY BOSS', 399, 3),
+                                      ('ESC TO EXIT', 343, 3), ('SETTINGS / F11', 310, 2)):
+                self._center(canvas, label, row, scale, accent)
+            if error:
+                self._center(canvas, 'COULD NOT START STAGE  TRY AGAIN', 268, 2, (231, 130, 115))
+            return
         title = (f'STAGE {game.stage_number} CLEAR' if boundary else 'UPGRADE' if game.state is GameState.UPGRADE else
                  'BOSS CLEAR' if game.state is GameState.BOSS_CLEAR else 'STAGE CLEAR' if clear else 'GAME OVER')
         self._center(canvas, title, 558, 6, accent)

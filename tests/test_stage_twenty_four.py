@@ -117,7 +117,7 @@ class StageTwentyFourTests(unittest.TestCase):
         self.assertEqual(sum(e.health.max_hp for e in g.encounter.enemies),145)
         self.assertEqual(g.encounter.enemies[-1].forward,(0,-1))
         self.assertEqual(BoardRenderer(chapter=5).theme.name,'Gothic Throne')
-        for n in (25,26):
+        for n in (26,27):
             with self.assertRaises(ValueError):main._new_stage_game(n)
 
     def test_original_double_queen_snapshots_and_source_owned_cancel(self):
@@ -197,23 +197,9 @@ class StageTwentyFourTests(unittest.TestCase):
             self.assertEqual((row['result'],row['ticks'],row['remaining_hp']),(result,tick,hp))
             self.assertEqual(row['hp'],[22,22,20,20,16,16,16,13])
     def test_third_offer_boundary_no_cards_or_input_consumption(self):
-        from types import SimpleNamespace
-        f=at24();g=f.game;g.advance(88);pending=g.encounter.ledger.pending;o=clear(f)
-        self.assertEqual((g.state,len(f.run.receipts),o.stage,g.transition_count),(GameState.UPGRADE,3,24,1))
-        for _ in range(3):self.assertIs(f.sync_offer(),o)
-        for kind in ('attack','hp','move'):
-            factory=Mock()
-            with self.assertRaises(ValueError):f.choose(o,kind,factory)
-            factory.assert_not_called()
-        for ev in pending:self.assertEqual(g.encounter.ledger.state(ev),'cancelled')
-        with patch.object(GameFlowRenderer,'_center') as t:GameFlowRenderer().draw(Mock(),g)
-        labels=[c.args[1] for c in t.call_args_list]
-        self.assertIn('STAGE 24 CLEAR',labels);self.assertIn('STAGE 25 NOT AVAILABLE',labels)
-        with patch.object(UpgradeRenderer,'_text') as t:UpgradeRenderer().draw(Mock(),g,o)
-        t.assert_not_called()
-        games,*_=run_loop([[key(49),key(50),key(51),key(110),key(114)],[SimpleNamespace(type=1025,button=1,x=450,y=500)]],initial_stage=24)
-        self.assertEqual([g.stage_number for g in games],[24])
-        g.advance(1000);self.assertEqual(g.combat.tick,g.end_tick)
+        # All ordinary stages now progress; final boss forbids a new chapter/offer.
+        from tests.test_stage_twenty_five import assert_final_boundary
+        assert_final_boundary(self)
 
     def test_real_chapter_five_chain_uses_remaining_hp_and_issued_second_offer(self):
         # Actual AI kills throughout; no clear fixture, damage edit, or healing.
@@ -231,7 +217,7 @@ class StageTwentyFourTests(unittest.TestCase):
                     choice='hp' if style=='attack' else STYLES[style][i]
                     f.choose(offer,choice,main._new_stage_game)
                     self.assertEqual(f.game.player.health.current_hp,hp+(choice=='hp'))
-                else:self.assertFalse(f.game.upgrade_selection_enabled)
+                else:self.assertTrue(f.game.upgrade_selection_enabled)
 
     def test_original_knights_rooks_bishop_and_pawn_owned_plans(self):
         g=main._new_stage_game(24);g.advance(128)

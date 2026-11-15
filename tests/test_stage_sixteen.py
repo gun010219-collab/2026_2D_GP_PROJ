@@ -26,18 +26,9 @@ class StageSixteenTests(unittest.TestCase):
         self.assertNotEqual(board.theme,BoardRenderer(chapter=3).theme);board.draw(Mock())
 
     def test_clear_holds_first_offer_without_factory_or_retry_error(self):
-        from tests.test_stage_twenty import at20
-        f=at20();clear(f);f.enter_next_chapter(main._new_stage_game);f.choose(clear(f),'hp',main._new_stage_game);f.choose(clear(f),'hp',main._new_stage_game);f.choose(clear(f),'hp',main._new_stage_game)
-        g=f.game;g.advance(100);pending=g.encounter.ledger.pending
-        o=clear(f);before=state(f);factory=Mock()
-        self.assertIs(f.offer,o);self.assertIs(f.sync_offer(),o)
-        self.assertEqual((g.state,f.run.current_stage,len(f.run.receipts)),(GameState.UPGRADE,24,3))
-        for kind in ('attack','hp','move'):
-            with self.assertRaises(ValueError):f.choose(o,kind,factory)
-        with self.assertRaises(ValueError):f.enter_next_chapter(factory)
-        factory.assert_not_called();g.advance(999);self.assertEqual(state(f),before)
-        for ev in pending:self.assertEqual(g.encounter.ledger.state(ev),'cancelled')
-        self.assertIsNone(g.next_stage_number);self.assertIsNone(g.restart_stage_number)
+        # All ordinary stages now progress; final boss forbids a new chapter/offer.
+        from tests.test_stage_twenty_five import assert_final_boundary
+        assert_final_boundary(self)
 
     def test_bishop_actual_warning_damage_miss_and_parry(self):
         for mode in ('hit','miss','normal','perfect'):
