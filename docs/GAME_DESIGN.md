@@ -1,5 +1,33 @@
 # CHECKMATE 현재 승인 설계
 
+## Task4-D 최종 승인 — Windows GUI30/30 통과
+
+사용자가Windows11에서 STEP1 10/10·STEP2 12/12·STEP3 8/8, **전체30/30 통과**를보고했다. 기능오류보고없음·60초이상실행안정성·이중Queen전투/공격경고·세 번째강화/Receipt3·Stage25경계·GAME_OVER후Chapter5재시작을승인했다. 이번최종화에서는기능코드/테스트를추가변경하지않는다.
+
+검수는테스트전용Stage23시작절차를사용했으므로 **Stage1~24 인간연속완주는미검증**이다. 실제FPS/P95/P99는미측정이며임의값을기록하지않는다.
+기존92건전필드/메타데이터·88/92와Stage24독립3/4·누적91/96을보존한다. 생존형은704틱Knight2공격으로HP0·다음패링711틱이며피격/잔여적기록을유지한다. 실제HP이월연속은공격Stage24 HP5·균형HP1완료, 생존Stage21 341틱·회피Stage22 245틱사망으로이후미진입이다. 최대HP시작독립측정과연속측정을구분하며실패를성공으로바꾸지않는다.
+
+Stage1~24지원·Stage25최종보스/영구저장/해금/엔딩/최종아트·음향은미구현이다. 낮은도형중심시각품질과플레이어/적6종/보드/UI/VFX/사운드리뉴얼은주요후속과제다. 다음Task4-E는Stage25및네 번째강화연결이며이번최종화에서는시작하지않는다. 원본JSON/HP프로필/AI/시간/패링/무적/Pulse/HP이월/강화/60Hz/180FPS는보존한다.
+
+아래GUI대기/미커밋표기는구현당시의이력이다. 최신승인상태는위기록을따른다.
+
+
+## Task4-D — Stage24·Chapter5 세 번째 강화 (Windows GUI 대기)
+
+시작 main HEAD/origin `e5a7e4f129433cd089c521669443517d84dbf32c`·트리/인덱스깨끗함. 변경전1,252개·162.948초·실패/오류/skip0이다. Stage1~24지원·Stage25차단.Stage23정상클리어후 기존choose()의후보검증/입력준비후Receipt소비원자성을재사용해같은Chapter5 Run·Receipt2→3·새전투객체/ID/입력/표시보간으로전환한다.
+
+Stage24원본Queen22×2/Rook20×2/Bishop16/Knight16×2/Pawn13·8기HP145·지연48/62/75/88/101/114/128/141틱·Gothic Throne다. HP이월/세강화/MAX16/6/12·AI/HP/속도/경고/회복/패링/무적/Pulse/원본JSON/60Hz/180FPS/보간은불변이다. 두Queen독립스냅샷/취소/패링·중첩/점유를검증하며가독성은GUI대기다.
+
+Stage24전멸은UPGRADE·네 번째Offer보존·STAGE24 CLEAR/STAGE25 NOT AVAILABLE·카드숨김이다. GAME_OVER R은새Chapter5 Stage21·진입공격레벨·HP3/3·MOVE18·Receipt0이다. 위조/외부/복제Offer·잘못된후보·입력실패는이전HP/Build/Offer/Receipt2보존·재시도가가능하다.
+
+기존92건전필드/메타데이터일치·88/92, 신규Stage24는3/4·총91/96이다. 공격522틱HP6/회피605틱HP2/균형677틱HP3클리어, 생존704틱Knight2사망(피격6/Perfect5/다음패링711틱)을숨기지않는다. 실제HP이월연속은공격Stage24 HP5·균형HP1클리어, 생존Stage21 341틱·회피Stage22 245틱사망으로미진입이다. 기존연속행/피격관측모두일치하며과거JSON/측정표를덮어쓰지않는다.
+
+[실측·GUI30개·검수전용Stage23시작](BALANCE_STAGE24.md), [96건+연속원자료](BALANCE_STAGE24.json).WindowsGUI·60초안정성·실제FPS/P95/P99·인간연속완주는미검증이다. 검수전용Receipt2는실제Stage21/22클리어증거가아니다.
+도형중심낮은시각품질·플레이어/적6종/보드/UI/VFX/사운드/엔딩리뉴얼을주요과제로유지한다. Stage25최종보스/엔딩/영구저장/해금/최종아트·음향은미구현이며다음Task4-E에서Stage25·네 번째강화를검토한다. 이번에는착수하지않으며GUI승인전스테이징/커밋/Push하지않는다.
+
+아래 기존Task의지원범위·승인상태는당시이력으로보존한다. 최신범위는위Task4-D기록을따른다.
+
+
 ## Task 4-C 최종 승인 — Windows GUI 30/30 통과
 
 사용자가 Windows11에서 STEP1 10/10·STEP2 12/12·STEP3 8/8, **전체30/30 통과**를 보고했다. 기능 오류 보고 없음, Stage23 60초 이상 실행 안정성 통과다. Stage22 두 번째 강화·Stage23 원본8기/HP130 혼합 전투·GAME_OVER R→새Chapter5 Stage21·Stage24 차단이 승인됐다. GUI승인 이후 기능 코드와 테스트는 수정하지 않는다.

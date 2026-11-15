@@ -107,7 +107,7 @@ class StageTwentyThreeTests(unittest.TestCase):
         self.assertEqual(sum(e.health.max_hp for e in g.encounter.enemies),130)
         self.assertTrue(all(e.forward==(0,-1) for e in g.encounter.enemies[-2:]))
         self.assertEqual(BoardRenderer(chapter=5).theme.name,'Gothic Throne')
-        for n in (24,25,26):
+        for n in (25,26):
             with self.assertRaises(ValueError):main._new_stage_game(n)
 
     def test_paired_knights_rooks_pawns_independent_cancel_and_occupancy(self):
@@ -150,8 +150,8 @@ class StageTwentyThreeTests(unittest.TestCase):
 
     def test_third_offer_boundary_no_cards_or_input_consumption(self):
         from types import SimpleNamespace
-        f=at23();g=f.game;g.advance(88);pending=g.encounter.ledger.pending;o=clear(f)
-        self.assertEqual((g.state,len(f.run.receipts),o.stage,g.transition_count),(GameState.UPGRADE,2,23,1))
+        f=at23();f.choose(clear(f),'hp',main._new_stage_game);g=f.game;g.advance(88);pending=g.encounter.ledger.pending;o=clear(f)
+        self.assertEqual((g.state,len(f.run.receipts),o.stage,g.transition_count),(GameState.UPGRADE,3,24,1))
         for _ in range(3):self.assertIs(f.sync_offer(),o)
         for kind in ('attack','hp','move'):
             factory=Mock()
@@ -160,11 +160,11 @@ class StageTwentyThreeTests(unittest.TestCase):
         for ev in pending:self.assertEqual(g.encounter.ledger.state(ev),'cancelled')
         with patch.object(GameFlowRenderer,'_center') as t:GameFlowRenderer().draw(Mock(),g)
         labels=[c.args[1] for c in t.call_args_list]
-        self.assertIn('STAGE 23 CLEAR',labels);self.assertIn('STAGE 24 NOT AVAILABLE',labels)
+        self.assertIn('STAGE 24 CLEAR',labels);self.assertIn('STAGE 25 NOT AVAILABLE',labels)
         with patch.object(UpgradeRenderer,'_text') as t:UpgradeRenderer().draw(Mock(),g,o)
         t.assert_not_called()
-        games,*_=run_loop([[key(49),key(50),key(51),key(110),key(114)],[SimpleNamespace(type=1025,button=1,x=450,y=500)]],initial_stage=23)
-        self.assertEqual([g.stage_number for g in games],[23])
+        games,*_=run_loop([[key(49),key(50),key(51),key(110),key(114)],[SimpleNamespace(type=1025,button=1,x=450,y=500)]],initial_stage=24)
+        self.assertEqual([g.stage_number for g in games],[24])
         g.advance(1000);self.assertEqual(g.combat.tick,g.end_tick)
 
     def test_game_over_restarts_chapter_and_simultaneous_death_priority(self):
@@ -252,4 +252,4 @@ class StageTwentyThreeTests(unittest.TestCase):
                     choice='hp' if style=='attack' else STYLES[style][i]
                     f.choose(offer,choice,main._new_stage_game)
                     self.assertEqual(f.game.player.health.current_hp,hp+(choice=='hp'))
-                else:self.assertFalse(f.game.upgrade_selection_enabled)
+                else:self.assertTrue(f.game.upgrade_selection_enabled)

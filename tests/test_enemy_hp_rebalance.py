@@ -241,6 +241,6 @@ class EnemyHPRebalanceTests(unittest.TestCase):
 
     def test_unsupported_chapter_five_rejected_before_catalog(self):
         with patch.object(main.StageCatalog,'load') as load:
-            for n in range(24,26):
+            for n in range(25,26):
                 with self.assertRaises(ValueError): main._new_stage_game(n)
             load.assert_not_called()
