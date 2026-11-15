@@ -1,0 +1,3154 @@
+{
+  "independent": [
+    {
+      "battle": {
+        "style": "attack",
+        "stage": 1,
+        "attack": 1,
+        "hp": [
+          4,
+          4
+        ],
+        "basic_hits": [
+          4,
+          4
+        ],
+        "ticks": 352,
+        "hits": 7,
+        "received": 0,
+        "perfect": 1,
+        "result": "UPGRADE",
+        "remaining_hp": 3
+      },
+      "max_hp": 3,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "survival",
+        "stage": 1,
+        "attack": 1,
+        "hp": [
+          4,
+          4
+        ],
+        "basic_hits": [
+          4,
+          4
+        ],
+        "ticks": 352,
+        "hits": 7,
+        "received": 0,
+        "perfect": 1,
+        "result": "UPGRADE",
+        "remaining_hp": 3
+      },
+      "max_hp": 3,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "evasion",
+        "stage": 1,
+        "attack": 1,
+        "hp": [
+          4,
+          4
+        ],
+        "basic_hits": [
+          4,
+          4
+        ],
+        "ticks": 352,
+        "hits": 7,
+        "received": 0,
+        "perfect": 1,
+        "result": "UPGRADE",
+        "remaining_hp": 3
+      },
+      "max_hp": 3,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "balanced",
+        "stage": 1,
+        "attack": 1,
+        "hp": [
+          4,
+          4
+        ],
+        "basic_hits": [
+          4,
+          4
+        ],
+        "ticks": 352,
+        "hits": 7,
+        "received": 0,
+        "perfect": 1,
+        "result": "UPGRADE",
+        "remaining_hp": 3
+      },
+      "max_hp": 3,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "attack",
+        "stage": 2,
+        "attack": 2,
+        "hp": [
+          8,
+          4,
+          4
+        ],
+        "basic_hits": [
+          4,
+          2,
+          2
+        ],
+        "ticks": 313,
+        "hits": 7,
+        "received": 0,
+        "perfect": 1,
+        "result": "UPGRADE",
+        "remaining_hp": 3
+      },
+      "max_hp": 3,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "survival",
+        "stage": 2,
+        "attack": 1,
+        "hp": [
+          8,
+          4,
+          4
+        ],
+        "basic_hits": [
+          8,
+          4,
+          4
+        ],
+        "ticks": 511,
+        "hits": 13,
+        "received": 0,
+        "perfect": 3,
+        "result": "UPGRADE",
+        "remaining_hp": 4
+      },
+      "max_hp": 4,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "evasion",
+        "stage": 2,
+        "attack": 1,
+        "hp": [
+          8,
+          4,
+          4
+        ],
+        "basic_hits": [
+          8,
+          4,
+          4
+        ],
+        "ticks": 511,
+        "hits": 13,
+        "received": 0,
+        "perfect": 3,
+        "result": "UPGRADE",
+        "remaining_hp": 3
+      },
+      "max_hp": 3,
+      "move_ticks": 15
+    },
+    {
+      "battle": {
+        "style": "balanced",
+        "stage": 2,
+        "attack": 2,
+        "hp": [
+          8,
+          4,
+          4
+        ],
+        "basic_hits": [
+          4,
+          2,
+          2
+        ],
+        "ticks": 313,
+        "hits": 7,
+        "received": 0,
+        "perfect": 1,
+        "result": "UPGRADE",
+        "remaining_hp": 3
+      },
+      "max_hp": 3,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "attack",
+        "stage": 3,
+        "attack": 3,
+        "hp": [
+          7,
+          4,
+          4
+        ],
+        "basic_hits": [
+          3,
+          2,
+          2
+        ],
+        "ticks": 355,
+        "hits": 7,
+        "received": 0,
+        "perfect": 1,
+        "result": "UPGRADE",
+        "remaining_hp": 3
+      },
+      "max_hp": 3,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "survival",
+        "stage": 3,
+        "attack": 1,
+        "hp": [
+          7,
+          4,
+          4
+        ],
+        "basic_hits": [
+          7,
+          4,
+          4
+        ],
+        "ticks": 612,
+        "hits": 15,
+        "received": 0,
+        "perfect": 0,
+        "result": "UPGRADE",
+        "remaining_hp": 5
+      },
+      "max_hp": 5,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "evasion",
+        "stage": 3,
+        "attack": 1,
+        "hp": [
+          7,
+          4,
+          4
+        ],
+        "basic_hits": [
+          7,
+          4,
+          4
+        ],
+        "ticks": 510,
+        "hits": 14,
+        "received": 0,
+        "perfect": 1,
+        "result": "UPGRADE",
+        "remaining_hp": 3
+      },
+      "max_hp": 3,
+      "move_ticks": 12
+    },
+    {
+      "battle": {
+        "style": "balanced",
+        "stage": 3,
+        "attack": 2,
+        "hp": [
+          7,
+          4,
+          4
+        ],
+        "basic_hits": [
+          4,
+          2,
+          2
+        ],
+        "ticks": 396,
+        "hits": 8,
+        "received": 0,
+        "perfect": 0,
+        "result": "UPGRADE",
+        "remaining_hp": 4
+      },
+      "max_hp": 4,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "attack",
+        "stage": 4,
+        "attack": 4,
+        "hp": [
+          7,
+          8,
+          4,
+          4
+        ],
+        "basic_hits": [
+          2,
+          2,
+          1,
+          1
+        ],
+        "ticks": 324,
+        "hits": 6,
+        "received": 1,
+        "perfect": 0,
+        "result": "UPGRADE",
+        "remaining_hp": 2
+      },
+      "max_hp": 3,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "survival",
+        "stage": 4,
+        "attack": 1,
+        "hp": [
+          7,
+          8,
+          4,
+          4
+        ],
+        "basic_hits": [
+          7,
+          8,
+          4,
+          4
+        ],
+        "ticks": 788,
+        "hits": 19,
+        "received": 0,
+        "perfect": 3,
+        "result": "UPGRADE",
+        "remaining_hp": 6
+      },
+      "max_hp": 6,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "evasion",
+        "stage": 4,
+        "attack": 2,
+        "hp": [
+          7,
+          8,
+          4,
+          4
+        ],
+        "basic_hits": [
+          4,
+          4,
+          2,
+          2
+        ],
+        "ticks": 435,
+        "hits": 11,
+        "received": 0,
+        "perfect": 1,
+        "result": "UPGRADE",
+        "remaining_hp": 3
+      },
+      "max_hp": 3,
+      "move_ticks": 12
+    },
+    {
+      "battle": {
+        "style": "balanced",
+        "stage": 4,
+        "attack": 2,
+        "hp": [
+          7,
+          8,
+          4,
+          4
+        ],
+        "basic_hits": [
+          4,
+          4,
+          2,
+          2
+        ],
+        "ticks": 435,
+        "hits": 11,
+        "received": 0,
+        "perfect": 1,
+        "result": "UPGRADE",
+        "remaining_hp": 4
+      },
+      "max_hp": 4,
+      "move_ticks": 15
+    },
+    {
+      "battle": {
+        "style": "attack",
+        "stage": 5,
+        "attack": 5,
+        "hp": [
+          28,
+          8,
+          4,
+          4
+        ],
+        "basic_hits": [
+          6,
+          2,
+          1,
+          1
+        ],
+        "ticks": 494,
+        "hits": 10,
+        "received": 0,
+        "perfect": 1,
+        "result": "BOSS_CLEAR",
+        "remaining_hp": 3
+      },
+      "max_hp": 3,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "survival",
+        "stage": 5,
+        "attack": 2,
+        "hp": [
+          28,
+          8,
+          4,
+          4
+        ],
+        "basic_hits": [
+          14,
+          4,
+          2,
+          2
+        ],
+        "ticks": 710,
+        "hits": 18,
+        "received": 0,
+        "perfect": 4,
+        "result": "BOSS_CLEAR",
+        "remaining_hp": 6
+      },
+      "max_hp": 6,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "evasion",
+        "stage": 5,
+        "attack": 3,
+        "hp": [
+          28,
+          8,
+          4,
+          4
+        ],
+        "basic_hits": [
+          10,
+          3,
+          2,
+          2
+        ],
+        "ticks": 566,
+        "hits": 15,
+        "received": 0,
+        "perfect": 2,
+        "result": "BOSS_CLEAR",
+        "remaining_hp": 3
+      },
+      "max_hp": 3,
+      "move_ticks": 12
+    },
+    {
+      "battle": {
+        "style": "balanced",
+        "stage": 5,
+        "attack": 3,
+        "hp": [
+          28,
+          8,
+          4,
+          4
+        ],
+        "basic_hits": [
+          10,
+          3,
+          2,
+          2
+        ],
+        "ticks": 566,
+        "hits": 15,
+        "received": 0,
+        "perfect": 2,
+        "result": "BOSS_CLEAR",
+        "remaining_hp": 4
+      },
+      "max_hp": 4,
+      "move_ticks": 15
+    },
+    {
+      "battle": {
+        "style": "attack",
+        "stage": 6,
+        "attack": 5,
+        "hp": [
+          7,
+          7,
+          7,
+          12
+        ],
+        "basic_hits": [
+          2,
+          2,
+          2,
+          3
+        ],
+        "ticks": 389,
+        "hits": 9,
+        "received": 0,
+        "perfect": 1,
+        "result": "UPGRADE",
+        "remaining_hp": 3
+      },
+      "max_hp": 3,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "survival",
+        "stage": 6,
+        "attack": 2,
+        "hp": [
+          7,
+          7,
+          7,
+          12
+        ],
+        "basic_hits": [
+          4,
+          4,
+          4,
+          6
+        ],
+        "ticks": 630,
+        "hits": 17,
+        "received": 0,
+        "perfect": 3,
+        "result": "UPGRADE",
+        "remaining_hp": 3
+      },
+      "max_hp": 3,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "evasion",
+        "stage": 6,
+        "attack": 3,
+        "hp": [
+          7,
+          7,
+          7,
+          12
+        ],
+        "basic_hits": [
+          3,
+          3,
+          3,
+          4
+        ],
+        "ticks": 460,
+        "hits": 12,
+        "received": 0,
+        "perfect": 2,
+        "result": "UPGRADE",
+        "remaining_hp": 3
+      },
+      "max_hp": 3,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "balanced",
+        "stage": 6,
+        "attack": 3,
+        "hp": [
+          7,
+          7,
+          7,
+          12
+        ],
+        "basic_hits": [
+          3,
+          3,
+          3,
+          4
+        ],
+        "ticks": 460,
+        "hits": 12,
+        "received": 0,
+        "perfect": 2,
+        "result": "UPGRADE",
+        "remaining_hp": 3
+      },
+      "max_hp": 3,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "attack",
+        "stage": 7,
+        "attack": 6,
+        "hp": [
+          9,
+          9,
+          7,
+          7
+        ],
+        "basic_hits": [
+          2,
+          2,
+          2,
+          2
+        ],
+        "ticks": 396,
+        "hits": 8,
+        "received": 0,
+        "perfect": 0,
+        "result": "UPGRADE",
+        "remaining_hp": 3
+      },
+      "max_hp": 3,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "survival",
+        "stage": 7,
+        "attack": 2,
+        "hp": [
+          9,
+          9,
+          7,
+          7
+        ],
+        "basic_hits": [
+          5,
+          5,
+          4,
+          4
+        ],
+        "ticks": 643,
+        "hits": 16,
+        "received": 0,
+        "perfect": 2,
+        "result": "UPGRADE",
+        "remaining_hp": 4
+      },
+      "max_hp": 4,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "evasion",
+        "stage": 7,
+        "attack": 3,
+        "hp": [
+          9,
+          9,
+          7,
+          7
+        ],
+        "basic_hits": [
+          3,
+          3,
+          3,
+          3
+        ],
+        "ticks": 524,
+        "hits": 12,
+        "received": 0,
+        "perfect": 1,
+        "result": "UPGRADE",
+        "remaining_hp": 3
+      },
+      "max_hp": 3,
+      "move_ticks": 15
+    },
+    {
+      "battle": {
+        "style": "balanced",
+        "stage": 7,
+        "attack": 4,
+        "hp": [
+          9,
+          9,
+          7,
+          7
+        ],
+        "basic_hits": [
+          3,
+          3,
+          2,
+          2
+        ],
+        "ticks": 468,
+        "hits": 10,
+        "received": 0,
+        "perfect": 0,
+        "result": "UPGRADE",
+        "remaining_hp": 3
+      },
+      "max_hp": 3,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "attack",
+        "stage": 8,
+        "attack": 7,
+        "hp": [
+          9,
+          12,
+          9,
+          7,
+          7
+        ],
+        "basic_hits": [
+          2,
+          2,
+          2,
+          1,
+          1
+        ],
+        "ticks": 468,
+        "hits": 8,
+        "received": 0,
+        "perfect": 0,
+        "result": "UPGRADE",
+        "remaining_hp": 3
+      },
+      "max_hp": 3,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "survival",
+        "stage": 8,
+        "attack": 2,
+        "hp": [
+          9,
+          12,
+          9,
+          7,
+          7
+        ],
+        "basic_hits": [
+          5,
+          6,
+          5,
+          4,
+          4
+        ],
+        "ticks": 957,
+        "hits": 23,
+        "received": 1,
+        "perfect": 3,
+        "result": "UPGRADE",
+        "remaining_hp": 4
+      },
+      "max_hp": 5,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "evasion",
+        "stage": 8,
+        "attack": 3,
+        "hp": [
+          9,
+          12,
+          9,
+          7,
+          7
+        ],
+        "basic_hits": [
+          3,
+          4,
+          3,
+          3,
+          3
+        ],
+        "ticks": 615,
+        "hits": 16,
+        "received": 0,
+        "perfect": 1,
+        "result": "UPGRADE",
+        "remaining_hp": 3
+      },
+      "max_hp": 3,
+      "move_ticks": 12
+    },
+    {
+      "battle": {
+        "style": "balanced",
+        "stage": 8,
+        "attack": 4,
+        "hp": [
+          9,
+          12,
+          9,
+          7,
+          7
+        ],
+        "basic_hits": [
+          3,
+          3,
+          3,
+          2,
+          2
+        ],
+        "ticks": 543,
+        "hits": 13,
+        "received": 0,
+        "perfect": 1,
+        "result": "UPGRADE",
+        "remaining_hp": 4
+      },
+      "max_hp": 4,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "attack",
+        "stage": 9,
+        "attack": 8,
+        "hp": [
+          9,
+          12,
+          12,
+          9,
+          7
+        ],
+        "basic_hits": [
+          2,
+          2,
+          2,
+          2,
+          1
+        ],
+        "ticks": 399,
+        "hits": 9,
+        "received": 0,
+        "perfect": 2,
+        "result": "UPGRADE",
+        "remaining_hp": 3
+      },
+      "max_hp": 3,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "survival",
+        "stage": 9,
+        "attack": 2,
+        "hp": [
+          9,
+          12,
+          12,
+          9,
+          7
+        ],
+        "basic_hits": [
+          5,
+          6,
+          6,
+          5,
+          4
+        ],
+        "ticks": 889,
+        "hits": 24,
+        "received": 1,
+        "perfect": 4,
+        "result": "UPGRADE",
+        "remaining_hp": 5
+      },
+      "max_hp": 6,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "evasion",
+        "stage": 9,
+        "attack": 4,
+        "hp": [
+          9,
+          12,
+          12,
+          9,
+          7
+        ],
+        "basic_hits": [
+          3,
+          3,
+          3,
+          3,
+          2
+        ],
+        "ticks": 543,
+        "hits": 14,
+        "received": 0,
+        "perfect": 1,
+        "result": "UPGRADE",
+        "remaining_hp": 3
+      },
+      "max_hp": 3,
+      "move_ticks": 12
+    },
+    {
+      "battle": {
+        "style": "balanced",
+        "stage": 9,
+        "attack": 4,
+        "hp": [
+          9,
+          12,
+          12,
+          9,
+          7
+        ],
+        "basic_hits": [
+          3,
+          3,
+          3,
+          3,
+          2
+        ],
+        "ticks": 507,
+        "hits": 14,
+        "received": 0,
+        "perfect": 3,
+        "result": "UPGRADE",
+        "remaining_hp": 4
+      },
+      "max_hp": 4,
+      "move_ticks": 15
+    },
+    {
+      "battle": {
+        "style": "attack",
+        "stage": 10,
+        "attack": 9,
+        "hp": [
+          50,
+          9,
+          9,
+          7,
+          7
+        ],
+        "basic_hits": [
+          6,
+          1,
+          1,
+          1,
+          1
+        ],
+        "ticks": 457,
+        "hits": 10,
+        "received": 1,
+        "perfect": 2,
+        "result": "BOSS_CLEAR",
+        "remaining_hp": 2
+      },
+      "max_hp": 3,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "survival",
+        "stage": 10,
+        "attack": 3,
+        "hp": [
+          50,
+          9,
+          9,
+          7,
+          7
+        ],
+        "basic_hits": [
+          17,
+          3,
+          3,
+          3,
+          3
+        ],
+        "ticks": 890,
+        "hits": 25,
+        "received": 1,
+        "perfect": 7,
+        "result": "BOSS_CLEAR",
+        "remaining_hp": 5
+      },
+      "max_hp": 6,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "evasion",
+        "stage": 10,
+        "attack": 5,
+        "hp": [
+          50,
+          9,
+          9,
+          7,
+          7
+        ],
+        "basic_hits": [
+          10,
+          2,
+          2,
+          2,
+          2
+        ],
+        "ticks": 591,
+        "hits": 17,
+        "received": 1,
+        "perfect": 5,
+        "result": "BOSS_CLEAR",
+        "remaining_hp": 2
+      },
+      "max_hp": 3,
+      "move_ticks": 12
+    },
+    {
+      "battle": {
+        "style": "balanced",
+        "stage": 10,
+        "attack": 5,
+        "hp": [
+          50,
+          9,
+          9,
+          7,
+          7
+        ],
+        "basic_hits": [
+          10,
+          2,
+          2,
+          2,
+          2
+        ],
+        "ticks": 605,
+        "hits": 17,
+        "received": 1,
+        "perfect": 5,
+        "result": "BOSS_CLEAR",
+        "remaining_hp": 3
+      },
+      "max_hp": 4,
+      "move_ticks": 15
+    },
+    {
+      "battle": {
+        "style": "attack",
+        "stage": 11,
+        "attack": 9,
+        "hp": [
+          16,
+          16,
+          13,
+          13,
+          9
+        ],
+        "basic_hits": [
+          2,
+          2,
+          2,
+          2,
+          1
+        ],
+        "ticks": 399,
+        "hits": 9,
+        "received": 0,
+        "perfect": 1,
+        "result": "UPGRADE",
+        "remaining_hp": 3
+      },
+      "max_hp": 3,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "survival",
+        "stage": 11,
+        "attack": 3,
+        "hp": [
+          16,
+          16,
+          13,
+          13,
+          9
+        ],
+        "basic_hits": [
+          6,
+          6,
+          5,
+          5,
+          3
+        ],
+        "ticks": 789,
+        "hits": 22,
+        "received": 1,
+        "perfect": 5,
+        "result": "UPGRADE",
+        "remaining_hp": 2
+      },
+      "max_hp": 3,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "evasion",
+        "stage": 11,
+        "attack": 5,
+        "hp": [
+          16,
+          16,
+          13,
+          13,
+          9
+        ],
+        "basic_hits": [
+          4,
+          4,
+          3,
+          3,
+          2
+        ],
+        "ticks": 579,
+        "hits": 15,
+        "received": 0,
+        "perfect": 3,
+        "result": "UPGRADE",
+        "remaining_hp": 3
+      },
+      "max_hp": 3,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "balanced",
+        "stage": 11,
+        "attack": 5,
+        "hp": [
+          16,
+          16,
+          13,
+          13,
+          9
+        ],
+        "basic_hits": [
+          4,
+          4,
+          3,
+          3,
+          2
+        ],
+        "ticks": 579,
+        "hits": 15,
+        "received": 0,
+        "perfect": 3,
+        "result": "UPGRADE",
+        "remaining_hp": 3
+      },
+      "max_hp": 3,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "attack",
+        "stage": 12,
+        "attack": 10,
+        "hp": [
+          13,
+          13,
+          16,
+          9,
+          9
+        ],
+        "basic_hits": [
+          2,
+          2,
+          2,
+          1,
+          1
+        ],
+        "ticks": 410,
+        "hits": 8,
+        "received": 0,
+        "perfect": 2,
+        "result": "UPGRADE",
+        "remaining_hp": 3
+      },
+      "max_hp": 3,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "survival",
+        "stage": 12,
+        "attack": 3,
+        "hp": [
+          13,
+          13,
+          16,
+          9,
+          9
+        ],
+        "basic_hits": [
+          5,
+          5,
+          6,
+          3,
+          3
+        ],
+        "ticks": 836,
+        "hits": 21,
+        "received": 1,
+        "perfect": 2,
+        "result": "UPGRADE",
+        "remaining_hp": 3
+      },
+      "max_hp": 4,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "evasion",
+        "stage": 12,
+        "attack": 5,
+        "hp": [
+          13,
+          13,
+          16,
+          9,
+          9
+        ],
+        "basic_hits": [
+          3,
+          3,
+          4,
+          2,
+          2
+        ],
+        "ticks": 518,
+        "hits": 13,
+        "received": 0,
+        "perfect": 2,
+        "result": "UPGRADE",
+        "remaining_hp": 3
+      },
+      "max_hp": 3,
+      "move_ticks": 15
+    },
+    {
+      "battle": {
+        "style": "balanced",
+        "stage": 12,
+        "attack": 6,
+        "hp": [
+          13,
+          13,
+          16,
+          9,
+          9
+        ],
+        "basic_hits": [
+          3,
+          3,
+          3,
+          2,
+          2
+        ],
+        "ticks": 518,
+        "hits": 12,
+        "received": 0,
+        "perfect": 2,
+        "result": "UPGRADE",
+        "remaining_hp": 3
+      },
+      "max_hp": 3,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "attack",
+        "stage": 13,
+        "attack": 11,
+        "hp": [
+          18,
+          13,
+          9,
+          9,
+          9
+        ],
+        "basic_hits": [
+          2,
+          2,
+          1,
+          1,
+          1
+        ],
+        "ticks": 338,
+        "hits": 7,
+        "received": 0,
+        "perfect": 1,
+        "result": "UPGRADE",
+        "remaining_hp": 3
+      },
+      "max_hp": 3,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "survival",
+        "stage": 13,
+        "attack": 3,
+        "hp": [
+          18,
+          13,
+          9,
+          9,
+          9
+        ],
+        "basic_hits": [
+          6,
+          5,
+          3,
+          3,
+          3
+        ],
+        "ticks": 672,
+        "hits": 19,
+        "received": 0,
+        "perfect": 4,
+        "result": "UPGRADE",
+        "remaining_hp": 5
+      },
+      "max_hp": 5,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "evasion",
+        "stage": 13,
+        "attack": 5,
+        "hp": [
+          18,
+          13,
+          9,
+          9,
+          9
+        ],
+        "basic_hits": [
+          4,
+          3,
+          2,
+          2,
+          2
+        ],
+        "ticks": 482,
+        "hits": 13,
+        "received": 0,
+        "perfect": 1,
+        "result": "UPGRADE",
+        "remaining_hp": 3
+      },
+      "max_hp": 3,
+      "move_ticks": 12
+    },
+    {
+      "battle": {
+        "style": "balanced",
+        "stage": 13,
+        "attack": 6,
+        "hp": [
+          18,
+          13,
+          9,
+          9,
+          9
+        ],
+        "basic_hits": [
+          3,
+          3,
+          2,
+          2,
+          2
+        ],
+        "ticks": 446,
+        "hits": 11,
+        "received": 0,
+        "perfect": 1,
+        "result": "UPGRADE",
+        "remaining_hp": 4
+      },
+      "max_hp": 4,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "attack",
+        "stage": 14,
+        "attack": 12,
+        "hp": [
+          18,
+          16,
+          13,
+          9,
+          9
+        ],
+        "basic_hits": [
+          2,
+          2,
+          2,
+          1,
+          1
+        ],
+        "ticks": 432,
+        "hits": 8,
+        "received": 0,
+        "perfect": 0,
+        "result": "UPGRADE",
+        "remaining_hp": 3
+      },
+      "max_hp": 3,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "survival",
+        "stage": 14,
+        "attack": 3,
+        "hp": [
+          18,
+          16,
+          13,
+          9,
+          9
+        ],
+        "basic_hits": [
+          6,
+          6,
+          5,
+          3,
+          3
+        ],
+        "ticks": 867,
+        "hits": 22,
+        "received": 0,
+        "perfect": 2,
+        "result": "UPGRADE",
+        "remaining_hp": 6
+      },
+      "max_hp": 6,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "evasion",
+        "stage": 14,
+        "attack": 6,
+        "hp": [
+          18,
+          16,
+          13,
+          9,
+          9
+        ],
+        "basic_hits": [
+          3,
+          3,
+          3,
+          2,
+          2
+        ],
+        "ticks": 537,
+        "hits": 13,
+        "received": 1,
+        "perfect": 2,
+        "result": "UPGRADE",
+        "remaining_hp": 2
+      },
+      "max_hp": 3,
+      "move_ticks": 12
+    },
+    {
+      "battle": {
+        "style": "balanced",
+        "stage": 14,
+        "attack": 6,
+        "hp": [
+          18,
+          16,
+          13,
+          9,
+          9
+        ],
+        "basic_hits": [
+          3,
+          3,
+          3,
+          2,
+          2
+        ],
+        "ticks": 537,
+        "hits": 13,
+        "received": 0,
+        "perfect": 3,
+        "result": "UPGRADE",
+        "remaining_hp": 4
+      },
+      "max_hp": 4,
+      "move_ticks": 15
+    },
+    {
+      "battle": {
+        "style": "attack",
+        "stage": 15,
+        "attack": 13,
+        "hp": [
+          75,
+          18,
+          16,
+          9,
+          9
+        ],
+        "basic_hits": [
+          6,
+          2,
+          2,
+          1,
+          1
+        ],
+        "ticks": 530,
+        "hits": 12,
+        "received": 0,
+        "perfect": 2,
+        "result": "BOSS_CLEAR",
+        "remaining_hp": 3
+      },
+      "max_hp": 3,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "survival",
+        "stage": 15,
+        "attack": 4,
+        "hp": [
+          75,
+          18,
+          16,
+          9,
+          9
+        ],
+        "basic_hits": [
+          19,
+          5,
+          4,
+          3,
+          3
+        ],
+        "ticks": 1072,
+        "hits": 30,
+        "received": 1,
+        "perfect": 9,
+        "result": "BOSS_CLEAR",
+        "remaining_hp": 5
+      },
+      "max_hp": 6,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "evasion",
+        "stage": 15,
+        "attack": 7,
+        "hp": [
+          75,
+          18,
+          16,
+          9,
+          9
+        ],
+        "basic_hits": [
+          11,
+          3,
+          3,
+          2,
+          2
+        ],
+        "ticks": 746,
+        "hits": 20,
+        "received": 1,
+        "perfect": 4,
+        "result": "BOSS_CLEAR",
+        "remaining_hp": 2
+      },
+      "max_hp": 3,
+      "move_ticks": 12
+    },
+    {
+      "battle": {
+        "style": "balanced",
+        "stage": 15,
+        "attack": 7,
+        "hp": [
+          75,
+          18,
+          16,
+          9,
+          9
+        ],
+        "basic_hits": [
+          11,
+          3,
+          3,
+          2,
+          2
+        ],
+        "ticks": 746,
+        "hits": 20,
+        "received": 1,
+        "perfect": 4,
+        "result": "BOSS_CLEAR",
+        "remaining_hp": 3
+      },
+      "max_hp": 4,
+      "move_ticks": 15
+    },
+    {
+      "battle": {
+        "style": "attack",
+        "stage": 16,
+        "attack": 13,
+        "hp": [
+          21,
+          21,
+          18,
+          18,
+          18,
+          13
+        ],
+        "basic_hits": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          1
+        ],
+        "ticks": 507,
+        "hits": 11,
+        "received": 0,
+        "perfect": 1,
+        "result": "UPGRADE",
+        "remaining_hp": 3
+      },
+      "max_hp": 3,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "survival",
+        "stage": 16,
+        "attack": 4,
+        "hp": [
+          21,
+          21,
+          18,
+          18,
+          18,
+          13
+        ],
+        "basic_hits": [
+          6,
+          6,
+          5,
+          5,
+          5,
+          4
+        ],
+        "ticks": 408,
+        "hits": 11,
+        "received": 3,
+        "perfect": 3,
+        "result": "GAME_OVER",
+        "remaining_hp": 0
+      },
+      "max_hp": 3,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "evasion",
+        "stage": 16,
+        "attack": 7,
+        "hp": [
+          21,
+          21,
+          18,
+          18,
+          18,
+          13
+        ],
+        "basic_hits": [
+          3,
+          3,
+          3,
+          3,
+          3,
+          2
+        ],
+        "ticks": 714,
+        "hits": 17,
+        "received": 1,
+        "perfect": 2,
+        "result": "UPGRADE",
+        "remaining_hp": 2
+      },
+      "max_hp": 3,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "balanced",
+        "stage": 16,
+        "attack": 7,
+        "hp": [
+          21,
+          21,
+          18,
+          18,
+          18,
+          13
+        ],
+        "basic_hits": [
+          3,
+          3,
+          3,
+          3,
+          3,
+          2
+        ],
+        "ticks": 714,
+        "hits": 17,
+        "received": 1,
+        "perfect": 2,
+        "result": "UPGRADE",
+        "remaining_hp": 2
+      },
+      "max_hp": 3,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "attack",
+        "stage": 17,
+        "attack": 14,
+        "hp": [
+          18,
+          18,
+          21,
+          21,
+          18,
+          13
+        ],
+        "basic_hits": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          1
+        ],
+        "ticks": 592,
+        "hits": 11,
+        "received": 0,
+        "perfect": 1,
+        "result": "UPGRADE",
+        "remaining_hp": 3
+      },
+      "max_hp": 3,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "survival",
+        "stage": 17,
+        "attack": 4,
+        "hp": [
+          18,
+          18,
+          21,
+          21,
+          18,
+          13
+        ],
+        "basic_hits": [
+          5,
+          5,
+          6,
+          6,
+          5,
+          4
+        ],
+        "ticks": 977,
+        "hits": 27,
+        "received": 1,
+        "perfect": 6,
+        "result": "UPGRADE",
+        "remaining_hp": 3
+      },
+      "max_hp": 4,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "evasion",
+        "stage": 17,
+        "attack": 7,
+        "hp": [
+          18,
+          18,
+          21,
+          21,
+          18,
+          13
+        ],
+        "basic_hits": [
+          3,
+          3,
+          3,
+          3,
+          3,
+          2
+        ],
+        "ticks": 664,
+        "hits": 17,
+        "received": 1,
+        "perfect": 3,
+        "result": "UPGRADE",
+        "remaining_hp": 2
+      },
+      "max_hp": 3,
+      "move_ticks": 15
+    },
+    {
+      "battle": {
+        "style": "balanced",
+        "stage": 17,
+        "attack": 8,
+        "hp": [
+          18,
+          18,
+          21,
+          21,
+          18,
+          13
+        ],
+        "basic_hits": [
+          3,
+          3,
+          3,
+          3,
+          3,
+          2
+        ],
+        "ticks": 722,
+        "hits": 17,
+        "received": 1,
+        "perfect": 4,
+        "result": "UPGRADE",
+        "remaining_hp": 2
+      },
+      "max_hp": 3,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "attack",
+        "stage": 18,
+        "attack": 15,
+        "hp": [
+          24,
+          18,
+          21,
+          21,
+          13,
+          13
+        ],
+        "basic_hits": [
+          2,
+          2,
+          2,
+          2,
+          1,
+          1
+        ],
+        "ticks": 531,
+        "hits": 10,
+        "received": 0,
+        "perfect": 1,
+        "result": "UPGRADE",
+        "remaining_hp": 3
+      },
+      "max_hp": 3,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "survival",
+        "stage": 18,
+        "attack": 4,
+        "hp": [
+          24,
+          18,
+          21,
+          21,
+          13,
+          13
+        ],
+        "basic_hits": [
+          6,
+          5,
+          6,
+          6,
+          4,
+          4
+        ],
+        "ticks": 1053,
+        "hits": 29,
+        "received": 2,
+        "perfect": 7,
+        "result": "UPGRADE",
+        "remaining_hp": 3
+      },
+      "max_hp": 5,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "evasion",
+        "stage": 18,
+        "attack": 7,
+        "hp": [
+          24,
+          18,
+          21,
+          21,
+          13,
+          13
+        ],
+        "basic_hits": [
+          4,
+          3,
+          3,
+          3,
+          2,
+          2
+        ],
+        "ticks": 663,
+        "hits": 17,
+        "received": 2,
+        "perfect": 3,
+        "result": "UPGRADE",
+        "remaining_hp": 1
+      },
+      "max_hp": 3,
+      "move_ticks": 12
+    },
+    {
+      "battle": {
+        "style": "balanced",
+        "stage": 18,
+        "attack": 8,
+        "hp": [
+          24,
+          18,
+          21,
+          21,
+          13,
+          13
+        ],
+        "basic_hits": [
+          3,
+          3,
+          3,
+          3,
+          2,
+          2
+        ],
+        "ticks": 671,
+        "hits": 16,
+        "received": 1,
+        "perfect": 2,
+        "result": "UPGRADE",
+        "remaining_hp": 3
+      },
+      "max_hp": 4,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "attack",
+        "stage": 19,
+        "attack": 16,
+        "hp": [
+          24,
+          18,
+          18,
+          21,
+          21,
+          18,
+          13
+        ],
+        "basic_hits": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          1
+        ],
+        "ticks": 432,
+        "hits": 12,
+        "received": 2,
+        "perfect": 3,
+        "result": "UPGRADE",
+        "remaining_hp": 1
+      },
+      "max_hp": 3,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "survival",
+        "stage": 19,
+        "attack": 4,
+        "hp": [
+          24,
+          18,
+          18,
+          21,
+          21,
+          18,
+          13
+        ],
+        "basic_hits": [
+          6,
+          5,
+          5,
+          6,
+          6,
+          5,
+          4
+        ],
+        "ticks": 1171,
+        "hits": 33,
+        "received": 4,
+        "perfect": 8,
+        "result": "UPGRADE",
+        "remaining_hp": 2
+      },
+      "max_hp": 6,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "evasion",
+        "stage": 19,
+        "attack": 8,
+        "hp": [
+          24,
+          18,
+          18,
+          21,
+          21,
+          18,
+          13
+        ],
+        "basic_hits": [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          2
+        ],
+        "ticks": 395,
+        "hits": 12,
+        "received": 3,
+        "perfect": 4,
+        "result": "GAME_OVER",
+        "remaining_hp": 0
+      },
+      "max_hp": 3,
+      "move_ticks": 12
+    },
+    {
+      "battle": {
+        "style": "balanced",
+        "stage": 19,
+        "attack": 8,
+        "hp": [
+          24,
+          18,
+          18,
+          21,
+          21,
+          18,
+          13
+        ],
+        "basic_hits": [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          2
+        ],
+        "ticks": 703,
+        "hits": 19,
+        "received": 3,
+        "perfect": 5,
+        "result": "UPGRADE",
+        "remaining_hp": 1
+      },
+      "max_hp": 4,
+      "move_ticks": 15
+    },
+    {
+      "battle": {
+        "style": "attack",
+        "stage": 20,
+        "attack": 16,
+        "hp": [
+          100,
+          24,
+          18,
+          18,
+          18,
+          13
+        ],
+        "basic_hits": [
+          7,
+          2,
+          2,
+          2,
+          2,
+          1
+        ],
+        "ticks": 654,
+        "hits": 16,
+        "received": 0,
+        "perfect": 2,
+        "result": "BOSS_CLEAR",
+        "remaining_hp": 4,
+        "pulse_events": 1,
+        "reflected_damage": 0,
+        "max_hp": 4,
+        "move_ticks": 18,
+        "pulse_outcomes": [
+          [
+            "cancelled",
+            null
+          ]
+        ]
+      },
+      "max_hp": 4,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "survival",
+        "stage": 20,
+        "attack": 5,
+        "hp": [
+          100,
+          24,
+          18,
+          18,
+          18,
+          13
+        ],
+        "basic_hits": [
+          20,
+          5,
+          4,
+          4,
+          4,
+          3
+        ],
+        "ticks": 838,
+        "hits": 26,
+        "received": 6,
+        "perfect": 8,
+        "result": "GAME_OVER",
+        "remaining_hp": 0,
+        "pulse_events": 1,
+        "reflected_damage": 2,
+        "max_hp": 6,
+        "move_ticks": 18,
+        "pulse_outcomes": [
+          [
+            "resolved",
+            "parried_perfect"
+          ]
+        ]
+      },
+      "max_hp": 6,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "evasion",
+        "stage": 20,
+        "attack": 9,
+        "hp": [
+          100,
+          24,
+          18,
+          18,
+          18,
+          13
+        ],
+        "basic_hits": [
+          12,
+          3,
+          2,
+          2,
+          2,
+          2
+        ],
+        "ticks": 811,
+        "hits": 22,
+        "received": 0,
+        "perfect": 4,
+        "result": "BOSS_CLEAR",
+        "remaining_hp": 3,
+        "pulse_events": 1,
+        "reflected_damage": 2,
+        "max_hp": 3,
+        "move_ticks": 12,
+        "pulse_outcomes": [
+          [
+            "resolved",
+            "parried_perfect"
+          ]
+        ]
+      },
+      "max_hp": 3,
+      "move_ticks": 12
+    },
+    {
+      "battle": {
+        "style": "balanced",
+        "stage": 20,
+        "attack": 9,
+        "hp": [
+          100,
+          24,
+          18,
+          18,
+          18,
+          13
+        ],
+        "basic_hits": [
+          12,
+          3,
+          2,
+          2,
+          2,
+          2
+        ],
+        "ticks": 811,
+        "hits": 22,
+        "received": 0,
+        "perfect": 4,
+        "result": "BOSS_CLEAR",
+        "remaining_hp": 4,
+        "pulse_events": 1,
+        "reflected_damage": 2,
+        "max_hp": 4,
+        "move_ticks": 15,
+        "pulse_outcomes": [
+          [
+            "resolved",
+            "parried_perfect"
+          ]
+        ]
+      },
+      "max_hp": 4,
+      "move_ticks": 15
+    },
+    {
+      "battle": {
+        "style": "attack",
+        "stage": 21,
+        "attack": 16,
+        "hp": [
+          22,
+          20,
+          20,
+          16,
+          16,
+          16,
+          13
+        ],
+        "basic_hits": [
+          2,
+          2,
+          2,
+          1,
+          1,
+          1,
+          1
+        ],
+        "ticks": 432,
+        "hits": 10,
+        "received": 1,
+        "perfect": 0,
+        "result": "UPGRADE",
+        "remaining_hp": 2
+      },
+      "max_hp": 3,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "survival",
+        "stage": 21,
+        "attack": 5,
+        "hp": [
+          22,
+          20,
+          20,
+          16,
+          16,
+          16,
+          13
+        ],
+        "basic_hits": [
+          5,
+          4,
+          4,
+          4,
+          4,
+          4,
+          3
+        ],
+        "ticks": 341,
+        "hits": 10,
+        "received": 3,
+        "perfect": 3,
+        "result": "GAME_OVER",
+        "remaining_hp": 0
+      },
+      "max_hp": 3,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "evasion",
+        "stage": 21,
+        "attack": 9,
+        "hp": [
+          22,
+          20,
+          20,
+          16,
+          16,
+          16,
+          13
+        ],
+        "basic_hits": [
+          3,
+          3,
+          3,
+          2,
+          2,
+          2,
+          2
+        ],
+        "ticks": 651,
+        "hits": 16,
+        "received": 1,
+        "perfect": 2,
+        "result": "UPGRADE",
+        "remaining_hp": 2
+      },
+      "max_hp": 3,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "balanced",
+        "stage": 21,
+        "attack": 9,
+        "hp": [
+          22,
+          20,
+          20,
+          16,
+          16,
+          16,
+          13
+        ],
+        "basic_hits": [
+          3,
+          3,
+          3,
+          2,
+          2,
+          2,
+          2
+        ],
+        "ticks": 651,
+        "hits": 16,
+        "received": 1,
+        "perfect": 2,
+        "result": "UPGRADE",
+        "remaining_hp": 2
+      },
+      "max_hp": 3,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "attack",
+        "stage": 22,
+        "attack": 16,
+        "hp": [
+          22,
+          16,
+          16,
+          20,
+          16,
+          16,
+          13
+        ],
+        "basic_hits": [
+          2,
+          1,
+          1,
+          2,
+          1,
+          1,
+          1
+        ],
+        "ticks": 423,
+        "hits": 9,
+        "received": 0,
+        "perfect": 1,
+        "result": "UPGRADE",
+        "remaining_hp": 4
+      },
+      "max_hp": 4,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "survival",
+        "stage": 22,
+        "attack": 5,
+        "hp": [
+          22,
+          16,
+          16,
+          20,
+          16,
+          16,
+          13
+        ],
+        "basic_hits": [
+          5,
+          4,
+          4,
+          4,
+          4,
+          4,
+          3
+        ],
+        "ticks": 1059,
+        "hits": 27,
+        "received": 1,
+        "perfect": 4,
+        "result": "UPGRADE",
+        "remaining_hp": 3
+      },
+      "max_hp": 4,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "evasion",
+        "stage": 22,
+        "attack": 9,
+        "hp": [
+          22,
+          16,
+          16,
+          20,
+          16,
+          16,
+          13
+        ],
+        "basic_hits": [
+          3,
+          2,
+          2,
+          3,
+          2,
+          2,
+          2
+        ],
+        "ticks": 605,
+        "hits": 16,
+        "received": 2,
+        "perfect": 2,
+        "result": "UPGRADE",
+        "remaining_hp": 1
+      },
+      "max_hp": 3,
+      "move_ticks": 15
+    },
+    {
+      "battle": {
+        "style": "balanced",
+        "stage": 22,
+        "attack": 10,
+        "hp": [
+          22,
+          16,
+          16,
+          20,
+          16,
+          16,
+          13
+        ],
+        "basic_hits": [
+          3,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "ticks": 684,
+        "hits": 15,
+        "received": 1,
+        "perfect": 2,
+        "result": "UPGRADE",
+        "remaining_hp": 2
+      },
+      "max_hp": 3,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "attack",
+        "stage": 23,
+        "attack": 16,
+        "hp": [
+          20,
+          20,
+          16,
+          16,
+          16,
+          16,
+          13,
+          13
+        ],
+        "basic_hits": [
+          2,
+          2,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "ticks": 435,
+        "hits": 10,
+        "received": 0,
+        "perfect": 1,
+        "result": "UPGRADE",
+        "remaining_hp": 5
+      },
+      "max_hp": 5,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "survival",
+        "stage": 23,
+        "attack": 5,
+        "hp": [
+          20,
+          20,
+          16,
+          16,
+          16,
+          16,
+          13,
+          13
+        ],
+        "basic_hits": [
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          3,
+          3
+        ],
+        "ticks": 1084,
+        "hits": 28,
+        "received": 2,
+        "perfect": 5,
+        "result": "UPGRADE",
+        "remaining_hp": 3
+      },
+      "max_hp": 5,
+      "move_ticks": 18
+    },
+    {
+      "battle": {
+        "style": "evasion",
+        "stage": 23,
+        "attack": 9,
+        "hp": [
+          20,
+          20,
+          16,
+          16,
+          16,
+          16,
+          13,
+          13
+        ],
+        "basic_hits": [
+          3,
+          3,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "ticks": 601,
+        "hits": 17,
+        "received": 1,
+        "perfect": 3,
+        "result": "UPGRADE",
+        "remaining_hp": 2
+      },
+      "max_hp": 3,
+      "move_ticks": 12
+    },
+    {
+      "battle": {
+        "style": "balanced",
+        "stage": 23,
+        "attack": 10,
+        "hp": [
+          20,
+          20,
+          16,
+          16,
+          16,
+          16,
+          13,
+          13
+        ],
+        "basic_hits": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "ticks": 687,
+        "hits": 16,
+        "received": 0,
+        "perfect": 1,
+        "result": "UPGRADE",
+        "remaining_hp": 4
+      },
+      "max_hp": 4,
+      "move_ticks": 18
+    }
+  ],
+  "continuous": [
+    {
+      "style": "attack",
+      "rows": [
+        {
+          "stage": 21,
+          "start_hp": 3,
+          "result": "UPGRADE",
+          "ticks": 432,
+          "remaining_hp": 2,
+          "max_hp": 3,
+          "attack": 16,
+          "move_ticks": 18
+        },
+        {
+          "stage": 22,
+          "start_hp": 3,
+          "result": "UPGRADE",
+          "ticks": 423,
+          "remaining_hp": 3,
+          "max_hp": 4,
+          "attack": 16,
+          "move_ticks": 18
+        },
+        {
+          "stage": 23,
+          "start_hp": 4,
+          "result": "UPGRADE",
+          "ticks": 435,
+          "remaining_hp": 4,
+          "max_hp": 5,
+          "attack": 16,
+          "move_ticks": 18
+        }
+      ],
+      "observation": [
+        {
+          "moves": {
+            "s21_queen_1": 1,
+            "s21_rook_1": 1,
+            "s21_rook_2": 1,
+            "s21_knight_1": 2,
+            "s21_pawn_1": 2,
+            "s21_knight_2": 1
+          },
+          "move_count": 8,
+          "attack_starts": 9,
+          "first_attack_tick": 49,
+          "simultaneous_starts": 0,
+          "simultaneous_due": 0,
+          "cooldown_hits": 1,
+          "damage": [
+            {
+              "tick": 222,
+              "source": "s21_bishop_1",
+              "kind": "basic",
+              "hp_after": 2,
+              "next_parry_tick": 235
+            }
+          ],
+          "pulse": [],
+          "survivors": []
+        },
+        {
+          "moves": {
+            "s22_queen_1": 1,
+            "s22_rook_1": 1,
+            "s22_pawn_1": 2,
+            "s22_knight_1": 1,
+            "s22_knight_2": 1
+          },
+          "move_count": 6,
+          "attack_starts": 8,
+          "first_attack_tick": 49,
+          "simultaneous_starts": 0,
+          "simultaneous_due": 0,
+          "cooldown_hits": 0,
+          "damage": [],
+          "pulse": [],
+          "survivors": []
+        },
+        {
+          "moves": {
+            "s23_rook_1": 1,
+            "s23_knight_1": 1,
+            "s23_pawn_1": 3,
+            "s23_pawn_2": 1
+          },
+          "move_count": 6,
+          "attack_starts": 8,
+          "first_attack_tick": 48,
+          "simultaneous_starts": 0,
+          "simultaneous_due": 0,
+          "cooldown_hits": 0,
+          "damage": [],
+          "pulse": [],
+          "survivors": []
+        }
+      ]
+    },
+    {
+      "style": "survival",
+      "rows": [
+        {
+          "stage": 21,
+          "start_hp": 3,
+          "result": "GAME_OVER",
+          "ticks": 341,
+          "remaining_hp": 0,
+          "max_hp": 3,
+          "attack": 5,
+          "move_ticks": 18
+        }
+      ],
+      "observation": [
+        {
+          "moves": {
+            "s21_queen_1": 2,
+            "s21_rook_1": 3,
+            "s21_rook_2": 1,
+            "s21_knight_1": 3,
+            "s21_pawn_1": 2
+          },
+          "move_count": 11,
+          "attack_starts": 12,
+          "first_attack_tick": 49,
+          "simultaneous_starts": 0,
+          "simultaneous_due": 0,
+          "cooldown_hits": 3,
+          "damage": [
+            {
+              "tick": 123,
+              "source": "s21_rook_2",
+              "kind": "basic",
+              "hp_after": 2,
+              "next_parry_tick": 174
+            },
+            {
+              "tick": 261,
+              "source": "s21_rook_2",
+              "kind": "basic",
+              "hp_after": 1,
+              "next_parry_tick": 298
+            },
+            {
+              "tick": 341,
+              "source": "s21_knight_2",
+              "kind": "basic",
+              "hp_after": 0,
+              "next_parry_tick": 379
+            }
+          ],
+          "pulse": [],
+          "survivors": [
+            [
+              "s21_rook_1",
+              20
+            ],
+            [
+              "s21_rook_2",
+              3
+            ],
+            [
+              "s21_knight_1",
+              1
+            ],
+            [
+              "s21_knight_2",
+              16
+            ],
+            [
+              "s21_bishop_1",
+              16
+            ],
+            [
+              "s21_pawn_1",
+              13
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "style": "evasion",
+      "rows": [
+        {
+          "stage": 21,
+          "start_hp": 3,
+          "result": "UPGRADE",
+          "ticks": 651,
+          "remaining_hp": 2,
+          "max_hp": 3,
+          "attack": 9,
+          "move_ticks": 18
+        },
+        {
+          "stage": 22,
+          "start_hp": 2,
+          "result": "GAME_OVER",
+          "ticks": 245,
+          "remaining_hp": 0,
+          "max_hp": 3,
+          "attack": 9,
+          "move_ticks": 15
+        }
+      ],
+      "observation": [
+        {
+          "moves": {
+            "s21_queen_1": 1,
+            "s21_rook_1": 1,
+            "s21_rook_2": 1,
+            "s21_knight_1": 3,
+            "s21_pawn_1": 3,
+            "s21_knight_2": 1
+          },
+          "move_count": 10,
+          "attack_starts": 13,
+          "first_attack_tick": 49,
+          "simultaneous_starts": 0,
+          "simultaneous_due": 0,
+          "cooldown_hits": 1,
+          "damage": [
+            {
+              "tick": 222,
+              "source": "s21_bishop_1",
+              "kind": "basic",
+              "hp_after": 2,
+              "next_parry_tick": 235
+            }
+          ],
+          "pulse": [],
+          "survivors": []
+        },
+        {
+          "moves": {
+            "s22_queen_1": 1,
+            "s22_rook_1": 1,
+            "s22_pawn_1": 1,
+            "s22_knight_2": 1
+          },
+          "move_count": 4,
+          "attack_starts": 8,
+          "first_attack_tick": 49,
+          "simultaneous_starts": 0,
+          "simultaneous_due": 0,
+          "cooldown_hits": 2,
+          "damage": [
+            {
+              "tick": 137,
+              "source": "s22_knight_1",
+              "kind": "basic",
+              "hp_after": 1,
+              "next_parry_tick": 174
+            },
+            {
+              "tick": 245,
+              "source": "s22_knight_1",
+              "kind": "basic",
+              "hp_after": 0,
+              "next_parry_tick": 261
+            }
+          ],
+          "pulse": [],
+          "survivors": [
+            [
+              "s22_bishop_1",
+              16
+            ],
+            [
+              "s22_bishop_2",
+              16
+            ],
+            [
+              "s22_knight_1",
+              16
+            ],
+            [
+              "s22_knight_2",
+              7
+            ],
+            [
+              "s22_pawn_1",
+              13
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "style": "balanced",
+      "rows": [
+        {
+          "stage": 21,
+          "start_hp": 3,
+          "result": "UPGRADE",
+          "ticks": 651,
+          "remaining_hp": 2,
+          "max_hp": 3,
+          "attack": 9,
+          "move_ticks": 18
+        },
+        {
+          "stage": 22,
+          "start_hp": 2,
+          "result": "UPGRADE",
+          "ticks": 684,
+          "remaining_hp": 1,
+          "max_hp": 3,
+          "attack": 10,
+          "move_ticks": 18
+        },
+        {
+          "stage": 23,
+          "start_hp": 2,
+          "result": "UPGRADE",
+          "ticks": 687,
+          "remaining_hp": 2,
+          "max_hp": 4,
+          "attack": 10,
+          "move_ticks": 18
+        }
+      ],
+      "observation": [
+        {
+          "moves": {
+            "s21_queen_1": 1,
+            "s21_rook_1": 1,
+            "s21_rook_2": 1,
+            "s21_knight_1": 3,
+            "s21_pawn_1": 3,
+            "s21_knight_2": 1
+          },
+          "move_count": 10,
+          "attack_starts": 13,
+          "first_attack_tick": 49,
+          "simultaneous_starts": 0,
+          "simultaneous_due": 0,
+          "cooldown_hits": 1,
+          "damage": [
+            {
+              "tick": 222,
+              "source": "s21_bishop_1",
+              "kind": "basic",
+              "hp_after": 2,
+              "next_parry_tick": 235
+            }
+          ],
+          "pulse": [],
+          "survivors": []
+        },
+        {
+          "moves": {
+            "s22_queen_1": 1,
+            "s22_rook_1": 1,
+            "s22_pawn_1": 2,
+            "s22_knight_1": 2,
+            "s22_knight_2": 2
+          },
+          "move_count": 8,
+          "attack_starts": 12,
+          "first_attack_tick": 49,
+          "simultaneous_starts": 0,
+          "simultaneous_due": 0,
+          "cooldown_hits": 1,
+          "damage": [
+            {
+              "tick": 170,
+              "source": "s22_bishop_1",
+              "kind": "basic",
+              "hp_after": 1,
+              "next_parry_tick": 174
+            }
+          ],
+          "pulse": [],
+          "survivors": []
+        },
+        {
+          "moves": {
+            "s23_rook_1": 1,
+            "s23_knight_1": 2,
+            "s23_pawn_1": 4,
+            "s23_pawn_2": 3,
+            "s23_knight_2": 2
+          },
+          "move_count": 12,
+          "attack_starts": 12,
+          "first_attack_tick": 48,
+          "simultaneous_starts": 0,
+          "simultaneous_due": 0,
+          "cooldown_hits": 0,
+          "damage": [],
+          "pulse": [],
+          "survivors": []
+        }
+      ]
+    }
+  ],
+  "comparison": {
+    "previous_file": "BALANCE_STAGE22.json",
+    "previous_independent_rows": 88,
+    "all_previous_return_values_equal": true,
+    "previous_clears": 84,
+    "stage23_clears": 4,
+    "total_clears": 88,
+    "total_fights": 92,
+    "previous_continuous_rows_and_observations_equal": true
+  },
+  "stage23_choices": {
+    "attack": [
+      "hp",
+      "hp"
+    ],
+    "survival": [
+      "hp",
+      "hp"
+    ],
+    "evasion": [
+      "move",
+      "move"
+    ],
+    "balanced": [
+      "attack",
+      "hp"
+    ]
+  }
+}

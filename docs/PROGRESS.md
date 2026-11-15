@@ -1,5 +1,101 @@
 # CHECKMATE 개발 진행 기록
 
+## Task 4-C 최종 승인 — Windows GUI 30/30 통과
+
+사용자가 Windows11에서 STEP1 10/10·STEP2 12/12·STEP3 8/8, **전체30/30 통과**를 보고했다. 기능 오류 보고 없음, Stage23 60초 이상 실행 안정성 통과다. Stage22 두 번째 강화·Stage23 원본8기/HP130 혼합 전투·GAME_OVER R→새Chapter5 Stage21·Stage24 차단이 승인됐다. GUI승인 이후 기능 코드와 테스트는 수정하지 않는다.
+
+검수는 테스트 전용 Stage22 시작 절차를 사용했다. 따라서 **Stage1~23 인간 연속 완주는 미검증**이며 실제FPS/P95/P99는 미측정이다. 수치를 임의 작성하지 않는다.
+
+기존Stage1~22 독립88건의 모든 반환값/메타데이터(84/88), Stage23독립4/4·누적88/92를 보존한다. Chapter5 HP이월연속은 공격/균형Stage23완료, 생존Stage21 341틱사망, 회피Stage22 245틱사망이며 치명 공격 소스/패링쿨다운 기록도 그대로 유지한다. 독립 최대HP시작과 실제HP이월을 구분하고 실패를 성공으로 바꾸지 않는다. 원자료 JSON과 과거 측정표를 덮어쓰지 않는다.
+
+Stage1~23 지원·Stage24~25/최종보스·엔딩·영구저장·해금·최종아트/음향은 미구현이다. 도형 중심의 낮은 시각 품질과 플레이어/적6종/보드/UI/VFX/보스연출/사운드 개선은 주요 후속 과제다. 다음Task4-D는Stage24·세 번째 강화 연결이며 이번 최종화에서는 착수하지 않는다.
+
+### GUI 승인 후 최종 재검증
+
+이번 최종화에서 전체 unittest **1,252개·117.974초·실패0/오류0/skip0**를 재실행했다. 구현 단계1,252개·159.899초와 별도 기록이다. 기존1,238개 메서드 전부 보존·신규14개이며 GUI승인 이후 기능코드/테스트 수정은 없다.
+
+일반/-O Stage검사각25개, SDL네이티브dummy 실제main전환·재시작·경계·MAX/원자성·세션격리·HP이월·기존AI/Queen/KingPulse·1틱/8틱·7종FPS회귀가 통과했다. 전체compileall·문법/import·순수모듈SDL독립성·문서링크·신규포함공백/EOF검사도 통과했다.
+
+별도 임시파일로92건독립전투와Chapter5연속전투를 다시측정해 모든반환값/메타데이터/피격관측이 기존Stage23 JSON과 일치했다. 기존88건84/88·신규4/4·총88/92, 생존Stage21/회피Stage22사망 기록을 유지했다. 원자료 JSON/과거표는 재작성하지 않았다. 승인33개파일목록과 실제Git변경이 일치하며 무관한 파일은 없다. 모든검증통과후 지정33개만 일반커밋·Push한다. 실제커밋SHA·원격일치·Clean상태는 Git반영후 최종보고로 확정한다.
+
+아래 GUI대기·미커밋 표기는 구현 당시의 이력이다. 최신 승인 상태는 이 최종 승인 기록을 따른다.
+
+
+## Task 4-C — Stage23·Chapter5 두 번째 강화 (Windows GUI 검수 대기)
+
+시작 main HEAD/origin `88063f84cc12846d6320b5b3c0e3966ccf00315e`, 시작 트리/인덱스 깨끗함. Stage1~23 지원·Stage24~25 차단이다. Stage22 정상 UPGRADE의 두 번째 강화를 기존 인증/후보 검증/입력 준비/Receipt 소비 원자성으로 연결했다. 같은 Chapter5 Run·Receipt1→2·새 Player/Health/Combat/Parry/Encounter/Resolver/Ledger/입력/표시 보간 세션이다.
+
+ATTACK/MOVE 현재HP유지·HP 현재/최대각+1·MAX16/6/12틱 정책을 유지한다. Stage23 원본 Rook20×2/Knight16×2/Bishop16×2/Pawn13×2, 8기·총HP130·지연48/62/75/88/101/114/128/141틱이며 Queen/King/Pulse는 없다. 기존 Gothic Throne·AI·HP/행동시간·예고/회복·패링/무적/Pulse·강화·원본JSON·60Hz/180FPS·보간을 보존한다.
+
+Stage23 전멸은 정상 UPGRADE·세 번째 Offer보존·STAGE23 CLEAR/STAGE24 NOT AVAILABLE·카드숨김이다. GAME_OVER R은 새 Chapter5 Stage21·진입공격레벨·HP3/3·MOVE18·Receipt0이다. 위조/복제/외부 Offer/Receipt·잘못된 후보·입력 준비 실패는 이전 상태 보존 및 재시도를 검증한다.
+
+기존88건 모든 반환값/메타데이터 일치·84/88, 새Stage23 독립4/4(공격435틱HP5/생존1084틱HP3/회피601틱HP2/균형687틱HP4)·총88/92다. 공격형 두 번째 강화도 ATTACK MAX대신 합법적HP를 선택한다. 실제21→22→23 HP이월연속은 공격/균형Stage23완료, 생존Stage21 341틱사망·회피Stage22 245틱사망을 그대로 보존했다. 강제회복/처치/무적/AI정지·드라이버완화는 없다.
+
+[Stage23 실측·GUI30개·검수전용 Stage22 시작](BALANCE_STAGE23.md), [92건 독립+별도 연속 원자료](BALANCE_STAGE23.json). **Stage23 Windows GUI·60초 안정성·인간 연속완주·실제FPS/P95/P99는 미검증**이다. 테스트용 첫 Receipt는 Stage21 실제 클리어 증거가 아니다. 과거 Task4-B GUI30/30 승인은 당시 구현의 이력으로 보존한다.
+
+현재 도형 중심 시각 품질이 출품 수준에 미달한다는 사용자 평가를 주요 과제로 유지한다. 플레이어/적6종/보드·배경/VFX/보스/UI·폰트/사운드·BGM/엔딩은 별도 리뉴얼이 필요하다. Stage24~25·최종보스/영구저장·해금/최종아트·음향·엔딩은 미구현이다. 다음Task4-D는 Stage24·세 번째 강화이며 이번에는 착수하지 않는다. GUI승인 전 git add/commit/push하지 않는다.
+
+### Task4-C 최종 자동 검증
+
+전체 unittest **1,252개·159.899초·실패0/오류0/skip0**를 실제 실행했다. 변경 전1,238개·156.618초와 구분한다. AST비교로 기존1,238개 테스트 메서드 전부 보존·신규14개·삭제/skip0을 확인했다. 첫 전체 회귀에서 Stage23 거부를 전제로 한 구형 기대1건을 발견해 Stage23 생성/Stage24 차단을 함께 검증하도록 갱신한 뒤 전체를 재실행했다. 전투 기능 코드의 추가 수정은 없었다.
+
+일반/-O 스테이지 검사 각각25개, 전체compileall, 변경Python문법/import·순수모듈 SDL독립성·문서링크·신규파일 포함 공백/EOF검사를 통과했다. 네이티브SDL dummy 실제main Stage20→21→22→23 숫자/마우스강화, Stage23 사망R→21·클리어/Stage24 입력차단이 통과했다. 기존Chapter1~4/Queen/KingPulse/패링/HP이월/SETTINGS/F11/포커스/레터박스/보간 및1틱/8틱·30/60/120/144/160/180/240FPS회귀도 통과했다.
+
+기존88건 독립 전투의 모든 반환 필드와 최대HP/MOVE, 기존21→22 연속 전투 행/피격관측이 이전JSON과 일치했다. Stage23 신규4/4·총88/92이며 연속 전투의 생존Stage21/회피Stage22 실패를 보존한다. 원본JSON·HP/AI·행동/공격/예고/회복시간·패링/무적/Pulse·HP이월/강화·팔레트·60Hz/180FPS 보호파일과 이전 측정표는 Git기준 무변경이다.
+
+main HEAD/origin은 시작SHA `88063f84cc12846d6320b5b3c0e3966ccf00315e` 그대로다. 수정30/신규3·총33개는 미스테이징이며 인덱스는 비어 있다. git add/commit/push는 실행하지 않았다. Stage23 Windows사용자GUI·60초안정성·인간연속완주·실제FPS/P95/P99는 여전히 미검증이다. 다음 단계는 보고서의30개 GUI검수이며 사용자승인 전 GitHub반영하지 않는다.
+
+### Task4-C 실제 변경 파일 — 수정30개·신규3개·총33개
+
+기능 코드는 game.py의지원범위/오류문구와 main.py의오류문구만변경했다. 렌더러·진행 인증은기존구조를재사용한다. tests/balance_driver.py는Stage23공격MAX의두번째HP선택만확장했다. 기존테스트는차단범위/경계fixture갱신및네이티브Stage23경로확장이며메서드삭제/skip는없다.
+
+수정:
+
+```text
+docs/CHAPTER_EXPANSION_DESIGN.md
+docs/DECISIONS.md
+docs/GAME_DESIGN.md
+docs/PROGRESS.md
+game.py
+main.py
+tests/balance_driver.py
+tests/test_chapter_five_sdl.py
+tests/test_chapter_run.py
+tests/test_chapter_two_entry.py
+tests/test_chapter_two_stages.py
+tests/test_combat_balance.py
+tests/test_enemy_action_pacing.py
+tests/test_enemy_hp_rebalance.py
+tests/test_king_combat.py
+tests/test_queen.py
+tests/test_queen_laser.py
+tests/test_stage_eighteen.py
+tests/test_stage_eleven_twelve.py
+tests/test_stage_five.py
+tests/test_stage_four.py
+tests/test_stage_nineteen.py
+tests/test_stage_seventeen.py
+tests/test_stage_six.py
+tests/test_stage_sixteen.py
+tests/test_stage_three.py
+tests/test_stage_transition.py
+tests/test_stage_twenty.py
+tests/test_stage_twenty_one.py
+tests/test_stage_twenty_two.py
+```
+
+신규:
+
+```text
+docs/BALANCE_STAGE23.json
+docs/BALANCE_STAGE23.md
+tests/test_stage_twenty_three.py
+```
+
+아래 이전 Task 기록의 지원 범위와 미구현 표기는 당시 시점의 이력이다. 최신 범위는 이 Task4-C 기록을 따른다.
+
+
+
 ### Task4-B 사용자 Windows GUI 최종 승인
 
 사용자가실제Windows11에서STEP1 10/10·STEP2 12/12·STEP3 8/8, **전체30/30 통과**를보고했다. 실패0·확인불가0·미검수0·기능오류보고없음이며Stage22의60초이상실행안정성도확인했다. 실제FPS/P95/P99는미측정이므로임의수치를작성하지않는다.

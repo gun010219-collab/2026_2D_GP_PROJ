@@ -127,13 +127,13 @@ class StageTwentyTwoTests(unittest.TestCase):
             g.advance();cells=[e.position for e in g.encounter.enemies if e.active];self.assertEqual(len(cells),len(set(cells)))
 
     def test_clear_boundary_preserves_second_offer_and_blocks_factory(self):
-        f=at22();o=clear(f);factory=Mock();self.assertEqual((f.game.state,len(f.run.receipts),o.stage),(GameState.UPGRADE,1,22))
+        f=at22();f.choose(clear(f),'hp',main._new_stage_game);o=clear(f);factory=Mock();self.assertEqual((f.game.state,len(f.run.receipts),o.stage),(GameState.UPGRADE,2,23))
         for _ in range(3):self.assertIs(f.sync_offer(),o)
         for kind in ('attack','hp','move'):
             with self.assertRaises(ValueError):f.choose(o,kind,factory)
         factory.assert_not_called()
         with patch.object(GameFlowRenderer,'_center') as t:GameFlowRenderer().draw(Mock(),f.game)
-        self.assertIn('STAGE 23 NOT AVAILABLE',[c.args[1] for c in t.call_args_list])
+        self.assertIn('STAGE 24 NOT AVAILABLE',[c.args[1] for c in t.call_args_list])
         with patch.object(UpgradeRenderer,'_text') as t:UpgradeRenderer().draw(Mock(),f.game,o)
         t.assert_not_called()
 
