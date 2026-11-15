@@ -1,0 +1,995 @@
+{
+  "render_backend": {
+    "video_driver": "dummy",
+    "renderer": "software",
+    "flags": 13,
+    "vsync": true
+  },
+  "width": 1440,
+  "height": 900,
+  "tile": 84,
+  "board": [
+    300,
+    30,
+    840,
+    840
+  ],
+  "frozen_snapshots": [
+    {
+      "scenario": "normal",
+      "tick": 0,
+      "state": "PLAYING",
+      "player": {
+        "cell": [
+          5,
+          1
+        ],
+        "facing": "up",
+        "hp": 3
+      },
+      "enemies": [
+        {
+          "id": "s5_king_1",
+          "kind": "king",
+          "cell": [
+            5,
+            9
+          ],
+          "hp": 28,
+          "state": "initial_wait",
+          "next_tick": 48
+        },
+        {
+          "id": "s5_rook_1",
+          "kind": "rook",
+          "cell": [
+            2,
+            4
+          ],
+          "hp": 8,
+          "state": "initial_wait",
+          "next_tick": 62
+        },
+        {
+          "id": "s5_pawn_1",
+          "kind": "pawn",
+          "cell": [
+            1,
+            6
+          ],
+          "hp": 4,
+          "state": "initial_wait",
+          "next_tick": 75
+        },
+        {
+          "id": "s5_pawn_2",
+          "kind": "pawn",
+          "cell": [
+            8,
+            6
+          ],
+          "hp": 4,
+          "state": "initial_wait",
+          "next_tick": 88
+        }
+      ],
+      "events": [],
+      "parry": null
+    },
+    {
+      "scenario": "player_attack",
+      "tick": 0,
+      "state": "PLAYING",
+      "player": {
+        "cell": [
+          5,
+          1
+        ],
+        "facing": "up",
+        "hp": 3
+      },
+      "enemies": [
+        {
+          "id": "s5_king_1",
+          "kind": "king",
+          "cell": [
+            5,
+            9
+          ],
+          "hp": 28,
+          "state": "initial_wait",
+          "next_tick": 48
+        },
+        {
+          "id": "s5_rook_1",
+          "kind": "rook",
+          "cell": [
+            2,
+            4
+          ],
+          "hp": 8,
+          "state": "initial_wait",
+          "next_tick": 62
+        },
+        {
+          "id": "s5_pawn_1",
+          "kind": "pawn",
+          "cell": [
+            1,
+            6
+          ],
+          "hp": 4,
+          "state": "initial_wait",
+          "next_tick": 75
+        },
+        {
+          "id": "s5_pawn_2",
+          "kind": "pawn",
+          "cell": [
+            8,
+            6
+          ],
+          "hp": 4,
+          "state": "initial_wait",
+          "next_tick": 88
+        }
+      ],
+      "events": [],
+      "parry": null
+    },
+    {
+      "scenario": "enemy_warning",
+      "tick": 134,
+      "state": "PLAYING",
+      "player": {
+        "cell": [
+          5,
+          1
+        ],
+        "facing": "up",
+        "hp": 3
+      },
+      "enemies": [
+        {
+          "id": "s5_king_1",
+          "kind": "king",
+          "cell": [
+            5,
+            7
+          ],
+          "hp": 28,
+          "state": "waiting",
+          "next_tick": 192
+        },
+        {
+          "id": "s5_rook_1",
+          "kind": "rook",
+          "cell": [
+            2,
+            1
+          ],
+          "hp": 8,
+          "state": "telegraph",
+          "next_tick": 182
+        },
+        {
+          "id": "s5_pawn_1",
+          "kind": "pawn",
+          "cell": [
+            1,
+            5
+          ],
+          "hp": 4,
+          "state": "waiting",
+          "next_tick": 207
+        },
+        {
+          "id": "s5_pawn_2",
+          "kind": "pawn",
+          "cell": [
+            8,
+            5
+          ],
+          "hp": 4,
+          "state": "waiting",
+          "next_tick": 220
+        }
+      ],
+      "events": [
+        {
+          "source": "s5_rook_1",
+          "kind": "basic",
+          "cells": [
+            [
+              3,
+              1
+            ],
+            [
+              4,
+              1
+            ],
+            [
+              5,
+              1
+            ]
+          ],
+          "state": "telegraph",
+          "hit": 182,
+          "outcome": null
+        }
+      ],
+      "parry": null
+    },
+    {
+      "scenario": "parry_normal",
+      "tick": 182,
+      "state": "PLAYING",
+      "player": {
+        "cell": [
+          5,
+          1
+        ],
+        "facing": "up",
+        "hp": 3
+      },
+      "enemies": [
+        {
+          "id": "s5_king_1",
+          "kind": "king",
+          "cell": [
+            5,
+            7
+          ],
+          "hp": 28,
+          "state": "waiting",
+          "next_tick": 192
+        },
+        {
+          "id": "s5_rook_1",
+          "kind": "rook",
+          "cell": [
+            4,
+            1
+          ],
+          "hp": 8,
+          "state": "recovering",
+          "next_tick": 272
+        },
+        {
+          "id": "s5_pawn_1",
+          "kind": "pawn",
+          "cell": [
+            1,
+            5
+          ],
+          "hp": 4,
+          "state": "waiting",
+          "next_tick": 207
+        },
+        {
+          "id": "s5_pawn_2",
+          "kind": "pawn",
+          "cell": [
+            8,
+            5
+          ],
+          "hp": 4,
+          "state": "waiting",
+          "next_tick": 220
+        }
+      ],
+      "events": [
+        {
+          "source": "s5_rook_1",
+          "kind": "basic",
+          "cells": [
+            [
+              3,
+              1
+            ],
+            [
+              4,
+              1
+            ],
+            [
+              5,
+              1
+            ]
+          ],
+          "state": "resolved",
+          "hit": 182,
+          "outcome": "parried_normal"
+        }
+      ],
+      "parry": {
+        "status": "normal",
+        "cell": [
+          5,
+          1
+        ],
+        "tick": 182
+      }
+    },
+    {
+      "scenario": "parry_perfect",
+      "tick": 182,
+      "state": "PLAYING",
+      "player": {
+        "cell": [
+          5,
+          1
+        ],
+        "facing": "up",
+        "hp": 3
+      },
+      "enemies": [
+        {
+          "id": "s5_king_1",
+          "kind": "king",
+          "cell": [
+            5,
+            7
+          ],
+          "hp": 28,
+          "state": "waiting",
+          "next_tick": 192
+        },
+        {
+          "id": "s5_rook_1",
+          "kind": "rook",
+          "cell": [
+            2,
+            1
+          ],
+          "hp": 8,
+          "state": "stunned",
+          "next_tick": 242
+        },
+        {
+          "id": "s5_pawn_1",
+          "kind": "pawn",
+          "cell": [
+            1,
+            5
+          ],
+          "hp": 4,
+          "state": "waiting",
+          "next_tick": 207
+        },
+        {
+          "id": "s5_pawn_2",
+          "kind": "pawn",
+          "cell": [
+            8,
+            5
+          ],
+          "hp": 4,
+          "state": "waiting",
+          "next_tick": 220
+        }
+      ],
+      "events": [
+        {
+          "source": "s5_rook_1",
+          "kind": "basic",
+          "cells": [
+            [
+              3,
+              1
+            ],
+            [
+              4,
+              1
+            ],
+            [
+              5,
+              1
+            ]
+          ],
+          "state": "resolved",
+          "hit": 182,
+          "outcome": "parried_perfect"
+        }
+      ],
+      "parry": {
+        "status": "perfect",
+        "cell": [
+          5,
+          1
+        ],
+        "tick": 182
+      }
+    },
+    {
+      "scenario": "pulse",
+      "tick": 325,
+      "state": "PLAYING",
+      "player": {
+        "cell": [
+          5,
+          1
+        ],
+        "facing": "up",
+        "hp": 2
+      },
+      "enemies": [
+        {
+          "id": "s5_king_1",
+          "kind": "king",
+          "cell": [
+            5,
+            6
+          ],
+          "hp": 28,
+          "state": "telegraph",
+          "next_tick": 385
+        },
+        {
+          "id": "s5_rook_1",
+          "kind": "rook",
+          "cell": [
+            4,
+            1
+          ],
+          "hp": 8,
+          "state": "recovering",
+          "next_tick": 272
+        },
+        {
+          "id": "s5_pawn_1",
+          "kind": "pawn",
+          "cell": [
+            1,
+            4
+          ],
+          "hp": 4,
+          "state": "waiting",
+          "next_tick": 339
+        },
+        {
+          "id": "s5_pawn_2",
+          "kind": "pawn",
+          "cell": [
+            8,
+            4
+          ],
+          "hp": 4,
+          "state": "waiting",
+          "next_tick": 352
+        }
+      ],
+      "events": [
+        {
+          "source": "s5_rook_1",
+          "kind": "basic",
+          "cells": [
+            [
+              3,
+              1
+            ],
+            [
+              4,
+              1
+            ],
+            [
+              5,
+              1
+            ]
+          ],
+          "state": "resolved",
+          "hit": 182,
+          "outcome": "hit"
+        },
+        {
+          "source": "s5_king_1",
+          "kind": "king_pulse",
+          "cells": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              3,
+              0
+            ],
+            [
+              4,
+              0
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              6,
+              0
+            ],
+            [
+              7,
+              0
+            ],
+            [
+              8,
+              0
+            ],
+            [
+              9,
+              0
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              1
+            ],
+            [
+              3,
+              1
+            ],
+            [
+              4,
+              1
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              6,
+              1
+            ],
+            [
+              7,
+              1
+            ],
+            [
+              8,
+              1
+            ],
+            [
+              9,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              2,
+              2
+            ],
+            [
+              3,
+              2
+            ],
+            [
+              4,
+              2
+            ],
+            [
+              5,
+              2
+            ],
+            [
+              6,
+              2
+            ],
+            [
+              7,
+              2
+            ],
+            [
+              8,
+              2
+            ],
+            [
+              9,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              3,
+              3
+            ],
+            [
+              4,
+              3
+            ],
+            [
+              5,
+              3
+            ],
+            [
+              6,
+              3
+            ],
+            [
+              7,
+              3
+            ],
+            [
+              8,
+              3
+            ],
+            [
+              9,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              2,
+              4
+            ],
+            [
+              3,
+              4
+            ],
+            [
+              4,
+              4
+            ],
+            [
+              5,
+              4
+            ],
+            [
+              6,
+              4
+            ],
+            [
+              7,
+              4
+            ],
+            [
+              8,
+              4
+            ],
+            [
+              9,
+              4
+            ],
+            [
+              0,
+              5
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              2,
+              5
+            ],
+            [
+              3,
+              5
+            ],
+            [
+              4,
+              5
+            ],
+            [
+              5,
+              5
+            ],
+            [
+              6,
+              5
+            ],
+            [
+              7,
+              5
+            ],
+            [
+              8,
+              5
+            ],
+            [
+              9,
+              5
+            ],
+            [
+              0,
+              6
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              3,
+              6
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              5,
+              6
+            ],
+            [
+              6,
+              6
+            ],
+            [
+              7,
+              6
+            ],
+            [
+              8,
+              6
+            ],
+            [
+              9,
+              6
+            ],
+            [
+              0,
+              7
+            ],
+            [
+              1,
+              7
+            ],
+            [
+              2,
+              7
+            ],
+            [
+              3,
+              7
+            ],
+            [
+              4,
+              7
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              6,
+              7
+            ],
+            [
+              7,
+              7
+            ],
+            [
+              8,
+              7
+            ],
+            [
+              9,
+              7
+            ],
+            [
+              0,
+              8
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              2,
+              8
+            ],
+            [
+              3,
+              8
+            ],
+            [
+              4,
+              8
+            ],
+            [
+              5,
+              8
+            ],
+            [
+              6,
+              8
+            ],
+            [
+              7,
+              8
+            ],
+            [
+              8,
+              8
+            ],
+            [
+              9,
+              8
+            ],
+            [
+              0,
+              9
+            ],
+            [
+              1,
+              9
+            ],
+            [
+              2,
+              9
+            ],
+            [
+              3,
+              9
+            ],
+            [
+              4,
+              9
+            ],
+            [
+              5,
+              9
+            ],
+            [
+              6,
+              9
+            ],
+            [
+              7,
+              9
+            ],
+            [
+              8,
+              9
+            ],
+            [
+              9,
+              9
+            ]
+          ],
+          "state": "telegraph",
+          "hit": 385,
+          "outcome": null
+        }
+      ],
+      "parry": null
+    }
+  ],
+  "textures_loaded": 7,
+  "render_cost_only_not_live_fps": [
+    {
+      "file": "original_normal.png",
+      "render_work_mean_ms": 4.066717777787845,
+      "render_work_p95_ms": 4.55839999995078,
+      "render_work_p99_ms": 4.804700000022422,
+      "render_work_max_ms": 4.804700000022422,
+      "samples": 90
+    },
+    {
+      "file": "art_normal.png",
+      "render_work_mean_ms": 3.2693733333366657,
+      "render_work_p95_ms": 3.5210000000915898,
+      "render_work_p99_ms": 4.184200000054261,
+      "render_work_max_ms": 4.184200000054261,
+      "samples": 90
+    },
+    {
+      "file": "original_player_attack.png",
+      "render_work_mean_ms": 4.1648100000000134,
+      "render_work_p95_ms": 4.758300000048621,
+      "render_work_p99_ms": 6.4834999998311105,
+      "render_work_max_ms": 6.4834999998311105,
+      "samples": 90
+    },
+    {
+      "file": "art_player_attack.png",
+      "render_work_mean_ms": 3.4312644444374505,
+      "render_work_p95_ms": 4.119799999898532,
+      "render_work_p99_ms": 4.309699999794248,
+      "render_work_max_ms": 4.309699999794248,
+      "samples": 90
+    },
+    {
+      "file": "original_enemy_warning.png",
+      "render_work_mean_ms": 4.256158888887916,
+      "render_work_p95_ms": 4.80329999982132,
+      "render_work_p99_ms": 6.752699999651668,
+      "render_work_max_ms": 6.752699999651668,
+      "samples": 90
+    },
+    {
+      "file": "art_enemy_warning.png",
+      "render_work_mean_ms": 4.003937777770261,
+      "render_work_p95_ms": 5.56239999968966,
+      "render_work_p99_ms": 5.769800000052783,
+      "render_work_max_ms": 5.769800000052783,
+      "samples": 90
+    },
+    {
+      "file": "original_parry_normal.png",
+      "render_work_mean_ms": 6.328453333354547,
+      "render_work_p95_ms": 7.028800000171032,
+      "render_work_p99_ms": 7.442499999797292,
+      "render_work_max_ms": 7.442499999797292,
+      "samples": 90
+    },
+    {
+      "file": "art_parry_normal.png",
+      "render_work_mean_ms": 5.105518888866653,
+      "render_work_p95_ms": 6.105800000113959,
+      "render_work_p99_ms": 6.709999999657157,
+      "render_work_max_ms": 6.709999999657157,
+      "samples": 90
+    },
+    {
+      "file": "original_parry_perfect.png",
+      "render_work_mean_ms": 5.459525555564444,
+      "render_work_p95_ms": 7.9347999999299645,
+      "render_work_p99_ms": 8.424900000136404,
+      "render_work_max_ms": 8.424900000136404,
+      "samples": 90
+    },
+    {
+      "file": "art_parry_perfect.png",
+      "render_work_mean_ms": 5.698916666688092,
+      "render_work_p95_ms": 6.950999999844498,
+      "render_work_p99_ms": 6.972499999847059,
+      "render_work_max_ms": 6.972499999847059,
+      "samples": 90
+    },
+    {
+      "file": "original_pulse.png",
+      "render_work_mean_ms": 6.051637777747803,
+      "render_work_p95_ms": 9.037899999839283,
+      "render_work_p99_ms": 9.210600000187696,
+      "render_work_max_ms": 9.210600000187696,
+      "samples": 90
+    },
+    {
+      "file": "art_pulse.png",
+      "render_work_mean_ms": 5.61039777777397,
+      "render_work_p95_ms": 7.874999999785359,
+      "render_work_p99_ms": 7.907300000169926,
+      "render_work_max_ms": 7.907300000169926,
+      "samples": 90
+    }
+  ]
+}

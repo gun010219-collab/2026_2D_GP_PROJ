@@ -1,0 +1,223 @@
+{
+  "status": "AI design approval drafts; not final production art",
+  "operation": "SDL linear crop/pad/resize; alpha preserved; no content repainting",
+  "assets": [
+    {
+      "name": "player",
+      "source": "source/player.png",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "source_alpha_bbox": [
+        303,
+        202,
+        950,
+        1114
+      ],
+      "source_transparent_pixels": 1163336,
+      "file": "player.png",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        50,
+        18,
+        206,
+        238
+      ],
+      "transparent_pixels": 41952,
+      "rgba_bytes": 262144,
+      "file_bytes": 78488,
+      "sha256": "e7bdd8deb4c56c019cd71e9288ee304aa124f55b99b0ba884ed2be5d8f418302",
+      "source_sha256": "332e244bc8cdcd1af30d6c22748f29f1382ce233e7b9dc038ed1a5879301e949"
+    },
+    {
+      "name": "pawn",
+      "source": "source/pawn.png",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "source_alpha_bbox": [
+        351,
+        123,
+        904,
+        1132
+      ],
+      "source_transparent_pixels": 1146384,
+      "file": "pawn.png",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        67,
+        18,
+        188,
+        238
+      ],
+      "transparent_pixels": 45242,
+      "rgba_bytes": 262144,
+      "file_bytes": 51421,
+      "sha256": "37010a0e7d1fa531aa76f8e952c758cc353b74beafe098f08c1d935629962cf6",
+      "source_sha256": "e1dedb02fdc286ea1cdbaa109e37022c2786cc2d4d189977aec3653427c543a0"
+    },
+    {
+      "name": "rook",
+      "source": "source/rook.png",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "source_alpha_bbox": [
+        167,
+        181,
+        1087,
+        1110
+      ],
+      "source_transparent_pixels": 888878,
+      "file": "rook.png",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        19,
+        18,
+        237,
+        238
+      ],
+      "transparent_pixels": 27500,
+      "rgba_bytes": 262144,
+      "file_bytes": 92623,
+      "sha256": "23ebb76e4f24e5bc2004a1a820452c07057cd3445fa635d22c25b3d2eddbf26a",
+      "source_sha256": "eb98101d48da6888e0013ca18813f87234306f353c4f839cf6addae90f50e12c"
+    },
+    {
+      "name": "king",
+      "source": "source/king.png",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "source_alpha_bbox": [
+        144,
+        64,
+        1110,
+        1199
+      ],
+      "source_transparent_pixels": 847107,
+      "file": "king.png",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        34,
+        18,
+        221,
+        238
+      ],
+      "transparent_pixels": 38495,
+      "rgba_bytes": 262144,
+      "file_bytes": 77633,
+      "sha256": "657b1243f0fc29c46f05644b4164041689559372d303bcafcf9f8d422cd7971d",
+      "source_sha256": "4a53a76b97ecf8cf74c2ff039303f8b6decd8b97d7d3f8a9eaa96dc8cebcc17f"
+    },
+    {
+      "name": "tile_light",
+      "source": "source/tile_light.png",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "source_alpha_bbox": [
+        0,
+        0,
+        1254,
+        1254
+      ],
+      "source_transparent_pixels": 0,
+      "file": "tile_light.png",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "transparent_pixels": 0,
+      "rgba_bytes": 262144,
+      "file_bytes": 76138,
+      "sha256": "4db129fdb03f672be499858685165bd9dce60b7e0ee18af27702b30a6e892ec7",
+      "source_sha256": "b69b0e4a03cd46725d34e790ecbbab2d349b4c84f777fadee8a88069d557cf97"
+    },
+    {
+      "name": "tile_dark",
+      "source": "source/tile_dark.png",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "source_alpha_bbox": [
+        0,
+        0,
+        1254,
+        1254
+      ],
+      "source_transparent_pixels": 0,
+      "file": "tile_dark.png",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "transparent_pixels": 0,
+      "rgba_bytes": 262144,
+      "file_bytes": 69136,
+      "sha256": "86e376d4f625c6da26385d436c120de951d53c3f32f03ffc3675038bc0800409",
+      "source_sha256": "3b9de49c22294f221105a7aaa96ecb05b8ebc860571d3931da01aa6576be00b7"
+    },
+    {
+      "name": "background",
+      "source": "source/background.png",
+      "source_size": [
+        1586,
+        992
+      ],
+      "source_alpha_bbox": [
+        0,
+        0,
+        1586,
+        992
+      ],
+      "source_transparent_pixels": 0,
+      "file": "background.png",
+      "size": [
+        1440,
+        900
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        1440,
+        900
+      ],
+      "transparent_pixels": 0,
+      "rgba_bytes": 5184000,
+      "file_bytes": 1482149,
+      "sha256": "689b561d9a20c062e4123dcf78600dc7962433de325e3b05a9488925d3d3d8dd",
+      "source_sha256": "93e20c32e3f04608297e81f9cd702ea2f1c0294de3b2ec32ffc6d35adc7ba887"
+    }
+  ]
+}

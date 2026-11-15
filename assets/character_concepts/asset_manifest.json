@@ -1,0 +1,236 @@
+{
+  "status": "Concepts pending design/camera approval",
+  "assets": [
+    {
+      "name": "ch1_pawn",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        75,
+        18,
+        180,
+        238
+      ],
+      "transparent_pixels": 52248,
+      "source_size": [
+        1024,
+        1536
+      ],
+      "source_sha256": "609539df4142acb796f0d30d23b1d9a1a2ea051600e4dee36e9dabd756d7acd6",
+      "sha256": "cfb0921074b2553934a6e62c95389bc2fc94cb0908c97d3ec6bba4fa0fe25c00",
+      "rgba_bytes": 262144
+    },
+    {
+      "name": "ch1_rook",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        25,
+        18,
+        231,
+        238
+      ],
+      "transparent_pixels": 31942,
+      "source_size": [
+        1217,
+        1292
+      ],
+      "source_sha256": "877c9250f66d7d04c5318a081d091c06f80751c730d59b7cfd7395f0c60521dd",
+      "sha256": "7c588ce0926d4fe3cdb558761cc09f8d34d4077c466da56011eba7e7daa2e65f",
+      "rgba_bytes": 262144
+    },
+    {
+      "name": "ch1_knight",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        18,
+        21,
+        238,
+        235
+      ],
+      "transparent_pixels": 43784,
+      "source_size": [
+        1254,
+        1254
+      ],
+      "source_sha256": "b776064e2d4e5802a3ea20c242f1e31980816a3e7e143e67b35407d6e62b2297",
+      "sha256": "7e33825ab4e4418af8421418ef09c636ee45217b15694150aec5e3cbacb8ef1d",
+      "rgba_bytes": 262144
+    },
+    {
+      "name": "ch1_bishop",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        74,
+        18,
+        182,
+        238
+      ],
+      "transparent_pixels": 51551,
+      "source_size": [
+        1024,
+        1536
+      ],
+      "source_sha256": "e1d8e702ef12c657221595c9c0f1e8301516d5fb456d361f3d9312ce6db7f5ac",
+      "sha256": "7c05643d4e7b692e4c5cc88d8fb55f97036f0f3b76c697a7df19f1f8e65e0f4c",
+      "rgba_bytes": 262144
+    },
+    {
+      "name": "ch1_queen",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        35,
+        18,
+        221,
+        238
+      ],
+      "transparent_pixels": 43111,
+      "source_size": [
+        1145,
+        1374
+      ],
+      "source_sha256": "fe810a79d64ab61ad038eec118781f881d8f72ee93be08c19358bb08560c8b40",
+      "sha256": "93086ce2b9481e09ad948df9120207bfa6ecaf8392b74d9e45a766a6a11b6d7e",
+      "rgba_bytes": 262144
+    },
+    {
+      "name": "ch1_king",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        28,
+        18,
+        228,
+        238
+      ],
+      "transparent_pixels": 38557,
+      "source_size": [
+        1199,
+        1312
+      ],
+      "source_sha256": "6fa6ba83e7bd72770860088ad9114b5f8fe9028649a7b0a31ce4451b0de12e7d",
+      "sha256": "284775b64f351c17afd92232be06be64258fe34d3273bb0e649fe85940206c32",
+      "rgba_bytes": 262144
+    },
+    {
+      "name": "player",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        41,
+        18,
+        215,
+        238
+      ],
+      "transparent_pixels": 48016,
+      "source_size": [
+        1200,
+        1311
+      ],
+      "source_sha256": "cdabe9233f5da717ccea5d7ca9dde121e869390b665652f069a181365f4288fe",
+      "sha256": "5a7301e29f6a8446fe03eb8d0cd29a334f392d3c93badb1c0ce5c0dedb56bf64",
+      "rgba_bytes": 262144
+    },
+    {
+      "name": "ch2_king",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        28,
+        18,
+        228,
+        238
+      ],
+      "transparent_pixels": 36107,
+      "source_size": [
+        1217,
+        1293
+      ],
+      "source_sha256": "eeb947bc6e7b6ca6a7e9f77b89307023bdec7c170b2f12a57b4647e463584e4a",
+      "sha256": "c9830c41bda874079e4fefc6564678d214122f417b76acc128549e801fb873ce",
+      "rgba_bytes": 262144
+    },
+    {
+      "name": "ch3_king",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        49,
+        18,
+        206,
+        238
+      ],
+      "transparent_pixels": 42423,
+      "source_size": [
+        1199,
+        1312
+      ],
+      "source_sha256": "c5361571db9798744bbbf88ba155d99b9ea2706374ffe539dade4f061269c9d0",
+      "sha256": "0511e2c74a13596c78cd88dbe8d82b4ebee7b91b70c681b9c1266ad44adf15b1",
+      "rgba_bytes": 262144
+    },
+    {
+      "name": "ch4_king",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        36,
+        18,
+        220,
+        238
+      ],
+      "transparent_pixels": 38762,
+      "source_size": [
+        1230,
+        1278
+      ],
+      "source_sha256": "a701b067e791597e84f88140bb23a57b8ab0044763b3f82bc94aabcba5fc3930",
+      "sha256": "207f8068e31f311896a5933cc67c5b5406370725a6df20c44bcd3dc5bc4a5902",
+      "rgba_bytes": 262144
+    },
+    {
+      "name": "ch5_king",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        28,
+        18,
+        227,
+        238
+      ],
+      "transparent_pixels": 41679,
+      "source_size": [
+        1184,
+        1328
+      ],
+      "source_sha256": "250c90bdc1d462759ba301b7fdd59ee3565f742bc05a10b10dac04e337f7977d",
+      "sha256": "d2f68d7f4a38d431c0cc2672b57b60e0c41eb2e7ec8fc88898aa0b73c9905ce4",
+      "rgba_bytes": 262144
+    }
+  ]
+}
