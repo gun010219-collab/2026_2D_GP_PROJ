@@ -98,5 +98,5 @@ class EnemyActionPacingTests(unittest.TestCase):
                 g=main._new_stage_game(20);g.advance(1000)
                 self.assertFalse(g.playing);before=(g.combat.tick,[(e.position,e.next_action_tick) for e in g.encounter.enemies])
                 g.advance(1000);self.assertEqual((g.combat.tick,[(e.position,e.next_action_tick) for e in g.encounter.enemies]),before)
-                for n in range(22,26):
+                for n in range(23,26):
                     with self.assertRaises(ValueError):main._new_stage_game(n)

@@ -24,7 +24,7 @@ def measure(style, stage, limit=3600):
         for kind in (('attack','attack','attack','hp') if chapter==4 and style=='attack' else choices):run.select(run.offer_after_clear(run.current_stage,str(run.current_stage)),kind)
         run=run.start_chapter(chapter+1)
     first=(stage-1)//5*5+1
-    for kind in (('attack','attack','attack','hp') if stage==20 and style=='attack' else choices)[:stage-first]:run.select(run.offer_after_clear(run.current_stage,str(run.current_stage)),kind)
+    for kind in (('hp','attack','attack','attack') if stage==22 and style=='attack' else ('attack','attack','attack','hp') if stage==20 and style=='attack' else choices)[:stage-first]:run.select(run.offer_after_clear(run.current_stage,str(run.current_stage)),kind)
     g=main._new_stage_game(stage,stats=run.stats)
     movement=InputController(move_interval_ticks=run.stats.move_interval_ticks)
     hits=damage=perfect=0

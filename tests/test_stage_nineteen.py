@@ -103,11 +103,11 @@ class StageNineteenTests(unittest.TestCase):
 
     def test_third_offer_holds_without_factory_and_restart_restores_entry(self):
         from tests.test_stage_twenty import at20
-        f=at20();clear(f);f.enter_next_chapter(main._new_stage_game)
+        f=at20();clear(f);f.enter_next_chapter(main._new_stage_game);f.choose(clear(f),'hp',main._new_stage_game)
         g=f.game;g.advance(100);pending=g.encounter.ledger.pending
         o=clear(f);before=state(f);factory=Mock()
         self.assertIs(f.offer,o);self.assertIs(f.sync_offer(),o)
-        self.assertEqual((g.state,f.run.current_stage,len(f.run.receipts)),(GameState.UPGRADE,21,0))
+        self.assertEqual((g.state,f.run.current_stage,len(f.run.receipts)),(GameState.UPGRADE,22,1))
         for kind in ('attack','hp','move'):
             with self.assertRaises(ValueError):f.choose(o,kind,factory)
         with self.assertRaises(ValueError):f.enter_next_chapter(factory)

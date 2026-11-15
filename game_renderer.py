@@ -8,7 +8,7 @@ class GameFlowRenderer:
     def draw(self, canvas, game, error=False):
         if game.playing:
             return
-        boundary = game.state is GameState.DEV_BOUNDARY or (game.stage_number == 21 and game.state is GameState.UPGRADE and not game.upgrade_selection_enabled)
+        boundary = game.state is GameState.DEV_BOUNDARY or (game.state is GameState.UPGRADE and not game.upgrade_selection_enabled)
         clear = boundary or game.state in (GameState.UPGRADE, GameState.STAGE_CLEAR, GameState.BOSS_CLEAR)
         accent = (224, 192, 116) if clear else (196, 112, 107)
         x, y = WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2

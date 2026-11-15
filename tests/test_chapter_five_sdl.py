@@ -86,26 +86,35 @@ class ChapterFiveSDLTests(unittest.TestCase):
                     assert f.game.stage_number==21 and f.game.chapter==5
                     assert f.run.stats.max_hp==3 and f.game.player.health.current_hp==3 and f.run.stats.move_interval_ticks==18
                     assert [e.health.max_hp for e in f.game.encounter.enemies]==[22,20,20,16,16,16,13]
-                    finish(f.game,sys.argv[1])
+                    finish(f.game,'dead' if sys.argv[1]=='dead' else 'clear')
                 if i==3:
                     if sys.argv[1]=='dead':tap(s.SDLK_r)
+                    elif sys.argv[2]=='keyboard':tap(s.SDLK_2)
                     else:
-                        for k in (s.SDLK_1,s.SDLK_2,s.SDLK_3,s.SDLK_r,s.SDLK_n):tap(k)
+                        e=s.SDL_Event();e.type=s.SDL_MOUSEBUTTONDOWN;e.button.button=1;e.button.x=730;e.button.y=500;s.SDL_PushEvent(e)
                 if i==4:
-                    assert f.game.stage_number==21 and f.run.receipts==()
-                    if sys.argv[1]=='dead':assert f.game.playing and f.game.player.health.current_hp==3
-                    else:assert f.game.state is GameState.UPGRADE and f.offer is not None
+                    if sys.argv[1]=='dead':assert f.game.stage_number==21 and f.game.playing and f.game.player.health.current_hp==3
+                    else:
+                        assert f.game.stage_number==22 and len(f.run.receipts)==1 and f.game.player.health.current_hp==4
+                        finish(f.game,'dead' if sys.argv[1]=='22dead' else 'clear')
+                if i==5:
+                    if sys.argv[1]=='22dead':tap(s.SDLK_r)
+                    elif sys.argv[1]=='clear':
+                        for k in (s.SDLK_1,s.SDLK_2,s.SDLK_3,s.SDLK_r,s.SDLK_n):tap(k)
+                if i==6:
+                    if sys.argv[1] in ('dead','22dead'):assert f.game.stage_number==21 and f.game.playing and f.run.receipts==() and f.game.player.health.current_hp==3
+                    else:assert f.game.stage_number==22 and len(f.run.receipts)==1 and f.game.state is GameState.UPGRADE and f.offer.stage==22
                     event=s.SDL_Event();event.type=s.SDL_QUIT;s.SDL_PushEvent(event)
                 return real_poll()
             def draw():
                 present();frame[0]+=1;now[0]+=1/60
             def label(*a,**kw):labels.append(a[1]);return text(*a,**kw)
-            with patch.object(canvas,'open_canvas',side_effect=open_window),patch.object(canvas,'close_canvas',side_effect=close_window),patch.object(canvas,'get_events',side_effect=poll),patch.object(canvas,'update_canvas',side_effect=draw),patch.object(canvas,'SDL_GetWindowFlags',return_value=s.SDL_WINDOW_INPUT_FOCUS),patch.object(main,'_new_game',return_value=old),patch.object(main,'StageProgression',return_value=f),patch.object(main,'perf_counter',side_effect=lambda:now[0]),patch.object(main,'sleep'),patch.object(main.HealthRenderer,'_text',side_effect=label):
+            with patch.object(canvas,'open_canvas',side_effect=open_window),patch.object(canvas,'close_canvas',side_effect=close_window),patch.object(canvas,'get_events',side_effect=poll),patch.object(canvas,'update_canvas',side_effect=draw),patch.object(canvas,'SDL_GetWindowFlags',return_value=s.SDL_WINDOW_INPUT_FOCUS),patch.object(main,'_new_game',return_value=old),patch.object(main,'StageProgression',return_value=f),patch.object(main,'perf_counter',side_effect=lambda:now[0]),patch.object(main,'sleep'),patch.object(main.HealthRenderer,'_text',side_effect=label),patch.object(main.UpgradeRenderer,'_text',side_effect=label):
                 main.main(run=run)
             assert old.combat.stage_instance_id!=f.game.combat.stage_instance_id and run.retired
-            if sys.argv[1]=='clear':assert 'STAGE 21 CLEAR' in labels and 'STAGE 22 NOT AVAILABLE' in labels and 'UPGRADE' not in labels
+            if sys.argv[1]=='clear':assert 'STAGE 22 CLEAR' in labels and 'STAGE 23 NOT AVAILABLE' in labels and 'CHOOSE ONE  1 2 3 OR CLICK' in labels
             print('PASS native Stage20 N Stage21',sys.argv[1])
         ''')
-        for outcome in ('clear','dead'):
-            result=subprocess.run([sys.executable,'-c',script,outcome],cwd=Path(__file__).resolve().parents[1],env={**os.environ,'SDL_VIDEODRIVER':'dummy'},capture_output=True,text=True,timeout=30)
+        for outcome,method in (('clear','keyboard'),('clear','mouse'),('dead','keyboard'),('22dead','mouse')):
+            result=subprocess.run([sys.executable,'-c',script,outcome,method],cwd=Path(__file__).resolve().parents[1],env={**os.environ,'SDL_VIDEODRIVER':'dummy'},capture_output=True,text=True,timeout=30)
             self.assertEqual(result.returncode,0,result.stdout+result.stderr)
