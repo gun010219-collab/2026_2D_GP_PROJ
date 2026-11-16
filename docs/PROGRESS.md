@@ -1,5 +1,53 @@
 # CHECKMATE 개발 진행 기록
 
+## Task 5-C2F — 문서 조사 승인 및 별도 기준선 확정
+
+사용자는 ChatGPT에 C2 승인 판단을 위임하고 조사 결과와 C3→C4→C5→C6→CF 순서를 승인했다.
+이 승인은 C2 문서 작업 완료이며 Stage6의 미실시 GUI/성능 검수나 미래 C3 아트 승인이 아니다.
+기준 `7d1b03e01293365271b3b3727cd00eca2484dbf8`에서 문서3개만 최종화해 별도 커밋·일반 Push한다.
+코드/원화/준비본/스테이지 데이터는 변경하지 않는다.
+Stage7~10 HP32/44/49/82를 원본 편성·combat_balance.profile_for(2)·실제 StageGame으로 재확인한다.
+Stage10 원본 boss_hp10은 카탈로그 값이며 main의 profile_for(2) 전달로 런타임King50을 사용한다.
+총HP는50+9(Bishop)+9(Knight)+7×2(Pawn)=82다.
+전용26회귀/일반·-O Stage/해시·문서·공백 검사를 최종 확인하며 전체1,374개는 이 문서 단계에서 재실행하지 않는다.
+C2F 실제 재실행: 전용26개/10.359초, 실패·오류·skip0; 일반/-O각25Stage,
+기존 카탈로그563건·Chapter2 원본/준비 해시·480문서링크·Git공백 검사 통과.
+문서 커밋·Push 후 로컬/원격 SHA 일치와 Clean을 확인한 다음에만 C3 구현을 시작한다.
+아래 C2 미커밋 기록은 조사 당시 이력이다.
+
+## Task 5-C2 — Chapter2 Stage7~10 구현 준비 조사
+
+기준 HEAD/origin/main과 실제 GitHub main은 `7d1b03e01293365271b3b3727cd00eca2484dbf8`로 일치했고 시작 트리는 Clean이었다.
+이번에는 [확장 계획](TASK5C_RENDERER_PLAN.md)의 C2 조사 절 및 본 문서/DECISIONS만 갱신한다.
+신규 아트·코드·스위치·캡처·테스트를 제작하거나 활성화하지 않는다. C1 조건부 승인 범위는 그대로다.
+
+원본 JSON/StageCatalog와 실제 생성 객체를 대조했다:
+Stage7=Knight2/Pawn2·HP32, Stage8=Bishop/Rook/Knight/Pawn2·HP44,
+Stage9=Bishop/Rook2/Knight/Pawn·HP49, Stage10=King/Bishop/Knight/Pawn2·HP82.
+Stage10은 카탈로그 boss_hp10과 런타임King50을 구분하며 기존 Pulse를 사용한다. Queen은 없다.
+
+Pawn/Rook은 C1 원본·투명256준비본·측정/실전 자동 검증이 있다. 인간 GUI는 아직이다.
+Knight/Bishop은 승인 서면 설계만 있고 Chapter2 PNG/원화가 없어 우선 제작이 필요하다.
+숲 King은 기존 원본/투명256콘셉트가 있으며 alpha(28,18,228,238)와 해시를 재확인했다.
+다만 원본 왕관 줄기 상단이 이미지 경계에서 잘려 보이므로 실전 재사용 확정이 아니다.
+King 새 제작을 자동 확정하지 않고 C6에서 적합성/별도 보완 필요성을 판단한다.
+
+확장 순서는 C3 Knight+Stage7 → C4 Bishop+Stage8 → C5 기존4종 Stage9 → C6 King/Pulse Stage10 → CF Chapter2 GUI/회귀/성능이다.
+공통 files/layout/SessionArtPath를 재사용하되 Stage5/6 계산과 opt-in은 고정한다.
+Knight의 기존 Y 점프 보간이 지상 발/깊이로 투영되는 위험, 새 kind의 HP/크기 설정 누락,
+Path 단락 평가에 따른 비활성 자산 해제 누락을 후속 구현의 명시 검증 대상으로 정리했다.
+현재 Stage5/6에서 확인된 새 기능 결함으로 판정한 것은 아니다.
+
+Stage5 8PNG/Stage6 5PNG 해시, 원본 편성/HP·실제ledger/패링·도약/죽음·Pulse·정상 강화/Receipt·10→11,
+세션 수명/폴백·GUI·실제 프레임 통계의 구체적 검증 방법을 문서화했다.
+FrameStats는600표본 창이므로 단일 종료 로그를60초 전체 백분위로 쓰지 않는다.
+Stage6 실제 GUI/60초 안정성/FPS/P95/P99 및 Chapter4/5 접합 OPEN은 유지한다.
+전체 Chapter2 렌더링 구현/승인을 완료로 기록하지 않는다. 이번 C2는 미스테이징·미커밋·미Push로 남긴다.
+이번 검증: Stage5/6 표시 회귀26개/10.573초, 실패·오류·skip0; 일반/-O각25Stage,
+기존 아트 카탈로그563건·Pawn/Rook/King 원본/준비 해시, 문서480링크·공백 통과.
+변경은 문서3개뿐이며 코드·테스트·에셋 불변을 확인했다.
+전체1,374개/220.729초는 C1 최종화 때의 기록이다. 문서 전용 C2에서는 전체 suite를 재실행하지 않았다.
+
 ## Task 5-C1 최종화 — 사용자 위임에 따른 조건부 통합 승인
 
 사용자는 ChatGPT에 승인 판단을 위임하고 Stage6 숲 테마 구현을 **조건부 통합 승인**했다.
