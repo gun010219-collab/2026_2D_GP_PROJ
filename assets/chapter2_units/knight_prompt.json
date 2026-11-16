@@ -1,0 +1,17 @@
+{
+  "status": "Task5-C3 new forest Knight; live Stage7 art awaiting Windows visual approval",
+  "generator": "OpenAI built-in image_gen",
+  "model": "Not exposed by tool",
+  "date": "2026-11-16",
+  "transparent_background": true,
+  "prompt": "Use case: stylized-concept / game sprite. Generate ONE Chapter 2 Ancient Forest KNIGHT enemy for CHECKMATE. Reference 1 forest rook and reference 2 forest king establish premium carved bark, roots, moss, ancient stone accents, tiny amber glow, upper-left lighting and matching slightly overhead front three-quarter camera. Reference 3 royal knight establishes the chess knight's long projecting muzzle, curved neck and clearly readable quadruped silhouette ONLY; do not recolor its metal armor. New living forest beast, wolf/deer-like elongated muzzle, curved woody neck, natural athletic four-legged body, articulated plant/root joints and layered bark plates, limited small backward branch antlers, tiny amber eyes. Restrained moss/leaf accents. Distinct from upright acorn pawn and broad tree-trunk rook, no king crown or broad tree torso. Side/front three-quarter pose facing left, all four legs/feet and full muzzle visible. Strong silhouette readable at 80px on light and dark tiles, sculptural dark fantasy 2.5D, detailed materials but bold major shapes. Upright natural proportions, no stretching, not a flat chess icon and no pedestal. One centered full-body isolated character with TRUE TRANSPARENT background; generous clear padding on all sides, no cropped antler/muzzle/feet. Small soft contact shadow only. No scenery, text, UI, other creatures, frame, diagram or animation sheet.",
+  "references": [
+    "assets/chapter2_units/rook.png",
+    "assets/character_concepts/ch2_king.png",
+    "assets/character_concepts/ch1_knight.png"
+  ],
+  "source": "source/knight.png",
+  "prepared": "knight.png",
+  "preparation": "tools/prepare_forest_knight.py: uniform alpha crop/pad/resize only; no repainting or distortion; prior unit records preserved",
+  "rights": "Project AI-generated draft; final contest AI permission/disclosure and distribution terms remain to be checked. No claim of exclusivity or legal clearance."
+}

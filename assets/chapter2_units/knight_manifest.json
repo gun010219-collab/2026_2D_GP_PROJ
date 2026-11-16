@@ -1,0 +1,37 @@
+{
+  "status": "C3 live forest Knight candidate; Windows visual approval pending",
+  "operation": "SDL linear crop/pad/resize; alpha preserved; no content repainting",
+  "assets": [
+    {
+      "name": "knight",
+      "source": "source/knight.png",
+      "source_size": [
+        1312,
+        1199
+      ],
+      "source_alpha_bbox": [
+        116,
+        64,
+        1180,
+        1106
+      ],
+      "source_transparent_pixels": 1021498,
+      "file": "knight.png",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        18,
+        20,
+        238,
+        235
+      ],
+      "transparent_pixels": 43440,
+      "rgba_bytes": 262144,
+      "file_bytes": 76620,
+      "sha256": "2d28bd80576c43999b88f20198be0b57f31f2cdbb71e3622d9ebb09493ecab47",
+      "source_sha256": "029856610da110e65bdce0cb77d293364084b232c6a7e3ca2835bc3ec026feca"
+    }
+  ]
+}

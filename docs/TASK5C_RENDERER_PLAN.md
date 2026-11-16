@@ -1,5 +1,153 @@
 # CHECKMATE — Task5-C 단계적 렌더러 확장 계획
 
+## 최신 상태 — C3F Stage7 사용자 GUI 승인 완료
+
+사용자가 Stage7 숲 테마2.5D의 **Windows GUI15/15 통과, 발견된 오류0건**을 보고했다.
+숲 배경/체스판·Knight2/Pawn2·Knight 디자인/현재크기·18px 점프/그림자/착지·깊이/HP·위험셀/피해범위·
+SPACE/Shift·사망/클리어·강화/Stage8 전환·GAME_OVER/재시작·SETTINGS/F11/ESC와60초 이상 실행 안정성을 승인한다.
+현재 코드·테스트·PNG·크기·카메라는 유지하고 최종 회귀 후 C3 파일25개를 기존 main에 커밋·일반 Push한다.
+아래 C3 절은 구현 당시 결과이며 GUI 대기/미커밋 제한은 이번 명시 승인으로 해소됐다.
+원화·프롬프트·manifest의 pending 상태는 생성 시점 이력이며 최종 사용 승인 기록과 구분한다.
+
+남은 상태는 **Stage6 GUI 미검증 / 실제Windows FPS·P95·P99 미측정 / Chapter4·5 접합 OPEN / Stage8~10 아트 미적용**이다.
+Stage7 안정성 승인으로 측정하지 않은 성능 수치를 생성하지 않는다.
+최종 전체 검사 개수/시간은 PROGRESS 최신 C3F 절에 별도 기록한다.
+이번 최종화 재실행은 unittest1,388개/227.100초, 실패·오류·skip0이다.
+일반/-O25Stage·compileall·Stage5/6 기준13PNG·기존/신규 에셋/캡처 해시·문서493링크·공백 통과.
+GUI 승인 후 문서 외20파일의 시작 해시는 같으며 실제 기능/아트/테스트는 변경하지 않았다.
+
+최종 C3 커밋 선정25파일:
+
+- 소스4: `main.py`, `render_motion.py`, `stage5_art_renderer.py`, `stage7_art_renderer.py`.
+- 테스트1·도구3: `tests/test_stage7_live_art.py`, `tools/stage7_play.py`,
+  `tools/prepare_forest_knight.py`, `tools/capture_stage7_live.py`.
+- 문서5: `docs/PROGRESS.md`, `docs/DECISIONS.md`, `docs/TASK5C_RENDERER_PLAN.md`,
+  `docs/ASSET_CREDITS.md`, `docs/BUGS.md`.
+- 에셋/출처4 (`assets/chapter2_units/`): `knight.png`, `source/knight.png`, `knight_prompt.json`, `knight_manifest.json`.
+- 검증자료8 (`artifacts/stage7_c3/`): `normal.png`, `knight_warning.png`, `jump_peak.png`, `landing.png`,
+  `parry_window.png`, `parry_normal.png`, `parry_perfect.png`, `capture_manifest.json`.
+
+재현 중 임시로 생성한 캡처/전체 테스트 로그는 TEMP에 두며 커밋하지 않는다.
+기존 승인 에셋이나 탐색 자료를 삭제하거나 덮어쓰지 않는다.
+
+### 다음 C4 준비 범위
+
+1. 승인된 숲 Pawn/Rook/Knight 원본·준비본·배치를 보존하고 Bishop만 새로 제작/측정한다.
+2. Stage8 원본 Bishop1/Rook1/Knight1/Pawn2·HP44에 독립 opt-in 프로필을 추가한다.
+3. 기존 투영/지상·높이/깊이·HP·실제 ledger/패링 표시를 재사용하고 Bishop 색상50셀·스냅 이동을 검증한다.
+4. 세션 이미지9장·로딩/해제/폴백,7→8→9·HP 이월·재시작과 Stage5/6/7 해시 회귀를 보존한다.
+5. Stage6의 남은 GUI와 실제 성능 미측정을 명시한 채 Stage8 Windows 검수/성능 기록을 준비한다.
+
+이번 최종화에서는 C4 구현·새 에셋·새 스테이지 활성화를 하지 않는다.
+
+## Task 5-C3 — 실제 Stage7 숲 Knight 통합 (GUI 승인 대기)
+
+C2F는 `617c2701b83ae1f4e0e36400a994caa787968d7c` 문서3개 커밋으로 일반 Push 완료했다.
+로컬/원격 SHA 일치·Clean 확인 후 C3를 시작했다. 아래 C2 조사는 당시 조사 결과로 보존한다.
+C3의 새 아트·코드는 미스테이징/미커밋/미Push이며 Stage6 GUI 미검증·Chapter4/5 접합 OPEN은 그대로다.
+
+### 구현과 기존 표시 보존
+
+- `CHECKMATE_STAGE7_ART=1`인 실제 Stage7에만 숲 표시를 추가했다.
+  main은 `stage7_art_renderer.LiveArenaArtPath`를 사용하며 기존 Stage5/6 controller를 감싸 재사용한다.
+  세 스위치는 독립이고 기본값/나머지22스테이지(특히Stage8)는 기존 표시다.
+- 실제 Knight2/Pawn2, HP9/9/7/7=32, 원본 ID/좌표/지연48/62/75/88틱·AI·ledger·Player를 읽는다.
+  King/Pulse/새 전투 규칙은 만들지 않는다. Stage7 클리어는 정상 UPGRADE이며 기존 강화로 Stage8에 진입한다.
+- 숲 배경/forest_c 프레임/상판2종/Player/Pawn은 Stage6 그대로다. Knight만 새로 추가하고7장을 세션당 한 번 로딩한다.
+  Stage6의 Pawn/Rook 전용 manifest와 준비 도구는 기존 계약 그대로 두며 Knight는 독립 manifest로 관리한다.
+- 공통 Stage5 draw에는 읽기 전용 pose 훅만 추가했다. 기본 pose는 이전 수식과 동일하고 lift0이다.
+  Stage5의 Pawn116/Rook111/King108%와 Stage6 base72/88·발/HP/이미지는 바꾸지 않았다.
+  실제 재생성한 Stage5 8PNG와 Stage6 5PNG가 기존 C1 기준 SHA256과 모두 일치한다.
+- 세션별 캐시/부분 로딩 해제/단일 실패 로그/기존 표시 폴백은 기존 SessionArtPath를 재사용한다.
+  OSError/ArenaArtError만 처리하며 프로그래밍 오류를 숨기지 않는다. 두 경로를 모두 평가해 비활성 경로의 해제를 보장한다.
+
+### Knight 원화·크기·점프
+
+새 숲 Knight는 내장 image_gen으로 생성한 목재/수피 야수다. Chapter1 Knight 재색칠이 아니다.
+원화1312×1199와 투명256² 준비본, [프롬프트·참조](../assets/chapter2_units/knight_prompt.json),
+[원본/준비 해시·알파 측정](../assets/chapter2_units/knight_manifest.json)을 보존한다.
+`tools/prepare_forest_knight.py`는 기존 Pawn/Rook 해시를 먼저 확인한 뒤 Knight만 동일비율 crop/pad한다.
+기존 두 기물의 PNG/원본/manifest 레코드는 다시 생성하거나 변경하지 않는다.
+
+실제 alpha bbox는(18,20,238,235), 폭220/높이215, 완전 투명43,440픽셀이다.
+표시 base82는 시작행6에서 사각형약97.19px, 불투명 폭약83.52px/높이81.62px다.
+PNG를 가로/세로 따로 늘리지 않으며 발은 alpha하단235, HP 글자 기준점은 실제 상단+9px다.
+새 크기와 단일 시점 원화는 Windows 디자인 검수 후보이며 최종 방향별 애니메이션 완성이 아니다.
+
+`RenderMotion.ground_pose(entity)`는 기존 시계/보간에서 지상 중심과 canvas 수직 높이를 읽기 전용으로 제공한다.
+별도 시뮬레이션 시계/AI/점유 셀은 만들지 않았다. 기존2D positions/_sample의18px hop 출력은 그대로 유지한다.
+추가 지상 origin 캐시는 재목표에서도 지상 경로가 이어지게 하며 세션/사망 시 정리한다.
+Stage7 pose만 이 정보를 사용한다:
+
+1. 투영·깊이 정렬·접지 그림자는 **지상 위치**로 계산한다.
+2. 몸체·불투명 상단·HP에는 기존 `18*sin(pi*t)` 높이만 화면 수직으로 더한다.
+3. 실제 위험 셀과 피격 셀은 항상 논리 좌표/ledger에서 투영한다.
+4. 착지·snap·freeze는 높이0과 정확한 지상 앵커로 복귀한다.
+
+### 재현·실제 전투 검증
+
+신규 `tests/test_stage7_live_art.py`는14개 메서드로 스위치/원본편성·원화/알파/발·중간도약·재목표/
+깊이·그림자·HP·실제위험셀·실제패링·폴백·7장수명·사망R→6·정상강화→8·게임/모션불변을 검사한다.
+전용+기존표시/보간55개/18.757초 통과 후 전체 회귀를 실행했다. 최종 개수/시간은 PROGRESS 최신 C3 절을 따른다.
+최종 전체 unittest1,388개/262.032초, 실패·오류·skip0(기존1,374+신규14).
+일반/-O25Stage·compileall·기존/신규 에셋 및 캡처 해시·문서493링크·Git공백 검사를 통과했다.
+변경25파일(소스3+문서5 수정, 소스/테스트/도구5+Knight4+검증자료8 신규)은 전부 미스테이징이다.
+
+기존 BFS/공격/패링 정책의 `tests.test_hp_carryover.fight`로 실제 개발 Stage7을524틱·UPGRADE·HP3/3으로 클리어했다.
+해당 전투에 렌더링을 반복 적용하고 정상 Offer/HP 강화를 통해 Stage8·Receipt2·HP4/4를 확인했다.
+개발 시작의 Stage6 Receipt는 합성 이력이므로 이 측정을 실제 Stage6 연속 클리어나 캠페인 인간 완주로 쓰지 않는다.
+다른 전환 테스트의 강제 종료 fixture는 경로 검증이며 실전 성공 기록과 구분한다.
+
+Windows direct3d11 숨김 창 기술 검사: 실제AI320틱, 경고150프레임, 최대lift18.0, 종료HP2.
+렌더링 전후 게임/모션 불변과 target_cells 일치, 자산7장 및 해제를 확인했다.
+이 결과는 인간 GUI 시각 검수/실제60초 안정성/FPS/P95/P99 측정이 아니다.
+
+캡처는 [평상시](../artifacts/stage7_c3/normal.png), [경고](../artifacts/stage7_c3/knight_warning.png),
+[점프 최고점](../artifacts/stage7_c3/jump_peak.png), [착지](../artifacts/stage7_c3/landing.png),
+[패링 입력 창](../artifacts/stage7_c3/parry_window.png), [일반 성공](../artifacts/stage7_c3/parry_normal.png),
+[퍼펙트 성공](../artifacts/stage7_c3/parry_perfect.png)와 [실제 상태/해시](../artifacts/stage7_c3/capture_manifest.json)다.
+원본 AI를 실제로 진행하며1틱당 기존 보간을1/60초 갱신한 SDL 캡처로, 고정된 가짜 HP/위치/패링 결과를 만들지 않았다.
+`tools/capture_stage7_live.py --capture-dir artifacts/stage7_c3`로 재현한다.
+캡처의 SETTINGS 버튼/메뉴는 생략되며 실제 main에서 별도 확인한다.
+
+### Windows 사용자 검수
+
+저장소 루트:
+
+```powershell
+$env:CHECKMATE_STAGE7_ART = "1"
+.\.venv\Scripts\python.exe tools\stage7_play.py
+```
+
+개발 도구는 Chapter2 entry_attack_level1 + Stage6 ATTACK 합성 Receipt1, 공격3/HP3/3/MOVE18의 실제 Stage7을 생성한다.
+이전 스테이지를 실제로 클리어했다는 증거가 아니다. GAME_OVER R은 정상 규칙대로 신규 Stage6/Receipt0/HP3/3으로 복귀한다.
+그 Stage6에서도 숲 표시를 원하면 `CHECKMATE_STAGE6_ART=1`을 별도로 설정한다.
+일반 캠페인은 Stage5/6/7의 해당 스위치를 각각 설정한 뒤 main.py로 실행한다.
+기존 표시 비교는 Stage7 스위치를0으로 바꾸고 같은 개발 도구를 실행한다.
+
+GUI 검수 대기 항목:
+
+1. Knight 긴 머리/곡선 목과 Pawn 실루엣, 밝음/어두움·앞/뒤 행 크기.
+2. Knight2의 실제 점프/착지, 발/지면 그림자/HP·기물 간 앞뒤 가림.
+3. SPACE 공격, 실제 예고/위험 셀, 일반·퍼펙트·실패 패링 및 피격.
+4. 적 사망 후 스프라이트/HP/경고 잔상 없음.
+5. Stage7 정상 클리어·강화·HP 이월·Stage8 기존 표시.
+6. GAME_OVER R→Stage6, 합성 강화/세션 초기화.
+7. SETTINGS 최상위·F11·ESC·레터박스·창 복원·마우스.
+8. 60초 이상 실제 플레이 안정성과 가독성.
+
+```powershell
+$env:CHECKMATE_STAGE7_ART = "1"
+$env:CHECKMATE_FRAME_STATS = "1"
+.\.venv\Scripts\python.exe tools\stage7_play.py
+```
+
+실제 Windows FPS/P95/P99는 미측정이다. 최근600표본 로그의 의미는 아래 C2 성능 계획을 따른다.
+단일 정적 자세를 움직이는 프로토타입이며 방향별 시트/다리 동작은 미제작이다.
+원화의 약한 접지 음영과 별도 지면 그림자의 중첩, 작은 장식/이끼와 경고 대비는 GUI 검수 대상으로 남긴다.
+Stage8/Bishop/King 보완을 이번에 제작·활성화하지 않는다. Chapter4/5 전면 접합 결함은 OPEN이다.
+사용자 GUI 승인 전 C3 스테이징·커밋·Push하지 않는다.
+
 ## Task 5-C2F — 승인된 문서 기준선
 
 사용자가 C2 조사 결과를 위임 승인했다. 본 문서/PROGRESS/DECISIONS 세 개만 별도 커밋·Push한다.

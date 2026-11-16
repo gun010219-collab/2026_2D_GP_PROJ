@@ -117,8 +117,8 @@ def run_session(game, flow, *, game_renderer=None):
         display = DisplaySettings(canvas)
         menu = SettingsMenu()
         settings_renderer = SettingsRenderer(canvas)
-        from stage6_art_renderer import LiveArenaArtPath
-        art_path = LiveArenaArtPath(canvas)
+        from stage7_art_renderer import LiveArenaArtPath
+        art_path = LiveArenaArtPath(canvas, motion=motion)
         controls = GameplayInput(canvas, move_interval_ticks=flow.run.stats.move_interval_ticks)
         pending_gameplay = []
 

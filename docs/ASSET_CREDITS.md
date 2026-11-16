@@ -1,5 +1,25 @@
 # CHECKMATE 에셋 출처
 
+## Task 5-C3 — 숲 Knight 신규 원화/준비본
+
+OpenAI 내장 image_gen으로 숲 Knight 한 기물을 실제 생성했다. 실제 모델명은 도구에서 노출되지 않았다.
+참조는 기존 숲Rook/King의 재질·조명과 왕실Knight의 실루엣·카메라다. 왕실 금속 갑주의 재색칠이 아니다.
+외부 이미지·폰트·음향은 추가하지 않았다. 생성된 원본을 복사 보존했고 동일비율 alpha crop/pad/축소만 했다.
+
+- 원본: `assets/chapter2_units/source/knight.png`, 1312×1199.
+- 준비: `assets/chapter2_units/knight.png`, 256×256 RGBA, alpha(18,20,238,235), 76,620바이트.
+- [정확한 프롬프트·참조·생성 도구](../assets/chapter2_units/knight_prompt.json).
+- [원본/준비 SHA256·알파 경계·투명도](../assets/chapter2_units/knight_manifest.json).
+- `tools/prepare_forest_knight.py`는 기존 Pawn/Rook 원본/준비본을 해시 확인하고 변경 없이 Knight만 준비한다.
+  기존 Stage6 asset_manifest는 그대로이며 새 Knight 메타데이터는 별도로 보존한다.
+- `artifacts/stage7_c3/`7PNG와 상태manifest는 실제 AI·이동 보간·패링 요청/판정을 그린 SDL 검증 자료다.
+  생성 원화/최종 방향별 애니메이션/사용자 Windows 승인/성능 측정으로 혼동하지 않는다.
+
+최신 C3F 사용자 Windows GUI15/15·오류0으로 새 원화/현재크기/자세·점프/그림자·가독성을 승인받았다.
+프롬프트/manifest의 pending은 생성 당시 기록으로 보존하며 원화/준비본·해시를 수정하지 않는다.
+AI 공모전 허용·표시와 최종 배포 이용조건 확인은 별도로 남아 있다.
+독점성/법적 권리 심사 완료를 주장하지 않는다. 기존 승인된 모든 원화·준비본은 보존한다.
+
 ## Task 5-C1 — Chapter2 숲 Pawn/Rook 원화와 준비본
 
 OpenAI 내장 `image_gen`으로 이번 작업에서 두 기물을 실제 생성했다. 도구가 구체적 모델명은 제공하지 않았다.

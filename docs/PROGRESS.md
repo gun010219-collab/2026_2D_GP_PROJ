@@ -1,5 +1,72 @@
 # CHECKMATE 개발 진행 기록
 
+## Task 5-C3F — Stage7 Windows GUI 15/15 최종 승인
+
+사용자는 실제 Windows GUI 검수 **15/15 통과, 발견된 오류0건**을 보고하고 C3 변경의 최종 커밋·일반 Push를 승인했다.
+숲 배경/보드, Knight2/Pawn2, Knight 디자인·현재크기(base82),18px 점프·지상 그림자·착지 발,
+깊이/HP, 경고·실제피해 범위, SPACE/Shift, 적사망·클리어·강화/Stage8 전환,
+GAME_OVER/재시작·SETTINGS/F11/ESC·60초 이상 실제 실행 안정성이 승인됐다.
+추가 디자인·크기·기능·테스트·원화 변경 없이 승인된 결과를 유지한다.
+아래 GUI 대기/미커밋 문구와262.032초 결과는 구현 당시 이력이며 최신 승인은 이 절을 따른다.
+
+시작 main HEAD와 fetch 후 origin/main은 `617c2701b83ae1f4e0e36400a994caa787968d7c`로 일치했다.
+C3 변경25개(수정8/신규17)를 전수 확인하며 기능 코드·도구·테스트·에셋/캡처20파일의 시작 해시를 보존한다.
+이번 최종화는 관련 문서5개에 사용자 승인/최종 검증/후속 범위만 기록한다.
+Knight 원본/투명 PNG/프롬프트/제작 도구·해시와 실제 검증 캡처7개를 함께 관리한다.
+manifest/프롬프트의 'pending'은 생성 당시 메타데이터 이력이며 현재 GUI 승인은 이 문서와 DECISIONS를 따른다.
+
+Stage6 사용자 Windows GUI는 여전히 미검증이다. 실제 Windows FPS/P95/P99는 미측정이다.
+Stage7의60초 안정성 승인을 임의 프레임 수치로 환산하지 않는다.
+Chapter4/5 전면 접합 `ART-BOARD-CH4-CH5-FRONT-OVERLAP`은 OPEN이며 Stage8~10 아트는 미적용이다.
+이번 최종 전체 재실행: **unittest1,388개/227.100초, 실패0·오류0·skip0**.
+구현 단계262.032초와 구분한다. 기존1,374개 메서드 및 신규14개를 보존하고 기존 테스트는 수정하지 않았다.
+Stage5 8PNG/Stage6 5PNG를 새로 생성해 기존 기준 해시13개와 일치를 확인했다.
+일반/-O각25Stage·compileall·기존 카탈로그563건(추적300/로컬보관263)·Knight/Pawn/Rook 원본/준비 해시,
+실제 Stage7 캡처7개 해시·문서493링크·Git공백 검사를 통과했다.
+독립 opt-in/다른22곳 기존 표시·점프/발/HP/깊이·실제경고/패링·상태불변·세션수명/폴백·재시작/Stage8 전환,
+기존1틱/8틱·7종FPS·Queen/KingPulse/100건 독립전투 회귀가 포함된다.
+시작에 기록한 문서 외20파일의 SHA256이 모두 같아 GUI 승인 후 기능/테스트/에셋 변경이 없음을 확인했다.
+C3 관련25파일만 선정하며 커밋SHA/원격main 일치/Clean은 Push 후 실제 Git 재조회 및 최종 보고에서 확인한다.
+
+다음 C4는 기존 숲 Pawn/Rook/Knight와 공통 표시를 재사용하고 새 Bishop만 제작해 Stage8 한 곳에 통합하는 범위다.
+Bishop50셀 경고/패링,9이미지 세션 수명·폴백,7→8→9,Stage5/6/7 출력 회귀 및 GUI/성능 검수를 준비한다.
+이번 C3F에서 Stage8 구현/신규 에셋 제작을 시작하지 않는다.
+
+## Task 5-C3 — 실제 Stage7 숲 Knight 통합 (GUI 승인 대기)
+
+C2F 문서3개 커밋 `617c2701b83ae1f4e0e36400a994caa787968d7c` Push/원격 일치·Clean 확인 후 착수했다.
+재개 시 이미 있던 Knight 원화/PNG/프롬프트/준비 도구를 보존해 이어서 작업했다. 추가 원화를 반복 생성하지 않았다.
+실제 Stage7 Knight2/Pawn2·HP32에만 독립 `CHECKMATE_STAGE7_ART=1` 표시를 추가했다.
+Stage5/6 경로를 감싸 재사용하며 기본값/나머지22스테이지·Stage8은 기존 표시다.
+
+새 원화1312×1199 → 투명256² alpha(18,20,238,235), base82·발235·HP상단+9로 연결했다.
+기존 Stage6 manifest의 두 기물 계약을 유지하기 위해 Knight 기록은 knight_manifest.json에 분리했다.
+새 준비 도구는 기존 Pawn/Rook 바이트/해시를 확인하고 보존한다. 원본/프롬프트/도구/해시는 ASSET_CREDITS에 기록했다.
+RenderMotion에 읽기 전용 ground_pose와 지상 origin 캐시를 추가했다. 기존2D positions 출력은 변경하지 않는다.
+Stage7만 지상 투영/깊이/그림자와18px 수직 점프를 분리하고 HP를 몸체와 함께 올린다.
+공통 Stage5 draw의 기본 pose는 이전 수식/lift0이며 기존 Stage5 8PNG·Stage6 5PNG 재생성 해시가 모두 같다.
+
+신규14메서드와 기존 표시/보간을 합친55개/18.757초가 통과했다.
+실제 기존 드라이버 정책의 개발 Stage7 전투는524틱·UPGRADE·HP3/3, 이어 정상 HP강화→Stage8·Receipt2·HP4/4였다.
+이는 합성 Stage6 Receipt가 있는 개발 시작이며 Stage6 실제 연속 클리어/인간 완주 기록이 아니다.
+실제 AI/도약/패링으로7PNG와 상태/해시 manifest를 만들었다. 캡처는 SDL 검증 자료이지 GUI 승인/성능 측정이 아니다.
+Windows/direct3d11 숨김 창 실제AI320틱·경고150프레임·최대높이18.0·종료HP2 및 자산7장 수명도 기술 확인했다.
+새 Stage7 GUI 시각 검수·60초 안정성·FPS/P95/P99는 미검증/미측정이며 기존 Stage6 GUI도 그대로 미검증이다.
+
+수정: main.py/render_motion.py/stage5_art_renderer.py, 문서5개.
+신규: stage7_art_renderer.py, tests/test_stage7_live_art.py, tools/stage7_play.py,
+tools/capture_stage7_live.py, tools/prepare_forest_knight.py,
+assets/chapter2_units의Knight 원화/준비본/프롬프트/별도manifest4개,
+artifacts/stage7_c3의7PNG+manifest8개다. 기존 아트/전투/스테이지 JSON/기존 테스트는 보존했다.
+최종 전체 재실행: **unittest1,388개/262.032초, 실패0·오류0·skip0**.
+기존1,374개 메서드 보존(AST 전수 대조)·신규14개이며 기존 테스트 파일은 수정하지 않았다.
+일반/-O각25Stage, compileall, 기존 카탈로그563건(추적300/로컬보관263)·새 Knight 원본/준비본·7캡처 해시,
+문서493링크·Git공백 검사·빈 인덱스 확인을 통과했다. 1틱/8틱·7종FPS·기존100건 전투 회귀도 전체 suite에 포함한다.
+기존 Stage5 8장/Stage6 5장 기준PNG 해시 비교가 새 자동 테스트에도 포함된다.
+실제 C3 변경은25파일(수정8/신규17)이고 C2F HEAD는 그대로다.
+실행/검수는 [Stage7 통합](TASK5C_RENDERER_PLAN.md) 최신 C3 절을 따른다.
+Chapter4/5 접합 OPEN을 유지하며 C3는 미스테이징·미커밋·미Push다.
+
 ## Task 5-C2F — 문서 조사 승인 및 별도 기준선 확정
 
 사용자는 ChatGPT에 C2 승인 판단을 위임하고 조사 결과와 C3→C4→C5→C6→CF 순서를 승인했다.

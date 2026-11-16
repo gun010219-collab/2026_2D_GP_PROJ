@@ -1,5 +1,31 @@
 # CHECKMATE 승인 결정
 
+## Task 5-C3F — Stage7 사용자 최종 승인
+
+사용자가 실제 Windows GUI15/15 통과·오류0을 보고했다.
+Knight 디자인/크기(base82·alpha하단235·HP상단+9),18px 점프·지상 그림자/착지·깊이/가독성을 승인한다.
+실제 Knight2/Pawn2·공격/패링/HP·적사망/클리어·강화/Stage8 전환·사망 재시작·설정/창 조작과60초 안정성도 승인됐다.
+추가 디자인/크기 조정이나 기능 확장 없이 최종 자동 검증 후 기존 main에 C3 관련25파일만 커밋·일반 Push한다.
+Stage5/6 기준PNG와 스위치 독립성·나머지22스테이지 기존 표시·전투 수치·AI·공격 원장은 보존한다.
+
+Stage6 GUI는 미검증, 실제Windows FPS/P95/P99는 미측정, Chapter4/5 전면 접합은 OPEN이다.
+Stage8~10 아트는 미적용이며 C4에서 Bishop+Stage8 한정 확장을 별도로 진행한다.
+아래 C3의 GUI 대기/커밋 금지 표기는 당시 이력이며 최신 사용자 C3F 승인이 우선한다.
+
+## Task 5-C3 — Stage7 한정 통합과 지상/높이 분리
+
+사용자 C3 구현 지시에 따라 Stage7만 독립 opt-in으로 확장하며 새 시각 품질의 GUI 승인은 아직이다.
+숲 Knight를 신규 제작해 원화·투명 준비본·출처를 보존하고 단순 왕실 재색칠로 대체하지 않는다.
+기존 Pawn/Rook 전용 manifest를 변경하면 기존 Stage6 계약이 깨지므로 Knight는 별도 manifest로 분리한다.
+공통 draw의 기본 pose와 기존2D positions를 보존하며 Stage7만 RenderMotion의 지상/수직 높이 분리 정보를 사용한다.
+지상 발/깊이/그림자는 고정하고 기존18px hop을 몸체/HP에만 더한다. 점유/공격/AI/시간/패링은 변경하지 않는다.
+Stage5 크기 승인값·Stage6 화면을13개 기준PNG 해시로 보호하고 기존 렌더러/자산 오류 폴백을 유지한다.
+
+Stage7 개발 도구의 Stage6 ATTACK Receipt는 합성 준비 이력이며 실제 이전 전투 클리어 증거가 아니다.
+Stage7 실제 드라이버 클리어/정상 강화와 전환 fixture를 구별하고 인간 GUI/FPS 미검증 사실을 유지한다.
+C2F 커밋과 분리해 C3는 사용자 GUI 승인 전 스테이징·커밋·Push하지 않는다.
+Stage8 아트·Bishop·King 보완과 Chapter4/5 접합 OPEN은 후속 범위다.
+
 ## Task 5-C2F — 조사 완료 승인과 C3 착수 경계
 
 사용자 위임에 따라 C2의 편성/HP·Knight/Bishop 미제작·King 상단 잘림·공통 표시 재사용·단계적 순서를 승인한다.

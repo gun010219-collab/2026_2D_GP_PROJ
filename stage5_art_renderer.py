@@ -69,6 +69,10 @@ class Stage5ArtRenderer:
     def layout(self,kind,u,v):
         return actor_layout(kind,u,v)
 
+    def pose(self,entity,positions):
+        x,y=display_center(entity,positions)
+        return (x-BOARD_LEFT)/TILE_SIZE-.5,(y-BOARD_BOTTOM)/TILE_SIZE-.5,0.0
+
     def __init__(self,c,root=ROOT):
         self.c=c;self.images={};self.warning_cells=[];self.order=[];self.bounds=[]
         try:
@@ -125,12 +129,14 @@ class Stage5ArtRenderer:
         actors=[e for e in g.encounter.enemies if e.active and e.alive]
         if g.player.alive:actors.append(g.player)
         def cell(e):
-            x,y=display_center(e,positions)
-            return (x-BOARD_LEFT)/TILE_SIZE-.5,(y-BOARD_BOTTOM)/TILE_SIZE-.5
+            return self.pose(e,positions)
         actors.sort(key=lambda e:(-cell(e)[1],cell(e)[0],e.entity_instance_id))
         labels=[]
         for e in actors:
-            kind=getattr(e,'kind','player');u,v=cell(e);layout=self.layout(kind,u,v)
+            kind=getattr(e,'kind','player');u,v,lift=cell(e);layout=self.layout(kind,u,v)
+            if lift:
+                layout={**layout,'center':(layout['center'][0],layout['center'][1]+lift),
+                        'top':layout['top']+lift,'hp_y':layout['hp_y']+lift,'elevation':lift}
             x,y=layout['foot'];height=layout['height'];center=layout['center'][1];top=layout['top']
             self.actor_layouts[e.entity_instance_id]=layout
             polygon(c,tuple((x+4+cos(i*pi/4)*height*.24,y-2+sin(i*pi/4)*4) for i in range(8)),(24,25,29,255))
