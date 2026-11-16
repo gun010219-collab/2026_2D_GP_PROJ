@@ -1,0 +1,37 @@
+{
+  "status": "C6 crown-repaired King candidate; user Windows GUI pending",
+  "operation": "Uniform SDL alpha crop/pad/linear resize; no content repainting",
+  "assets": [
+    {
+      "name": "king_c6",
+      "source": "source/king_c6.png",
+      "file": "king_c6.png",
+      "source_size": [
+        1150,
+        1368
+      ],
+      "source_alpha_bbox": [
+        71,
+        57,
+        1076,
+        1305
+      ],
+      "source_transparent_pixels": 787408,
+      "size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        39,
+        18,
+        216,
+        238
+      ],
+      "transparent_pixels": 41218,
+      "file_bytes": 86413,
+      "rgba_bytes": 262144,
+      "source_sha256": "538f0d672b30ebaa55940819a777c06ee65bfd74738232b9dcfc8f3b057565cc",
+      "sha256": "1d4b71bdb0386cbf6e933ba171371f65ed266494f5672a9a524a0ce198538117"
+    }
+  ]
+}

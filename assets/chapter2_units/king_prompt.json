@@ -1,0 +1,16 @@
+{
+  "status": "Task5-C6 forest King crown repair; Windows visual approval pending",
+  "generator": "OpenAI built-in image_gen",
+  "model": "Not exposed by tool",
+  "date": "2026-11-16",
+  "transparent_background": true,
+  "prompt": "Use case: precise-object-edit / game sprite. Edit target: the provided Chapter 2 Ancient Forest KING original from CHECKMATE. Preserve the existing character identity, bark face with amber eyes, immense interlocking bark shoulders, moss beard, leaf mantle, root gauntlets, small amber heart inside the chest, stone rune plates, heavy root feet, same stance, material colors, elevated three-quarter camera, lighting from upper left and polished sculptural 2.5D dark fantasy style. Required correction ONLY: the high CENTRAL BROKEN-TRUNK CROWN is cut off at the image top. Reconstruct a complete natural tapering broken trunk crown tip and extend the transparent canvas above it, with generous clear padding above and around the ENTIRE full-body silhouette. Keep central crown visibly highest; side branches below it. Keep body and feet complete, no perspective stretch or different pose. True transparent RGBA background, no black rectangular backing, no checkerboard, no scenery, no pedestal, no text, no giant glow or detached particles. One single full-body ancient tree monarch, centered. Production reference for a small in-game sprite: maintain broad readable silhouette, not a tiny toy. Do not modify any other character or make a sprite sheet.",
+  "references": [
+    "assets/character_concepts/source/ch2_king.png"
+  ],
+  "source": "source/king_c6.png",
+  "prepared": "king_c6.png",
+  "reason": "Original concept source touches the top edge; added padding in the old prepared PNG cannot restore its missing crown tip. Original source and prepared concept remain untouched.",
+  "preparation": "tools/prepare_forest_king.py: uniform SDL alpha crop/pad/resize only; no body stretching",
+  "rights": "Project AI-generated art. Contest AI permission/disclosure and final distribution terms remain to be checked. No exclusivity or licence clearance asserted."
+}

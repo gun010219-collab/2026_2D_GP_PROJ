@@ -1,5 +1,89 @@
 # CHECKMATE 개발 진행 기록
 
+## Task 5-C6F — Stage10 사용자 GUI 완료 보고 및 Git 최종화
+
+사용자가 Stage10 Windows GUI 전체 검수 완료를 보고하고 C6의 최종 재검증·커밋·일반 Push를 지시했다.
+별도 오류 보고는 없다. 기존 King 디자인/base104·발·HP+12·Pulse·혼합 전투 표시를 보존한다.
+개별 검수 결과/정확한 통과 항목 수 및 실제 FPS/P95/P99는 별도 제공되지 않았으므로 추정하지 않는다.
+아래 C6의 GUI 대기·미커밋·295.237초 결과는 구현 당시 이력이다.
+
+시작 HEAD/실제 원격 main은 `c962ee887cc60277b39c9d9acf8b318b24707ff2`, 인덱스는 비어 있었다.
+기존 C6 변경25파일(수정6/신규19)만 확인하고 문서 외20파일의 시작 SHA256을 고정했다.
+이번 최종화는 문서5개만 갱신하며 기능 코드·테스트·King 원화/준비본·프롬프트/manifest·검증 캡처를 수정하지 않는다.
+기존 ch2_king 원본/준비본과 과거 승인 에셋도 보존한다. 생성 시점 pending 표시는 그대로 두고 최신 GUI 완료 보고와 구분한다.
+최종 재실행은 **unittest 1,437개 / 321.351초 / 실패0·오류0·skip0**로 통과했다.
+검사 프로세스 전체 경과 시간은321.969초다. 기존 HEAD의1,418개 메서드와 C6 추가19개를 모두 보존했다.
+Pulse100칸/120틱·일반/퍼펙트 반사2·정지/재개·King사망 취소·BOSS_CLEAR/GAME_OVER/Stage11·자원/폴백 회귀도 전부 통과했다.
+
+이번 C6F의 검사 실행 시간(초)은 검사 프로세스/스크립트의 경과 시간이며 게임 FPS 측정값이 아니다.
+
+| 검사 | 실제 결과 | 시간(초) |
+| --- | --- | ---: |
+| 전체 unittest | 1,437개·실패/오류/skip0 | 321.351 |
+| 일반 Stage 데이터 | 25개 통과 | 0.098 |
+| -O Stage 데이터 | 25개 통과 | 0.155 |
+| compileall | 통과 | 1.493 |
+| 기존 아트 카탈로그 해시 | 추적300/로컬보관263·총563개 일치 | 1.288 |
+| 원화/준비본 SHA 및 Stage10 캡처 규격/manifest | Chapter2 파일10개·캡처9개 일치 | 0.032 |
+| 문서 로컬 링크 | 517개 유효 | 0.089 |
+| Stage5~9 캡처 재생성/대조 | 8+5+7+7+7=34PNG 해시 일치 | 8.274 |
+| Stage10 캡처 재생성/대조 | 9PNG 해시 일치 | 2.131 |
+| Windows/direct3d11 숨김 창 기술 경로 | 실제450틱·9텍스처 캐시/해제·상태 불변·보스/전환 통과 | 2.430 |
+| Git 공백 검사 | 통과 | 0.109 |
+
+34PNG 검사 내 Stage5/6/7/8/9 시간은 각각2.146/1.266/1.585/1.623/1.654초다.
+direct3d11 재확인은 Pulse100칸120프레임·Bishop50칸108프레임·Knight18px·실제 King반사50→48,
+실제749틱 BOSS_CLEAR·HP4/5→새 Chapter3 Stage11·HP3/3·Receipt0·기존 표시 전환을 통과했다.
+이 시간/프레임 수는 자동 기술 검사 표본이며 인간 GUI 개별 결과나 Windows FPS/P95/P99로 대신하지 않는다.
+
+Stage6 인간 GUI 미검증·실제 Windows FPS/P95/P99 미측정·Chapter4/5 전면 접합 OPEN·Chapter2 CF 미완료는 유지한다.
+다음 CF는 Stage6~10 실제 연속 GUI 검수(남은 Stage6 포함), 디자인/King/Pulse/진행/Chapter3 진입,
+텍스처 수명/폴백과 실제 성능 로그를 종합 확인하는 범위다. 현재 C6F에서 CF 실행/구현이나 신규 기능을 시작하지 않는다.
+커밋/Push 후 실제 SHA·원격 main 일치·작업 트리/인덱스 Clean을 Git으로 조회해 보고한다.
+
+## Task 5-C6 — Stage10 숲 King 보스전 통합 (GUI 승인 대기)
+
+시작 HEAD/실제 원격 main은 `c962ee887cc60277b39c9d9acf8b318b24707ff2`, 작업 트리/인덱스는 Clean이었다.
+기존 King 원본1217×1293 alpha(26,0,1181,1273)의 왕관 상단 잘림을 확인했다.
+기존 파일은 보존하고 내장 image_gen 편집으로 새 원본 `source/king_c6.png`1150×1368 alpha(71,57,1076,1305),
+투명256² 준비본 `king_c6.png` alpha(39,18,216,238)86,413바이트와 프롬프트/해시/준비 도구를 추가했다.
+새 King은 base104/HP+12 후보이며 기존 기물 크기/카메라/알파/발/HP오프셋은 그대로다. GUI 승인은 아직이다.
+
+Stage10ArtRenderer가 Stage9의 실제 상태 표시를 상속하고 main 표시 import 한 줄만 연결한다.
+Stage10만 CHECKMATE_STAGE10_ART=1로 활성화한다. 기존 Stage5~9 경로/스위치와 다른19스테이지 기존 표시를 유지한다.
+Stage10에서 사용하지 않는 Rook을 제외해 배경/프레임/타일2/Player/Pawn/Knight/Bishop/King9이미지를 세션당 한 번 로딩한다.
+원본 King50/Bishop9/Knight9/Pawn7×2=5기·HP82, 정적 boss_hp10과 구분한다. 전투/AI/수치/Stage JSON은 변경하지 않았다.
+
+신규19테스트가 전용 실행11.985초에 통과했다. 이후 native main/캡처 추가 검증2개도2.134초에 통과했다.
+자연 Pulse264 DRAINING→265예고→385해결→415재개,100셀/120틱/쿨다운480/정리30·일반/퍼펙트 반사2,
+정지/재개·King사망 후 잔여 적·피해 우선순위·상태 불변·리소스/폴백·Stage11·이전34PNG를 검증한다.
+초기 전용 테스트의 관찰 훅 pickle/숨김 창 N입력 포커스 문제는 새 테스트 하네스만 보정했다. 게임 소스/규칙을 바꾸지 않았다.
+전체 unittest는 **1,437개 / 295.237초 / 실패0·오류0·skip0**로 통과했다.
+HEAD의 기존1,418개 테스트 메서드를 AST로 대조해 모두 보존했고 신규19개를 추가했다.
+Stage5 8장/Stage6 5장/Stage7 7장/Stage8 7장/Stage9 7장 총34PNG를 재생성해 기존 SHA256과 전부 일치했다.
+일반/-O Stage 검사 각각25개, compileall, 문서 로컬 링크517개, Git 공백 검사를 통과했다.
+기존 아트 카탈로그563개(추적300/로컬보관263)·Chapter2 원본/준비본10개 SHA256과 신규9캡처의 규격/해시도 확인했다.
+
+기존 실제 전투 드라이버는749틱 BOSS_CLEAR·HP4/5를 기록했고 추가 Offer 없이Receipt4를 유지했다.
+R 보스 재도전은 동일Run/빌드·HP5/5·새King50/Pulse/세션, N은 새Chapter3 Stage11·HP3/3·MOVE18·Receipt0이다.
+실제 무입력 GAME_OVER 후에는 새Chapter2 Stage6·HP3/3·Receipt0으로 복귀한다. 개발Receipt4 합성은 이전 실제 클리어 증거가 아니다.
+Windows/direct3d11 숨김 창450틱에서 Pulse100 120프레임·Bishop50 108프레임·Knight최대18.0·King반사50→48,
+9이미지 캐시/해제·상태 불변·실제클리어/Stage11 기존 표시를 확인했다. 인간GUI나 실제 성능 측정이 아니다.
+실제 상태의9PNG+manifest를 `artifacts/stage10_c6/`에 보존하고 평상시/Pulse 장면을 육안 점검했다.
+
+실행·프레임통계·GUI 검수13항목은 TASK5C_RENDERER_PLAN 최신 C6 절에 있다.
+Stage6 GUI 미검증·실제Windows FPS/P95/P99 미측정·Chapter4/5 접합 OPEN·Chapter2 최종CF 미완료는 유지한다.
+C6 변경은 사용자 GUI 승인 전 스테이징·커밋·Push하지 않는다. Chapter3 이후 새 아트는 적용하지 않는다.
+
+변경 파일25개(수정6/신규19):
+
+- 수정: main.py, docs/PROGRESS.md, docs/DECISIONS.md, docs/TASK5C_RENDERER_PLAN.md, docs/ASSET_CREDITS.md, docs/BUGS.md.
+- 신규 구현/검증: stage10_art_renderer.py, tests/test_stage10_live_art.py, tools/stage10_play.py, tools/capture_stage10_live.py, tools/prepare_forest_king.py.
+- 신규 King 자료: assets/chapter2_units/king_c6.png, source/king_c6.png, king_manifest.json, king_prompt.json.
+- 신규 실제 전투 자료: artifacts/stage10_c6/{normal,mixed_warning,king_melee,pulse_telegraph,pulse_cleanup,pulse_resumed,pulse_parry_normal,pulse_parry_perfect,boss_clear}.png 및 capture_manifest.json.
+
+기존 원본 에셋·AI·공통 렌더러·Stage5~9 소스·Stage JSON·밸런스·테스트 파일은 수정하지 않았다.
+
 ## Task 5-C5F — Stage 9 GUI 완료 보고 반영 및 최종화
 
 사용자가 Stage 9 Windows GUI 전체 검수를 완료했다고 보고하고 C5 최종 재검증·커밋·일반 Push를 지시했다.

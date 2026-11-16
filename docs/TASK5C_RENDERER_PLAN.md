@@ -1,5 +1,137 @@
 # CHECKMATE — Task5-C 단계적 렌더러 확장 계획
 
+## 최신 상태 — C6F Stage10 GUI 완료 보고 및 최종화
+
+사용자가 Stage10 Windows GUI 전체 검수 완료를 보고했고 별도 오류 보고는 없다.
+기존 King 디자인/base104·발/HP+12·Pulse100/120틱/반사2·혼합 전투와 모든 C6 코드/테스트/이미지/메타데이터/캡처를 보존한다.
+개별 항목 통과 수나 미제출 FPS/P95/P99는 생성하지 않는다. 아래 C6의 후보/GUI 대기·생성 시점 pending은 이력이다.
+승인된 변경25파일만 최종 재검증 후 기존 main에 커밋·일반 Push한다. 전체 수/시간과 검사 결과는 PROGRESS C6F 절에 기록한다.
+Stage5~9 기준34PNG 재생성, Stage10 신규9PNG/manifest·원화/준비 해시·실제 보스/Pulse/진행/자원/폴백을 확인한다.
+
+### 다음 CF의 준비 범위 (이번에는 착수하지 않음)
+
+Stage6~10을 실제로 연속 검수하고 남아 있는 Stage6 인간 GUI를 포함한다.
+챕터별 독립 스위치를 켠 정상 진행·HP/강화 이월·혼합 경고/패링·Stage10 보스/Pulse·Chapter3 Stage11 기존 표시,
+게임 오버/재도전·텍스처 재사용/해제/폴백·SETTINGS/F11/ESC와 실제 프레임 로그를 종합 점검한다.
+기존 CHECKMATE_FRAME_STATS=1의 환경/샘플/FPS/mean/P95/P99/max/active_sim_hz/renderer/vsync를 수집한다.
+인간 연속 검수와 합성 선행 Receipt를 사용하는 개발 세션을 구분하며 기존 자동 결과를 인간 완주 증거로 표현하지 않는다.
+Stage6 GUI 미검증·실제 Windows 성능 미측정·Chapter4/5 전면 접합 OPEN·Chapter2 CF 미완료를 유지한다.
+이번 C6F에서는 CF 실행/새 스테이지/캐릭터/추가 시스템을 구현하지 않는다.
+
+## Task 5-C6 — Stage 10 숲 King 보스전 (GUI 승인 대기)
+
+시작 HEAD와 실제 원격 main은 `c962ee887cc60277b39c9d9acf8b318b24707ff2`로 일치했고 작업 트리/인덱스는 Clean이었다.
+이번 범위는 실제 Stage 10 표시 추가와 자동 검증이다. Stage 5~9의 소스/아트/배율/카메라와 전투/진행 규칙은 유지한다.
+Stage 9의 전체 GUI 검수 완료 보고와 Stage 6 인간 GUI 미검증은 별도로 유지한다.
+
+### King 원화 조사와 별도 보완본
+
+기존 `assets/character_concepts/source/ch2_king.png`는1217×1293이며 알파 경계(26,0,1181,1273)가 위쪽 끝에 닿는다.
+원화 육안 확인에서도 중앙 줄기 왕관 끝이 잘려 있다. 기존256² 준비본의18px 여백은 잘린 부분을 복원하지 못한다.
+기존 원화/준비본/프롬프트/manifest를 보존하고 imagegen 스킬의 내장 image_gen 편집으로 별도 후보를 제작했다.
+기존 얼굴·수피 어깨·이끼 수염·뿌리 장갑/발·호박 심장·석재 문양·포즈/조명/시점을 참조하고 중앙 왕관 끝과 투명 여백을 보완했다.
+생성 편집은 픽셀 단위 몸체 동일성을 보증하지 않는다. 기존 정체성/재질을 유지한 후보이며 사용자의 새 GUI 승인이 필요하다.
+
+- 원본: `assets/chapter2_units/source/king_c6.png`,1150×1368, 알파 경계(71,57,1076,1305), 완전 투명787,408픽셀.
+- 준비본: `assets/chapter2_units/king_c6.png`,256×256 RGBA, 알파 경계(39,18,216,238), 완전 투명41,218픽셀,86,413바이트.
+- 준비는 동일 비율 SDL alpha crop/pad/linear resize만 사용한다. 기존 Pawn/Rook/Knight/Bishop과 기존 King 파일을 덮어쓰지 않는다.
+- [프롬프트·참조·출처](../assets/chapter2_units/king_prompt.json), [원화/준비본 SHA256·알파 측정](../assets/chapter2_units/king_manifest.json).
+- [재현 준비 도구](../tools/prepare_forest_king.py)는 기존4종 해시를 확인하고 다른 데이터가 있는 King 파일을 덮어쓰지 않는다.
+
+King의 전용 표시 base104, alpha18~238, HP오프셋12를 후보로 사용한다. 다른 기물 설정은 그대로다.
+시작(5,9)에서 표시 사각형114.4183px, 실루엣 약79.1095×98.3282px, 발(776.0841,685.7892), HP기준y796.1174다.
+발/깊이는 공통 B+12 카메라를 따르고 HP박스 하단은 왕관 상단보다9px 높다. 한 논리 셀 점유는 바꾸지 않는다.
+방향별 새 애니메이션은 없으며 기존 정적 스프라이트와 이동 보간/피격 표시/사망 시 제거를 재사용한다.
+
+### Stage 10 원본과 표시 경로
+
+| 원본 ID | 위치 | 실제 HP | 초기 지연(틱) |
+| --- | --- | ---: | ---: |
+| s10_king_1 | (5,9) | 50 | 48 |
+| s10_bishop_1 | (2,8) | 9 | 62 |
+| s10_knight_1 | (3,6) | 9 | 75 |
+| s10_pawn_1 | (1,6) | 7 | 88 |
+| s10_pawn_2 | (8,6) | 7 | 101 |
+
+합계5기·HP82, Player(5,1), boss=true다. 원본 카탈로그 boss_hp=10과 승인 Chapter2 런타임 King HP50은 다르다.
+`stage10_art_renderer.py`는 Stage9ArtRenderer의 실제 pose/draw를 상속하고 전용 King 파일/레이아웃만 추가한다.
+Stage10에는 Rook이 없으므로 Rook 이미지를 제외하여 배경/프레임/타일2종/Player/Pawn/Knight/Bishop/King 총9이미지를 세션당 한 번 로딩한다.
+`CHECKMATE_STAGE10_ART=1`인 실제 Stage10만 활성화하며 Stage5~9 스위치는 독립이다. 나머지19스테이지는 기존 표시다.
+main 표시 import 한 줄 외 기존 소스는 바꾸지 않는다. 오류는 SessionArtPath의 기존 예상 에셋/SDL 오류만 폴백하며 프로그래밍 오류는 숨기지 않는다.
+
+### 실제 KingPulse와 혼합 전투
+
+KingPulse의 최초 요청240·예고120·쿨다운480·정리30틱과100셀·반사피해2를 변경하지 않는다.
+개발 빌드에서 무입력 자연 진행 시240틱에 아직 King의 기존 행동 대기가 남아 있고264틱 DRAINING,
+265틱 PULSE_TELEGRAPH→385틱 PULSE_RESOLUTION/판정→CLEANUP→415틱 NORMAL이다.
+PULSE_RESOLUTION은 한 틱의 Resolver 내부에서 관찰되는 상태이며 별도 렌더 타이머를 만들지 않는다.
+해결 전에는 원장100셀을 그리며 해결/취소 후 해당 예고는 제거한다. 실제 일반/퍼펙트 결과가 성공 표시를 결정한다.
+기존 프레임 보조에서는 Pulse 예고가 패링 입력 창보다 우선하지만 Player 셀의 패링 테두리와 실제 성공 표시는 유지한다.
+
+정지/재개는 기존 Encounter/Pulse/RenderMotion의 frozen 값을 재사용한다. 일반 적의 위치·행동/기절 잔여 시간을 보존한다.
+Bishop은 제자리50셀, Knight은18px 시각 점프·지상 깊이, Pawn2는 기존 공격/HP를 유지한다.
+King만 사망하면 Pulse를 취소하고 다음 틱에 일반 적을 복귀시키며 전원 사망 전에는 보스 클리어하지 않는다.
+반사로 King이 사망하는 분기·동시 전멸/Player 사망 우선순위는 명시적인 단위 fixture로 검증하며 실제 전투 승리 자료로 사용하지 않는다.
+실제 첫 일반 근접 경고는 정상 이동 입력으로 Player가 접근한 경우120→168틱, 예약셀(5,7)로 확인했다.
+
+### 정상 클리어/전환 및 개발 도구
+
+`tools/stage10_play.py`는 정상 ChapterRun 강화 API로 Stage6 ATTACK/Stage7 HP/Stage8 HP/Stage9 ATTACK Receipt4를 합성한다.
+이 개발 준비는 이전 실제 클리어 증거가 아니다. 시작 빌드는 공격4·HP5/5·MOVE18이며 원본 보스/AI/HP/판정은 그대로다.
+기존 결정적 BFS·공격·패링 드라이버는 실제 적 전원 처치 후749틱 BOSS_CLEAR·HP4/5를 기록했다.
+추가 강화 Offer는 없고 Receipt4를 유지한다. R 보스 재도전은 같은 Run/빌드·HP5/5·새 King50/Pulse/세션으로 생성된다.
+N 정상 진행은 기존 API로 새로운 Chapter3 Run·Stage11·HP3/3·MOVE18·Receipt0을 생성하고 이전 Run을 retire한다.
+Stage11은 기존 얼음 테마 도형 표시이며 C6가 활성화하지 않는다. 실제 무입력 사망 후 R은 Stage6·Receipt0·HP3/3으로 복귀한다.
+
+저장소 루트 PowerShell:
+
+```powershell
+$env:CHECKMATE_STAGE10_ART="1"
+.\.venv\Scripts\python.exe tools\stage10_play.py
+```
+
+실제 성능 로그 준비(아직 Windows 수치 미측정):
+
+```powershell
+$env:CHECKMATE_STAGE10_ART="1"
+$env:CHECKMATE_FRAME_STATS="1"
+.\.venv\Scripts\python.exe tools\stage10_play.py
+Remove-Item Env:CHECKMATE_FRAME_STATS
+Remove-Item Env:CHECKMATE_STAGE10_ART
+```
+
+### 자동/기술 검증과 남은 GUI 검수
+
+신규 [Stage10 회귀 테스트](../tests/test_stage10_live_art.py)19개는 원본 편성/HP·King 알파/원화 보존·HP/발·일반 공격·
+Pulse 전 상태/100셀/120틱·정지/재개·패링/반사·King사망·공유무적/Player사망 우선·클리어/재도전/Stage11·수명/폴백을 검증한다.
+일부 코디네이터/사망 분기 fixture는 테스트에 주석으로 구분한다. 숨김 창 native main의 N입력 하네스만 포커스를 주입하며 실제 GUI 승인으로 주장하지 않는다.
+Stage5~9 PNG34개를 임시 폴더에 재생성해 SHA256을 대조한다. 전체 테스트 수/시간과 최종 정적 검사는 PROGRESS의 최신 C6 결과를 따른다.
+
+Windows/direct3d11 숨김 창450틱에서 Pulse100 예고120프레임·Bishop50 예고108프레임·Knight최대18.0,
+King 실제 반사50→48·9이미지 로딩/해제·게임/모션 불변 및 실제 보스 클리어→Stage11 기존 표시를 재확인했다.
+이는 인간 GUI나 실제 FPS/P95/P99 측정이 아니다.
+[Stage10 캡처 manifest](../artifacts/stage10_c6/capture_manifest.json)는 실제 평상시·혼합경고·근접·Pulse예고/정리/재개·
+일반/퍼펙트 패링·실제 보스 클리어9PNG와 상태/원장/해시를 보존한다.
+
+| Windows 검수 항목 (C6F: 전체 완료 보고, 개별 상세 미제공) | 상태 |
+| --- | --- |
+| 새 숲 King 디자인·왕관 전체 실루엣 | 상세 결과 미제공 |
+| King 크기·뒤쪽 행 식별성·발·HP 간격 | 상세 결과 미제공 |
+| 일반 적4기와의 구분·깊이/보간 | 상세 결과 미제공 |
+| King 일반 근접 경고와 피해 셀 | 상세 결과 미제공 |
+| KingPulse100칸 예고·패링 입력 창 가독성 | 상세 결과 미제공 |
+| Pulse 중 일반 적 정지·재개 | 상세 결과 미제공 |
+| 일반/퍼펙트 패링과 King 반사피해2 | 상세 결과 미제공 |
+| King HP/사망 시 제거·잔여 적 전투 | 상세 결과 미제공 |
+| 전원 처치 BOSS_CLEAR·R 재도전 | 상세 결과 미제공 |
+| N으로 Chapter3 Stage11 기존 표시 | 상세 결과 미제공 |
+| GAME_OVER R→Stage6 | 상세 결과 미제공 |
+| SETTINGS·F11·ESC·창 크기 복원 | 상세 결과 미제공 |
+| 60초 이상 실시간 안정성 | 상세 결과 미제공 |
+
+Stage6 인간 GUI 미검증·실제 Windows FPS/P95/P99 미측정·Chapter4/5 전면 접합 OPEN·Chapter2 최종 CF 미완료는 유지한다.
+C6는 사용자 GUI 승인 전 스테이징·커밋·Push하지 않는다. Chapter3 이후 신규 아트를 확장하지 않는다.
+
 ## 최신 상태 — C5F Stage 9 전체 GUI 검수 완료 보고
 
 사용자가 Stage 9 Windows GUI 전체 검수 수행 완료를 보고하고 기존 C5의 최종 검증·커밋·일반 Push를 지시했다.

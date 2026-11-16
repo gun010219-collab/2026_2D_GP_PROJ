@@ -1,5 +1,29 @@
 # CHECKMATE 에셋 출처
 
+## Task 5-C6F — 숲 King 사용 상태 갱신
+
+사용자가 Stage10 Windows GUI 전체 검수 완료와 별도 오류 보고 없음을 전달했다.
+C6의 King 디자인/크기·발/HP·실제 보스 표시를 보존하며 기능/이미지/제작 프롬프트/manifest/캡처를 추가 수정하지 않는다.
+아래 후보/GUI 대기 문구와 JSON의 pending은 제작 당시 이력이다. 기존 ch2_king 원화/준비본도 그대로 보존한다.
+실제 Windows FPS/P95/P99, 최종 방향별 시트와 아래 출품/배포 이용조건 확인은 별도 미완료다.
+
+## Task 5-C6 — 숲 King 왕관 보완 후보
+
+기존 `assets/character_concepts/source/ch2_king.png`의 알파 경계가 y=0에 닿고 왕관 끝이 잘려 있어
+imagegen 스킬의 OpenAI 내장 image_gen으로 해당 원화를 참조한 편집본을 실제 제작했다. 모델명은 도구에 노출되지 않았다.
+새 파일로 보존하며 기존 원화/준비본/프롬프트/해시와 승인된 다른 기물을 덮어쓰지 않았다.
+기존 정체성/재질/포즈/조명을 참조하고 중앙 줄기 왕관 끝/투명 여백을 보완했다. 몸체 픽셀 동일성을 주장하지 않는다.
+
+- [제작 프롬프트·참조·도구·출처](../assets/chapter2_units/king_prompt.json).
+- 새 원본: `assets/chapter2_units/source/king_c6.png`,1150×1368, alpha(71,57,1076,1305).
+- 준비본: `assets/chapter2_units/king_c6.png`,256×256 RGBA, alpha(39,18,216,238),86,413바이트.
+- [원본/준비본 SHA256·알파·투명 픽셀·크기](../assets/chapter2_units/king_manifest.json).
+- `tools/prepare_forest_king.py`의 동일 비율 SDL crop/pad/축소만 적용한다. 원본 및 기존 자료는 보존한다.
+- Stage10 전용 실제 표시 후보이며 방향별 최종 애니메이션 시트는 미제작이다. 사용자 Windows GUI 승인은 대기다.
+
+외부 이미지·폰트·음향을 추가하지 않았다. AI 에셋의 공모전 허용/표시·최종 배포 이용조건 확인은 별도 미완료다.
+`artifacts/stage10_c6/`의9PNG+manifest는 실제 전투 상태의 기술 캡처이며 새 원화나 인간 GUI/성능 승인 자료가 아니다.
+
 ## Task 5-C4 — 숲 Bishop 원화와 준비본
 
 OpenAI 내장 image_gen으로 새 Bishop을 실제 생성했다. 실제 모델명은 도구에 노출되지 않았다.
