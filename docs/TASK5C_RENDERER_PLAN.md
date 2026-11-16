@@ -1,5 +1,155 @@
 # CHECKMATE — Task5-C 단계적 렌더러 확장 계획
 
+## 최신 상태 — C4F Stage8 사용자 GUI 승인
+
+사용자가 Stage8 Windows GUI 검수 **전부 통과**를 보고했다. 승인된 C4 파일23개를 재검증 후 기존 main에 커밋·일반 Push한다.
+별도의 검수 개수/FPS/P95/P99 수치는 제공되지 않았으므로 임의로 만들지 않는다.
+Stage8 전용 opt-in·Bishop 현재 디자인/크기·실제50셀 경고·혼합 기물/패링·발/HP·진행/재시작·설정/안정성을
+추가 코드/테스트/에셋 변경 없이 유지한다. 아래 C4 GUI 대기/미커밋 기록은 구현 당시 이력이다.
+프롬프트/manifest의 pending 상태도 생성 당시 기록이며 현재 사용 승인과 구분한다.
+
+핵심 계약은 Bishop **제자리 색상 공격**이다. 실제 이동/순간이동 AI를 추가하지 않는다.
+Stage5/6/7 기준20PNG 해시, 기존 크기/카메라·전투 규칙/수치·독립 스위치·나머지21스테이지 기존 표시를 보존한다.
+기술 재확인은 Windows/direct3d11 숨김 창320틱·실제 원장/게임불변·9이미지 로딩/해제이며 실제 성능 측정은 아니다.
+Stage6 GUI 미검증·실제Windows FPS/P95/P99 미측정·Chapter4/5 전면 접합 OPEN·Stage9~10 미적용은 유지한다.
+전체 검사 수/시간과 원격 반영은 PROGRESS 최신 C4F 절 및 실제 Git 조회를 따른다.
+이번 최종화에서는 Stage9 구현이나 신규 기능/에셋 제작을 시작하지 않는다.
+
+후속 C5 권장 범위는 Stage9 원본 Bishop1/Rook2/Knight1/Pawn1·HP49 한정 통합이다.
+이미 있는 숲4종의 준비본/배치·공통 카메라/pose/경고/패링·세션 수명/폴백을 재사용하고
+이중Rook·소스별 경고/취소·정상 강화/HP 이월·8→9→10·기존20PNG/전체 회귀 및 GUI를 검증한다.
+
+## Task 5-C4 — 실제 Stage8 숲 Bishop 혼합 전투 (GUI 승인 대기)
+
+시작 HEAD/origin/main은 `1f60c9090e4e4018d93e445b51fc1781df65e92e`, 작업 트리는 Clean이었다.
+Stage5/7 GUI 승인과 Stage6 조건부 통합/GUI 미검증은 그대로 유지한다.
+C4는 신규 Bishop과 Stage8 한정 경로이며 기존 기물/카메라/크기/렌더러를 수정하지 않았다.
+
+### 원본 전투와 표시 경로
+
+Stage8 실제 편성은 Bishop(2,8) HP9/48틱, Rook(2,4) HP12/62틱, Knight(3,6) HP9/75틱,
+Pawn(1,6) HP7/88틱·(8,6) HP7/101틱으로5기·HP44다. Player는(5,1), Pawn forward(0,-1), boss=false다.
+실제 main._new_stage_game/EnemyEncounter/CombatResolver/ledger를 읽고 King/Pulse나 새 전투 시계를 만들지 않는다.
+`CHECKMATE_STAGE8_ART=1`인 Stage8만 새 `stage8_art_renderer.py` 경로를 쓴다.
+Stage5/6/7 스위치는 독립이고 기본값/나머지21스테이지(특히Stage9)는 기존 표시다.
+Stage7의 pose/draw, RenderMotion.ground_pose, SessionArtPath를 재사용하며 main의 import 한 줄만 새 dispatcher로 연결했다.
+Stage5/6/7·RenderMotion·공통 모듈·전투 코드·스테이지 JSON·기존 테스트는 변경하지 않았다.
+
+숲 배경/forest_c/상판2종/Player와 기존 Pawn/Rook/Knight를 그대로 재사용하고 Bishop만 추가했다.
+크기·발·HP 설정은 원래 세 기물의 값을 그대로 가져오며 Knight18px hop·지상 깊이/그림자도 유지한다.
+이미지9장은 세션마다 한 번 로딩하고 재시작/다른 스테이지 진입/종료 때 해제한다.
+예상 자산/SDL 오류는 세션당 한 번 로그 후 기존 표시로 폴백한다. 프로그래밍 오류까지 숨기지 않는다.
+모든 이전 경로를 평가해 비활성 전환 해제를 건너뛰지 않는다.
+
+### 새 Bishop 원화와 실측
+
+승인된 서면 설계에 따라 갈라진 잎 관/긴 이끼 로브/뿌리 지팡이/버섯 어깨의 숲 드루이드를
+내장 image_gen으로 실제 생성했다. Chapter1 Bishop의 단순 재색칠이 아니다.
+원본1024×1536, 준비본256² RGBA, alpha bbox(78,18,177,238), 불투명 경계 폭99/높이220,
+완전 투명51,837픽셀이다. bbox는 alpha>5 기준이며 원본도 실제 투명 픽셀을 확인했다.
+표시 base84는 시작행8에서 사각형약94.80px, 불투명 폭약36.66px/높이81.46px다.
+발은 alpha하단238, HP 글자 기준점은 실루엣 상단+9px이며 x/y 동일 배율을 사용한다.
+
+- [프롬프트·참조·생성 도구](../assets/chapter2_units/bishop_prompt.json).
+- [원본/준비 SHA256·알파·크기](../assets/chapter2_units/bishop_manifest.json).
+- `tools/prepare_forest_bishop.py`는 기존 Pawn/Rook/Knight 원본/준비본 해시를 확인하고 새 Bishop만
+  기계적 crop/pad/축소한다. 이전 manifest나 PNG를 다시 생성하거나 덮어쓰지 않는다.
+- 생성 모델명은 도구에 노출되지 않았다. 새 아트/크기는 사용자 GUI 승인 대기이고 최종 방향별 시트는 미제작이다.
+  AI 공모전 표시/허용·최종 배포 이용조건 확인은 별도 미완료다.
+
+### Bishop '순간 이동' 요청과 실제 기존 AI의 차이
+
+원본 enemy_behaviors._begin_bishop_action/complete_attack을 확인하면 **현재 Bishop은 제자리 색상 공격**이다.
+실제 전투에서 이동/순간 이동하지 않으며 원래 위치(2,8)를 유지한다.
+AI 비변경 지시에 따라 순간 이동 패턴을 새로 만들지 않았다.
+기존 RenderMotion의 Bishop 좌표 변경 즉시 snap 정책을 보존하고, 좌표 변경 표시 fixture에서
+중간 경로/공중 높이 없이 발·HP·깊이 정렬이 바로 갱신됨을 검사했다.
+이 fixture를 실제 AI 순간 이동이나 새 전투 기능 구현으로 표현하지 않는다.
+
+### 50칸 경고·패링·실전 검증
+
+Bishop 첫 예고는48틱, 적중은156틱이며 현재 ledger의50개 target_cells를 그대로 투영한다.
+색상 공격을 표시 코드가 재계산하거나 장식으로 위험 범위를 추가하지 않는다.
+실제50셀과 mark 다각형을 전수 대조하고, 실제 피격/한 칸 정상 이동 후 안전한 칸에서의 miss를 확인했다.
+공격 해결/사망 취소 후에는 Bishop 경고만 내리고 여전히 살아 있는 Rook 등 다른 공격은 보존한다.
+복합 장면의 warning_cells 수는 다른 공격/중첩 셀 때문에50보다 많을 수 있다. 각 원장 이벤트와 대조한다.
+일반/퍼펙트 패링은 실제 Bishop 이벤트에 요청·해결해 판정/입력 창을 구분하며 Shift만으로 성공을 꾸미지 않는다.
+
+신규 tests/test_stage8_live_art.py는15개 메서드로 위 항목과 편성/HP/알파/크기·발/스냅·깊이/기존Knight hop,
+독립 스위치/다른스테이지·전체 상태불변·9텍스처 수명/부분 실패/폴백·재시작·정상 Stage9 전환을 검사한다.
+또 Stage5 8PNG·Stage6 5PNG·Stage7 7PNG를 새로 생성해 기존20개 해시와 비교한다.
+전용15개는10.921초에 실패·오류·skip0으로 통과했고 전체 회귀 결과는 PROGRESS 최신 C4 절에 기록한다.
+최종 전체 unittest1,403개/258.379초, 실패·오류·skip0(기존1,388+신규15).
+일반/-O25Stage·compileall·기존/신규 에셋 해시·기준20PNG·문서506링크·공백 검사를 통과했다.
+
+기존 BFS/공격/패링 정책의 개발 Stage8 전투를 실제로669틱·UPGRADE·HP4/4로 완료했다.
+렌더링을 반복 적용한 뒤 정상 HP강화→Stage9·Receipt3·HP5/5와 기존 표시를 확인했다.
+개발 시작의 두 Receipt는 합성 준비 이력이며 이전 실제 클리어/전체 캠페인 성공으로 기록하지 않는다.
+다른 사망/소스취소 단위 테스트의 강제 피해 fixture는 검증 용도이며 실전 성공률 측정에 섞지 않는다.
+
+Windows/direct3d11 숨김 창 기술 검사에서는 실제320틱 동안 Bishop50 예고108프레임,
+전체경고219프레임·기존Knight 최대높이18.0·종료HP2,9이미지 및 정상 해제를 확인했다.
+표시 전후 게임/모션 불변과 실제 ledger 일치를 검사했으며 인간 GUI/60초 안정성/성능 측정과 구분한다.
+
+### 실제 자료와 Windows 검수
+
+원본 AI/시간/HP와 실제 패링 요청으로 생성한7SDL 캡처:
+[평상시](../artifacts/stage8_c4/normal.png), [Bishop50](../artifacts/stage8_c4/bishop_warning.png),
+[혼합 경고](../artifacts/stage8_c4/mixed_warning.png), [Bishop 해결 후](../artifacts/stage8_c4/bishop_resolved.png),
+[패링 입력 창](../artifacts/stage8_c4/parry_window.png), [일반 성공](../artifacts/stage8_c4/parry_normal.png),
+[퍼펙트 성공](../artifacts/stage8_c4/parry_perfect.png), [상태/해시](../artifacts/stage8_c4/capture_manifest.json).
+`tools/capture_stage8_live.py --capture-dir artifacts/stage8_c4`로 재현한다.
+캡처는 실시간 조작 검수 대신이 아니며 SETTINGS 메뉴는 실제 main에서 별도 확인한다.
+
+```powershell
+$env:CHECKMATE_STAGE8_ART = "1"
+.\.venv\Scripts\python.exe tools\stage8_play.py
+```
+
+개발 도구는 Chapter2 entry_attack_level1과 Stage6 ATTACK/Stage7 HP 합성 Receipt2를 기존 ChapterRun API로 구성한다.
+실제 Stage8 빌드는 공격3/HP4/4/MOVE18이며 강제 무적/AI정지/클리어 기능은 없다.
+GAME_OVER R은 정상 규칙대로 신규 Chapter2 Stage6·Receipt0·HP3/3으로 돌아간다.
+Stage6에서도 숲 표시를 원하면 CHECKMATE_STAGE6_ART=1을 별도 설정한다.
+일반 캠페인은 필요한 Stage5/6/7/8 스위치를 각각 설정한 뒤 main.py로 실행한다.
+기존 표시 비교는 Stage8 플래그를0으로 설정하고 같은 개발 도구를 실행한다.
+
+Windows 사용자 검수 대기 항목:
+
+1. Bishop 갈라진 잎 관·지팡이/버섯 장식·크기, Pawn/Rook/Knight와의 구분.
+2. 밝은/어두운 칸 및 뒤쪽 프레임에서 Bishop·HP 가독성.
+3. 실제 제자리 Bishop50칸 예고/피해, 안전 셀·공격 해결/취소 후 잔상 없음.
+4. 복합 Rook/Knight/Pawn 공격 경고·공유 무적·피격/적 사망.
+5. 기존 Knight18px 점프·지상 그림자·착지·깊이·HP.
+6. SPACE 및 일반/퍼펙트/실패 Shift 패링과 실제 결과 표시.
+7. 정상 클리어·강화/HP 이월·Stage9 기존 표시, GAME_OVER R→6.
+8. SETTINGS 최상위·F11·ESC·레터박스/마우스·창 복원.
+9. 실제60초 이상 조작 안정성 및 시각 피로/가독성.
+
+```powershell
+$env:CHECKMATE_STAGE8_ART = "1"
+$env:CHECKMATE_FRAME_STATS = "1"
+.\.venv\Scripts\python.exe tools\stage8_play.py
+```
+
+실제 Windows FPS/P95/P99는 미측정이다. 같은 환경에서 기존/신규 모드를 각각 워밍업 후60초 이상 비교하고
+Renderer/VSync·samples/active_sim_hz·원문 로그를 기록한다. 최근600표본 로그를60초 전체 백분위로 오인하지 않는다.
+Stage6 GUI 미검증과 Chapter4/5 전면 접합 OPEN은 유지한다. Stage8 GUI는 새로 검수해야 한다.
+Stage9~10 아트나 King 보완을 이번에 구현하지 않는다.
+C4는 사용자 GUI 승인 전 미스테이징·미커밋·미Push 상태로 유지한다.
+
+### 실제 C4 변경 파일 (수정6 / 신규17, 총23)
+
+- 수정: `main.py` import1줄, `docs/PROGRESS.md`, `docs/DECISIONS.md`, `docs/TASK5C_RENDERER_PLAN.md`,
+  `docs/ASSET_CREDITS.md`, `docs/BUGS.md`.
+- 신규 코드/테스트/도구5: `stage8_art_renderer.py`, `tests/test_stage8_live_art.py`,
+  `tools/stage8_play.py`, `tools/capture_stage8_live.py`, `tools/prepare_forest_bishop.py`.
+- 신규 자산/출처4 (`assets/chapter2_units/`): `bishop.png`, `source/bishop.png`,
+  `bishop_prompt.json`, `bishop_manifest.json`.
+- 신규 검증자료8 (`artifacts/stage8_c4/`): `normal.png`, `bishop_warning.png`, `mixed_warning.png`,
+  `bishop_resolved.png`, `parry_window.png`, `parry_normal.png`, `parry_perfect.png`, `capture_manifest.json`.
+
+테스트 로그와 과거 기준 재생성 비교는 TEMP에 남기고 기존 이미지/검수 자료를 삭제·덮어쓰지 않았다.
+
 ## 최신 상태 — C3F Stage7 사용자 GUI 승인 완료
 
 사용자가 Stage7 숲 테마2.5D의 **Windows GUI15/15 통과, 발견된 오류0건**을 보고했다.

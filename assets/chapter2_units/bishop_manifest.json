@@ -1,0 +1,37 @@
+{
+  "status": "C4 live forest Bishop candidate; Windows visual approval pending",
+  "operation": "SDL linear crop/pad/resize; alpha preserved; no content repainting",
+  "assets": [
+    {
+      "name": "bishop",
+      "source": "source/bishop.png",
+      "source_size": [
+        1024,
+        1536
+      ],
+      "source_alpha_bbox": [
+        173,
+        48,
+        817,
+        1472
+      ],
+      "source_transparent_pixels": 990769,
+      "file": "bishop.png",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        78,
+        18,
+        177,
+        238
+      ],
+      "transparent_pixels": 51837,
+      "rgba_bytes": 262144,
+      "file_bytes": 73053,
+      "sha256": "086c744b4d7c36d4d1e3ebb7ec812974f45c47bf8bf7d81faa971bf61a57b96b",
+      "source_sha256": "cffb3f56429278a5543e032ab34ae5d82052aefe72d6a4f4853a62adc23e0f31"
+    }
+  ]
+}

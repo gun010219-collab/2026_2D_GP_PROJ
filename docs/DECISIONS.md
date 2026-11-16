@@ -1,5 +1,34 @@
 # CHECKMATE 승인 결정
 
+## Task 5-C4F — Stage8 GUI 승인 확정
+
+사용자는 실제 Windows GUI 검수 전부 통과를 보고하고 기존 C4의 검증 후 main 커밋·일반 Push를 승인했다.
+Stage8 한정 CHECKMATE_STAGE8_ART=1, 기존 숲 기물3종 및 Bishop 디자인/현재크기·발/HP·실제50셀 경고·
+혼합 공격/패링·클리어/전환·재시작/설정 표시를 추가 기능 변경 없이 확정한다.
+Bishop은 제자리 색상 공격을 유지한다. 기존 순간이동 패턴이 있거나 이번에 새로 생긴 것으로 기록하지 않는다.
+GUI 승인 후 기능 코드·테스트·에셋을 수정하지 않고 C4 관련23파일만 최종 검증·커밋한다.
+아래 구현 당시의 GUI 대기/커밋 금지는 최신 사용자 C4F 승인으로 해소됐다.
+
+Stage6 사용자GUI·실제Windows FPS/P95/P99는 미검증/미측정이며 Chapter4/5 접합은 OPEN이다.
+숨김 창 기술 경로나 자동FPS 결정성을 실제 성능으로 대체하지 않는다.
+Stage9는 이번에 구현하지 않으며 다음 C5에서 기존4종 재사용으로 한 곳씩 확장한다.
+
+## Task 5-C4 — Stage8 한정 Bishop 아트 통합
+
+사용자 구현 지시에 따라 새 숲 Bishop을 제작하고 Stage8 한 곳만 독립 opt-in으로 통합한다.
+Stage5/7 승인·Stage6 조건부 통합과 기존 Pawn/Rook/Knight, 공통 카메라/크기/표시 소스는 유지한다.
+main import 한 줄 외에는 기존 게임 소스를 변경하지 않고 Stage7 pose/draw/SessionArtPath를 재사용한다.
+새 Bishop 크기/원화/가독성은 GUI 검수 후보이며 이전 기물의 승인을 자동으로 승계하지 않는다.
+
+코드 조사상 Bishop은 **제자리 색상 공격**이다. '순간이동 표시' 요청은 기존 RenderMotion의 좌표 변경 snap 검증으로
+한정하고, AI 비변경 조건을 지켜 새 이동 패턴을 추가하지 않는다. fixture를 실제 AI 순간이동으로 기록하지 않는다.
+실제50셀은 ledger.target_cells로만 그리며 해결/취소 때 해당 경고만 해제한다.
+표시에서 공격/패링/피해/HP를 새로 판정하거나 다른 적의 공격을 지우지 않는다.
+개발 Stage8의 Stage6 ATTACK/Stage7 HP Receipt2는 합성 준비이며 실제 이전 클리어의 증거가 아니다.
+
+C4는 사용자GUI 승인 전 스테이징·커밋·Push하지 않는다.
+Stage6 GUI/실제Windows FPS/P95/P99 미검증과 Chapter4/5 접합 OPEN은 유지하고 Stage9/10 아트는 확장하지 않는다.
+
 ## Task 5-C3F — Stage7 사용자 최종 승인
 
 사용자가 실제 Windows GUI15/15 통과·오류0을 보고했다.

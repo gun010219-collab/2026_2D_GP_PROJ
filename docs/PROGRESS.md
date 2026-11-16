@@ -1,5 +1,71 @@
 # CHECKMATE 개발 진행 기록
 
+## Task 5-C4F — Stage8 사용자 GUI 최종 승인 및 Git 반영
+
+사용자는 Stage8 Windows GUI 검수 **전부 통과**를 보고하고 승인된 C4의 최종 재검증·커밋·일반 Push를 지시했다.
+검수 항목의 Bishop 디자인/크기·50칸 경고·혼합 전투·실제 공격/패링·HP·진행/재시작·표시설정·실행 안정성을 승인 상태로 기록한다.
+구체적인 검수 개수나 프레임 수치는 새로 추정하지 않는다.
+Bishop은 기존 AI대로 제자리 색상 공격을 유지하며 새로운 순간이동 패턴은 없다.
+아래 C4의 GUI 대기·미커밋 문구/258.379초 결과는 구현 당시 이력이다.
+
+시작 HEAD와 fetch 후 origin/main은 `1f60c9090e4e4018d93e445b51fc1781df65e92e`로 일치했다.
+C4 변경23파일(수정6/신규17)을 검토하고 문서 외18파일의 시작 SHA256을 기록했다.
+이번 최종화에서는 기능 코드·테스트·원본/준비 이미지·프롬프트/manifest·캡처를 추가 수정하지 않는다.
+GUI 승인과 검사 결과만 관련 문서5개에 반영하며 생성 당시 pending 메타데이터는 이력으로 보존한다.
+
+Windows/direct3d11 숨김 창 기술 경로를 재확인했다: 실제320틱·Bishop50 예고108프레임·전체경고219프레임,
+기존 Knight 최대높이18.0·종료HP2·이미지9장 및 정상 해제, 렌더 전후 게임/모션 불변·원장 위험셀 일치.
+이 재확인은 인간 GUI 승인이나 실제Windows FPS/P95/P99 측정과 별개다.
+Stage6 인간 GUI 미검증·실제Windows FPS/P95/P99 미측정·Chapter4/5 전면 접합 OPEN은 그대로 유지한다.
+Stage9~10 신규 아트는 미적용이다. 이번 작업에서는 Stage9 구현을 시작하지 않는다.
+최종 재실행은 **unittest 1,403개 / 245.968초 / 실패0·오류0·skip0**로 통과했다.
+HEAD의 기존1,388개 테스트 메서드와 신규 Stage8 15개를 AST로 대조해 보존을 확인했다.
+일반/-O Stage 검사는 각각25개, compileall, 문서 로컬 링크506개, Git 공백 검사가 통과했다.
+기존 아트 카탈로그563개(추적300/로컬보관263)와 Chapter2 원본/준비본8개 SHA256이 일치했다.
+Stage8 승인 캡처7개의 해시/1440×900 규격 및 Stage5 8장·Stage6 5장·Stage7 7장의
+임시 폴더 재생성 PNG20개가 기존 기준 SHA256과 전부 일치했다. 기존 전투/AI/공통 표시 소스는 변경하지 않았다.
+Push 이후의 실제 커밋 SHA·원격 main 일치·작업 트리/인덱스 Clean은 Git 조회 결과로 최종 보고한다.
+
+다음 권장 작업은 C5 Stage9 한정 통합이다. 기존 숲 Bishop/Rook/Knight/Pawn4종을 재사용하고
+Rook2 독립 경고·소스별 취소/점유·깊이·Stage8→9→10·텍스처 수명/폴백·기존20PNG 회귀를 검증한다.
+새 에셋 대량 제작이나 전체 챕터 동시 활성화는 필요하지 않다.
+
+## Task 5-C4 — Stage8 숲 Bishop 혼합 전투 (GUI 승인 대기)
+
+시작 HEAD/origin/main은 `1f60c9090e4e4018d93e445b51fc1781df65e92e`, 시작 작업 트리는 Clean이었다.
+기존 Stage5/7 사용자 승인·Stage6 조건부 통합을 유지하며 Stage8만 독립 CHECKMATE_STAGE8_ART=1로 확장했다.
+실제 Bishop/Rook/Knight/Pawn2·HP44·원본좌표/지연/ledger를 표시한다.
+새 Bishop 원본1024×1536·투명256² alpha(78,18,177,238)·base84·발238·HP상단+9와
+정확한 프롬프트/생성 출처/원본·준비 해시를 보존했다.
+기존 Pawn/Rook/Knight·카메라/보드/크기와 모든 이전 manifest/준비 도구는 변경하지 않았다.
+
+실제 기존 Bishop AI는 제자리50칸 색상 공격이다. 새 순간이동 패턴은 만들지 않는다.
+기존 Bishop 좌표 변경 표시의 snap 정책만 fixture로 검증하고 실제 전투에서는(2,8) 고정을 유지한다.
+Stage7 draw/pose·RenderMotion·SessionArtPath를 재사용해 신규 프로필/dispatcher를 만들고 main import1줄만 연결했다.
+Stage5/6/7·공통 표시·보간 소스와 기존 테스트/전투/AI/HP/패링/스테이지 데이터는 보존한다.
+
+전용15개/10.921초, 실패·오류·skip0: 실제50셀 다각형, 피격/안전셀 miss, 해결/소스취소 후 다른 공격 보존,
+Bishop snap/발/HP·기존Knight18px·독립 스위치/다른21스테이지·게임/모션불변·9텍스처/실패폴백·재시작/9전환을 검사했다.
+실제 기존 전투 드라이버는 개발 Stage8을669틱·UPGRADE·HP4/4로 완료했고 정상 HP강화→9·Receipt3·HP5/5였다.
+두 이전 Receipt는 합성 개발 준비이며 실제 Stage6~8 연속 클리어/인간 완주 증거가 아니다.
+실제 AI·원장·패링으로7캡처와 상태/해시 기록을 만들었다.
+Windows/direct3d11 숨김 창320틱에서 Bishop50예고108프레임/전체경고219프레임·Knight높이18·종료HP2와 자산9장 수명을 기술 확인했다.
+이 결과는 사용자GUI/60초 안정성/FPS/P95/P99 검증이 아니다.
+
+수정은 main.py와 관련문서5개, 신규는 stage8_art_renderer.py·tests/test_stage8_live_art.py,
+tools/stage8_play.py·tools/capture_stage8_live.py·tools/prepare_forest_bishop.py,
+assets/chapter2_units의Bishop 원본/준비본/프롬프트/manifest4개,
+artifacts/stage8_c4의7PNG+manifest8개다. 총23파일(수정6/신규17)이 전부 미스테이징이다.
+최종 전체 재실행: **unittest1,403개/258.379초, 실패0·오류0·skip0**.
+기존1,388개 메서드를 AST 전수 대조로 보존했고 새15개를 추가했다. 기존 테스트 파일은 수정하지 않았다.
+Stage5 8PNG/Stage6 5PNG/Stage7 7PNG의 기존20개 해시가 재생성 출력과 일치한다.
+일반/-O각25Stage, compileall, 기존 카탈로그563건(추적300/로컬보관263), 기존3종/신규Bishop 원본·준비 해시,
+7개 실제 전투 캡처 해시/크기, 문서506링크·공백 검사·빈 인덱스 확인을 통과했다.
+기존1틱/8틱·7종FPS·Queen/KingPulse 및100건 독립전투 회귀도 전체 suite에 포함한다.
+[통합/실행/검수표](TASK5C_RENDERER_PLAN.md) 최신 C4 절에 세부 범위를 기록했다.
+Stage8 GUI 대기·Stage6 GUI 미검증·실제FPS/P95/P99 미측정·Chapter4/5 접합 OPEN을 유지한다.
+이번 C4는 사용자 GUI 승인 전 스테이징·커밋·Push하지 않는다.
+
 ## Task 5-C3F — Stage7 Windows GUI 15/15 최종 승인
 
 사용자는 실제 Windows GUI 검수 **15/15 통과, 발견된 오류0건**을 보고하고 C3 변경의 최종 커밋·일반 Push를 승인했다.

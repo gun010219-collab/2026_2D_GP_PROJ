@@ -1,5 +1,25 @@
 # CHECKMATE 에셋 출처
 
+## Task 5-C4 — 숲 Bishop 원화와 준비본
+
+OpenAI 내장 image_gen으로 새 Bishop을 실제 생성했다. 실제 모델명은 도구에 노출되지 않았다.
+기존 숲Knight/Rook의 수피·이끼 재질/조명과 Chapter1 Bishop의 갈라진 관/사제 실루엣을 참조했다.
+왕실 Bishop을 단순 재색칠하지 않았고 외부 이미지·폰트·음향은 추가하지 않았다.
+
+- 원본 `assets/chapter2_units/source/bishop.png`: 1024×1536, 실제 alpha 투명 원본.
+- 준비 `assets/chapter2_units/bishop.png`: 256×256 RGBA, alpha bbox(78,18,177,238),73,053바이트.
+- [정확한 프롬프트/참조/생성 도구](../assets/chapter2_units/bishop_prompt.json).
+- [원본·준비 SHA256/크기/알파 경계/투명 픽셀 수](../assets/chapter2_units/bishop_manifest.json).
+- `tools/prepare_forest_bishop.py`는 기존3종 원본/준비 해시를 확인하고 Bishop만 동일비율 SDL crop/pad/축소한다.
+  기존 manifest/PNG/제작 도구를 다시 쓰지 않는다.
+- `artifacts/stage8_c4/`7PNG+manifest는 실제 AI·시간·원장·패링 요청/판정을 그린 native SDL 캡처다.
+  전투 고정 데이터로 바꾼 게임플레이나 사용자 Windows GUI 승인/성능 측정으로 표현하지 않는다.
+
+원본/준비본은 보존하며 최신 C4F 사용자 보고상 Stage8 Windows GUI 검수 전부 통과로 현재 원화/크기/표시를 승인받았다.
+프롬프트/manifest의 pending은 생성 당시 이력이다. 승인 후 원본/준비 PNG·출처·해시는 수정하지 않는다.
+최종 방향별 시트는 별도 미제작 범위다.
+AI 공모전 허용/표시·최종 배포 이용조건 확인은 별도 미완료이며 독점성/법적 심사 통과를 주장하지 않는다.
+
 ## Task 5-C3 — 숲 Knight 신규 원화/준비본
 
 OpenAI 내장 image_gen으로 숲 Knight 한 기물을 실제 생성했다. 실제 모델명은 도구에서 노출되지 않았다.
