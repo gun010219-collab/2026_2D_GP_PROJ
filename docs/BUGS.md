@@ -1,5 +1,15 @@
 # CHECKMATE — 알려진 결함
 
+## Task 5-C1 검증 범위
+
+Stage6 숲 경로는 자동 검증 후 Windows 사용자 GUI 검수 대기다.
+새 기물의 실제 Windows 식별성/앞뒤 겹침/HP·경고·메뉴·전체화면·60초 안정성 및 FPS/P95/P99는 아직 미확정이다.
+자동 검사에서의 정상 동작을 사용자 승인으로 표현하지 않는다.
+Chapter1 Stage5의 승인된 크기와 화면은 보존하며, 아래 기존 결함의 상태를 바꾸지 않았다.
+`ART-BOARD-CH4-CH5-FRONT-OVERLAP`은 **OPEN**이다. Chapter4/5에는 새 표시를 적용하지 않는다.
+
+
+
 ## ART-STAGE5-ENEMY-SMALL
 
 - 사용자 보고: B2A 실제 Windows 전투 기능은 정상이지만 적이 작아 전투 중 식별이 어렵다.

@@ -1,0 +1,18 @@
+{
+  "status": "Chapter2 Stage6 live integration candidates; Windows art approval pending",
+  "generator": "OpenAI built-in image_gen",
+  "model": "Not exposed by tool",
+  "date": "2026-11-16",
+  "transparency": true,
+  "prompts": {
+    "pawn": "Use case: stylized-concept / game sprite. Create ONE Chapter2 Ancient Forest PAWN fighter for CHECKMATE. Reference1 forest king establishes bark/root/moss/amber material; reference2 royal pawn establishes front three-quarter camera and upper-left light ONLY, do NOT recolor or copy its armor. Small living forest spirit soldier: compact rounded acorn helmet, narrow root body, layered bark and moss armor, two separate short root feet, short branch spear kept close to body and small bark buckler. Clearly weaker and narrower than a rook, NOT a king, no large crown, no sprawling branches. High-quality sculptural 2.5D dark fantasy game character, strong chunky silhouette legible at 70px height, distinct wood/lichen/stone materials, subtle tiny amber eyes not giant glow. Full body including feet, centered single isolated character with true transparent background and generous alpha padding on every side. Upright proportions, no image stretching, matching slight overhead frontal three-quarter view and top-left lighting. No room, no base pedestal, no text, no UI, no other characters. Ground contact shadow small and soft.",
+    "rook": "Use case: stylized-concept / game sprite. Create ONE Chapter2 Ancient Forest ROOK fighter for CHECKMATE. Reference1 forest king establishes living old wood, moss, amber material; reference2 royal rook establishes broad squared combat silhouette, front three-quarter camera and top-left light ONLY. This must be a new organically built forest guardian, NOT recolored royal armor. Wide hollow ancient tree trunk torso, thick separate root legs, massive bark arm shield, ancient gray-green ruin stone shoulder slabs, flat battlement formed by broken horizontal branches and worn rectangular stones. Low broad rectangular outline, no king crown or tall antlers. Ancient sanctuary heavy defender able to charge, distinct from narrow acorn-headed pawn. Premium dimensional dark fantasy game art with readable front/side planes, heavy weight, restrained amber cracks, natural wood grain/moss/ruin stone. Full body including feet, centered single isolated character on genuinely transparent background with generous padding, same slight overhead frontal three-quarter camera. No forest scene, no pedestal, no text, no UI, no other characters. Small soft ground contact shadow."
+  },
+  "references": {
+    "forest": "assets/character_concepts/ch2_king.png",
+    "pawn": "assets/character_concepts/ch1_pawn.png",
+    "rook": "assets/character_concepts/ch1_rook.png"
+  },
+  "preparation": "tools/prepare_chapter2_units.py: uniform SDL alpha crop/pad/resize only",
+  "rights": "AI-generated within this project. Contest AI permission/disclosure and final distribution terms remain to be checked; no exclusivity or licence clearance asserted."
+}

@@ -1,0 +1,39 @@
+{
+  "baseline_commit": "3b0863339af6fa3aeea5769225493b7757f80deb",
+  "method": "capture_stage5_scale.py before and after C1; native SDL dummy software",
+  "result": "All eight PNGs byte-identical",
+  "captures": [
+    {
+      "file": "tick_0_after.png",
+      "sha256": "b565019956f6506ae272ad40f741a2024a1a677ba34a2e96b8740715258d314f"
+    },
+    {
+      "file": "tick_0_before.png",
+      "sha256": "d0f09fba5813d4f106ef121eb364418bcec0a86c36b7c30454a8cdca04d0f900"
+    },
+    {
+      "file": "tick_120_after.png",
+      "sha256": "36d4d22d0b28b67ca8066b131e7befd4d083adfb9dc7bd3c129386b8e626a738"
+    },
+    {
+      "file": "tick_120_before.png",
+      "sha256": "162d50e8c16918ae00efd44b354b8e6794d6a892baad661d6dfec2f65955414e"
+    },
+    {
+      "file": "tick_300_after.png",
+      "sha256": "9667592bc2263286fb8e3240c52d353be4d43012e0280731c2f348b12650e00c"
+    },
+    {
+      "file": "tick_300_before.png",
+      "sha256": "74298abf6fd87fe7fa8c7783d2c6ae62c8ad259f26be2643f8b4d08574d19761"
+    },
+    {
+      "file": "tick_362_after.png",
+      "sha256": "4df0de1afa718b417677d1b1ca7889a41bf8f8f5995d6a183a49334f85bf1860"
+    },
+    {
+      "file": "tick_362_before.png",
+      "sha256": "683ccf4202c56295c6493ebc5676e66d8797db0aca38945d8a54abec7a3ad9a0"
+    }
+  ]
+}

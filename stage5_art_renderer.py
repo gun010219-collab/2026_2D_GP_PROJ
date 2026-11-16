@@ -1,10 +1,9 @@
 """Opt-in live Stage5 arena. Reads entities/ledger; never constructs a scene."""
 import ctypes
 import logging
-import os
 from pathlib import Path
 from math import cos,sin,pi
-from tools.arena_projection import ArenaCamera,CAMERAS
+from arena_art_common import CAMERA, ArenaArtError, SessionArtPath, sprite_layout
 from board import is_light_tile
 from config import BOARD_LEFT,BOARD_BOTTOM,TILE_SIZE
 from render_motion import display_center
@@ -13,7 +12,6 @@ from display_settings import logical_mouse_to_canvas
 
 LOG=logging.getLogger(__name__)
 ROOT=Path(__file__).resolve().parent
-CAMERA=ArenaCamera('B +12',tuple((735+(x-735)*1.12,427.5+(y-427.5)*1.12) for x,y in CAMERAS[1].corners),35.84,1.232)
 FILES={'background':'assets/themed_arena/royal.png','frame':'assets/aligned_board/royal_c.png',
        'light':'assets/polished_board/royal_light.png','dark':'assets/polished_board/royal_dark.png',
        **{k:'assets/character_concepts/'+('player' if k=='player' else 'ch1_'+k)+'.png' for k in ('player','pawn','rook','king')}}
@@ -25,15 +23,10 @@ BASE_SIZE={'pawn':60,'rook':72,'king':78,'player':72}
 
 
 def actor_layout(kind,u,v):
-    x,y=CAMERA.project(u+.5,v+.25)
-    height=BASE_SIZE[kind]*CAMERA.sprite_scale*(1.10-.23*v/10)*ENEMY_SCALE.get(kind,1.0)
-    # Prepared sprites have alpha bottom=238 (18px clear), top=18. Scaling
-    # around this foot keeps the whole silhouette planted, not its image centre.
-    center=y+height*(.5-18/256);top=center+height*110/256
-    return dict(foot=(x,y),height=height,center=(x,center),top=top,hp_y=top+HP_OFFSET[kind])
+    return sprite_layout(kind,u,v,BASE_SIZE,ENEMY_SCALE,HP_OFFSET)
 
 
-class Stage5ArtError(RuntimeError):pass
+Stage5ArtError = ArenaArtError
 
 
 def pick_event(x,y):
@@ -70,10 +63,16 @@ def cue_kind(g):
 
 
 class Stage5ArtRenderer:
+    # Stage6 reuses this drawing pipeline through these two presentation hooks.
+    files = FILES
+
+    def layout(self,kind,u,v):
+        return actor_layout(kind,u,v)
+
     def __init__(self,c,root=ROOT):
         self.c=c;self.images={};self.warning_cells=[];self.order=[];self.bounds=[]
         try:
-            for key,name in FILES.items():
+            for key,name in self.files.items():
                 path=root/name
                 if not path.is_file():raise FileNotFoundError(path)
                 self.images[key]=c.load_image(str(path))
@@ -131,7 +130,7 @@ class Stage5ArtRenderer:
         actors.sort(key=lambda e:(-cell(e)[1],cell(e)[0],e.entity_instance_id))
         labels=[]
         for e in actors:
-            kind=getattr(e,'kind','player');u,v=cell(e);layout=actor_layout(kind,u,v)
+            kind=getattr(e,'kind','player');u,v=cell(e);layout=self.layout(kind,u,v)
             x,y=layout['foot'];height=layout['height'];center=layout['center'][1];top=layout['top']
             self.actor_layouts[e.entity_instance_id]=layout
             polygon(c,tuple((x+4+cos(i*pi/4)*height*.24,y-2+sin(i*pi/4)*4) for i in range(8)),(24,25,29,255))
@@ -160,23 +159,6 @@ class Stage5ArtRenderer:
         HealthRenderer().draw(c,g.player,(),g.combat.tick,g.combat.pending_attack_bonus if g.playing else None,show_feedback=False)
 
 
-class Stage5ArtPath:
-    """One attempt per session; leave/restart closes all owned textures."""
-    def __init__(self,c,factory=Stage5ArtRenderer):self.c=c;self.factory=factory;self.session=None;self.renderer=None;self.failed=False
-    def close(self):
-        if self.renderer is not None:self.renderer.close();self.renderer=None
-        self.session=None
-    def draw(self,g,positions):
-        enabled=os.environ.get('CHECKMATE_STAGE5_ART')=='1' and g.stage_number==5
-        session=g.combat.combat_session_id if enabled else None
-        if session!=self.session:
-            self.close();self.session=session;self.failed=False
-        if not enabled or self.failed:return False
-        try:
-            if self.renderer is None:self.renderer=self.factory(self.c)
-            self.renderer.draw(g,positions);return True
-        except (OSError,Stage5ArtError):
-            LOG.exception('Stage5 art unavailable; using original renderer for this session')
-            self.close();self.session=session;self.failed=True
-            self.c.SDL_SetRenderDrawColor(self.c.renderer,0,0,0,255);self.c.SDL_RenderClear(self.c.renderer)
-            return False
+class Stage5ArtPath(SessionArtPath):
+    def __init__(self,c,factory=Stage5ArtRenderer):
+        super().__init__(c,factory,stage=5,flag='CHECKMATE_STAGE5_ART',logger=LOG)

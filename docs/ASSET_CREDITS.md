@@ -1,5 +1,27 @@
 # CHECKMATE 에셋 출처
 
+## Task 5-C1 — Chapter2 숲 Pawn/Rook 원화와 준비본
+
+OpenAI 내장 `image_gen`으로 이번 작업에서 두 기물을 실제 생성했다. 도구가 구체적 모델명은 제공하지 않았다.
+기존 프로젝트의 Chapter2 King을 재질·세계관 참조로, Chapter1 Pawn/Rook을 카메라·조명 참조로 사용했다.
+외부 이미지/폰트/음향을 추가하지 않았다. 원본은 보존하며 단순 색상 변경으로 대체하지 않았다.
+
+- 원본: `assets/chapter2_units/source/pawn.png`, `source/rook.png` (각1254×1254, 투명PNG).
+- 준비본: 같은 폴더의 `pawn.png`, `rook.png` (각256×256 RGBA).
+- [프롬프트·참조·상태](../assets/chapter2_units/prompts.json), [원본/준비 해시·알파 경계](../assets/chapter2_units/asset_manifest.json).
+- 준비 도구: `tools/prepare_chapter2_units.py`, 기존 SDL alpha crop/pad/동일배율 축소만 재사용했다.
+  콘텐츠 재도색/가로세로 왜곡/원본 덮어쓰기는 하지 않았다.
+- 기존 승인 Player·숲 배경·aligned forest_c·polished 상판은 변경하지 않는다.
+- `artifacts/stage6_c1/`5PNG는 실제 Stage6 AI/패링 판정을 그린 native SDL software 캡처다.
+  [재현 도구](../tools/capture_stage6_live.py)와 상태/해시 manifest를 함께 보존한다.
+
+새 Pawn/Rook은 Stage6용 사용자 검수 후보이며 30종 생산 에셋 전체 완성/GUI 승인으로 기록하지 않는다.
+AI 생성 공모전 허용·표시 조건 및 배포 시 최종 이용조건 확인은 남아 있다.
+권리 독점성·저작권 등록·재배포 심사 통과를 보증하지 않는다.
+이전 아트 카탈로그563개와 모든 원화/준비본/선정 정책은 변경하지 않았다.
+
+
+
 ## Task 5-B1F — 승인 기준선과 보관 구분
 
 이번 최종화에서는 새 AI/외부 이미지·폰트·음향을 제작하지 않는다.

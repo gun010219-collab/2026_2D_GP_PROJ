@@ -1,0 +1,68 @@
+{
+  "status": "AI design approval drafts; not final production art",
+  "operation": "SDL linear crop/pad/resize; alpha preserved; no content repainting",
+  "assets": [
+    {
+      "name": "pawn",
+      "source": "source/pawn.png",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "source_alpha_bbox": [
+        390,
+        169,
+        851,
+        1070
+      ],
+      "source_transparent_pixels": 1248363,
+      "file": "pawn.png",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        71,
+        18,
+        184,
+        238
+      ],
+      "transparent_pixels": 48677,
+      "rgba_bytes": 262144,
+      "file_bytes": 59773,
+      "sha256": "68c886b0e373fcdf90e6c2079676a21f11331c28ffa2aaba9b4ab47982b30fd6",
+      "source_sha256": "ef8930cdd9aac417a3b975025d077ee038a94b716714c0bf42bebd2fd3f47c31"
+    },
+    {
+      "name": "rook",
+      "source": "source/rook.png",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "source_alpha_bbox": [
+        44,
+        122,
+        1209,
+        1132
+      ],
+      "source_transparent_pixels": 638247,
+      "file": "rook.png",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        18,
+        32,
+        238,
+        223
+      ],
+      "transparent_pixels": 32408,
+      "rgba_bytes": 262144,
+      "file_bytes": 114552,
+      "sha256": "837690a33f5977253862f3c517dc2d00b7a4094d1cc6538cff2b3f3a2eb28e15",
+      "source_sha256": "c0a9e2cabadff748cf243ca3a597a8dd072bb3ac12a173f2ed315a4f5c067144"
+    }
+  ]
+}
