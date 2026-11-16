@@ -1,5 +1,27 @@
 # CHECKMATE 승인 결정
 
+## Task 5-CFF — Chapter2 전체 사용자 GUI 최종 승인
+
+사용자가 Stage6~10 전체 Windows GUI 검수표 통과를 보고했고 Stage6 인간 GUI·Chapter2 연속 플레이를 명시적으로 승인했다.
+Stage7~10 기존 승인과 함께 Chapter2 전투·강화·보스전·Chapter3 전환을 확정한다. 별도 오류 보고는 없다.
+과거 CF의 인간 검수 대기/커밋 금지는 당시 이력이며 이번 최종화 지시는 승인된 CF9파일의 검증 후 커밋·일반 Push를 허용한다.
+자동 결과와 인간 승인 근거를 분리하고 코드/테스트/에셋/디자인/전투 수치와 기존 자동 원자료는 변경하지 않는다.
+Stage6 GUI 미검증은 해소됐지만 FPS/P95/P99·장시간 메모리 실측은 미완료다. 미제공 수치/검수 개수는 생성하지 않는다.
+Chapter4/5 접합 OPEN·Chapter3~5 신규2.5D 및 전체25스테이지 출품 품질 검수 미완료는 유지한다.
+기존 Chapter2 단계적 확장 계획은 CF로 마감하며 다음 챕터 작업은 별도 지시 전 시작하지 않는다.
+
+## Task 5-CF — 자동 종합 검증과 인간 승인 경계
+
+CF는 신규 기능/아트/기본 활성화 전환 없이 기존 Chapter2를 종합 QA한다.
+새 Stage6 Receipt0부터 정상 실제 전투/강화/HP 이월을 측정하고, 개발용 합성 Receipt 경로 및 기존 독립 전투 결과와 구분한다.
+기본 unittest를 늘리지 않고 별도 tools/chapter2_qa.py에 실제 연속·렌더 불변/수명/폴백 검증을 둔다.
+기존 드라이버/3600틱 제한·AI/HP/패링 정책과 Stage5~10 출력은 변경하지 않는다.
+자동 네 빌드 성공이나 숨김 창 기술 결과를 인간 GUI 승인으로 대체하지 않는다.
+Stage6 인간 GUI 및 Chapter2 전체 같은 Run의 연속 결과가 확인되기 전에는 CF 최종 완료/커밋·Push를 승인하지 않는다.
+실제 Windows FPS/P95/P99와 장시간 메모리 추이는 미측정이며 FrameStats의600개 rolling 표본을60초 통계로 표현하지 않는다.
+AGENTS/README의 Stage5 단독 설명은 이력으로 보존하고 현재 Stage5~10 독립 opt-in 범위를 안내한다.
+Chapter4/5 접합 OPEN을 유지하고 Chapter3 신규 렌더러나 새 콘텐츠는 구현하지 않는다.
+
 ## Task 5-C6F — Stage10 GUI 완료 보고 및 승인 결과 보존
 
 사용자가 Stage10 Windows GUI 전체 검수 완료와 별도 오류 보고 없음을 전달하고 C6 최종 검증 후 main 반영을 지시했다.

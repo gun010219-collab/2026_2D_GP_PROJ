@@ -1,5 +1,66 @@
 # CHECKMATE 개발 진행 기록
 
+## Task 5-CFF — Chapter2 사용자 최종 승인 및 Git 반영
+
+사용자가 Chapter2 Stage6~10 Windows GUI 검수표 전체 통과를 보고했다. Stage6 인간 GUI와 같은 Chapter2의 연속 플레이를 포함한다.
+Stage7~10 기존 승인을 유지하고 Chapter2 전투·강화/HP 이월·보스전·Chapter3 전환을 사용자 승인 상태로 기록한다.
+별도 오류 보고는 없다. 정확한 통과 항목 수·빌드별 인간 HP/틱·실제 플레이 시간·FPS/P95/P99는 새로 추정하지 않는다.
+아래 CF의 Stage6/연속 GUI 대기·커밋 금지 및321.871초는 당시 이력이다.
+사용자 CFF 승인은 GUI/진행 마감과 별도 성능 실측을 구분하며, 성능/장시간 메모리 측정 완료를 뜻하지 않는다.
+
+시작 HEAD/실제 원격 main은 `a67c1ddac479a7175ee7a4c417fcb74f75bfc4b1`, 인덱스는 비어 있었고 기존 CF 변경9파일만 확인했다.
+게임·AI·전투 수치·디자인·기존 테스트/에셋과 tools/chapter2_qa.py는 변경하지 않는다.
+QA_CHAPTER2.json의 자동 캠페인/피격/재도전/텍스처 관측은 보존하고 인간 승인 메타데이터만 갱신한다.
+최종 재실행은 **unittest 1,437개 /303.218초 /실패0·오류0·skip0**로 통과했다.
+검사 프로세스 전체 경과 시간은303.822초다. 이전 CF의321.871초와 구분한다.
+공격 원장·일반/퍼펙트 패링·KingPulse/반사2·정지재개/사망취소·43PNG·스위치/수명/폴백 회귀를 포함한다.
+
+이번 CFF 재검증에서 일반/-O Stage 검사는 각각25개(0.081/0.137초), compileall(1.411초),
+기존 카탈로그563개 해시(1.261초)와 Chapter2 원화/준비 PNG10개 SHA256이 통과했다.
+Stage5~10 기준43PNG를 임시 폴더에 재생성해 전부 기존 해시와 일치했다(9.541초). 로컬 문서 링크523개도 유효하다.
+기존 메서드1,437개가 동일함을 AST로 확인했다. 새 기본 테스트는 추가하지 않았다.
+direct3d11 자동 연속 시나리오도 재실행해 기존 자동 원자료와 정확히 같았다(검사 실행48.879초).
+네 빌드 실제 BOSS_CLEAR/재도전/Stage11·Receipt/HP 이월·16,792회 상태불변 관찰·221로드/221해제·최대9/종료0·자원 폴백이 동일하다.
+이 경과 시간과 제어된 렌더 관찰 수는 인간 플레이 시간이나 실제 Windows FPS/P95/P99·장시간 메모리 실측이 아니다.
+
+Stage6 인간 GUI 미검증은 이번 승인으로 해소됐다. 남은 것은 실제 Windows FPS/P95/P99 미제출,
+장시간 RAM/VRAM 실측 미완료·Chapter4/5 전면 접합 OPEN·Chapter3~5 신규2.5D 미완료·전체25스테이지 최종 출품 품질 검수 미완료다.
+기존 C3→C4→C5→C6→CF 계획은 이 단계에서 마감한다. 그 이후 정확한 Task 번호는 기존 표에 정의되지 않았다.
+후속 권장 범위는 별도 성능/메모리 실측 보완과 단계적 확장 원칙에 따른 Chapter3 Stage11 에셋/렌더러 사전 조사다.
+이번에는 다음 챕터를 구현하지 않는다. 승인된9파일만 커밋·일반 Push하고 실제 원격 SHA/작업 트리·인덱스 Clean을 조회한다.
+
+## Task 5-CF — Chapter2 종합 QA 및 사용자 검수 준비 (최종 승인 대기)
+
+시작 HEAD/실제 원격 main은 `a67c1ddac479a7175ee7a4c417fcb74f75bfc4b1`, 작업 트리/인덱스는 Clean이었다.
+별도 QA 도구로 새 Stage6·Receipt0·entry_attack_level1/HP3/3에서 기존 BFS/공격/패링 드라이버를 그대로 실행했다.
+선행 Receipt 합성·강제 처치/회복·AI 정지·정책 완화 없이 실제 전투·정상 강화/HP 이월을 측정했다.
+attack/survival/evasion/balanced 모두6→7→8→9→10 BOSS_CLEAR를 통과했다.
+Stage10 결과는 각각591틱/HP2,890틱/HP3,677틱/HP2,713틱/HP2다. 빌드와 각 단계는 QA_CHAPTER2 원자료에 기록한다.
+정상 Receipt4·소유권/중복 거부·세션/Player/Health/원장 격리·보스재도전·Stage11 새Run/HP3/3·기존 얼음 표시를 확인했다.
+별도 무입력 Stage6은484틱 사망 후 R API로 새Stage6/Receipt0/HP3/3을 확인했다. 이 고의 무입력 사례를 드라이버 실패로 섞지 않는다.
+
+순수 논리2회가 동일했고 direct3d11 숨김 렌더 관찰을 추가한 campaign 결과도 정확히 같다.
+실제16,792회 관찰·221텍스처 로딩/221해제·최대동시9/종료0, Pawn/Rook/Knight/Bishop/King/Pulse 원장 셀/상태 불변,
+예상 에셋/SDL fault fixture의 로그/폴백/반복로딩 차단을 확인했다. native 측정 실행50.737초는 게임 FPS/실시간 플레이 시간이 아니다.
+NULL 소멸자 호출 오탐은 새 QA 도구의 계수 방식만 보정했고 재실행 로그가 정상이다. 기존 게임 소스는 수정하지 않았다.
+장시간 프로세스 메모리 추이는 미측정이므로 전역 메모리 누수 없음을 확정하지 않는다.
+
+전체 unittest **1,437개 /321.871초 /실패0·오류0·skip0** 통과, 기존 테스트 보존/신규 기본 테스트 추가 없음.
+일반/-O 각각25스테이지 검사 및 기존 아트 카탈로그563개 해시 통과.
+기존 Stage5~9 34PNG+Stage10 9PNG 총43개를 재생성해 기존 SHA256과 전부 일치했다(9.775초).
+compileall, Chapter2 원화/준비 PNG10개 SHA256, 로컬 문서 링크523개, Git 공백 검사도 통과했다.
+기존 테스트 메서드1,437개를 AST로 대조해 동일함을 확인했으며, 이번 QA 도구는 기본 suite에 추가하지 않았다.
+
+QA_CHAPTER2.md/JSON에 자동 결과·Stage6 GUI·같은Run 연속 입력표·실제 성능 측정 절차를 작성했다.
+FrameStats 최근 최대600개 rolling 표본과 실제60초 플레이 시간/전체 통계를 구분한다.
+AGENTS/README는 현재 Stage5~10 독립 opt-in을 안내하고 과거 단독 적용 기록은 보존했다.
+Stage6 인간 GUI/Chapter2 인간 연속 결과/실제 FPS/P95/P99는 미제공이며 사용자 최종 CF 승인은 아직 불가하다.
+Chapter4/5 접합 OPEN을 유지한다. 신규 스테이지/아트/전투/AI/기본 활성화 변경은 하지 않았고 스테이징·커밋·Push하지 않는다.
+
+변경9파일: AGENTS.md, README.md, docs/PROGRESS.md, docs/DECISIONS.md, docs/TASK5C_RENDERER_PLAN.md, docs/BUGS.md,
+신규 tools/chapter2_qa.py, docs/QA_CHAPTER2.md, docs/QA_CHAPTER2.json이다.
+docs/TEST_PLAN.md는 현재 저장소에 없어 내용 없는 대체 문서를 만들지 않고 실제 QA 절차를 새 종합 문서에 통합했다.
+
 ## Task 5-C6F — Stage10 사용자 GUI 완료 보고 및 Git 최종화
 
 사용자가 Stage10 Windows GUI 전체 검수 완료를 보고하고 C6의 최종 재검증·커밋·일반 Push를 지시했다.

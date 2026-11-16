@@ -4,7 +4,15 @@
 
 ## 현재 실행 상태
 
-Stage1~25·5개 보스전의 핵심 전투를 구현했다. 임시 도형 그래픽이며 최종 아트·음향·저장/해금·정식 엔딩·배포 검증은 미완료다. 사용자는 Windows 전체 검수 수행 완료를 보고했으나, 인간 전체 캠페인 완주 성공·안정성 상세 결과·FPS/P95/P99 수치는 미보고로 미확정이다.
+Stage1~25·5개 보스전의 핵심 전투를 구현했다. 기본 표시는 임시 도형이며 Stage5~10은 각 환경변수로 2.5D 아트를 독립 활성화할 수 있다. 최종 아트 전체·음향·저장/해금·정식 엔딩·배포 검증은 미완료다. 인간 전체 캠페인 완주와 실제 Windows FPS/P95/P99는 미확정/미측정이다.
+
+Stage5·7·8 GUI 승인과 Stage9·10 기존 검수를 유지하며, CFF 사용자 최종 승인으로 Stage6 인간 GUI와 Chapter2 Stage6~10 연속 검수도 완료됐다.
+Chapter2 전투·강화·보스전·Chapter3 전환은 사용자 승인 상태이고 별도 오류 보고는 없다. 실제 Windows FPS/P95/P99와 장시간 메모리 실측은 별도 미완료다.
+`CHECKMATE_STAGE5_ART=1`은 왕실 Stage5만, `CHECKMATE_STAGE6_ART=1`~`CHECKMATE_STAGE10_ART=1`은 각각 해당 숲 스테이지만 바꾼다.
+미설정/0과 다른19스테이지는 기존 표시이며 에셋/SDL 오류 시 폴백한다. 전체 아트가 기본 활성화된 것은 아니다.
+
+[Chapter2 실제 연속 실행·Stage6 GUI 검수표·성능 측정 절차](docs/QA_CHAPTER2.md)를 따른다.
+검수 시작점 `tools/stage6_play.py`는 새 Chapter2 Run/Receipt0의 실제 Stage6이며 Stage1~5 클리어 증거가 아니다.
 
 공식 개발·검수 대상은 Windows11 / Python3.13.x / Pico2D1.5.1이다. 다른 운영체제의 실행은 검증하지 않았다. 이 환경 기준, 저장소 루트 PowerShell:
 ```powershell

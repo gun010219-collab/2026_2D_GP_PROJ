@@ -5,12 +5,19 @@
 
 ## 1. 목표와 근거 우선순위
 
-- Task5-B2F 최신 실제 적용 승인: Stage5에서만 `CHECKMATE_STAGE5_ART=1`로 왕실2.5D 표시를 사용한다.
+- 최신 확정 구현(CFF): Stage5~10은 각각 `CHECKMATE_STAGE5_ART`~`CHECKMATE_STAGE10_ART=1`로 독립 opt-in한다.
+  Stage5는 왕실, Stage6~10은 숲 아트다. 기본값 및 다른19스테이지는 기존 표시이며 에셋/SDL 오류 폴백을 유지한다.
+  Stage5/7/8 개별 GUI 승인·Stage9/10 기존 검수 완료를 유지한다. 사용자 CFF 승인으로 Stage6 인간 GUI와 Chapter2 Stage6~10 연속 GUI 검수도 완료됐다.
+  Chapter2 전투·강화·보스전·Chapter3 전환은 사용자 승인 상태이며 별도 오류 보고는 없다. 과거 Stage6 미검증은 이력이다.
+  자동 결과와 인간 승인은 별도 근거다. 실제 Windows FPS/P95/P99·장시간 메모리 실측과 전체25스테이지 최종 출품 품질 검수는 미완료다.
+  Chapter4/5 전면 접합은 OPEN이다. 아래 Stage5 단독/메인 적용 전 설명은 당시 이력이며 현재 범위는 이 항목과 최신 문서를 따른다.
+
+- Task5-B2F 당시 실제 적용 승인(이력): Stage5에서만 `CHECKMATE_STAGE5_ART=1`로 왕실2.5D 표시를 사용한다.
   Pawn116%/Rook111%/King108%와 HP/발/보간/판정/폴백은 Windows 사용자 검수를 통과했다.
   기본값과 다른24스테이지는 기존 렌더러다. 아래 B1F 당시 실제적용 전 설명은 이력이다.
   다음 Task5-C는 Stage6부터 단계적으로 확장하며 Chapter4/5 전면 겹침은 OPEN을 유지한다.
 
-- Task5-B1F 최신 승인: B안2.5D/선형12%확대/5챕터 배경/승인 캐릭터/R6c 고급형 보드/Mode1을
+- Task5-B1F 당시 승인(이력): B안2.5D/선형12%확대/5챕터 배경/승인 캐릭터/R6c 고급형 보드/Mode1을
   `docs/ART_BASELINE.md` 기준선으로 사용한다. 정지 샘플 보정은 종료한다. 메인 게임 적용은 아직이다.
   Chapter2/3 접합은 크게 개선됐으나 Chapter4/5 Fine-C의 전면 겹침은
   `ART-BOARD-CH4-CH5-FRONT-OVERLAP` 미해결이다. 실제 투영/클리핑/레이어/면 경계 통합 시 수정한다.
