@@ -1,0 +1,536 @@
+{
+  "status": "R4 polishing review pending approval",
+  "frame_method": "One uniform scale plus translation; no homography, axis stretch or exterior compression",
+  "assets": [
+    {
+      "name": "royal_frame",
+      "size": [
+        1440,
+        900
+      ],
+      "source": "royal_frame.png",
+      "source_size": [
+        1586,
+        992
+      ],
+      "alpha_bounds": [
+        121,
+        58,
+        1349,
+        888
+      ],
+      "transparent_pixels": 501063,
+      "sha256": "fa16d50a337cdcab3e2d5c3b40fdeb89504c508b21a881afd3797560fbad18e7",
+      "source_sha256": "2c99bfa22e9a272f51c5f0ace3c779a2788b3c8f1381a90803e4629080529420",
+      "uniform_scale": 0.94,
+      "offset": [
+        -12.299999999999955,
+        -1.2399999999998954
+      ],
+      "opening": [
+        [
+          283.8,
+          745.1200000000001
+        ],
+        [
+          1185.26,
+          745.1200000000001
+        ],
+        [
+          1059.3,
+          154.8000000000001
+        ],
+        [
+          408.82000000000005,
+          154.8000000000001
+        ]
+      ]
+    },
+    {
+      "name": "royal_light",
+      "size": [
+        128,
+        128
+      ],
+      "source": "royal_tiles.png",
+      "source_size": [
+        1774,
+        887
+      ],
+      "alpha_bounds": [
+        0,
+        0,
+        128,
+        128
+      ],
+      "transparent_pixels": 0,
+      "sha256": "60c8d2c21ec2d193f9d34ece6fcd3f8a8b1b97e620b05676eb45a1a9d0844383",
+      "source_sha256": "4ec995b05895606795d408d39fefe73e5e6edec007bed306d1d01339d1240521",
+      "source_rect": [
+        0,
+        0,
+        887,
+        887
+      ],
+      "material_alpha": 180,
+      "material_rgb_gain": 235,
+      "base_source": "assets/art_samples/stage5_r2/tile_light.png",
+      "base_sha256": "0a7873076b70a8ad880da8030a1f30edf013313a03c97e3c61ee74c8034371b1"
+    },
+    {
+      "name": "royal_dark",
+      "size": [
+        128,
+        128
+      ],
+      "source": "royal_tiles.png",
+      "source_size": [
+        1774,
+        887
+      ],
+      "alpha_bounds": [
+        0,
+        0,
+        128,
+        128
+      ],
+      "transparent_pixels": 0,
+      "sha256": "b6129f95683813c74cbadccf5437a18745e709af624f6d24884905b725e2f254",
+      "source_sha256": "4ec995b05895606795d408d39fefe73e5e6edec007bed306d1d01339d1240521",
+      "source_rect": [
+        887,
+        0,
+        887,
+        887
+      ],
+      "material_alpha": 180,
+      "material_rgb_gain": 235,
+      "base_source": "assets/art_samples/stage5_r2/tile_dark.png",
+      "base_sha256": "d1991305916e56ac884f4147deee535099dfe3fb362c93d1d53a588dc6fbbcfe"
+    },
+    {
+      "name": "forest_frame",
+      "size": [
+        1440,
+        900
+      ],
+      "source": "forest_frame.png",
+      "source_size": [
+        1585,
+        992
+      ],
+      "alpha_bounds": [
+        109,
+        38,
+        1361,
+        888
+      ],
+      "transparent_pixels": 465578,
+      "sha256": "7a054f85e6b1aacd9598189a049b52f63d9ff98aaadfdc4082c0306713122100",
+      "source_sha256": "7e6c73a92a973d71fd20ad175d0ded36ae89c19b2acb5477c84af42b9ae9d9c2",
+      "uniform_scale": 0.9392265193370166,
+      "offset": [
+        -9.337016574585618,
+        -12.718232044198885
+      ],
+      "opening": [
+        [
+          286.3327945489888,
+          733.0276243093923
+        ],
+        [
+          1186.4831084140928,
+          733.0276243093923
+        ],
+        [
+          1060.7061093964453,
+          143.19337016574588
+        ],
+        [
+          411.1711592456091,
+          143.19337016574588
+        ]
+      ]
+    },
+    {
+      "name": "forest_light",
+      "size": [
+        128,
+        128
+      ],
+      "source": "forest_tiles.png",
+      "source_size": [
+        1774,
+        887
+      ],
+      "alpha_bounds": [
+        0,
+        0,
+        128,
+        128
+      ],
+      "transparent_pixels": 0,
+      "sha256": "917a83318e7872d1eb8644f84517a74b9eb20a976ea6bc24aea0a48f622aac5e",
+      "source_sha256": "3a8e0832b8e554535a1787e0b57cd5f7fa148dcb75191f77c4c14ea472f6127d",
+      "source_rect": [
+        0,
+        0,
+        887,
+        887
+      ],
+      "material_alpha": 180,
+      "material_rgb_gain": 235,
+      "base_source": "assets/art_samples/stage5_r2/tile_light.png",
+      "base_sha256": "0a7873076b70a8ad880da8030a1f30edf013313a03c97e3c61ee74c8034371b1"
+    },
+    {
+      "name": "forest_dark",
+      "size": [
+        128,
+        128
+      ],
+      "source": "forest_tiles.png",
+      "source_size": [
+        1774,
+        887
+      ],
+      "alpha_bounds": [
+        0,
+        0,
+        128,
+        128
+      ],
+      "transparent_pixels": 0,
+      "sha256": "c0da38d06f12aa007c7c98e3a1d1334fb60b10229e48436a3a4d28675d3c2efe",
+      "source_sha256": "3a8e0832b8e554535a1787e0b57cd5f7fa148dcb75191f77c4c14ea472f6127d",
+      "source_rect": [
+        887,
+        0,
+        887,
+        887
+      ],
+      "material_alpha": 180,
+      "material_rgb_gain": 235,
+      "base_source": "assets/art_samples/stage5_r2/tile_dark.png",
+      "base_sha256": "d1991305916e56ac884f4147deee535099dfe3fb362c93d1d53a588dc6fbbcfe"
+    },
+    {
+      "name": "frozen_frame",
+      "size": [
+        1440,
+        900
+      ],
+      "source": "frozen_frame.png",
+      "source_size": [
+        1585,
+        992
+      ],
+      "alpha_bounds": [
+        117,
+        41,
+        1353,
+        888
+      ],
+      "transparent_pixels": 486112,
+      "sha256": "d48921f84ca83703be6391fd6e072bc54b02acaa4d9598a90a4cb81358c1e44e",
+      "source_sha256": "fd4552daa3ba9a4ab8c3b08b5d6da5126f4bded7d6d7970217645cd80d902ed1",
+      "uniform_scale": 0.94,
+      "offset": [
+        -10.419999999999959,
+        -3.1200000000000045
+      ],
+      "opening": [
+        [
+          285.49330390920557,
+          743.24
+        ],
+        [
+          1186.384918032787,
+          743.24
+        ],
+        [
+          1060.5043379571248,
+          152.92
+        ],
+        [
+          410.4344766708702,
+          152.92
+        ]
+      ]
+    },
+    {
+      "name": "frozen_light",
+      "size": [
+        128,
+        128
+      ],
+      "source": "frozen_tiles.png",
+      "source_size": [
+        1774,
+        887
+      ],
+      "alpha_bounds": [
+        0,
+        0,
+        128,
+        128
+      ],
+      "transparent_pixels": 0,
+      "sha256": "20332d1f7f7c3224628bdd9ccc6d39d87f7306e88df57061c7c686f2b1ba180e",
+      "source_sha256": "299802e1da4b1afe3cfce63406093c8292858a4695d3b4133a1b7b62e65b92ee",
+      "source_rect": [
+        0,
+        0,
+        887,
+        887
+      ],
+      "material_alpha": 180,
+      "material_rgb_gain": 235,
+      "base_source": "assets/art_samples/stage5_r2/tile_light.png",
+      "base_sha256": "0a7873076b70a8ad880da8030a1f30edf013313a03c97e3c61ee74c8034371b1"
+    },
+    {
+      "name": "frozen_dark",
+      "size": [
+        128,
+        128
+      ],
+      "source": "frozen_tiles.png",
+      "source_size": [
+        1774,
+        887
+      ],
+      "alpha_bounds": [
+        0,
+        0,
+        128,
+        128
+      ],
+      "transparent_pixels": 0,
+      "sha256": "cabed7b1995803c918a400bc75b705df42a20e5d3dbd70c267d89f0b1c97bbbc",
+      "source_sha256": "299802e1da4b1afe3cfce63406093c8292858a4695d3b4133a1b7b62e65b92ee",
+      "source_rect": [
+        887,
+        0,
+        887,
+        887
+      ],
+      "material_alpha": 180,
+      "material_rgb_gain": 235,
+      "base_source": "assets/art_samples/stage5_r2/tile_dark.png",
+      "base_sha256": "d1991305916e56ac884f4147deee535099dfe3fb362c93d1d53a588dc6fbbcfe"
+    },
+    {
+      "name": "volcanic_frame",
+      "size": [
+        1440,
+        900
+      ],
+      "source": "volcanic_frame.png",
+      "source_size": [
+        1585,
+        992
+      ],
+      "alpha_bounds": [
+        142,
+        38,
+        1326,
+        887
+      ],
+      "transparent_pixels": 515706,
+      "sha256": "e5998ae619f605b7f3a835079d4fd59648da931ef631b75d84e63006be259ae8",
+      "source_sha256": "5a409546b6f979b8591353cfea5736d1cf131bc65e4967d85db60e9be18862d4",
+      "uniform_scale": 0.9052183173588925,
+      "offset": [
+        17.614483493077728,
+        17.179978700745437
+      ],
+      "opening": [
+        [
+          302.578465459888,
+          735.923322683706
+        ],
+        [
+          1170.1354772255104,
+          735.923322683706
+        ],
+        [
+          1048.912703944391,
+          167.44621938232157
+        ],
+        [
+          422.8965911792079,
+          167.44621938232157
+        ]
+      ]
+    },
+    {
+      "name": "volcanic_light",
+      "size": [
+        128,
+        128
+      ],
+      "source": "volcanic_tiles.png",
+      "source_size": [
+        1774,
+        887
+      ],
+      "alpha_bounds": [
+        0,
+        0,
+        128,
+        128
+      ],
+      "transparent_pixels": 0,
+      "sha256": "9e9472ee54dd454e1857ae8872074c79d7240fa26b9aef8478e691ae33f85206",
+      "source_sha256": "6a0bf7b149e5d72a04735954223e8a8337262121f4b776f112d50aae5e7a0fb6",
+      "source_rect": [
+        0,
+        0,
+        887,
+        887
+      ],
+      "material_alpha": 180,
+      "material_rgb_gain": 235,
+      "base_source": "assets/art_samples/stage5_r2/tile_light.png",
+      "base_sha256": "0a7873076b70a8ad880da8030a1f30edf013313a03c97e3c61ee74c8034371b1"
+    },
+    {
+      "name": "volcanic_dark",
+      "size": [
+        128,
+        128
+      ],
+      "source": "volcanic_tiles.png",
+      "source_size": [
+        1774,
+        887
+      ],
+      "alpha_bounds": [
+        0,
+        0,
+        128,
+        128
+      ],
+      "transparent_pixels": 0,
+      "sha256": "742d9438249a9b4d77e119e456a1805426df27e05d6342889e1678c1ecc72913",
+      "source_sha256": "6a0bf7b149e5d72a04735954223e8a8337262121f4b776f112d50aae5e7a0fb6",
+      "source_rect": [
+        887,
+        0,
+        887,
+        887
+      ],
+      "material_alpha": 180,
+      "material_rgb_gain": 235,
+      "base_source": "assets/art_samples/stage5_r2/tile_dark.png",
+      "base_sha256": "d1991305916e56ac884f4147deee535099dfe3fb362c93d1d53a588dc6fbbcfe"
+    },
+    {
+      "name": "gothic_frame",
+      "size": [
+        1440,
+        900
+      ],
+      "source": "gothic_frame.png",
+      "source_size": [
+        1585,
+        992
+      ],
+      "alpha_bounds": [
+        115,
+        38,
+        1354,
+        887
+      ],
+      "transparent_pixels": 465757,
+      "sha256": "f4338e885265452221cb75b8c3acc81fe513581f782b4dd1197759b2a4ca1961",
+      "source_sha256": "e0b40fc1ab1cc610affd3a948d6e8bbbbb2bd7f51930396c7842afd3d7e22ad6",
+      "uniform_scale": 0.9371554575523704,
+      "offset": [
+        -8.16427783902975,
+        -6.046306504961308
+      ],
+      "opening": [
+        [
+          286.85356016189064,
+          738.0551267916208
+        ],
+        [
+          1185.0189780758037,
+          738.0551267916208
+        ],
+        [
+          1059.5193263547771,
+          149.5214994487322
+        ],
+        [
+          411.4166473178349,
+          149.5214994487322
+        ]
+      ]
+    },
+    {
+      "name": "gothic_light",
+      "size": [
+        128,
+        128
+      ],
+      "source": "gothic_tiles.png",
+      "source_size": [
+        1774,
+        887
+      ],
+      "alpha_bounds": [
+        0,
+        0,
+        128,
+        128
+      ],
+      "transparent_pixels": 0,
+      "sha256": "22b4caa51b0203fb0fb6f72ef7d1bf123e9e70bfe093b2ac8c1843d249c863c6",
+      "source_sha256": "15b1c99a1b24dcdddfcee883fc70e42eb97dd9aeec683888b5508bf1b48b7bae",
+      "source_rect": [
+        0,
+        0,
+        887,
+        887
+      ],
+      "material_alpha": 180,
+      "material_rgb_gain": 235,
+      "base_source": "assets/art_samples/stage5_r2/tile_light.png",
+      "base_sha256": "0a7873076b70a8ad880da8030a1f30edf013313a03c97e3c61ee74c8034371b1"
+    },
+    {
+      "name": "gothic_dark",
+      "size": [
+        128,
+        128
+      ],
+      "source": "gothic_tiles.png",
+      "source_size": [
+        1774,
+        887
+      ],
+      "alpha_bounds": [
+        0,
+        0,
+        128,
+        128
+      ],
+      "transparent_pixels": 0,
+      "sha256": "8b0576592769ae9adf32aa8be34678adc7d7f14b78684e5c5091926ba9994803",
+      "source_sha256": "15b1c99a1b24dcdddfcee883fc70e42eb97dd9aeec683888b5508bf1b48b7bae",
+      "source_rect": [
+        887,
+        0,
+        887,
+        887
+      ],
+      "material_alpha": 180,
+      "material_rgb_gain": 235,
+      "base_source": "assets/art_samples/stage5_r2/tile_dark.png",
+      "base_sha256": "d1991305916e56ac884f4147deee535099dfe3fb362c93d1d53a588dc6fbbcfe"
+    }
+  ]
+}

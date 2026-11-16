@@ -1,0 +1,105 @@
+{
+  "status": "Decorative hardware drafts",
+  "assets": [
+    {
+      "name": "royal",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        20,
+        18,
+        236,
+        238
+      ],
+      "transparent_pixels": 34924,
+      "source_size": [
+        1254,
+        1254
+      ],
+      "sha256": "c0328a32fa81b1252560c6aab534e3a9d8d4a745275fdd820f6c5bf69f3930a4",
+      "source_sha256": "0c16f57e28549f6a55c26d5ba83190054be3db4f6ed2100938e5b4023ad705f2"
+    },
+    {
+      "name": "forest",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        21,
+        18,
+        234,
+        238
+      ],
+      "transparent_pixels": 31984,
+      "source_size": [
+        1261,
+        1247
+      ],
+      "sha256": "134fbe728f027c592db8dc14b0efeba26906a4d7776847e370a998143047286f",
+      "source_sha256": "1dc0cb4ef6b8e78364c16c0624049dd170c2ad0e1ba923e9045d043fe00c2b26"
+    },
+    {
+      "name": "frozen",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        19,
+        18,
+        236,
+        238
+      ],
+      "transparent_pixels": 33480,
+      "source_size": [
+        1254,
+        1254
+      ],
+      "sha256": "8ec1a6cf6191cc1b11a52a7bacb2d3a87c321568037d79cfe82cc82e31e2ebea",
+      "source_sha256": "7716630f324cf898bc4e73897afa10e41e45ec146af1f8cd83e10294f5bc443d"
+    },
+    {
+      "name": "volcanic",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        19,
+        18,
+        237,
+        238
+      ],
+      "transparent_pixels": 28341,
+      "source_size": [
+        1254,
+        1254
+      ],
+      "sha256": "39fab6d2bb48789c5ff029c9b0073975f658f10197185cf0102edc725a19d91a",
+      "source_sha256": "9ad28925c879e28698faf6b87de194d0e11eea8343263ca86bf00f9d4e234a5e"
+    },
+    {
+      "name": "gothic",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        19,
+        18,
+        236,
+        238
+      ],
+      "transparent_pixels": 35607,
+      "source_size": [
+        1254,
+        1254
+      ],
+      "sha256": "99fc9de48f053025be03aaac5a2a741198dc8a47c1679262a2ea5b415b8b6ab2",
+      "source_sha256": "c461fc79247ed83ab1f4c1b36c8dc233c59747054e4bc9315c0b2ba26561abe4"
+    }
+  ]
+}

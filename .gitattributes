@@ -1,0 +1,18 @@
+# Preserve exact source/capture metadata bytes used by the art SHA256 catalog.
+# These directories are first introduced by the B1F baseline.
+/assets/aligned_board/** -text
+/assets/camera_review/** -text
+/assets/front_crest_fine/** -text
+/assets/highend_board/** -text
+/assets/ornate_board/** -text
+/assets/polished_board/** -text
+/assets/side_cleanup/** -text
+/assets/themed_arena/** -text
+/assets/arena_art_catalog.json -text
+# This source's exact digest is part of the immutable R6c capture manifest.
+/tools/front_crest_fine_review.py -text
+# CRLF is intentional provenance data; continue checking actual spaces/tabs.
+/assets/**/asset_manifest.json whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+/assets/**/review_manifest.json whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+/assets/camera_review/camera_manifest.json whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+/assets/arena_art_catalog.json whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

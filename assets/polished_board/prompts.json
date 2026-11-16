@@ -1,0 +1,70 @@
+{
+  "task": "5-B1R4",
+  "tool": "OpenAI built-in image_gen",
+  "model": "Not exposed",
+  "status": "Polishing drafts pending user approval",
+  "frames": {
+    "royal": {
+      "prompt": "Use case: precise-object-edit. Image1 is the approved ornate board IDENTITY to preserve. Image2 is the EXACT layout/camera guide for its rebuilt top opening. Make a polishing pass, not a new concept. Preserve this ivory/black marble and antique gold Royal Grand Arena: lion corner supports, crowned shields, laurel and crossed swords, tiny ruby accents. Reconstruct the board naturally in the high overhead camera of Image2. The blank charcoal playing opening MUST have the same tall/deep trapezoid proportions and position as Image2. Match all FOUR corners, including a front edge around 85% image height and back edge around 20%, front opening width around62% of canvas, back width49%. Do NOT make the opening shallow/wide as Image1. Entire sculpture must be authored to that overhead view, no stretched parts. Very LOW profile front fascia and shallow stepped plinth confined below the opening (about8% canvas height total); small proportional corner sculptures, no tall legs, no giant central emblem hanging into opening. Continuous fitted inner rim touching the entire blank opening edge, no gap or detached ornaments. Upper-left illumination, coherent bevels, high-end sculptural material detail and existing ornate richness. Entire altar visible in landscape8:5 composition with transparent margin, genuinely transparent background, NO room/floor/UI/text/characters/pieces/grid. All ornament outside the plain opening. This is one integrated solid object.",
+      "reference": [
+        "../highend_board/source/royal_r3.png",
+        "source/camera_guide.png"
+      ],
+      "transparent_background": true
+    },
+    "forest": {
+      "prompt": "Use case: precise-object-edit. Image1 is the approved THEME and Grand Arena identity. Image2 is the new NATURAL overhead proportion and short front fascia reference. Rebuild Image1 in Image2's exact camera/framing and blank opening proportions. Preserve this sacred ancient oak Grand Arena: root buttresses, mossy stone and amber seed corner cores, tree-of-life relief, entwined wooden rail. Keep the current ornate concept, not a new design. The blank opening must be DEEP and tall as Image2, NOT shallow as Image1. All four edges/corners match Image2. Whole object centered landscape8:5, same opening positioning, very low front fascia/short plinth, naturally proportioned compact sculptures, no stretched reliefs or tall front facade. Continuous integrated inner rebate around the opening with no gap. Upper-left physical lighting, refined bevels and sculptural detail, tiny controlled accents, high quality clean alpha edges (no colored fringe). Genuinely transparent outside object, no room/floor, no characters/pieces/UI/text/grid. Keep entire structure visible with margin, no ornament inside blank playing surface.",
+      "reference": [
+        "../highend_board/source/forest_r3.png",
+        "source/royal_frame.png"
+      ],
+      "transparent_background": true
+    },
+    "frozen": {
+      "prompt": "Use case: precise-object-edit. Image1 is the approved THEME and Grand Arena identity. Image2 is the new NATURAL overhead proportion and short front fascia reference. Rebuild Image1 in Image2's exact camera/framing and blank opening proportions. Preserve this Frozen Palace Grand Arena: ice/crystal corner supports, frosted silver, snowflake relief, clean pale-blue ice and subtle facets. Keep the current ornate concept, not a new design. The blank opening must be DEEP and tall as Image2, NOT shallow as Image1. All four edges/corners match Image2. Whole object centered landscape8:5, same opening positioning, very low front fascia/short plinth, naturally proportioned compact sculptures, no stretched reliefs or tall front facade. Continuous integrated inner rebate around the opening with no gap. Upper-left physical lighting, refined bevels and sculptural detail, tiny controlled accents, high quality clean alpha edges (no colored fringe). Genuinely transparent outside object, no room/floor, no characters/pieces/UI/text/grid. Keep entire structure visible with margin, no ornament inside blank playing surface.",
+      "reference": [
+        "../highend_board/source/frozen_r3.png",
+        "source/royal_frame.png"
+      ],
+      "transparent_background": true
+    },
+    "volcanic": {
+      "prompt": "Use case: precise-object-edit. Image1 is the approved THEME and Grand Arena identity. Image2 is the new NATURAL overhead proportion and short front fascia reference. Rebuild Image1 in Image2's exact camera/framing and blank opening proportions. Preserve this obsidian war altar Grand Arena: dark basalt, aged copper, dragon corner supports, subdued magma cracks confined to the outside. Keep the current ornate concept, not a new design. The blank opening must be DEEP and tall as Image2, NOT shallow as Image1. All four edges/corners match Image2. Whole object centered landscape8:5, same opening positioning, very low front fascia/short plinth, naturally proportioned compact sculptures, no stretched reliefs or tall front facade. Continuous integrated inner rebate around the opening with no gap. Upper-left physical lighting, refined bevels and sculptural detail, tiny controlled accents, high quality clean alpha edges (no colored fringe). Genuinely transparent outside object, no room/floor, no characters/pieces/UI/text/grid. Keep entire structure visible with margin, no ornament inside blank playing surface.",
+      "reference": [
+        "../highend_board/source/volcanic_r3.png",
+        "source/royal_frame.png"
+      ],
+      "transparent_background": true
+    },
+    "gothic": {
+      "prompt": "Use case: precise-object-edit. Image1 is the approved THEME and Grand Arena identity. Image2 is the new NATURAL overhead proportion and short front fascia reference. Rebuild Image1 in Image2's exact camera/framing and blank opening proportions. Preserve this Gothic Grand Arena: black marble, iron arches, gargoyle corners, chains, small dark crimson seals. Keep the current ornate concept, not a new design. The blank opening must be DEEP and tall as Image2, NOT shallow as Image1. All four edges/corners match Image2. Whole object centered landscape8:5, same opening positioning, very low front fascia/short plinth, naturally proportioned compact sculptures, no stretched reliefs or tall front facade. Continuous integrated inner rebate around the opening with no gap. Upper-left physical lighting, refined bevels and sculptural detail, tiny controlled accents, high quality clean alpha edges (no colored fringe). Genuinely transparent outside object, no room/floor, no characters/pieces/UI/text/grid. Keep entire structure visible with margin, no ornament inside blank playing surface.",
+      "reference": [
+        "../highend_board/source/gothic_r3.png",
+        "source/royal_frame.png"
+      ],
+      "transparent_background": true
+    }
+  },
+  "materials": {
+    "royal": {
+      "prompt": "Use case: stylized-concept. Game material texture atlas: TWO equal flat square material swatches side by side, LEFT LIGHT, RIGHT DARK, filling their respective half of the entire landscape image. Fine ivory marble at left with very faint warm-grey veins and extremely sparse muted antique-gold mineral threads; charcoal marble at right, fine cool-grey veins. Royal refined stone, no emblem. Each square is an orthographic top-down seamless planar TEXTURE, NO perspective, NO bevel/rim, NO object, no floor scene, no shadow, no text or divider border. Consistent extremely soft top-left light. Premium realistic material, LOW contrast detail suitable for a 10x10 action chess board at 84px per tile. Large value difference: light swatch mid-bright not pure white, dark swatch dark but not crushed black. Avoid any symbols, weapon/attack marks, bright highlights, busy ornament, artificial noise. Opaque image, exact clean midpoint split.",
+      "transparent_background": false
+    },
+    "forest": {
+      "prompt": "Use case: stylized-concept. Game material texture atlas: TWO equal flat square material swatches side by side, LEFT LIGHT, RIGHT DARK, filling their respective half of the entire landscape image. Weathered light grey-brown petrified wood/stone at left, darker muted moss-grey oak stone at right. Very subtle broad wood grain and soft natural green edge patina. No actual leaves, plants or roots on the play surface. Each square is an orthographic top-down seamless planar TEXTURE, NO perspective, NO bevel/rim, NO object, no floor scene, no shadow, no text or divider border. Consistent extremely soft top-left light. Premium realistic material, LOW contrast detail suitable for a 10x10 action chess board at 84px per tile. Large value difference: light swatch mid-bright not pure white, dark swatch dark but not crushed black. Avoid any symbols, weapon/attack marks, bright highlights, busy ornament, artificial noise. Opaque image, exact clean midpoint split.",
+      "transparent_background": false
+    },
+    "frozen": {
+      "prompt": "Use case: stylized-concept. Game material texture atlas: TWO equal flat square material swatches side by side, LEFT LIGHT, RIGHT DARK, filling their respective half of the entire landscape image. Pale blue-white cloudy ice stone at left, dark blue-grey frosted stone at right. Very faint micro-facets and soft frost, no large shards or cracks, no glaring white highlights. Each square is an orthographic top-down seamless planar TEXTURE, NO perspective, NO bevel/rim, NO object, no floor scene, no shadow, no text or divider border. Consistent extremely soft top-left light. Premium realistic material, LOW contrast detail suitable for a 10x10 action chess board at 84px per tile. Large value difference: light swatch mid-bright not pure white, dark swatch dark but not crushed black. Avoid any symbols, weapon/attack marks, bright highlights, busy ornament, artificial noise. Opaque image, exact clean midpoint split.",
+      "transparent_background": false
+    },
+    "volcanic": {
+      "prompt": "Use case: stylized-concept. Game material texture atlas: TWO equal flat square material swatches side by side, LEFT LIGHT, RIGHT DARK, filling their respective half of the entire landscape image. Medium-light ash-grey volcanic stone at left, dark charcoal obsidian at right. Subtle fine basalt porosity and sparse dull copper mineral hairlines, NO red/orange emission, no molten lava on play surfaces. Each square is an orthographic top-down seamless planar TEXTURE, NO perspective, NO bevel/rim, NO object, no floor scene, no shadow, no text or divider border. Consistent extremely soft top-left light. Premium realistic material, LOW contrast detail suitable for a 10x10 action chess board at 84px per tile. Large value difference: light swatch mid-bright not pure white, dark swatch dark but not crushed black. Avoid any symbols, weapon/attack marks, bright highlights, busy ornament, artificial noise. Opaque image, exact clean midpoint split.",
+      "transparent_background": false
+    },
+    "gothic": {
+      "prompt": "Use case: stylized-concept. Game material texture atlas: TWO equal flat square material swatches side by side, LEFT LIGHT, RIGHT DARK, filling their respective half of the entire landscape image. Medium-light smoke-grey worn slate at left, deep grey-black slate at right. Very faint shallow engraving, one or two almost invisible dark burgundy worn marks, no legible runes, no red glow. Light swatch still visibly lighter than dark. Each square is an orthographic top-down seamless planar TEXTURE, NO perspective, NO bevel/rim, NO object, no floor scene, no shadow, no text or divider border. Consistent extremely soft top-left light. Premium realistic material, LOW contrast detail suitable for a 10x10 action chess board at 84px per tile. Large value difference: light swatch mid-bright not pure white, dark swatch dark but not crushed black. Avoid any symbols, weapon/attack marks, bright highlights, busy ornament, artificial noise. Opaque image, exact clean midpoint split.",
+      "transparent_background": false
+    }
+  }
+}

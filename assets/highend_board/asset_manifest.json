@@ -1,0 +1,681 @@
+{
+  "status": "R3 sculptural shell review drafts",
+  "method": "SDL piecewise exterior fitting; logical opening unchanged",
+  "assets": [
+    {
+      "name": "royal_r1",
+      "size": [
+        1440,
+        900
+      ],
+      "source_size": [
+        1536,
+        1024
+      ],
+      "source_alpha_bounds": [
+        0,
+        7,
+        1536,
+        980
+      ],
+      "source_transparent_pixels": 314344,
+      "alpha_bounds": [
+        193,
+        81,
+        1276,
+        876
+      ],
+      "transparent_pixels": 573954,
+      "opening": [
+        [
+          0.13932291666666666,
+          0.5390625
+        ],
+        [
+          0.8626302083333334,
+          0.5390625
+        ],
+        [
+          0.7838541666666666,
+          0.1318359375
+        ],
+        [
+          0.216796875,
+          0.1318359375
+        ]
+      ],
+      "source_sha256": "ccb48c13675ff3c4b3ee20dbc3b2d46f030e989a47a9b458b568e72ffc0da0ff",
+      "sha256": "a5c30526583b4dcedb4b15252b6b18599c9a2720e8f80e57b10ac7fce47ee41f"
+    },
+    {
+      "name": "royal_r2",
+      "size": [
+        1440,
+        900
+      ],
+      "source_size": [
+        1536,
+        1024
+      ],
+      "source_alpha_bounds": [
+        1,
+        0,
+        1536,
+        1007
+      ],
+      "source_transparent_pixels": 311449,
+      "alpha_bounds": [
+        200,
+        75,
+        1268,
+        882
+      ],
+      "transparent_pixels": 572947,
+      "opening": [
+        [
+          0.13932291666666666,
+          0.5390625
+        ],
+        [
+          0.8626302083333334,
+          0.5390625
+        ],
+        [
+          0.7838541666666666,
+          0.1318359375
+        ],
+        [
+          0.216796875,
+          0.1318359375
+        ]
+      ],
+      "source_sha256": "10044cd255ba95b8d04fb2d22eb93e31e7b484e5382b66eb2281b604f22274cd",
+      "sha256": "130e04eee7018490919dc90c1d3a495282f95208a81cd265018116df58d368ed"
+    },
+    {
+      "name": "royal_r3",
+      "size": [
+        1440,
+        900
+      ],
+      "source_size": [
+        1536,
+        1024
+      ],
+      "source_alpha_bounds": [
+        0,
+        24,
+        1536,
+        958
+      ],
+      "source_transparent_pixels": 384394,
+      "alpha_bounds": [
+        205,
+        94,
+        1263,
+        871
+      ],
+      "transparent_pixels": 601021,
+      "opening": [
+        [
+          0.13932291666666666,
+          0.5390625
+        ],
+        [
+          0.8626302083333334,
+          0.5390625
+        ],
+        [
+          0.7838541666666666,
+          0.1318359375
+        ],
+        [
+          0.216796875,
+          0.1318359375
+        ]
+      ],
+      "source_sha256": "a12255119aef8c498d422e7bde2a2fda0e1e2e53bb4e6c0e3bc265b96b278e35",
+      "sha256": "489bbcd037d51137cefe04809439b846896d2c3491f3ef0a6cdf324c114e29fa"
+    },
+    {
+      "name": "forest_r1",
+      "size": [
+        1440,
+        900
+      ],
+      "source_size": [
+        1536,
+        1024
+      ],
+      "source_alpha_bounds": [
+        7,
+        16,
+        1531,
+        1008
+      ],
+      "source_transparent_pixels": 240911,
+      "alpha_bounds": [
+        197,
+        88,
+        1270,
+        882
+      ],
+      "transparent_pixels": 548662,
+      "opening": [
+        [
+          0.13932291666666666,
+          0.5390625
+        ],
+        [
+          0.8626302083333334,
+          0.5390625
+        ],
+        [
+          0.7838541666666666,
+          0.1318359375
+        ],
+        [
+          0.216796875,
+          0.1318359375
+        ]
+      ],
+      "source_sha256": "445caa56d07f1cb8f887e11bdb945f547110de55a1dee19b3cd530cff469ddc4",
+      "sha256": "4ab03d5ba548daa577b2c5b46a9acaf0ba653917f74bce37d607cbbfef158d00"
+    },
+    {
+      "name": "forest_r2",
+      "size": [
+        1440,
+        900
+      ],
+      "source_size": [
+        1536,
+        1024
+      ],
+      "source_alpha_bounds": [
+        7,
+        6,
+        1532,
+        957
+      ],
+      "source_transparent_pixels": 368448,
+      "alpha_bounds": [
+        201,
+        80,
+        1267,
+        871
+      ],
+      "transparent_pixels": 588927,
+      "opening": [
+        [
+          0.13932291666666666,
+          0.5390625
+        ],
+        [
+          0.8626302083333334,
+          0.5390625
+        ],
+        [
+          0.7838541666666666,
+          0.1318359375
+        ],
+        [
+          0.216796875,
+          0.1318359375
+        ]
+      ],
+      "source_sha256": "90be3e707026edeb7f46443a78944031cded72ffc683cb1e9e73cd3790cf6119",
+      "sha256": "31d222e5042f619ab7f3db96f2c1acf879d7669f4953853f2f1c6c6802646048"
+    },
+    {
+      "name": "forest_r3",
+      "size": [
+        1440,
+        900
+      ],
+      "source_size": [
+        1536,
+        1024
+      ],
+      "source_alpha_bounds": [
+        0,
+        0,
+        1533,
+        1001
+      ],
+      "source_transparent_pixels": 290601,
+      "alpha_bounds": [
+        203,
+        75,
+        1272,
+        881
+      ],
+      "transparent_pixels": 569153,
+      "opening": [
+        [
+          0.13932291666666666,
+          0.5390625
+        ],
+        [
+          0.8626302083333334,
+          0.5390625
+        ],
+        [
+          0.7838541666666666,
+          0.1318359375
+        ],
+        [
+          0.216796875,
+          0.1318359375
+        ]
+      ],
+      "source_sha256": "74bb23a2bdae24b4212a4c7fe65130e6a14849fb8ff8f173dfdd9eb07acd91cf",
+      "sha256": "c11efd3ff192f4111a18d1a7135f74d08266af4cafbcb93b551f9ebf3aba608e"
+    },
+    {
+      "name": "frozen_r1",
+      "size": [
+        1440,
+        900
+      ],
+      "source_size": [
+        1536,
+        1024
+      ],
+      "source_alpha_bounds": [
+        0,
+        5,
+        1536,
+        994
+      ],
+      "source_transparent_pixels": 310755,
+      "alpha_bounds": [
+        200,
+        79,
+        1269,
+        879
+      ],
+      "transparent_pixels": 580893,
+      "opening": [
+        [
+          0.13932291666666666,
+          0.5390625
+        ],
+        [
+          0.8626302083333334,
+          0.5390625
+        ],
+        [
+          0.7838541666666666,
+          0.1318359375
+        ],
+        [
+          0.216796875,
+          0.1318359375
+        ]
+      ],
+      "source_sha256": "2d1dc18133995220e4c81b99208b7ed6fa3ab76a087925d354174989266d36d8",
+      "sha256": "8fd2e4645ded6bec73730a5c8aa2a157a4b62415c17e8f153dd6a22a08f2123e"
+    },
+    {
+      "name": "frozen_r2",
+      "size": [
+        1440,
+        900
+      ],
+      "source_size": [
+        1536,
+        1024
+      ],
+      "source_alpha_bounds": [
+        3,
+        4,
+        1536,
+        967
+      ],
+      "source_transparent_pixels": 356569,
+      "alpha_bounds": [
+        208,
+        78,
+        1260,
+        873
+      ],
+      "transparent_pixels": 586476,
+      "opening": [
+        [
+          0.13932291666666666,
+          0.5390625
+        ],
+        [
+          0.8626302083333334,
+          0.5390625
+        ],
+        [
+          0.7838541666666666,
+          0.1318359375
+        ],
+        [
+          0.216796875,
+          0.1318359375
+        ]
+      ],
+      "source_sha256": "7f820daf2fdadea0acdd6addc3ca72528036979df823dfe51601daa4fd2d176a",
+      "sha256": "7c03e02bb51f9021aacbb96a403e6d2b0403d7513817aba7dcd9f184d2da09f5"
+    },
+    {
+      "name": "frozen_r3",
+      "size": [
+        1440,
+        900
+      ],
+      "source_size": [
+        1536,
+        1024
+      ],
+      "source_alpha_bounds": [
+        1,
+        6,
+        1536,
+        970
+      ],
+      "source_transparent_pixels": 353374,
+      "alpha_bounds": [
+        201,
+        80,
+        1267,
+        874
+      ],
+      "transparent_pixels": 591957,
+      "opening": [
+        [
+          0.13932291666666666,
+          0.5390625
+        ],
+        [
+          0.8626302083333334,
+          0.5390625
+        ],
+        [
+          0.7838541666666666,
+          0.1318359375
+        ],
+        [
+          0.216796875,
+          0.1318359375
+        ]
+      ],
+      "source_sha256": "e756bfb016044fc341a588cd07829aebcfead9ee71d3a78c285dd8760d23f20c",
+      "sha256": "f6e5603f1aae81621bd7e818b03d868400a748f8b29f6a6d6cf5a827ae2e260b"
+    },
+    {
+      "name": "volcanic_r1",
+      "size": [
+        1440,
+        900
+      ],
+      "source_size": [
+        1536,
+        1024
+      ],
+      "source_alpha_bounds": [
+        8,
+        17,
+        1529,
+        1002
+      ],
+      "source_transparent_pixels": 286437,
+      "alpha_bounds": [
+        198,
+        89,
+        1270,
+        881
+      ],
+      "transparent_pixels": 574848,
+      "opening": [
+        [
+          0.13932291666666666,
+          0.5390625
+        ],
+        [
+          0.8626302083333334,
+          0.5390625
+        ],
+        [
+          0.7838541666666666,
+          0.1318359375
+        ],
+        [
+          0.216796875,
+          0.1318359375
+        ]
+      ],
+      "source_sha256": "48c441f1adf38db70a03c9e1da4c684518053dfc5a21c7fb5afb37d17bf4bf42",
+      "sha256": "3f0e71739e4b35e73f6968921be9a58a225ee4fb897667014d0e32683f58fcea"
+    },
+    {
+      "name": "volcanic_r2",
+      "size": [
+        1440,
+        900
+      ],
+      "source_size": [
+        1536,
+        1024
+      ],
+      "source_alpha_bounds": [
+        10,
+        16,
+        1527,
+        965
+      ],
+      "source_transparent_pixels": 372740,
+      "alpha_bounds": [
+        199,
+        88,
+        1269,
+        872
+      ],
+      "transparent_pixels": 592522,
+      "opening": [
+        [
+          0.13932291666666666,
+          0.5390625
+        ],
+        [
+          0.8626302083333334,
+          0.5390625
+        ],
+        [
+          0.7838541666666666,
+          0.1318359375
+        ],
+        [
+          0.216796875,
+          0.1318359375
+        ]
+      ],
+      "source_sha256": "3eeede87a8a3c281070c677a5f2f6ef18fbe20cf679edadcb9fed326e608de40",
+      "sha256": "c354a8c7a0c3415f1d12af1610f1623c9bcc335900c4a98ab01c1a8c61bcdaea"
+    },
+    {
+      "name": "volcanic_r3",
+      "size": [
+        1440,
+        900
+      ],
+      "source_size": [
+        1536,
+        1024
+      ],
+      "source_alpha_bounds": [
+        3,
+        7,
+        1534,
+        993
+      ],
+      "source_transparent_pixels": 269263,
+      "alpha_bounds": [
+        204,
+        81,
+        1266,
+        879
+      ],
+      "transparent_pixels": 557753,
+      "opening": [
+        [
+          0.13932291666666666,
+          0.5390625
+        ],
+        [
+          0.8626302083333334,
+          0.5390625
+        ],
+        [
+          0.7838541666666666,
+          0.1318359375
+        ],
+        [
+          0.216796875,
+          0.1318359375
+        ]
+      ],
+      "source_sha256": "0e3d43763020277be57cdb7059ef2c59a52684397931012b1b12b082386ccd4f",
+      "sha256": "a1b316ded9a97f90ed2a20298b11c297a400175d7841a558b2a7df50b1358bdd"
+    },
+    {
+      "name": "gothic_r1",
+      "size": [
+        1440,
+        900
+      ],
+      "source_size": [
+        1536,
+        1024
+      ],
+      "source_alpha_bounds": [
+        4,
+        2,
+        1534,
+        1017
+      ],
+      "source_transparent_pixels": 255870,
+      "alpha_bounds": [
+        196,
+        78,
+        1272,
+        884
+      ],
+      "transparent_pixels": 564077,
+      "opening": [
+        [
+          0.13932291666666666,
+          0.5390625
+        ],
+        [
+          0.8626302083333334,
+          0.5390625
+        ],
+        [
+          0.7838541666666666,
+          0.1318359375
+        ],
+        [
+          0.216796875,
+          0.1318359375
+        ]
+      ],
+      "source_sha256": "4d76d3140ae9a7d0af3afeb797a9e58a63065dd1fc9c574f59dd6c17559cbb20",
+      "sha256": "46159a80b9c370f6486847870eb6e2d699a66641019de9a539e2ca6a53f0f91e"
+    },
+    {
+      "name": "gothic_r2",
+      "size": [
+        1440,
+        900
+      ],
+      "source_size": [
+        1536,
+        1024
+      ],
+      "source_alpha_bounds": [
+        1,
+        1,
+        1536,
+        977
+      ],
+      "source_transparent_pixels": 306615,
+      "alpha_bounds": [
+        201,
+        76,
+        1267,
+        875
+      ],
+      "transparent_pixels": 565784,
+      "opening": [
+        [
+          0.13932291666666666,
+          0.5390625
+        ],
+        [
+          0.8626302083333334,
+          0.5390625
+        ],
+        [
+          0.7838541666666666,
+          0.1318359375
+        ],
+        [
+          0.216796875,
+          0.1318359375
+        ]
+      ],
+      "source_sha256": "1b799c4659d5bd1b04d5526195b36ef749ad13aba3c191779a4e1485f21c1f92",
+      "sha256": "a4609aa0e2b9d61decb7d27d051461e40d3b44d3be383ab3dcf16f26fe6866e4"
+    },
+    {
+      "name": "gothic_r3",
+      "size": [
+        1440,
+        900
+      ],
+      "source_size": [
+        1536,
+        1024
+      ],
+      "source_alpha_bounds": [
+        2,
+        0,
+        1536,
+        1004
+      ],
+      "source_transparent_pixels": 271419,
+      "alpha_bounds": [
+        201,
+        75,
+        1268,
+        881
+      ],
+      "transparent_pixels": 562790,
+      "opening": [
+        [
+          0.13932291666666666,
+          0.5390625
+        ],
+        [
+          0.8626302083333334,
+          0.5390625
+        ],
+        [
+          0.7838541666666666,
+          0.1318359375
+        ],
+        [
+          0.216796875,
+          0.1318359375
+        ]
+      ],
+      "source_sha256": "4b2ce8c7607ba089ddaa1823e689b0ffd1bb139e4d7af5ade552da170563f518",
+      "sha256": "6976403d181ac3cf96efe99d48044f1996fc2585559afdf10a4961a042d70cce"
+    }
+  ]
+}

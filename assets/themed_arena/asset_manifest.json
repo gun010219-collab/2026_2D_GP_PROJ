@@ -1,0 +1,75 @@
+{
+  "status": "Background concept drafts",
+  "assets": [
+    {
+      "name": "royal",
+      "source_size": [
+        1586,
+        992
+      ],
+      "size": [
+        1440,
+        900
+      ],
+      "source_sha256": "bcdfe3880b7d29ee4ea8e0397a58576738058e82e2e61125201eaa4e42c3c0dc",
+      "sha256": "5d70c151010300579907866d03ff270d1d47b5742d20e4f9f5462be73e14dfa7",
+      "rgba_bytes": 5184000
+    },
+    {
+      "name": "forest",
+      "source_size": [
+        1586,
+        992
+      ],
+      "size": [
+        1440,
+        900
+      ],
+      "source_sha256": "51e71a0b0cdc1c36eebfb2567957363751557aa563a61f42dbfe3549323746fe",
+      "sha256": "d5dc4bc6fb5d392e58b076bd87f91b4cb3ba9580446fd6144ac593b7f30ef894",
+      "rgba_bytes": 5184000
+    },
+    {
+      "name": "frozen",
+      "source_size": [
+        1586,
+        992
+      ],
+      "size": [
+        1440,
+        900
+      ],
+      "source_sha256": "c692552832add703fa47984922e4fa9cd071d87c4fc47128db847d01db539340",
+      "sha256": "da5ce16b2e8de0b7480d353517d90fed99b59431d95bbc549b29b1485c1cfaaa",
+      "rgba_bytes": 5184000
+    },
+    {
+      "name": "volcanic",
+      "source_size": [
+        1586,
+        992
+      ],
+      "size": [
+        1440,
+        900
+      ],
+      "source_sha256": "c2126af7fd0c43575ed7ac20eae75e5bb23e1855fec077d835c944d048033473",
+      "sha256": "d59638eac7144fbe5207838eaca409449d36560f6120538d15ad8d5302470934",
+      "rgba_bytes": 5184000
+    },
+    {
+      "name": "gothic",
+      "source_size": [
+        1586,
+        992
+      ],
+      "size": [
+        1440,
+        900
+      ],
+      "source_sha256": "b466565d91fd84d7c7a10a371c156cbce885b59e478a18494940686a01cc9328",
+      "sha256": "5a639a0f3edaa2cc0dd5aaf9c6051b2032dcbbedfdf07a4e946548307a79551c",
+      "rgba_bytes": 5184000
+    }
+  ]
+}

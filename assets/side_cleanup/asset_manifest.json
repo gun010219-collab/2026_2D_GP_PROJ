@@ -1,0 +1,90 @@
+{
+  "status": "R6 front bay cleanup pending approval",
+  "source_scope": "New complete front relief derivatives; all R5 alignment and other art reused",
+  "assets": [
+    {
+      "theme": "forest",
+      "source": "forest_panel.png",
+      "size": [
+        512,
+        256
+      ],
+      "source_size": [
+        1774,
+        887
+      ],
+      "alpha_bounds": [
+        18,
+        45,
+        494,
+        210
+      ],
+      "transparent_pixels": 55609,
+      "sha256": "2b900fbb3b09c8809d48784de06f391e68ca07d37db19f568cb4a83317fe7049",
+      "source_sha256": "dac72a14bab319200160f64a40065659caea79f708e0571d4c3ea9bb68cf1f7f"
+    },
+    {
+      "theme": "frozen",
+      "source": "frozen_facade.png",
+      "size": [
+        512,
+        256
+      ],
+      "source_size": [
+        2098,
+        749
+      ],
+      "alpha_bounds": [
+        18,
+        51,
+        494,
+        204
+      ],
+      "transparent_pixels": 63233,
+      "sha256": "54a5ce58f8cc74ced72037815c0a9bb953171979eaccfee259dd66db8537e261",
+      "source_sha256": "9e84f4629fd89d18a55ca4de46470668e453c3cc0329fe496d017186f28431f0"
+    },
+    {
+      "theme": "volcanic",
+      "source": "volcanic_panel.png",
+      "size": [
+        512,
+        256
+      ],
+      "source_size": [
+        1774,
+        887
+      ],
+      "alpha_bounds": [
+        18,
+        43,
+        494,
+        213
+      ],
+      "transparent_pixels": 55292,
+      "sha256": "f1d2fe37604fedda30eeb3b095947289be5cfeb3577e31ab3c0f88e678acf703",
+      "source_sha256": "3682e9c0d69ead577ab9a86fdbd685cb9aeabefe6f9332f95db0668466bd8a69"
+    },
+    {
+      "theme": "gothic",
+      "source": "gothic_facade.png",
+      "size": [
+        512,
+        256
+      ],
+      "source_size": [
+        2098,
+        749
+      ],
+      "alpha_bounds": [
+        18,
+        49,
+        494,
+        207
+      ],
+      "transparent_pixels": 59128,
+      "sha256": "d5ce00f6cd465a53f57f35baf9020ea01b2f4a335056cf010d9962be62d14f06",
+      "source_sha256": "c6b047ab4631896c0ac7690803bb74e0a09f31a946d18e96d297584a9f2f2921"
+    }
+  ]
+}
