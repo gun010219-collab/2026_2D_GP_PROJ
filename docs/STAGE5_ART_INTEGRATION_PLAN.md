@@ -1,5 +1,211 @@
 # CHECKMATE — Task 5-B2A 실제 Stage5 아트 통합 계획
 
+## Task 5-B2F — Stage5 실제 통합 최종 승인
+
+사용자는 B2A+B2B Windows GUI의 **모든 검수 항목 통과·발견 오류 없음**을 보고했다.
+적 크기가 충분하다고 평가하여 **Pawn116% / Rook111% / King108%**를 승인했다. 추가 크기 조정은 하지 않는다.
+왕실2.5D 배경/12%보드/기물/HP/이동/공격/패링/KingPulse/게임오버/재시작/스테이지전환/
+SETTINGS/F11/ESC가 정상이라는 사용자 보고를 반영한다. 자동 검증을 사용자 검수로 대체한 기록이 아니다.
+
+`CHECKMATE_STAGE5_ART=1`인 실제 Stage5에만 적용한다. 기본값/다른24스테이지는 기존 렌더러다.
+발 앵커·원근·보간·깊이/HP 간격·8이미지 세션 캐시와 에셋/SDL 오류 폴백을 승인 결과 그대로 유지한다.
+전투/AI/판정/60Hz/진행/강화/스테이지JSON은 변경하지 않는다.
+실제Windows FPS/P95/P99는 **아직 미측정**이며 인간 전체25스테이지 연속 완주는 검증된 것으로 기록하지 않는다.
+Chapter4/5의 `ART-BOARD-CH4-CH5-FRONT-OVERLAP`은 **OPEN**이다.
+
+비교 증거는120틱 전후2PNG·300틱 Pulse후1PNG, 전체 재현 상태 capture_manifest와8PNG 해시/보관목록
+`artifacts/stage5_b2b/retained_files.json`을 Git에 남긴다. 나머지5PNG는 삭제하지 않고 로컬 보존한다.
+아래 B2A/B2B의 대기 문구·테스트 시간·8PNG 설명은 당시 이력이다.
+이 최종화에서는 승인된 소스/테스트/원화를 추가 수정하지 않는다.
+
+최종 재실행은 **1,363개 /214.627초**, 실패·오류·skip0이다. 일반/-O 각25Stage,
+compileall·에셋 해시·문서링크456개·공백 검사도 통과했다. 이전 단계 시간은 아래 이력으로 남긴다.
+후속 작업은 [Task5-C 단계적 확장 계획](TASK5C_RENDERER_PLAN.md)을 따른다.
+
+## Task 5-B2B — 적 기물 크기·HP 가독성 후보 (사용자 검수 대기)
+
+사용자는 B2A Windows 검수에서 배경·보드·기물·이동/공격/패링/Pulse·HP/경고·재시작/전환·SETTINGS/F11/ESC가
+정상이라고 보고했고, **적 기물이 작아 전투 중 잘 보이지 않는다**고 지적했다.
+검수 항목별 숫자/실제 성능 수치를 새로 추정하지 않는다. 아래 B2A GUI 대기 문구는 당시 이력이다.
+
+### 현재 크기 실측과 후보
+
+원근 공식은 그대로 `BASE_SIZE ×1.232×(1.10−0.23×row/10)`이다.
+원화256²의 투명 여백 때문에 표시 사각형보다 실제 실루엣이 작다.
+폰 알파 폭105/높이220px, 룩206/220px, 킹200/220px이며 세 기물의 alpha bottom=238/top=18이다.
+아래 값은 manifest의 불투명 바운딩 박스를 환산한 값이며 실제 모든 픽셀이 찬 직사각형이 아니다.
+
+| 종류/원본 시작행 | 텍스처 표시 사각형 한 변 전→후 | 불투명 외곽 폭×높이 전→후 | 배율 |
+|---|---|---|---|
+| Pawn /6 | 71.11→82.49px | 29.17×61.11→33.83×70.89px | 100→116% |
+| Rook /4 | 89.41→99.25px | 71.95×76.84→79.86×85.29px | 100→111% |
+| King /9 | 85.81→92.68px | 67.04×73.75→72.41×79.65px | 100→108% |
+
+| 종류 | 앞 row0 사각형 전→후 | 뒤 row9 사각형 전→후 |
+|---|---|---|
+| Pawn | 81.31→94.32px | 66.01→76.57px |
+| Rook | 97.57→108.31px | 79.21→87.93px |
+| King | 105.71→114.16px | 85.81→92.68px |
+
+같은 행의 원근 차이는 유지한다. 시작행에서 Pawn 불투명 폭은 앞변76.78px의 약38→44%,
+Rook은80.32px의 약90→99%, King은72.02px의 약93→101%다.
+킹 망토 외곽은 셀 가로보다 약0.4px 넓을 수 있으나 발 앵커/그림자/실제 점유는 한 셀 그대로다.
+직립 기물의 머리/왕관이 뒤 타일에 걸쳐 보이는2.5D 특성과 실제 충돌/피해 범위를 혼동하지 않는다.
+
+### 구현 경계
+
+`stage5_art_renderer.py`의 `ENEMY_SCALE` 한 곳에서 세 후보를 관리한다.
+Player는100% 그대로다. `actor_layout()`이 동일 x/y 크기·발·이미지 중심·상단·HP 위치를 계산한다.
+발은 기존 `CAMERA.project(u+.5,v+.25)`이고 중심만 스케일에 맞춰 이동한다.
+밑 여백18/256을 반영하여 확대해도 발이 떠오르거나 위치가 바뀌지 않는다.
+기존 RenderMotion과 깊이 정렬은 바꾸지 않는다.
+
+HP 글자 기준점은 상단+5px에서 Pawn+7/Rook+8/King+10px로 올린다.
+라벨 배경 밑면은 글자 기준점−3px이므로 기물과의 실여백은2→4/5/7px다.
+Player는+5px 그대로이며 모든 라벨은 기존처럼 기물들 다음에 그려져 프레임/다른 기물에 덮이지 않는다.
+같은 배율로 기존 접지 그림자도 확대되며 새로운 광택/발광/실루엣 아트는 추가하지 않는다.
+위험 셀/원장/패링/Pulse 의미·경고 레이어/보드·카메라·원본PNG·8텍스처 수명·폴백·다른24스테이지는 그대로다.
+
+### 동일 실제 상태의 비교 자료
+
+[120틱 이전](../artifacts/stage5_b2b/tick_120_before.png) /
+[확대 후](../artifacts/stage5_b2b/tick_120_after.png),
+[Pulse 확대 후](../artifacts/stage5_b2b/tick_300_after.png).
+`artifacts/stage5_b2b/`에는0/120/300/362틱 전후8PNG와 capture_manifest.json이 있다.
+개발용 실제Stage5 세션을 정상 advance한 같은 상태를 두 번 그리며,
+비교 렌더링 중 전투 상태가 동일함을 검사한다. HP복원/AI정지/강제클리어를 사용하지 않는다.
+SDL software/dummy의 전투 표시 비교 자료이며 공통 SETTINGS 오버레이는 생략했다.
+실제 main에서는 기존 SETTINGS가 그대로 표시된다. 인간 GUI 승인/성능 실측 자료가 아니다.
+
+재생성은 `python tools/capture_stage5_scale.py --capture-dir artifacts/stage5_b2b`이다.
+이 도구는 게임 조작키나 영구 설정을 추가하지 않는다.
+
+### Windows 검수와 성능
+
+최종 자동 검증은 **1,363개 /223.291초, 실패·오류·skip0**이다 (기존1,358개+신규5개).
+일반/-O 각25Stage·compileall·공백·문서링크454개·기존 에셋 해시 검사도 통과했다.
+기존 폴백/세션 수명/재시작 회귀를 포함한다. 이 결과는 아래 실제 사용자 가독성 승인을 뜻하지 않는다.
+
+```powershell
+$env:CHECKMATE_STAGE5_ART="1"
+.\.venv\Scripts\python.exe tools\stage5_play.py
+```
+
+검수12항목:
+1. Pawn 크기/시인성.
+2. Rook 크기/실루엣.
+3. King 위압감/왕관.
+4. 뒤쪽 적의 가독성.
+5. 이동 중 HP 간격과 앞뒤 가림.
+6. 확대 기물이 있어도 공격 경고 셀 판독 가능.
+7. 실제 이동·공격·일반/퍼펙트 패링.
+8. Stage5 클리어.
+9. GAME_OVER와 재시작.
+10. Stage6에서 기존 표시로 복귀.
+11. SETTINGS/F11/ESC·창/전체 화면.
+12. 60초 이상 안정성.
+
+성능 비교는 `$env:CHECKMATE_FRAME_STATS="1"`을 추가한다. 측정 후 환경변수를 제거한다.
+Windows FPS/P95/P99는 **미측정**이며 이 크기 후보의 최종 미적/가독성 승인은 대기한다.
+Chapter4/5 전면 접합 결함은 OPEN이다. B2A의 실제 게임 통합과 미커밋 파일을 모두 보존한다.
+
+## Task 5-B2A 구현 상태 — 사용자 GUI 검수 대기
+
+실제 main 표시 루프에 Stage5 전용 경로를 추가했다. 기본값은 기존 렌더러다.
+`CHECKMATE_STAGE5_ART=1`인 Stage5에서만 신규 표시를 시도한다. 다른24스테이지는 기존 코드로 그린다.
+기존 렌더러를 삭제/수정하지 않았다. 게임·진행·입력·판정·60Hz 시뮬레이션은 그대로다.
+
+`stage5_art_renderer.py`는 ArenaCamera를 이용해 승인 B+12 투영을 재현하고
+왕실 배경/정렬 프레임/밝고 어두운 타일/Player·Pawn·Rook·King의 **8개 이미지**만 로딩한다.
+검수 도구의 make_scene/고정 체력·위치/검수 렌더러 계층은 게임 경로에서 사용하지 않는다.
+현재 StageGame·EnemyEncounter·공격 원장·Parry·Resolver에서 상태를 읽고 기존 RenderMotion의
+표시 좌표를 논리 소수 좌표로 환산해 같은 투영으로 발 앵커와 깊이를 계산한다.
+죽거나 비활성인 적은 제외하며 HP 라벨은 실제 체력과 투영 위치를 따라간다.
+플레이어 방향은 원화 회전 대신 투영 방향 표시로 구분한다. 최종 방향별 애니메이션은 아니다.
+
+위험 셀은 실제 ledger.telegraphs의 target_cells만 사용한다. 공격 대상·패링 입력 창·실제 일반/퍼펙트 성공·
+피격·실패 문구를 분리하며, Mode1 프레임은 현재 경고·쿨다운·판정 결과에 종속된다.
+Pulse 해결/취소 후 원장에 없는 위협은 표시하지 않는다.
+기존 결과/보스HP·Pulse HUD/강화/SETTINGS는 공통 main 경로에서 최상위에 그린다.
+
+자산은 세션당1회 로딩·재사용하며 세션 교체/Stage5 이탈/종료 때 텍스처를 명시적으로 해제한다.
+로딩 OSError와 명시적인 SDL 표시 오류만 원인 traceback을 로그에 남기고 해당 세션에서 기존 렌더러로 복귀한다.
+부분 화면은 clear한 뒤 기존 경로로 다시 그리며 재시도 루프를 만들지 않는다.
+예상하지 못한 TypeError 등 프로그래밍 오류는 감추지 않는다.
+폴백으로 전투 객체/시간/공격 원장을 초기화하거나 판정을 반복하지 않는다.
+
+### 실행
+
+저장소 루트에서 기존 게임:
+
+```powershell
+Remove-Item Env:CHECKMATE_STAGE5_ART -ErrorAction SilentlyContinue
+.\.venv\Scripts\python.exe main.py
+```
+
+신규 표시를 켠 정상 캠페인 (Stage1부터 시작, Stage5에만 적용):
+
+```powershell
+$env:CHECKMATE_STAGE5_ART = "1"
+.\.venv\Scripts\python.exe main.py
+Remove-Item Env:CHECKMATE_STAGE5_ART
+```
+
+검수 전용 **실제 Stage5 전투** 직접 시작:
+
+```powershell
+$env:CHECKMATE_STAGE5_ART = "1"
+.\.venv\Scripts\python.exe tools/stage5_play.py
+Remove-Item Env:CHECKMATE_STAGE5_ART
+```
+
+이 개발 도구는 Stage1~4의 합법적인 강화 API로 MOVE/MOVE/ATTACK/HP 이력4개를 구성한 테스트 Run을 사용한다.
+이전 스테이지를 실제로 클리어한 증거가 아니다. HP·적 AI·패링을 변경하지 않고 실제 Stage5 적4기와 전투한다.
+BOSS_CLEAR의 R 재도전, GAME_OVER의 R→Stage1, N→Chapter2/Stage6은 기존 진행 규칙을 따른다.
+생산 게임에 치트키나 잠금 해제를 추가하지 않는다.
+
+### Windows GUI 검수 15항목 (아직 미검증)
+
+자동 검증은 기존1,348개+신규10개 = **1,358개 /215.744초**, 실패·오류·skip0으로 통과했다.
+일반/-O 각25Stage·compileall·문서링크450개·공백·기존 에셋 해시 검사를 통과했다.
+SDL software/dummy에서 실제Stage5의420틱 렌더링과 실제main 루프를 실행했다.
+이 결과가 아래 Windows 사용자 검수 완료를 의미하지는 않는다.
+
+1. 정상 캠페인에서 Stage5 진입/신규 모드 ON·OFF 비교.
+2. 왕실 배경·프레임·중앙100칸 정렬/전체 보드 표시.
+3. Player/Pawn2/Rook/King의 원본 수량·위치·HP.
+4. 방향키 이동/방향 표시/이동 보간/기물 깊이.
+5. SPACE 공격 대상과 실제 피해.
+6. Pawn/Rook/King 경고 셀과 실제 위험 범위.
+7. 일반 패링의 실제 성공·실패 표시.
+8. 퍼펙트 패링과 입력 창의 구분/보너스·기절.
+9. KingPulse100칸 경고·해결·취소/일반 적 재개.
+10. 피격·공유 무적·적 사망 후 공격/잔상 정리.
+11. GAME_OVER·R 재시작과 새로운 세션 표시.
+12. BOSS_CLEAR·R 보스 재도전.
+13. N→Stage6 전환 시 기존 렌더러 복귀.
+14. SETTINGS·ESC·F11·창/전체 화면 복원·마우스 메뉴.
+15. 60초 이상 실제 플레이·HP/왕관 가림·가독성·체감 난이도.
+
+### 성능 비교 기록 (실측 전)
+
+두 표시 모드 각각 `$env:CHECKMATE_FRAME_STATS="1"`을 추가하여 같은 실제 전투 조건에서 측정한다.
+종료 뒤 환경변수를 제거한다. 로그 원문과 함께 다음 정보를 제출한다.
+
+| 환경/표본 | 기록 |
+|---|---|
+| Windows/GPU/해상도/전체 화면 여부 | 미측정 |
+| Renderer/VSync | 미측정 |
+| FPS/mean_ms/p95_ms/p99_ms/max_ms | 미측정 |
+| active_sim_hz/samples | 미측정 |
+| 측정 구간/일반 전투/Pulse/SETTINGS/F11 | 미측정 |
+
+소프트웨어 SDL dummy 스모크는 실제 Windows 성능·인간 GUI 검수가 아니다.
+기물은 정적 콘셉트 PNG이고 최종 VFX/방향별 애니메이션/사운드는 미완료다.
+Chapter4/5 접합 결함은 OPEN이며 이번 왕실 Stage5 적용으로 해결됐다고 기록하지 않는다.
+
+아래는 B1F 당시의 계획 이력이다.
+
 상태: 준비 완료 / **이번 B1F에서는 구현하지 않음**.
 승인 디자인은 [아트 기준선](ART_BASELINE.md)을 따르며 실제 적용 승인은 별도 검증한다.
 

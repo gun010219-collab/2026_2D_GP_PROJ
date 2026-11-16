@@ -107,6 +107,7 @@ def run_session(game, flow, *, game_renderer=None):
     next_report = None
     canvas.open_canvas(WINDOW_WIDTH, WINDOW_HEIGHT)
     settings_renderer = None
+    art_path = None
     try:
         if not canvas.window or not canvas.renderer:
             raise RuntimeError('Pico2D could not create a window and renderer')
@@ -116,6 +117,8 @@ def run_session(game, flow, *, game_renderer=None):
         display = DisplaySettings(canvas)
         menu = SettingsMenu()
         settings_renderer = SettingsRenderer(canvas)
+        from stage5_art_renderer import Stage5ArtPath
+        art_path = Stage5ArtPath(canvas)
         controls = GameplayInput(canvas, move_interval_ticks=flow.run.stats.move_interval_ticks)
         pending_gameplay = []
 
@@ -343,21 +346,22 @@ def run_session(game, flow, *, game_renderer=None):
             # RenderClear clears the whole output, including letterbox bars.
             canvas.SDL_SetRenderDrawColor(canvas.renderer, 0, 0, 0, 255)
             canvas.SDL_RenderClear(canvas.renderer)
-            board_renderer.draw(canvas)
-            enemy_attack_renderer.tick = combat.tick
-            enemy_attack_renderer.active = game.playing
-            enemy_attack_renderer.source_cells = {e.entity_instance_id: e.position for e in encounter.enemies if e.active}
-            enemy_attack_renderer.draw(canvas, encounter.ledger)
-            attack_renderer.draw(canvas, combat.active_attack if game.playing else None)
-            enemy_renderer.draw(canvas, encounter.enemies)
-            if game.playing:
-                parry_renderer.draw(canvas, player, parry, combat.tick)
-            player_renderer.draw(canvas, player)
-            health_renderer.draw(canvas, player, encounter.enemies, combat.tick,
-                                 attack_bonus=combat.pending_attack_bonus if game.playing else None,
-                                 show_feedback=game.playing)
-            parry_result_renderer.draw(canvas, resolver.last_parry_result if game.playing else None,
-                                       combat.tick)
+            if not art_path.draw(game, motion.positions):
+                board_renderer.draw(canvas)
+                enemy_attack_renderer.tick = combat.tick
+                enemy_attack_renderer.active = game.playing
+                enemy_attack_renderer.source_cells = {e.entity_instance_id: e.position for e in encounter.enemies if e.active}
+                enemy_attack_renderer.draw(canvas, encounter.ledger)
+                attack_renderer.draw(canvas, combat.active_attack if game.playing else None)
+                enemy_renderer.draw(canvas, encounter.enemies)
+                if game.playing:
+                    parry_renderer.draw(canvas, player, parry, combat.tick)
+                player_renderer.draw(canvas, player)
+                health_renderer.draw(canvas, player, encounter.enemies, combat.tick,
+                                     attack_bonus=combat.pending_attack_bonus if game.playing else None,
+                                     show_feedback=game.playing)
+                parry_result_renderer.draw(canvas, resolver.last_parry_result if game.playing else None,
+                                           combat.tick)
             game_renderer.draw_stage_label(canvas, game)
             if flow.error:
                 game_renderer.draw(canvas, game, error=True)
@@ -374,6 +378,8 @@ def run_session(game, flow, *, game_renderer=None):
         flow.run.retire()
         # Release resources on normal exit and exceptions after canvas creation.
         try:
+            if art_path is not None:
+                art_path.close()
             if settings_renderer is not None:
                 settings_renderer.close()
         finally:

@@ -14,6 +14,12 @@ save.json.tmp
 .env.*
 !.env.example
 *.log
+# B2F: reproducible B2B captures retained locally, not required by tests/docs.
+/artifacts/stage5_b2b/tick_0_before.png
+/artifacts/stage5_b2b/tick_0_after.png
+/artifacts/stage5_b2b/tick_300_before.png
+/artifacts/stage5_b2b/tick_362_before.png
+/artifacts/stage5_b2b/tick_362_after.png
 
 # Optional art exploration / reproducible captures (files retained locally).
 # Selection and immutable hashes: assets/arena_art_catalog.json

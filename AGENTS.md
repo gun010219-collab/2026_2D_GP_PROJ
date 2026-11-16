@@ -5,6 +5,11 @@
 
 ## 1. 목표와 근거 우선순위
 
+- Task5-B2F 최신 실제 적용 승인: Stage5에서만 `CHECKMATE_STAGE5_ART=1`로 왕실2.5D 표시를 사용한다.
+  Pawn116%/Rook111%/King108%와 HP/발/보간/판정/폴백은 Windows 사용자 검수를 통과했다.
+  기본값과 다른24스테이지는 기존 렌더러다. 아래 B1F 당시 실제적용 전 설명은 이력이다.
+  다음 Task5-C는 Stage6부터 단계적으로 확장하며 Chapter4/5 전면 겹침은 OPEN을 유지한다.
+
 - Task5-B1F 최신 승인: B안2.5D/선형12%확대/5챕터 배경/승인 캐릭터/R6c 고급형 보드/Mode1을
   `docs/ART_BASELINE.md` 기준선으로 사용한다. 정지 샘플 보정은 종료한다. 메인 게임 적용은 아직이다.
   Chapter2/3 접합은 크게 개선됐으나 Chapter4/5 Fine-C의 전면 겹침은

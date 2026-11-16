@@ -1,5 +1,86 @@
 # CHECKMATE 개발 진행 기록
 
+## Task 5-B2F — Stage5 실제 렌더러·가독성 최종 승인
+
+사용자는 B2A+B2B Windows GUI의 모든 검수 항목 통과, 발견된 오류 없음을 보고했다.
+Pawn116%/Rook111%/King108% 크기가 충분하다고 승인했다. 추가 크기 변경은 하지 않는다.
+실제Stage5의2.5D 배경/보드/기물/HP/이동/공격/패링/Pulse·게임오버/재시작/전환·표시설정이 정상이다.
+`CHECKMATE_STAGE5_ART=1`인Stage5만 새 경로이며 기본/다른24스테이지/8이미지 수명/폴백을 유지한다.
+실제Windows FPS/P95/P99는 미측정이고 Chapter4/5 접합 결함은 OPEN이다.
+
+시작 main HEAD/origin은 `f5b97867571a899197214dd944dd6f15c242d9a9`로 일치했다.
+이번 최종화는 소스·테스트·에셋을 변경하지 않고 승인/최종검증/자료선정/후속계획만 기록한다.
+비교PNG3개와 상태manifest/전체8PNG 해시목록을 포함하고 재생성 가능한5PNG는 로컬에 그대로 보관한다.
+과거 승인 대기 문구와 구현 단계 테스트 시간은 아래 이력으로 남긴다.
+최종 자동 재실행 결과와 커밋 선정 파일은 이 절에 별도 기록한다.
+
+B2F 최종 재실행: **unittest1,363개 /214.627초 /실패0·오류0·skip0**. 기존1,363개 메서드를 그대로 유지했다.
+일반/-O Stage각25, compileall·에셋 카탈로그 해시·문서링크456개·공백·메서드중복0 검사 통과.
+실제 Stage5 전용 선택/다른24스테이지 유지/배율·발·HP·위험셀/패링·Pulse/폴백/세션 수명/
+재시작·Stage6 전환/렌더링 상태 불변의 기존 회귀가 포함된다.
+승인된 main/렌더러/테스트/도구와 기존 비교 자료15파일의 시작 해시가 동일하다.
+
+최종 커밋 선정은19파일: main/렌더러2, 테스트2, 개발·재현 도구2, AGENTS/문서6종7,
+Git제외설정1, 비교PNG3+상태/보관목록JSON2이다. 불필요 비교PNG5개는 원본을 로컬 보존한다.
+사용자가 승인한 실제Stage5 통합을 최종화하며 실제Windows FPS/P95/P99는 미측정이다.
+커밋SHA·원격일치·Clean 여부는 반영 후 실제 Git 조회와 최종 보고에서 확인한다.
+
+## Task 5-B2B — 실제 Stage5 적 크기·HP 여백 (GUI 검수 대기)
+
+사용자는 B2A의 실제 Windows 기능 검수가 정상이며 적 기물이 작다고 보고했다.
+기존 B2A 미커밋 변경8파일과 시작HEAD `f5b97867571a899197214dd944dd6f15c242d9a9`를 보존한다.
+Pawn/Rook/King 원본 배치 표시 사각형은71.11/89.41/85.81px이며 투명 여백을 뺀 폭은29.17/71.95/67.04px다.
+원근/발은 유지하고 배율을100→116/111/108%로 올려 사각형82.49/99.25/92.68px로 표시한다.
+HP 글자 기준점은 상단+5에서+7/+8/+10px, 배경 아래 실여백은2→4/5/7px다.
+Player·원본PNG·보드·카메라·논리셀·경고/패링/Pulse·전투·다른24스테이지는 변경하지 않았다.
+
+B2B 실제 수정: `stage5_art_renderer.py`의 상수/actor_layout/표시 배치, 문서4개(PROGRESS/DECISIONS/
+STAGE5_ART_INTEGRATION_PLAN/BUGS). 기존 main.py/RenderMotion/HealthRenderer/개발 실행/기존 테스트는 보존했다.
+신규 `tests/test_stage5_enemy_size.py`5개, `tools/capture_stage5_scale.py`,
+`artifacts/stage5_b2b/` 실제 상태 전후8PNG+manifest를 추가했다.
+상세 크기/검수12항목/실행/성능 절차는 [Stage5 통합 문서](STAGE5_ART_INTEGRATION_PLAN.md) 최신 절에 있다.
+추가 발광·경고 레이어 변경 없이 우선 크기만으로 검수한다.
+Windows의 확대 후 가독성/60초 안정성과 실제FPS/P95/P99는 미검증/미측정이다.
+Chapter4/5 접합은 OPEN이며 사용자 GUI 승인 전 스테이징·커밋·Push하지 않는다.
+
+B2B 최종 unittest **1,363개 /223.291초 /실패0·오류0·skip0**. 기존1,358개+신규5개다.
+원근 전후 배율/동일x·y크기/발 앵커/HP 간격·실제 이동 보간/깊이·경고 셀/패링/Pulse·
+동일 전투 상태/다른24스테이지를 검사했다. 기존 B2A 폴백/리소스/재시작/Stage6 전환 회귀도 포함한다.
+일반/-O 각25Stage, compileall·공백·문서링크454개·메서드중복0·에셋 카탈로그 해시 검사를 통과했다.
+B2A main.py/실행도구/기존10개 테스트/RenderMotion/HealthRenderer의 시작 해시가 동일하다.
+비교 자료9파일(8PNG+manifest)은19,914,246바이트이며 스테이징하지 않았다.
+실제Windows 확대 후보 가독성과60초 안정성은 검수 대기, FPS/P95/P99는 미측정이다.
+
+## Task 5-B2A — 실제 Stage5 2.5D 표시 통합 (GUI 검수 대기)
+
+시작 main HEAD `f5b97867571a899197214dd944dd6f15c242d9a9`, 작업 트리 Clean을 확인했다.
+수정 `main.py`: 전투/진행 루프를 유지하며 표시 선택·종료 해제만 추가했다.
+신규 `stage5_art_renderer.py`: 왕실8이미지 캐시·B+12 투영·실제 엔티티/HP/위험셀/패링/Mode1·폴백.
+신규 `tools/stage5_play.py`: 합성 Chapter1 강화 이력으로 실제 Stage5 세션을 여는 개발 도구.
+신규 `tests/test_stage5_live_art.py`:10개. 선택 범위/비활성/자산 실패/재로딩 방지/해제/투영/패링/Pulse/
+읽기 전용 네이티브 프레임·실제 main 루프/이동 보간·깊이·HP/보스 재도전·Stage6 복귀 검증.
+갱신 STAGE5_ART_INTEGRATION_PLAN/DECISIONS/PROGRESS/BUGS. 원본 에셋은 변경하지 않았다.
+
+Stage5에는 `CHECKMATE_STAGE5_ART=1`로 적용하며 기본/다른스테이지는 기존 표시다.
+현재 적·Player·Resolver·ledger와 RenderMotion 좌표만 읽는다. 검수용 고정 장면은 제품 코드에서 생성하지 않는다.
+세션 교체 시 리소스를 해제하며, 로딩/명시SDL 오류는 로그를 남기고 기존 표시로 폴백한다.
+프로그래밍 오류를 광범위하게 감추지 않는다.
+게임규칙·AI·HP·패링·KingPulse·스테이지JSON·강화/HP이월·60Hz는 변경하지 않았다.
+
+실제 Windows GUI와 FPS/P95/P99는 미검증/미측정이다. 네이티브 SDL dummy와 사용자 GUI를 구분한다.
+Chapter4/5 전면 겹침은 OPEN으로 유지하며 다른 챕터 아트는 이번에 적용하지 않는다.
+실행·15개 검수표·성능 제출 형식은 [Stage5 통합 문서](STAGE5_ART_INTEGRATION_PLAN.md) 최신 절에 둔다.
+사용자 GUI 승인 대기이며 스테이징·커밋·Push는 하지 않는다.
+
+B2A 최종 자동 검증: unittest **1,358개 /215.744초 /실패0·오류0·skip0**.
+기존1,348개 메서드 보존+신규10개다. 일반/-O 각25Stage, compileall·공백·문서링크450개·
+기존 에셋 카탈로그 해시 검사 통과. SDL native dummy에서 실제Stage5의420틱 진행에 대한 렌더 전후 스냅샷,
+원장위험셀/활성기물 표시와 실제main 표시 루프를 검사했다. 실제 이동 보간 좌표/깊이/HP 라벨,
+리소스 부분 실패/중복 해제 방지, 보스 재도전/Stage6 전환도 검증했다.
+기존 Queen·KingPulse·패링·진행·1틱/8틱·7종FPS 회귀가 포함된다.
+전환 단위 테스트의 적 제거는 테스트 픽스처이며 실전 클리어 측정이 아니다.
+software/dummy 프레임 통계는 실제Windows180FPS 달성 근거로 기록하지 않는다.
+
 ## Task 5-B1F — 승인 아트 기준선 최종화 / 실제 통합 준비
 
 사용자는 전체 디자인에 만족하며 **정지 보정 종료·실제 게임 통합으로 전환**을 승인했다.

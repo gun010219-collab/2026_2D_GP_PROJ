@@ -1,6 +1,17 @@
 # CHECKMATE — 알려진 결함
 
+## ART-STAGE5-ENEMY-SMALL
+
+- 사용자 보고: B2A 실제 Windows 전투 기능은 정상이지만 적이 작아 전투 중 식별이 어렵다.
+- 분류: P2 전투 가독성.
+- 현재 상태: **해결 / CLOSED (B2F 사용자 Windows GUI 승인)**. 현재 적 크기가 충분하며 전체 검수 항목 통과·오류 없음으로 보고됐다.
+- 이력: B2B에서는 크기 후보 적용 후 GUI 대기였고, B2F에서 Pawn116%/Rook111%/King108%를 승인받았다.
+- 후보: Pawn116%/Rook111%/King108%, 발 고정, HP 상단 간격 보정. 다른 게임 규칙은 그대로다.
+- 확인: 원거리/근거리, 어두운 칸, 인접 기물, 공격 경고·Pulse, 이동 중HP, 창/전체 화면에서 식별이 좋아지는지 검수한다.
+
 ## ART-BOARD-CH4-CH5-FRONT-OVERLAP
+
+B2A 상태: 왕실 Stage5에만 실제 렌더러를 적용했다. 이 결함은 **OPEN 그대로**이며 Chapter4/5는 아직 기존 표시다.
 
 - 대상: Chapter4 Volcanic Kingdom / Chapter5 Gothic Dark Fantasy.
 - 상태: **미해결 / OPEN**. R6c Fine-C 후에도 사용자가 작은 겹침을 보고했다.
