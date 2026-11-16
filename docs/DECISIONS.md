@@ -1,5 +1,30 @@
 # CHECKMATE 승인 결정
 
+## Task 5-C5F — Stage 9 검수 완료 보고와 Git 반영 지시
+
+사용자가 Windows GUI 전체 검수 수행 완료를 보고하고 기존 C5의 최종 검증 후 main 커밋·일반 Push를 지시했다.
+별도 오류 보고는 없으며 개별 검수 결과/정확한 통과 수는 미제공이다. 검수표15/15나 항목별 성공을 추정하지 않는다.
+기존 Stage 9 디자인·크기·기물 이미지·공격 표시와 전투/AI/HP/강화 정책을 변경하지 않고 확정한다.
+문서4개에 최신 상태만 반영하고 나머지 C5 코드·테스트·캡처13파일은 시작 SHA256과 일치하도록 보존한다.
+아래 C5의 GUI 대기와 커밋 금지는 구현 당시 조건이며 이번 사용자 최종화 지시가 Git 반영을 승인한다.
+
+Stage 6 GUI 미검증·실제 Windows FPS/P95/P99 미측정·Chapter 4/5 접합 OPEN은 유지한다.
+Stage 10은 기존 표시이며 C5F에서 구현하지 않는다. 다음 C6의 첫 단계는 기존 숲 King 왕관 상단 잘림 점검이다.
+
+## Task 5-C5 — Stage 9 기존 숲 에셋 재사용 통합
+
+사용자 지시에 따라 Stage 9만 `CHECKMATE_STAGE9_ART=1`로 연결한다. 새 이미지나 전투 패턴은 제작하지 않는다.
+기존 Stage8ArtRenderer를 그대로 상속하고 main의 표시 경로 import 한 줄만 변경한다.
+Stage 5~8의 크기·카메라·알파·발·HP·이미지·코드와 각 독립 스위치를 보존한다.
+Stage 9의 두 Rook은 실제 source ID·HP·공격 이벤트를 각각 사용하며 같은 텍스처를 공유한다.
+모든 경고는 ledger.target_cells로 표시하고, 취소/해결/공유 무적/패링의 의미를 표시 코드에서 재판정하지 않는다.
+Bishop 제자리50칸·Knight18px·기존 Pawn/Rook AI·HP49·60Hz·성장/HP 이월은 그대로다.
+
+개발 도구의 선행 Receipt3는 정상 ChapterRun API를 사용한 합성 준비이며 캠페인 클리어 증거가 아니다.
+실제 8→9→10 전투 드라이버 검증과 사망 재시작은 별도 검사한다. Stage 10은 기존 표시를 유지한다.
+Stage 9 사용자 Windows GUI 승인 전에는 스테이징·커밋·Push하지 않는다.
+Stage 6 GUI 미검증, 실제 Windows FPS/P95/P99 미측정, Chapter 4·5 접합 OPEN을 유지한다.
+
 ## Task 5-C4F — Stage8 GUI 승인 확정
 
 사용자는 실제 Windows GUI 검수 전부 통과를 보고하고 기존 C4의 검증 후 main 커밋·일반 Push를 승인했다.

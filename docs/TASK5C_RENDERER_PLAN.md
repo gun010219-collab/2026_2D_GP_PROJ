@@ -1,5 +1,142 @@
 # CHECKMATE — Task5-C 단계적 렌더러 확장 계획
 
+## 최신 상태 — C5F Stage 9 전체 GUI 검수 완료 보고
+
+사용자가 Stage 9 Windows GUI 전체 검수 수행 완료를 보고하고 기존 C5의 최종 검증·커밋·일반 Push를 지시했다.
+별도 오류 보고는 없으나 개별 항목 결과와 정확한 통과 수는 미제공이다.
+검수표15/15·개별 항목 성공·60초 안정성의 상세 결과·실제 FPS/P95/P99는 임의로 생성하지 않는다.
+아래 C5의 GUI 대기/미커밋 문구는 구현 당시 이력이다. 당시 캡처 manifest도 변경하지 않는다.
+
+이번 최종화는 기존17파일만 검토하며 기능/테스트/디자인/크기/에셋/공격 표시는 수정하지 않는다.
+Stage 9 독립 opt-in, 원본5기/HP49, 두 Rook source별 실제 위험셀·취소/해결,
+Bishop 제자리50칸, Knight18px, 9이미지 수명/폴백, 정상8→9→10·HP 이월/Receipt4를 재검증한다.
+최종 전체 테스트 수/시간과 검사 결과는 PROGRESS의 C5F 절에 별도로 기록한다.
+Stage 6 GUI 미검증·실제 Windows FPS/P95/P99 미측정·Chapter 4/5 접합 OPEN·Stage 10 숲 King 미적용을 유지한다.
+
+다음 C6는 기존 Chapter 2 King의 왕관 상단 잘림/알파/발 앵커부터 점검하고 필요할 때 원화를 보완한다.
+이후 Stage 10의 실제 King/Pulse·HP·혼합 경고/패링·클리어/Stage 11 전환에 한정해 통합한다.
+기존 Stage 5~9 캡처/스위치/전투 규칙을 보존한다. C5F에서는 Stage 10 구현이나 새 아트 제작을 시작하지 않는다.
+
+## Task 5-C5 — 실제 Stage 9 숲 혼합 전투 (사용자 GUI 검수 대기)
+
+시작 HEAD와 실제 원격 main은 `d7306491bbf40fa9f1096f955aec979681a2f74c`, 시작 작업 트리와 인덱스는 Clean이었다.
+아래 C4F의 Stage 9 미적용 기록은 당시 이력이다. C5는 Stage 9만 독립 opt-in으로 추가한다.
+Stage 5·7·8 사용자 승인, Stage 6 조건부 통합/인간 GUI 미검증은 유지한다.
+
+### 표시 경로와 원본 전투
+
+`main.py`의 표시 경로 import 한 줄만 `stage9_art_renderer.LiveArenaArtPath`로 연결한다.
+새 `Stage9ArtRenderer`는 `Stage8ArtRenderer`를 그대로 상속한다. 신규 원화/이미지 에셋,
+레이아웃/크기/발 앵커/HP/알파/카메라 설정은 만들거나 바꾸지 않는다.
+기존 Stage 5~8 dispatcher도 매번 호출하여 스테이지 이탈 때 해당 세션의 텍스처를 해제한다.
+`CHECKMATE_STAGE9_ART=1`일 때 Stage 9만 활성화한다. 기본값 및 다른 20스테이지는 기존 표시이며
+Stage 5~8 스위치는 각각 독립이다. Stage 10에는 새 숲 King 표시를 연결하지 않는다.
+
+| 원본 적 ID | 위치 | 런타임 HP | 초기 지연(틱) |
+| --- | --- | ---: | ---: |
+| s9_bishop_1 | (2,8) | 9 | 48 |
+| s9_rook_1 | (2,4) | 12 | 62 |
+| s9_rook_2 | (7,4) | 12 | 75 |
+| s9_knight_1 | (3,6) | 9 | 88 |
+| s9_pawn_1 | (1,6) | 7 | 101 |
+
+합계 적 5기·HP49, Player (5,1), Pawn forward (0,-1), boss=false, King/Pulse 없음.
+원본 JSON·Chapter 2 HP 프로필·AI·고정 60Hz·공격/패링/무적·강화 규칙은 변경하지 않는다.
+배경/프레임/밝은 타일/어두운 타일/Player/Pawn/Rook/Knight/Bishop의 기존 9이미지를 세션당 한 번 로딩한다.
+Rook 2기의 별도 엔티티·HP·화면 위치는 같은 Rook 텍스처 하나를 공유한다.
+
+### 두 Rook의 독립 원장 검증
+
+원본 AI를 입력 없이 진행하면 Bishop은 48→156틱 50셀, Rook 1은 134→182틱 3셀,
+Rook 2는 147→195틱 2셀을 예고한다. 147~155틱에는 세 공격이 모두 유효하다.
+두 Rook 경고의 교집합은 (5,1)이며 각각 다른 source/attack key를 유지한다.
+표시는 `ledger.telegraphs`의 각 `target_cells`만 사용한다. 겹친 셀을 각 이벤트별로 그리는 것은
+새 피해 영역이나 중복 피해 판정을 만드는 것이 아니다. 게임 판정은 기존 Resolver/공유 무적을 따른다.
+한 소스의 취소/사망 또는 182틱 해결 후에도 다른 소스의 경고가 남는지 검사한다.
+
+Knight의 기존 18px 도약은 지상 발·그림자·깊이와 분리하며 HP는 시각 높이를 함께 따른다.
+Bishop은 기존 제자리 색상 공격이다. 새 이동/순간이동을 추가하지 않는다.
+실제 Bishop 퍼펙트 패링 후, 320틱 Rook 공격에 일반/퍼펙트 패링을 각각 요청하여
+성공 표시가 실제 `last_parry_result`의 event key/status에 종속되는지 확인한다.
+반대로 Bishop 피격 후 무적 중 182틱 패링은 실제 `failed/invulnerable`이며 성공으로 표시하지 않는다.
+
+### 실제 진행과 개발 실행
+
+개발 도구 [stage9_play.py](../tools/stage9_play.py)는 ChapterRun의 정상 강화 API로
+Stage 6 ATTACK·Stage 7 HP·Stage 8 HP의 선행 Receipt3를 합성한다.
+이는 이전 스테이지를 실제 클리어했다는 증거가 아니다. Stage 9는 실제 전투/원본 AI로 시작한다.
+이 준비 빌드는 공격3·HP5/5·MOVE18이다. 환경변수 미설정이면 개발 도구도 기존 표시를 사용한다.
+
+별도의 연속 테스트는 개발 Stage 8(선행 Receipt2만 합성)에서 기존 BFS/공격/패링 드라이버로
+적을 실제 처치하고 정상 강화·HP 이월을 사용한다.
+Stage 8은 669틱 UPGRADE·HP4/4 → HP 선택 → Stage 9 HP5/5·Receipt3,
+Stage 9는 681틱 UPGRADE·HP4/5 → ATTACK 선택 → Stage 10 HP4/5·Receipt4다.
+동일 Chapter 2 Run 유지와 새 Session/StageInstance/원장, Stage 10 기존 표시와 텍스처 해제를 확인한다.
+이 기술 시나리오는 Stage 1~25 인간 캠페인 완주 증거가 아니다.
+Stage 9에서 입력 없이 실제 GAME_OVER까지 진행한 뒤 R 경로가 새 Stage 6·Receipt0·HP3/3으로 복귀하는지도 검증한다.
+
+저장소 루트 PowerShell에서 실제 플레이:
+
+```powershell
+$env:CHECKMATE_STAGE9_ART="1"
+.\.venv\Scripts\python.exe tools\stage9_play.py
+```
+
+성능 로그 준비(실제 Windows 수치는 아직 미측정):
+
+```powershell
+$env:CHECKMATE_STAGE9_ART="1"
+$env:CHECKMATE_FRAME_STATS="1"
+.\.venv\Scripts\python.exe tools\stage9_play.py
+Remove-Item Env:CHECKMATE_FRAME_STATS
+Remove-Item Env:CHECKMATE_STAGE9_ART
+```
+
+Stage 8→9 아트 전환을 실제 확인하려면 `CHECKMATE_STAGE8_ART`와 `CHECKMATE_STAGE9_ART`를 모두 `1`로 설정하고
+기존 `tools/stage8_play.py`를 실행한다. Stage 10은 보스 전투가 유지되며 기존 도형 표시로 돌아간다.
+
+### 자동/기술 검증과 캡처
+
+신규 [Stage 9 회귀 테스트](../tests/test_stage9_live_art.py) 15개는 독립 스위치·편성·공유 텍스처·HP/발·
+실제 경고/피해/패링·사망/취소·원장·도약/깊이·상태 불변·리소스 수명/폴백·진행을 검사한다.
+기존 Stage 5~8 캡처 27개를 임시 폴더에 재생성하여 PNG 바이트 SHA256을 대조한다.
+일반/-O Stage 검사 각각25개, compileall, 기존 아트 카탈로그 해시 검사는 통과했다.
+전체 unittest 수/시간과 최종 문서 링크·공백 검사는 PROGRESS의 최신 C5 결과를 따른다.
+
+Windows/direct3d11 숨김 창의 실제 360틱에서 두 Rook 동시 예고 70프레임,
+두 Rook+Bishop50 동시 예고 9프레임, Knight 최대 시각 높이18.0을 확인했다.
+기존 이미지9개 한 번 로딩/정상 해제, 게임/모션 상태 불변, 실제 8→9→10 및 Stage 10 폴백도 확인했다.
+이는 인간 GUI 승인이나 실제 FPS/P95/P99 측정이 아니다.
+
+[Stage 9 캡처 manifest](../artifacts/stage9_c5/capture_manifest.json)는 평상시·두 Rook+Bishop·
+Rook1 해결·패링 실패·입력 창·일반/퍼펙트 성공의 실제 상태 PNG7개와 해시/원장 셀을 기록한다.
+신규 [capture_stage9_live.py](../tools/capture_stage9_live.py) 실행 시 원본 AI/HP/시간/패링을 사용하며
+정지 장면을 실제 플레이로 위장하지 않는다. 캡처는 아트 원본/새 캐릭터 에셋이 아닌 재현 자료다.
+
+### Windows 사용자 GUI 검수표 (C5F: 전체 검수 완료 보고, 개별 결과 미제공)
+
+| 항목 | 결과 |
+| --- | --- |
+| Stage 9 실제 시작·적 5기/HP49·Player | 상세 결과 미제공 |
+| 숲 배경·보드·기존 승인 크기/기물 재질 | 상세 결과 미제공 |
+| Rook 2기의 위치·HP 독립 표시 | 상세 결과 미제공 |
+| 각 Rook 예고·서로 겹친 위험 셀 | 상세 결과 미제공 |
+| Rook 한 기 사망/취소/해결 후 다른 경고 유지 | 상세 결과 미제공 |
+| Bishop 제자리 50칸 색상 경고·해결 | 상세 결과 미제공 |
+| Bishop/Rook 혼합 경고 가독성 | 상세 결과 미제공 |
+| Knight 18px 점프·착지·그림자/깊이 | 상세 결과 미제공 |
+| Pawn 전진·공격·기물/HP 보간 | 상세 결과 미제공 |
+| SPACE 공격·실제 피격·적 사망 | 상세 결과 미제공 |
+| Shift 일반/퍼펙트/실패 표시 | 상세 결과 미제공 |
+| Stage 8→9 강화·HP 이월 | 상세 결과 미제공 |
+| Stage 9 클리어·네 번째 강화·Stage 10 기존 표시 | 상세 결과 미제공 |
+| GAME_OVER R→Stage 6·세션 교체 | 상세 결과 미제공 |
+| SETTINGS·F11·ESC·창 복원·60초 이상 안정성 | 상세 결과 미제공 |
+
+Stage 6 사용자 GUI 미검증, 실제 Windows FPS/P95/P99 미측정,
+`ART-BOARD-CH4-CH5-FRONT-OVERLAP` OPEN, Stage 10 숲 King 미구현은 유지한다.
+새로운 가독성 판단과 인간 조작 안정성은 위 GUI 검수 후 확정한다. C5는 그 전까지 스테이징·커밋·Push하지 않는다.
+
 ## 최신 상태 — C4F Stage8 사용자 GUI 승인
 
 사용자가 Stage8 Windows GUI 검수 **전부 통과**를 보고했다. 승인된 C4 파일23개를 재검증 후 기존 main에 커밋·일반 Push한다.

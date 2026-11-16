@@ -1,5 +1,78 @@
 # CHECKMATE 개발 진행 기록
 
+## Task 5-C5F — Stage 9 GUI 완료 보고 반영 및 최종화
+
+사용자가 Stage 9 Windows GUI 전체 검수를 완료했다고 보고하고 C5 최종 재검증·커밋·일반 Push를 지시했다.
+별도 오류 보고는 없지만 개별 항목 결과와 정확한 통과 수는 제공되지 않았다.
+따라서 15/15·개별 항목 통과·구체적인 60초 안정성 결과·실제 FPS/P95/P99를 새로 확정하거나 추정하지 않는다.
+아래 C5의 GUI 대기·미커밋 문구 및 285.145초는 구현 당시 이력이다.
+
+시작 HEAD와 실제 원격 main은 `d7306491bbf40fa9f1096f955aec979681a2f74c`로 일치했다.
+인덱스는 비어 있었고 기존 C5 변경17파일(수정5/신규12)만 존재했다.
+문서 외13파일의 SHA256을 고정하고 기능 코드·테스트·기물/공격 표시·원본 에셋·캡처를 추가 변경하지 않는다.
+사용자 검수 완료 보고와 최종 검증 결과만 기존 C5 문서4개에 반영한다.
+캡처 manifest의 GUI 미검증 표시는 촬영 당시 기록으로 보존하며 최신 완료 보고와 구분한다.
+최종 재실행은 **unittest 1,418개 / 249.302초 / 실패0·오류0·skip0**로 통과했다.
+기존 HEAD의1,403개 테스트 메서드와 C5 추가15개를 보존했다. 이번 최종화에서 테스트 내용을 수정하지 않았다.
+최종 문서 링크/공백·staged diff를 확인한 후 기존 C5 관련17파일만 커밋·일반 Push한다.
+실제 커밋 SHA·원격 main 일치·작업 트리/인덱스 Clean은 Push 후 Git 조회 결과로 보고한다.
+
+이번 C5F 재확인에서 일반/-O Stage 검사는 각각25개, compileall, 기존 카탈로그563개 해시,
+Chapter2 원본/준비 PNG8개 해시, 문서 로컬 링크510개, Stage9 캡처7장 규격/해시를 확인했다.
+기준 Stage5~8 PNG27장을 임시 폴더에 재생성하여 전부 기존 SHA256과 일치했다.
+Windows/direct3d11 숨김 창360틱도 다시 통과했다. 두 Rook 동시70프레임·Bishop50 동시9프레임·
+Knight18px·9이미지 한 번 로딩/해제·렌더 전후 상태 불변·실제8→9→10 Receipt4/HP4를 재확인했다.
+이 기술 검증은 인간 검수의 개별 결과나 실제 Windows FPS/P95/P99 측정이 아니다.
+
+Stage 6 인간 GUI 미검증·실제 Windows FPS/P95/P99 미측정·Chapter 4/5 전면 접합 OPEN은 유지한다.
+Stage 10 숲 King 아트는 미적용이며 이번에는 구현하지 않는다.
+다음 C6는 기존 Chapter 2 King 원화의 왕관 상단 잘림·전체 알파 실루엣·발 앵커를 먼저 확인한다.
+필요하면 원화를 보완한 뒤 Stage 10 한 곳의 실제 보스/Pulse 표시를 통합하고 Stage 5~9 출력과 전투 규칙을 보존한다.
+이는 후속 작업 범위이며 C5F에서 새 에셋/Stage 10 코드를 작성하지 않는다.
+
+## Task 5-C5 — Stage 9 실제 숲 혼합 전투 (GUI 승인 대기)
+
+시작 HEAD/실제 원격 main은 `d7306491bbf40fa9f1096f955aec979681a2f74c`로 일치했고 작업 트리/인덱스는 Clean이었다.
+Stage8ArtRenderer/SessionArtPath/RenderMotion을 재사용한 Stage9ArtRenderer를 추가하고 main import 한 줄만 연결했다.
+Stage 9만 CHECKMATE_STAGE9_ART=1로 활성화한다. Stage 5~8 독립 설정/승인 출력과 다른20스테이지 기존 표시를 유지한다.
+숲 배경/보드/Player/Pawn/Rook/Knight/Bishop의 기존9이미지를 한 번 로딩하고 Rook2가 같은 텍스처를 공유한다.
+새 원화/에셋은 제작하지 않았고 기존 이미지/크기/발/알파/HP오프셋·공통 표시/게임 소스는 수정하지 않았다.
+
+원본 Stage 9은 Bishop(2,8)9·Rook(2,4)12·Rook(7,4)12·Knight(3,6)9·Pawn(1,6)7로5기·HP49다.
+첫 지연48/62/75/88/101틱·Player(5,1)·King/Pulse없음·Bishop제자리50칸·Knight18px를 보존했다.
+신규 전용 테스트15개(1차 10.319초)는 실제 두 Rook/Bishop 원장·개별취소/해결·공유무적·일반/퍼펙트/실패,
+발/HP/깊이·상태불변·9텍스처 캐시/해제·부분오류폴백·독립스위치·이전27PNG 바이트해시·native main을 통과했다.
+전체 unittest는 **1,418개 / 285.145초 / 실패0·오류0·skip0**로 통과했다.
+HEAD의 기존 테스트 메서드1,403개를 AST로 대조해 모두 보존했고 신규15개를 별도 추가했다.
+일반/-O Stage 검사 각각25개, compileall, 문서 로컬 링크510개, Git 공백 검사를 통과했다.
+기존 카탈로그563개(추적300/로컬보관263)와 Chapter2 원본/준비 PNG8개 해시를 확인했다.
+Stage5 8장/Stage6 5장/Stage7 7장/Stage8 7장 총27PNG를 재생성해 기존 SHA256과 전부 일치했다.
+신규 실제 Stage9 캡처7장도1440×900 PNG 규격/해시가 정상이다.
+
+별도 실제 진행은 개발 Stage8(선행Receipt2 합성)부터 기존 전투 드라이버를 사용했다.
+Stage8 669틱 UPGRADE HP4/4→HP강화→Stage9 HP5/5 Receipt3,
+Stage9 681틱 UPGRADE HP4/5→ATTACK강화→Stage10 HP4/5 Receipt4, 동일Run/새Session/원장/자원 교체를 확인했다.
+Stage9 개발 도구의 Receipt3 합성은 실제 이전 스테이지 클리어 증거가 아니며 실제 AI/HP/패링/시간은 그대로다.
+실제 무입력 GAME_OVER 후 신규 Stage6 Receipt0 HP3/3으로 복귀한다. Stage10 새 숲 King 표시는 이번에 만들지 않는다.
+
+Windows/direct3d11 숨김 창360틱에서 Rook2 동시예고70프레임·Bishop50 동시9프레임·Knight최대18.0,
+기존9이미지 한 번 로딩/해제·위험셀 일치·게임/모션 불변·8→9→10 기존 표시 전환을 확인했다.
+`artifacts/stage9_c5/`에는 실제 상태 캡처7PNG+해시/원장 manifest를 보존했다. 새 캐릭터 원화가 아니다.
+평상시/동시경고 이미지도 육안 점검했으나 사용자 Windows GUI 승인이나 성능 측정으로 표현하지 않는다.
+
+실행/프레임통계/검수표는 TASK5C_RENDERER_PLAN 최신 C5 절을 따른다.
+Stage9 인간GUI 대기·Stage6 인간GUI 미검증·실제Windows FPS/P95/P99 미측정·Chapter4/5 전면 접합 OPEN을 유지한다.
+C5 변경은 스테이징·커밋·Push하지 않는다. 다음 C6는 기존 숲 King의 상단 잘림/발/실루엣 준비를 먼저 조사하고
+Stage10 한 곳에 보스/Pulse를 단계적으로 통합한다. 이번에는 Stage10을 구현하지 않는다.
+
+실제 변경17파일(수정5/신규12):
+
+- 수정: main.py, docs/PROGRESS.md, docs/DECISIONS.md, docs/TASK5C_RENDERER_PLAN.md, docs/BUGS.md.
+- 신규 코드: stage9_art_renderer.py, tests/test_stage9_live_art.py, tools/stage9_play.py, tools/capture_stage9_live.py.
+- 신규 재현자료: artifacts/stage9_c5/{normal,dual_rook_bishop,rook1_resolved,parry_failed,parry_window,parry_normal,parry_perfect}.png 및 capture_manifest.json.
+
+이미지 출처/원화에 변화가 없으므로 ASSET_CREDITS는 수정하지 않았다. 인덱스는 비어 있고 기준 HEAD를 유지한다.
+
 ## Task 5-C4F — Stage8 사용자 GUI 최종 승인 및 Git 반영
 
 사용자는 Stage8 Windows GUI 검수 **전부 통과**를 보고하고 승인된 C4의 최종 재검증·커밋·일반 Push를 지시했다.
