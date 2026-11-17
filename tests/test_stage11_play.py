@@ -104,4 +104,4 @@ class Stage11PlayTests(unittest.TestCase):
         self.assertIs(flow.game, g)
         self.assertEqual(flow.run.receipts, ())
         self.assertIn('No Chapter1/2 clear history', output.getvalue())
-        self.assertIn('2.5D art is not implemented', output.getvalue())
+        self.assertIn('CHECKMATE_STAGE11_ART=1; otherwise original renderer', output.getvalue())

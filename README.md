@@ -4,12 +4,15 @@
 
 ## 현재 실행 상태
 
-Stage1~25·5개 보스전의 핵심 전투를 구현했다. 기본 표시는 임시 도형이며 Stage5~10은 각 환경변수로 2.5D 아트를 독립 활성화할 수 있다. 최종 아트 전체·음향·저장/해금·정식 엔딩·배포 검증은 미완료다. 인간 전체 캠페인 완주와 실제 Windows FPS/P95/P99는 미확정/미측정이다.
+Stage1~25·5개 보스전의 핵심 전투를 구현했다. 기본 표시는 임시 도형이며 Stage5~11은 각 환경변수로 2.5D 아트를 독립 활성화할 수 있다. Stage11 빙설 실전 화면은 D2F 사용자 Windows GUI16/16 승인을 받았다. 최종 아트 전체·음향·저장/해금·정식 엔딩·배포 검증은 미완료다. 인간 전체 캠페인 완주와 실제 Windows FPS/P95/P99는 미확정/미측정이다.
 
 Stage5·7·8 GUI 승인과 Stage9·10 기존 검수를 유지하며, CFF 사용자 최종 승인으로 Stage6 인간 GUI와 Chapter2 Stage6~10 연속 검수도 완료됐다.
 Chapter2 전투·강화·보스전·Chapter3 전환은 사용자 승인 상태이고 별도 오류 보고는 없다. 실제 Windows FPS/P95/P99와 장시간 메모리 실측은 별도 미완료다.
 `CHECKMATE_STAGE5_ART=1`은 왕실 Stage5만, `CHECKMATE_STAGE6_ART=1`~`CHECKMATE_STAGE10_ART=1`은 각각 해당 숲 스테이지만 바꾼다.
-미설정/0과 다른19스테이지는 기존 표시이며 에셋/SDL 오류 시 폴백한다. 전체 아트가 기본 활성화된 것은 아니다.
+`CHECKMATE_STAGE11_ART=1`은 Stage11 빙설2.5D만 활성화한다. 미설정/0과 다른18스테이지는 기존 표시이며 에셋/SDL 오류 시 폴백한다. 전체 아트가 기본 활성화된 것은 아니다.
+
+[Stage11 실제 실행·검수표](docs/TASK5D_CHAPTER3_PLAN.md): `$env:CHECKMATE_STAGE11_ART="1"` 설정 후 `.\.venv\Scripts\python.exe tools\stage11_play.py`.
+새 Chapter3 개발 진입(공격레벨3/피해4·HP3/3·Receipt0)이며 이전 챕터 실제 클리어 증거가 아니다. D1 정적 디자인10/10 승인은 실전 GUI 승인과 구분한다.
 
 [Chapter2 실제 연속 실행·Stage6 GUI 검수표·성능 측정 절차](docs/QA_CHAPTER2.md)를 따른다.
 검수 시작점 `tools/stage6_play.py`는 새 Chapter2 Run/Receipt0의 실제 Stage6이며 Stage1~5 클리어 증거가 아니다.

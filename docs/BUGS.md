@@ -1,5 +1,24 @@
 # CHECKMATE — 알려진 결함
 
+## Task 5-D2F — Stage11 실전 사용자 검수 대기 해소
+
+사용자가 Windows11 GUI16/16(A5/B6/C5) 통과를 보고했다. Stage11 새 빙설 화면의 인간 검수 대기는 해소됐다.
+환경·기물·도약/깊이/발/HP·원장경고/패링·HP67·강화/전환·사용성 검수를 승인하며 별도 오류 보고는 없다.
+체감 성능/장시간 실행 이상 없음 보고를 기록하되 FPS/P95/P99·RAM/VRAM 수치 측정이나 누수 없음 확정으로 바꾸지 않는다.
+아래 D2 pending은 당시 기록이다. 기존 승인 원화/준비본/렌더러는 보존한다.
+`ART-BOARD-CH4-CH5-FRONT-OVERLAP`은 계속 OPEN, Stage12~15 실전2.5D/Chapter3 종합QA는 미완료다.
+
+## Task 5-D2 — Stage11 동적 빙설 표시 검수 대기
+
+Stage11 신규2.5D는 자동/숨김 창 기술 검증을 진행했으며 인간 Windows GUI 검수는 아직 받지 않았다.
+D0의 기존 전투 승인·D1 정적 디자인10/10 승인은 유지하되 이번 동적 화면 검수로 대체하지 않는다.
+Pawn의 좁은 폭은 D1 승인 특성이며 임의 오류/재디자인 사유로 만들지 않는다. 실제 밝은 타일·가림/HP·경고 가독성은 다시 검수한다.
+방향별 원화/새 사망VFX는 추가하지 않았고 기존 피격·활성 기물 제거를 재사용한다.
+의도적으로 주입한 SDL 오류 로그는 폴백 테스트 근거이며 관측된 자연 발생 결함과 구분한다.
+최신 전체 검증 결과는 [PROGRESS](PROGRESS.md), 재현과 GUI표는 [D2 문서](TASK5D_CHAPTER3_PLAN.md)에 기록한다.
+Stage6~10 인간 GUI 승인은 완료 상태다. Windows FPS/P95/P99·장시간RAM/VRAM 실측은 여전히 미완료이며
+`ART-BOARD-CH4-CH5-FRONT-OVERLAP`은 OPEN이다. Stage12~15/Chapter3 종합QA·전체출품 검수도 별도다.
+
 ## Task 5-CFF 최신 승인 및 남은 위험
 
 사용자 최종 승인으로 Stage6 인간 GUI와 Chapter2 Stage6~10 연속 Windows GUI 검수는 완료됐다.

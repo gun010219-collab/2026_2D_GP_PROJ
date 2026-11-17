@@ -5,6 +5,12 @@
 
 ## 1. 목표와 근거 우선순위
 
+- 최신 확정 구현(D2F, 사용자 GUI16/16 승인): Stage11은 `CHECKMATE_STAGE11_ART=1`일 때만 Frozen2.5D를 사용한다.
+  D1 승인 기물3PNG/기존 카메라·전투를 보존하며 Stage5~10 승인과6개 스위치는 그대로다. 나머지18스테이지는 기존 표시다.
+  D0 기존 전투 GUI·D1 정적 디자인10/10과 구분하여 D2F 실전 GUI16/16(A5/B6/C5) 사용자 승인을 수령했다.
+  이번 지시는 D2F 최종 재검증 후 별도 커밋/일반 Push를 허용한다. 체감 성능/장시간 이상 없음 보고와 FPS/P95/P99·RAM/VRAM 수치 미측정은 구분한다.
+  최신 범위와 실행/검수표는 `docs/TASK5D_CHAPTER3_PLAN.md`를 따른다. 아래 CFF/과거 단계 설명은 해당 시점의 승인 이력이다.
+
 - 최신 확정 구현(CFF): Stage5~10은 각각 `CHECKMATE_STAGE5_ART`~`CHECKMATE_STAGE10_ART=1`로 독립 opt-in한다.
   Stage5는 왕실, Stage6~10은 숲 아트다. 기본값 및 다른19스테이지는 기존 표시이며 에셋/SDL 오류 폴백을 유지한다.
   Stage5/7/8 개별 GUI 승인·Stage9/10 기존 검수 완료를 유지한다. 사용자 CFF 승인으로 Stage6 인간 GUI와 Chapter2 Stage6~10 연속 GUI 검수도 완료됐다.

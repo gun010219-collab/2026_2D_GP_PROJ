@@ -1,5 +1,119 @@
 # CHECKMATE — Task 5-D0 / Chapter 3 개발 기반과 확장 계획
 
+## Task 5-D2F — Stage11 사용자 실전 GUI16/16 최종 승인
+
+사용자가 Windows11 GUI16개 항목(A 시각5/5·B 실전/판정6/6·C 안정성/사용성5/5) 전부 통과를 보고했다.
+Frozen 환경/빙설3기물·18px 도약/그림자/지상깊이/HP·두Rook 독립경고·패링·실제5기/HP67·
+클리어/강화·F11/ESC·종료/재실행을 승인한다. 체감 성능과 장시간 실행에 이상 없음이라는 사용자 보고를 기록한다.
+FPS/P95/P99 및 RAM/VRAM 수치 측정은 미완료이며 인간 승인과 자동 검증을 구분한다.
+아래 D2의 대기표와 생성 당시 캡처JSON의pending은 과거 이력으로 보존한다. 승인된 기능·이미지·크기는 변경하지 않는다.
+이번 D2F는 최종 재검증 후 승인된26파일만 별도 커밋/일반Push하고 원격SHA/clean을 확인한다.
+새 Stage12 아트 작업은 이 마감 성공 이후에만 별도 미커밋 범위로 시작한다.
+실제 최종 검사 수치는 [D2F 진행 기록](PROGRESS.md)을 따른다. Chapter4/5 접합은 OPEN이다.
+
+## Task 5-D2 — Stage 11 실제 빙설 2.5D 통합 / 사용자 GUI 대기
+
+현재 구현은 Stage11 한정이다. D0 기존 도형 전투 GUI 승인과 D1 정적 디자인10/10 승인은 유지하되,
+이번 새 실시간 빙설 화면의 인간 GUI 승인으로 대체하지 않는다. 아래 D0/D1의 미구현 표기는 당시 이력이다.
+시작 main HEAD 및 fetch한 origin/main은 `04c34dfa2c87bcdb30268d3bee190553abcfc0a7`, 작업 트리/인덱스 Clean이었다.
+
+### 구현 경계와 표시 계약
+
+- [Stage11 프로필](../stage11_art_renderer.py)은 `Stage7ArtRenderer`의 draw/ground_pose를 상속한다.
+  기존 Stage10 `LiveArenaArtPath`를 감싸며 두 경로를 매번 평가해 비활성 세션의 이미지도 해제한다.
+  main 변경은 LiveArenaArtPath import 한 줄이다. 기존 Stage5~10 렌더러·공통 모듈·RenderMotion은 수정하지 않았다.
+- `CHECKMATE_STAGE11_ART` 값이 정확히 `1`이고 Stage11일 때만 활성화한다. 기본/0/잘못된 값은 기존 표시다.
+  기존6스위치와 독립이며 Stage12는 기존 표시다. 기본 활성화 전환이나 신규 조작 키는 없다.
+- Frozen 배경·aligned frozen_c 프레임·light/dark 타일·기존 Player·승인 Ice Pawn/Rook/Knight의 **8종**을 사용한다.
+  Rook2기와 Knight2기는 각각 같은 텍스처를 공유한다. 원화/준비PNG/알파/프롬프트/manifest는 재작성하지 않았다.
+- 실제 원본 편성은 Rook(2,4)/(7,4) HP16씩, Knight(3,6)/(6,6) HP13씩, Pawn(1,6) HP9,
+  총5기/HP67, Player(5,1)이다. Chapter3 일반전이며 King/Pulse를 생성하지 않는다.
+  HP51은 초기 요청서 값으로 현재 런타임에 적용하지 않는다.
+- B+12 `arena_art_common.CAMERA`,100칸 타일/역투영·레터박스·마우스 경로를 재사용한다.
+  새 마우스 이동/공격 조작은 추가하지 않았다. 표시만으로 논리 점유/AI/HP/60Hz/Receipt를 변경하지 않는다.
+- 발은 `project(u+.5,v+.25)`에 맞춘다. 이미지 정사각형과 가시 알파 크기를 구분하며 비율을 변형하지 않는다.
+  alpha rows18~238, `base_size = 목표높이×256/220/(1.232×1.10)`이다.
+  Player base72와 HP간격5px은 기존 승인값 그대로다.
+
+| 기물 | base_size | 전방 v=0 PNG 사각형 | 전방 가시 알파 폭×높이 | 후방 v=9 가시 폭×높이 | HP 간격 |
+|---|---:|---:|---:|---:|---:|
+| Ice Pawn | 56.670602 | 76.800²px | 30.9×66.0px | 25.1×53.6px | 8px |
+| Ice Rook | 66.974348 | 90.764²px | 64.9×78.0px | 52.7×63.3px | 10px |
+| Ice Knight | 68.691639 | 93.091²px | 67.6×80.0px | 54.9×64.9px | 10px |
+
+위 값은 D1 승인 정적 후보를 이번 라이브 프로필에서 재현한 값이며 동적 가독성은 검수 대기다.
+Pawn 좁은 폭은 승인 특성으로 보존했다. 고정 방향 원화를 사용하며 방향별 애니메이션 완성을 주장하지 않는다.
+깊이는 보간된 지상 row/col/엔티티ID 순서다. Knight는 기존 최대18px lift만 몸체/HP에 더하고,
+발/그림자/깊이는 지상 기준으로 유지한다. 착지·점유 차단·퍼펙트 기절·사망은 기존 전투 결과를 읽는다.
+경고는 실제 `ledger.telegraphs`의 각 `target_cells`를 그대로 투영한다. 겹친 이벤트를 합쳐 새로운 위험 범위를 만들지 않는다.
+한 Rook의 취소/사망/해결은 다른 Rook의 유효 이벤트를 제거하지 않는다.
+Mode1 준비/입력창/일반·퍼펙트 성공/실패·쿨다운 표시는 기존 실제 Parry/Resolver를 재사용한다.
+
+### 자원·폴백과 실제 진행
+
+`SessionArtPath`가 활성 combat_session당8장만 로딩하고 재시작/Stage12/종료에서 해제한다.
+추가로 Stage11 프로필은 NULL 텍스처를 검사한다. 누락/디코딩/OSError·예상 ArenaArtError는 부분 로딩도 정리하고,
+오류를 로그에 남긴 후 같은 세션의 재시도를 멈추며 main의 기존 렌더러를 실제 호출한다.
+프로그래밍 TypeError는 숨기지 않는다. 폴백이 전투를 초기화하거나 이벤트를 해결하지 않는다.
+
+[실행 도구](../tools/stage11_play.py)는 기존 개발 진입 정책을 유지한다:
+새 ChapterRun3, entry attack level3/피해4·HP3/3·MOVE18·Receipt0. 안내문만 새 opt-in에 맞췄다.
+이전 챕터의 실제 클리어/해금 증거가 아니다.
+변경하지 않은 자동 드라이버의 실제 전투는 Stage11 UPGRADE669틱/HP2/3,
+정상 HP강화 후 Stage12 HP3/4·Receipt1을 확인했다. 무입력 GAME_OVER435틱 후 Chapter3/Stage11 재시작도 확인한다.
+Stage10 개발 도구의 합성 선행 강화 이력은 별도 테스트 조건이며 실제 캠페인 완주로 표현하지 않는다.
+
+### 재현 자료와 자동 검사
+
+[실전 캡처 도구](../tools/capture_stage11_live.py)와 [11장 manifest](../artifacts/stage11_d2/capture_manifest.json)는
+실제 세션의 평상시·Knight정점·두Rook경고·첫Rook해결·패링입력/일반/퍼펙트·SPACE공격·Pawn예고·강화·GAME_OVER를 기록한다.
+픽셀 캡처는 SDL software/dummy의 동일 조건에서 재현한다. 기존 승인 에셋을 수정하거나 고정 검수 데이터를 실전 경로에 주입하지 않는다.
+[전용 테스트](../tests/test_stage11_live_art.py)는 독립 스위치·실제 편성/HP·100칸/발/HP/비율·보간/18px·차단/기절/사망·
+두Rook 원장/해결/취소·실제 패링·669틱 실전 표시 불변·Stage10→11→12·자원·폴백/프로그래밍 오류 전파·
+실제 main의 정상/기존 표시 폴백·캡처 재현성을 검증한다.
+전체 검사 실행 수치와43장 회귀 결과는 [최신 진행 기록](PROGRESS.md)을 따른다.
+
+[네이티브 기술 도구](../tools/stage11_art_qa.py)의 direct3d11 숨김 창 결과는
+[별도 보고서](../artifacts/stage11_d2/native_direct3d11.json)에 보존했다.
+실제 전투 관찰/Stage12 기존 BoardRenderer·GAME_OVER/재시작·예상 SDL draw 실패 폴백까지1,109프레임,
+비NULL 텍스처24회 로딩/24회 해제·최대 동시8장·종료0장, 최대 도약18px을 확인했다.
+이는 인간 GUI/실시간 성능/장시간 누수 검증이 아니다. 보고서의 VSync false 역시 해당 숨김 기술 창의 조건이다.
+
+### Windows 사용자 검수 절차 — 아직 미실시
+
+저장소 루트 PowerShell:
+
+```powershell
+$env:CHECKMATE_STAGE11_ART="1"
+.\.venv\Scripts\python.exe tools\stage11_play.py
+```
+
+기존 표시 비교는 `$env:CHECKMATE_STAGE11_ART="0"`으로 같은 도구를 실행한다.
+성능 기록을 준비할 때는 실행 전 `$env:CHECKMATE_FRAME_STATS="1"`을 설정한다.
+FrameStats는 최근 최대600프레임 rolling 통계이며60초 전체 통계로 보고하지 않는다.
+해상도/창모드/VSync/renderer·표본수·active_sim_hz·FPS/Mean/P95/P99/Max와 구간을 함께 기록한다.
+아직 실제 사용자 Windows FPS/P95/P99나 장시간 RAM/VRAM 값은 없다.
+
+| 검수 항목 | 현재 상태 |
+|---|---|
+| Stage11 정상 실행·개발 시작 조건 안내 | 사용자 대기 |
+| Frozen 배경/보드/100칸·밝은 타일 Pawn 식별 | 사용자 대기 |
+| Rook2·Knight2·Pawn1/Player와 HP67 편성 | 사용자 대기 |
+| 기물 크기·실루엣·원근·발/그림자/HP | 사용자 대기 |
+| 두 Knight 18px 도약·착지·지상 깊이·가림 | 사용자 대기 |
+| 두 Rook의 독립 직선 경고·돌진·한 기 사망 시 다른 경고 | 사용자 대기 |
+| Pawn 경고·접촉/대각선 공격·기절/회복 | 사용자 대기 |
+| 실제 위험 셀/피해 범위·공격 종료/취소 후 잔상 | 사용자 대기 |
+| SPACE 공격·방향키 이동·피격/사망 | 사용자 대기 |
+| Shift 일반·퍼펙트·실패·입력창/성공 구분 | 사용자 대기 |
+| GAME_OVER·R 재시작 시 이전 적/경고 제거 | 사용자 대기 |
+| Stage11 클리어·강화·Stage12 기존 표시/HP이월 | 사용자 대기 |
+| SETTINGS 최상위·F11·ESC·창복원/레터박스·마우스 | 사용자 대기 |
+| 60초 이상 실제 조작·종료/재실행 | 사용자 대기 |
+
+GUI 승인 전 스테이징/커밋/Push하지 않는다. Stage12~15 신규 그래픽·Chapter3 종합QA·전체25스테이지 출품 품질·
+배포/AI출처 이용조건 확인은 별도다. `ART-BOARD-CH4-CH5-FRONT-OVERLAP`은 OPEN을 유지한다.
+
 ## Task 5-D1F — 빙설3기물 정적 디자인 사용자 최종 승인
 
 사용자가 Windows 디자인 검수 **10/10 통과**를 보고했다.

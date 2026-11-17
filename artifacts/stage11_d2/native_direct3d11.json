@@ -1,0 +1,37 @@
+{
+  "scope": "Hidden native real Stage11, not human GUI or realtime performance",
+  "renderer": "direct3d11",
+  "vsync": false,
+  "result": [
+    11,
+    "UPGRADE",
+    669,
+    2,
+    3
+  ],
+  "warning_kinds": [
+    "knight",
+    "pawn",
+    "rook"
+  ],
+  "max_knight_lift": 18.0,
+  "resources": {
+    "loads": 24,
+    "destroys": 24,
+    "peak": 8,
+    "frames": 1109
+  },
+  "stage12": {
+    "hp": 3,
+    "max_hp": 4,
+    "receipt": 1,
+    "legacy_draw": true
+  },
+  "no_input_game_over_tick": 435,
+  "restart_stage": 11,
+  "expected_draw_failure_legacy": true,
+  "elapsed_seconds": 2.882,
+  "human_gui": "pending",
+  "windows_fps_p95_p99": "unmeasured",
+  "long_term_ram_vram": "unmeasured"
+}

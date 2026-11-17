@@ -1,5 +1,91 @@
 # CHECKMATE 개발 진행 기록
 
+## Task 5-D2F — Stage11 실전 GUI16/16 승인 및 최종화
+
+사용자가 Windows11 GUI16개 전부 통과(A시각5/5·B실전/판정6/6·C안정성/사용성5/5)를 보고했다.
+Frozen 배경/보드·Ice Pawn/Rook/Knight·18px 도약/그림자/지상깊이/발/HP·두Rook 독립경고·패링,
+적5기/HP67·클리어/강화·F11/ESC·종료/재실행을 최종 승인한다. 별도 오류 보고는 없다.
+체감 성능과 장시간 실행에 이상 없음이라는 정성 보고를 기록한다. 실제 FPS/P95/P99·RAM/VRAM 수치 측정은 미완료다.
+아래 D2와 생성 JSON의 pending은 제작 당시 이력이며 현재 사용자 승인 상태와 구분한다.
+시작 로컬HEAD/fetch한 origin/main은 모두 `04c34dfa2c87bcdb30268d3bee190553abcfc0a7`, main이고,
+D2의26파일만 미커밋으로 존재했다. 인덱스는 비어 있었으며 관련 없는 사용자 변경은 없었다.
+기능/테스트/에셋/캡처는 그대로 보존하고 이번에는 문서6개의 최신 승인/검증 기록만 갱신한다.
+Stage12 신규 작업은 D2F 커밋/일반Push·SHA일치/clean 확인 후에만 별도로 시작한다.
+
+D2F 재실행은 **unittest1,468개 /305.214초 /실패0·오류0·skip0** 통과(프로세스306.271초)다.
+일반/-O Stage 검사 각각25개(0.073/0.261초), compileall(1.869초), 기존 카탈로그563개 해시(1.281초)를 통과했다.
+Stage5~10 기준43PNG를 임시 폴더에 재생성해 모두 기존SHA256과 일치했다(9.588초).
+D1 원화/준비본6파일과 D2 실전11PNG 해시도 일치하며 기존 승인 원화/준비본/코드/캡처를 다시 쓰지 않았다.
+로컬 문서 링크574개·Git 및 신규 파일 공백 검사 통과, 이번 수정은 기존26파일 중 문서6개에 한정했다.
+direct3d11 숨김 창 기술 경로도 별도 임시 보고서로 다시 확인했다(2.956초):
+실제669틱 클리어/Stage12 HP3/4 Receipt1·무입력435틱 사망/재시작·기존표시 폴백,
+1,109관찰프레임/24로딩·24해제·최대8텍스처/18px 도약이다. 인간 GUI승인·실제성능 측정과 구분한다.
+모든 검증 후 승인된26파일만 명시적 스테이징하고 staged diff/공백을 검토해 D2F 단독 커밋·main 일반Push한다.
+원격SHA/clean 확인 결과와 최종 커밋SHA는 작업 완료 보고를 따른다. D3A 원화는 이 커밋에 포함하지 않는다.
+
+## Task 5-D2 — Stage11 빙설2.5D 실제 전투 통합 / Windows 사용자 GUI 대기
+
+시작 main HEAD와 fetch한 origin/main은 모두 `04c34dfa2c87bcdb30268d3bee190553abcfc0a7`,
+작업 트리/인덱스 Clean이었다. 기존 D1F 원화·256RGBA 준비본·정적10/10 디자인 승인과
+Stage5~10/CFF 사용자 GUI 승인은 보존한다. D0의 기존 Stage11 전투 GUI 승인은 D2 새 화면 승인과 구분한다.
+이번 새 빙설 실전 화면은 아직 사용자 Windows GUI 검수 전이며 스테이징/커밋/Push하지 않는다.
+
+신규 `stage11_art_renderer.py`는 Stage7의 ground_pose/draw와 공통 B+12 카메라/100타일·Mode1·발/HP·원장 경고를 재사용한다.
+기존 Stage10까지의 LiveArenaArtPath를 감싸며 main의 import 한 줄만 교체했다.
+독립 `CHECKMATE_STAGE11_ART` 값이 정확히 `1`이고 현재 Stage11일 때만 활성화한다.
+기존6스위치·Stage5~10 표시를 보존하고 Stage12를 포함한 나머지18스테이지는 기존 표시다.
+8종 Frozen 배경/프레임/타일2/Player/Ice Pawn/Rook/Knight를 세션당 한 번 로딩한다.
+두Rook·두Knight가 같은 종 텍스처를 공유하며 비활성화/재시작/Stage12/종료에 해제한다.
+NULL 텍스처 검사·기존 예상 OSError/ArenaArtError 폴백을 사용하고 프로그래밍 TypeError는 전파한다.
+실제 main에서 오류 후 기존 BoardRenderer가 호출되는 것을 네이티브 테스트로 확인했다.
+
+Stage11 원본 적 Rook16×2·Knight13×2·Pawn9×1 =5기/HP67, Player(5,1)을 유지한다.
+Stage11 개발 진입은 기존대로 새 ChapterRun3 entry level3/피해4·HP3/3·MOVE18·Receipt0이다.
+실행 도구의 안내문과 그 문자열 검사만 현재 opt-in에 맞춰 갱신했다. 합성 클리어/영구 해금은 생성하지 않는다.
+Player base72/HP간격5는 그대로, 새 기물은 승인 D1 후보의 전방 가시 알파 Pawn30.9×66/Rook64.9×78/Knight67.6×80px을 재현한다.
+base_size는56.670602/66.974348/68.691639, 뒤쪽 v=9에서는25.1×53.6/52.7×63.3/54.9×64.9px이다.
+PNG를 가로세로 같은 배율로 표시하고 발/HP간격8·10·10을 계산한다. 원본 이미지는 변경하지 않았다.
+Knight 지상 row/col로 정렬하고 최대18px lift는 몸체/HP에만 더하며 그림자는 지상에 둔다.
+차단/착지/퍼펙트 기절·사망 제거, 두Rook 각각의target_cells·해결/취소·공유무적,
+일반/퍼펙트/실패/입력창·쿨다운 표시는 실제 전투 결과를 읽는다. 새 공격 범위/타이머는 없다.
+
+새 전용 테스트18개와 기존1,450개를 포함해 **전체1,468개 /289.524초 /실패0·오류0·skip0**을 통과했다
+(프로세스290.200초). 기존 테스트 메서드 삭제0개이며 D0 문자열 검사 외 기존 테스트 내용은 보존했다.
+실제 전투를 읽는 표시의 매틱 pickle 전후 동일성·100칸/발/HP·두Rook 독립원장·두Knight18px·
+점유차단/기절/사망·실제 일반/퍼펙트/실패패링·부분로딩/NULL/디코딩/SDL/프로그래밍오류·
+세션/리소스·Stage10→11→12·실제main 정상/기존표시 폴백을 검증한다.
+원래 자동 드라이버를 변경 없이 관찰한 Stage11 전투는 UPGRADE669틱·잔여HP2/3,
+정상 HP강화 후 Stage12 HP3/4·Receipt1이다. 무입력 GAME_OVER435틱·새 Stage11 재시작도 통과했다.
+이는 개발 Run의 자동 결과이며 인간 실시간 완주나 이전 챕터 실제 클리어의 증거로 기록하지 않는다.
+
+Stage5~10 기준43PNG를 별도 임시 폴더에서 재생성해 모두 기존SHA256과 일치했다(9.868초):
+Stage5 8장·Stage6 5장·Stage7 7장·Stage8 7장·Stage9 7장·Stage10 9장이다.
+일반/-O 데이터 검사는 각각25개 통과(0.071/0.123초), compileall 통과(초회1.662초, 마감 재실행도 통과),
+아트 카탈로그563파일 해시 통과(1.239초, track300/local_archive263·누락0)다.
+기존 추적746파일 시작 해시와 대조해 허용된 소스/문서 변경만 있었고 기존 assets432파일은 바이트 동일하다.
+D1 준비3PNG의 SHA256·256RGBA·bbox와 선택원화 해시를 재확인했다. 승인 이미지/manifest/프롬프트·발표PDF는 그대로다.
+문서 로컬 링크573개를 전부 통과했다. Git 공백 검사와 신규 파일의 후행 공백 검사도 통과했다.
+
+실제 전투 상태를 담은 새11PNG와manifest는 [artifacts/stage11_d2](../artifacts/stage11_d2)에 보존했다.
+기본/18px정점·두Rook경고/첫Rook해결·패링창/일반/퍼펙트·실제SPACE공격·Pawn예고·강화·GAME_OVER를 담았고,
+별도 subprocess 재생성 시11장 해시가 같았다. 고정 리뷰 장면을 실전 경로에 가져오지 않았다.
+[native_direct3d11.json](../artifacts/stage11_d2/native_direct3d11.json)은 Windows direct3d11/VSync false 숨김 창의
+1,109프레임 실제 전투 관찰·Stage12 기존 얼음 BoardRenderer·GAME_OVER/재시작·예상 SDL 오류 폴백을 기록한다.
+텍스처24회 로딩/24회 해제·최대 동시8장·종료0장, 최대 도약18px(기술 도구2.882초)을 확인했다.
+의도적 오류 로그를 자연 발생 결함으로 기록하지 않는다. 이 짧은 기술 계수로 장시간 누수 없음이나 FPS 합격을 주장하지 않는다.
+기존 unittest가 출력하는 software/dummy FrameStats 역시 실제 사용자 Windows FPS 측정값으로 채택하지 않는다.
+
+추가/수정 범위는 **26파일**: 문서6(AGENTS/README/PROGRESS/DECISIONS/BUGS/TASK5D_CHAPTER3_PLAN),
+main import·기존 Stage11 실행 안내·D0 문자열 테스트3, 신규 Stage11 renderer/전용테스트/캡처/기술QA도구4,
+실전11PNG·캡처manifest·네이티브JSON13개다. 신규 원화/이미지는 제작하지 않았다.
+Stage5~10 렌더러·arena_art_common·RenderMotion·실제전투/AI/HP/StageJSON/ChapterRun/진행/기존에셋/발표PDF는 보존한다.
+
+실행: `$env:CHECKMATE_STAGE11_ART="1"` 후 `.\.venv\Scripts\python.exe tools\stage11_play.py`.
+`CHECKMATE_FRAME_STATS=1` 성능기록과0모드 비교,14개 사용자 검수 항목은 [D2 문서](TASK5D_CHAPTER3_PLAN.md)에 있다.
+**미완료:** D2 실전 Windows 인간 GUI/60초 조작·HP/경고/밝은칸 시인성, 실제FPS/P95/P99·장시간RAM/VRAM,
+Stage12~15 신규그래픽·Chapter3 종합QA·전체25스테이지 출품 품질·최종배포/AI이용조건 확인이다.
+Chapter4/5 전면 접합 `ART-BOARD-CH4-CH5-FRONT-OVERLAP`은 OPEN이다. 다음 구현에 선행 착수하지 않는다.
+
 ## Task 5-D1F — 빙설3기물 사용자 디자인10/10 최종 승인 및 Git 반영
 
 사용자가 Task5-D1 Windows 디자인 검수10개 항목 전부 통과를 보고했다.

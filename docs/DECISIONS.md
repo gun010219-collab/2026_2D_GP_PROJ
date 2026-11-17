@@ -1,5 +1,26 @@
 # CHECKMATE 승인 결정
 
+## Task 5-D2F — Stage11 Windows GUI16/16 승인 및 독립 최종화
+
+사용자가 A시각5/5·B실전/판정6/6·C안정성/사용성5/5 통과를 보고해 Stage11 빙설 실전 통합을 최종 승인했다.
+체감 성능/장시간 실행 이상 없음은 사용자 정성 보고이며 FPS/P95/P99·RAM/VRAM 수치 측정은 미완료다.
+승인 코드·기물·크기·경고·전투를 변경하지 않고 최종 검증 후 기존 D2의26파일만 별도 커밋/일반Push한다.
+원격/로컬SHA와 clean 확인 전에는 Stage12 신규 원화 작업을 시작하지 않는다. D3A 신규 산출물은 별도 디자인 승인 전 미스테이징/미커밋/미Push로 둔다.
+아래 D2의 승인 대기는 과거 기록이다. Chapter4/5 접합 OPEN을 유지한다.
+
+## Task 5-D2 — Stage11 빙설 실전 표시 경로 / GUI 승인 전
+
+사용자의 D2 구현 지시에 따라 Stage11 전용 exact `CHECKMATE_STAGE11_ART=1` opt-in을 추가했다.
+기본 OFF·기존6개 opt-in·Stage12 기존 표시를 보존한다. Stage7의 ground_pose/draw와 Stage10 이전 체인을 재사용하고,
+main의 import만 새 어댑터로 바꾼다. 실제 전투/AI/HP67·60Hz·원본 데이터와 승인 PNG는 수정하지 않는다.
+기물 표시 높이는 D1 정적 Pawn66/Rook78/Knight80px 전방 가시 알파를 재현한다. Player/카메라는 기존 값이다.
+이것은 D2 구현 기준이며 새로운 동적 화면의 사용자 승인은 아니다. D0 전투 및 D1 디자인10/10 승인과 구분한다.
+독립 원장 경고·지상 깊이/18px lift·발/HP·세션당8텍스처·예상 오류 폴백 계약을 재사용한다.
+Stage11 실행 도구의 entry level3/피해4·HP3/3·MOVE18·Receipt0 정책은 그대로이며 안내문만 갱신한다.
+검증 근거와 미완료 GUI표는 [D2 계획/결과](TASK5D_CHAPTER3_PLAN.md), 실제 검사 수치는 [진행 기록](PROGRESS.md)을 따른다.
+Windows 인간 실전 검수·실측FPS/P95/P99·장시간RAM/VRAM은 미완료다. Chapter4/5 접합 OPEN을 유지한다.
+사용자 GUI 승인 전 스테이징/커밋/Push하지 않는다. 신규 이미지·Stage12~15 구현은 범위 밖이다.
+
 ## Task 5-CFF — Chapter2 전체 사용자 GUI 최종 승인
 
 사용자가 Stage6~10 전체 Windows GUI 검수표 통과를 보고했고 Stage6 인간 GUI·Chapter2 연속 플레이를 명시적으로 승인했다.

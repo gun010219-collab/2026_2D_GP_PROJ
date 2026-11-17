@@ -24,5 +24,5 @@ def session():
 if __name__ == '__main__':
     print('DEVELOPMENT: fresh Chapter3 Stage11; entry attack level3 / damage4; '
           'HP3/3 MOVE18 Receipt0. No Chapter1/2 clear history. '
-          'Original Frozen Palace renderer; Stage11 2.5D art is not implemented.')
+          'Stage11 Frozen 2.5D opt-in: CHECKMATE_STAGE11_ART=1; otherwise original renderer.')
     run_session(*session())

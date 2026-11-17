@@ -1,0 +1,2870 @@
+{
+  "status": "Actual Stage11 SDL captures; Windows human GUI/performance pending",
+  "preparation": "Fresh development Chapter3 entry level3/damage4, HP3/3, MOVE18, Receipt0; no prior-clear evidence",
+  "method": "Original mixed AI/HP/ledger, actual requests/outcomes and unchanged driver; no forced clears",
+  "fight_result": [
+    11,
+    "UPGRADE",
+    669,
+    2,
+    3
+  ],
+  "stage12": {
+    "hp": 3,
+    "max_hp": 4,
+    "receipts": 1,
+    "legacy_display": true
+  },
+  "captures": [
+    {
+      "file": "normal.png",
+      "sha256": "a1e01383cfa32800dda121a5c57020677a09d3ae2d113eb9706062cc4c435902",
+      "state": {
+        "scenario": "live Stage11",
+        "tick": 0,
+        "state": "PLAYING",
+        "player": {
+          "cell": [
+            5,
+            1
+          ],
+          "facing": "up",
+          "hp": 3
+        },
+        "enemies": [
+          {
+            "id": "s11_rook_1",
+            "kind": "rook",
+            "cell": [
+              2,
+              4
+            ],
+            "hp": 16,
+            "state": "initial_wait",
+            "next_tick": 48
+          },
+          {
+            "id": "s11_rook_2",
+            "kind": "rook",
+            "cell": [
+              7,
+              4
+            ],
+            "hp": 16,
+            "state": "initial_wait",
+            "next_tick": 62
+          },
+          {
+            "id": "s11_knight_1",
+            "kind": "knight",
+            "cell": [
+              3,
+              6
+            ],
+            "hp": 13,
+            "state": "initial_wait",
+            "next_tick": 75
+          },
+          {
+            "id": "s11_knight_2",
+            "kind": "knight",
+            "cell": [
+              6,
+              6
+            ],
+            "hp": 13,
+            "state": "initial_wait",
+            "next_tick": 88
+          },
+          {
+            "id": "s11_pawn_1",
+            "kind": "pawn",
+            "cell": [
+              1,
+              6
+            ],
+            "hp": 9,
+            "state": "initial_wait",
+            "next_tick": 101
+          }
+        ],
+        "events": [],
+        "parry": null
+      },
+      "cue": "ready",
+      "warning_cells": [],
+      "order": [
+        "s11_pawn_1",
+        "s11_knight_1",
+        "s11_knight_2",
+        "s11_rook_1",
+        "s11_rook_2",
+        "player"
+      ],
+      "layouts": {
+        "s11_pawn_1": {
+          "foot": [
+            471.52958904109596,
+            531.2054794520549
+          ],
+          "height": 67.16509090909089,
+          "center": [
+            471.52958904109596,
+            560.0654794520549
+          ],
+          "top": 588.9254794520549,
+          "hp_y": 596.9254794520549
+        },
+        "s11_knight_1": {
+          "foot": [
+            624.248493150685,
+            531.2054794520549
+          ],
+          "height": 81.41223140495867,
+          "center": [
+            624.248493150685,
+            566.1872976338731
+          ],
+          "top": 601.1691158156913,
+          "hp_y": 611.1691158156913
+        },
+        "s11_knight_2": {
+          "foot": [
+            853.3268493150687,
+            531.2054794520549
+          ],
+          "height": 81.41223140495867,
+          "center": [
+            853.3268493150687,
+            566.1872976338731
+          ],
+          "top": 601.1691158156913,
+          "hp_y": 611.1691158156913
+        },
+        "s11_rook_1": {
+          "foot": [
+            538.0432664756446,
+            416.33810888252145
+          ],
+          "height": 83.17249586776859,
+          "center": [
+            538.0432664756446,
+            452.0762907007033
+          ],
+          "top": 487.8144725188851,
+          "hp_y": 497.8144725188851
+        },
+        "s11_rook_2": {
+          "foot": [
+            937.3441260744986,
+            416.33810888252145
+          ],
+          "height": 83.17249586776859,
+          "center": [
+            937.3441260744986,
+            452.0762907007033
+          ],
+          "top": 487.8144725188851,
+          "hp_y": 497.8144725188851
+        },
+        "player": {
+          "foot": [
+            778.7295384615387,
+            222.83076923076925
+          ],
+          "height": 95.534208,
+          "center": [
+            778.7295384615387,
+            263.88062423076923
+          ],
+          "top": 304.9304792307692,
+          "hp_y": 309.9304792307692
+        }
+      },
+      "warnings": []
+    },
+    {
+      "file": "knight_peak.png",
+      "sha256": "15aff730b73a36f926a4d8c5d170005f61faeae95328574e31f6e1871d3f8216",
+      "state": {
+        "scenario": "live Stage11",
+        "tick": 114,
+        "state": "PLAYING",
+        "player": {
+          "cell": [
+            5,
+            1
+          ],
+          "facing": "up",
+          "hp": 3
+        },
+        "enemies": [
+          {
+            "id": "s11_rook_1",
+            "kind": "rook",
+            "cell": [
+              2,
+              1
+            ],
+            "hp": 16,
+            "state": "waiting",
+            "next_tick": 120
+          },
+          {
+            "id": "s11_rook_2",
+            "kind": "rook",
+            "cell": [
+              7,
+              1
+            ],
+            "hp": 16,
+            "state": "waiting",
+            "next_tick": 134
+          },
+          {
+            "id": "s11_knight_1",
+            "kind": "knight",
+            "cell": [
+              5,
+              5
+            ],
+            "hp": 13,
+            "state": "recovering",
+            "next_tick": 183
+          },
+          {
+            "id": "s11_knight_2",
+            "kind": "knight",
+            "cell": [
+              6,
+              6
+            ],
+            "hp": 13,
+            "state": "telegraph",
+            "next_tick": 124
+          },
+          {
+            "id": "s11_pawn_1",
+            "kind": "pawn",
+            "cell": [
+              1,
+              5
+            ],
+            "hp": 9,
+            "state": "waiting",
+            "next_tick": 233
+          }
+        ],
+        "events": [
+          {
+            "source": "s11_knight_1",
+            "kind": "basic",
+            "cells": [
+              [
+                5,
+                5
+              ]
+            ],
+            "state": "resolved",
+            "hit": 111,
+            "outcome": "miss"
+          },
+          {
+            "source": "s11_knight_2",
+            "kind": "basic",
+            "cells": [
+              [
+                5,
+                4
+              ]
+            ],
+            "state": "telegraph",
+            "hit": 124,
+            "outcome": null
+          }
+        ],
+        "parry": null
+      },
+      "cue": "danger",
+      "warning_cells": [
+        [
+          5,
+          4
+        ]
+      ],
+      "order": [
+        "s11_knight_2",
+        "s11_knight_1",
+        "s11_pawn_1",
+        "s11_rook_1",
+        "player",
+        "s11_rook_2"
+      ],
+      "layouts": {
+        "s11_knight_2": {
+          "foot": [
+            853.3268493150687,
+            531.2054794520549
+          ],
+          "height": 81.41223140495867,
+          "center": [
+            853.3268493150687,
+            566.1872976338731
+          ],
+          "top": 601.1691158156913,
+          "hp_y": 611.1691158156913
+        },
+        "s11_knight_1": {
+          "foot": [
+            699.9204986149581,
+            503.443213296399
+          ],
+          "height": 82.38545454545454,
+          "center": [
+            699.9204986149581,
+            556.843213296399
+          ],
+          "top": 592.243213296399,
+          "hp_y": 602.243213296399,
+          "elevation": 18.0
+        },
+        "s11_pawn_1": {
+          "foot": [
+            465.00588235294117,
+            475.05882352941177
+          ],
+          "height": 68.77090909090907,
+          "center": [
+            465.00588235294117,
+            504.6088235294118
+          ],
+          "top": 534.1588235294117,
+          "hp_y": 542.1588235294117
+        },
+        "s11_rook_1": {
+          "foot": [
+            521.4569230769232,
+            222.83076923076925
+          ],
+          "height": 88.86585123966942,
+          "center": [
+            521.4569230769232,
+            261.0153146853147
+          ],
+          "top": 299.19986013986016,
+          "hp_y": 309.19986013986016
+        },
+        "player": {
+          "foot": [
+            778.7295384615387,
+            222.83076923076925
+          ],
+          "height": 95.534208,
+          "center": [
+            778.7295384615387,
+            263.88062423076923
+          ],
+          "top": 304.9304792307692,
+          "hp_y": 309.9304792307692
+        },
+        "s11_rook_2": {
+          "foot": [
+            950.2446153846156,
+            222.83076923076925
+          ],
+          "height": 88.86585123966942,
+          "center": [
+            950.2446153846156,
+            261.0153146853147
+          ],
+          "top": 299.19986013986016,
+          "hp_y": 309.19986013986016
+        }
+      },
+      "warnings": [
+        {
+          "source": "s11_knight_2",
+          "attack_id": 2,
+          "hit_tick": 124,
+          "cells": [
+            [
+              5,
+              4
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "file": "dual_rook.png",
+      "sha256": "5112f71ed5f20f7e108915dc88a8d33057d43f002f9d2e1f9d2ba31797250f76",
+      "state": {
+        "scenario": "live Stage11",
+        "tick": 134,
+        "state": "PLAYING",
+        "player": {
+          "cell": [
+            5,
+            1
+          ],
+          "facing": "up",
+          "hp": 3
+        },
+        "enemies": [
+          {
+            "id": "s11_rook_1",
+            "kind": "rook",
+            "cell": [
+              2,
+              1
+            ],
+            "hp": 16,
+            "state": "telegraph",
+            "next_tick": 168
+          },
+          {
+            "id": "s11_rook_2",
+            "kind": "rook",
+            "cell": [
+              7,
+              1
+            ],
+            "hp": 16,
+            "state": "telegraph",
+            "next_tick": 182
+          },
+          {
+            "id": "s11_knight_1",
+            "kind": "knight",
+            "cell": [
+              5,
+              5
+            ],
+            "hp": 13,
+            "state": "recovering",
+            "next_tick": 183
+          },
+          {
+            "id": "s11_knight_2",
+            "kind": "knight",
+            "cell": [
+              5,
+              4
+            ],
+            "hp": 13,
+            "state": "recovering",
+            "next_tick": 196
+          },
+          {
+            "id": "s11_pawn_1",
+            "kind": "pawn",
+            "cell": [
+              1,
+              5
+            ],
+            "hp": 9,
+            "state": "waiting",
+            "next_tick": 233
+          }
+        ],
+        "events": [
+          {
+            "source": "s11_knight_1",
+            "kind": "basic",
+            "cells": [
+              [
+                5,
+                5
+              ]
+            ],
+            "state": "resolved",
+            "hit": 111,
+            "outcome": "miss"
+          },
+          {
+            "source": "s11_knight_2",
+            "kind": "basic",
+            "cells": [
+              [
+                5,
+                4
+              ]
+            ],
+            "state": "resolved",
+            "hit": 124,
+            "outcome": "miss"
+          },
+          {
+            "source": "s11_rook_1",
+            "kind": "basic",
+            "cells": [
+              [
+                3,
+                1
+              ],
+              [
+                4,
+                1
+              ],
+              [
+                5,
+                1
+              ]
+            ],
+            "state": "telegraph",
+            "hit": 168,
+            "outcome": null
+          },
+          {
+            "source": "s11_rook_2",
+            "kind": "basic",
+            "cells": [
+              [
+                6,
+                1
+              ],
+              [
+                5,
+                1
+              ]
+            ],
+            "state": "telegraph",
+            "hit": 182,
+            "outcome": null
+          }
+        ],
+        "parry": null
+      },
+      "cue": "danger",
+      "warning_cells": [
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          6,
+          1
+        ],
+        [
+          5,
+          1
+        ]
+      ],
+      "order": [
+        "s11_pawn_1",
+        "s11_knight_1",
+        "s11_knight_2",
+        "s11_rook_1",
+        "player",
+        "s11_rook_2"
+      ],
+      "layouts": {
+        "s11_pawn_1": {
+          "foot": [
+            465.00588235294117,
+            475.05882352941177
+          ],
+          "height": 68.77090909090907,
+          "center": [
+            465.00588235294117,
+            504.6088235294118
+          ],
+          "top": 534.1588235294117,
+          "hp_y": 542.1588235294117
+        },
+        "s11_knight_1": {
+          "foot": [
+            777.2882352941177,
+            475.05882352941177
+          ],
+          "height": 83.35867768595041,
+          "center": [
+            777.2882352941177,
+            510.8770053475936
+          ],
+          "top": 546.6951871657755,
+          "hp_y": 556.6951871657755
+        },
+        "s11_knight_2": {
+          "foot": [
+            777.623782234957,
+            416.33810888252145
+          ],
+          "height": 85.30512396694213,
+          "center": [
+            777.623782234957,
+            452.9926543370669
+          ],
+          "top": 489.6471997916123,
+          "hp_y": 499.6471997916123
+        },
+        "s11_rook_1": {
+          "foot": [
+            521.4569230769232,
+            222.83076923076925
+          ],
+          "height": 88.86585123966942,
+          "center": [
+            521.4569230769232,
+            261.0153146853147
+          ],
+          "top": 299.19986013986016,
+          "hp_y": 309.19986013986016
+        },
+        "player": {
+          "foot": [
+            778.7295384615387,
+            222.83076923076925
+          ],
+          "height": 95.534208,
+          "center": [
+            778.7295384615387,
+            263.88062423076923
+          ],
+          "top": 304.9304792307692,
+          "hp_y": 309.9304792307692
+        },
+        "s11_rook_2": {
+          "foot": [
+            950.2446153846156,
+            222.83076923076925
+          ],
+          "height": 88.86585123966942,
+          "center": [
+            950.2446153846156,
+            261.0153146853147
+          ],
+          "top": 299.19986013986016,
+          "hp_y": 309.19986013986016
+        }
+      },
+      "warnings": [
+        {
+          "source": "s11_rook_1",
+          "attack_id": 3,
+          "hit_tick": 168,
+          "cells": [
+            [
+              3,
+              1
+            ],
+            [
+              4,
+              1
+            ],
+            [
+              5,
+              1
+            ]
+          ]
+        },
+        {
+          "source": "s11_rook_2",
+          "attack_id": 4,
+          "hit_tick": 182,
+          "cells": [
+            [
+              6,
+              1
+            ],
+            [
+              5,
+              1
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "file": "rook1_resolved.png",
+      "sha256": "89c7200f02db52d8e6aeb0d6bd60588265b04edfb84132d2f2edeb5a2f166432",
+      "state": {
+        "scenario": "live Stage11",
+        "tick": 168,
+        "state": "PLAYING",
+        "player": {
+          "cell": [
+            5,
+            1
+          ],
+          "facing": "up",
+          "hp": 2
+        },
+        "enemies": [
+          {
+            "id": "s11_rook_1",
+            "kind": "rook",
+            "cell": [
+              4,
+              1
+            ],
+            "hp": 16,
+            "state": "recovering",
+            "next_tick": 258
+          },
+          {
+            "id": "s11_rook_2",
+            "kind": "rook",
+            "cell": [
+              7,
+              1
+            ],
+            "hp": 16,
+            "state": "telegraph",
+            "next_tick": 182
+          },
+          {
+            "id": "s11_knight_1",
+            "kind": "knight",
+            "cell": [
+              5,
+              5
+            ],
+            "hp": 13,
+            "state": "recovering",
+            "next_tick": 183
+          },
+          {
+            "id": "s11_knight_2",
+            "kind": "knight",
+            "cell": [
+              5,
+              4
+            ],
+            "hp": 13,
+            "state": "recovering",
+            "next_tick": 196
+          },
+          {
+            "id": "s11_pawn_1",
+            "kind": "pawn",
+            "cell": [
+              1,
+              5
+            ],
+            "hp": 9,
+            "state": "waiting",
+            "next_tick": 233
+          }
+        ],
+        "events": [
+          {
+            "source": "s11_knight_1",
+            "kind": "basic",
+            "cells": [
+              [
+                5,
+                5
+              ]
+            ],
+            "state": "resolved",
+            "hit": 111,
+            "outcome": "miss"
+          },
+          {
+            "source": "s11_knight_2",
+            "kind": "basic",
+            "cells": [
+              [
+                5,
+                4
+              ]
+            ],
+            "state": "resolved",
+            "hit": 124,
+            "outcome": "miss"
+          },
+          {
+            "source": "s11_rook_1",
+            "kind": "basic",
+            "cells": [
+              [
+                3,
+                1
+              ],
+              [
+                4,
+                1
+              ],
+              [
+                5,
+                1
+              ]
+            ],
+            "state": "resolved",
+            "hit": 168,
+            "outcome": "hit"
+          },
+          {
+            "source": "s11_rook_2",
+            "kind": "basic",
+            "cells": [
+              [
+                6,
+                1
+              ],
+              [
+                5,
+                1
+              ]
+            ],
+            "state": "telegraph",
+            "hit": 182,
+            "outcome": null
+          }
+        ],
+        "parry": null
+      },
+      "cue": "danger",
+      "warning_cells": [
+        [
+          6,
+          1
+        ],
+        [
+          5,
+          1
+        ]
+      ],
+      "order": [
+        "s11_pawn_1",
+        "s11_knight_1",
+        "s11_knight_2",
+        "s11_rook_1",
+        "player",
+        "s11_rook_2"
+      ],
+      "layouts": {
+        "s11_pawn_1": {
+          "foot": [
+            465.00588235294117,
+            475.05882352941177
+          ],
+          "height": 68.77090909090907,
+          "center": [
+            465.00588235294117,
+            504.6088235294118
+          ],
+          "top": 534.1588235294117,
+          "hp_y": 542.1588235294117
+        },
+        "s11_knight_1": {
+          "foot": [
+            777.2882352941177,
+            475.05882352941177
+          ],
+          "height": 83.35867768595041,
+          "center": [
+            777.2882352941177,
+            510.8770053475936
+          ],
+          "top": 546.6951871657755,
+          "hp_y": 556.6951871657755
+        },
+        "s11_knight_2": {
+          "foot": [
+            777.623782234957,
+            416.33810888252145
+          ],
+          "height": 85.30512396694213,
+          "center": [
+            777.623782234957,
+            452.9926543370669
+          ],
+          "top": 489.6471997916123,
+          "hp_y": 499.6471997916123
+        },
+        "s11_rook_1": {
+          "foot": [
+            521.4569230769232,
+            222.83076923076925
+          ],
+          "height": 88.86585123966942,
+          "center": [
+            521.4569230769232,
+            261.0153146853147
+          ],
+          "top": 299.19986013986016,
+          "hp_y": 309.19986013986016
+        },
+        "player": {
+          "foot": [
+            778.7295384615387,
+            222.83076923076925
+          ],
+          "height": 95.534208,
+          "center": [
+            778.7295384615387,
+            263.88062423076923
+          ],
+          "top": 304.9304792307692,
+          "hp_y": 309.9304792307692
+        },
+        "s11_rook_2": {
+          "foot": [
+            950.2446153846156,
+            222.83076923076925
+          ],
+          "height": 88.86585123966942,
+          "center": [
+            950.2446153846156,
+            261.0153146853147
+          ],
+          "top": 299.19986013986016,
+          "hp_y": 309.19986013986016
+        }
+      },
+      "warnings": [
+        {
+          "source": "s11_rook_2",
+          "attack_id": 4,
+          "hit_tick": 182,
+          "cells": [
+            [
+              6,
+              1
+            ],
+            [
+              5,
+              1
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "file": "parry_window.png",
+      "sha256": "e0718c4918942750d1e77678d247da9f95951a8743c9b18a792381e220f3c3a0",
+      "state": {
+        "scenario": "live Stage11",
+        "tick": 150,
+        "state": "PLAYING",
+        "player": {
+          "cell": [
+            5,
+            1
+          ],
+          "facing": "up",
+          "hp": 3
+        },
+        "enemies": [
+          {
+            "id": "s11_rook_1",
+            "kind": "rook",
+            "cell": [
+              2,
+              1
+            ],
+            "hp": 16,
+            "state": "telegraph",
+            "next_tick": 168
+          },
+          {
+            "id": "s11_rook_2",
+            "kind": "rook",
+            "cell": [
+              7,
+              1
+            ],
+            "hp": 16,
+            "state": "telegraph",
+            "next_tick": 182
+          },
+          {
+            "id": "s11_knight_1",
+            "kind": "knight",
+            "cell": [
+              5,
+              5
+            ],
+            "hp": 13,
+            "state": "recovering",
+            "next_tick": 183
+          },
+          {
+            "id": "s11_knight_2",
+            "kind": "knight",
+            "cell": [
+              5,
+              4
+            ],
+            "hp": 13,
+            "state": "recovering",
+            "next_tick": 196
+          },
+          {
+            "id": "s11_pawn_1",
+            "kind": "pawn",
+            "cell": [
+              1,
+              5
+            ],
+            "hp": 9,
+            "state": "waiting",
+            "next_tick": 233
+          }
+        ],
+        "events": [
+          {
+            "source": "s11_knight_1",
+            "kind": "basic",
+            "cells": [
+              [
+                5,
+                5
+              ]
+            ],
+            "state": "resolved",
+            "hit": 111,
+            "outcome": "miss"
+          },
+          {
+            "source": "s11_knight_2",
+            "kind": "basic",
+            "cells": [
+              [
+                5,
+                4
+              ]
+            ],
+            "state": "resolved",
+            "hit": 124,
+            "outcome": "miss"
+          },
+          {
+            "source": "s11_rook_1",
+            "kind": "basic",
+            "cells": [
+              [
+                3,
+                1
+              ],
+              [
+                4,
+                1
+              ],
+              [
+                5,
+                1
+              ]
+            ],
+            "state": "telegraph",
+            "hit": 168,
+            "outcome": null
+          },
+          {
+            "source": "s11_rook_2",
+            "kind": "basic",
+            "cells": [
+              [
+                6,
+                1
+              ],
+              [
+                5,
+                1
+              ]
+            ],
+            "state": "telegraph",
+            "hit": 182,
+            "outcome": null
+          }
+        ],
+        "parry": null
+      },
+      "cue": "parry_window",
+      "warning_cells": [
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          6,
+          1
+        ],
+        [
+          5,
+          1
+        ]
+      ],
+      "order": [
+        "s11_pawn_1",
+        "s11_knight_1",
+        "s11_knight_2",
+        "s11_rook_1",
+        "player",
+        "s11_rook_2"
+      ],
+      "layouts": {
+        "s11_pawn_1": {
+          "foot": [
+            465.00588235294117,
+            475.05882352941177
+          ],
+          "height": 68.77090909090907,
+          "center": [
+            465.00588235294117,
+            504.6088235294118
+          ],
+          "top": 534.1588235294117,
+          "hp_y": 542.1588235294117
+        },
+        "s11_knight_1": {
+          "foot": [
+            777.2882352941177,
+            475.05882352941177
+          ],
+          "height": 83.35867768595041,
+          "center": [
+            777.2882352941177,
+            510.8770053475936
+          ],
+          "top": 546.6951871657755,
+          "hp_y": 556.6951871657755
+        },
+        "s11_knight_2": {
+          "foot": [
+            777.623782234957,
+            416.33810888252145
+          ],
+          "height": 85.30512396694213,
+          "center": [
+            777.623782234957,
+            452.9926543370669
+          ],
+          "top": 489.6471997916123,
+          "hp_y": 499.6471997916123
+        },
+        "s11_rook_1": {
+          "foot": [
+            521.4569230769232,
+            222.83076923076925
+          ],
+          "height": 88.86585123966942,
+          "center": [
+            521.4569230769232,
+            261.0153146853147
+          ],
+          "top": 299.19986013986016,
+          "hp_y": 309.19986013986016
+        },
+        "player": {
+          "foot": [
+            778.7295384615387,
+            222.83076923076925
+          ],
+          "height": 95.534208,
+          "center": [
+            778.7295384615387,
+            263.88062423076923
+          ],
+          "top": 304.9304792307692,
+          "hp_y": 309.9304792307692
+        },
+        "s11_rook_2": {
+          "foot": [
+            950.2446153846156,
+            222.83076923076925
+          ],
+          "height": 88.86585123966942,
+          "center": [
+            950.2446153846156,
+            261.0153146853147
+          ],
+          "top": 299.19986013986016,
+          "hp_y": 309.19986013986016
+        }
+      },
+      "warnings": [
+        {
+          "source": "s11_rook_1",
+          "attack_id": 3,
+          "hit_tick": 168,
+          "cells": [
+            [
+              3,
+              1
+            ],
+            [
+              4,
+              1
+            ],
+            [
+              5,
+              1
+            ]
+          ]
+        },
+        {
+          "source": "s11_rook_2",
+          "attack_id": 4,
+          "hit_tick": 182,
+          "cells": [
+            [
+              6,
+              1
+            ],
+            [
+              5,
+              1
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "file": "parry_normal.png",
+      "sha256": "a995fffaa254763b454b2ffca1417e181675ee5b9211da123dbbabcc40f4becb",
+      "state": {
+        "scenario": "live Stage11",
+        "tick": 168,
+        "state": "PLAYING",
+        "player": {
+          "cell": [
+            5,
+            1
+          ],
+          "facing": "up",
+          "hp": 3
+        },
+        "enemies": [
+          {
+            "id": "s11_rook_1",
+            "kind": "rook",
+            "cell": [
+              4,
+              1
+            ],
+            "hp": 16,
+            "state": "recovering",
+            "next_tick": 258
+          },
+          {
+            "id": "s11_rook_2",
+            "kind": "rook",
+            "cell": [
+              7,
+              1
+            ],
+            "hp": 16,
+            "state": "telegraph",
+            "next_tick": 182
+          },
+          {
+            "id": "s11_knight_1",
+            "kind": "knight",
+            "cell": [
+              5,
+              5
+            ],
+            "hp": 13,
+            "state": "recovering",
+            "next_tick": 183
+          },
+          {
+            "id": "s11_knight_2",
+            "kind": "knight",
+            "cell": [
+              5,
+              4
+            ],
+            "hp": 13,
+            "state": "recovering",
+            "next_tick": 196
+          },
+          {
+            "id": "s11_pawn_1",
+            "kind": "pawn",
+            "cell": [
+              1,
+              5
+            ],
+            "hp": 9,
+            "state": "waiting",
+            "next_tick": 233
+          }
+        ],
+        "events": [
+          {
+            "source": "s11_knight_1",
+            "kind": "basic",
+            "cells": [
+              [
+                5,
+                5
+              ]
+            ],
+            "state": "resolved",
+            "hit": 111,
+            "outcome": "miss"
+          },
+          {
+            "source": "s11_knight_2",
+            "kind": "basic",
+            "cells": [
+              [
+                5,
+                4
+              ]
+            ],
+            "state": "resolved",
+            "hit": 124,
+            "outcome": "miss"
+          },
+          {
+            "source": "s11_rook_1",
+            "kind": "basic",
+            "cells": [
+              [
+                3,
+                1
+              ],
+              [
+                4,
+                1
+              ],
+              [
+                5,
+                1
+              ]
+            ],
+            "state": "resolved",
+            "hit": 168,
+            "outcome": "parried_normal"
+          },
+          {
+            "source": "s11_rook_2",
+            "kind": "basic",
+            "cells": [
+              [
+                6,
+                1
+              ],
+              [
+                5,
+                1
+              ]
+            ],
+            "state": "telegraph",
+            "hit": 182,
+            "outcome": null
+          }
+        ],
+        "parry": {
+          "status": "normal",
+          "cell": [
+            5,
+            1
+          ],
+          "tick": 168
+        }
+      },
+      "cue": "parry_success",
+      "warning_cells": [
+        [
+          6,
+          1
+        ],
+        [
+          5,
+          1
+        ]
+      ],
+      "order": [
+        "s11_pawn_1",
+        "s11_knight_1",
+        "s11_knight_2",
+        "s11_rook_1",
+        "player",
+        "s11_rook_2"
+      ],
+      "layouts": {
+        "s11_pawn_1": {
+          "foot": [
+            465.00588235294117,
+            475.05882352941177
+          ],
+          "height": 68.77090909090907,
+          "center": [
+            465.00588235294117,
+            504.6088235294118
+          ],
+          "top": 534.1588235294117,
+          "hp_y": 542.1588235294117
+        },
+        "s11_knight_1": {
+          "foot": [
+            777.2882352941177,
+            475.05882352941177
+          ],
+          "height": 83.35867768595041,
+          "center": [
+            777.2882352941177,
+            510.8770053475936
+          ],
+          "top": 546.6951871657755,
+          "hp_y": 556.6951871657755
+        },
+        "s11_knight_2": {
+          "foot": [
+            777.623782234957,
+            416.33810888252145
+          ],
+          "height": 85.30512396694213,
+          "center": [
+            777.623782234957,
+            452.9926543370669
+          ],
+          "top": 489.6471997916123,
+          "hp_y": 499.6471997916123
+        },
+        "s11_rook_1": {
+          "foot": [
+            521.4569230769232,
+            222.83076923076925
+          ],
+          "height": 88.86585123966942,
+          "center": [
+            521.4569230769232,
+            261.0153146853147
+          ],
+          "top": 299.19986013986016,
+          "hp_y": 309.19986013986016
+        },
+        "player": {
+          "foot": [
+            778.7295384615387,
+            222.83076923076925
+          ],
+          "height": 95.534208,
+          "center": [
+            778.7295384615387,
+            263.88062423076923
+          ],
+          "top": 304.9304792307692,
+          "hp_y": 309.9304792307692
+        },
+        "s11_rook_2": {
+          "foot": [
+            950.2446153846156,
+            222.83076923076925
+          ],
+          "height": 88.86585123966942,
+          "center": [
+            950.2446153846156,
+            261.0153146853147
+          ],
+          "top": 299.19986013986016,
+          "hp_y": 309.19986013986016
+        }
+      },
+      "warnings": [
+        {
+          "source": "s11_rook_2",
+          "attack_id": 4,
+          "hit_tick": 182,
+          "cells": [
+            [
+              6,
+              1
+            ],
+            [
+              5,
+              1
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "file": "parry_perfect.png",
+      "sha256": "b5fe91aefc4d99562b052033729b3109508738d0f60670ee7f98cdf7439d8529",
+      "state": {
+        "scenario": "live Stage11",
+        "tick": 168,
+        "state": "PLAYING",
+        "player": {
+          "cell": [
+            5,
+            1
+          ],
+          "facing": "up",
+          "hp": 3
+        },
+        "enemies": [
+          {
+            "id": "s11_rook_1",
+            "kind": "rook",
+            "cell": [
+              2,
+              1
+            ],
+            "hp": 16,
+            "state": "stunned",
+            "next_tick": 228
+          },
+          {
+            "id": "s11_rook_2",
+            "kind": "rook",
+            "cell": [
+              7,
+              1
+            ],
+            "hp": 16,
+            "state": "telegraph",
+            "next_tick": 182
+          },
+          {
+            "id": "s11_knight_1",
+            "kind": "knight",
+            "cell": [
+              5,
+              5
+            ],
+            "hp": 13,
+            "state": "recovering",
+            "next_tick": 183
+          },
+          {
+            "id": "s11_knight_2",
+            "kind": "knight",
+            "cell": [
+              5,
+              4
+            ],
+            "hp": 13,
+            "state": "recovering",
+            "next_tick": 196
+          },
+          {
+            "id": "s11_pawn_1",
+            "kind": "pawn",
+            "cell": [
+              1,
+              5
+            ],
+            "hp": 9,
+            "state": "waiting",
+            "next_tick": 233
+          }
+        ],
+        "events": [
+          {
+            "source": "s11_knight_1",
+            "kind": "basic",
+            "cells": [
+              [
+                5,
+                5
+              ]
+            ],
+            "state": "resolved",
+            "hit": 111,
+            "outcome": "miss"
+          },
+          {
+            "source": "s11_knight_2",
+            "kind": "basic",
+            "cells": [
+              [
+                5,
+                4
+              ]
+            ],
+            "state": "resolved",
+            "hit": 124,
+            "outcome": "miss"
+          },
+          {
+            "source": "s11_rook_1",
+            "kind": "basic",
+            "cells": [
+              [
+                3,
+                1
+              ],
+              [
+                4,
+                1
+              ],
+              [
+                5,
+                1
+              ]
+            ],
+            "state": "resolved",
+            "hit": 168,
+            "outcome": "parried_perfect"
+          },
+          {
+            "source": "s11_rook_2",
+            "kind": "basic",
+            "cells": [
+              [
+                6,
+                1
+              ],
+              [
+                5,
+                1
+              ]
+            ],
+            "state": "telegraph",
+            "hit": 182,
+            "outcome": null
+          }
+        ],
+        "parry": {
+          "status": "perfect",
+          "cell": [
+            5,
+            1
+          ],
+          "tick": 168
+        }
+      },
+      "cue": "perfect_success",
+      "warning_cells": [
+        [
+          6,
+          1
+        ],
+        [
+          5,
+          1
+        ]
+      ],
+      "order": [
+        "s11_pawn_1",
+        "s11_knight_1",
+        "s11_knight_2",
+        "s11_rook_1",
+        "player",
+        "s11_rook_2"
+      ],
+      "layouts": {
+        "s11_pawn_1": {
+          "foot": [
+            465.00588235294117,
+            475.05882352941177
+          ],
+          "height": 68.77090909090907,
+          "center": [
+            465.00588235294117,
+            504.6088235294118
+          ],
+          "top": 534.1588235294117,
+          "hp_y": 542.1588235294117
+        },
+        "s11_knight_1": {
+          "foot": [
+            777.2882352941177,
+            475.05882352941177
+          ],
+          "height": 83.35867768595041,
+          "center": [
+            777.2882352941177,
+            510.8770053475936
+          ],
+          "top": 546.6951871657755,
+          "hp_y": 556.6951871657755
+        },
+        "s11_knight_2": {
+          "foot": [
+            777.623782234957,
+            416.33810888252145
+          ],
+          "height": 85.30512396694213,
+          "center": [
+            777.623782234957,
+            452.9926543370669
+          ],
+          "top": 489.6471997916123,
+          "hp_y": 499.6471997916123
+        },
+        "s11_rook_1": {
+          "foot": [
+            521.4569230769232,
+            222.83076923076925
+          ],
+          "height": 88.86585123966942,
+          "center": [
+            521.4569230769232,
+            261.0153146853147
+          ],
+          "top": 299.19986013986016,
+          "hp_y": 309.19986013986016
+        },
+        "player": {
+          "foot": [
+            778.7295384615387,
+            222.83076923076925
+          ],
+          "height": 95.534208,
+          "center": [
+            778.7295384615387,
+            263.88062423076923
+          ],
+          "top": 304.9304792307692,
+          "hp_y": 309.9304792307692
+        },
+        "s11_rook_2": {
+          "foot": [
+            950.2446153846156,
+            222.83076923076925
+          ],
+          "height": 88.86585123966942,
+          "center": [
+            950.2446153846156,
+            261.0153146853147
+          ],
+          "top": 299.19986013986016,
+          "hp_y": 309.19986013986016
+        }
+      },
+      "warnings": [
+        {
+          "source": "s11_rook_2",
+          "attack_id": 4,
+          "hit_tick": 182,
+          "cells": [
+            [
+              6,
+              1
+            ],
+            [
+              5,
+              1
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "file": "player_attack.png",
+      "sha256": "471fd3ebc1f68edee507a0784994505f6a15da348b53412493d6b983f6a9397d",
+      "state": {
+        "scenario": "live Stage11",
+        "tick": 0,
+        "state": "PLAYING",
+        "player": {
+          "cell": [
+            5,
+            2
+          ],
+          "facing": "up",
+          "hp": 3
+        },
+        "enemies": [
+          {
+            "id": "s11_rook_1",
+            "kind": "rook",
+            "cell": [
+              2,
+              4
+            ],
+            "hp": 16,
+            "state": "initial_wait",
+            "next_tick": 48
+          },
+          {
+            "id": "s11_rook_2",
+            "kind": "rook",
+            "cell": [
+              7,
+              4
+            ],
+            "hp": 16,
+            "state": "initial_wait",
+            "next_tick": 62
+          },
+          {
+            "id": "s11_knight_1",
+            "kind": "knight",
+            "cell": [
+              3,
+              6
+            ],
+            "hp": 13,
+            "state": "initial_wait",
+            "next_tick": 75
+          },
+          {
+            "id": "s11_knight_2",
+            "kind": "knight",
+            "cell": [
+              6,
+              6
+            ],
+            "hp": 13,
+            "state": "initial_wait",
+            "next_tick": 88
+          },
+          {
+            "id": "s11_pawn_1",
+            "kind": "pawn",
+            "cell": [
+              1,
+              6
+            ],
+            "hp": 9,
+            "state": "initial_wait",
+            "next_tick": 101
+          }
+        ],
+        "events": [],
+        "parry": null
+      },
+      "cue": "player_attack",
+      "warning_cells": [],
+      "order": [
+        "s11_pawn_1",
+        "s11_knight_1",
+        "s11_knight_2",
+        "s11_rook_1",
+        "s11_rook_2",
+        "player"
+      ],
+      "layouts": {
+        "s11_pawn_1": {
+          "foot": [
+            471.52958904109596,
+            531.2054794520549
+          ],
+          "height": 67.16509090909089,
+          "center": [
+            471.52958904109596,
+            560.0654794520549
+          ],
+          "top": 588.9254794520549,
+          "hp_y": 596.9254794520549
+        },
+        "s11_knight_1": {
+          "foot": [
+            624.248493150685,
+            531.2054794520549
+          ],
+          "height": 81.41223140495867,
+          "center": [
+            624.248493150685,
+            566.1872976338731
+          ],
+          "top": 601.1691158156913,
+          "hp_y": 611.1691158156913
+        },
+        "s11_knight_2": {
+          "foot": [
+            853.3268493150687,
+            531.2054794520549
+          ],
+          "height": 81.41223140495867,
+          "center": [
+            853.3268493150687,
+            566.1872976338731
+          ],
+          "top": 601.1691158156913,
+          "hp_y": 611.1691158156913
+        },
+        "s11_rook_1": {
+          "foot": [
+            538.0432664756446,
+            416.33810888252145
+          ],
+          "height": 83.17249586776859,
+          "center": [
+            538.0432664756446,
+            452.0762907007033
+          ],
+          "top": 487.8144725188851,
+          "hp_y": 497.8144725188851
+        },
+        "s11_rook_2": {
+          "foot": [
+            937.3441260744986,
+            416.33810888252145
+          ],
+          "height": 83.17249586776859,
+          "center": [
+            937.3441260744986,
+            452.0762907007033
+          ],
+          "top": 487.8144725188851,
+          "hp_y": 497.8144725188851
+        },
+        "player": {
+          "foot": [
+            778.3432432432434,
+            290.4324324324324
+          ],
+          "height": 93.494016,
+          "center": [
+            778.3432432432434,
+            330.6056424324324
+          ],
+          "top": 370.77885243243236,
+          "hp_y": 375.77885243243236
+        }
+      },
+      "warnings": []
+    },
+    {
+      "file": "pawn_warning.png",
+      "sha256": "b8c3eca2223bd4c79cb738ddeedc706ddac5303c0a3e4ca8634e5336f0ec36d8",
+      "state": {
+        "scenario": "live Stage11",
+        "tick": 629,
+        "state": "PLAYING",
+        "player": {
+          "cell": [
+            4,
+            4
+          ],
+          "facing": "left",
+          "hp": 2
+        },
+        "enemies": [
+          {
+            "id": "s11_rook_1",
+            "kind": "rook",
+            "cell": [
+              5,
+              4
+            ],
+            "hp": 0,
+            "state": "inactive",
+            "next_tick": 186
+          },
+          {
+            "id": "s11_rook_2",
+            "kind": "rook",
+            "cell": [
+              7,
+              4
+            ],
+            "hp": 0,
+            "state": "inactive",
+            "next_tick": 416
+          },
+          {
+            "id": "s11_knight_1",
+            "kind": "knight",
+            "cell": [
+              6,
+              3
+            ],
+            "hp": 0,
+            "state": "inactive",
+            "next_tick": 327
+          },
+          {
+            "id": "s11_knight_2",
+            "kind": "knight",
+            "cell": [
+              7,
+              6
+            ],
+            "hp": 0,
+            "state": "inactive",
+            "next_tick": 588
+          },
+          {
+            "id": "s11_pawn_1",
+            "kind": "pawn",
+            "cell": [
+              3,
+              4
+            ],
+            "hp": 9,
+            "state": "telegraph",
+            "next_tick": 668
+          }
+        ],
+        "events": [
+          {
+            "source": "s11_rook_1",
+            "kind": "basic",
+            "cells": [
+              [
+                3,
+                4
+              ],
+              [
+                4,
+                4
+              ],
+              [
+                5,
+                4
+              ]
+            ],
+            "state": "resolved",
+            "hit": 96,
+            "outcome": "miss"
+          },
+          {
+            "source": "s11_rook_2",
+            "kind": "basic",
+            "cells": [
+              [
+                6,
+                4
+              ]
+            ],
+            "state": "resolved",
+            "hit": 110,
+            "outcome": "parried_perfect"
+          },
+          {
+            "source": "s11_knight_1",
+            "kind": "basic",
+            "cells": [
+              [
+                5,
+                5
+              ]
+            ],
+            "state": "resolved",
+            "hit": 111,
+            "outcome": "miss"
+          },
+          {
+            "source": "s11_knight_2",
+            "kind": "basic",
+            "cells": [
+              [
+                5,
+                4
+              ]
+            ],
+            "state": "cancelled",
+            "hit": 124,
+            "outcome": null
+          },
+          {
+            "source": "s11_knight_2",
+            "kind": "basic",
+            "cells": [
+              [
+                8,
+                5
+              ]
+            ],
+            "state": "resolved",
+            "hit": 204,
+            "outcome": "miss"
+          },
+          {
+            "source": "s11_rook_2",
+            "kind": "basic",
+            "cells": [
+              [
+                6,
+                4
+              ]
+            ],
+            "state": "resolved",
+            "hit": 218,
+            "outcome": "parried_perfect"
+          },
+          {
+            "source": "s11_knight_1",
+            "kind": "basic",
+            "cells": [
+              [
+                6,
+                3
+              ]
+            ],
+            "state": "resolved",
+            "hit": 219,
+            "outcome": "miss"
+          },
+          {
+            "source": "s11_knight_2",
+            "kind": "basic",
+            "cells": [
+              [
+                6,
+                4
+              ]
+            ],
+            "state": "resolved",
+            "hit": 312,
+            "outcome": "parried_perfect"
+          },
+          {
+            "source": "s11_rook_2",
+            "kind": "basic",
+            "cells": [
+              [
+                6,
+                4
+              ]
+            ],
+            "state": "resolved",
+            "hit": 326,
+            "outcome": "hit"
+          },
+          {
+            "source": "s11_knight_1",
+            "kind": "basic",
+            "cells": [
+              [
+                7,
+                5
+              ]
+            ],
+            "state": "cancelled",
+            "hit": 327,
+            "outcome": null
+          },
+          {
+            "source": "s11_knight_2",
+            "kind": "basic",
+            "cells": [
+              [
+                6,
+                4
+              ]
+            ],
+            "state": "resolved",
+            "hit": 408,
+            "outcome": "miss"
+          },
+          {
+            "source": "s11_knight_2",
+            "kind": "basic",
+            "cells": [
+              [
+                7,
+                6
+              ]
+            ],
+            "state": "resolved",
+            "hit": 516,
+            "outcome": "miss"
+          },
+          {
+            "source": "s11_pawn_1",
+            "kind": "pawn_contact",
+            "cells": [
+              [
+                4,
+                4
+              ]
+            ],
+            "state": "telegraph",
+            "hit": 668,
+            "outcome": null
+          }
+        ],
+        "parry": {
+          "status": "perfect",
+          "cell": [
+            6,
+            4
+          ],
+          "tick": 312
+        }
+      },
+      "cue": "danger",
+      "warning_cells": [
+        [
+          4,
+          4
+        ]
+      ],
+      "order": [
+        "s11_pawn_1",
+        "player"
+      ],
+      "layouts": {
+        "s11_pawn_1": {
+          "foot": [
+            617.9034383954154,
+            416.33810888252145
+          ],
+          "height": 70.37672727272725,
+          "center": [
+            617.9034383954154,
+            446.57810888252146
+          ],
+          "top": 476.81810888252147,
+          "hp_y": 484.81810888252147
+        },
+        "player": {
+          "foot": [
+            697.7636103151862,
+            416.33810888252145
+          ],
+          "height": 89.41363199999999,
+          "center": [
+            697.7636103151862,
+            454.75802888252144
+          ],
+          "top": 493.17794888252143,
+          "hp_y": 498.17794888252143
+        }
+      },
+      "warnings": [
+        {
+          "source": "s11_pawn_1",
+          "attack_id": 13,
+          "hit_tick": 668,
+          "cells": [
+            [
+              4,
+              4
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "file": "upgrade.png",
+      "sha256": "4960e75cd732f617b6daeae5148a367937b6fec68d8dd709b75071b446a1d643",
+      "state": {
+        "scenario": "live Stage11",
+        "tick": 669,
+        "state": "UPGRADE",
+        "player": {
+          "cell": [
+            4,
+            4
+          ],
+          "facing": "left",
+          "hp": 2
+        },
+        "enemies": [
+          {
+            "id": "s11_rook_1",
+            "kind": "rook",
+            "cell": [
+              5,
+              4
+            ],
+            "hp": 0,
+            "state": "inactive",
+            "next_tick": 186
+          },
+          {
+            "id": "s11_rook_2",
+            "kind": "rook",
+            "cell": [
+              7,
+              4
+            ],
+            "hp": 0,
+            "state": "inactive",
+            "next_tick": 416
+          },
+          {
+            "id": "s11_knight_1",
+            "kind": "knight",
+            "cell": [
+              6,
+              3
+            ],
+            "hp": 0,
+            "state": "inactive",
+            "next_tick": 327
+          },
+          {
+            "id": "s11_knight_2",
+            "kind": "knight",
+            "cell": [
+              7,
+              6
+            ],
+            "hp": 0,
+            "state": "inactive",
+            "next_tick": 588
+          },
+          {
+            "id": "s11_pawn_1",
+            "kind": "pawn",
+            "cell": [
+              3,
+              4
+            ],
+            "hp": 0,
+            "state": "inactive",
+            "next_tick": 728
+          }
+        ],
+        "events": [
+          {
+            "source": "s11_rook_1",
+            "kind": "basic",
+            "cells": [
+              [
+                3,
+                4
+              ],
+              [
+                4,
+                4
+              ],
+              [
+                5,
+                4
+              ]
+            ],
+            "state": "resolved",
+            "hit": 96,
+            "outcome": "miss"
+          },
+          {
+            "source": "s11_rook_2",
+            "kind": "basic",
+            "cells": [
+              [
+                6,
+                4
+              ]
+            ],
+            "state": "resolved",
+            "hit": 110,
+            "outcome": "parried_perfect"
+          },
+          {
+            "source": "s11_knight_1",
+            "kind": "basic",
+            "cells": [
+              [
+                5,
+                5
+              ]
+            ],
+            "state": "resolved",
+            "hit": 111,
+            "outcome": "miss"
+          },
+          {
+            "source": "s11_knight_2",
+            "kind": "basic",
+            "cells": [
+              [
+                5,
+                4
+              ]
+            ],
+            "state": "cancelled",
+            "hit": 124,
+            "outcome": null
+          },
+          {
+            "source": "s11_knight_2",
+            "kind": "basic",
+            "cells": [
+              [
+                8,
+                5
+              ]
+            ],
+            "state": "resolved",
+            "hit": 204,
+            "outcome": "miss"
+          },
+          {
+            "source": "s11_rook_2",
+            "kind": "basic",
+            "cells": [
+              [
+                6,
+                4
+              ]
+            ],
+            "state": "resolved",
+            "hit": 218,
+            "outcome": "parried_perfect"
+          },
+          {
+            "source": "s11_knight_1",
+            "kind": "basic",
+            "cells": [
+              [
+                6,
+                3
+              ]
+            ],
+            "state": "resolved",
+            "hit": 219,
+            "outcome": "miss"
+          },
+          {
+            "source": "s11_knight_2",
+            "kind": "basic",
+            "cells": [
+              [
+                6,
+                4
+              ]
+            ],
+            "state": "resolved",
+            "hit": 312,
+            "outcome": "parried_perfect"
+          },
+          {
+            "source": "s11_rook_2",
+            "kind": "basic",
+            "cells": [
+              [
+                6,
+                4
+              ]
+            ],
+            "state": "resolved",
+            "hit": 326,
+            "outcome": "hit"
+          },
+          {
+            "source": "s11_knight_1",
+            "kind": "basic",
+            "cells": [
+              [
+                7,
+                5
+              ]
+            ],
+            "state": "cancelled",
+            "hit": 327,
+            "outcome": null
+          },
+          {
+            "source": "s11_knight_2",
+            "kind": "basic",
+            "cells": [
+              [
+                6,
+                4
+              ]
+            ],
+            "state": "resolved",
+            "hit": 408,
+            "outcome": "miss"
+          },
+          {
+            "source": "s11_knight_2",
+            "kind": "basic",
+            "cells": [
+              [
+                7,
+                6
+              ]
+            ],
+            "state": "resolved",
+            "hit": 516,
+            "outcome": "miss"
+          },
+          {
+            "source": "s11_pawn_1",
+            "kind": "pawn_contact",
+            "cells": [
+              [
+                4,
+                4
+              ]
+            ],
+            "state": "resolved",
+            "hit": 668,
+            "outcome": "parried_perfect"
+          }
+        ],
+        "parry": {
+          "status": "perfect",
+          "cell": [
+            4,
+            4
+          ],
+          "tick": 668
+        }
+      },
+      "cue": "quiet",
+      "warning_cells": [],
+      "order": [
+        "player"
+      ],
+      "layouts": {
+        "player": {
+          "foot": [
+            697.7636103151862,
+            416.33810888252145
+          ],
+          "height": 89.41363199999999,
+          "center": [
+            697.7636103151862,
+            454.75802888252144
+          ],
+          "top": 493.17794888252143,
+          "hp_y": 498.17794888252143
+        }
+      },
+      "warnings": []
+    },
+    {
+      "file": "game_over.png",
+      "sha256": "7e0449ad13808cff912bce960805a60a1bf09cb4f6febd2b9636460544eb26b2",
+      "state": {
+        "scenario": "live Stage11",
+        "tick": 435,
+        "state": "GAME_OVER",
+        "player": {
+          "cell": [
+            5,
+            1
+          ],
+          "facing": "up",
+          "hp": 0
+        },
+        "enemies": [
+          {
+            "id": "s11_rook_1",
+            "kind": "rook",
+            "cell": [
+              4,
+              1
+            ],
+            "hp": 16,
+            "state": "telegraph",
+            "next_tick": 444
+          },
+          {
+            "id": "s11_rook_2",
+            "kind": "rook",
+            "cell": [
+              6,
+              1
+            ],
+            "hp": 16,
+            "state": "telegraph",
+            "next_tick": 458
+          },
+          {
+            "id": "s11_knight_1",
+            "kind": "knight",
+            "cell": [
+              6,
+              3
+            ],
+            "hp": 13,
+            "state": "recovering",
+            "next_tick": 507
+          },
+          {
+            "id": "s11_knight_2",
+            "kind": "knight",
+            "cell": [
+              5,
+              0
+            ],
+            "hp": 13,
+            "state": "telegraph",
+            "next_tick": 448
+          },
+          {
+            "id": "s11_pawn_1",
+            "kind": "pawn",
+            "cell": [
+              1,
+              3
+            ],
+            "hp": 9,
+            "state": "waiting",
+            "next_tick": 497
+          }
+        ],
+        "events": [
+          {
+            "source": "s11_knight_1",
+            "kind": "basic",
+            "cells": [
+              [
+                5,
+                5
+              ]
+            ],
+            "state": "resolved",
+            "hit": 111,
+            "outcome": "miss"
+          },
+          {
+            "source": "s11_knight_2",
+            "kind": "basic",
+            "cells": [
+              [
+                5,
+                4
+              ]
+            ],
+            "state": "resolved",
+            "hit": 124,
+            "outcome": "miss"
+          },
+          {
+            "source": "s11_rook_1",
+            "kind": "basic",
+            "cells": [
+              [
+                3,
+                1
+              ],
+              [
+                4,
+                1
+              ],
+              [
+                5,
+                1
+              ]
+            ],
+            "state": "resolved",
+            "hit": 168,
+            "outcome": "hit"
+          },
+          {
+            "source": "s11_rook_2",
+            "kind": "basic",
+            "cells": [
+              [
+                6,
+                1
+              ],
+              [
+                5,
+                1
+              ]
+            ],
+            "state": "resolved",
+            "hit": 182,
+            "outcome": "invulnerable"
+          },
+          {
+            "source": "s11_knight_1",
+            "kind": "basic",
+            "cells": [
+              [
+                6,
+                3
+              ]
+            ],
+            "state": "resolved",
+            "hit": 219,
+            "outcome": "miss"
+          },
+          {
+            "source": "s11_knight_2",
+            "kind": "basic",
+            "cells": [
+              [
+                6,
+                2
+              ]
+            ],
+            "state": "resolved",
+            "hit": 232,
+            "outcome": "miss"
+          },
+          {
+            "source": "s11_rook_1",
+            "kind": "basic",
+            "cells": [
+              [
+                5,
+                1
+              ]
+            ],
+            "state": "resolved",
+            "hit": 306,
+            "outcome": "hit"
+          },
+          {
+            "source": "s11_rook_2",
+            "kind": "basic",
+            "cells": [
+              [
+                5,
+                1
+              ]
+            ],
+            "state": "resolved",
+            "hit": 320,
+            "outcome": "invulnerable"
+          },
+          {
+            "source": "s11_knight_1",
+            "kind": "basic",
+            "cells": [
+              [
+                5,
+                1
+              ]
+            ],
+            "state": "resolved",
+            "hit": 327,
+            "outcome": "invulnerable"
+          },
+          {
+            "source": "s11_knight_2",
+            "kind": "basic",
+            "cells": [
+              [
+                5,
+                0
+              ]
+            ],
+            "state": "resolved",
+            "hit": 340,
+            "outcome": "miss"
+          },
+          {
+            "source": "s11_rook_1",
+            "kind": "basic",
+            "cells": [
+              [
+                5,
+                1
+              ]
+            ],
+            "state": "cancelled",
+            "hit": 444,
+            "outcome": null
+          },
+          {
+            "source": "s11_knight_1",
+            "kind": "basic",
+            "cells": [
+              [
+                5,
+                1
+              ]
+            ],
+            "state": "resolved",
+            "hit": 435,
+            "outcome": "hit"
+          },
+          {
+            "source": "s11_rook_2",
+            "kind": "basic",
+            "cells": [
+              [
+                5,
+                1
+              ]
+            ],
+            "state": "cancelled",
+            "hit": 458,
+            "outcome": null
+          },
+          {
+            "source": "s11_knight_2",
+            "kind": "basic",
+            "cells": [
+              [
+                6,
+                2
+              ]
+            ],
+            "state": "cancelled",
+            "hit": 448,
+            "outcome": null
+          }
+        ],
+        "parry": null
+      },
+      "cue": "quiet",
+      "warning_cells": [],
+      "order": [
+        "s11_pawn_1",
+        "s11_knight_1",
+        "s11_rook_1",
+        "s11_rook_2",
+        "s11_knight_2"
+      ],
+      "layouts": {
+        "s11_pawn_1": {
+          "foot": [
+            451.04017595307926,
+            354.86217008797655
+          ],
+          "height": 71.98254545454544,
+          "center": [
+            451.04017595307926,
+            385.79217008797656
+          ],
+          "top": 416.72217008797656,
+          "hp_y": 424.72217008797656
+        },
+        "s11_knight_1": {
+          "foot": [
+            859.708797653959,
+            354.86217008797655
+          ],
+          "height": 87.25157024793388,
+          "center": [
+            859.708797653959,
+            392.35307917888565
+          ],
+          "top": 429.84398826979475,
+          "hp_y": 439.84398826979475
+        },
+        "s11_rook_1": {
+          "foot": [
+            692.9720000000002,
+            222.83076923076925
+          ],
+          "height": 88.86585123966942,
+          "center": [
+            692.9720000000002,
+            261.0153146853147
+          ],
+          "top": 299.19986013986016,
+          "hp_y": 309.19986013986016
+        },
+        "s11_rook_2": {
+          "foot": [
+            864.4870769230771,
+            222.83076923076925
+          ],
+          "height": 88.86585123966942,
+          "center": [
+            864.4870769230771,
+            261.0153146853147
+          ],
+          "top": 299.19986013986016,
+          "hp_y": 309.19986013986016
+        },
+        "s11_knight_2": {
+          "foot": [
+            779.135331230284,
+            151.81703470031547
+          ],
+          "height": 93.09090909090908,
+          "center": [
+            779.135331230284,
+            191.81703470031547
+          ],
+          "top": 231.81703470031547,
+          "hp_y": 241.81703470031547
+        }
+      },
+      "warnings": []
+    }
+  ]
+}
