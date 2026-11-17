@@ -1,5 +1,87 @@
 # CHECKMATE 개발 진행 기록
 
+## Task 5-D3BF — Stage12 실전 GUI20/20 최종 승인 및 Git 반영
+
+사용자가 Windows 실전GUI20/20 전부 통과(시각5/5·전투판정8/8·진행안정7/7)를 보고했다.
+두Bishop 자기색50칸/반대색직렬화·경고/피해 정합·Rook혼합/패링/HP·11→12→13·GAME_OVER복귀를 승인한다.
+60초 이상 실제 전투의 체감 끊김 없음 보고와 별도 오류 보고 없음을 기록한다.
+이는 정량FPS/P95/P99/RAM/VRAM·장시간누수·전체 인간 캠페인 완주 검증 완료가 아니다.
+시작 main HEAD/fetch한 origin/main은 `a209bbe02f19d179b918bf506ca24b793d98b5df`,
+승인된 D3B26파일만 미커밋으로 존재했고 인덱스는 비어 있었다. 관련 없는 사용자 변경은 없었다.
+기능/테스트/원화/준비PNG/기준캡처는 바꾸지 않고 문서6개만 승인/검증 기록을 갱신한다.
+D3BF 단독 커밋/일반Push·실제 원격SHA일치/Clean 확인 전에는 D4A에 착수하지 않는다.
+최종 재실행은 **unittest1,494개 /312.153초 /실패0·오류0·skip0**(프로세스313.035초) 통과다.
+일반/-O Stage검사 각각25개(0.084/0.270초), compileall(1.817초), 기존카탈로그563해시(3.038초),
+Stage5~11 기준54PNG 임시재생성/해시일치(12.243초), Stage12 승인12PNG/기존이미지SHA256 일치를 확인했다.
+로컬 문서링크597개·JSON/공백검사도 통과했으며 문서6개 외 승인된20파일은 시작 바이트와 같았다.
+direct3d11 숨김창도 임시보고서로 다시 확인했다(5.658초): 실제11→12→13·두50칸/471틱사망/Stage11복귀·
+예상SDL폴백·1,816프레임/32로딩·32해제/최대8텍스처/종료0개다. 이 기술 계수를 정량성능/장시간누수 합격으로 표현하지 않는다.
+검증된26파일만 명시적으로 스테이징해 staged diff/목록/공백을 검토하고 D3BF 단독 커밋·main 일반Push한다.
+실제커밋SHA/원격일치/Clean 확인은 마감보고를 따른다. D4A Queen 산출물은 이 커밋에 포함하지 않는다.
+과거D3B와생성JSON의pending은 당시 이력이다. Chapter4/5 접합 OPEN·실측성능/메모리·전체 인간캠페인 검증 미완료는 유지한다.
+
+## Task 5-D3B — Stage12 실제 빙설2.5D / Windows 실전 GUI 대기
+
+선행 D3AF 디자인18파일 커밋 `a209bbe02f19d179b918bf506ca24b793d98b5df`
+(`feat: Stage 12 Ice Bishop 원화 제작 및 디자인 검수 완료`)을 기존main에 일반Push했다.
+fetch/실제ls-remote의 로컬·원격SHA일치와 작업 트리/인덱스 Clean을 확인한 뒤 D3B를 시작했다.
+Ice Bishop 정적8/8·Stage11 실전16/16·기존5~10 승인은 유지한다. D3B 실전 인간 GUI는 아직 대기다.
+
+stage12_art_renderer.py는 Stage7의 공통draw/ground_pose·Stage11의Frozen파일/기존기물layout을 재사용한다.
+기존11경로를 감싸고 main의 LiveArenaArtPath import한 줄만 바꿨다. 기존5~11 렌더러/RenderMotion/공통카메라·전투코드는 바꾸지 않았다.
+`CHECKMATE_STAGE12_ART` 값이 정확히1이고 Stage12일 때만 활성화하며 기본/0/다른값은 기존 표시다.
+기존7스위치와 독립이고 Stage13을 포함한 나머지17스테이지는 기존 표시다.
+실제 Bishop2×HP13/Rook1×HP16/Pawn2×HP9=5기/HP60·Player(5,1)·기존AI/공격/패링/강화/60Hz를 보존한다.
+8텍스처(배경/프레임/타일2/Player/Pawn/Rook/Bishop)만 세션당 한 번 로딩하고 두Bishop은1텍스처를 공유한다.
+엔티티/HP/원장/기절/피격/사망은 실제 개체별로 구분한다. 승인PNG·원화·알파·정적 크기값은 수정하지 않았다.
+
+Bishop은 기존 자기색50칸 제자리 공격이다. 실제 세션의 첫예고48→해결156,
+반대색은62부터 대기해 해결틱156을 건너뛰고157→265로 이어지는 기존 직렬화를 확인했다.
+대각선광선/이동·새 공격 타이머/범위를 추가하지 않았고 경고는 실제원장 target_cells 목록을 그대로 사용한다.
+50칸과 Rook경고가 겹쳐도 사건별 셀을 유지한다. 일반/퍼펙트/실패는 실제Resolver 결과에 따른다.
+발/HP간격10·가시전방28.3×84px/후방22.9×68.2px은 D3AF 정적 승인함수와100칸에서 같고,
+Player/Pawn/Rook의 크기/발/HP·B+12·지상 깊이/이동 보간·피격/패링/Mode1은 기존draw를 재사용한다.
+
+tools/stage12_play.py는 기존 Stage11 개발Run(level3/피해4·HP3/3·MOVE18·Receipt0)에서
+원래 자동이동/SPACE/패링 드라이버로 실제 Stage11을 클리어(669틱·HP2/3)하고 정상 HP강화로
+Stage12 HP3/4·피해4·Receipt1에 진입한다. 합성Receipt·강제처치/좌표조작·무적은 사용하지 않는다.
+이는 자동 실제 전투이며 인간 클리어/영구해금/Chapter1~2 클리어의 증거가 아님을 터미널에 명시한다.
+실제 Stage12 자동 클리어는 UPGRADE669틱·HP3/4, 정상ATTACK선택 후 Stage13 HP3/4·Receipt2·피해5다.
+무입력 GAME_OVER471틱 후 R은 기존 규칙대로 Stage11/HP3/3/Receipt0으로 복귀한다. Stage12 강제재시작 규칙은 만들지 않았다.
+
+신규전용17테스트는 **6.003초/실패0·오류0·skip0** 통과다. 실제 편성/Receipt·8스위치·공유PNG/독립HP·
+100칸/발/HP·반대색직렬화/1틱간격·Rook중첩·취소/사망·정상/퍼펙트/실패/실제피해·
+매틱표시불변/깊이/보간·11→12→13·GAME_OVER/복귀·부분로딩/NULL/SDL/프로그래밍오류·
+실제main의 기존렌더러 호출·개발도구·12PNG 재현성을 확인했다. 기존1,477개 테스트는 보존한다.
+자동 걷기 전투에서는 Rook이 이동 전에 처치되므로 이동표시는 별도의 실제 무입력220틱 시나리오로 검증했다.
+테스트 전제 오류를 바로잡았으며 기존 AI/전투를 바꿔 테스트에 맞추지 않았다.
+
+tools/capture_stage12_live.py의 실전12PNG/manifest를 artifacts/stage12_d3b에 보존했다.
+평상시/첫색50칸/Rook중첩/직렬화사이1틱/반대색50칸/해결·패링창/일반/퍼펙트·SPACE공격·강화·GAME_OVER를 기록한다.
+정적리뷰 대각선참고나 고정AI/HP를 실전 경로로 가져오지 않았고, 새 원화도 생성하지 않았다.
+tools/stage12_art_qa.py는 Windows direct3d11/VSync false 숨김 창에서
+실제11→12→13·두색상원장·471틱사망/Stage11복귀·예상SDL폴백을 관찰했다.
+**1,816프레임·32로딩/32해제·최대8텍스처·종료0장 /5.488초**이고 native_direct3d11.json에 기록했다.
+이는 인간 GUI나 실제FPS/P95/P99·장시간누수 검사 결과가 아니다. 프로그래밍 TypeError는 숨기지 않으며 예상오류만 폴백한다.
+
+최종 전체 재실행은 **1,494개 /348.089초 /실패0·오류0·skip0**(프로세스348.719초) 통과다.
+기존1,477개 테스트 메서드 삭제0개·신규17개를 확인했고 기존 테스트 내용은 수정하지 않았다.
+일반/-O Stage 검사 각각25개(0.075/0.124초), compileall(1.410초), 기존 카탈로그563개 해시(1.194초)를 통과했다.
+Stage5~11 기준54PNG를 임시폴더에 다시 생성해 전부 기존SHA256과 일치했다(12.588초).
+새 실전12PNG도 별도 subprocess에서 재생성해 기존 D3B 캡처/manifest와 해시가 같았다.
+문서 링크596개·Git/신규파일 공백·JSON검사를 통과했다. 기존 unittest의 software/dummy FrameStats 출력은 실제Windows 성능값으로 채택하지 않는다.
+D3B 시작 추적778파일 중 main import와문서6개 외771파일은 바이트 동일하다.
+기존5~11렌더러·RenderMotion·공통카메라·원본전투/AI/밸런스/StageJSON·승인원화/준비PNG/프롬프트/manifest는 보존했다.
+실제 변경은26파일(문서6·main1·신규renderer/전용테스트/개발/캡처/기술QA도구5·검증캡처12PNG/manifest/네이티브JSON14)다.
+검증 캡처 자료는33,266,331바이트이며 신규 원화/게임용 PNG 생성이나 변경은 없다.
+HEAD는 D3AF 커밋이고 D3B 인덱스는 비어 있다. D3B 스테이징/커밋/Push는 하지 않았다.
+실행은 `$env:CHECKMATE_STAGE12_ART="1"` 후 `.\.venv\Scripts\python.exe tools\stage12_play.py`다.
+수동연속 검수는11/12스위치를 함께 켜고 tools/stage11_play.py로 실제 클리어/강화를 선택한다.
+성능기록 `CHECKMATE_FRAME_STATS=1`과 사용자 체크리스트는 [D3B 문서](TASK5D_CHAPTER3_PLAN.md)에 있다.
+D3B는 실전 사용자 GUI 전까지 미스테이징·미커밋·미Push이며 D3AF 커밋과 분리한다.
+남은 것은 동적 HP/경고/50칸/패링/깊이·전환/60초 Windows 인간검수, 실제성능/장시간RAM/VRAM·전체 인간캠페인/출품 검수,
+Stage13~15 신규2.5D·Chapter3 종합QA다. Chapter4/5 전면접합 `ART-BOARD-CH4-CH5-FRONT-OVERLAP`은 OPEN이다.
+
 ## Task 5-D3AF — Ice Bishop 정적 디자인 사용자8/8 승인
 
 사용자가 Windows 디자인 GUI8/8 통과를 보고했다. 기존 Ice Pawn/Rook/Knight와의 일관성,

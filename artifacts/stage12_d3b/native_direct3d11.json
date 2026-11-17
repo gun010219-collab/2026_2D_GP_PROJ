@@ -1,0 +1,52 @@
+{
+  "scope": "Actual hidden native Stage11->12->13 and Stage12 death/restart; not human GUI/performance",
+  "renderer": "direct3d11",
+  "vsync": false,
+  "stage11": [
+    11,
+    "UPGRADE",
+    669,
+    2,
+    3
+  ],
+  "stage12": [
+    12,
+    "UPGRADE",
+    669,
+    3,
+    4
+  ],
+  "stage13": {
+    "hp": 3,
+    "max_hp": 4,
+    "receipts": 2,
+    "legacy_display": true
+  },
+  "bishop_colors": [
+    0,
+    1
+  ],
+  "stage12_texture_keys": [
+    "background",
+    "bishop",
+    "dark",
+    "frame",
+    "light",
+    "pawn",
+    "player",
+    "rook"
+  ],
+  "resources": {
+    "loads": 32,
+    "destroys": 32,
+    "peak": 8,
+    "frames": 1816
+  },
+  "no_input_death_tick": 471,
+  "restart_stage": 11,
+  "expected_failure_legacy_draw": true,
+  "elapsed_seconds": 5.488,
+  "human_stage12_gui": "pending",
+  "windows_fps_p95_p99": "unmeasured",
+  "long_term_ram_vram": "unmeasured"
+}
