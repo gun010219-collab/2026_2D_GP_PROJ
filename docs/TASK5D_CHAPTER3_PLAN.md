@@ -1,5 +1,109 @@
 # CHECKMATE — Task 5-D0 / Chapter 3 개발 기반과 확장 계획
 
+## Task 5-D3AF — Ice Bishop 사용자 디자인8/8 최종 승인
+
+사용자가 Windows 정적 디자인8/8 통과를 보고했다. 4종의 일관성·Bishop 식별·앞/뒤 크기·명암 가독성·
+원본5기 배치·발/HP·잘림/알파·F11/G/페이지/ESC가 승인됐다.
+원화·준비PNG·정적 표시값/캡처/도구/테스트는 동결한다. 아래 D3A 대기와JSON은 당시 기록이다.
+실제 재검증 결과는 [D3AF 진행 기록](PROGRESS.md)을 따른다. 승인된18파일만 별도 커밋/일반Push한 뒤
+실제 원격SHA일치/Clean 확인 후 D3B를 시작한다. 이 정적 승인은 아직 미구현인 Stage12 실전 GUI 승인이 아니다.
+실측성능/장시간메모리/전체 인간 캠페인 검증은 미완료, Chapter4/5 접합은 OPEN이다.
+
+## Task 5-D3A — Ice Bishop 원화·정적 검수 후보 / 사용자 디자인 승인 대기
+
+D2F를 먼저 독립 마감했다. main 커밋 `7f34073c18c6dd61433183ed26ccc37e28dfa215`
+(`feat: Stage 11 빙설 2.5D 실전 통합 및 GUI 검수 완료`)을 일반Push했고,
+fetch/ls-remote로 로컬·원격SHA일치와 작업 트리/인덱스 Clean을 확인한 뒤에만 이 작업을 시작했다.
+Stage11 GUI16/16 승인과 기능/이미지/크기는 동결한다. D3A는 Stage12 실제 렌더러를 연결하지 않는다.
+
+### 원본 Stage12와 표시 범위
+
+stage_data와 Chapter3 CombatProfile/StageElevenTwelveTests를 대조했다.
+실제 적은 Bishop(2,8)/(7,8) HP13씩, Rook(2,4) HP16, Pawn(1,6)/(8,6) HP9씩이며 총5기/HP60이다.
+Player 시작은(5,1), 일반전이고 King/Pulse는 없다. AI·HP·공격/패링·원장·이동·강화/전환 코드는 변경하지 않았다.
+뷰어의 Player HP3은 정적 라벨 참고값이며 실제 Stage11→12의 잔여HP/강화Receipt를 시뮬레이션하지 않는다.
+향후 실제 Bishop2기는 같은 이미지 텍스처를 공유해야 한다. 현재는 정적 뷰어만 같은 준비PNG를 공유한다.
+Stage11 Frozen 배경/프레임/타일·Pawn/Rook/Knight/Player·B+12/발/HP/깊이 프로필을 그대로 재사용한다.
+
+### 실제 신규 제작·측정
+
+OpenAI 내장 image_gen으로 신규 빙결 성직자를 생성했다. 기존3종의 원화와256준비PNG를 실제 열어 확인하고,
+광원/빙설금속/청색코어/약한3/4 시점을 텍스트 명세에 반영했다. 최초 생성에는 이미지 입력을 넣지 않았다.
+왕실/숲 Bishop 재색칠이나 기존 승인 캐릭터 편집은 하지 않았다.
+갈라진 결정 관·수직의 긴 얼음판 로브·서리 지팡이·은제 성물과 청회색 외곽을 갖춘 후보이며,
+Pawn 둥근 갑옷/Rook 넓은 방패/Knight 말머리와 구별되는 가늘고 긴 실루엣이다.
+
+첫 원화는 관 위 가시 알파 여백이1.11%여서 보존본으로 남겼다.
+같은 새 초안만 참조한 image_gen 여백/알파 보정1회를 거쳐 선택했다. 생성 편집은 내부 디테일의 픽셀 동일성을 보장하지 않는다.
+원본2장·실제 프롬프트/참조·도구/선택 이유/해시·노출되지 않은 내부 모델명은
+[bishop_prompt.json](../assets/chapter3_units/bishop_prompt.json)에 기록했다. 생성 도구 캐시의 원본도 삭제하지 않았다.
+
+| 구분 | 실제 경로 | 측정 |
+|---|---|---|
+| 최초 원화(보존) | assets/chapter3_units/source/bishop_initial.png | 1024×1536, 가시 bbox(225,17,720,1505) |
+| 선택 원화 | assets/chapter3_units/source/bishop.png | 1024×1536 RGBA, 가시 bbox(269,125,707,1433), 최소 여백6.7057% |
+| 게임용 준비 후보 | assets/chapter3_units/bishop.png | 256×256 RGBA, bbox(91,18,165,238), 동일비율74×220px |
+
+가시 bbox는 기존 D1과 동일한 alpha>5 기준이다. 원화 alpha>0 bbox는(39,71,1004,1438)로,
+거의 보이지 않는 alpha1~5 흔적까지 모두5% 여백이라는 뜻은 아니다.
+준비본 alpha>0/>5 bbox는 같고 완전 투명53,217픽셀/부분알파12,319픽셀이다.
+전체 near-black 부분알파 후보38픽셀은 극저알파 영역이며, 실제 보이는 부드러운 경계(alpha8~240)의 near-black 오염 후보는0픽셀이다.
+수치만으로 미적 완성/모든 매트 문제를 확정하지 않고 밝음/어둠/자홍/청회색 합성 페이지로 함께 검수한다.
+
+[기존 D1 normalized 함수](../tools/prepare_chapter3_units.py)를 그대로 호출하는
+[Bishop 전용 준비 도구](../tools/prepare_ice_bishop.py)는 premultiplied 선형 보간·straightRGBA 저장·동일비율 긴변220px·투명패딩을 재사용한다.
+충돌하는 기존 출력은 덮어쓰지 않으며 실패 시 이 호출에서 새로 만든 부분 출력만 정리한다.
+기존 D1 asset_manifest/PNG와 Stage11 렌더러는 변경하지 않았다.
+[bishop_manifest.json](../assets/chapter3_units/bishop_manifest.json)에 크기/알파/발 후보/바이트/SHA256을 별도로 기록했다.
+선택 원화 SHA256: `ac06f7520a5ed6763e6b9424833411b6c1ebcafea36cd7d887e8c69685b4033e`.
+준비본 SHA256: `922f80d8e7d3c06e5c40e1143eda4a80b1ea0250365234c29c06e05dfbab396e`.
+
+현재 정적 후보는 전방 v=0 가시28.3×84px/PNG97.745²px, 후방 v=9 가시22.9×68.2px이다.
+alpha-bottom 발 후보(128,238), HP간격10px, B+12 깊이 축소와 지상 row/col 정렬을 사용한다.
+기존 Pawn/Rook/Knight/Player layout은 Stage11 승인 함수와100칸 모두 동일하다.
+Bishop의 가는 폭·관 갈림·지팡이가 실제 크기에서 읽히는지는 사용자 디자인 승인 대상이며 최종 인게임 크기로 확정하지 않는다.
+
+### 정적 검수·경고의 의미
+
+[정적 뷰어](../tools/ice_bishop_review.py)는 기존 D1의 이미지/문자/보드/발그림자/HP 기능을 상속·재사용한다.
+원화/준비본·빙설4종·84px 앞/뒤 밝고어두운 칸·Stage12 원본배치·경고겹침 참고·알파의6페이지를
+[별도 폴더](../assets/chapter3_units/bishop_review)와 [manifest](../assets/chapter3_units/bishop_review/review_manifest.json)에 보존한다.
+같은 리뷰 세션에서13텍스처(환경5·4종준비본/4원화)를 한 번만 로딩하고 종료 시 정리한다.
+Stage12 Bishop2기는 같은 bishop 준비 텍스처를 재사용하며 개체마다 다시 로딩하지 않는다.
+
+현재 실제 Bishop AI는 **제자리50칸 색상 공격**이다. 사용자 요청의 대각선은 형태/배치 참고로만 구분했다.
+5번 페이지의 빨강50칸/주황Rook직선은 손으로 정한 정적 참고이고, 파랑 대각선 축은 **피해 경고가 아니다**.
+화면과manifest에 NO AI/LEDGER/PARRY 및 NOT DAMAGE를 명시한다.
+실제 원장/피해/동적 패링이나 순간이동을 검증·구현했다고 표현하지 않는다.
+
+실행(저장소 루트 PowerShell):
+
+```powershell
+.\.venv\Scripts\python.exe tools\ice_bishop_review.py
+```
+
+`1~6` 페이지, `G` 격자, `F11` 전체화면, `ESC` 종료/설정닫기이며 SETTINGS도 유지한다.
+임시 폴더로 캡처를 재현하려면 `--capture-dir <새 경로>`를 사용한다. 승인 기준 자료 위에 새 캡처를 덮어쓰지 않는다.
+
+| 사용자 디자인 검수 | 상태 |
+|---|---|
+| Bishop 결정 관·로브·서리 지팡이·은제 성물의 만족도 | 대기 |
+| 기존 빙설3종과 재질·시점·광원·코어의 일관성 | 대기 |
+| Pawn/Rook/Knight와 다른 수직 실루엣 | 대기 |
+| 84px 기준 앞/뒤 행에서 관 갈림·지팡이·크기 식별 | 대기 |
+| 밝은/어두운 Frozen 타일의 대비 | 대기 |
+| Stage12 Bishop2/Rook1/Pawn2 원본5기/HP60 정적 배치 | 대기 |
+| 색상50칸·Rook직선 겹침과 파랑 대각선 참고의 명확한 구분 | 대기 |
+| 머리/관/지팡이/발 잘림·알파 가장자리/검은 번짐 없음 | 대기 |
+| 발/HP 간격·가림·원근 크기 | 대기 |
+| F11·ESC·SETTINGS 및 뷰어 종료/재실행 | 대기 |
+
+전용9테스트와 전체 회귀/해시/링크/43장+Stage11 회귀는 [최신 진행 기록](PROGRESS.md)을 따른다.
+자동 정적 검사/SDL 숨김 창·게임 실행 테스트·인간 디자인 검수는 별도 근거다.
+D3A는 사용자 디자인 승인 전 미스테이징·미커밋·미Push다. Stage12 독립 opt-in/실제 표시/동적2Bishop원장은 다음 별도 작업이다.
+Stage13~15·Chapter3 종합QA·Windows FPS/P95/P99/RAM/VRAM·출품/배포/AI이용조건 확인은 미완료다.
+Chapter4/5 `ART-BOARD-CH4-CH5-FRONT-OVERLAP`은 OPEN이다.
+
 ## Task 5-D2F — Stage11 사용자 실전 GUI16/16 최종 승인
 
 사용자가 Windows11 GUI16개 항목(A 시각5/5·B 실전/판정6/6·C 안정성/사용성5/5) 전부 통과를 보고했다.

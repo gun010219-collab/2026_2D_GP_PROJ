@@ -1,5 +1,34 @@
 # CHECKMATE 에셋 출처
 
+## Task 5-D3AF — Ice Bishop 정적 디자인 승인
+
+사용자가 Windows 디자인 검수8/8 통과를 보고했다. 원화·준비본·정적 앞/뒤크기·명암/발/HP·알파/잘림·검수도구를 승인한다.
+원화2장/준비PNG·실제 프롬프트/출처/해시·6검수PNG는 변경하지 않는다. 아래 D3A 및JSON의pending은 제작 당시 이력이다.
+신규 생성/재색칠/리사이즈 기준 변경은 하지 않으며 Stage12 실제 전투 GUI 검수로 이 승인을 확대하지 않는다.
+내부 생성 모델명 미노출·공모전AI허용/표시·배포이용조건/법적 확인 미완료를 유지한다.
+
+## Task 5-D3A — 신규 Ice Bishop 후보 / 디자인 승인 대기
+
+OpenAI 내장 image_gen을 실제 사용해 신규 고해상도 빙결 성직자를 제작했다. 내부 모델명은 도구에 노출되지 않았다.
+Pawn/Rook/Knight 승인 원화와준비PNG를 실제 열어 스타일을 확인한 뒤 텍스트 생성1회를 수행했다.
+최초 생성에는 참조 이미지를 제출하지 않았다. 이후 새 Bishop 초안만 이미지 입력으로 사용해 여백/투명배경 보정1회를 수행했다.
+왕실/숲 Bishop 재색칠·기존 승인 캐릭터 변형은 하지 않았다. 생성 편집이 두 초안 사이 픽셀 동일성을 보장하지는 않는다.
+최초 source/bishop_initial.png와 선택 source/bishop.png를 별도 보존하며 기존 source/PNG/manifest는 덮어쓰지 않는다.
+실제 프롬프트2개·도구·입력/출력·선택이력·원본SHA256은
+[bishop_prompt.json](../assets/chapter3_units/bishop_prompt.json)에 기록했다.
+
+256RGBA 준비본은 기존 D1 normalized 함수를 재사용해 동일비율74×220px/투명패딩으로 만든 bishop.png다.
+이미지 재도색·가로세로 비율 변경·기존3기물 재생성은 하지 않았다.
+원화/준비본 크기·알파/bbox·투명 픽셀·바이트·SHA256은 [bishop_manifest.json](../assets/chapter3_units/bishop_manifest.json)에 있다.
+원화1024×1536의 가시 alpha>5 bbox(269,125,707,1433), 준비256² bbox(91,18,165,238)다.
+알파>0의 희미한 원화 흔적과 가시 경계를 구분하며 alpha8~240에서 near-black 오염 후보0픽셀을 확인했다.
+이는 정적 자동 경계 검사이며 사용자 시각 승인/실시간 게임 가독성 완료를 뜻하지 않는다.
+
+[6페이지 정적 검수 자료](../assets/chapter3_units/bishop_review)는 자체 SDL 합성 화면이며 신규 실전 렌더러가 아니다.
+Frozen 환경·기존 승인3기물/Player는 그대로 재사용했다. Bishop2기는 정적 뷰어에서 같은 준비PNG를 공유한다.
+현재 Stage11은 D2F GUI16/16 승인, 이번 Bishop 정적 디자인은 미승인이다. Stage12 실제 전투 적용도 아직 하지 않았다.
+공모전 AI 허용/표시·배포 이용조건·독점성/법적 심사는 확인되지 않았으며 법적 사용 허가 완료를 주장하지 않는다.
+
 ## Task 5-D1F — Frozen3종 사용자 디자인 승인
 
 사용자가 Ice Pawn/Rook/Knight의 Windows 정적 디자인 검수10/10 통과를 보고했다.

@@ -1,0 +1,68 @@
+{
+  "task": "Task 5-D3A",
+  "status": "Static Ice Bishop candidate; user design approval pending; no live Stage12 renderer",
+  "generator": "OpenAI built-in image_gen; exact model not exposed",
+  "normalization": "Unchanged tools.prepare_chapter3_units.normalized: alpha>5 bbox, uniform max220px SDL linear premultiplied resize, straight RGBA256 padding",
+  "alpha_bbox_threshold": 5,
+  "assets": [
+    {
+      "name": "bishop",
+      "source": "source/bishop.png",
+      "file": "bishop.png",
+      "source_size": [
+        1024,
+        1536
+      ],
+      "source_alpha_bbox": [
+        269,
+        125,
+        707,
+        1433
+      ],
+      "source_alpha_nonzero_bbox": [
+        39,
+        71,
+        1004,
+        1438
+      ],
+      "source_transparent_pixels": 1135440,
+      "source_safety_margin_fraction": 0.067057,
+      "source_bytes": 1816757,
+      "source_sha256": "ac06f7520a5ed6763e6b9424833411b6c1ebcafea36cd7d887e8c69685b4033e",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        91,
+        18,
+        165,
+        238
+      ],
+      "alpha_nonzero_bbox": [
+        91,
+        18,
+        165,
+        238
+      ],
+      "transparent_pixels": 53217,
+      "partial_alpha_pixels": 12319,
+      "near_black_partial_pixels": 38,
+      "safety_margin_fraction": 0.070312,
+      "normalized_dimensions": [
+        74,
+        220
+      ],
+      "rgba_bytes": 262144,
+      "file_bytes": 43450,
+      "sha256": "922f80d8e7d3c06e5c40e1143eda4a80b1ea0250365234c29c06e05dfbab396e",
+      "foot_anchor": [
+        128,
+        238
+      ],
+      "anchor_note": "alpha-bottom static candidate; inspect boot soles; not live Stage12",
+      "target_front_visible_height": 84,
+      "hp_offset_candidate": 10
+    }
+  ]
+}

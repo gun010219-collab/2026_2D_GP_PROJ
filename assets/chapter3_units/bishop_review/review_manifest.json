@@ -1,0 +1,574 @@
+{
+  "status": "D3A static Ice Bishop design candidate; user GUI pending; no live Stage12 or combat validation",
+  "camera_corners": [
+    [
+      292.59999999999997,
+      133.5
+    ],
+    [
+      1177.4,
+      133.5
+    ],
+    [
+      1093.4,
+      721.5
+    ],
+    [
+      387.79999999999995,
+      721.5
+    ]
+  ],
+  "roster": [
+    {
+      "data_id": "player",
+      "kind": "player",
+      "col": 5,
+      "row": 1,
+      "hp": 3
+    },
+    {
+      "data_id": "s12_bishop_1",
+      "kind": "bishop",
+      "col": 2,
+      "row": 8,
+      "hp": 13
+    },
+    {
+      "data_id": "s12_bishop_2",
+      "kind": "bishop",
+      "col": 7,
+      "row": 8,
+      "hp": 13
+    },
+    {
+      "data_id": "s12_rook_1",
+      "kind": "rook",
+      "col": 2,
+      "row": 4,
+      "hp": 16
+    },
+    {
+      "data_id": "s12_pawn_1",
+      "kind": "pawn",
+      "col": 1,
+      "row": 6,
+      "hp": 9
+    },
+    {
+      "data_id": "s12_pawn_2",
+      "kind": "pawn",
+      "col": 8,
+      "row": 6,
+      "hp": 9
+    }
+  ],
+  "target_bishop_front_height": 84,
+  "warning_note": "Hand-selected color50 and Rook line geometry only; blue diagonal axis is NOT an attack. Current Bishop AI uses stationary color50. No ledger/parry/damage simulation.",
+  "color_reference": [
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      2
+    ],
+    [
+      0,
+      4
+    ],
+    [
+      0,
+      6
+    ],
+    [
+      0,
+      8
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      1,
+      3
+    ],
+    [
+      1,
+      5
+    ],
+    [
+      1,
+      7
+    ],
+    [
+      1,
+      9
+    ],
+    [
+      2,
+      0
+    ],
+    [
+      2,
+      2
+    ],
+    [
+      2,
+      4
+    ],
+    [
+      2,
+      6
+    ],
+    [
+      2,
+      8
+    ],
+    [
+      3,
+      1
+    ],
+    [
+      3,
+      3
+    ],
+    [
+      3,
+      5
+    ],
+    [
+      3,
+      7
+    ],
+    [
+      3,
+      9
+    ],
+    [
+      4,
+      0
+    ],
+    [
+      4,
+      2
+    ],
+    [
+      4,
+      4
+    ],
+    [
+      4,
+      6
+    ],
+    [
+      4,
+      8
+    ],
+    [
+      5,
+      1
+    ],
+    [
+      5,
+      3
+    ],
+    [
+      5,
+      5
+    ],
+    [
+      5,
+      7
+    ],
+    [
+      5,
+      9
+    ],
+    [
+      6,
+      0
+    ],
+    [
+      6,
+      2
+    ],
+    [
+      6,
+      4
+    ],
+    [
+      6,
+      6
+    ],
+    [
+      6,
+      8
+    ],
+    [
+      7,
+      1
+    ],
+    [
+      7,
+      3
+    ],
+    [
+      7,
+      5
+    ],
+    [
+      7,
+      7
+    ],
+    [
+      7,
+      9
+    ],
+    [
+      8,
+      0
+    ],
+    [
+      8,
+      2
+    ],
+    [
+      8,
+      4
+    ],
+    [
+      8,
+      6
+    ],
+    [
+      8,
+      8
+    ],
+    [
+      9,
+      1
+    ],
+    [
+      9,
+      3
+    ],
+    [
+      9,
+      5
+    ],
+    [
+      9,
+      7
+    ],
+    [
+      9,
+      9
+    ]
+  ],
+  "rook_reference": [
+    [
+      3,
+      4
+    ],
+    [
+      4,
+      4
+    ],
+    [
+      5,
+      4
+    ],
+    [
+      6,
+      4
+    ],
+    [
+      7,
+      4
+    ],
+    [
+      8,
+      4
+    ]
+  ],
+  "diagonal_guide": [
+    [
+      0,
+      6
+    ],
+    [
+      1,
+      7
+    ],
+    [
+      1,
+      9
+    ],
+    [
+      2,
+      8
+    ],
+    [
+      3,
+      7
+    ],
+    [
+      3,
+      9
+    ],
+    [
+      4,
+      6
+    ],
+    [
+      5,
+      5
+    ],
+    [
+      6,
+      4
+    ],
+    [
+      7,
+      3
+    ],
+    [
+      8,
+      2
+    ],
+    [
+      9,
+      1
+    ]
+  ],
+  "assets": {
+    "assets\\themed_arena\\frozen.png": "da5ce16b2e8de0b7480d353517d90fed99b59431d95bbc549b29b1485c1cfaaa",
+    "assets\\aligned_board\\frozen_c.png": "e895f25562bde8b1bfa4659babce800c9a27a77a24b210e1d63e9fbc59f04156",
+    "assets\\polished_board\\frozen_light.png": "20332d1f7f7c3224628bdd9ccc6d39d87f7306e88df57061c7c686f2b1ba180e",
+    "assets\\polished_board\\frozen_dark.png": "cabed7b1995803c918a400bc75b705df42a20e5d3dbd70c267d89f0b1c97bbbc",
+    "assets\\character_concepts\\player.png": "5a7301e29f6a8446fe03eb8d0cd29a334f392d3c93badb1c0ce5c0dedb56bf64",
+    "assets\\chapter3_units\\pawn.png": "03d636cb736651fd825be4b1bfc1e24bea44adccd7af89d824b627ae46e75d58",
+    "assets\\chapter3_units\\source\\pawn.png": "8d151ece3c16b04d2ef9ce49620eb8f569d61fbd06cf89637e0ddd9ba54e3dc4",
+    "assets\\chapter3_units\\rook.png": "ab1cec71d3a1b3f34587c1038871aa2b6b3f18c6ad2be78fa67a34678acf5679",
+    "assets\\chapter3_units\\source\\rook.png": "a6e4d2e66bb165a39cba34ae7a7fb51eb290035ebd2f6c40c852ee69307c48f9",
+    "assets\\chapter3_units\\knight.png": "bda5a25dda74421d268045014582ccd97ca3924219c7ffd38c7fe530911872f7",
+    "assets\\chapter3_units\\source\\knight.png": "391c071a9ee33954dd2799fdca5f1a9e0b7a2eb289805cc52cabda664d7583e5",
+    "assets\\chapter3_units\\bishop.png": "922f80d8e7d3c06e5c40e1143eda4a80b1ea0250365234c29c06e05dfbab396e",
+    "assets\\chapter3_units\\source\\bishop.png": "ac06f7520a5ed6763e6b9424833411b6c1ebcafea36cd7d887e8c69685b4033e"
+  },
+  "captures": [
+    {
+      "file": "bishop_source.png",
+      "sha256": "801a630832e71329f85e1b2cb59a08d41efce9f83e423a1500ae5d792bf8c5e4",
+      "actors": []
+    },
+    {
+      "file": "ice_cast.png",
+      "sha256": "5ce6ecaaa8b6f349d9aeea867d7e050a78ed818b97432c6045c529e92fc45f5c",
+      "actors": []
+    },
+    {
+      "file": "front_back_84.png",
+      "sha256": "a71326d015bfb85380d5a83b3740eb18ca1d60f60300403e775dc77b44f93750",
+      "actors": []
+    },
+    {
+      "file": "stage12_static.png",
+      "sha256": "32a0d7007b763571753eb0092f098fd61f00f82eefbbdff4d5adc67060f3f5f2",
+      "actors": [
+        {
+          "id": "s12_bishop_1",
+          "kind": "bishop",
+          "foot": [
+            556.907874015748,
+            636.4251968503937
+          ],
+          "height": 81.39530578512398,
+          "center": [
+            556.907874015748,
+            671.3997423049392
+          ],
+          "top": 706.3742877594847,
+          "hp_y": 716.3742877594847
+        },
+        {
+          "id": "s12_bishop_2",
+          "kind": "bishop",
+          "foot": [
+            922.6716535433071,
+            636.4251968503937
+          ],
+          "height": 81.39530578512398,
+          "center": [
+            922.6716535433071,
+            671.3997423049392
+          ],
+          "top": 706.3742877594847,
+          "hp_y": 716.3742877594847
+        },
+        {
+          "id": "s12_pawn_1",
+          "kind": "pawn",
+          "foot": [
+            471.52958904109596,
+            531.2054794520549
+          ],
+          "height": 67.16509090909089,
+          "center": [
+            471.52958904109596,
+            560.0654794520549
+          ],
+          "top": 588.9254794520549,
+          "hp_y": 596.9254794520549
+        },
+        {
+          "id": "s12_pawn_2",
+          "kind": "pawn",
+          "foot": [
+            1006.0457534246577,
+            531.2054794520549
+          ],
+          "height": 67.16509090909089,
+          "center": [
+            1006.0457534246577,
+            560.0654794520549
+          ],
+          "top": 588.9254794520549,
+          "hp_y": 596.9254794520549
+        },
+        {
+          "id": "s12_rook_1",
+          "kind": "rook",
+          "foot": [
+            538.0432664756446,
+            416.33810888252145
+          ],
+          "height": 83.17249586776859,
+          "center": [
+            538.0432664756446,
+            452.0762907007033
+          ],
+          "top": 487.8144725188851,
+          "hp_y": 497.8144725188851
+        },
+        {
+          "id": "player",
+          "kind": "player",
+          "foot": [
+            778.7295384615387,
+            222.83076923076925
+          ],
+          "height": 95.534208,
+          "center": [
+            778.7295384615387,
+            263.88062423076923
+          ],
+          "top": 304.9304792307692,
+          "hp_y": 309.9304792307692
+        }
+      ]
+    },
+    {
+      "file": "warning_reference.png",
+      "sha256": "7e94969b1e6be0c8eaf865394388fd5a3c6a15cdecbd662f3e7daddc35fcf749",
+      "actors": [
+        {
+          "id": "s12_bishop_1",
+          "kind": "bishop",
+          "foot": [
+            556.907874015748,
+            636.4251968503937
+          ],
+          "height": 81.39530578512398,
+          "center": [
+            556.907874015748,
+            671.3997423049392
+          ],
+          "top": 706.3742877594847,
+          "hp_y": 716.3742877594847
+        },
+        {
+          "id": "s12_bishop_2",
+          "kind": "bishop",
+          "foot": [
+            922.6716535433071,
+            636.4251968503937
+          ],
+          "height": 81.39530578512398,
+          "center": [
+            922.6716535433071,
+            671.3997423049392
+          ],
+          "top": 706.3742877594847,
+          "hp_y": 716.3742877594847
+        },
+        {
+          "id": "s12_pawn_1",
+          "kind": "pawn",
+          "foot": [
+            471.52958904109596,
+            531.2054794520549
+          ],
+          "height": 67.16509090909089,
+          "center": [
+            471.52958904109596,
+            560.0654794520549
+          ],
+          "top": 588.9254794520549,
+          "hp_y": 596.9254794520549
+        },
+        {
+          "id": "s12_pawn_2",
+          "kind": "pawn",
+          "foot": [
+            1006.0457534246577,
+            531.2054794520549
+          ],
+          "height": 67.16509090909089,
+          "center": [
+            1006.0457534246577,
+            560.0654794520549
+          ],
+          "top": 588.9254794520549,
+          "hp_y": 596.9254794520549
+        },
+        {
+          "id": "s12_rook_1",
+          "kind": "rook",
+          "foot": [
+            538.0432664756446,
+            416.33810888252145
+          ],
+          "height": 83.17249586776859,
+          "center": [
+            538.0432664756446,
+            452.0762907007033
+          ],
+          "top": 487.8144725188851,
+          "hp_y": 497.8144725188851
+        },
+        {
+          "id": "player",
+          "kind": "player",
+          "foot": [
+            778.7295384615387,
+            222.83076923076925
+          ],
+          "height": 95.534208,
+          "center": [
+            778.7295384615387,
+            263.88062423076923
+          ],
+          "top": 304.9304792307692,
+          "hp_y": 309.9304792307692
+        }
+      ]
+    },
+    {
+      "file": "alpha_edges.png",
+      "sha256": "3579c0e188a4f66fde082625cad8405ba7b541904578f462762c4df9be01b993",
+      "actors": []
+    }
+  ]
+}

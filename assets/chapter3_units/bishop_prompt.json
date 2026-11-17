@@ -1,0 +1,58 @@
+{
+  "task": "Task 5-D3A",
+  "status": "new Ice Bishop original; user design approval pending",
+  "tool": "OpenAI built-in image_gen",
+  "exact_model": "not exposed by tool",
+  "mode": "text-to-image generation; no reference images submitted",
+  "visually_inspected_style_references": [
+    "assets/chapter3_units/source/pawn.png",
+    "assets/chapter3_units/source/rook.png",
+    "assets/chapter3_units/source/knight.png",
+    "assets/chapter3_units/pawn.png",
+    "assets/chapter3_units/rook.png",
+    "assets/chapter3_units/knight.png"
+  ],
+  "prompt": "Use case: stylized-concept.\nAsset type: original high-end fantasy strategy action game transparent character sprite, a single Ice Bishop from CHECKMATE Frozen Palace.\nPrimary request: Create an ORIGINAL ice cathedral priest character, not a recolor of any royal or forest bishop. A tall narrow vertically legible silhouette with a clearly split crystalline mitre/crown, long slender ceremonial robes built from layered hard ice panels, a slender frost staff held close to the body, and one small silver reliquary at the chest. Cool grey-blue and silver material, restrained cold sapphire core. Clearly distinguish from a round small soldier, a broad rectangular tower guardian, and an ice horse.\nStyle/medium: polished hand-painted 3D fantasy game asset, carefully modeled faceted glacial crystal, opaque frosted steel/silver edges, deep slate blue recesses, selective soft icy specular highlights. Not cartoon, not flat vector, not photoreal human portrait. Same coherent material world as a silver-and-blue armored ice soldier and an azure ice tower guardian. Readable primary silhouette before tiny engraving.\nComposition/framing: SINGLE isolated full-body character in a weak three-quarter view facing slightly toward screen-left, camera slightly above, restrained perspective. Standing ready, calm dignified pose. Fully visible split crown tips, staff top AND staff ground tip, robe hem AND both boot soles. No pedestal. Body upright and centered, staff near body so silhouette remains slender, both feet around the image center. Generous genuinely empty transparent safety margin at least 8 percent on every edge; whole character fits comfortably. High-resolution portrait composition.\nLighting/mood: upper-left soft key light, darker blue-grey contour on right and lower recesses. Cold noble sacred atmosphere, no background glow.\nColor palette: blue-grey outer contour and midtones, pale ice planes, frosted silver, small cold blue core. Enough dark body structure to remain visible on very bright icy chessboard squares; never an all-white ghost. Crown's central split must read even when reduced to about 80 pixels tall. Staff silhouette separate from robe, but not splayed far out.\nScene/backdrop: fully transparent RGBA background. No floor, no scene, no floating particles, no cast ground shadow, no opaque or checkerboard background. Retain naturally antialiased transparent edges.\nConstraints: only ONE NEW bishop character, no other chess pieces, no text or numbers, no logo or watermark, no framing border, no cropped extremities. No huge horizontal wings, no oversized spiky cluster, no crown shaped like the King, no horse head, no rook battlements, no forest material. Design for exhibition-quality final game art, not a placeholder.",
+  "transparent_background": true,
+  "license_status": "Competition AI disclosure/eligibility and final distribution terms remain unverified; no legal clearance claimed.",
+  "initial_output": "source/bishop_initial.png",
+  "initial_review": "Original silhouette preserved for history; crown margin 17/1536 (1.11 percent) fails five-percent production padding. Targeted image_gen padding/halo correction requested.",
+  "edit_prompt": "Use case: precise-object-edit / background-extraction. Edit only the attached NEW Ice Bishop draft. Preserve this exact priest design: split crystal mitre, face, silver reliquary, long narrow layered icy robe, blue-grey silver materials, staff, hands and boots, orientation and upper-left light. Do not change to another character or recolor.\nCritical production corrections:\n1. Reframe with real EMPTY TRANSPARENT padding on ALL four edges. Fit the entire character (including tallest crown tip and lowest boot/staff tip) to approximately 80 percent of image height, with at least 9 percent empty image height above and below. Add canvas/padding, do not elongate or squeeze the body. Keep full crown, staff and boots.\n2. Remove the broad soft grey/white background halo and all ambient haze around the body. Every pixel outside the character silhouette must be genuinely fully transparent, not dark grey, not black, not a painted checkerboard. No cast ground shadow, glow, smoke, aura or backdrop.\n3. Keep interior armor and cloth fully opaque and clean, retain only natural tiny antialias at the actual silhouette edge. Glass-like ice may keep its material highlights, but do not make the whole character translucent.\nOutput one isolated complete character on true transparent RGBA, high resolution, no text/no border. This is a production cutout correction, not a redesign.",
+  "selected_output": "source/bishop.png",
+  "edit_tool": "OpenAI built-in image_gen; reference image is only the NEW Bishop draft; exact model not exposed",
+  "edit_reference": "source/bishop_initial.png",
+  "selection_reason": "Initial visible crown padding failed 5 percent. Selected edit has 6.7057 percent minimum visible-alpha margin, full mitre/staff/boots; prepared SDL static comparisons show no visible black matte. User design approval still pending.",
+  "selection_limit": "Generated edit can redraw details; no pixel-identity guarantee between original and edited draft. No approved existing character was edited.",
+  "source_records": [
+    {
+      "file": "source/bishop_initial.png",
+      "bytes": 1970294,
+      "sha256": "85c38e27131f47fb08925173bec99203b3333a6f0ebc4f435b7065f673ac31c8"
+    },
+    {
+      "file": "source/bishop.png",
+      "bytes": 1816757,
+      "sha256": "ac06f7520a5ed6763e6b9424833411b6c1ebcafea36cd7d887e8c69685b4033e"
+    }
+  ],
+  "generated_output_ids": [
+    "exec-6dcf2a76-d873-4e1f-9974-ce62521e3682.png",
+    "exec-1f471222-aba3-4e9a-b364-649b0ec3a494.png"
+  ],
+  "creation_history": [
+    {
+      "step": 1,
+      "operation": "Original text-to-image Ice Bishop generation",
+      "image_reference_inputs": [],
+      "output": "source/bishop_initial.png"
+    },
+    {
+      "step": 2,
+      "operation": "Image-generation padding/alpha correction of new draft only",
+      "image_reference_inputs": [
+        "source/bishop_initial.png"
+      ],
+      "output": "source/bishop.png"
+    }
+  ]
+}
