@@ -1,5 +1,84 @@
 # CHECKMATE 개발 진행 기록
 
+## Task 5-D0F — Stage11 개발 기반 사용자 GUI 최종 승인
+
+사용자가 D0 Windows GUI 검수 항목 전체 통과를 보고했다. Stage11 실행·기존 얼음 테마·적 구성,
+이동/공격/패링·공격 경고·GAME_OVER/재시작·실제 클리어·강화 선택·Stage12 진입을 정상 동작으로 승인한다.
+별도 오류 보고는 없다. 아래 D0 및 TASK5D_CHAPTER3_PLAN의 GUI 대기/커밋 금지 표기는 당시 이력이다.
+이번 승인은 기존 Stage11 개발 진입 경로에 관한 것이며 신규 얼음 캐릭터나2.5D 렌더러 승인이 아니다.
+FPS/P95/P99·RAM/VRAM 실측값은 제공되지 않았으며 성능/장시간 메모리 검증 완료로 기록하지 않는다.
+
+D0F 시작 HEAD와 fetch 후 origin/main은 모두 2cac2416fe62790e1911bbe84a89ff0ce016b28e,
+브랜치는 main이다. 기존 D0 변경4파일만 존재했고 인덱스는 비어 있었다.
+tools/stage11_play.py·tests/test_stage11_play.py·docs/TASK5D_CHAPTER3_PLAN.md는 승인된 내용을 유지한다.
+이번 최종화에서는 이 진행 기록의 승인 상태/실제 재검증 결과만 추가한다.
+Stage11은 Rook16×2·Knight13×2·Pawn9=적5기/HP67, 개발 진입 공격레벨3/피해4·HP3/3·MOVE18·Receipt0이다.
+이 개발 빌드는 이전 챕터 클리어 증거가 아니다. 정상 Chapter3 진입은 이전 공격 레벨을 계승한다.
+
+D0F 최종 재실행: **unittest 1,442개 /287.212초 /실패0·오류0·skip0**(프로세스288.071초).
+기존1,437개 테스트 메서드와 신규5개를 보존했고 승인 이후 실행 도구/테스트/계획 문서 내용은 추가 수정하지 않았다.
+일반/-O Stage 검사 각각25개 통과(0.086/0.263초), compileall 통과(1.879초),
+기존 아트 카탈로그563건 해시 통과(3.740초), Chapter2 원화/준비PNG10개 해시 일치,
+문서 로컬 링크535개·Git 공백 검사 통과다.
+Stage5~10 기준43PNG를 임시 폴더에 다시 생성해 SHA256 전부 일치했다(9.543초).
+Chapter2 네 빌드의 실제 연속 전투·보스 재도전·Chapter3 진입·무입력사망/재시작 결과는 CFF 원자료와 동일하다.
+최종 전체 테스트에는 공격 원장·패링·KingPulse·이미지 수명/폴백·스테이지 전환 회귀가 포함된다.
+테스트의 software 렌더러/자동 시간 로그는 사용자 Windows 성능 실측으로 취급하지 않는다.
+기존 게임 코드/렌더러/PNG/메타데이터/스테이지 원본과 발표 PDF는 보존했다.
+승인된4파일만 별도 커밋·기존 main에 일반 Push하고 로컬/원격SHA 및 작업 트리/인덱스 상태를 조회한다.
+
+완료: 개발 실행 도구·Chapter3 시스템 조사·Stage11 전용5테스트·기존 Frozen 환경 에셋 조사·D1 제작 규격,
+사용자 Windows GUI 전체 통과 및 아래 실제 자동 재검증이다.
+미완료: Ice Pawn/Rook/Knight 신규 원화·Stage11 신규2.5D 렌더러·Stage12~15 2.5D 통합·Chapter3 종합 그래픽QA,
+실제 Windows FPS/P95/P99·장시간 메모리·게임전체 출품 품질 검수다.
+Chapter4/5 전면 접합 ART-BOARD-CH4-CH5-FRONT-OVERLAP은 OPEN이다.
+다음 D1은 빙설3기물 원화/투명PNG/해시·알파/실루엣/게임표시 적합성 검수에 한정하며 이번에 시작하지 않는다.
+
+## Task 5-D0 — Chapter3 Stage11 조사·개발 진입·회귀 검증
+
+2026-11-17. 신규 원화/Stage11 아트 렌더러/opt-in은 구현하지 않는다.
+시작 main HEAD는 c44082ae69f09c2ce69c6d89dd4b4f54463fdcbe, 작업 트리/인덱스 Clean.
+fetch한 원격 main은 2cac2416fe62790e1911bbe84a89ff0ce016b28e이며 추가 변경은 2차발표PDF.pdf(250,693바이트)뿐이었다.
+안전한 fast-forward 후 같은 SHA에서 D0를 시작했다. 발표자료를 포함한 기존 파일은 보존한다.
+
+실제 Chapter3 profile_for(3)은 Rook16·Knight13·Pawn9다. Stage11 원본 Rook2/Knight2/Pawn1의
+**런타임 총 HP는67**이며 요청서의51과 다르다. 원본 JSON은 일반 적 HP를 직접 지정하지 않는다.
+기존 factory/profile/test_stage_eleven_twelve가 같은 값을 사용하므로 HP/AI/전투 수치를 수정하지 않았다.
+Stage10→11은 이전 공격 레벨만 계승하고 새 Chapter3 HP3/3·MOVE18·Receipt0·세션/원장을 생성한다.
+
+[Chapter3 계획](TASK5D_CHAPTER3_PLAN.md)에 실편성·Frozen5개 에셋의 규격/알파/SHA256/출처,
+미제작 Ice Pawn/Rook/Knight의 D1 디자인·준비 규격 후보, 렌더러/수명/독립 스위치 계약과15개 GUI 검수표를 작성했다.
+[stage11_play](../tools/stage11_play.py)는 기존 main.run_session과 StageProgression을 사용한다.
+개발 시작 공격 레벨3/피해4는 CFF balanced/evasion의 실제 Chapter3 진입값과 일치하는 합법적 기준이다.
+HP3/3·MOVE18·Receipt0으로 시작하며 선행 합성 Receipt·가짜 클리어·무적·강제 처치·좌표/쿨다운 변경은 없다.
+일반 main.py와 승인된 Stage5~10 렌더러는 수정하지 않았다. Stage11 화면은 기존 얼음 팔레트 도형이다.
+
+신규 전용 테스트5개는0.040초에 통과했다. 기존 자동 드라이버의 실제 Stage11 전투는669틱
+UPGRADE·HP2/3, HP강화 후 Stage12 HP3/4·Receipt1이다. 별도 무입력 세션은435틱 GAME_OVER,
+정상 R 재시작 API 후 새 Stage11·진입피해4·HP3/3·Receipt0을 확인했다.
+독립 세션/원장/엔티티, 기존6개 스위치와 미래Stage11 flag의 비활성, 상태 불변/이미지 미로딩을 검증했다.
+이 결과는 개발 진입 자동 검사이며 이전10스테이지/인간 완주 증거가 아니다.
+
+기존 전체 기준선 재실행: **1,437개 /290.238초 /실패0·오류0·skip0**(프로세스290.976초).
+신규5개 포함 최종 전체 검사는 진행 중이며 실제 결과로 이 기록을 마감한다.
+일반/-O Stage 검사 각25개 통과(0.072/0.121초), compileall 통과(1.522초),
+기존 아트 카탈로그563건(track300/local_archive263) 해시 통과(1.161초).
+Stage5~10 기준43PNG를 임시 폴더에 모두 재생성하여 해시 일치(10.037초).
+Chapter2 자동 QA의 네 빌드·보스 재도전·Stage11 진입·무입력재시작 결과는 CFF 원자료와 동일하다.
+QA 도구의 인간 pending 표기는 자동 출력의 범위이며 이미 완료된 CFF 인간 승인을 되돌리지 않는다.
+
+새 실행 도구는 실제 main/Pico2D direct3d11 숨김 창720프레임, 자동 방향키/SPACE/Shift 입력 및 종료를 통과했다.
+Stage11 PLAYING·257틱·HP2 관측. 최초 임시 숨김 창 초기화의 canvas_width 누락은 기술 하네스만
+실제 Pico2D open_canvas 유지 방식으로 고쳐 재확인했다. 제품 코드 변경/결함은 없다.
+이것은 인간 GUI15항목/60초 안정성/실제FPS 측정의 대체가 아니다.
+
+변경 범위는4파일: 신규 tools/stage11_play.py, tests/test_stage11_play.py,
+docs/TASK5D_CHAPTER3_PLAN.md와 기존 docs/PROGRESS.md만이다.
+Stage6 GUI는 CFF 승인 완료를 유지한다. D0 사용자 GUI는 대기, Windows FPS/P95/P99·장시간RAM/VRAM은
+미측정, Chapter4/5 전면 접합 OPEN·Chapter3~5 신규2.5D 및 전체25스테이지 출품 품질 검수는 미완료다.
+이번 작업은 미스테이징·미커밋·미Push로 유지한다. 다음 D1은 빙설3기물 원화/투명PNG/디자인 승인에 한정하며
+Stage11 렌더러 통합 및 Stage12~15 그래픽은 별도 후속이다.
+
 ## Task 5-CFF — Chapter2 사용자 최종 승인 및 Git 반영
 
 사용자가 Chapter2 Stage6~10 Windows GUI 검수표 전체 통과를 보고했다. Stage6 인간 GUI와 같은 Chapter2의 연속 플레이를 포함한다.
