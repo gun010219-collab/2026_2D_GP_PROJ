@@ -1,5 +1,130 @@
 # CHECKMATE 개발 진행 기록
 
+## Task 5-D1F — 빙설3기물 사용자 디자인10/10 최종 승인 및 Git 반영
+
+사용자가 Task5-D1 Windows 디자인 검수10개 항목 전부 통과를 보고했다.
+Ice Pawn/Rook/Knight의 디자인·Rook 크기·군마 식별·Frozen 테마·84px 식별성·밝은 타일 Pawn 시인성,
+정적 HP/공격 경고와의 충돌·머리/무기/발 잘림·알파 가장자리·F11 전체화면/ESC 종료를 승인한다.
+이 승인은 원화/준비본/실루엣/정적 미리보기/검수 도구에 한정한다. 아직 미구현인 Stage11 신규2.5D 실전,
+동적 HP/경고·실제FPS/P95/P99·장시간RAM/VRAM 검증을 승인한 것으로 기록하지 않는다.
+Pawn31×66px의 좁은 폭은 사용자 시인성 승인을 받았으며 별도 오류/재생성 사유로 취급하지 않는다.
+
+D1F 시작 main HEAD와 fetch한 origin/main은 모두 4c52a2f01de885c8c4e7e42c70c83c663619a42b다.
+D1의24개 변경(문서3·도구2·테스트1·아트/메타데이터/검수18)만 존재했고 인덱스는 비어 있었다.
+선택3원화/준비3PNG·보정 전3원본·검수6PNG·프롬프트/manifest·코드/테스트를 그대로 동결한다.
+이번에는 이 진행 기록과 TASK5D_CHAPTER3_PLAN/ASSET_CREDITS의 최신 승인 기록만 수정했다.
+아래 D1 및 기존 JSON의 pending/GUI 대기는 제작 당시 이력이며 원자료를 갱신해 덮어쓰지 않는다.
+정확한 생성 모델명 미노출과 AI 공모전 허용/표시·최종 배포 이용조건 미확정을 유지한다.
+
+이번 최종 unittest는 **1,450개 /343.846초 /실패0·오류0·skip0**(프로세스344.648초) 통과했다.
+기존1,442개와 D1 신규8개 메서드/테스트 내용을 보존했다. 이전 D1의1,450개/277.734초는 당시 결과다.
+새 에셋 준비본은 임시 폴더에서 반복 재생성한 결과가 승인PNG/manifest와 동일했고, 승인 원본은 다시 쓰지 않았다.
+6검수PNG도 임시 폴더에서 반복 생성해 기존해시/manifest와 같았다. 이 검사는 전체 테스트에 포함된다.
+선택원화/탐색원화6·준비3·검수6의PNG15개를 실제 로딩해 크기/RGBA·알파/bbox·투명 픽셀·바이트·SHA256을 재검증했다(2.803초).
+Stage5~10 기준43PNG도 별도 임시 폴더에서 다시 생성해 모두 기존SHA256과 일치했다(9.897초).
+일반/-O Stage 검사 각각25개(0.079/0.279초), compileall(1.773초), 기존 아트 카탈로그563개 해시(1.304초)를 통과했다.
+문서 로컬 링크557개를 통과했다. D1의556개보다 D1F 최신 진행 기록 링크1개가 추가됐다.
+Git 공백 검사와 신규JSON 문법/manifest·선택원화 대응·크기/알파·비율도 통과했다.
+18개 아트/메타데이터/검수 파일은17,447,291바이트, 최대 단일PNG2,819,397바이트로 기존 D1과 동일하다.
+문서3개 외21파일과 기존 보호 파일의 SHA256이 D1F 시작 시점과 같음을 확인했다.
+게임 기능/AI/전투 수치/카메라/원본Stage JSON·Stage5~10 승인 이미지/렌더러·발표PDF·기존 커밋 이력은 보존한다.
+
+완료 범위는 빙설3기물 원화/투명PNG·생성/선택 이력/해시·정적6검수PNG·준비/비교 도구·신규8테스트·사용자 디자인 승인이다.
+실제Stage11 신규2.5D와 새기물 전투 표시/HP·위험셀 검수, Stage12~15 그래픽·Chapter3 전체그래픽QA,
+Windows FPS/P95/P99·장시간RAM/VRAM·전체25스테이지 출품 품질·최종배포/라이선스 검증은 미완료다.
+Chapter4/5 전면 접합 ART-BOARD-CH4-CH5-FRONT-OVERLAP은 OPEN이다.
+다음 Task5-D2는 승인기물3종/기존B+12·보드의 Stage11 실제 프로필·독립opt-in,
+발/HP/지상깊이·Knight18px도약·실제원장 경고/패링·세션수명/폴백·5~10회귀·WindowsGUI 검수에 한정한다.
+이번 D1F에서는 D2 코드를 작성하지 않는다. 최종 검증/명시적24파일 staged diff 검토 후 별도 커밋·main 일반Push하고
+실제 원격main/PNG·JSON blobSHA·작업 트리/인덱스를 재조회한다.
+
+## Task 5-D1 — Frozen Palace 원화3종·투명PNG·정적 검수 후보
+
+시작 main HEAD/origin 추적 기준은 4c52a2f01de885c8c4e7e42c70c83c663619a42b,
+작업 트리/인덱스 Clean이었다. D0F의 기존 Stage11 실행/전투/Stage12 진입 GUI 승인은 유지한다.
+D1 신규 캐릭터 디자인은 사용자 승인 대기다. 기존 전투/AI/HP/카메라/스테이지 원본/Stage5~10 표시를 변경하지 않았다.
+
+imagegen 스킬의 OpenAI 내장 image_gen을 실제 사용했다. 모델명은 도구에 노출되지 않았다.
+Pawn·Rook·Knight를 각각 텍스트 생성한 뒤 Rook2회/Knight1회 편집했다.
+기존 빙설King/플레이어/숲Rook/왕실Knight를 육안으로 확인해 초기 텍스트 명세를 작성했고,
+편집은 해당 신규 초안만 참조했다. 기존 숲 기물 재색칠/인터넷 캐릭터 복제/도형 대체는 하지 않았다.
+실제6회 프롬프트·출력/참조·해시를 assets/chapter3_units/prompts.json에 보존한다.
+생성 원본6개(선택3개·탐색3개)와256RGBA 준비본3개를 보존했다.
+
+선택 원화/알파>5 bbox:
+Pawn1086×1448/(236,96,823,1349), Rook1254×1254/(197,106,1033,1113),
+Knight1254×1254/(237,123,1074,1112). 의미 있는 실루엣 여백은 각각6.63%/8.45%/9.81%다.
+원본에는 알파1~5의 거의 보이지 않는 흔적이 있으므로 알파>0 경계도 별도로 기록했다.
+준비본은 동일비율 긴 변220px/256RGBA 투명 패딩, bbox는 Pawn(76,18,179,238),
+Rook(36,18,219,238), Knight(35,18,221,238)다.
+실제6개 선택 원본/준비본 SHA256·파일 크기·투명 픽셀·발 후보는
+[asset_manifest](../assets/chapter3_units/asset_manifest.json)에 기록했다.
+
+[준비 도구](../tools/prepare_chapter3_units.py)는 SDL crop/선형 축소/패딩,
+보간 시 premultiplied RGB와 저장 전 straight alpha 복구만 수행한다. 콘텐츠 재도색/비율 왜곡/원화 변경은 없다.
+가시적 소프트 경계(알파8~240)의 근검정 오염 후보0픽셀을3종 모두 확인했다.
+기존 파일 충돌 시 덮어쓰지 않고 게시 오류 시 이번 호출이 새로 만든 부분 산출물만 정리한다.
+처음 준비한 PNG가 다른 폴더의 반복 실행에서도 바이트 동일함을 검사했다.
+
+[정적 검수 도구](../tools/chapter3_art_review.py)는 실제 StageCatalog의 Stage11 셀/HP만 읽는다.
+AI/공격/피해/시간/StageGame은 생성하지 않는다. HP67은 참고 수치이며 경고선은 명시된 기하 배치 표본이다.
+기존 Frozen 배경/프레임/타일/Player·B+12 카메라를 그대로 사용해 원화/실제 알파 실루엣/84px 타일·인접 배치/
+Stage11 원본 배치/경고 중첩/4색 바탕 알파 비교의6PNG를 제작했다.
+원화3개·준비3개·환경/Player5개=11텍스처를1회 로딩해 반복 사용/종료 해제한다.
+Rook2/Knight2는 이미지/텍스처를 공유한다. 아직 실제 Stage11 렌더러에는 적용하지 않았다.
+
+앞쪽 후보 실루엣은 Pawn약31×66, Rook65×78, Knight68×80px다.
+Pawn 폭은 초기 D0 후보42~50보다 가늘다. 원화 비율을 늘리지 않고 사용자84px 시인성 검수 대상으로 남긴다.
+HP 여백은8/10/10px, 발은 알파 하단/가로 중심 후보이며 동적 이동/18px 도약/가림은 이후 통합 대상이다.
+동일 원근식의 뒤쪽 v=9는 약18.8% 축소된다. 방향별 최종 애니메이션 시트는 미제작이다.
+
+전용8테스트는14.635초 통과했다. 개발 중 새 검수기의 누락 글리프와
+JSON 비교의 tuple/list 표현 차이를 보정했으며 기존 HUD/게임 코드를 수정하지 않았다.
+최종 전체 unittest는 **1,450개 /277.734초 /실패0·오류0·skip0**(프로세스278.334초) 통과했다.
+기존1,442개 테스트 파일/메서드를 보존하고 새 에셋 준비/검수 테스트8개만 추가했다.
+일반/-O 각25스테이지 검사(0.071/0.126초), compileall(1.505초), 기존 카탈로그563개 해시(1.277초) 통과다.
+Stage5~10 기준43PNG를 별도 임시 폴더에서 재생성해 모두 기존SHA256과 일치했다(9.604초).
+새 원화/준비본/검수PNG 해시·기존 추적 에셋/메타데이터/게임 소스 보존·문서 로컬 링크556개·공백 검사도 통과했다.
+software 테스트 프레임 로그를 실제 Windows180FPS/P95/P99 합격 근거로 취급하지 않는다.
+
+정적 검수기의 direct3d11 숨김 창 페이지1~6/G/F11 명령 전달/ESC 종료 경로9프레임을 기술 확인했다.
+F11 호출은 해당 자동 시험에서 모의 처리했으므로 실제 전체화면/Windows 사용자 디자인 검수는 대기다.
+사용자8개 디자인 체크리스트·규격/실측·검수PNG 링크는 [Chapter3 계획](TASK5D_CHAPTER3_PLAN.md)의 D1 항목을 따른다.
+실행: .\.venv\Scripts\python.exe tools\chapter3_art_review.py
+키1~6 페이지·G 격자·SETTINGS/F11/ESC. 실제 게임 실행 도구 stage11_play는 기존 도형 렌더러 그대로다.
+
+실제 변경24파일(문서3·새 도구2·새 테스트1·새 아트/메타데이터/검수18):
+
+- docs/PROGRESS.md
+- docs/TASK5D_CHAPTER3_PLAN.md
+- docs/ASSET_CREDITS.md
+- tools/prepare_chapter3_units.py
+- tools/chapter3_art_review.py
+- tests/test_chapter3_art_assets.py
+- assets/chapter3_units/prompts.json
+- assets/chapter3_units/asset_manifest.json
+- assets/chapter3_units/source/pawn.png
+- assets/chapter3_units/source/rook.png
+- assets/chapter3_units/source/knight.png
+- assets/chapter3_units/source/rook_initial.png
+- assets/chapter3_units/source/rook_cutout.png
+- assets/chapter3_units/source/knight_initial.png
+- assets/chapter3_units/pawn.png
+- assets/chapter3_units/rook.png
+- assets/chapter3_units/knight.png
+- assets/chapter3_units/review/source_cast.png
+- assets/chapter3_units/review/silhouettes.png
+- assets/chapter3_units/review/scale84.png
+- assets/chapter3_units/review/stage11_static.png
+- assets/chapter3_units/review/warning_layout.png
+- assets/chapter3_units/review/alpha_edges.png
+- assets/chapter3_units/review/review_manifest.json
+
+아트18파일은17,447,291바이트, 최대 단일 파일2,819,397바이트다. 기존 자료는 삭제/덮어쓰기하지 않았다.
+Windows 시각 승인·실제FPS/P95/P99/RAM/VRAM·실전 Stage11 2.5D·Stage12~15 그래픽·Chapter3 종합QA는 미완료다.
+Chapter4/5 전면 접합 결함은 OPEN이다. 사용자 디자인 승인 전 스테이징/커밋/Push하지 않는다.
+다음 단계는 디자인 승인/필요 보정 후 별도 Stage11 프로필·독립스위치·실전 경고/패링/18px 도약·폴백/전환 통합이다.
+
 ## Task 5-D0F — Stage11 개발 기반 사용자 GUI 최종 승인
 
 사용자가 D0 Windows GUI 검수 항목 전체 통과를 보고했다. Stage11 실행·기존 얼음 테마·적 구성,

@@ -1,5 +1,145 @@
 # CHECKMATE — Task 5-D0 / Chapter 3 개발 기반과 확장 계획
 
+## Task 5-D1F — 빙설3기물 정적 디자인 사용자 최종 승인
+
+사용자가 Windows 디자인 검수 **10/10 통과**를 보고했다.
+Ice Pawn/Rook/Knight 디자인·Rook 크기·군마 식별·Frozen 테마·84px 구분·밝은 칸 Pawn 시인성,
+정적 HP/경고 충돌·머리/무기/발 잘림·알파 가장자리·F11/ESC를 승인했다.
+현재 원화·준비본·표시 후보·검수PNG를 동결한다. Pawn31×66px의 좁은 폭은 승인된 특성이며 새 오류로 취급하지 않는다.
+이후 실제 전투의 동적 시인성은 별도로 검수한다.
+아래 D1 대기 표와 prompts/manifest의 pending은 제작 당시 이력이다. 승인 기록 때문에 원자료 JSON이나 PNG를 다시 쓰지 않는다.
+이번 최종화는 문서 승인 기록과 최종 재검증/Git 반영만 수행하며 코드/테스트/이미지를 변경하지 않는다.
+실제 검사 수치와 결과는 [D1F 진행 기록](PROGRESS.md)을 따른다.
+공모전 AI 표시/최종 배포 이용조건은 미확정 상태를 유지한다.
+Stage11 신규2.5D·실제 신규 기물 전투/HP/경고·Stage12~15 그래픽·Chapter3 종합QA·Windows FPS/P95/P99·
+장시간 RAM/VRAM·전체25스테이지 출품 품질 검수는 미완료다. Chapter4/5 전면 접합은 OPEN이다.
+다음 **Task5-D2**는 승인된3기물의 Stage11 실제 렌더러 통합/독립 opt-in·18px 도약/발/깊이/HP·실제 원장 경고·
+세션 이미지 수명/폴백·기존5~10 출력 보존·Windows GUI 검수에 한정한다. 이번 D1F에서는 D2 코드를 작성하지 않는다.
+
+## Task 5-D1 — 실제 원화와 정적 검수 후보
+
+시작 HEAD는 4c52a2f01de885c8c4e7e42c70c83c663619a42b, main·작업 트리/인덱스 Clean이었다.
+D0F에서 기존 Stage11 실행/전투/강화/Stage12 진입의 사용자 GUI 전체 승인을 수령했다.
+아래 D0의 GUI 대기 표는 이력이며, 이번 D1의 신규 디자인 승인은 별도 대기다.
+Stage11 전투 HP67·개발 진입 피해4·기존 렌더러는 그대로다.
+
+OpenAI 내장 image_gen으로 Pawn/Rook/Knight를 각각 생성했다. 실제 모델명은 도구에 노출되지 않았다.
+기존 빙설King·플레이어·숲Rook·왕실Knight를 육안으로 확인해 스타일 프롬프트를 작성했고,
+최초 생성3회는 텍스트만 사용했다. 이후 Rook 배경/자세2회, Knight 여백1회는 해당 새 원본을 참조한 편집이다.
+왕실/숲 기물을 재색칠하지 않았다. 모든6회 실제 프롬프트·출력/참조·해시는
+[prompts.json](../assets/chapter3_units/prompts.json)에 보존했다. 생성 편집은 몸체 픽셀 동일성을 보장하는 작업이 아니다.
+
+### 실제 산출물과 조사 결과
+
+| 기물 | 선택 원화 | 원화 해상도 | 알파 bbox(>5/255) | 준비본 bbox / 256×256 RGBA |
+|---|---|---|---|---|
+| Pawn | source/pawn.png | 1086×1448 | (236,96,823,1349) | (76,18,179,238) |
+| Rook | source/rook.png | 1254×1254 | (197,106,1033,1113) | (36,18,219,238) |
+| Knight | source/knight.png | 1254×1254 | (237,123,1074,1112) | (35,18,221,238) |
+
+경로 기준은 assets/chapter3_units다. 준비본은 각각 pawn.png/rook.png/knight.png다.
+실제 SHA256·원화/준비 크기·투명 픽셀·부분 알파·바이트 수·발 기준은
+[asset_manifest.json](../assets/chapter3_units/asset_manifest.json)에 기록했다.
+원화의 의미 있는 실루엣 여백은 최소6.63%/8.45%/9.81%다.
+생성 원본에는 낮은 알파1~5의 거의 보이지 않는 흔적이 있으므로 **원본 전체의 모든 비제로 픽셀까지
+5% 빈 여백이라는 뜻은 아니다**. 알파>0 경계도 별도로 기록했다.
+준비본은 알파>5 실루엣 crop 후 긴 변220px/투명 패딩으로 정규화하며 원화 파일은 수정하지 않는다.
+
+- Pawn: 둥근 투구·좁은 서리 금속 갑주·작은 방패/짧은 수정 창·명확한 두 발.
+- Rook: 성가퀴·직사각 빙벽 방패·넓은 몸체·서리 금속 결속·무거운 하체.
+  첫 생성의 회색 헤이즈와 여백 부족을 보정하고, 후속 자세에서 팔/방패를 가깝게 모아 가로로 눌린 비율을 줄였다.
+- Knight: 돌출된 말머리·굽은 목과 그 아래 오목한 외곽·수정 갈기·분절 마갑·네 발굽.
+  최초 갈기 위 여백 부족을 이미지 편집으로 보완했다.
+- 탐색 원본 source/rook_initial.png, source/rook_cutout.png, source/knight_initial.png도 보존한다.
+  선택한3원화와 혼동하지 않는다. 생성 도구 기본 저장 원본도 삭제하지 않았다.
+
+### 준비 도구와 픽셀 품질
+
+[prepare_chapter3_units.py](../tools/prepare_chapter3_units.py)는 기존 SDL 기계적 준비 방식을 참고한 별도 도구다.
+원본을 읽기만 하며 알파 기준 crop·동일 배율 SDL 선형 축소·RGBA256 패딩을 수행한다.
+투명 검정 픽셀이 선형 필터에서 가장자리를 어둡게 하지 않도록 보간 동안만 RGB를 premultiply하고
+저장 전에 straight alpha로 되돌린다. 재도색·가로세로 별도 확대·실루엣 생성은 하지 않는다.
+모든 산출물을 준비/검증한 뒤 게시하며 기존 파일이 다르면 덮어쓰지 않는다.
+게시 중 실패하면 이번 호출이 새로 만든 부분 파일만 정리한다. 원화와 기존 파일은 보존한다.
+
+256RGBA·실제 투명 픽셀·긴 변220·원본/준비 SHA·정규화 재현성과 실패 경로를 자동 검사했다.
+가시적인 부드러운 경계(알파8~240)에서 RGB 최대값8 미만인 검정 오염 후보는3종 모두0픽셀이다.
+알파1~5의 양자화 검정이나 Rook의 거의 불투명한 어두운 관절 픽셀을 같은 오염으로 단정하지 않는다.
+검정/흰색/자주색/청회색 배경 비교도 제공하며 최종 가장자리 품질은 사용자 시각 검수 대상이다.
+이는 알파/형태 적합성의 자동 근거이며 완성 디자인/실전 가독성 승인과 다르다.
+
+### 표시 크기 후보와 실제 비교 자료
+
+공통 CAMERA는 기존 B+12 그대로다. 실제 알파 높이와 앞쪽 v=0을 기준으로 단일 배율을 역산했다.
+상판/프레임/Frozen 배경·Player 원화는 기존 파일을 그대로 읽는다.
+
+| 기물 | 앞쪽 알파 실루엣 후보 | HP 상단 여백 | 판단/남은 검수 |
+|---|---|---:|---|
+| Ice Pawn | 약31×66px | 8px | 원화가 좁아 D0 폭42~50 후보보다 작음. 비율을 늘리지 않았으며 밝은 칸에서의 작은 병사 시인성은 사용자 판단 필요 |
+| Ice Rook | 약65×78px | 10px | 평평한 성가퀴/폭/무게 구분. 돌진 경고와의 실전 겹침은 통합 때 검사 |
+| Ice Knight | 약68×80px | 10px | 머리/갈기/다리 구분. 실제18px 도약 연동은 미구현 |
+| 기존 Player | 약66×84px | 기존5px | 승인된 표시 계산과 이미지 유지 |
+
+뒤쪽 v=9는 전방보다 약18.8% 작아진다. 발 후보는 알파 하단과 가로 중심(128,238),
+HP는 같은 측정 top에 여백을 더한다. 실제 발굽/부츠의 수평 접지 중심과 동적 가림은 통합 전에 다시 확인한다.
+Pawn의 폭을 맞추려고 원화를 가로로 늘리지 않는다. 사용자 요청 시 별도 디자인 보정 대상이다.
+
+1440×900 PNG6장:
+
+- [원화3종](../assets/chapter3_units/review/source_cast.png): 각 원본의 전체 bbox를400×500 보기 안에 맞춘 비교.
+- [실제 알파 실루엣](../assets/chapter3_units/review/silhouettes.png): 새로 그린 형상이 아닌 준비본의 실제 알파를 검정으로 표시.
+- [84px 비교](../assets/chapter3_units/review/scale84.png): 밝음/어두움·Player·HP·경고선·서로 인접한84px 셀.
+- [Stage11 원본 배치](../assets/chapter3_units/review/stage11_static.png): Rook2/Knight2/Pawn1/Player, 원본 셀·참고 HP67.
+- [경고 중첩 연구](../assets/chapter3_units/review/warning_layout.png): 명시적으로 선택한 기하 표본이며 공격 원장/실제 피해가 아니다.
+- [알파 가장자리](../assets/chapter3_units/review/alpha_edges.png): 동일 PNG를4가지 바탕에 합성.
+
+[검수 manifest](../assets/chapter3_units/review/review_manifest.json)에 PNG 해시/기준 배치/레이아웃/카메라/사용 자산 해시를 기록했다.
+StageCatalog와 승인 프로필에서 원본 배치/HP만 읽으며 StageGame·AI·공격 시간·전투 시뮬레이션을 생성하지 않는다.
+Rook2/Knight2는 같은 PNG와 텍스처를 재사용한다. 준비본/원화/환경 전체11장을 시작 때1회 로딩하고 종료/실패 시 해제한다.
+이 도구는 별도 정적 검수기이며 main.py의 Stage11 표시 경로에 연결하지 않았다.
+
+```powershell
+.\.venv\Scripts\python.exe tools\chapter3_art_review.py
+# 재생성은 새 경로 사용. 기존 검수 PNG를 게임 플레이 증거로 해석하지 않는다.
+$env:SDL_VIDEODRIVER = "dummy"
+$env:SDL_AUDIODRIVER = "dummy"
+try {
+    .\.venv\Scripts\python.exe tools\chapter3_art_review.py --capture-dir "$env:TEMP\checkmate_d1_review"
+} finally {
+    Remove-Item Env:SDL_VIDEODRIVER -ErrorAction SilentlyContinue
+    Remove-Item Env:SDL_AUDIODRIVER -ErrorAction SilentlyContinue
+}
+```
+
+키1~6은 위6페이지, G는 격자, F11은 전체화면, SETTINGS/ESC는 기존 메뉴·종료 방식이다.
+PNG는 뷰어100% 배율로 확인한다. 축소된 채팅 썸네일만으로84px 가독성을 판정하지 않는다.
+direct3d11 숨김 창에서 페이지1~6/G/F11 명령 전달/ESC 종료를 기술 검사했다.
+해당 검사에서 F11 호출은 모의 처리했으므로 실제 전체화면 시각 검수 완료가 아니다.
+
+### 검증 상태와 사용자 승인 항목
+
+새 전용8테스트는 원본/준비 해시·알파/크기·소프트 경계·재생성/원화 불변·오류/충돌/부분 게시 실패 정리,
+원본 Stage11 실편성/HP67·100칸 발/HP 계산·비율·11텍스처 로딩/해제·6페이지 반복 캡처를 확인한다.
+실루엣 표기용 누락 글리프는 새 검수기에서만 보완했고 기존 HUD 글리프/게임 코드는 수정하지 않았다.
+최종 전체 unittest/일반/-O/compileall·기존 에셋/캡처 결과는 최신 [진행 기록](PROGRESS.md)에 남긴다.
+
+| 사용자 검수 항목 | 상태 |
+|---|---|
+| Pawn 디자인·작고 가는 실루엣의 시인성 | 대기 |
+| Rook 디자인·폭/높이·방패/성가퀴 | 대기 |
+| Knight 디자인·말머리/목/갈기·접지 | 대기 |
+| Frozen3종의 테마/재질/광원 일관성 | 대기 |
+| 기존 Chapter1/2/Player와의 시각적 연속성 | 대기 |
+| 실제84px·밝음/어두움·인접 셀 가독성 | 대기 |
+| HP/경고선·배경과의 충돌 | 정적 후보 검수 대기, 실전은 별도 통합 후 |
+| 원화/준비본의 머리·무기·발 잘림/알파 가장자리 | 대기 |
+
+공모전 AI 허용·표시/최종 배포 이용조건은 [ASSET_CREDITS](ASSET_CREDITS.md)에 별도 미확정으로 유지한다.
+신규 Stage11 렌더러·CHECKMATE_STAGE11_ART 활성화·동적 경고/패링/도약·Stage12~15 확장은 미구현이다.
+FPS/P95/P99·RAM/VRAM 실측, Chapter3 종합 그래픽QA, 전체25스테이지 출품 품질 검수는 완료하지 않았다.
+Chapter4/5 전면 접합 결함은 OPEN이다. 사용자 디자인 승인 전 스테이징·커밋·Push하지 않는다.
+다음 별도 통합 작업은 승인된 Ice3종만 새 Stage11 프로필에 연결하고 기존5~10 출력/폴백을 보존하는 범위로 제안한다.
+
 ## 현재 범위와 기준선
 
 2026-11-17 D0는 조사·개발용 Stage11 진입·자동 검증 단계다. 신규 원화, Stage11 아트 렌더러,

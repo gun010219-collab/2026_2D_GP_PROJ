@@ -1,0 +1,220 @@
+{
+  "status": "Task5-D1 design candidates; user visual approval pending; no live Stage11 art integration",
+  "generator": "OpenAI built-in image_gen",
+  "model": "Not exposed by tool",
+  "date": "2026-11-17",
+  "transparent_background": true,
+  "style_references_reviewed": [
+    "assets/character_concepts/source/ch3_king.png",
+    "assets/character_concepts/source/player.png",
+    "assets/chapter2_units/source/rook.png",
+    "assets/character_concepts/source/ch1_knight.png"
+  ],
+  "reference_usage": "Existing project art visually inspected to write new design prompts; initial generation calls used text only. Edit calls used the listed generated draft.",
+  "generations": [
+    {
+      "name": "pawn",
+      "prompt": "Use case: stylized-concept. Asset type: original transparent full-body character source art for CHECKMATE, premium realistic dark fantasy 2.5D chess action game. Frozen Palace faction. Expensive sculptural game-illustration finish, physically believable layered materials, not flat cartoon, not icon, not toy chess figurine. Camera: consistent mild elevated three-quarter view, about 30-35 degree elevation and slight 15 degree yaw; show frontal and right-side planes. Lighting: soft upper-left key, crisp pale edges and deep desaturated slate-blue side shadows. Frost-white metal and translucent blue ice with DARK blue-grey joints for readable small silhouettes on pale ice tiles. Restrained blue core only, no broad luminous aura. Entire single character and all equipment inside image, centered with at least 7 percent truly empty alpha margin on ALL four edges, including weapon tips and feet. Transparent PNG with actual alpha, no background, no fake checkerboard, no floor or baked ground shadow, no pedestal, no typography, no watermark, no extra characters, no detached ice particles. High resolution source long edge at least1024. Design broad readable material planes for later 60-80 pixel character. Preserve natural proportions, avoid fine noisy ornament.\nSubject: ICE PAWN, weak small frost infantry sentinel. Small ROUND enclosed ice-and-frost-metal helmet, narrow shoulders and narrow compact chest plate, slender articulated limbs, TWO clearly visible boots. Short crystal spear held close to body and small plain ice buckler; spear tip stays near shoulder height, no tall flag/staff. Opaque frost-metal breastplate, semi-translucent ice elbow/knee joints, tiny subdued blue chest core, layered simple tunic plates. Low, thin, vulnerable soldier silhouette; overall silhouette width about70 percent of height with equipment, not bulky. No huge crown, no tall spikes, no large cape. Ready neutral stance, feet grounded and separated. Original anatomy/armour for an ice infantry character, not a blue wooden soldier.",
+      "output": "source/pawn.png",
+      "references": [],
+      "output_metadata": {
+        "size": [
+          1086,
+          1448
+        ],
+        "alpha_bbox": [
+          236,
+          96,
+          823,
+          1349
+        ],
+        "alpha_nonzero_bbox": [
+          0,
+          0,
+          1086,
+          1433
+        ],
+        "transparent_pixels": 1203382,
+        "partial_alpha_pixels": 368235,
+        "near_black_partial_pixels": 12149,
+        "safety_margin_fraction": 0.066298,
+        "bytes": 984279,
+        "sha256": "8d151ece3c16b04d2ef9ce49620eb8f569d61fbd06cf89637e0ddd9ba54e3dc4"
+      }
+    },
+    {
+      "name": "rook_initial",
+      "prompt": "Use case: stylized-concept. Asset type: original transparent full-body character source art for CHECKMATE, premium realistic dark fantasy 2.5D chess action game. Frozen Palace faction. Expensive sculptural game-illustration finish, physically believable layered materials, not flat cartoon, not icon, not toy chess figurine. Camera: consistent mild elevated three-quarter view, about 30-35 degree elevation and slight 15 degree yaw; show frontal and right-side planes. Lighting: soft upper-left key, crisp pale edges and deep desaturated slate-blue side shadows. Frost-white metal and translucent blue ice with DARK blue-grey joints for readable small silhouettes on pale ice tiles. Restrained blue core only, no broad luminous aura. Entire single character and all equipment inside image, centered with at least 7 percent truly empty alpha margin on ALL four edges, including weapon tips and feet. Transparent PNG with actual alpha, no background, no fake checkerboard, no floor or baked ground shadow, no pedestal, no typography, no watermark, no extra characters, no detached ice particles. High resolution source long edge at least1024. Design broad readable material planes for later 60-80 pixel character. Preserve natural proportions, avoid fine noisy ornament.\nSubject: ICE ROOK, massive charging ice-wall guardian. VERY BROAD rectangular torso and shoulders, flat horizontal castellated CRYSTAL BATTLEMENT top with square notches, thick stacked frozen slabs, short powerful booted legs, a huge rectangular ice-wall shield held beside torso and a thick gauntlet. Front and side planes of deep BLUE solid ice separated by dark frost-metal joints and matt steel bindings. Heavy lower body, powerful horizontal silhouette with width about90 percent of height; broadest regular enemy. Architectural compact fortress warrior, no king crown, no central tall spire, no tree/root features, no conical wizard shape. Cracks within ice are subtle pale seams, no neon. Natural weight and coherent torso/legs, not a pedestal or static castle building. All shield edges and feet fully contained.",
+      "output": "source/rook_initial.png",
+      "references": [],
+      "output_metadata": {
+        "size": [
+          1536,
+          1024
+        ],
+        "alpha_bbox": [
+          93,
+          28,
+          1424,
+          998
+        ],
+        "alpha_nonzero_bbox": [
+          0,
+          16,
+          1474,
+          1005
+        ],
+        "transparent_pixels": 591896,
+        "partial_alpha_pixels": 980968,
+        "near_black_partial_pixels": 4,
+        "safety_margin_fraction": 0.025391,
+        "bytes": 2819397,
+        "sha256": "f6fea824092b94c9943b9ea4389eb8bee8898de4e5a48354106c325f2b7a6148"
+      }
+    },
+    {
+      "name": "knight_initial",
+      "prompt": "Use case: stylized-concept. Asset type: original transparent full-body character source art for CHECKMATE, premium realistic dark fantasy 2.5D chess action game. Frozen Palace faction. Expensive sculptural game-illustration finish, physically believable layered materials, not flat cartoon, not icon, not toy chess figurine. Camera: consistent mild elevated three-quarter view, about 30-35 degree elevation and slight 15 degree yaw; show frontal and right-side planes. Lighting: soft upper-left key, crisp pale edges and deep desaturated slate-blue side shadows. Frost-white metal and translucent blue ice with DARK blue-grey joints for readable small silhouettes on pale ice tiles. Restrained blue core only, no broad luminous aura. Entire single character and all equipment inside image, centered with at least 7 percent truly empty alpha margin on ALL four edges, including weapon tips and feet. Transparent PNG with actual alpha, no background, no fake checkerboard, no floor or baked ground shadow, no pedestal, no typography, no watermark, no extra characters, no detached ice particles. High resolution source long edge at least1024. Design broad readable material planes for later 60-80 pixel character. Preserve natural proportions, avoid fine noisy ornament.\nSubject: ICE KNIGHT, riderless supernatural ice WARHORSE built for L-shaped leaps. Long protruding HORSE muzzle facing left-front, clearly arched elongated neck with a conspicuous open negative-space gap BELOW NECK, swept-back faceted crystal mane, segmented frost-metal barding over glasslike ice anatomy, dark slate-blue joints, FOUR equine legs and readable solid angular hooves. Lean powerful horse rather than humanoid, no rider, no antlers, no wolf/tree components. Stand in a compact poised ready stance with all hooves within one compact contact area, not rearing or flying; clear ground anchor for later jump. Wide flowing head/neck silhouette roughly90 percent of height; separated muzzle, neck and chest shapes remain legible at80px. Deep blue shadow planes, muted white-blue armour, tiny cold eyes, no opaque smoke/tail clouds. Keep complete head/mane/tail/hooves within safe alpha margins.",
+      "output": "source/knight_initial.png",
+      "references": [],
+      "output_metadata": {
+        "size": [
+          1312,
+          1199
+        ],
+        "alpha_bbox": [
+          210,
+          11,
+          1168,
+          1139
+        ],
+        "alpha_nonzero_bbox": [
+          0,
+          1,
+          1296,
+          1175
+        ],
+        "transparent_pixels": 1030269,
+        "partial_alpha_pixels": 542125,
+        "near_black_partial_pixels": 13012,
+        "safety_margin_fraction": 0.009174,
+        "bytes": 1343818,
+        "sha256": "4aa15f6006caad8d9582bcc0c8ebc76593072ad59431baafb4b7b2bf9c3df1a8"
+      }
+    },
+    {
+      "name": "rook_cutout",
+      "prompt": "Use case: background-extraction. Edit the supplied ICE ROOK image. Preserve this exact ice fortress guardian's complete battlement, face, shield, metal details, palette, full anatomy, lighting and quality. Remove the entire grey glow/background and all baked floor shadows: outside the actual character and shield must be truly transparent alpha0, including between arms/legs and around feet. Do NOT paint a grey backdrop or a halo. Keep ice surfaces solid enough to read at tiny game size. Fit the complete unchanged proportions of the character within a new square canvas with at least8 percent entirely transparent safety margin on every edge. Do not crop any shield, battlement or boots. One original character, no text, no pedestal. Keep armoured silhouette and material structure intact. Any region not belonging to the character must be empty transparency.",
+      "output": "source/rook_cutout.png",
+      "references": [
+        "source/rook_initial.png"
+      ],
+      "output_metadata": {
+        "size": [
+          1254,
+          1254
+        ],
+        "alpha_bbox": [
+          51,
+          221,
+          1177,
+          1098
+        ],
+        "alpha_nonzero_bbox": [
+          0,
+          18,
+          1222,
+          1254
+        ],
+        "transparent_pixels": 803343,
+        "partial_alpha_pixels": 768411,
+        "near_black_partial_pixels": 8442,
+        "safety_margin_fraction": 0.04067,
+        "bytes": 1988080,
+        "sha256": "298b4b94b77cf66da5ff9572607f51b10fac00dd1e392a66db6910e40c10bc36"
+      }
+    },
+    {
+      "name": "knight",
+      "prompt": "Use case: precise-object-edit. Preserve the supplied ICE KNIGHT warhorse exactly in identity, sculptural material, armour, pose, horse anatomy, long muzzle, open gap below arched neck, swept crystal mane and all four hooves. Reframe it with CLEAR TRUE TRANSPARENT margin around the entire complete character: zoom out uniformly on a square canvas so the full silhouette fits within the central80 percent, at least8 percent alpha0 empty border on ALL four edges. Restore any missing tiny tip at the very top of the mane so no tip is clipped. No floor or cast ground shadow, no background haze, no text, no new equipment, no pedestal. Soft upper-left lighting and dark slate-blue joints remain. Do not stretch the horse or crop its head/mane/feet/tail.",
+      "output": "source/knight.png",
+      "references": [
+        "source/knight_initial.png"
+      ],
+      "output_metadata": {
+        "size": [
+          1254,
+          1254
+        ],
+        "alpha_bbox": [
+          237,
+          123,
+          1074,
+          1112
+        ],
+        "alpha_nonzero_bbox": [
+          113,
+          23,
+          1222,
+          1204
+        ],
+        "transparent_pixels": 1157639,
+        "partial_alpha_pixels": 413750,
+        "near_black_partial_pixels": 6276,
+        "safety_margin_fraction": 0.098086,
+        "bytes": 1076709,
+        "sha256": "391c071a9ee33954dd2799fdca5f1a9e0b7a2eb289805cc52cabda664d7583e5"
+      }
+    },
+    {
+      "name": "rook",
+      "prompt": "Use case: precise-object-edit. Refine only the pose/proportions of this original ICE ROOK guardian so its overall full silhouette is approximately SQUARE rather than very wide and squat. Keep recognisable flat castellated ice top, deep-blue layered ice slabs, small visor, broad block shoulders, frost-metal braces, large rectangular shield. Bring the left fist/arm and shield closer to the torso, make anatomically solid slightly taller booted legs and narrower shield naturally as designed; do NOT anisotropically stretch the image. It must remain a massive broad heavy fortress warrior, not a slender human, not a king. Entire character silhouette width about95 percent of full height. More balanced front/right three-quarter body planes, ready standing pose. Preserve high-end realistic game sculptural finish, upper-left light, dark blue-grey joints and restrained icy seams. TRUE transparent background with NO glow haze, no floor and no baked ground shadow. Center complete subject in square image within central80 percent, at least8 percent entirely clear padding on ALL edges. No clipped shield/castellation/feet, no text or pedestal.",
+      "output": "source/rook.png",
+      "references": [
+        "source/rook_cutout.png"
+      ],
+      "output_metadata": {
+        "size": [
+          1254,
+          1254
+        ],
+        "alpha_bbox": [
+          197,
+          106,
+          1033,
+          1113
+        ],
+        "alpha_nonzero_bbox": [
+          126,
+          27,
+          1236,
+          1215
+        ],
+        "transparent_pixels": 921671,
+        "partial_alpha_pixels": 650345,
+        "near_black_partial_pixels": 9884,
+        "safety_margin_fraction": 0.08453,
+        "bytes": 1646963,
+        "sha256": "a6e4d2e66bb165a39cba34ae7a7fb51eb290035ebd2f6c40c852ee69307c48f9"
+      }
+    }
+  ],
+  "preparation": "tools/prepare_chapter3_units.py; measured alpha crop, uniform SDL linear downscale using premultiplied RGB/alpha, unpremultiply and transparent256px padding; original PNGs preserved",
+  "rights": "Project AI-generated design drafts. No external images/fonts/audio added. Contest AI permission/disclosure and final distribution terms remain unverified; no exclusivity or legal-clearance claim.",
+  "style_reference_sha256": {
+    "assets/character_concepts/source/ch3_king.png": "c5361571db9798744bbbf88ba155d99b9ea2706374ffe539dade4f061269c9d0",
+    "assets/character_concepts/source/player.png": "cdabe9233f5da717ccea5d7ca9dde121e869390b665652f069a181365f4288fe",
+    "assets/chapter2_units/source/rook.png": "c0a9e2cabadff748cf243ca3a597a8dd072bb3ac12a173f2ed315a4f5c067144",
+    "assets/character_concepts/source/ch1_knight.png": "b776064e2d4e5802a3ea20c242f1e31980816a3e7e143e67b35407d6e62b2297"
+  },
+  "selected_sources": [
+    "source/pawn.png",
+    "source/rook.png",
+    "source/knight.png"
+  ],
+  "preserved_explorations": {
+    "source/rook_initial.png": "Rejected grey haze and narrow safety margin",
+    "source/rook_cutout.png": "Transparency improved; broad squat pose before balance refinement",
+    "source/knight_initial.png": "Complete body but insufficient top margin; reframed in final source"
+  }
+}

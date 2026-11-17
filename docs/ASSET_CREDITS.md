@@ -1,5 +1,39 @@
 # CHECKMATE 에셋 출처
 
+## Task 5-D1F — Frozen3종 사용자 디자인 승인
+
+사용자가 Ice Pawn/Rook/Knight의 Windows 정적 디자인 검수10/10 통과를 보고했다.
+원화·준비본·실루엣/84px·밝은 칸 Pawn 시인성·정적 HP/경고·잘림/알파·F11/ESC가 승인됐다.
+아래 D1의 승인 대기와 JSON pending은 제작 당시 이력이다. 선택3원화/준비3PNG·탐색3원본·6검수PNG·
+프롬프트/manifest·도구·테스트는 승인 이후 내용/해시를 유지한다.
+아직 Stage11 실전 신규2.5D·동적 가독성/프레임 성능/장시간 메모리 검증 승인이 아니다.
+OpenAI 내장 image_gen 사용과 모델명 미노출을 그대로 기록하며 새로운 생성/보정은 하지 않는다.
+공모전 AI 허용/표시·최종 배포 이용조건·독점성/법적 심사 확인은 완료되지 않았다.
+
+## Task 5-D1 — Frozen Palace 3기물 원화/투명 준비본 (디자인 승인 대기)
+
+OpenAI 내장 image_gen을 실제 사용했다. 도구는 구체적 모델명을 노출하지 않았다.
+Ice Pawn/Rook/Knight를 별개로 생성했으며, 기존 게임 이미지를 파란색으로 재색칠하지 않았다.
+기존 프로젝트의 빙설King/Player/숲Rook/왕실Knight는 육안으로 확인해 재질/조명/시점 프롬프트를 작성했다.
+최초3회는 텍스트 생성이고 후속 Rook2회/Knight1회는 해당 신규 초안 이미지를 참조한 편집이다.
+총6개 생성 원본(선택3개/탐색3개)을 모두 보존했다.
+
+- [실제 프롬프트·편집 참조·출력/스타일 참조 해시·생성 방식](../assets/chapter3_units/prompts.json).
+- 선택 원화: source/pawn.png(1086×1448), source/rook.png(1254×1254), source/knight.png(1254×1254).
+  루트는 assets/chapter3_units다. source/rook_initial.png·rook_cutout.png·knight_initial.png는 보존된 탐색본이다.
+- 준비본: pawn.png·rook.png·knight.png, 각256×256 RGBA.
+  [SHA256·알파 bbox/투명 픽셀·파일 바이트·발 후보](../assets/chapter3_units/asset_manifest.json).
+- [준비 도구](../tools/prepare_chapter3_units.py): 알파crop·비율 유지 선형 축소·패딩만 수행.
+  투명 검정의 필터 오염을 줄이는 premultiply/straight-alpha 처리를 사용한다. 생성 원화는 수정하지 않는다.
+- [6개 정적 비교 PNG/해시](../assets/chapter3_units/review/review_manifest.json).
+  원본Stage11 배치/HP 참조·84px/경고선 연구이며 실제 게임플레이·공격 원장/피해 검증 자료가 아니다.
+- [제작/검수 규격 및 사용자 체크리스트](TASK5D_CHAPTER3_PLAN.md).
+  새 원화는 아직 사용자 시각 승인을 받지 않았고 실제 Stage11 렌더러에는 적용하지 않았다.
+
+외부 이미지·폰트·음향을 추가하지 않았다. 기존 승인 에셋/출처는 보존한다.
+AI 생성물의 공모전 허용/표시·최종 배포 이용조건은 별도 확인 대상이며 독점성/법적 심사 완료를 주장하지 않는다.
+현재 정적1자세이며 방향별 애니메이션·실제FPS/장시간 메모리 검증 완료가 아니다.
+
 ## Task 5-C6F — 숲 King 사용 상태 갱신
 
 사용자가 Stage10 Windows GUI 전체 검수 완료와 별도 오류 보고 없음을 전달했다.

@@ -1,0 +1,182 @@
+{
+  "status": "D1 static art candidates; visual approval pending; no live renderer",
+  "generator": "OpenAI built-in image_gen; exact model not exposed",
+  "operation": "alpha>5 bbox; uniform max220px SDL linear premultiplied resize; straight RGBA256 padding",
+  "alpha_bbox_threshold": 5,
+  "assets": [
+    {
+      "name": "pawn",
+      "source": "source/pawn.png",
+      "file": "pawn.png",
+      "source_size": [
+        1086,
+        1448
+      ],
+      "source_alpha_bbox": [
+        236,
+        96,
+        823,
+        1349
+      ],
+      "source_alpha_nonzero_bbox": [
+        0,
+        0,
+        1086,
+        1433
+      ],
+      "source_transparent_pixels": 1203382,
+      "source_safety_margin_fraction": 0.066298,
+      "source_bytes": 984279,
+      "source_sha256": "8d151ece3c16b04d2ef9ce49620eb8f569d61fbd06cf89637e0ddd9ba54e3dc4",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        76,
+        18,
+        179,
+        238
+      ],
+      "alpha_nonzero_bbox": [
+        76,
+        18,
+        179,
+        238
+      ],
+      "transparent_pixels": 54373,
+      "partial_alpha_pixels": 11163,
+      "near_black_partial_pixels": 261,
+      "safety_margin_fraction": 0.070312,
+      "normalized_dimensions": [
+        103,
+        220
+      ],
+      "rgba_bytes": 262144,
+      "file_bytes": 40120,
+      "sha256": "03d636cb736651fd825be4b1bfc1e24bea44adccd7af89d824b627ae46e75d58",
+      "foot_anchor": [
+        128,
+        238
+      ],
+      "anchor_note": "alpha-bottom candidate; inspect actual soles",
+      "hp_offset_candidate": 8
+    },
+    {
+      "name": "rook",
+      "source": "source/rook.png",
+      "file": "rook.png",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "source_alpha_bbox": [
+        197,
+        106,
+        1033,
+        1113
+      ],
+      "source_alpha_nonzero_bbox": [
+        126,
+        27,
+        1236,
+        1215
+      ],
+      "source_transparent_pixels": 921671,
+      "source_safety_margin_fraction": 0.08453,
+      "source_bytes": 1646963,
+      "source_sha256": "a6e4d2e66bb165a39cba34ae7a7fb51eb290035ebd2f6c40c852ee69307c48f9",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        36,
+        18,
+        219,
+        238
+      ],
+      "alpha_nonzero_bbox": [
+        36,
+        18,
+        219,
+        238
+      ],
+      "transparent_pixels": 34574,
+      "partial_alpha_pixels": 30962,
+      "near_black_partial_pixels": 357,
+      "safety_margin_fraction": 0.070312,
+      "normalized_dimensions": [
+        183,
+        220
+      ],
+      "rgba_bytes": 262144,
+      "file_bytes": 106780,
+      "sha256": "ab1cec71d3a1b3f34587c1038871aa2b6b3f18c6ad2be78fa67a34678acf5679",
+      "foot_anchor": [
+        128,
+        238
+      ],
+      "anchor_note": "alpha-bottom candidate; inspect actual soles",
+      "hp_offset_candidate": 10
+    },
+    {
+      "name": "knight",
+      "source": "source/knight.png",
+      "file": "knight.png",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "source_alpha_bbox": [
+        237,
+        123,
+        1074,
+        1112
+      ],
+      "source_alpha_nonzero_bbox": [
+        113,
+        23,
+        1222,
+        1204
+      ],
+      "source_transparent_pixels": 1157639,
+      "source_safety_margin_fraction": 0.098086,
+      "source_bytes": 1076709,
+      "source_sha256": "391c071a9ee33954dd2799fdca5f1a9e0b7a2eb289805cc52cabda664d7583e5",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        35,
+        18,
+        221,
+        238
+      ],
+      "alpha_nonzero_bbox": [
+        35,
+        18,
+        221,
+        238
+      ],
+      "transparent_pixels": 45359,
+      "partial_alpha_pixels": 20177,
+      "near_black_partial_pixels": 155,
+      "safety_margin_fraction": 0.070312,
+      "normalized_dimensions": [
+        186,
+        220
+      ],
+      "rgba_bytes": 262144,
+      "file_bytes": 70188,
+      "sha256": "bda5a25dda74421d268045014582ccd97ca3924219c7ffd38c7fe530911872f7",
+      "foot_anchor": [
+        128,
+        238
+      ],
+      "anchor_note": "alpha-bottom candidate; inspect actual soles",
+      "hp_offset_candidate": 10
+    }
+  ]
+}

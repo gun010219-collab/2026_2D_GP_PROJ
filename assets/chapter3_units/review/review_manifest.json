@@ -1,0 +1,324 @@
+{
+  "status": "D1 static design review; no live Stage11 renderer or attack simulation",
+  "camera_corners": [
+    [
+      292.59999999999997,
+      133.5
+    ],
+    [
+      1177.4,
+      133.5
+    ],
+    [
+      1093.4,
+      721.5
+    ],
+    [
+      387.79999999999995,
+      721.5
+    ]
+  ],
+  "reference_roster": [
+    {
+      "data_id": "player",
+      "kind": "player",
+      "col": 5,
+      "row": 1,
+      "hp": 3
+    },
+    {
+      "data_id": "s11_rook_1",
+      "kind": "rook",
+      "col": 2,
+      "row": 4,
+      "hp": 16
+    },
+    {
+      "data_id": "s11_rook_2",
+      "kind": "rook",
+      "col": 7,
+      "row": 4,
+      "hp": 16
+    },
+    {
+      "data_id": "s11_knight_1",
+      "kind": "knight",
+      "col": 3,
+      "row": 6,
+      "hp": 13
+    },
+    {
+      "data_id": "s11_knight_2",
+      "kind": "knight",
+      "col": 6,
+      "row": 6,
+      "hp": 13
+    },
+    {
+      "data_id": "s11_pawn_1",
+      "kind": "pawn",
+      "col": 1,
+      "row": 6,
+      "hp": 9
+    }
+  ],
+  "target_front_height": {
+    "pawn": 66,
+    "rook": 78,
+    "knight": 80
+  },
+  "warning_overlay": [
+    [
+      2,
+      4
+    ],
+    [
+      3,
+      4
+    ],
+    [
+      4,
+      4
+    ],
+    [
+      7,
+      4
+    ],
+    [
+      3,
+      6
+    ],
+    [
+      6,
+      6
+    ]
+  ],
+  "warning_note": "Hand-selected geometry study, not ledger events or damage",
+  "assets": {
+    "assets\\themed_arena\\frozen.png": "da5ce16b2e8de0b7480d353517d90fed99b59431d95bbc549b29b1485c1cfaaa",
+    "assets\\aligned_board\\frozen_c.png": "e895f25562bde8b1bfa4659babce800c9a27a77a24b210e1d63e9fbc59f04156",
+    "assets\\polished_board\\frozen_light.png": "20332d1f7f7c3224628bdd9ccc6d39d87f7306e88df57061c7c686f2b1ba180e",
+    "assets\\polished_board\\frozen_dark.png": "cabed7b1995803c918a400bc75b705df42a20e5d3dbd70c267d89f0b1c97bbbc",
+    "assets\\character_concepts\\player.png": "5a7301e29f6a8446fe03eb8d0cd29a334f392d3c93badb1c0ce5c0dedb56bf64",
+    "assets\\chapter3_units\\pawn.png": "03d636cb736651fd825be4b1bfc1e24bea44adccd7af89d824b627ae46e75d58",
+    "assets\\chapter3_units\\source\\pawn.png": "8d151ece3c16b04d2ef9ce49620eb8f569d61fbd06cf89637e0ddd9ba54e3dc4",
+    "assets\\chapter3_units\\rook.png": "ab1cec71d3a1b3f34587c1038871aa2b6b3f18c6ad2be78fa67a34678acf5679",
+    "assets\\chapter3_units\\source\\rook.png": "a6e4d2e66bb165a39cba34ae7a7fb51eb290035ebd2f6c40c852ee69307c48f9",
+    "assets\\chapter3_units\\knight.png": "bda5a25dda74421d268045014582ccd97ca3924219c7ffd38c7fe530911872f7",
+    "assets\\chapter3_units\\source\\knight.png": "391c071a9ee33954dd2799fdca5f1a9e0b7a2eb289805cc52cabda664d7583e5"
+  },
+  "captures": [
+    {
+      "file": "source_cast.png",
+      "sha256": "1ed283914a1176d7102829b59d49e5b68d8480b9f286966bd06c5b44bf8358df",
+      "actors": []
+    },
+    {
+      "file": "silhouettes.png",
+      "sha256": "c9f169ce2c7bd270fcc6f0847e8590003033cd224727faf9434d5e640e1aacd3",
+      "actors": []
+    },
+    {
+      "file": "scale84.png",
+      "sha256": "4f02d3f14fcf7b69ab77d29be2844d17dff3532ba9c433380d052a9499b991e0",
+      "actors": []
+    },
+    {
+      "file": "stage11_static.png",
+      "sha256": "e2a9b6302afead1cdf5ed16e01479938dfa561328f71ae47baf369a116df2afb",
+      "actors": [
+        {
+          "id": "s11_pawn_1",
+          "kind": "pawn",
+          "foot": [
+            471.52958904109596,
+            531.2054794520549
+          ],
+          "height": 67.16509090909089,
+          "center": [
+            471.52958904109596,
+            560.0654794520549
+          ],
+          "top": 588.9254794520549,
+          "hp_y": 596.9254794520549
+        },
+        {
+          "id": "s11_knight_1",
+          "kind": "knight",
+          "foot": [
+            624.248493150685,
+            531.2054794520549
+          ],
+          "height": 81.41223140495867,
+          "center": [
+            624.248493150685,
+            566.1872976338731
+          ],
+          "top": 601.1691158156913,
+          "hp_y": 611.1691158156913
+        },
+        {
+          "id": "s11_knight_2",
+          "kind": "knight",
+          "foot": [
+            853.3268493150687,
+            531.2054794520549
+          ],
+          "height": 81.41223140495867,
+          "center": [
+            853.3268493150687,
+            566.1872976338731
+          ],
+          "top": 601.1691158156913,
+          "hp_y": 611.1691158156913
+        },
+        {
+          "id": "s11_rook_1",
+          "kind": "rook",
+          "foot": [
+            538.0432664756446,
+            416.33810888252145
+          ],
+          "height": 83.17249586776859,
+          "center": [
+            538.0432664756446,
+            452.0762907007033
+          ],
+          "top": 487.8144725188851,
+          "hp_y": 497.8144725188851
+        },
+        {
+          "id": "s11_rook_2",
+          "kind": "rook",
+          "foot": [
+            937.3441260744986,
+            416.33810888252145
+          ],
+          "height": 83.17249586776859,
+          "center": [
+            937.3441260744986,
+            452.0762907007033
+          ],
+          "top": 487.8144725188851,
+          "hp_y": 497.8144725188851
+        },
+        {
+          "id": "player",
+          "kind": "player",
+          "foot": [
+            778.7295384615387,
+            222.83076923076925
+          ],
+          "height": 95.534208,
+          "center": [
+            778.7295384615387,
+            263.88062423076923
+          ],
+          "top": 304.9304792307692,
+          "hp_y": 309.9304792307692
+        }
+      ]
+    },
+    {
+      "file": "warning_layout.png",
+      "sha256": "7fde44393f0dc29b0ba3495a30f4651dd2b2578c3f72d1e1661d9b0f74972e34",
+      "actors": [
+        {
+          "id": "s11_pawn_1",
+          "kind": "pawn",
+          "foot": [
+            471.52958904109596,
+            531.2054794520549
+          ],
+          "height": 67.16509090909089,
+          "center": [
+            471.52958904109596,
+            560.0654794520549
+          ],
+          "top": 588.9254794520549,
+          "hp_y": 596.9254794520549
+        },
+        {
+          "id": "s11_knight_1",
+          "kind": "knight",
+          "foot": [
+            624.248493150685,
+            531.2054794520549
+          ],
+          "height": 81.41223140495867,
+          "center": [
+            624.248493150685,
+            566.1872976338731
+          ],
+          "top": 601.1691158156913,
+          "hp_y": 611.1691158156913
+        },
+        {
+          "id": "s11_knight_2",
+          "kind": "knight",
+          "foot": [
+            853.3268493150687,
+            531.2054794520549
+          ],
+          "height": 81.41223140495867,
+          "center": [
+            853.3268493150687,
+            566.1872976338731
+          ],
+          "top": 601.1691158156913,
+          "hp_y": 611.1691158156913
+        },
+        {
+          "id": "s11_rook_1",
+          "kind": "rook",
+          "foot": [
+            538.0432664756446,
+            416.33810888252145
+          ],
+          "height": 83.17249586776859,
+          "center": [
+            538.0432664756446,
+            452.0762907007033
+          ],
+          "top": 487.8144725188851,
+          "hp_y": 497.8144725188851
+        },
+        {
+          "id": "s11_rook_2",
+          "kind": "rook",
+          "foot": [
+            937.3441260744986,
+            416.33810888252145
+          ],
+          "height": 83.17249586776859,
+          "center": [
+            937.3441260744986,
+            452.0762907007033
+          ],
+          "top": 487.8144725188851,
+          "hp_y": 497.8144725188851
+        },
+        {
+          "id": "player",
+          "kind": "player",
+          "foot": [
+            778.7295384615387,
+            222.83076923076925
+          ],
+          "height": 95.534208,
+          "center": [
+            778.7295384615387,
+            263.88062423076923
+          ],
+          "top": 304.9304792307692,
+          "hp_y": 309.9304792307692
+        }
+      ]
+    },
+    {
+      "file": "alpha_edges.png",
+      "sha256": "f4f5566e0150437c157985db52e7b25549a920b3c2b7826ffd9347e7f870f523",
+      "actors": []
+    }
+  ]
+}
