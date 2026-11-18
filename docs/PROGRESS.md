@@ -1,5 +1,78 @@
 # CHECKMATE 개발 진행 기록
 
+## Task 5-D4AF — Ice Queen 정적 디자인 사용자10/10 최종 승인
+
+사용자가 Windows 디자인 검수10/10 전부 통과를 보고했다. 왕관/망토/홀·기존빙설기물 일관성·전후방가독성·
+원본5기배치·HP/발/그림자·알파/잘림·F11/G/페이지/ESC를 승인한다.
+원화2장·256RGBA 준비본·정적크기(전방65.05×90/후방52.81×73.06px)·HP12/발·6검수PNG/도구/테스트는 동결한다.
+아래 D4A/생성JSON의pending은 당시 이력이다. 이 디자인 승인은 아직 미구현인 Stage13 실전 GUI 승인이 아니다.
+시작 main HEAD/fetch한 origin/main은 `580c1509ac65ed36dcc35f2809d86d9d038944cf`,
+승인된 D4A18파일 외 관련없는 변경은 없고 인덱스는 비어 있었다. 이번에는 문서3개의 승인/검증 기록만 갱신한다.
+최종검증 후18파일 단독 커밋/일반Push·실제 원격SHA일치/Clean 확인 전에는 D4B를 시작하지 않는다.
+실측FPS/P95/P99/장시간RAM/VRAM·전체 인간캠페인·최종배포/라이선스 검증은 별도 미완료, Chapter4/5 접합은 OPEN이다.
+
+D4AF 재실행: **1,504개 / 360.767초 / 실패0·오류0·skip0**(프로세스361.752초) 통과.
+일반/-O 각각25스테이지(0.085/0.283초), compileall(2.072초), 기존 아트카탈로그563파일
+(추적300/로컬보존263, 누락0;4.074초), Stage5~12 기준66장 임시 재생성/해시 일치(15.074초)를 확인했다.
+Queen 원본2장/준비본/manifest와6검수PNG 해시·RGBA/알파 측정 및 임시 폴더 준비본 재현성은
+전용10개를 포함한 전체검사로 통과했다. 원본·PNG·도구·테스트는 최초 스냅샷과 동일하다.
+문서 로컬링크608개/누락0, Git 공백 검사 통과. 자동 software/dummy FrameStats 출력은 Windows 실측으로 채택하지 않는다.
+승인 대상18파일만 명시적으로 스테이징하여 `feat: Stage 13 Ice Queen 원화 제작 및 디자인 검수 완료`로
+커밋/일반Push한다. 실제 SHA/원격파일/인덱스/작업 트리 확인 결과는 마감 보고를 따른다.
+
+## Task 5-D4A — Stage13 Ice Queen 원화·정적 디자인 검수 후보
+
+선행 D3BF26파일을 `580c1509ac65ed36dcc35f2809d86d9d038944cf`
+(`feat: Stage 12 빙설 2.5D 실전 통합 및 GUI 검수 완료`)로 단독 커밋·기존main 일반Push했다.
+fetch/실제ls-remote의 로컬·원격SHA일치와 작업 트리/인덱스 Clean을 확인한 후에만 D4A에 착수했다.
+Stage12 실전GUI20/20·빙설4종과기존5~11 승인은 유지한다. 이번에는 Ice Queen1종만 새로 제작하며 실전 Stage13 렌더러는 연결하지 않는다.
+
+실제 StageCatalog/StageGame/Chapter3프로필은 Queen(4,7)HP18·Knight(3,6)HP13·
+Pawn(1,6)/(8,6)/(3,8)HP9씩 =5기/HP58, Player(5,1), 일반전이다.
+기존8방향광선/원점제외·재배치/점유·AI/시간/HP/패링/강화·원본JSON은 변경하지 않았다.
+Queen 순수기하 함수의31셀을 정적 참고에만 사용하며 원장/피해/패링/동적전투 검증으로 표현하지 않는다.
+
+imagegen 스킬의 OpenAI 내장 image_gen을 실제 사용했다. 내부 모델명은 노출되지 않았다.
+기존 승인 빙설4종 원화/준비PNG8개를 실제 열어 보고 스타일 명세를 작성했다.
+텍스트 생성1회 후 첫Queen의 가시여백3.384%가 기준에 미달해 source/queen_initial.png로 보존했다.
+그 신규 초안만 입력으로 여백/알파 보정1회를 수행하고 source/queen.png를 선택했다.
+기존 Queen 이미지 재색칠·승인 캐릭터 편집은 하지 않았다. 생성편집의 픽셀 동일성을 보장하지 않는다.
+실제 프롬프트2개/입력/출력/도구/선택/원본해시는 assets/chapter3_units/queen_prompt.json에 보존한다.
+
+선택 원화1086×1448 RGBA, 가시 bbox(112,142,973,1333)/최소여백7.942%,
+준비본256×256 RGBA bbox(48,18,207,238)/동일비율159×220px/완전투명44,858픽셀이다.
+준비본 alpha>0/>5 bbox는 같다. 전체 near-black 부분알파583픽셀과 보이는 소프트경계 alpha8~240의 오염 후보0픽셀을 구분했다.
+tools/prepare_ice_queen.py는 기존D1 normalized함수를 재사용해 비율/선형보간/투명패딩/해시를 재현하고 기존출력 충돌/발행실패에서 원본을 보호한다.
+원화의 실제 가시비율861/1191로 높이86/88/90px(폭62.17/63.62/65.06px)을 측정하고90px 정적 후보를 선택했다.
+준비본 실제경계 기준 전방65.05×90px·후방52.81×73.06px, 발(128,238)·HP간격12px이다.
+이는 실전 승인 크기가 아니라 이번 사용자 디자인 검수 전 후보이며 원본비율/기존기물 크기는 바꾸지 않았다.
+
+tools/ice_queen_review.py는 기존 D1/Bishop의 원화/이미지/문자/보드/자원정리와 Stage12 승인layout을 재사용한다.
+원화/준비본·5종스타일·84px앞/뒤명암·Stage13원본배치·31셀광선참고·알파/잘림의6PNG와manifest를 queen_review에 만들었다.
+기존4기물/Player의 발/HP/원근·B+12·지상깊이를 유지한다. HP는 모든 몸체 뒤에 그려 망토가 라벨을 덮지 않게 한다.
+원본고정배치의Queen가시AABB와 다른5기(Player포함)HP라벨은 겹치지 않았다. 미래 모든 재배치/동적 가림은 미검증이다.
+신규전용10테스트는7.457초/실패0·오류0·skip0 통과다.
+D4A 최종 전체 재실행은 **1,504개 /317.560초 /실패0·오류0·skip0**(프로세스318.218초) 통과다.
+기존1,494개 테스트 메서드 삭제0개·신규10개를 확인했고 기존 테스트 내용은 수정하지 않았다.
+새 준비본은 임시폴더에서 두 번 생성해 후보PNG/manifest와 바이트 동일했고,6페이지도 별도 SDL subprocess에서 반복 생성해 기존해시/manifest와 같았다.
+정적 뷰어15텍스처를 한 번씩 로딩/해제했고, 부분 로딩/발행 실패·충돌출력 보호·RGBA/알파/비율/원본/해시·
+100칸 발/HP·원본HP58/배치·이웃HP가림·순수광선기하·Stage13 미활성화를 검사했다.
+숨김 SDL 뷰어에서 페이지/G/ESC종료와 자원정리를 확인했다. F11은 toggle을 mock하여 키전달만 확인했으므로 실제 전체화면 인간검수는 대기다.
+일반/-O Stage 검사 각각25개(0.077/0.132초), compileall(1.640초), 기존아트 카탈로그563개 해시(1.251초)를 통과했다.
+Stage5~12 승인66PNG를 임시폴더에 재생성해 모두 기존SHA256과 같았다(14.653초).
+문서 링크607개·JSON문법·Git/신규파일 공백 검사를 통과했다. 테스트 중 software/dummy FrameStats 출력은 실제 Windows 성능값으로 채택하지 않는다.
+시작 추적797파일 중 문서3개 외794파일은 바이트 동일하다. 기존렌더러/AI/HP/강화/원본StageJSON·승인이미지/메타데이터는 보존한다.
+D4A의 실제 변경은18파일: docs/PROGRESS.md·docs/TASK5D_CHAPTER3_PLAN.md·docs/ASSET_CREDITS.md,
+tools/prepare_ice_queen.py·tools/ice_queen_review.py·tests/test_ice_queen_art.py,
+assets/chapter3_units의 source/queen_initial.png·source/queen.png·queen.png·queen_prompt.json·queen_manifest.json,
+queen_review의 queen_source.png·ice_cast.png·front_back_84.png·stage13_static.png·queen_ray_reference.png·alpha_edges.png·review_manifest.json이다.
+새 아트/메타데이터/검수12파일은10,901,542바이트다. 인덱스는 비어 있으며 D4A 커밋/Push는 하지 않았다.
+Queen 디자인·F11/실제조작·출품 미적완성도는 사용자 검수 전이며 자동검사를 인간 GUI승인으로 대체하지 않는다.
+GUI명령과10항목 체크리스트는 [D4A 문서](TASK5D_CHAPTER3_PLAN.md)에 있다.
+D4A는 미스테이징/미커밋/미Push로 보존하며 Stage13 실전표시/opt-in은 별도D4B다.
+정량성능/장시간RAM/VRAM·전체 인간캠페인·Chapter3종합/출품·배포/AI이용조건 확인은 미완료다.
+Chapter4/5 전면접합 `ART-BOARD-CH4-CH5-FRONT-OVERLAP`은 OPEN이다.
+
 ## Task 5-D3BF — Stage12 실전 GUI20/20 최종 승인 및 Git 반영
 
 사용자가 Windows 실전GUI20/20 전부 통과(시각5/5·전투판정8/8·진행안정7/7)를 보고했다.

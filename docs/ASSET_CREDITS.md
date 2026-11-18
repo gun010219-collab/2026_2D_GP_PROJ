@@ -1,5 +1,30 @@
 # CHECKMATE 에셋 출처
 
+## Task 5-D4AF — Ice Queen 사용자 디자인10/10 승인
+
+사용자가 Windows 정적 디자인10/10 통과를 보고했다. 원화/준비본/정적표시크기/원본배치/HP/발/알파/검수도구가 승인됐다.
+선택원화·최초후보·준비PNG·프롬프트/해시/manifest·6검수PNG는 바꾸지 않는다. 아래D4A 및 생성JSON의pending은 당시 기록이다.
+새 이미지생성/리사이즈기준 변경은 하지 않으며 아직 미구현인 Stage13 실전 GUI 검증까지 승인한 것으로 표현하지 않는다.
+내부 모델명 미노출·공모전AI 허용/표시·최종배포 이용조건/법적 검증 미완료는 유지한다.
+
+## Task 5-D4A — Original Ice Queen / 사용자 디자인 승인 대기
+
+OpenAI 내장 image_gen을 실제 사용했다. 내부 모델명은 도구에 노출되지 않았다.
+기존 승인 빙설 Pawn/Rook/Knight/Bishop의 원화4개와 준비PNG4개를 실제 열어 스타일/광원/재질을 비교하고,
+최초에는 텍스트만으로 새 Ice Queen을 생성했다. 기존 Queen/왕실/숲 이미지를 입력하거나 재색칠하지 않았다.
+최초 후보의 가시 알파 여백3.384%가 기준미달이어서 보존한 뒤 그 **새 초안만** 참조한 image_gen 여백/알파 보정1회를 수행했다.
+생성 편집의 원화간 픽셀 동일성은 보장하지 않는다. 기존 승인 원화는 편집하지 않았다.
+최초 source/queen_initial.png와 선택 source/queen.png·도구출력원본을 보존하고, 실제2개 프롬프트/입력/출력ID/선택/해시는
+[queen_prompt.json](../assets/chapter3_units/queen_prompt.json)에 기록했다.
+
+기존 D1 normalized()를 재사용해 동일비율159×220px/투명패딩의256RGBA queen.png를 준비했다.
+원화1086×1448 가시bbox(112,142,973,1333)·최소7.942% 여백, 준비본bbox(48,18,207,238)다.
+모든 알파비제로 원화 흔적과 가시 alpha>5를 구분하고, 준비본 alpha8~240의 near-black 경계오염 후보0픽셀을 확인했다.
+크기/알파/바이트/SHA256/발·HP 후보는 [queen_manifest.json](../assets/chapter3_units/queen_manifest.json)에 있다.
+기존 승인 PNG/원화/manifest는 덮어쓰지 않았다. [6페이지 정적 자료](../assets/chapter3_units/queen_review)는 자체 SDL 합성 화면이다.
+현재 Stage12 실전은 D3BF20/20 승인, 새Queen 정적 디자인은 승인 대기다. Stage13 신규 실전 렌더러를 연결하지 않았다.
+공모전AI 허용/표시·최종배포 이용조건·독점성/법적 심사 확인은 미완료이며 검증된 이용허가를 주장하지 않는다.
+
 ## Task 5-D3AF — Ice Bishop 정적 디자인 승인
 
 사용자가 Windows 디자인 검수8/8 통과를 보고했다. 원화·준비본·정적 앞/뒤크기·명암/발/HP·알파/잘림·검수도구를 승인한다.

@@ -1,0 +1,60 @@
+{
+  "task": "Task 5-D4A",
+  "status": "Original Ice Queen static design candidate; user Windows design approval pending",
+  "tool": "OpenAI built-in image_gen",
+  "exact_model": "not exposed by tool",
+  "mode": "original text-to-image; no image reference submitted",
+  "visually_inspected_references": [
+    "source/pawn.png",
+    "source/rook.png",
+    "source/knight.png",
+    "source/bishop.png",
+    "pawn.png",
+    "rook.png",
+    "knight.png",
+    "bishop.png"
+  ],
+  "prompt": "Use case: stylized-concept.\nAsset type: an ORIGINAL high-resolution full-body character cutout for CHECKMATE Frozen Palace, a refined fantasy 2.5D action chess game.\nSubject: one adult ICE QUEEN, the royal commander of a glacial palace. This is a new design, not a blue recolor of an existing queen.\nRequired silhouette: a horizontally spreading MULTI-POINT CRYSTAL CROWN with distinct lateral spires, a graceful FAN-SHAPED CAPE of large crystalline blades spreading behind the shoulders and hips, a slender sharply tapered waist, thin sculpted silver armor, a multifaceted crystal SCEPTER, and one small WHITE GEM. Regal commanding upright pose, complete armored boots visible. Crown and cape create a broad elegant outline, clearly unlike a round small soldier, rectangular tower guardian, horse, or tall narrow priest.\nStyle: high-end carefully hand-painted 3D fantasy game asset with coherent sculptural geometry, faceted blue ice planes, frosted silver metal edges, navy-blue recesses and cloth, ice-white highlights, restrained cold blue core accents. Same material and upper-left light language as a silver-blue ice soldier, a massive azure ice tower, an armored crystal horse and a silver ice priest. Primary readable silhouette before fine engraving. Dark blue-grey contour and inner shadows preserve visibility over very pale icy chessboard tiles.\nComposition: weak three-quarter view facing slightly screen-left, camera a little above, grounded balanced stance, both feet close to the central vertical axis. Queen is full body, all crown tips, cape tips, scepter top and base and boots included. Cape is broad but controlled: total character silhouette width approximately 65-80 percent of its height, not huge horizontal wings. Leave clear negative shapes around the narrow waist. Scepter close to the outer body rather than far away, does not dominate width. No pedestal or floor.\nFraming: HIGH RESOLUTION with genuine empty transparent padding of at least 9 percent on EVERY edge. Entire silhouette occupies about 78 percent of canvas height, comfortably below the top and above the bottom. Nothing touches or nearly touches an image edge.\nLighting: soft upper-left key, rich blue-grey right-side shadows, limited bright reflections. No background light, no halo.\nBackdrop: actual transparent RGBA alpha background, absolutely no opaque scene or painted checkerboard. No ambient haze, no floating particles, no glow/aura outside the silhouette, no cast ground shadow.\nAvoid: text, numbers, watermark, logo, extra people or chess pieces, giant central King spire, Bishop's split mitre, overly bulky Rook shoulders, forest plants/wood, generic recolored royal queen, extreme foreshortening, cropped feet or staff, all-white ghost. Exhibition-quality original game character artwork, not a temporary concept shape.",
+  "transparent_background": true,
+  "license_status": "Competition AI eligibility/disclosure and final distribution terms remain unverified; no legal clearance or exclusivity claimed.",
+  "initial_output": "source/queen_initial.png",
+  "initial_review": "Visible alpha>5 margin3.384 percent fails5 percent production requirement; original retained, targeted padding/alpha correction requested.",
+  "edit_prompt": "Use case: precise-object-edit / background-extraction. Correct only the NEW Ice Queen draft supplied as the target.\nPreserve this exact Queen identity and costume: the broad lateral multi-point crystal crown, silver-blue hair and face, thin silver armor and pointed waist, fan-shaped crystal cape/blades, navy cloth, multifaceted scepter, small white jewel, all boots, original pose/orientation, upper-left lighting and proportions.\nProduction changes only:\n- Fit the complete character including every crown/cape/scepter/boot tip to about 78 percent of canvas height. Give genuinely transparent empty safety padding of AT LEAST 9 percent on every edge. Add/reframe canvas, do not stretch any body part or squeeze the cape. Nothing clipped.\n- Remove stray cyan/blue/black alpha speckles and any background haze OUTSIDE the actual silhouette. Truly transparent empty background, no checkerboard, no glow/aura/ground shadow. Crisp natural antialiasing at the silhouette edge, opaque armor/cloth, crystalline highlights retained.\nKeep the original broad commanding Queen silhouette and narrow waist. No redesign, no additional objects, no recolor, no text or watermark. High-resolution transparent RGBA cutout.",
+  "selected_output": "source/queen.png",
+  "edit_reference": "source/queen_initial.png",
+  "edit_tool": "OpenAI built-in image_gen; exact model not exposed",
+  "selection_reason": "Initial alpha>5 safety margin3.384 percent rejected for padding. Selected targeted edit has7.942 percent visible margin and complete crown/cape/scepter/boots; static design approval pending.",
+  "edit_limit": "Generation edit can redraw details; no pixel identity guarantee between drafts. Existing approved characters were never edited.",
+  "generated_output_ids": [
+    "exec-271ca9e4-3a61-49e6-96c9-c0016afc427e.png",
+    "exec-ca03b8cb-48aa-4d2d-9cef-f138325685ef.png"
+  ],
+  "creation_history": [
+    {
+      "step": 1,
+      "operation": "Original text-to-image",
+      "reference_images": [],
+      "output": "source/queen_initial.png"
+    },
+    {
+      "step": 2,
+      "operation": "Targeted padding/alpha correction of new draft",
+      "reference_images": [
+        "source/queen_initial.png"
+      ],
+      "output": "source/queen.png"
+    }
+  ],
+  "source_records": [
+    {
+      "file": "source/queen_initial.png",
+      "bytes": 1868324,
+      "sha256": "a89e1d44ee8a3ef2ed7941f3528b95092382d92cabc0697934934669a71b12fc"
+    },
+    {
+      "file": "source/queen.png",
+      "bytes": 1488535,
+      "sha256": "ebcd4ee4ab61d7a62f5ea087931a0b0e46c4090656376cdecc3b0f6e6b6d2f2d"
+    }
+  ]
+}

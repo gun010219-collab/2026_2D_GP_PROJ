@@ -1,0 +1,424 @@
+{
+  "status": "D4A static Queen candidate; user design GUI pending; no live Stage13 combat or renderer",
+  "camera_corners": [
+    [
+      292.59999999999997,
+      133.5
+    ],
+    [
+      1177.4,
+      133.5
+    ],
+    [
+      1093.4,
+      721.5
+    ],
+    [
+      387.79999999999995,
+      721.5
+    ]
+  ],
+  "roster": [
+    {
+      "data_id": "player",
+      "kind": "player",
+      "col": 5,
+      "row": 1,
+      "hp": 3
+    },
+    {
+      "data_id": "s13_queen_1",
+      "kind": "queen",
+      "col": 4,
+      "row": 7,
+      "hp": 18
+    },
+    {
+      "data_id": "s13_knight_1",
+      "kind": "knight",
+      "col": 3,
+      "row": 6,
+      "hp": 13
+    },
+    {
+      "data_id": "s13_pawn_1",
+      "kind": "pawn",
+      "col": 1,
+      "row": 6,
+      "hp": 9
+    },
+    {
+      "data_id": "s13_pawn_2",
+      "kind": "pawn",
+      "col": 8,
+      "row": 6,
+      "hp": 9
+    },
+    {
+      "data_id": "s13_pawn_3",
+      "kind": "pawn",
+      "col": 3,
+      "row": 8,
+      "hp": 9
+    }
+  ],
+  "queen_rays": [
+    [
+      4,
+      8
+    ],
+    [
+      4,
+      9
+    ],
+    [
+      5,
+      8
+    ],
+    [
+      6,
+      9
+    ],
+    [
+      5,
+      7
+    ],
+    [
+      6,
+      7
+    ],
+    [
+      7,
+      7
+    ],
+    [
+      8,
+      7
+    ],
+    [
+      9,
+      7
+    ],
+    [
+      5,
+      6
+    ],
+    [
+      6,
+      5
+    ],
+    [
+      7,
+      4
+    ],
+    [
+      8,
+      3
+    ],
+    [
+      9,
+      2
+    ],
+    [
+      4,
+      6
+    ],
+    [
+      4,
+      5
+    ],
+    [
+      4,
+      4
+    ],
+    [
+      4,
+      3
+    ],
+    [
+      4,
+      2
+    ],
+    [
+      4,
+      1
+    ],
+    [
+      4,
+      0
+    ],
+    [
+      3,
+      6
+    ],
+    [
+      2,
+      5
+    ],
+    [
+      1,
+      4
+    ],
+    [
+      0,
+      3
+    ],
+    [
+      3,
+      7
+    ],
+    [
+      2,
+      7
+    ],
+    [
+      1,
+      7
+    ],
+    [
+      0,
+      7
+    ],
+    [
+      3,
+      8
+    ],
+    [
+      2,
+      9
+    ]
+  ],
+  "warning_note": "Pure queen_behavior geometry at original spawn; no ledger, damage, parry, AI clock or reposition simulated. Origin excluded.",
+  "player_hp_note": "Static reference HP3, not a simulated carried build or receipt",
+  "assets": {
+    "assets\\themed_arena\\frozen.png": "da5ce16b2e8de0b7480d353517d90fed99b59431d95bbc549b29b1485c1cfaaa",
+    "assets\\aligned_board\\frozen_c.png": "e895f25562bde8b1bfa4659babce800c9a27a77a24b210e1d63e9fbc59f04156",
+    "assets\\polished_board\\frozen_light.png": "20332d1f7f7c3224628bdd9ccc6d39d87f7306e88df57061c7c686f2b1ba180e",
+    "assets\\polished_board\\frozen_dark.png": "cabed7b1995803c918a400bc75b705df42a20e5d3dbd70c267d89f0b1c97bbbc",
+    "assets\\character_concepts\\player.png": "5a7301e29f6a8446fe03eb8d0cd29a334f392d3c93badb1c0ce5c0dedb56bf64",
+    "assets\\chapter3_units\\pawn.png": "03d636cb736651fd825be4b1bfc1e24bea44adccd7af89d824b627ae46e75d58",
+    "assets\\chapter3_units\\source\\pawn.png": "8d151ece3c16b04d2ef9ce49620eb8f569d61fbd06cf89637e0ddd9ba54e3dc4",
+    "assets\\chapter3_units\\rook.png": "ab1cec71d3a1b3f34587c1038871aa2b6b3f18c6ad2be78fa67a34678acf5679",
+    "assets\\chapter3_units\\source\\rook.png": "a6e4d2e66bb165a39cba34ae7a7fb51eb290035ebd2f6c40c852ee69307c48f9",
+    "assets\\chapter3_units\\knight.png": "bda5a25dda74421d268045014582ccd97ca3924219c7ffd38c7fe530911872f7",
+    "assets\\chapter3_units\\source\\knight.png": "391c071a9ee33954dd2799fdca5f1a9e0b7a2eb289805cc52cabda664d7583e5",
+    "assets\\chapter3_units\\bishop.png": "922f80d8e7d3c06e5c40e1143eda4a80b1ea0250365234c29c06e05dfbab396e",
+    "assets\\chapter3_units\\source\\bishop.png": "ac06f7520a5ed6763e6b9424833411b6c1ebcafea36cd7d887e8c69685b4033e",
+    "assets\\chapter3_units\\queen.png": "0dccbda43d2234089857e1d91f998c6f550d6aa0dc99c914ababee0c3fbe8a07",
+    "assets\\chapter3_units\\source\\queen.png": "ebcd4ee4ab61d7a62f5ea087931a0b0e46c4090656376cdecc3b0f6e6b6d2f2d"
+  },
+  "captures": [
+    {
+      "file": "queen_source.png",
+      "sha256": "d6d744175801aaab752e992f49d314b4413db620bd4a61bde618453accffec7c",
+      "actors": []
+    },
+    {
+      "file": "ice_cast.png",
+      "sha256": "c49692457bd34faeed41b626b51cce8cbca62d9e2acd377d6d7548ed97b8db81",
+      "actors": []
+    },
+    {
+      "file": "front_back_84.png",
+      "sha256": "ef9c86c00e7cd8f1a45d2b5a6b5723fd8f6a0d02f55b18d728565eb12c552a66",
+      "actors": []
+    },
+    {
+      "file": "stage13_static.png",
+      "sha256": "96bdfd5b0c8807e18cdf03ea90b3169cac9e4067c2801190d33e552abf44186d",
+      "actors": [
+        {
+          "id": "s13_pawn_3",
+          "kind": "pawn",
+          "foot": [
+            630.0606299212599,
+            636.4251968503937
+          ],
+          "height": 63.95345454545454,
+          "center": [
+            630.0606299212599,
+            663.9051968503937
+          ],
+          "top": 691.3851968503938,
+          "hp_y": 699.3851968503938
+        },
+        {
+          "id": "s13_queen_1",
+          "kind": "queen",
+          "foot": [
+            701.9386058981232,
+            584.9436997319034
+          ],
+          "height": 89.3990082644628,
+          "center": [
+            701.9386058981232,
+            623.3573360955397
+          ],
+          "top": 661.770972459176,
+          "hp_y": 673.770972459176
+        },
+        {
+          "id": "s13_pawn_1",
+          "kind": "pawn",
+          "foot": [
+            471.52958904109596,
+            531.2054794520549
+          ],
+          "height": 67.16509090909089,
+          "center": [
+            471.52958904109596,
+            560.0654794520549
+          ],
+          "top": 588.9254794520549,
+          "hp_y": 596.9254794520549
+        },
+        {
+          "id": "s13_knight_1",
+          "kind": "knight",
+          "foot": [
+            624.248493150685,
+            531.2054794520549
+          ],
+          "height": 81.41223140495867,
+          "center": [
+            624.248493150685,
+            566.1872976338731
+          ],
+          "top": 601.1691158156913,
+          "hp_y": 611.1691158156913
+        },
+        {
+          "id": "s13_pawn_2",
+          "kind": "pawn",
+          "foot": [
+            1006.0457534246577,
+            531.2054794520549
+          ],
+          "height": 67.16509090909089,
+          "center": [
+            1006.0457534246577,
+            560.0654794520549
+          ],
+          "top": 588.9254794520549,
+          "hp_y": 596.9254794520549
+        },
+        {
+          "id": "player",
+          "kind": "player",
+          "foot": [
+            778.7295384615387,
+            222.83076923076925
+          ],
+          "height": 95.534208,
+          "center": [
+            778.7295384615387,
+            263.88062423076923
+          ],
+          "top": 304.9304792307692,
+          "hp_y": 309.9304792307692
+        }
+      ]
+    },
+    {
+      "file": "queen_ray_reference.png",
+      "sha256": "c6d7431b7424d0171f9abe24e430ef9feb1d5e8a13995655e5cfac1380d6d402",
+      "actors": [
+        {
+          "id": "s13_pawn_3",
+          "kind": "pawn",
+          "foot": [
+            630.0606299212599,
+            636.4251968503937
+          ],
+          "height": 63.95345454545454,
+          "center": [
+            630.0606299212599,
+            663.9051968503937
+          ],
+          "top": 691.3851968503938,
+          "hp_y": 699.3851968503938
+        },
+        {
+          "id": "s13_queen_1",
+          "kind": "queen",
+          "foot": [
+            701.9386058981232,
+            584.9436997319034
+          ],
+          "height": 89.3990082644628,
+          "center": [
+            701.9386058981232,
+            623.3573360955397
+          ],
+          "top": 661.770972459176,
+          "hp_y": 673.770972459176
+        },
+        {
+          "id": "s13_pawn_1",
+          "kind": "pawn",
+          "foot": [
+            471.52958904109596,
+            531.2054794520549
+          ],
+          "height": 67.16509090909089,
+          "center": [
+            471.52958904109596,
+            560.0654794520549
+          ],
+          "top": 588.9254794520549,
+          "hp_y": 596.9254794520549
+        },
+        {
+          "id": "s13_knight_1",
+          "kind": "knight",
+          "foot": [
+            624.248493150685,
+            531.2054794520549
+          ],
+          "height": 81.41223140495867,
+          "center": [
+            624.248493150685,
+            566.1872976338731
+          ],
+          "top": 601.1691158156913,
+          "hp_y": 611.1691158156913
+        },
+        {
+          "id": "s13_pawn_2",
+          "kind": "pawn",
+          "foot": [
+            1006.0457534246577,
+            531.2054794520549
+          ],
+          "height": 67.16509090909089,
+          "center": [
+            1006.0457534246577,
+            560.0654794520549
+          ],
+          "top": 588.9254794520549,
+          "hp_y": 596.9254794520549
+        },
+        {
+          "id": "player",
+          "kind": "player",
+          "foot": [
+            778.7295384615387,
+            222.83076923076925
+          ],
+          "height": 95.534208,
+          "center": [
+            778.7295384615387,
+            263.88062423076923
+          ],
+          "top": 304.9304792307692,
+          "hp_y": 309.9304792307692
+        }
+      ]
+    },
+    {
+      "file": "alpha_edges.png",
+      "sha256": "95ff8fbafda924fd1c7e501e547d05092794f2b79fc3db33ed07d6d4deffb07c",
+      "actors": []
+    }
+  ]
+}

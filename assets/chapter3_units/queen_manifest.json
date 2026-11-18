@@ -1,0 +1,69 @@
+{
+  "task": "Task 5-D4A",
+  "status": "Original Ice Queen static design candidate; user GUI pending; no live Stage13 renderer",
+  "generator": "OpenAI built-in image_gen; exact model not exposed",
+  "normalization": "Unchanged D1 normalized(): alpha>5 bbox, uniform max220 SDL premultiplied linear resize, straight RGBA256 padding",
+  "alpha_bbox_threshold": 5,
+  "assets": [
+    {
+      "name": "queen",
+      "source": "source/queen.png",
+      "file": "queen.png",
+      "source_size": [
+        1086,
+        1448
+      ],
+      "source_alpha_bbox": [
+        112,
+        142,
+        973,
+        1333
+      ],
+      "source_alpha_nonzero_bbox": [
+        13,
+        55,
+        1072,
+        1448
+      ],
+      "source_transparent_pixels": 937208,
+      "source_safety_margin_fraction": 0.07942,
+      "source_bytes": 1488535,
+      "source_sha256": "ebcd4ee4ab61d7a62f5ea087931a0b0e46c4090656376cdecc3b0f6e6b6d2f2d",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        48,
+        18,
+        207,
+        238
+      ],
+      "alpha_nonzero_bbox": [
+        48,
+        18,
+        207,
+        238
+      ],
+      "transparent_pixels": 44858,
+      "partial_alpha_pixels": 20678,
+      "near_black_partial_pixels": 583,
+      "safety_margin_fraction": 0.070312,
+      "normalized_dimensions": [
+        159,
+        220
+      ],
+      "rgba_bytes": 262144,
+      "file_bytes": 69880,
+      "sha256": "0dccbda43d2234089857e1d91f998c6f550d6aa0dc99c914ababee0c3fbe8a07",
+      "foot_anchor": [
+        128,
+        238
+      ],
+      "anchor_note": "alpha-bottom STATIC candidate; inspect actual boots; no live Stage13",
+      "target_front_visible_height": 90,
+      "hp_offset_candidate": 12,
+      "scale_reason": "Measured source visible ratio861/1191; height86/88/90 gives width62.17/63.62/65.06px. Choose90px static candidate for commander height with width below84px cell; human approval pending."
+    }
+  ]
+}
