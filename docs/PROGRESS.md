@@ -1,5 +1,31 @@
 # CHECKMATE 개발 진행 기록
 
+## R0·D4B 최종 재검증 및 사용자 위임 기술 승인 (2026-11-24)
+
+최종 통합본의 전체 unittest 1,530개가 326.818초에 통과했다(실패·오류·skip 0). 기존 HEAD의 tests 아래 Python 126파일과 추적 PNG 471개가 Git blob과 일치했다. Stage5~12의 66장과 Stage13의 14장을 임시 출력에서 재생성해 manifest·저장 PNG 양쪽과 해시를 대조했다. 에셋 카탈로그 563건, 작업 시작 때 보관한 assets/artifacts 813파일, 일반/-O 각 25스테이지 검사 및 compileall을 재확인했다.
+
+동일 세션의 0·114·134틱에서 이전 HEAD의 Stage11 렌더러와 R0 세션 경로로 각각 그린 PNG는 승인 장면 3장과 일치했다. Stage13은 두 재배치 위치의 8광선과 HP·패링 원장을 대조했다. 실제 자동 전투에서 543틱 클리어 후 정상 강화로 Stage14 HP 4/5·영수증 3개, 무입력 게임 오버는 374틱, 재시작 목적지는 Stage11이었다. D4B/R0 집중 검사 26개가 통과했다.
+
+숨김 Direct3D11에서 Stage11은 1,109프레임·24로드/24해제, Stage13은 2,215프레임·64로드/64해제였다. 각 최대 동시 텍스처 8개. 별도 SDL 검사에서 Queen PNG를 제외하자 앞서 로드한 유효 텍스처 7개가 전부 해제됐다. 3프레임 동안 기존 보드를 표시했고 재로딩과 전투 상태 변경은 없었다.
+
+기술 검증 범위에서 중대한 결함은 발견되지 않았다. 사용자 위임으로 두 단계를 기술 승인하고 R1 착수 준비 상태로 인계한다. 아래 이전 검수 대기 기록은 당시 상태다. 인간 Windows 실전 검수·60초 조작·실측 성능·전체 캠페인은 [R7 검수 항목](QA_CAMPAIGN.md)에 남긴다. Chapter4/5 보드 전면 접합은 OPEN이다.
+
+## Task 5-R0 — 마감 로드맵 개편과 공통 표시 기반 (2026-11-24, 사용자 검수 대기)
+
+작업 디렉터리 아래 기존 2026_2D_GP_PROJ 저장소의 main에서 진행했다. git fetch origin main 이후 HEAD, FETCH_HEAD, origin/main은 모두 `2cde6e8e9f505011b4c6ac2c4329a04bf02ea266`이고 양쪽 전용 커밋은 0개다. 초기 인덱스 0, 수정 7, 미추적 21개가 아래 D4B 목록과 일치했다. 기존 1,504개는 원격 D4AF 기록이고 로컬에는 D4B 테스트 20개가 더 있다. 시작 시 실행한 1,524개가 358.055초에 통과했다.
+
+기존 LiveArenaArtPath 중첩을 유지하고 Stage11의 생성 단계에 챕터 프로필과 실제 편성 선택을 연결했다. 승인된 환경 4종과 Player/Pawn/Rook/Knight 텍스처 총 8개를 세션당 한 번 올린다. 기존 카메라·공통 draw·sprite_layout·RenderMotion·정렬을 재사용한다. 정상 장면, 114틱 Knight 정점, 134틱 Rook 이중 예고를 실제 경로로 렌더링해 종전 승인 PNG 바이트 해시 및 그리기 전후 게임/보간 상태를 대조했다.
+
+진행 소유자가 선택적으로 활성화하는 표현 사건 큐를 제공한다. 경고와 발동, 실제 HP 감소의 공격자 적중·피해자 반동·사망, 패링 등급·기절, 세션 변경을 실제 원장/결과에 연결한다. Pulse 반사도 _apply에서 관측한다. 평상시 main은 큐를 만들지 않는다. 동작·VFX·음원 제작은 후속 단계다. [결정과 마감 로드맵](FINAL_DEVELOPMENT_PLAN.md)
+
+자동 검수에서 Stage5~12 승인 캡처 66장과 D4B 14장을 임시 폴더에 다시 생성해 manifest와 저장된 이미지 양쪽의 SHA-256이 모두 일치했다. assets와 artifacts의 813파일(assets 아래 PNG 673장)을 시작 상태와 대조했다. 아트 카탈로그 563건(추적 300·로컬 263), 누락 0건이다. 25스테이지 일반/-O 검사 및 compileall 통과. 기존 렌더러·전투/전환 관련 집중 검사 213개와 신규 프로필/사건 검사 6개 통과.
+
+최종 전체 unittest는 **1,530개 / 328.261초 / 실패 0·오류 0·skip 0**이다. 기존 테스트 파일 변경은 없다. 원격과 같은 HEAD의 추적 PNG 471개가 Git blob과 바이트 단위로 일치한다. 문서 로컬 파일 링크 638건, Git diff 및 미추적 텍스트 공백 검사 통과. 최종 작업 트리는 수정 15개·미추적 26개·스테이징 0개다.
+
+숨김 direct3d11 기술 검사에서 Stage11은 1,109 표시·24로드/24해제, D4B는 2,215 표시·64로드/64해제, 최대 동시 텍스처는 각각 8개였다. 두 검사 모두 예상 실패를 주입해 기존 표시로 복귀했다. 실제 Windows 조작 FPS/P95/P99, 장시간 RAM/VRAM, 인간 전체 캠페인은 검수 대기다.
+
+R0 수정은 arena_art_common.py, stage11_art_renderer.py, enemy_attack.py, combat_resolution.py, stage_progression.py, AGENTS.md, docs/{GAME_DESIGN,DECISIONS,ASSET_PLAN,ART_DIRECTION,PROGRESS}.md다. 신규는 arena_art_profile.py, presentation_events.py, tests/test_arena_art_profile.py, tests/test_presentation_events.py, docs/FINAL_DEVELOPMENT_PLAN.md다. D4B와 공유하는 문서 3개에는 R0 절만 덧붙였다. 나머지 D4B 25파일은 시작 시점과 바이트가 일치한다. 런타임 GUI 승인·스테이징·커밋·Push는 대기 중이며 R1~R7은 후속 작업이다.
+
 ## Task 5-D4B — Stage13 실제 빙설 Queen 전투 통합 / 인간 GUI 대기
 
 D4AF는 사용자 정적 디자인10/10 승인과1,504테스트/66캡처 재검증 후18파일을

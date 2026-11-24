@@ -121,6 +121,11 @@ class CombatResolver:
                              tuple(self.player.position), binding.linked_enemy_event_key, reason)
         self._parry_results[binding.attempt_key] = result
         self._last_parry_result = result
+        events = self.encounter.ledger.presentation
+        if events is not None:
+            kind = {'normal': 'parry_normal', 'perfect': 'parry_perfect'}.get(status, 'parry_failed')
+            key = (self.combat.combat_session_id, self.combat.stage_instance_id, 'parry', binding.attempt_key)
+            events.record(kind, key, result.tick, self._player_id, result)
         return result
 
     def register_parry(self, attempt):
@@ -223,8 +228,15 @@ class CombatResolver:
             amount = self.player_damage if target is not self.player else self.pawn_damage
         before = target.health.current_hp
         actual = target.health.apply_damage(amount, tick=self.combat.tick)
-        return DamageResult(event.key, source_id, target.entity_instance_id,
-                            self.combat.tick, actual, before, target.health.current_hp)
+        result = DamageResult(event.key, source_id, target.entity_instance_id,
+                              self.combat.tick, actual, before, target.health.current_hp)
+        events = self.encounter.ledger.presentation
+        if events is not None and actual > 0:
+            events.record('hit', event.key, result.tick, source_id, result)
+            events.record('hurt', event.key, result.tick, target.entity_instance_id, result)
+            if result.hp_after == 0:
+                events.record('death', event.key, result.tick, target.entity_instance_id, result)
+        return result
 
     def resolve_player_attack(self, event):
         """Resolve the newly emitted immutable target once, including misses.
@@ -251,6 +263,9 @@ class CombatResolver:
         targets = [e for e in self.encounter.enemies if e.active and e.position == event.target_cell]
         if len(targets) > 1:
             raise ValueError('Multiple active enemies occupy the attack target')
+        events = self.encounter.ledger.presentation
+        if events is not None:
+            events.record('attack_start', event.key, event.start_tick, self._player_id, event)
         amount = self.player_damage + self.combat.attack_damage_bonus(event)
         result = None
         if targets:
@@ -317,6 +332,9 @@ class CombatResolver:
             ledger.finish(event, 'target_dead')
             self._fail_parry(event, 'target_dead')
             return None
+        if ledger.presentation is not None:
+            ledger.presentation.record('attack_start', event.key, self.combat.tick,
+                                       event.source_entity_instance_id, event)
         if self.player.position not in event.target_cells:
             ledger.finish(event, 'miss')
             self._fail_parry(event, 'evaded')
@@ -338,7 +356,9 @@ class CombatResolver:
             result = self._record_parry_result(binding, binding.adjudication_grade, 'success')
             if binding.adjudication_grade == 'perfect':
                 pulse = self.encounter.is_pulse(event)
-                self.encounter.stun(source.entity_instance_id, self.combat.tick)
+                stunned = self.encounter.stun(source.entity_instance_id, self.combat.tick)
+                if stunned and ledger.presentation is not None:
+                    ledger.presentation.record('stun', event.key, self.combat.tick, source.entity_instance_id, result)
                 self.combat.grant_perfect_counter()
                 if pulse:
                     self._apply(event, self._player_id, source, KING_PULSE_REFLECT_DAMAGE)

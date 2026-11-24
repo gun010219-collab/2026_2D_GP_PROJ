@@ -1,8 +1,8 @@
 """Opt-in live Frozen Palace profile; approved D1 art, unchanged combat/draw."""
 import logging
 
-from arena_art_common import CAMERA, ArenaArtError, SessionArtPath, sprite_layout
-from stage7_art_renderer import Stage7ArtRenderer
+from arena_art_common import CAMERA, sprite_layout
+from arena_art_profile import ChapterArtProfile, PieceArt, ProfileArtPath, ProfileArtRenderer
 from stage10_art_renderer import LiveArenaArtPath as PreviousArtPath
 
 FILES = {
@@ -29,26 +29,25 @@ def actor_layout(kind, u, v):
     return sprite_layout(kind, u, v, BASE_SIZE, {}, HP_OFFSET, ALPHA_ROWS)
 
 
-class Stage11ArtRenderer(Stage7ArtRenderer):
+FROZEN_PROFILE = ChapterArtProfile(
+    chapter=3,
+    surfaces={key: FILES[key] for key in ('background', 'frame', 'light', 'dark')},
+    pieces={kind: PieceArt(FILES[kind], kind) for kind in BASE_SIZE},
+    layout=actor_layout,
+)
+
+
+class Stage11ArtRenderer(ProfileArtRenderer):
     files = FILES
 
-    def __init__(self, c, root=None, *, motion=None):
-        super().__init__(c, root=root, motion=motion)
-        try:
-            for key, image in self.images.items():
-                if not image.texture:
-                    raise ArenaArtError('Stage11 texture creation failed: ' + key)
-        except BaseException:
-            self.close()
-            raise
-
-    def layout(self, kind, u, v):
-        return actor_layout(kind, u, v)
+    def __init__(self, c, root=None, *, motion=None, kinds=None, profile=FROZEN_PROFILE):
+        super().__init__(c, root, profile=profile, motion=motion, kinds=kinds)
 
 
-class Stage11ArtPath(SessionArtPath):
-    def __init__(self, c, factory=Stage11ArtRenderer, *, motion=None):
-        super().__init__(c, lambda canvas: factory(canvas, motion=motion),
+class Stage11ArtPath(ProfileArtPath):
+    def __init__(self, c, factory=None, *, motion=None):
+        override = None if factory is None else lambda canvas: factory(canvas, motion=motion)
+        super().__init__(c, FROZEN_PROFILE, factory=override, renderer_type=Stage11ArtRenderer, motion=motion,
                          stage=11, flag='CHECKMATE_STAGE11_ART',
                          logger=logging.getLogger(__name__))
 
@@ -56,7 +55,7 @@ class Stage11ArtPath(SessionArtPath):
 class LiveArenaArtPath:
     """Evaluate both paths so exits always release their previous session."""
     def __init__(self, c, *, motion=None, previous_factory=PreviousArtPath,
-                 stage11_factory=Stage11ArtRenderer):
+                 stage11_factory=None):
         self.previous = previous_factory(c, motion=motion)
         self.stage11 = Stage11ArtPath(c, stage11_factory, motion=motion)
 

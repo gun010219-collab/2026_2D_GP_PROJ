@@ -85,6 +85,7 @@ class EnemyAttackLedger:
         self._next_attack_id = 1
         self._records = {}
         self._consumed = set()
+        self.presentation = None
 
     @property
     def combat_session_id(self):
@@ -100,6 +101,8 @@ class EnemyAttackLedger:
                                  start_tick, start_tick, hit_tick, target_cells, attack_kind)
         self._next_attack_id += 1
         self._records[event.key] = _AttackRecord(event)
+        if self.presentation is not None:
+            self.presentation.record('telegraph', event.key, start_tick, source_entity_instance_id, event)
         return event
 
     def _record(self, event):

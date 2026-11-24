@@ -2,6 +2,7 @@
 from chapter_run import ChapterRun
 from combat_balance import profile_for
 from game import GameState, StageGame
+from presentation_events import PresentationEvents
 from stage_manager import StageCatalog
 from upgrades import ChapterBuild, chapter_first_stage, upgrade_kind
 
@@ -24,10 +25,25 @@ class StageProgression:
         self._bound_ids = (self.game.combat.combat_session_id, self.game.combat.stage_instance_id,
                            self.run.run_id)
 
+    def enable_presentation(self):
+        """Opt in before simulation. Repeated calls return the same flow queue."""
+        ledger = self.game.encounter.ledger
+        if ledger.presentation is None:
+            ledger.presentation = PresentationEvents()
+        return ledger.presentation
+
     def _install(self, game, run):
+        previous = self.game
         self.game, self.run = game, run
         self._bind_scope()
         self.error = False
+        events = previous.encounter.ledger.presentation
+        if events is not None:
+            previous.encounter.ledger.presentation = None
+            game.encounter.ledger.presentation = events
+            scope = (game.combat.combat_session_id, game.combat.stage_instance_id)
+            events.record('stage_transition', scope, game.combat.tick, None,
+                          (previous.stage_number, game.stage_number))
 
     def _require_scope(self):
         g = self.game

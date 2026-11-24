@@ -35,6 +35,9 @@ class SessionArtPath:
             self.renderer = None
         self.session = None
 
+    def load_renderer(self, game):
+        return self.factory(self.c)
+
     def draw(self, g, positions):
         enabled = os.environ.get(self.flag) == '1' and g.stage_number == self.stage
         session = g.combat.combat_session_id if enabled else None
@@ -46,7 +49,7 @@ class SessionArtPath:
             return False
         try:
             if self.renderer is None:
-                self.renderer = self.factory(self.c)
+                self.renderer = self.load_renderer(g)
             self.renderer.draw(g, positions)
             return True
         except (OSError, ArenaArtError):
