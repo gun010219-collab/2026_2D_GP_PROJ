@@ -80,10 +80,11 @@ def _new_stage_game(stage_number, *, stats=None, initial_hp=None):
 
 def main(*, run=None):
     game = _new_game()
-    return run_session(game, StageProgression(game, run))
+    # Supplying a run is the legacy development/test entry point.
+    return run_session(game, StageProgression(game, run), default_art=run is None)
 
 
-def run_session(game, flow, *, game_renderer=None):
+def run_session(game, flow, *, game_renderer=None, default_art=False):
     """Shared fixed-tick window loop; preview supplies no StageGame or progression."""
     # Import here so configuration and importing this module never open a window.
     # Use the implementation module: its live window handle is set by open_canvas.
@@ -118,7 +119,7 @@ def run_session(game, flow, *, game_renderer=None):
         menu = SettingsMenu()
         settings_renderer = SettingsRenderer(canvas)
         from chapter_art_renderer import LiveArenaArtPath
-        art_path = LiveArenaArtPath(canvas, motion=motion)
+        art_path = LiveArenaArtPath(canvas, motion=motion, default_enabled=default_art)
         controls = GameplayInput(canvas, move_interval_ticks=flow.run.stats.move_interval_ticks)
         pending_gameplay = []
 

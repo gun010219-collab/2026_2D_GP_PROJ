@@ -42,7 +42,7 @@ def set_pixels(surface, raw):
         ctypes.memmove(obj.pixels + y * obj.pitch, bytes(row), len(row))
 
 
-def normalized(source):
+def normalized(source, *, minimum_source_margin=.05):
     import sdl2 as s
     from sdl2.sdlimage import IMG_Load, IMG_SavePNG
     original = rgba = cropped = target = None
@@ -58,8 +58,8 @@ def normalized(source):
         before = metrics(rgba)
         if max(before['size']) < 1024 or not before['transparent_pixels']:
             raise ValueError('Source needs high resolution and true transparency')
-        if before['safety_margin_fraction'] < .05:
-            raise ValueError('Source needs at least five percent alpha safety margin')
+        if before['safety_margin_fraction'] < minimum_source_margin:
+            raise ValueError(f'Source alpha falls outside the {minimum_source_margin:.1%} safety margin')
         x, y, right, bottom = before['alpha_bbox']
         bw, bh = right-x, bottom-y
         # RGB is premultiplied only for interpolation, then restored to straight alpha.

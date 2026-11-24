@@ -2,6 +2,8 @@
 
 ## R7 인간 Windows 캠페인에 이관된 검수
 
+- [ ] R2F 용암·고딕 보드 전면 경계, Knight 원화 상단 알파와 도약, 어두운 타일 기물 식별을 확인한다. [R2 검수표](TASK5R2_RELEASE_ART.md)
+
 2026-11-24 사용자 위임에 따라 R0와 D4B의 인간 Windows 실전 검수는 R7에서 수행한다. 아래 항목은 미수행 상태로 인계한다.
 
 - [ ] R1F는 기술 승인됐다. 왕실·빙설 연속 조작과 Stage14의 Rook HP·Queen 하체 겹침을 [R1 검수표](TASK5R1_CHAPTER_ART.md)에서 확인한다.

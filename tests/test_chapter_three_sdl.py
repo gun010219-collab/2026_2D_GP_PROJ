@@ -289,8 +289,10 @@ class ChapterThreeSDLTests(unittest.TestCase):
             assert [g.stage_number for g in games]==([10,11,12,13,14,15,16,17,18,19,20,20] if mode=='chapter4' else [10,11,12,13,14,15,16,17,18,19,20,16] if mode=='stage20death' else [10,11,12,13,14,15,16,17,18,19,16] if mode=='stage19death' else [10,11,12,13,14,15,16,17,18,16] if mode=='stage18death' else [10,11,12,13,14,15,16,17,16] if mode=='stage17death' else [10,11,12,13,14,15,16,16] if mode=='stage16death' else [10,11,12,13,14,15,15] if mode=='boundary' else [10,11,12,13,14,15,11] if mode=='stage15death' else [10,11,12,13,14,11] if mode=='stage14death' else [10,11,12,13,11] if mode=='stage13death' else [10,11,12,11])
             print('PASS native Chapter3',mode,'ice/receipt/keyboard/mouse/settings/F11/focus/quit')
         ''')
+        # This fixture asserts the original BoardRenderer draw calls across chapters.
+        legacy = {f'CHECKMATE_STAGE{stage}_ART': '0' for stage in range(1, 26)}
         result=subprocess.run([sys.executable,'-c',script,mode],cwd=Path(__file__).resolve().parents[1],
-                              env={**os.environ,'SDL_VIDEODRIVER':'dummy'},capture_output=True,text=True,timeout=30)
+                              env={**os.environ,**legacy,'SDL_VIDEODRIVER':'dummy'},capture_output=True,text=True,timeout=30)
         self.assertEqual(result.returncode,0,result.stdout+result.stderr)
 
     def test_native_boss_n_ice_keyboard_upgrade_and_held_boundary(self):

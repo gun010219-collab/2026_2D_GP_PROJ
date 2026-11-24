@@ -1,5 +1,6 @@
 """Loop control tests with a fake canvas; these do not verify Windows GUI."""
 import sys
+import os
 from types import SimpleNamespace
 import unittest
 from unittest.mock import Mock, patch
@@ -8,6 +9,10 @@ import main
 
 
 class WindowLoopTests(unittest.TestCase):
+    def setUp(self):
+        # These fake-canvas tests exercise the original board pass and loop controls.
+        self.enterContext(patch.dict(os.environ, CHECKMATE_STAGE1_ART='0'))
+
     def make_canvas(self):
         canvas = Mock()
         canvas.SDL_QUIT = 256

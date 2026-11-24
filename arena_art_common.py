@@ -28,6 +28,7 @@ class SessionArtPath:
         self.stage, self.flag, self.logger = stage, flag, logger
         self.session = self.renderer = None
         self.failed = False
+        self.default_enabled = False
 
     def close(self):
         if self.renderer is not None:
@@ -49,7 +50,7 @@ class SessionArtPath:
         if setting is None:
             chapter = (stage_number - 1) // 5 + 1
             setting = os.environ.get(f'CHECKMATE_CHAPTER{chapter}_ART')
-        return setting == '1'
+        return self.default_enabled if setting is None else setting == '1'
 
     def draw(self, g, positions):
         enabled = self.enabled(g.stage_number)

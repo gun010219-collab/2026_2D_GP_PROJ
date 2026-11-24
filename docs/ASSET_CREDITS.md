@@ -1,5 +1,11 @@
 # CHECKMATE 에셋 출처
 
+## R2 용암·고딕 기물
+
+Chapter4·5 각 Pawn/Rook/Knight/Bishop/Queen은 자체 명세로 OpenAI 내장 image_gen에서 생성했다. 두 King은 B1C 원화와 준비본을 재사용했다. 신규 원화는 `assets/late_chapter_units/source/`, 256×256 준비본은 한 단계 위에 있다. [실제 프롬프트·생성 출력명](../assets/late_chapter_units/prompts.json) · [원화·준비본·알파·SHA-256](../assets/late_chapter_units/manifest.json)
+
+배경·보드·타일·부조는 기존 에셋이다. 전면 접합은 실시간 렌더링의 클리핑과 레이어 배치로 조정했다. 공모전 표시·배포 이용조건과 라이선스 검증은 출품 전 확인 항목이다.
+
 ## R1 Ice King 실전용 준비본 채택 후보
 
 기존 B1C의 자체 텍스트 명세 및 OpenAI image_gen 제작 이력을 사용한다. 원화는 [원본 PNG](../assets/character_concepts/source/ch3_king.png), 런타임은 기존 SDL 축소·패딩 [준비 PNG](../assets/character_concepts/ch3_king.png)다. [프롬프트](../assets/character_concepts/prompts.json) · [기존 원화·준비본 해시](../assets/character_concepts/asset_manifest.json)

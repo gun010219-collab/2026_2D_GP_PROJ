@@ -1,0 +1,780 @@
+[
+  {
+    "chapter": 4,
+    "kind": "pawn",
+    "origin": "Built-in image_gen / R2",
+    "source": "assets/late_chapter_units/source/ch4_pawn.png",
+    "source_sha256": "5cd3258086031d2676927fcd7cebbe914929775f063a602c0e79d3399870a6f8",
+    "input": {
+      "size": [
+        1278,
+        1230
+      ],
+      "alpha_bbox": [
+        236,
+        104,
+        1032,
+        1150
+      ],
+      "alpha_nonzero_bbox": [
+        0,
+        23,
+        1266,
+        1230
+      ],
+      "transparent_pixels": 1102084,
+      "partial_alpha_pixels": 469348,
+      "near_black_partial_pixels": 30523,
+      "safety_margin_fraction": 0.065041
+    },
+    "file": "assets/late_chapter_units/ch4_pawn.png",
+    "sha256": "1836b1a8ce506deea4063593f1f60b6cca6126fc52dc945631cf4608cf8a1f3f",
+    "prepared": {
+      "size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        44,
+        18,
+        211,
+        238
+      ],
+      "alpha_nonzero_bbox": [
+        44,
+        18,
+        211,
+        238
+      ],
+      "transparent_pixels": 45089,
+      "partial_alpha_pixels": 20447,
+      "near_black_partial_pixels": 1141,
+      "safety_margin_fraction": 0.070312
+    },
+    "feet": [
+      128,
+      238
+    ],
+    "moving_parts": [
+      "spear",
+      "shield"
+    ],
+    "generation": {
+      "prompt": "Create a single finished character sprite original for CHECKMATE, a 2.5D dark-fantasy chess action game. Obsidian Caldera: obsidian, basalt and aged copper, sparse dim ember light only at seams and joints. Subject: compact low rank soldier, rounded rock helmet and obsidian cuirass, short copper-tipped spear and round copper shield. Painterly high-detail realistic 3D fantasy miniature production render with distinct silhouette at 84 px, above-eye-level three-quarter front view with subtle downward camera tilt, soft high left key light. Exactly one full-body figure, standing firmly on clearly defined feet or hooves, centered, at least 8% clear margin on all edges including weapon tips, genuinely transparent alpha. No scenery, ground, cast shadow, pedestal, atmospheric glow, text or watermark.",
+      "output": "exec-90c802df-6905-498b-92fc-9f5f492742b5.png"
+    }
+  },
+  {
+    "chapter": 4,
+    "kind": "rook",
+    "origin": "Built-in image_gen / R2",
+    "source": "assets/late_chapter_units/source/ch4_rook.png",
+    "source_sha256": "37f2b170f17206420a764d367dc9cba26d23c5ba76ac1f32f63b25c295f7f6af",
+    "input": {
+      "size": [
+        1209,
+        1301
+      ],
+      "alpha_bbox": [
+        48,
+        44,
+        1150,
+        1179
+      ],
+      "alpha_nonzero_bbox": [
+        0,
+        27,
+        1193,
+        1301
+      ],
+      "transparent_pixels": 726290,
+      "partial_alpha_pixels": 845616,
+      "near_black_partial_pixels": 42735,
+      "safety_margin_fraction": 0.03382
+    },
+    "file": "assets/late_chapter_units/ch4_rook.png",
+    "sha256": "1a81941c0428812c9d44214450f6da56b3ca7d4953c59fef04b8b111a89a981a",
+    "prepared": {
+      "size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        21,
+        18,
+        235,
+        238
+      ],
+      "alpha_nonzero_bbox": [
+        21,
+        18,
+        235,
+        238
+      ],
+      "transparent_pixels": 33813,
+      "partial_alpha_pixels": 31723,
+      "near_black_partial_pixels": 1509,
+      "safety_margin_fraction": 0.070312
+    },
+    "feet": [
+      128,
+      238
+    ],
+    "moving_parts": [
+      "shoulder armor",
+      "shield"
+    ],
+    "generation": {
+      "prompt": "Create a single finished character sprite original for CHECKMATE, a 2.5D dark-fantasy chess action game. Obsidian Caldera: obsidian, basalt and aged copper, sparse dim ember light only at seams and joints. Subject: wide low heavy fortress knight, flat basalt battlements on shoulders, columnar jointed basalt armor, massive rectangular slab shield. Painterly high-detail realistic 3D fantasy miniature production render with distinct silhouette at 84 px, above-eye-level three-quarter front view with subtle downward camera tilt, soft high left key light. Exactly one full-body figure, standing firmly on clearly defined feet or hooves, centered, at least 8% clear margin on all edges including weapon tips, genuinely transparent alpha. No scenery, ground, cast shadow, pedestal, atmospheric glow, text or watermark.",
+      "output": "exec-684db7e9-1555-4042-a175-de2216ca28b0.png"
+    }
+  },
+  {
+    "chapter": 4,
+    "kind": "knight",
+    "origin": "Built-in image_gen / R2",
+    "source": "assets/late_chapter_units/source/ch4_knight.png",
+    "source_sha256": "a391382c36b105efbb72a669b45ed97fc1c1a29bb36fb933ab3dba7e1af307f0",
+    "input": {
+      "size": [
+        1312,
+        1199
+      ],
+      "alpha_bbox": [
+        171,
+        0,
+        1106,
+        1159
+      ],
+      "alpha_nonzero_bbox": [
+        27,
+        0,
+        1298,
+        1179
+      ],
+      "transparent_pixels": 1014215,
+      "partial_alpha_pixels": 558578,
+      "near_black_partial_pixels": 19697,
+      "safety_margin_fraction": 0.0
+    },
+    "file": "assets/late_chapter_units/ch4_knight.png",
+    "sha256": "7cbf0a16bef1eb555853c7befd23d96b0a76ab05c3d2ccde7ae9171bd3843eae",
+    "prepared": {
+      "size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        39,
+        18,
+        216,
+        238
+      ],
+      "alpha_nonzero_bbox": [
+        39,
+        18,
+        216,
+        238
+      ],
+      "transparent_pixels": 45570,
+      "partial_alpha_pixels": 19966,
+      "near_black_partial_pixels": 661,
+      "safety_margin_fraction": 0.070312
+    },
+    "feet": [
+      128,
+      238
+    ],
+    "moving_parts": [
+      "head",
+      "mane",
+      "hooves"
+    ],
+    "generation": {
+      "prompt": "Create a single finished character sprite original for CHECKMATE, a 2.5D dark-fantasy chess action game. Obsidian Caldera: obsidian, basalt and aged copper, sparse dim ember light only at seams and joints. Subject: armored four-legged warhorse with strongly curved neck and clear head, solidified magma mane and obsidian barding, no rider. Painterly high-detail realistic 3D fantasy miniature production render with distinct silhouette at 84 px, above-eye-level three-quarter front view with subtle downward camera tilt, soft high left key light. Exactly one full-body figure, standing firmly on clearly defined feet or hooves, centered, at least 8% clear margin on all edges including weapon tips, genuinely transparent alpha. No scenery, ground, cast shadow, pedestal, atmospheric glow, text or watermark.",
+      "output": "exec-fd0153c1-69d6-4630-8c12-0dc0c575c835.png"
+    }
+  },
+  {
+    "chapter": 4,
+    "kind": "bishop",
+    "origin": "Built-in image_gen / R2",
+    "source": "assets/late_chapter_units/source/ch4_bishop.png",
+    "source_sha256": "41712cc2c7f109baf8222331275f22c4543c8e29805513de65094e74b9918a44",
+    "input": {
+      "size": [
+        1199,
+        1312
+      ],
+      "alpha_bbox": [
+        282,
+        10,
+        875,
+        1276
+      ],
+      "alpha_nonzero_bbox": [
+        0,
+        3,
+        1187,
+        1297
+      ],
+      "transparent_pixels": 1140443,
+      "partial_alpha_pixels": 432172,
+      "near_black_partial_pixels": 17999,
+      "safety_margin_fraction": 0.007622
+    },
+    "file": "assets/late_chapter_units/ch4_bishop.png",
+    "sha256": "f40fe2943aefe53a46fce5dc7a0ffdc384f0b8c4664a306260f5a19cc3ac657c",
+    "prepared": {
+      "size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        76,
+        18,
+        179,
+        238
+      ],
+      "alpha_nonzero_bbox": [
+        76,
+        18,
+        179,
+        238
+      ],
+      "transparent_pixels": 52587,
+      "partial_alpha_pixels": 12949,
+      "near_black_partial_pixels": 489,
+      "safety_margin_fraction": 0.070312
+    },
+    "feet": [
+      128,
+      238
+    ],
+    "moving_parts": [
+      "staff",
+      "robes"
+    ],
+    "generation": {
+      "prompt": "Create a single finished character sprite original for CHECKMATE, a 2.5D dark-fantasy chess action game. Obsidian Caldera: obsidian, basalt and aged copper, sparse dim ember light only at seams and joints. Subject: slender stationary mage, tall split volcanic stone mitre, long ashen robe, solid copper staff. Painterly high-detail realistic 3D fantasy miniature production render with distinct silhouette at 84 px, above-eye-level three-quarter front view with subtle downward camera tilt, soft high left key light. Exactly one full-body figure, standing firmly on clearly defined feet or hooves, centered, at least 8% clear margin on all edges including weapon tips, genuinely transparent alpha. No scenery, ground, cast shadow, pedestal, atmospheric glow, text or watermark.",
+      "output": "exec-51349465-a397-4e1a-bae4-7a329a1bfee3.png"
+    }
+  },
+  {
+    "chapter": 4,
+    "kind": "queen",
+    "origin": "Built-in image_gen / R2",
+    "source": "assets/late_chapter_units/source/ch4_queen.png",
+    "source_sha256": "2cb27a59c01d79fed758bfbcc7fd3aa8d9db982ee7cc8b8d663a2740efd576f5",
+    "input": {
+      "size": [
+        1145,
+        1374
+      ],
+      "alpha_bbox": [
+        139,
+        10,
+        977,
+        1361
+      ],
+      "alpha_nonzero_bbox": [
+        0,
+        0,
+        1095,
+        1362
+      ],
+      "transparent_pixels": 881076,
+      "partial_alpha_pixels": 691436,
+      "near_black_partial_pixels": 20824,
+      "safety_margin_fraction": 0.007278
+    },
+    "file": "assets/late_chapter_units/ch4_queen.png",
+    "sha256": "56e7787606db54f0ee2805564cf4aa25581b28531695a5487d7653023147d1cb",
+    "prepared": {
+      "size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        60,
+        18,
+        196,
+        238
+      ],
+      "alpha_nonzero_bbox": [
+        60,
+        18,
+        196,
+        238
+      ],
+      "transparent_pixels": 47317,
+      "partial_alpha_pixels": 18218,
+      "near_black_partial_pixels": 525,
+      "safety_margin_fraction": 0.070312
+    },
+    "feet": [
+      128,
+      238
+    ],
+    "moving_parts": [
+      "scepter",
+      "mantle"
+    ],
+    "generation": {
+      "prompt": "Create a single finished character sprite original for CHECKMATE, a 2.5D dark-fantasy chess action game. Obsidian Caldera: obsidian, basalt and aged copper, sparse dim ember light only at seams and joints. Subject: regal sorceress, wide multi-point flame-shaped metal crown, dark angular mantle, long copper scepter. Painterly high-detail realistic 3D fantasy miniature production render with distinct silhouette at 84 px, above-eye-level three-quarter front view with subtle downward camera tilt, soft high left key light. Exactly one full-body figure, standing firmly on clearly defined feet or hooves, centered, at least 8% clear margin on all edges including weapon tips, genuinely transparent alpha. No scenery, ground, cast shadow, pedestal, atmospheric glow, text or watermark.",
+      "output": "exec-fb026d92-d53a-4c33-a6c0-669a0464081f.png"
+    }
+  },
+  {
+    "chapter": 4,
+    "kind": "king",
+    "origin": "B1C existing original and prepared PNG",
+    "source": "assets/character_concepts/source/ch4_king.png",
+    "source_sha256": "a701b067e791597e84f88140bb23a57b8ab0044763b3f82bc94aabcba5fc3930",
+    "input": {
+      "size": [
+        1230,
+        1278
+      ],
+      "alpha_bbox": [
+        92,
+        4,
+        1149,
+        1265
+      ],
+      "alpha_nonzero_bbox": [
+        25,
+        0,
+        1214,
+        1278
+      ],
+      "transparent_pixels": 687042,
+      "partial_alpha_pixels": 884328,
+      "near_black_partial_pixels": 31616,
+      "safety_margin_fraction": 0.00313
+    },
+    "file": "assets/character_concepts/ch4_king.png",
+    "sha256": "207f8068e31f311896a5933cc67c5b5406370725a6df20c44bcd3dc5bc4a5902",
+    "prepared": {
+      "size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        36,
+        18,
+        220,
+        238
+      ],
+      "alpha_nonzero_bbox": [
+        36,
+        18,
+        220,
+        238
+      ],
+      "transparent_pixels": 38762,
+      "partial_alpha_pixels": 26774,
+      "near_black_partial_pixels": 720,
+      "safety_margin_fraction": 0.070312
+    },
+    "feet": [
+      128,
+      238
+    ],
+    "moving_parts": [
+      "fists",
+      "shoulder armor",
+      "core"
+    ],
+    "generation": null
+  },
+  {
+    "chapter": 5,
+    "kind": "pawn",
+    "origin": "Built-in image_gen / R2",
+    "source": "assets/late_chapter_units/source/ch5_pawn.png",
+    "source_sha256": "9c42c2c4748d5c145d16d076545f4179d36b1fa58b38edabc8fb70b1bf6d0ed3",
+    "input": {
+      "size": [
+        1199,
+        1312
+      ],
+      "alpha_bbox": [
+        153,
+        65,
+        1023,
+        1253
+      ],
+      "alpha_nonzero_bbox": [
+        31,
+        19,
+        1177,
+        1280
+      ],
+      "transparent_pixels": 1069694,
+      "partial_alpha_pixels": 502646,
+      "near_black_partial_pixels": 30446,
+      "safety_margin_fraction": 0.04497
+    },
+    "file": "assets/late_chapter_units/ch5_pawn.png",
+    "sha256": "8a84a88c3d37ac1f6a36eb2c3a381f5193c087ce7f2d16ed0efca4e634d068e2",
+    "prepared": {
+      "size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        47,
+        18,
+        208,
+        238
+      ],
+      "alpha_nonzero_bbox": [
+        47,
+        18,
+        208,
+        238
+      ],
+      "transparent_pixels": 48389,
+      "partial_alpha_pixels": 17147,
+      "near_black_partial_pixels": 992,
+      "safety_margin_fraction": 0.070312
+    },
+    "feet": [
+      128,
+      238
+    ],
+    "moving_parts": [
+      "spear",
+      "shield"
+    ],
+    "generation": {
+      "prompt": "Create a single finished character sprite original for CHECKMATE, a 2.5D dark-fantasy chess action game. Gothic Throne: black marble, blackened iron, burgundy fabric and aged silver, bright cool-edge contrast for a dark board. Subject: compact foot soldier, closed round blackened iron helmet, narrow cuirass, broken spear and rusty shield. Painterly high-detail realistic 3D fantasy miniature production render with distinct silhouette at 84 px, above-eye-level three-quarter front view with subtle downward camera tilt, soft high left key light. Exactly one full-body figure, standing firmly on clearly defined feet or hooves, centered, at least 8% clear margin on all edges including weapon tips, genuinely transparent alpha. No scenery, ground, cast shadow, pedestal, atmospheric glow, text or watermark.",
+      "output": "exec-2a12b147-4402-415c-861a-0b0d35d22077.png"
+    }
+  },
+  {
+    "chapter": 5,
+    "kind": "rook",
+    "origin": "Built-in image_gen / R2",
+    "source": "assets/late_chapter_units/source/ch5_rook.png",
+    "source_sha256": "e89172deda7cb405f38ad32ba06cc1c30a99c9a046b976596a69398a48b70dc6",
+    "input": {
+      "size": [
+        1199,
+        1312
+      ],
+      "alpha_bbox": [
+        53,
+        18,
+        1136,
+        1238
+      ],
+      "alpha_nonzero_bbox": [
+        0,
+        0,
+        1146,
+        1292
+      ],
+      "transparent_pixels": 748752,
+      "partial_alpha_pixels": 823629,
+      "near_black_partial_pixels": 43170,
+      "safety_margin_fraction": 0.01372
+    },
+    "file": "assets/late_chapter_units/ch5_rook.png",
+    "sha256": "b229b2cce7990130a87ee30b1c5f53a27db5eaf202f307eff71a16b57a4cdc2f",
+    "prepared": {
+      "size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        30,
+        18,
+        225,
+        238
+      ],
+      "alpha_nonzero_bbox": [
+        30,
+        18,
+        225,
+        238
+      ],
+      "transparent_pixels": 38893,
+      "partial_alpha_pixels": 26643,
+      "near_black_partial_pixels": 1361,
+      "safety_margin_fraction": 0.070312
+    },
+    "feet": [
+      128,
+      238
+    ],
+    "moving_parts": [
+      "shoulder armor",
+      "shield"
+    ],
+    "generation": {
+      "prompt": "Create a single finished character sprite original for CHECKMATE, a 2.5D dark-fantasy chess action game. Gothic Throne: black marble, blackened iron, burgundy fabric and aged silver, bright cool-edge contrast for a dark board. Subject: massive low broad cathedral battlement shoulders, giant black gate shield with iron tracery. Painterly high-detail realistic 3D fantasy miniature production render with distinct silhouette at 84 px, above-eye-level three-quarter front view with subtle downward camera tilt, soft high left key light. Exactly one full-body figure, standing firmly on clearly defined feet or hooves, centered, at least 8% clear margin on all edges including weapon tips, genuinely transparent alpha. No scenery, ground, cast shadow, pedestal, atmospheric glow, text or watermark.",
+      "output": "exec-0402868a-de63-4292-b2e2-1549297e21c6.png"
+    }
+  },
+  {
+    "chapter": 5,
+    "kind": "knight",
+    "origin": "Built-in image_gen / R2",
+    "source": "assets/late_chapter_units/source/ch5_knight.png",
+    "source_sha256": "7de3033fba078116dec25459729f93e48d120eb2cc5675053ec576a87d658ed5",
+    "input": {
+      "size": [
+        1339,
+        1175
+      ],
+      "alpha_bbox": [
+        55,
+        0,
+        1229,
+        1153
+      ],
+      "alpha_nonzero_bbox": [
+        0,
+        0,
+        1303,
+        1157
+      ],
+      "transparent_pixels": 855262,
+      "partial_alpha_pixels": 717598,
+      "near_black_partial_pixels": 26566,
+      "safety_margin_fraction": 0.0
+    },
+    "file": "assets/late_chapter_units/ch5_knight.png",
+    "sha256": "6a01ea6c46ce5908cf1019500301dff818c6836de0eaa94bb47c64b69c9c7207",
+    "prepared": {
+      "size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        18,
+        20,
+        238,
+        236
+      ],
+      "alpha_nonzero_bbox": [
+        18,
+        20,
+        238,
+        236
+      ],
+      "transparent_pixels": 40671,
+      "partial_alpha_pixels": 24865,
+      "near_black_partial_pixels": 838,
+      "safety_margin_fraction": 0.070312
+    },
+    "feet": [
+      128,
+      236
+    ],
+    "moving_parts": [
+      "head",
+      "mane",
+      "hooves"
+    ],
+    "generation": {
+      "prompt": "Create a single finished character sprite original for CHECKMATE, a 2.5D dark-fantasy chess action game. Gothic Throne: black marble, blackened iron, burgundy fabric and aged silver, bright cool-edge contrast for a dark board. Subject: four-legged spectral armored warhorse with bowed neck and ghostly horse head, dark iron barding, no rider. Painterly high-detail realistic 3D fantasy miniature production render with distinct silhouette at 84 px, above-eye-level three-quarter front view with subtle downward camera tilt, soft high left key light. Exactly one full-body figure, standing firmly on clearly defined feet or hooves, centered, at least 8% clear margin on all edges including weapon tips, genuinely transparent alpha. No scenery, ground, cast shadow, pedestal, atmospheric glow, text or watermark.",
+      "output": "exec-4621f9c3-b326-4bb8-8450-1915d365a915.png"
+    }
+  },
+  {
+    "chapter": 5,
+    "kind": "bishop",
+    "origin": "Built-in image_gen / R2",
+    "source": "assets/late_chapter_units/source/ch5_bishop.png",
+    "source_sha256": "00dc5c94f4b208db2d490d319c34909f083f82589704b02cb1c093f9bbdd3199",
+    "input": {
+      "size": [
+        1199,
+        1312
+      ],
+      "alpha_bbox": [
+        201,
+        7,
+        879,
+        1287
+      ],
+      "alpha_nonzero_bbox": [
+        23,
+        0,
+        1179,
+        1294
+      ],
+      "transparent_pixels": 1103963,
+      "partial_alpha_pixels": 468341,
+      "near_black_partial_pixels": 47654,
+      "safety_margin_fraction": 0.005335
+    },
+    "file": "assets/late_chapter_units/ch5_bishop.png",
+    "sha256": "2dad27cbb922fa0614c1a07ba991bbc808fe0af2455f9abd21c96bec323e24a7",
+    "prepared": {
+      "size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        69,
+        18,
+        186,
+        238
+      ],
+      "alpha_nonzero_bbox": [
+        69,
+        18,
+        186,
+        238
+      ],
+      "transparent_pixels": 51687,
+      "partial_alpha_pixels": 13849,
+      "near_black_partial_pixels": 1347,
+      "safety_margin_fraction": 0.070312
+    },
+    "feet": [
+      128,
+      238
+    ],
+    "moving_parts": [
+      "staff",
+      "robes"
+    ],
+    "generation": {
+      "prompt": "Create a single finished character sprite original for CHECKMATE, a 2.5D dark-fantasy chess action game. Gothic Throne: black marble, blackened iron, burgundy fabric and aged silver, bright cool-edge contrast for a dark board. Subject: slender eerie cleric with split mitre, narrow long dark clerical vestments and red seal staff. Painterly high-detail realistic 3D fantasy miniature production render with distinct silhouette at 84 px, above-eye-level three-quarter front view with subtle downward camera tilt, soft high left key light. Exactly one full-body figure, standing firmly on clearly defined feet or hooves, centered, at least 8% clear margin on all edges including weapon tips, genuinely transparent alpha. No scenery, ground, cast shadow, pedestal, atmospheric glow, text or watermark.",
+      "output": "exec-205a843c-46f1-4c66-a185-6138855a849b.png"
+    }
+  },
+  {
+    "chapter": 5,
+    "kind": "queen",
+    "origin": "Built-in image_gen / R2",
+    "source": "assets/late_chapter_units/source/ch5_queen.png",
+    "source_sha256": "1a83f3a2c3cbf9c9a485185935abfafb43165891ef1e9843cd239685e3288d1a",
+    "input": {
+      "size": [
+        1199,
+        1312
+      ],
+      "alpha_bbox": [
+        173,
+        17,
+        992,
+        1298
+      ],
+      "alpha_nonzero_bbox": [
+        25,
+        15,
+        1179,
+        1300
+      ],
+      "transparent_pixels": 926748,
+      "partial_alpha_pixels": 645850,
+      "near_black_partial_pixels": 34530,
+      "safety_margin_fraction": 0.010671
+    },
+    "file": "assets/late_chapter_units/ch5_queen.png",
+    "sha256": "a8431988dc0fd91cf911ca61e01cbdfba8ceeda0b6081609f9d094ec8dfa2227",
+    "prepared": {
+      "size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        57,
+        18,
+        198,
+        238
+      ],
+      "alpha_nonzero_bbox": [
+        57,
+        18,
+        198,
+        238
+      ],
+      "transparent_pixels": 46530,
+      "partial_alpha_pixels": 19006,
+      "near_black_partial_pixels": 983,
+      "safety_margin_fraction": 0.070312
+    },
+    "feet": [
+      128,
+      238
+    ],
+    "moving_parts": [
+      "scepter",
+      "mantle"
+    ],
+    "generation": {
+      "prompt": "Create a single finished character sprite original for CHECKMATE, a 2.5D dark-fantasy chess action game. Gothic Throne: black marble, blackened iron, burgundy fabric and aged silver, bright cool-edge contrast for a dark board. Subject: regal gothic queen, broad flared metal crown, cathedral tracery mantle, commanding staff. Painterly high-detail realistic 3D fantasy miniature production render with distinct silhouette at 84 px, above-eye-level three-quarter front view with subtle downward camera tilt, soft high left key light. Exactly one full-body figure, standing firmly on clearly defined feet or hooves, centered, at least 8% clear margin on all edges including weapon tips, genuinely transparent alpha. No scenery, ground, cast shadow, pedestal, atmospheric glow, text or watermark.",
+      "output": "exec-e9a1745e-4403-429c-9b3a-49f71215c6d9.png"
+    }
+  },
+  {
+    "chapter": 5,
+    "kind": "king",
+    "origin": "B1C existing original and prepared PNG",
+    "source": "assets/character_concepts/source/ch5_king.png",
+    "source_sha256": "250c90bdc1d462759ba301b7fdd59ee3565f742bc05a10b10dac04e337f7977d",
+    "input": {
+      "size": [
+        1184,
+        1328
+      ],
+      "alpha_bbox": [
+        5,
+        5,
+        1182,
+        1301
+      ],
+      "alpha_nonzero_bbox": [
+        0,
+        0,
+        1184,
+        1328
+      ],
+      "transparent_pixels": 740612,
+      "partial_alpha_pixels": 831740,
+      "near_black_partial_pixels": 1428,
+      "safety_margin_fraction": 0.001689
+    },
+    "file": "assets/character_concepts/ch5_king.png",
+    "sha256": "d2f68d7f4a38d431c0cc2672b57b60e0c41eb2e7ec8fc88898aa0b73c9905ce4",
+    "prepared": {
+      "size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        28,
+        18,
+        227,
+        238
+      ],
+      "alpha_nonzero_bbox": [
+        28,
+        18,
+        228,
+        238
+      ],
+      "transparent_pixels": 41679,
+      "partial_alpha_pixels": 23857,
+      "near_black_partial_pixels": 36,
+      "safety_margin_fraction": 0.070312
+    },
+    "feet": [
+      128,
+      238
+    ],
+    "moving_parts": [
+      "fists",
+      "shoulder armor",
+      "core"
+    ],
+    "generation": null
+  }
+]

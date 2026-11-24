@@ -1,12 +1,18 @@
-"""Royal and Frozen chapter profiles for the live campaign renderer."""
+"""Chapter profiles and live campaign art dispatch."""
 import logging
 
 from arena_art_common import CAMERA, sprite_layout
 from arena_art_profile import ChapterArtProfile, PieceArt, ProfileArtPath
-from stage5_art_renderer import FILES as ROYAL_FILES, actor_layout as stage5_layout
-from stage11_art_renderer import FROZEN_PROFILE
-from stage12_art_renderer import FILES as STAGE12_FILES
-from stage13_art_renderer import FILES as STAGE13_FILES, LiveArenaArtPath as LegacyArtPath
+from late_chapter_art import FacadeArtRenderer, LATE_PROFILES
+from stage5_art_renderer import FILES as ROYAL_FILES, Stage5ArtPath, actor_layout as stage5_layout
+from stage6_art_renderer import Stage6ArtPath
+from stage7_art_renderer import Stage7ArtPath
+from stage8_art_renderer import FILES as FOREST_FILES, Stage8ArtPath, actor_layout as forest_layout
+from stage9_art_renderer import Stage9ArtPath
+from stage10_art_renderer import FILES as STAGE10_FILES, Stage10ArtPath, actor_layout as forest_boss_layout
+from stage11_art_renderer import FROZEN_PROFILE, Stage11ArtPath
+from stage12_art_renderer import FILES as STAGE12_FILES, Stage12ArtPath
+from stage13_art_renderer import FILES as STAGE13_FILES, Stage13ArtPath
 from stage13_art_renderer import actor_layout as stage13_layout
 
 
@@ -50,24 +56,42 @@ FROZEN = ChapterArtProfile(
     layout=frozen_layout,
 )
 
+FOREST = ChapterArtProfile(
+    chapter=2,
+    surfaces={name: FOREST_FILES[name] for name in ROYAL.surfaces},
+    pieces={kind: PieceArt(path, kind) for kind, path in {**FOREST_FILES, **STAGE10_FILES}.items()
+            if kind not in ROYAL.surfaces},
+    layout=lambda kind, u, v: (forest_boss_layout if kind == 'king' else forest_layout)(kind, u, v),
+)
+CHAPTER_PROFILES = {1: ROYAL, 2: FOREST, 3: FROZEN, **LATE_PROFILES}
+
 
 class LiveArenaArtPath:
     """Dispatch one path and release outgoing textures before loading the next stage."""
-    def __init__(self, canvas, *, motion=None):
+    def __init__(self, canvas, *, motion=None, default_enabled=False):
         royal = ProfileArtPath(canvas, ROYAL, motion=motion, stage=range(1, 5),
                                flag=None, logger=logging.getLogger(__name__))
         frozen = ProfileArtPath(canvas, FROZEN, motion=motion, stage=range(14, 16),
                                 flag=None, logger=logging.getLogger(__name__))
-        self.legacy = LegacyArtPath(canvas, motion=motion)
-        self.paths = {stage: path for path in (royal, frozen) for stage in path.stage}
+        late = [ProfileArtPath(canvas, profile, motion=motion, stage=range(chapter*5-4, chapter*5+1),
+                               flag=None, logger=logging.getLogger(__name__), renderer_type=FacadeArtRenderer)
+                for chapter, profile in LATE_PROFILES.items()]
+        self.paths = {stage: path for path in (royal, frozen, *late) for stage in path.stage}
+        legacy = (Stage7ArtPath, Stage8ArtPath, Stage9ArtPath, Stage10ArtPath,
+                  Stage11ArtPath, Stage12ArtPath, Stage13ArtPath)
+        original_paths = (Stage5ArtPath(canvas), Stage6ArtPath(canvas),
+                          *(path(canvas, motion=motion) for path in legacy))
+        self.stage_paths = {**self.paths, **{path.stage: path for path in original_paths}}
+        for path in self.stage_paths.values():
+            path.default_enabled = default_enabled
         self.stage = self.path = None
 
     def draw(self, game, positions):
         if game.stage_number != self.stage:
             self.close()
             self.stage = game.stage_number
-            self.path = self.paths.get(self.stage, self.legacy)
-        return self.path.draw(game, positions)
+            self.path = self.stage_paths.get(self.stage)
+        return self.path is not None and self.path.draw(game, positions)
 
     def close(self):
         if self.path is not None:

@@ -145,6 +145,8 @@ Chapter1 Stage5의 승인된 크기와 화면은 보존하며, 아래 기존 결
 
 ## ART-BOARD-CH4-CH5-FRONT-OVERLAP
 
+R2 기술 수정안을 라이브 경로에 적용했다. 상판 y=133.5, 림 하단 약 y=124.625, 부조 상단 y=111로 분리했다. 두 실제 전투의 전후 캡처에서 상판 경계 위 픽셀 동일과 문장 영역 변경을 확인했다. 상태는 **기술 수정 검증 / 인간 Windows 확인 대기**다. 창·전체화면과 패널 좌우 재질 경계 검수까지 OPEN으로 추적한다. [R2 전후 비교](TASK5R2_RELEASE_ART.md)
+
 B2A 상태: 왕실 Stage5에만 실제 렌더러를 적용했다. 이 결함은 **OPEN 그대로**이며 Chapter4/5는 아직 기존 표시다.
 
 - 대상: Chapter4 Volcanic Kingdom / Chapter5 Gothic Dark Fantasy.

@@ -4,7 +4,11 @@
 
 ## 현재 실행 상태
 
-R1 작업 트리에는 Stage1~15의 2.5D 표시가 연결되어 있다. PowerShell에서 `CHECKMATE_CHAPTER1_ART`, `CHECKMATE_CHAPTER2_ART`, `CHECKMATE_CHAPTER3_ART`를 각각 `1`로 설정하면 해당 챕터에 적용한다. 스테이지별 디버그 값이 있는 경우 그 값이 우선한다. 승인·실측 현황과 공용 실행 명령은 [R1 통합 검수표](docs/TASK5R1_CHAPTER_ART.md)를 참고한다.
+R2 작업 트리의 일반 실행 `python main.py`는 Stage1~25에 챕터별 2.5D를 기본 적용한다. `CHECKMATE_CHAPTER<n>_ART=0` 또는 `CHECKMATE_STAGE<n>_ART=0`으로 기존 표시를 검수할 수 있다. 스테이지 설정이 우선한다. [Windows 실행·개발 진입·검수 명령](docs/TASK5R2_RELEASE_ART.md)
+
+## R1F 및 이전 검증 기록
+
+R1F는 Stage1~15의 2.5D 표시를 기술 승인했다. 당시에는 PowerShell에서 `CHECKMATE_CHAPTER1_ART`, `CHECKMATE_CHAPTER2_ART`, `CHECKMATE_CHAPTER3_ART`를 각각 `1`로 설정해 해당 챕터를 활성화했다. [R1 통합 검수표](docs/TASK5R1_CHAPTER_ART.md)
 
 Stage13 D4B는 재배치·8방향 광선·패링·피해·진행과 실제 SDL 자원 수명 검사를 통과해 사용자 위임으로 기술 승인됐다. Windows 인간 실전 검수 18항목은 R7 캠페인에서 진행한다. [검증 기록과 체크리스트](docs/TASK5D_CHAPTER3_PLAN.md)
 

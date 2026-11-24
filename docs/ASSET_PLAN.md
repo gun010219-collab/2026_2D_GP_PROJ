@@ -1,5 +1,7 @@
 # CHECKMATE 에셋 제작 계획
 
+R2는 용암·고딕 각각 6종을 실제 전투에 연결했다. 신규 원화와 준비본 각 10개, B1C King 2종 재사용, 실전 캡처 및 6종 비교를 보존한다. 인간 가독성·접합 검수 및 사용자 승인은 대기다. [실전 가시 크기·HP·발 검수표](TASK5R2_RELEASE_ART.md)
+
 ## R1 왕실·빙설 실전 연결
 
 왕실은 기존 Player·Pawn·Rook·Knight·Bishop·King과 승인 환경 4종을 편성에 따라 로딩한다. Queen은 이 챕터의 편성에 없다. 빙설은 기존 Pawn/Rook/Knight/Bishop/Queen에 B1C Ice King 준비본을 추가 등록한다. 두 챕터 모두 기존 PNG를 쓰며 재생성·덮어쓰기는 없다. R1 신규 실전 표시와 Ice King은 검수 대기다. [측정·캡처](TASK5R1_CHAPTER_ART.md) · [출처](ASSET_CREDITS.md)

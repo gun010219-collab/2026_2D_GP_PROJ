@@ -1,0 +1,515 @@
+{
+  "driver": "direct3d11",
+  "resources": {
+    "loads": 551,
+    "releases": 551,
+    "peak": 12,
+    "frames": 257
+  },
+  "campaign": [
+    [
+      1,
+      "UPGRADE",
+      352,
+      3,
+      3
+    ],
+    [
+      2,
+      "UPGRADE",
+      313,
+      3,
+      3
+    ],
+    [
+      3,
+      "UPGRADE",
+      355,
+      3,
+      3
+    ],
+    [
+      4,
+      "UPGRADE",
+      324,
+      2,
+      3
+    ],
+    [
+      5,
+      "BOSS_CLEAR",
+      494,
+      2,
+      3
+    ],
+    [
+      6,
+      "UPGRADE",
+      389,
+      3,
+      3
+    ],
+    [
+      7,
+      "UPGRADE",
+      396,
+      3,
+      3
+    ],
+    [
+      8,
+      "UPGRADE",
+      468,
+      3,
+      3
+    ],
+    [
+      9,
+      "UPGRADE",
+      399,
+      3,
+      3
+    ],
+    [
+      10,
+      "BOSS_CLEAR",
+      457,
+      2,
+      3
+    ],
+    [
+      11,
+      "UPGRADE",
+      399,
+      3,
+      3
+    ],
+    [
+      12,
+      "UPGRADE",
+      410,
+      3,
+      3
+    ],
+    [
+      13,
+      "UPGRADE",
+      338,
+      3,
+      3
+    ],
+    [
+      14,
+      "UPGRADE",
+      432,
+      3,
+      3
+    ],
+    [
+      15,
+      "BOSS_CLEAR",
+      530,
+      3,
+      3
+    ],
+    [
+      16,
+      "UPGRADE",
+      507,
+      3,
+      3
+    ],
+    [
+      17,
+      "UPGRADE",
+      592,
+      3,
+      3
+    ],
+    [
+      18,
+      "UPGRADE",
+      531,
+      3,
+      3
+    ],
+    [
+      19,
+      "UPGRADE",
+      432,
+      1,
+      3
+    ],
+    [
+      20,
+      "BOSS_CLEAR",
+      654,
+      2,
+      4
+    ],
+    [
+      21,
+      "UPGRADE",
+      432,
+      2,
+      3
+    ],
+    [
+      22,
+      "UPGRADE",
+      423,
+      3,
+      4
+    ],
+    [
+      23,
+      "UPGRADE",
+      435,
+      4,
+      5
+    ],
+    [
+      24,
+      "UPGRADE",
+      522,
+      5,
+      6
+    ],
+    [
+      25,
+      "BOSS_CLEAR",
+      638,
+      4,
+      6
+    ]
+  ],
+  "attacks": {
+    "1": {
+      "kinds": [
+        "pawn"
+      ],
+      "reflect": 0,
+      "paired_queens": false,
+      "king_attacks": []
+    },
+    "2": {
+      "kinds": [
+        "pawn",
+        "rook"
+      ],
+      "reflect": 0,
+      "paired_queens": false,
+      "king_attacks": []
+    },
+    "3": {
+      "kinds": [
+        "knight",
+        "pawn"
+      ],
+      "reflect": 0,
+      "paired_queens": false,
+      "king_attacks": []
+    },
+    "4": {
+      "kinds": [
+        "bishop",
+        "rook"
+      ],
+      "reflect": 0,
+      "paired_queens": false,
+      "king_attacks": []
+    },
+    "5": {
+      "kinds": [
+        "king",
+        "pawn",
+        "rook"
+      ],
+      "reflect": 1,
+      "paired_queens": false,
+      "king_attacks": [
+        "king_pulse"
+      ]
+    },
+    "6": {
+      "kinds": [
+        "pawn",
+        "rook"
+      ],
+      "reflect": 0,
+      "paired_queens": false,
+      "king_attacks": []
+    },
+    "7": {
+      "kinds": [
+        "knight"
+      ],
+      "reflect": 0,
+      "paired_queens": false,
+      "king_attacks": []
+    },
+    "8": {
+      "kinds": [
+        "bishop",
+        "knight",
+        "rook"
+      ],
+      "reflect": 0,
+      "paired_queens": false,
+      "king_attacks": []
+    },
+    "9": {
+      "kinds": [
+        "bishop",
+        "knight",
+        "rook"
+      ],
+      "reflect": 0,
+      "paired_queens": false,
+      "king_attacks": []
+    },
+    "10": {
+      "kinds": [
+        "bishop",
+        "king",
+        "knight"
+      ],
+      "reflect": 0,
+      "paired_queens": false,
+      "king_attacks": [
+        "basic"
+      ]
+    },
+    "11": {
+      "kinds": [
+        "knight",
+        "rook"
+      ],
+      "reflect": 0,
+      "paired_queens": false,
+      "king_attacks": []
+    },
+    "12": {
+      "kinds": [
+        "bishop",
+        "rook"
+      ],
+      "reflect": 0,
+      "paired_queens": false,
+      "king_attacks": []
+    },
+    "13": {
+      "kinds": [
+        "knight",
+        "pawn",
+        "queen"
+      ],
+      "reflect": 0,
+      "paired_queens": false,
+      "king_attacks": []
+    },
+    "14": {
+      "kinds": [
+        "bishop",
+        "pawn",
+        "queen",
+        "rook"
+      ],
+      "reflect": 0,
+      "paired_queens": false,
+      "king_attacks": []
+    },
+    "15": {
+      "kinds": [
+        "king",
+        "pawn",
+        "queen",
+        "rook"
+      ],
+      "reflect": 1,
+      "paired_queens": false,
+      "king_attacks": [
+        "king_pulse"
+      ]
+    },
+    "16": {
+      "kinds": [
+        "bishop",
+        "knight",
+        "rook"
+      ],
+      "reflect": 0,
+      "paired_queens": false,
+      "king_attacks": [],
+      "knight_peak": 18.0
+    },
+    "17": {
+      "kinds": [
+        "bishop",
+        "knight",
+        "rook"
+      ],
+      "reflect": 0,
+      "paired_queens": false,
+      "king_attacks": []
+    },
+    "18": {
+      "kinds": [
+        "bishop",
+        "pawn",
+        "queen",
+        "rook"
+      ],
+      "reflect": 0,
+      "paired_queens": false,
+      "king_attacks": []
+    },
+    "19": {
+      "kinds": [
+        "bishop",
+        "knight",
+        "queen",
+        "rook"
+      ],
+      "reflect": 0,
+      "paired_queens": false,
+      "king_attacks": []
+    },
+    "20": {
+      "kinds": [
+        "bishop",
+        "king",
+        "knight",
+        "queen"
+      ],
+      "reflect": 0,
+      "paired_queens": false,
+      "king_attacks": [
+        "basic",
+        "king_pulse"
+      ],
+      "pulse": true,
+      "isolated_pulse_grades": [
+        "normal",
+        "perfect"
+      ]
+    },
+    "21": {
+      "kinds": [
+        "bishop",
+        "knight",
+        "queen",
+        "rook"
+      ],
+      "reflect": 0,
+      "paired_queens": false,
+      "king_attacks": []
+    },
+    "22": {
+      "kinds": [
+        "bishop",
+        "knight",
+        "queen",
+        "rook"
+      ],
+      "reflect": 0,
+      "paired_queens": false,
+      "king_attacks": []
+    },
+    "23": {
+      "kinds": [
+        "bishop",
+        "knight",
+        "rook"
+      ],
+      "reflect": 0,
+      "paired_queens": false,
+      "king_attacks": []
+    },
+    "24": {
+      "kinds": [
+        "bishop",
+        "knight",
+        "queen",
+        "rook"
+      ],
+      "reflect": 0,
+      "paired_queens": true,
+      "king_attacks": []
+    },
+    "25": {
+      "kinds": [
+        "bishop",
+        "king",
+        "knight",
+        "queen",
+        "rook"
+      ],
+      "reflect": 1,
+      "paired_queens": false,
+      "king_attacks": [
+        "basic",
+        "king_pulse"
+      ],
+      "pulse": true,
+      "isolated_pulse_grades": [
+        "normal",
+        "perfect"
+      ]
+    }
+  },
+  "captures": [
+    {
+      "file": "stage16_facade_before.png",
+      "sha256": "71c0f1dee29e21d4d279f1a378ccb424be525054325badfee9e6b0f992a8d075"
+    },
+    {
+      "file": "stage16_facade_after.png",
+      "sha256": "14512bd64241df9d71dc4ae0f7c012350a85e2759fff35397904236feca4ee15"
+    },
+    {
+      "file": "stage21_facade_before.png",
+      "sha256": "752a9bfba6b83e57e1f9ec29c0c87151927888f6955be843ba68f16d7396bfe7"
+    },
+    {
+      "file": "stage21_facade_after.png",
+      "sha256": "76ecc4d026705779307c475e20deae170c66fbce722b0753a7d0d2a6216b2ad2"
+    },
+    {
+      "file": "chapter4_roster.png",
+      "sha256": "7ca33fdb076ffe9172fbc2bc3a37342a79abb2c08c6cd0cf0bf0a69f41a8e39b"
+    },
+    {
+      "file": "chapter5_roster.png",
+      "sha256": "f6ff35ed9ffd69c26f24d3a7909a7446b43acbc3cf1c648e19e26f3616f7ab75"
+    },
+    {
+      "file": "stage16_knight_peak.png",
+      "sha256": "e3ae4a4f020b6288282ec6aaf86400800020b7a90a9f86409701851e440b7090"
+    },
+    {
+      "file": "stage20_pulse.png",
+      "sha256": "e4830364089ce68bc5e49ef85b6be735d561ab8714475ef166658d1a1693a70a"
+    },
+    {
+      "file": "stage24_two_queens.png",
+      "sha256": "bb6557ff5c673490741f5b42e51b047038f395aa20c9c98a72c6c5770dd630f3"
+    },
+    {
+      "file": "stage25_pulse.png",
+      "sha256": "18f77687b9983902d31b7a067eb8ebde1f2b082ac224b8ce33dad8c3b98a09f9"
+    },
+    {
+      "file": "stage25_boss_clear.png",
+      "sha256": "258e65d5907f801f76bc731e3278265f9711b5eba3a1e3ca2d4460570796b5eb"
+    },
+    {
+      "file": "stage20_reflect.png",
+      "sha256": "ac67ad9f0fb88c7ff7f1f81caaedc7044b3fe2fb9ade671deea0e162bc178790"
+    },
+    {
+      "file": "stage25_reflect.png",
+      "sha256": "fa4d24265f8d6233f58ed79fbcf2115271b15394bdfb4b0f4d2ba94a813c04b0"
+    }
+  ]
+}

@@ -100,9 +100,12 @@ class Stage5ArtRenderer:
         col,row=cell
         for t in (.15,.35,.55,.75):self.c.draw_line(*CAMERA.project(col+t,row+.12),*CAMERA.project(col+t+.12,row+.24),*color)
 
+    def draw_frame(self):
+        self.image('frame',720,450,1440,900)
+
     def draw(self,g,positions):
         c=self.c;self.warning_cells=[];self.order=[];self.bounds=[];self.actor_layouts={}
-        self.image('background',720,450,1440,900);self.image('frame',720,450,1440,900)
+        self.image('background',720,450,1440,900);self.draw_frame()
         outer=((- .12,-.12),(10.12,-.12),(10.12,10.12),(-.12,10.12));inner=((0,0),(10,0),(10,10),(0,10))
         for lo,hi,gain in ((0,.18,.76),(.18,.82,1),(.82,1,1.1)):
             def ring(t):return tuple((a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t) for a,b in zip(outer,inner))
