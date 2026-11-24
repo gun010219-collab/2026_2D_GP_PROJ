@@ -5,6 +5,8 @@
 
 ## 1. 목표와 근거 우선순위
 
+- R5F 이후 `main.py` 스크립트는 정식 타이틀과 챕터 체크포인트를 사용한다. 개발 플레이 도구와 자동 QA는 실제 사용자의 저장 경로를 사용하지 않는다. [R6 저장 정책과 검수](docs/TASK5R6_GAME_FLOW.md)
+
 - R4F 이후 R5의 일반 실행은 오디오를 기본 활성화한다. `CHECKMATE_AUDIO=0`으로 끈다. Animation/VFX/Audio는 프레임의 동일 불변 배치를 사용하며 게임 규칙이 확정한 사건을 재생한다. [음원 출처·설정·검수](docs/TASK5R5_AUDIO.md)
 
 - R3F 기술 승인 이후 R4는 프레임당 한 번 전달하는 불변 사건 배치를 Animation/VFX가 공유한다. R5도 같은 배치와 원점·피해 영수증을 사용한다. 정적 회귀는 `CHECKMATE_ANIMATION=0`과 `CHECKMATE_VFX=0`, 애니메이션 회귀는 VFX만 끈다. [R4 검수와 큐 계약](docs/TASK5R4_COMBAT_VFX.md)

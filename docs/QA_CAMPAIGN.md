@@ -2,6 +2,8 @@
 
 ## R7 인간 Windows 캠페인에 이관된 검수
 
+- [ ] 정식 메인 메뉴부터 인간 캠페인을 진행하고 Chapter1~5 해금·재실행·CONTINUE·F11 복원·엔딩·크레딧을 확인한다. [R6 검수표](TASK5R6_GAME_FLOW.md)
+
 - [ ] Windows의 실제 출력 장치에서 전투 SFX 동기화, 일반·퍼펙트 패링의 청취 차이, BGM 루프·음량·음소거 및 밀집 장면의 믹스를 평가한다. [R5 청취 검수표](TASK5R5_AUDIO.md)
 
 - [ ] `PERF-R4-STAGE25-PULSE`를 동일 장면의 숨김 표본과 Windows 실기에서 재측정한다. R4 P95 5.981ms/P99 6.162ms이며 목표 예산은 5.56ms다. [결함 기록](BUGS.md#perf-r4-stage25-pulse--open)

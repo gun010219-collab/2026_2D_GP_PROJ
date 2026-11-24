@@ -5,8 +5,14 @@ from config import WINDOW_HEIGHT, WINDOW_WIDTH
 
 
 class GameFlowRenderer:
+    def __init__(self, *, official=False):
+        self.official = official
+
     def draw(self, canvas, game, error=False):
         if game.playing:
+            return
+        if self.official and game.stage_number == 25 and game.state is GameState.BOSS_CLEAR:
+            self._center(canvas,'FINAL BOSS DEFEATED',65,3,(224,192,116))
             return
         boundary = game.state is GameState.DEV_BOUNDARY or (game.state is GameState.UPGRADE and not game.upgrade_selection_enabled)
         clear = boundary or game.state in (GameState.UPGRADE, GameState.STAGE_CLEAR, GameState.BOSS_CLEAR)
@@ -41,7 +47,8 @@ class GameFlowRenderer:
                    else f'R TO STAGE {game.restart_stage_number}')
         if game.restart_stage_number is not None:
             self._center(canvas, restart, 384, 4, (224, 192, 116))
-        self._center(canvas, 'ESC TO EXIT', 343, 3, (213, 214, 218))
+        hint = 'ESC TO MAIN MENU' if self.official else 'ESC TO EXIT'
+        self._center(canvas,hint,343,3,(213,214,218))
         self._center(canvas, 'SETTINGS / F11', 310, 2, (180, 184, 193))
         if error:
             self._center(canvas, 'COULD NOT START STAGE  TRY AGAIN', 268, 2, (231, 130, 115))

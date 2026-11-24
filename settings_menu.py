@@ -33,10 +33,15 @@ AUDIO_ROWS = {name: (Rect(PANEL.left+180,y,44,40), Rect(PANEL.left+328,y,44,40),
               for name,y in (('bgm',PANEL.bottom+369),('sfx',PANEL.bottom+308))}
 
 
+MAIN_MENU_BUTTON = Rect(PANEL.left+60,PANEL.bottom+12,480,40)
+
+
 class SettingsMenu:
     def __init__(self):
         self.is_open = False
         self.audio = AudioSettings()
+        self.in_frontend = False
+        self.can_return_to_title = False
 
     def key(self, key):
         """Return an action. Callers must not forward consumed input to gameplay."""
@@ -53,6 +58,9 @@ class SettingsMenu:
         if self.is_open:
             if CLOSE_BUTTON.contains(point) or RETURN_BUTTON.contains(point):
                 self.is_open = False
+            elif self.can_return_to_title and MAIN_MENU_BUTTON.contains(point):
+                self.is_open = False
+                return 'main_menu'
             elif FULLSCREEN_BUTTON.contains(point):
                 return 'toggle_fullscreen'
             elif self._change_audio(point):

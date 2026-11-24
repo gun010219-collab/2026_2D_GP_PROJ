@@ -80,11 +80,11 @@ def _new_stage_game(stage_number, *, stats=None, initial_hp=None):
 
 def main(*, run=None):
     game = _new_game()
-    # Supplying a run is the legacy development/test entry point.
+    # The callable is the combat-only development entry. The executable opens the title.
     return run_session(game, StageProgression(game, run), default_art=run is None)
 
 
-def run_session(game, flow, *, game_renderer=None, default_art=False):
+def run_session(game, flow, *, game_renderer=None, default_art=False, app=None):
     """Shared fixed-tick window loop; preview supplies no StageGame or progression."""
     # Import here so configuration and importing this module never open a window.
     # Use the implementation module: its live window handle is set by open_canvas.
@@ -99,26 +99,30 @@ def run_session(game, flow, *, game_renderer=None, default_art=False):
     enemy_renderer = EnemyRenderer()
     enemy_attack_renderer = EnemyAttackRenderer()
     health_renderer = HealthRenderer()
-    game_renderer = GameFlowRenderer() if game_renderer is None else game_renderer
+    game_renderer = GameFlowRenderer(official=app is not None) if game_renderer is None else game_renderer
     upgrade_renderer = UpgradeRenderer()
     selection = UpgradeInput()
     clock = SimulationClock()
     pacer, stats, motion = FramePacer(), FrameStats(), RenderMotion()
     measure_frames = os.environ.get("CHECKMATE_FRAME_STATS") == "1"
     next_report = None
-    canvas.open_canvas(WINDOW_WIDTH, WINDOW_HEIGHT)
+    if app is None:
+        canvas.open_canvas(WINDOW_WIDTH, WINDOW_HEIGHT)
     settings_renderer = None
     art_path = None
     audio = None
+    destination_screen = 'exit'
     try:
         if not canvas.window or not canvas.renderer:
             raise RuntimeError('Pico2D could not create a window and renderer')
         canvas.hide_lattice()
         canvas.SDL_SetWindowTitle(canvas.window, WINDOW_TITLE.encode('utf-8'))
         board_renderer = BoardRenderer(chapter=game.chapter)
-        display = DisplaySettings(canvas)
-        menu = SettingsMenu()
-        settings_renderer = SettingsRenderer(canvas)
+        if app is None:
+            display, menu = DisplaySettings(canvas), SettingsMenu()
+            settings_renderer = SettingsRenderer(canvas)
+        else:
+            display, menu, settings_renderer, audio = app.display, app.menu, app.settings_renderer, app.audio
         from chapter_art_renderer import LiveArenaArtPath
         animation_flag = os.environ.get('CHECKMATE_ANIMATION')
         animation_enabled = default_art if animation_flag is None else animation_flag == '1'
@@ -135,7 +139,7 @@ def run_session(game, flow, *, game_renderer=None, default_art=False):
             vfx = CombatVFX()
         audio_flag = os.environ.get('CHECKMATE_AUDIO')
         audio_enabled = default_art if audio_flag is None else audio_flag == '1'
-        if audio_enabled:
+        if audio_enabled and app is None:
             from game_audio import AudioManager, MixerAudio
             backend = MixerAudio.open(canvas)
             if backend is not None:
@@ -144,6 +148,29 @@ def run_session(game, flow, *, game_renderer=None, default_art=False):
         art_path = LiveArenaArtPath(canvas, motion=motion, default_enabled=default_art, animation=animation, vfx=vfx)
         controls = GameplayInput(canvas, move_interval_ticks=flow.run.stats.move_interval_ticks)
         pending_gameplay = []
+        last_boss_clear = None
+        ending_elapsed = 0.
+        final_verified = False
+
+        def sync_boss_clear():
+            nonlocal last_boss_clear, ending_elapsed, final_verified
+            if app is None or game.state is not GameState.BOSS_CLEAR or last_boss_clear is game:
+                return
+            from campaign_save import record_clear
+            last_boss_clear = game
+            ending_elapsed = 0.
+            final_verified = False
+            try:
+                result = record_clear(app.store,flow)
+            except ValueError:
+                flow.error = True
+                return
+            if game.stage_number == 25:
+                app.ending = result
+                final_verified = True
+
+        if app is not None:
+            controls.prepare_session()
 
         def prepare_controls(stats):
             fresh = GameplayInput(canvas, move_interval_ticks=stats.move_interval_ticks)
@@ -230,6 +257,7 @@ def run_session(game, flow, *, game_renderer=None, default_art=False):
                 game.advance(steps - 1)
             if steps and game.playing:
                 combat.advance(1)
+            sync_boss_clear()
             previous_frame = frame_start
             previously_focused = focused
             display_changed = False
@@ -301,13 +329,19 @@ def run_session(game, flow, *, game_renderer=None, default_art=False):
                 menu_changed = menu_changed or was_open != menu.is_open
                 if was_open != menu.is_open or action == 'toggle_fullscreen':
                     flush_gameplay(blocked=True)
-                if action == 'quit':
+                if action in ('quit','main_menu'):
+                    if app is not None:
+                        destination_screen = 'main'
                     running = False
                     break
                 if action == 'toggle_fullscreen':
                     display.toggle()
+                    if app is not None:
+                        app.save_settings()
                     # Discard stale mouse coordinates but keep processing key releases.
                     display_changed = True
+                if app is not None and action == 'audio_changed':
+                    app.save_settings()
                 choice = selection.handle(event, canvas,
                     point=logical_mouse_to_canvas(event.x, event.y)
                     if event.type == canvas.SDL_MOUSEBUTTONDOWN else None,
@@ -334,6 +368,7 @@ def run_session(game, flow, *, game_renderer=None, default_art=False):
             # Input may have killed an enemy whose attack was due this tick.
             # Its cancellation is visible before the encounter publishes due.
             game.resolve_current_tick()
+            sync_boss_clear()
             prior_offer = flow.offer
             flow.sync_offer()
             if flow.offer is not None and flow.offer is not prior_offer:
@@ -417,23 +452,39 @@ def run_session(game, flow, *, game_renderer=None, default_art=False):
             if game.state is GameState.UPGRADE:
                 upgrade_renderer.draw(canvas, game, flow.offer, flow.error)
             settings_renderer.draw(menu, display)
+            if app is not None and app.store.notice:
+                GameFlowRenderer._center(canvas,app.store.notice,22,2,(247,178,144))
             canvas.update_canvas()
+            if (final_verified and game is last_boss_clear and not menu.is_open and focused
+                    and not focus_changed and not display_changed and not menu_changed and visual_elapsed <= .15):
+                ending_elapsed += visual_elapsed
+                if ending_elapsed >= 1.05:
+                    destination_screen = 'ending'
+                    break
             sleep(pacer.remaining(perf_counter() - frame_start))
     finally:
         if measure_frames:
             stats.log()
-        flow.run.retire()
+        if destination_screen != 'ending':
+            flow.run.retire()
         # Release resources on normal exit and exceptions after canvas creation.
         try:
             if audio is not None:
-                audio.close()
+                if app is None:
+                    audio.close()
+                else:
+                    audio.backend.clear_voices()
             if art_path is not None:
                 art_path.close()
-            if settings_renderer is not None:
+            if settings_renderer is not None and app is None:
                 settings_renderer.close()
         finally:
-            canvas.close_canvas()
+            if app is None:
+                canvas.close_canvas()
+    if app is not None:
+        return destination_screen
 
 
 if __name__ == '__main__':
-    main()
+    from release_game import launch
+    launch(_new_stage_game,run_session)

@@ -4,7 +4,8 @@ import os
 from pathlib import Path
 
 from config import WINDOW_HEIGHT, WINDOW_WIDTH
-from settings_menu import SETTINGS_BUTTON, PANEL, CLOSE_BUTTON, FULLSCREEN_BUTTON, RETURN_BUTTON, AUDIO_ROWS
+from settings_menu import (SETTINGS_BUTTON, PANEL, CLOSE_BUTTON, FULLSCREEN_BUTTON,
+                           RETURN_BUTTON, AUDIO_ROWS, MAIN_MENU_BUTTON)
 from health_renderer import HealthRenderer
 
 
@@ -18,7 +19,7 @@ class SettingsRenderer:
         try:
             for text in ('SETTINGS', 'X', 'FULLSCREEN: ON', 'FULLSCREEN: OFF',
                          'RETURN TO GAME', 'F11 - TOGGLE DISPLAY', 'DISPLAY SWITCH FAILED',
-                         'BGM', 'SFX', '+', '-', 'MUTE: ON', 'MUTE: OFF'):
+                         'BGM', 'SFX', '+', '-', 'MUTE: ON', 'MUTE: OFF', 'RETURN', 'MAIN MENU'):
                 self._cache_text(font, text)
         except Exception:
             self.close()
@@ -26,7 +27,7 @@ class SettingsRenderer:
         finally:
             canvas.TTF_CloseFont(font.font)
 
-    def _cache_text(self, font, text):
+    def _cache_text(self, font, text, *, key=None):
         c = self.canvas
         surface = c.TTF_RenderUTF8_Blended(font.font, text.encode('utf-8'), c.SDL_Color(223, 194, 130))
         if not surface:
@@ -35,7 +36,7 @@ class SettingsRenderer:
             texture = c.SDL_CreateTextureFromSurface(c.renderer, surface)
             if not texture:
                 raise RuntimeError('Cannot create settings text texture')
-            self.textures[text] = texture, surface.contents.w, surface.contents.h
+            self.textures[text if key is None else key] = texture, surface.contents.w, surface.contents.h
         finally:
             c.SDL_FreeSurface(surface)
 
@@ -88,10 +89,12 @@ class SettingsRenderer:
             c.draw_rectangle(x+5,y-4,x+7,y-2,223,194,130,filled=True)
         self._button(CLOSE_BUTTON, 'X')
         self._button(FULLSCREEN_BUTTON, 'FULLSCREEN: ON' if display.fullscreen else 'FULLSCREEN: OFF')
-        self._button(RETURN_BUTTON, 'RETURN TO GAME')
+        self._button(RETURN_BUTTON, 'RETURN' if menu.in_frontend else 'RETURN TO GAME')
+        if menu.can_return_to_title:
+            self._button(MAIN_MENU_BUTTON,'MAIN MENU')
         self._label('F11 - TOGGLE DISPLAY', WINDOW_WIDTH / 2, PANEL.bottom + 160)
         if display.error:
-            self._label('DISPLAY SWITCH FAILED', WINDOW_WIDTH / 2, PANEL.bottom + 38)
+            self._label('DISPLAY SWITCH FAILED', WINDOW_WIDTH / 2, PANEL.bottom + 60)
 
     def close(self):
         for texture, _, _ in self.textures.values():

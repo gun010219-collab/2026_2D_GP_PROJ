@@ -166,7 +166,7 @@ class StageProgression:
         self._require_scope()
         g = self.game
         first = chapter_first_stage(self.run.chapter)
-        if (g.chapter not in (1, 2, 3, 4) or g.stage_number != g.chapter * 5 or not g.boss
+        if (g.stage_number != g.chapter * 5 or not g.boss
                 or g.state is not GameState.BOSS_CLEAR or not g.player.alive
                 or not g.resolver.stopped or g.transition_count != 1
                 or g.end_tick != g.combat.tick or self.run.active_offer is not None
@@ -179,9 +179,18 @@ class StageProgression:
         if self.run.receipts[-1].after_build != self.run.build:
             raise ValueError('Boss clear build does not match its upgrade history')
 
+    def boss_clear_record(self):
+        """Read a verified clear without advancing or rebuilding the owner."""
+        self._require_boss_clear()
+        g = self.game
+        hp = g.player.health
+        return g.chapter, g.end_tick, hp.current_hp, hp.max_hp, self.run.build.attack_level
+
     def enter_next_chapter(self, factory, prepare=lambda stats: None):
         """Prepare the supported next chapter before retiring its owner. No save/unlock."""
         self._require_boss_clear()
+        if self.run.chapter == 5:
+            raise ValueError('The final boss has no next chapter')
         fresh_run = ChapterRun(self.run.chapter + 1, entry_attack_level=self.run.build.attack_level)
         g, prepared = self._candidate(fresh_run.current_stage, fresh_run.stats, factory, prepare)
         old_run = self.run
