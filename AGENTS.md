@@ -5,6 +5,13 @@
 
 ## 1. 목표와 근거 우선순위
 
+- 최신 구현(D4B, 실전 사용자 GUI 대기): Stage13은 exact `CHECKMATE_STAGE13_ART=1`에서만 Frozen Queen 표시를 사용한다.
+  Queen 정적 디자인은 D4AF 사용자10/10 승인/커밋·Push 완료다. 원화/준비본·크기/카메라·Stage5~12 승인/8스위치·전투는 보존한다.
+  Queen은 기존8광선/재배치/실제ledger를 읽으며 초기31셀을 가짜 실전경고로 만들지 않는다.
+  개발CLI는 실제11/12 자동클리어·정상강화 Receipt2이며 인간캠페인 클리어 주장이 아니다.
+  D4B는 사용자 실전 Windows 승인 전 미스테이징/미커밋/미Push다. 기술QA·정적승인을 실전승인으로 대체하지 않는다.
+  실행·검수는 `docs/TASK5D_CHAPTER3_PLAN.md`를 따른다. 실측성능/메모리·전체인간캠페인·라이선스·Chapter4/5 접합OPEN은 별도다.
+
 - 최신 확정 구현(D3BF, 실전 사용자 GUI20/20 승인): Stage12는 `CHECKMATE_STAGE12_ART=1`일 때만 Frozen2.5D를 사용한다.
   Bishop 디자인은 D3AF 정적 GUI8/8 승인 상태다. 기존 Stage5~11 승인/7개 스위치·이미지·전투는 보존한다.
   Bishop은 기존 제자리 자기색50칸/반대색 직렬화 규칙 그대로이며 대각선 공격/이동을 추가하지 않는다.

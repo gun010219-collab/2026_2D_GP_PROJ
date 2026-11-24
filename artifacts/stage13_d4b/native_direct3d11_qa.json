@@ -1,0 +1,70 @@
+{
+  "scope": "Actual hidden native Stage12->13->14, Stage13 normal/perfect parry and death/restart; not human GUI/performance",
+  "renderer": "direct3d11",
+  "vsync": false,
+  "stage12": [
+    12,
+    "UPGRADE",
+    669,
+    3,
+    4
+  ],
+  "stage13": [
+    13,
+    "UPGRADE",
+    543,
+    3,
+    4
+  ],
+  "stage14": {
+    "hp": 4,
+    "max_hp": 5,
+    "receipts": 3,
+    "legacy_display": true
+  },
+  "queen_real_origins": [
+    [
+      4,
+      4
+    ],
+    [
+      5,
+      3
+    ],
+    [
+      5,
+      5
+    ],
+    [
+      5,
+      6
+    ]
+  ],
+  "parries": [
+    "normal",
+    "perfect"
+  ],
+  "stage13_texture_keys": [
+    "background",
+    "dark",
+    "frame",
+    "knight",
+    "light",
+    "pawn",
+    "player",
+    "queen"
+  ],
+  "resources": {
+    "loads": 64,
+    "destroys": 64,
+    "peak": 8,
+    "frames": 2215
+  },
+  "no_input_death_tick": 374,
+  "restart_stage": 11,
+  "expected_failure_legacy_draw": true,
+  "elapsed_seconds": 8.024,
+  "human_stage13_gui": "pending",
+  "windows_fps_p95_p99": "unmeasured",
+  "long_term_ram_vram": "unmeasured"
+}

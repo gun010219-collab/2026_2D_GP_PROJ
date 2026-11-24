@@ -1,5 +1,58 @@
 # CHECKMATE 개발 진행 기록
 
+## Task 5-D4B — Stage13 실제 빙설 Queen 전투 통합 / 인간 GUI 대기
+
+D4AF는 사용자 정적 디자인10/10 승인과1,504테스트/66캡처 재검증 후18파일을
+`2cde6e8e9f505011b4c6ac2c4329a04bf02ea266`로 단독 커밋·기존main 일반Push했다.
+실제 원격SHA/Queen PNG·JSON과 로컬 일치·작업 트리/인덱스 Clean 확인 후에만 D4B를 시작했다.
+이번 변경은 새 Stage13 프로필/어댑터·main import1줄·실제개발진입/캡처/기술QA/전용테스트와 문서다.
+원화/준비본/정적 크기·카메라·Stage5~12 렌더러/RenderMotion·전투/AI/강화/stage_data는 변경하지 않았다.
+
+Stage13 exact `CHECKMATE_STAGE13_ART=1`에서만 Frozen 환경4종+Player/Pawn/Knight/Queen의8종을 로딩한다.
+Queen HP18·Knight HP13·Pawn3×9 =5기/HP58, Queen 가시 전방65.045×90/후방52.805×73.064·HP12/알파발238을 유지한다.
+Knight18px는 몸체/HP만 이동하고 지상그림자/깊이는 보존한다. 라벨은 모든 몸체 뒤에 그린다.
+원본(4,7)의31셀은 정적 기하다. 실제 무입력 AI는48틱에(5,6)으로 재배치 후49틱에33셀/121틱판정,
+301틱에(5,3)으로 재배치 후302틱에 새 원장33셀/374틱판정이다. 셀 수/새위치는 입력과 점유에 종속된다.
+경고는 실제 ledger.target_cells, 패링은 실제 Resolver를 읽으며 표시 호출 전후 상태/HP/원장/Run이 같다.
+
+개발CLI는 실제 Stage11/12 자동전투 각669틱과 정상HP/공격강화로 Stage13 레벨4/피해5·HP3/4·MOVE18·Receipt2에 진입한다.
+합성Receipt/강제처치/무적/이전 인간캠페인 클리어 주장은 없다.
+실제 Stage13 자동전투543틱 클리어/HP3/4→정상HP강화→Stage14 HP4/5·Receipt3·기존표시,
+무입력 GAME_OVER374틱→원래 R재시작→Stage11 HP3/3·피해4·Receipt0을 확인했다.
+Queen 원장·피해/패링·재배치·18px/그림자·Pawn 실제접촉·main 실제 폴백 등 전용20개는7.688초에 통과했다.
+추가 검사로 정상 GAME_OVER/R의 일시적16텍스처 중첩을 발견해 새 Stage13 어댑터의 퇴장 순서만 보정했다.
+기존 Stage5~12/공통 코드는 그대로이며 정상 복귀와 폴백 복귀 모두 해제 후 새 로딩하는 것을 검사한다.
+direct3d11 숨김 실제12→13→14/패링/정상재시작/폴백 QA는8.024초·2,215표시·64로드/64해제·최대8개·VSync OFF다.
+이는 인간 GUI나 실시간 성능/장시간 메모리 검증이 아니다. 실전14PNG와 원장/레이아웃 manifest를 보존한다.
+
+최종 코드로 전체 재실행: **1,524개 / 366.821초 / 실패0·오류0·skip0**(프로세스367.459초) 통과.
+기존1,504개와 신규20개를 보존했다. 일반/-O 각25스테이지(0.074/0.128초), compileall,
+기존 아트카탈로그563파일(추적300/로컬263, 누락0;1.259초), Queen 원본/준비/정적검수 해시를 확인했다.
+Stage5~12 기존66장 임시 재생성/해시 일치(14.967초), 신규14PNG 재생성/해시 재현성,
+문서 로컬링크617개/누락0·Git/신규파일 공백·JSON 검사 통과다.
+정상 복귀의 자원 해제 순서 보완 후 컴파일과20개 전용/direct3d11 검사를 다시 수행했고,
+보완 전 진행 중이던 전체 실행은 중단하고 위 최종 실행으로 검증했다.
+자동 테스트의 software/dummy FrameStats는 실제 사용자 Windows FPS/P95/P99로 채택하지 않는다.
+D4B 파일 검토는 **28파일(기존수정7/신규21)** 이다:
+
+- 기존수정7: AGENTS.md, README.md, main.py(import1줄), docs/PROGRESS.md,
+  docs/TASK5D_CHAPTER3_PLAN.md, docs/DECISIONS.md, docs/BUGS.md.
+- 신규소스5: stage13_art_renderer.py, tests/test_stage13_live_art.py,
+  tools/stage13_play.py, tools/capture_stage13_live.py, tools/stage13_art_qa.py.
+- 신규검증16: artifacts/stage13_d4b/ 아래 capture_manifest.json, native_direct3d11_qa.json,
+  normal.png, queen_reposition.png, queen_rays.png, mixed_warning.png, knight_peak.png,
+  queen_resolved.png, queen_second_origin.png, parry_window.png, parry_normal.png,
+  parry_perfect.png, parry_evaded.png, player_attack.png, upgrade.png, game_over.png.
+
+초기normal과48틱queen_reposition은 첫 보간 시점이라 픽셀은 동일하지만 실제 원점/상태 스냅샷은 다르다.
+이후queen_rays는 새 원장의 경고를 표시한다. 기존66장/Queen 정적6장/모든승인이미지는 교체하지 않았다.
+시작 시점 전체 추적파일 SHA256과 대조하여 위7개 외 변경 없음을 확인했다. 인덱스는 비어 있다.
+[실행 명령·18항목 GUI 검수표·기술 계약](TASK5D_CHAPTER3_PLAN.md)을 따른다.
+D4B는 사용자 Windows **실전** 승인 대기/미스테이징/미커밋/미Push다.
+정적 디자인10/10은 승인 상태이나 동적 망토/HP·경고 가림과 가독성을 최종 승인한 것은 아니다.
+Stage14~15 신규아트·Chapter3 종합QA·FPS/P95/P99·장시간RAM/VRAM·전체 인간캠페인·배포/라이선스는 미완료다.
+Chapter4/5 `ART-BOARD-CH4-CH5-FRONT-OVERLAP`은 OPEN이다.
+
 ## Task 5-D4AF — Ice Queen 정적 디자인 사용자10/10 최종 승인
 
 사용자가 Windows 디자인 검수10/10 전부 통과를 보고했다. 왕관/망토/홀·기존빙설기물 일관성·전후방가독성·

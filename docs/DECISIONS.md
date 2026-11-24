@@ -1,5 +1,17 @@
 # CHECKMATE 승인 결정
 
+## Task 5-D4AF / D4B — Queen 디자인 확정과 Stage13 실제 표시 분리
+
+사용자 Windows 정적 디자인10/10 승인 후 D4AF18파일을 `2cde6e8e9f505011b4c6ac2c4329a04bf02ea266`로
+커밋·main 일반Push했다. 원격SHA/파일/Clean 확인 후에만 D4B를 시작했다. 원화/준비본·정적 크기/HP/발·검수6PNG는 동결한다.
+Stage13은 exact `CHECKMATE_STAGE13_ART=1`/Stage13 조건의 독립 opt-in이다. 기존8스위치/5~12 출력과 나머지16스테이지는 보존한다.
+공통 Stage7 draw/지상pose와 Stage12 이전 경로를 재사용하고 main import 한 줄만 교체한다.
+기존 Queen8광선/재배치·원점제외·피해·패링·HP/강화·시간과 AI는 변경하지 않는다.
+초기31칸은 정적 참고일 뿐, 실전은 재배치 후 실제 원장의 새위치/target_cells를 표시한다.
+개발 진입은 실제11/12 자동클리어와 정상HP/공격강화의 Receipt2이며 인간클리어/합성Receipt가 아니다.
+D4B의 자동/숨김SDL 통과는 인간 실전GUI 승인이 아니며 구현은 미스테이징/미커밋/미Push로 보존한다.
+Stage14/15 신규아트·실측성능/메모리·전체 인간캠페인·배포/라이선스와 Chapter4/5 접합 OPEN은 별도다.
+
 ## Task 5-D3BF — Stage12 실전 사용자20/20 승인과 독립 최종화
 
 사용자가 Windows 실전GUI20/20(시각5/전투판정8/진행안정7) 통과를 보고했다.
