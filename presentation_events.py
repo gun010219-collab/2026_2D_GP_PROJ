@@ -13,7 +13,7 @@ if TYPE_CHECKING:
 
 EventKind = Literal['telegraph', 'attack_start', 'hit', 'hurt', 'parry_normal',
                     'parry_perfect', 'parry_failed', 'stun', 'death', 'stage_transition',
-                    'attack_move', 'rook_blocked']
+                    'attack_move', 'rook_blocked', 'move']
 
 
 @dataclass(frozen=True)
@@ -22,7 +22,7 @@ class PresentationEvent:
     cause_key: tuple  # Begins with combat_session_id and stage_instance_id.
     tick: int
     subject: str | None
-    payload: AttackEvent | EnemyAttackEvent | DamageResult | ParryResult | tuple[int, int]
+    payload: AttackEvent | EnemyAttackEvent | DamageResult | ParryResult | tuple[int, int] | None
 
     origin: tuple[int, int] | None = None
     destination: tuple[int, int] | None = None

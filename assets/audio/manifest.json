@@ -1,0 +1,989 @@
+{
+  "creator": "CHECKMATE project / Codex",
+  "source": "tools/make_game_audio.py",
+  "rights": "Original project-generated synthesis, no third-party samples or compositions. May be used and redistributed with the CHECKMATE game and exhibition builds.",
+  "changes": "Synthesized, dry-mixed and peak-normalized from original note and SFX recipes.",
+  "seed": 510925,
+  "files": [
+    {
+      "file": "sfx/bishop_cast.wav",
+      "duration_s": 0.58,
+      "format": "WAV PCM16 mono 22050 Hz",
+      "sha256": "2eccbfcd11ad1efeacdb6d544cc8e343db6300319c28e035c258e646b633c884",
+      "peak_dbfs": -6.02,
+      "parameters": [
+        0.58,
+        [
+          521,
+          783,
+          1241,
+          1568
+        ],
+        0.33,
+        147,
+        3
+      ]
+    },
+    {
+      "file": "sfx/bishop_charge.wav",
+      "duration_s": 0.48,
+      "format": "WAV PCM16 mono 22050 Hz",
+      "sha256": "0be5b464060ff19754bb2d290934c042dcb8d95ce8571a9bfc5fe89a304b79a6",
+      "peak_dbfs": -6.02,
+      "parameters": [
+        0.48,
+        [
+          350,
+          523,
+          784
+        ],
+        0.16,
+        118,
+        2
+      ]
+    },
+    {
+      "file": "sfx/boss_clear.wav",
+      "duration_s": 1.149977,
+      "format": "WAV PCM16 mono 22050 Hz",
+      "sha256": "3c6b348e54c5bb51aa08dfdd5a8a237e0060643cd67e4ecbcd35d77eb33ef2d6",
+      "peak_dbfs": -3.48,
+      "parameters": [
+        1.15,
+        [
+          392,
+          523,
+          659,
+          784
+        ],
+        0.1,
+        65,
+        4
+      ]
+    },
+    {
+      "file": "sfx/boss_death.wav",
+      "duration_s": 1.230023,
+      "format": "WAV PCM16 mono 22050 Hz",
+      "sha256": "f00d7802191d16dff8e078629c3e80d7694b8ebe91d2d023940ed7c18881d2de",
+      "peak_dbfs": -3.48,
+      "parameters": [
+        1.23,
+        [
+          89,
+          177,
+          318,
+          490
+        ],
+        0.76,
+        29,
+        4
+      ]
+    },
+    {
+      "file": "sfx/chapter_enter.wav",
+      "duration_s": 0.790023,
+      "format": "WAV PCM16 mono 22050 Hz",
+      "sha256": "111f09de9976b2c749591b59e58df5cb1568b5e988b12da04e5f358d9211f67d",
+      "peak_dbfs": -6.02,
+      "parameters": [
+        0.79,
+        [
+          392,
+          587,
+          740,
+          880
+        ],
+        0.08,
+        110,
+        4
+      ]
+    },
+    {
+      "file": "sfx/enemy_death.wav",
+      "duration_s": 0.48,
+      "format": "WAV PCM16 mono 22050 Hz",
+      "sha256": "15ed721891e2cef33b5a62466613b338c6ecbb134f41c769897bd63a52e0a177",
+      "peak_dbfs": -6.02,
+      "parameters": [
+        0.48,
+        [
+          226,
+          356,
+          618
+        ],
+        0.48,
+        63,
+        2
+      ]
+    },
+    {
+      "file": "sfx/game_over.wav",
+      "duration_s": 0.950023,
+      "format": "WAV PCM16 mono 22050 Hz",
+      "sha256": "53200522816de2daf5a2b8d77e890913f82d609b4f81572afd51712e2c6301c4",
+      "peak_dbfs": -3.48,
+      "parameters": [
+        0.95,
+        [
+          440,
+          349,
+          233,
+          147
+        ],
+        0.14,
+        54,
+        4
+      ]
+    },
+    {
+      "file": "sfx/king_charge.wav",
+      "duration_s": 0.84,
+      "format": "WAV PCM16 mono 22050 Hz",
+      "sha256": "05b97e78e3aa1e41d67865329aa99391a80209d2a8f92f91523024c9fc5189e6",
+      "peak_dbfs": -3.48,
+      "parameters": [
+        0.84,
+        [
+          137,
+          208,
+          415,
+          828
+        ],
+        0.24,
+        40,
+        3
+      ]
+    },
+    {
+      "file": "sfx/king_melee_charge.wav",
+      "duration_s": 0.36,
+      "format": "WAV PCM16 mono 22050 Hz",
+      "sha256": "4897ba7892b263b71f11ef9bb7c05a8e6d8100b9d7d600afb6dee66a18954c86",
+      "peak_dbfs": -9.37,
+      "parameters": [
+        0.36,
+        [
+          128,
+          201,
+          434
+        ],
+        0.49,
+        54,
+        2
+      ]
+    },
+    {
+      "file": "sfx/king_move.wav",
+      "duration_s": 0.3,
+      "format": "WAV PCM16 mono 22050 Hz",
+      "sha256": "d6fae430b8e3ab886b139e4fde127794e918662b9114291a5ef59c0ff74fe6e1",
+      "peak_dbfs": -9.37,
+      "parameters": [
+        0.3,
+        [
+          86,
+          133,
+          281
+        ],
+        0.59,
+        39,
+        2
+      ]
+    },
+    {
+      "file": "sfx/king_pulse.wav",
+      "duration_s": 0.849977,
+      "format": "WAV PCM16 mono 22050 Hz",
+      "sha256": "bf67387f5751bb8d43e99cff8670d2a82268b56143aecfb7f7395f05f5e4fc6f",
+      "peak_dbfs": -3.48,
+      "parameters": [
+        0.85,
+        [
+          92,
+          139,
+          221,
+          376
+        ],
+        0.61,
+        32,
+        2
+      ]
+    },
+    {
+      "file": "sfx/king_strike.wav",
+      "duration_s": 0.409977,
+      "format": "WAV PCM16 mono 22050 Hz",
+      "sha256": "bce476a5c71dc8730ce632aeea0f76a8d8c84c1b4fed6062993574d603b56ce4",
+      "peak_dbfs": -6.02,
+      "parameters": [
+        0.41,
+        [
+          171,
+          245,
+          397
+        ],
+        0.88,
+        36,
+        2
+      ]
+    },
+    {
+      "file": "sfx/knight_charge.wav",
+      "duration_s": 0.185986,
+      "format": "WAV PCM16 mono 22050 Hz",
+      "sha256": "439c7c9070b6655a29fbf43175174bdb711f45153f885e0547b0aa44dde69a8e",
+      "peak_dbfs": -9.37,
+      "parameters": [
+        0.186,
+        [
+          390,
+          568
+        ],
+        0.52,
+        133,
+        1
+      ]
+    },
+    {
+      "file": "sfx/knight_land.wav",
+      "duration_s": 0.289977,
+      "format": "WAV PCM16 mono 22050 Hz",
+      "sha256": "1dae45829b230d6df496420b9be4398318d6137e9431723c84edf1a31121f72f",
+      "peak_dbfs": -6.02,
+      "parameters": [
+        0.29,
+        [
+          174,
+          327,
+          561
+        ],
+        0.69,
+        65,
+        2
+      ]
+    },
+    {
+      "file": "sfx/knight_strike.wav",
+      "duration_s": 0.24,
+      "format": "WAV PCM16 mono 22050 Hz",
+      "sha256": "1241bd70e9436e0256502f6c4689f054b31e8de51072dd1a2c86103d2f93419c",
+      "peak_dbfs": -6.02,
+      "parameters": [
+        0.24,
+        [
+          380,
+          693,
+          1080
+        ],
+        0.74,
+        82,
+        2
+      ]
+    },
+    {
+      "file": "sfx/parry_failed.wav",
+      "duration_s": 0.230023,
+      "format": "WAV PCM16 mono 22050 Hz",
+      "sha256": "af9b65e560db9baa3e9048ee061e7939dffc742b6b9967174e572a5125674e6e",
+      "peak_dbfs": -6.02,
+      "parameters": [
+        0.23,
+        [
+          493,
+          319,
+          178
+        ],
+        0.19,
+        0,
+        1
+      ]
+    },
+    {
+      "file": "sfx/parry_normal.wav",
+      "duration_s": 0.289977,
+      "format": "WAV PCM16 mono 22050 Hz",
+      "sha256": "0c2edbe7132fff25977527656d9649cf4564e9e293339ab8e152a49199e6c54a",
+      "peak_dbfs": -3.48,
+      "parameters": [
+        0.29,
+        [
+          1567,
+          2231,
+          3658
+        ],
+        0.27,
+        210,
+        1
+      ]
+    },
+    {
+      "file": "sfx/parry_perfect.wav",
+      "duration_s": 0.72,
+      "format": "WAV PCM16 mono 22050 Hz",
+      "sha256": "59ba9bf2bbd7687bf7ddba86decec2d4f1db1fc84785ff797d20d89b3379aa4d",
+      "peak_dbfs": -3.48,
+      "parameters": [
+        0.72,
+        [
+          1047,
+          1568,
+          2093,
+          3143
+        ],
+        0.34,
+        53,
+        2
+      ]
+    },
+    {
+      "file": "sfx/pawn_charge.wav",
+      "duration_s": 0.15102,
+      "format": "WAV PCM16 mono 22050 Hz",
+      "sha256": "fc268effffd0678a846a97f3a51eb6b45956bc87dc6804876326ddaa7e6cafd7",
+      "peak_dbfs": -9.37,
+      "parameters": [
+        0.151,
+        [
+          722,
+          941
+        ],
+        0.37,
+        154,
+        1
+      ]
+    },
+    {
+      "file": "sfx/pawn_thrust.wav",
+      "duration_s": 0.172018,
+      "format": "WAV PCM16 mono 22050 Hz",
+      "sha256": "83020eb60c5e1c181524f3d3afb80f22036c5610b0e29611706a64df7caeae1e",
+      "peak_dbfs": -6.02,
+      "parameters": [
+        0.172,
+        [
+          910,
+          457,
+          1380
+        ],
+        0.69,
+        129,
+        1
+      ]
+    },
+    {
+      "file": "sfx/player_death.wav",
+      "duration_s": 0.769977,
+      "format": "WAV PCM16 mono 22050 Hz",
+      "sha256": "f813bb872c99c703f1fea50702939f7fc39b12f0812da971f6935fa38ca3e74d",
+      "peak_dbfs": -3.48,
+      "parameters": [
+        0.77,
+        [
+          418,
+          282,
+          167
+        ],
+        0.36,
+        48,
+        3
+      ]
+    },
+    {
+      "file": "sfx/player_hit.wav",
+      "duration_s": 0.230023,
+      "format": "WAV PCM16 mono 22050 Hz",
+      "sha256": "606845418ba8cf9589433c50277f303078b11ef185e12ca32e08db5b0cab1262",
+      "peak_dbfs": -3.48,
+      "parameters": [
+        0.23,
+        [
+          1317,
+          2136,
+          3341
+        ],
+        0.63,
+        91,
+        1
+      ]
+    },
+    {
+      "file": "sfx/player_hurt.wav",
+      "duration_s": 0.310023,
+      "format": "WAV PCM16 mono 22050 Hz",
+      "sha256": "778bc79d1af9618b536ff11534e8b0fdb6b18501e0b74f9f10ca908a5721b79d",
+      "peak_dbfs": -3.48,
+      "parameters": [
+        0.31,
+        [
+          315,
+          192,
+          607
+        ],
+        0.68,
+        61,
+        1
+      ]
+    },
+    {
+      "file": "sfx/player_move.wav",
+      "duration_s": 0.116009,
+      "format": "WAV PCM16 mono 22050 Hz",
+      "sha256": "0e5b24724f857daa23910edd231eedda335bbc1b9bc6655f09d6c79dc353b6b5",
+      "peak_dbfs": -9.37,
+      "parameters": [
+        0.116,
+        [
+          595,
+          270
+        ],
+        0.54,
+        102,
+        2
+      ]
+    },
+    {
+      "file": "sfx/player_swing.wav",
+      "duration_s": 0.207982,
+      "format": "WAV PCM16 mono 22050 Hz",
+      "sha256": "4c68b229d4afc03c617b0386eeec2b2c5deedda9eaa5f5c02c0a207f6a49feb7",
+      "peak_dbfs": -6.02,
+      "parameters": [
+        0.208,
+        [
+          1110,
+          655,
+          303
+        ],
+        0.96,
+        122,
+        1
+      ]
+    },
+    {
+      "file": "sfx/queen_charge.wav",
+      "duration_s": 0.649977,
+      "format": "WAV PCM16 mono 22050 Hz",
+      "sha256": "49288fdfd583f1ca0a38364139eb1b3a55e97703fcb9e84ed3967e120dcaccc2",
+      "peak_dbfs": -6.02,
+      "parameters": [
+        0.65,
+        [
+          277,
+          555,
+          830,
+          1109
+        ],
+        0.11,
+        121,
+        3
+      ]
+    },
+    {
+      "file": "sfx/queen_fire.wav",
+      "duration_s": 0.510023,
+      "format": "WAV PCM16 mono 22050 Hz",
+      "sha256": "8120f3e46ac6e624e242d6e445630304c62f19f594d473a87604b0861e4f23ba",
+      "peak_dbfs": -6.02,
+      "parameters": [
+        0.51,
+        [
+          880,
+          1761,
+          2303
+        ],
+        0.78,
+        96,
+        1
+      ]
+    },
+    {
+      "file": "sfx/restart.wav",
+      "duration_s": 0.369977,
+      "format": "WAV PCM16 mono 22050 Hz",
+      "sha256": "5f50ed0b62aa69e147ba4767b7dba62f2f2133aa86bd159ddf54e8c3a0be97a3",
+      "peak_dbfs": -6.02,
+      "parameters": [
+        0.37,
+        [
+          277,
+          415,
+          554
+        ],
+        0.1,
+        88,
+        3
+      ]
+    },
+    {
+      "file": "sfx/rook_charge.wav",
+      "duration_s": 0.42,
+      "format": "WAV PCM16 mono 22050 Hz",
+      "sha256": "a7b243a8cd3e81a68837f2c7136b0df6cc9480a139ffce9b43825af89f7a1296",
+      "peak_dbfs": -6.02,
+      "parameters": [
+        0.42,
+        [
+          152,
+          227,
+          287
+        ],
+        0.66,
+        72,
+        2
+      ]
+    },
+    {
+      "file": "sfx/rook_impact.wav",
+      "duration_s": 0.36,
+      "format": "WAV PCM16 mono 22050 Hz",
+      "sha256": "2a1faebd062d97f1c11c77bd9efcfdfbe7ba88c17e140c27791b364be6ec4fcf",
+      "peak_dbfs": -6.02,
+      "parameters": [
+        0.36,
+        [
+          213,
+          126,
+          332
+        ],
+        0.7,
+        41,
+        1
+      ]
+    },
+    {
+      "file": "sfx/rook_move.wav",
+      "duration_s": 0.22,
+      "format": "WAV PCM16 mono 22050 Hz",
+      "sha256": "a74b0e139b8a62dd99073e83e9448551090fb8508f64dccaf19858236beb37ed",
+      "peak_dbfs": -9.37,
+      "parameters": [
+        0.22,
+        [
+          109,
+          198,
+          351
+        ],
+        0.55,
+        52,
+        1
+      ]
+    },
+    {
+      "file": "sfx/rook_strike.wav",
+      "duration_s": 0.24,
+      "format": "WAV PCM16 mono 22050 Hz",
+      "sha256": "d149555d2a69b829cd80051b06f73d7e5621300d2eccc4378e9b8f10465a8a1c",
+      "peak_dbfs": -6.02,
+      "parameters": [
+        0.24,
+        [
+          202,
+          329,
+          404
+        ],
+        0.86,
+        65,
+        1
+      ]
+    },
+    {
+      "file": "sfx/stage_clear.wav",
+      "duration_s": 0.670023,
+      "format": "WAV PCM16 mono 22050 Hz",
+      "sha256": "fd998a7dd4b788d3fde31495023e2d3c74d73fbf6614074c3b3778595d135af5",
+      "peak_dbfs": -6.02,
+      "parameters": [
+        0.67,
+        [
+          523,
+          659,
+          784,
+          1047
+        ],
+        0.05,
+        131,
+        4
+      ]
+    },
+    {
+      "file": "sfx/ui_select.wav",
+      "duration_s": 0.105986,
+      "format": "WAV PCM16 mono 22050 Hz",
+      "sha256": "d23b85ccd8c8120338350df8b3ab151921a5027f12071370780154a53f3c8886",
+      "peak_dbfs": -9.37,
+      "parameters": [
+        0.106,
+        [
+          830,
+          1245
+        ],
+        0.04,
+        0,
+        1
+      ]
+    },
+    {
+      "file": "sfx/upgrade_select.wav",
+      "duration_s": 0.390023,
+      "format": "WAV PCM16 mono 22050 Hz",
+      "sha256": "6c45d5cb28edc95cc45fe664415322745918897d4c3780c54f46a6a3653ca8c7",
+      "peak_dbfs": -6.02,
+      "parameters": [
+        0.39,
+        [
+          523,
+          659,
+          784
+        ],
+        0.07,
+        131,
+        3
+      ]
+    },
+    {
+      "file": "bgm/menu.wav",
+      "duration_s": 46.829252,
+      "format": "WAV PCM16 mono 22050 Hz",
+      "sha256": "5a5c40a4a06023ea9b445b19bd976fa8789a5693c47880141761f84c1028198a",
+      "peak_dbfs": -5.04,
+      "parameters": [
+        82,
+        [
+          0,
+          2,
+          3,
+          5,
+          7,
+          9,
+          10
+        ],
+        57,
+        [
+          0,
+          5,
+          2,
+          4,
+          0,
+          3,
+          5,
+          4
+        ],
+        [
+          0,
+          4,
+          6,
+          3,
+          2,
+          4,
+          1,
+          0
+        ],
+        "bell",
+        "strings",
+        "soft"
+      ]
+    },
+    {
+      "file": "bgm/royal.wav",
+      "duration_s": 35.887846,
+      "format": "WAV PCM16 mono 22050 Hz",
+      "sha256": "30ef57a77e572f5fb55c90a9833765a6b7e22b7abbde92666516dc598141c0f1",
+      "peak_dbfs": -5.04,
+      "parameters": [
+        107,
+        [
+          0,
+          2,
+          4,
+          5,
+          7,
+          9,
+          11
+        ],
+        55,
+        [
+          0,
+          3,
+          5,
+          4,
+          0,
+          1,
+          3,
+          4
+        ],
+        [
+          0,
+          2,
+          4,
+          7,
+          6,
+          4,
+          3,
+          2
+        ],
+        "brass",
+        "strings",
+        "march"
+      ]
+    },
+    {
+      "file": "bgm/forest.wav",
+      "duration_s": 40.0,
+      "format": "WAV PCM16 mono 22050 Hz",
+      "sha256": "deaee38f0942b136df16d86d19a642dc35aeb491b89efe0edd541e9df612c5bb",
+      "peak_dbfs": -5.04,
+      "parameters": [
+        96,
+        [
+          0,
+          2,
+          3,
+          5,
+          7,
+          9,
+          10
+        ],
+        62,
+        [
+          0,
+          1,
+          5,
+          3,
+          0,
+          6,
+          3,
+          4
+        ],
+        [
+          4,
+          2,
+          0,
+          1,
+          3,
+          4,
+          6,
+          5
+        ],
+        "wood",
+        "pluck",
+        "soft"
+      ]
+    },
+    {
+      "file": "bgm/frozen.wav",
+      "duration_s": 43.636372,
+      "format": "WAV PCM16 mono 22050 Hz",
+      "sha256": "0873749ba9612ae2012db44db67975924f49d39a03c0c41e11a4e49d37706e62",
+      "peak_dbfs": -5.04,
+      "parameters": [
+        88,
+        [
+          0,
+          2,
+          3,
+          5,
+          7,
+          8,
+          11
+        ],
+        60,
+        [
+          0,
+          5,
+          2,
+          4,
+          0,
+          3,
+          1,
+          4
+        ],
+        [
+          0,
+          6,
+          5,
+          2,
+          4,
+          1,
+          0,
+          2
+        ],
+        "bell",
+        "bow",
+        "glass"
+      ]
+    },
+    {
+      "file": "bgm/caldera.wav",
+      "duration_s": 31.219501,
+      "format": "WAV PCM16 mono 22050 Hz",
+      "sha256": "ee0de744df533453dfb34e7d8355f64c1963ee68448e3fa364375de3e18e99d5",
+      "peak_dbfs": -5.04,
+      "parameters": [
+        123,
+        [
+          0,
+          1,
+          3,
+          5,
+          7,
+          8,
+          10
+        ],
+        52,
+        [
+          0,
+          1,
+          0,
+          4,
+          0,
+          5,
+          1,
+          6
+        ],
+        [
+          0,
+          1,
+          4,
+          3,
+          0,
+          6,
+          5,
+          4
+        ],
+        "brass",
+        "reed",
+        "heavy"
+      ]
+    },
+    {
+      "file": "bgm/gothic.wav",
+      "duration_s": 38.019819,
+      "format": "WAV PCM16 mono 22050 Hz",
+      "sha256": "ea69f5c61a55a333b33a554363cf999790e12ea36afae94dd218aa123aa04725",
+      "peak_dbfs": -5.04,
+      "parameters": [
+        101,
+        [
+          0,
+          2,
+          3,
+          5,
+          7,
+          8,
+          11
+        ],
+        55,
+        [
+          0,
+          5,
+          3,
+          4,
+          1,
+          5,
+          0,
+          4
+        ],
+        [
+          4,
+          3,
+          6,
+          7,
+          5,
+          4,
+          2,
+          1
+        ],
+        "organ",
+        "bow",
+        "march"
+      ]
+    },
+    {
+      "file": "bgm/boss.wav",
+      "duration_s": 25.945941,
+      "format": "WAV PCM16 mono 22050 Hz",
+      "sha256": "6d9c7aed260f7a8bd8439f3871086fb6a2c0ab19d5ec8a813f9f56b319c72ade",
+      "peak_dbfs": -5.04,
+      "parameters": [
+        148,
+        [
+          0,
+          1,
+          3,
+          5,
+          6,
+          8,
+          11
+        ],
+        51,
+        [
+          0,
+          1,
+          0,
+          5,
+          3,
+          1,
+          6,
+          4
+        ],
+        [
+          0,
+          4,
+          1,
+          6,
+          3,
+          7,
+          5,
+          4
+        ],
+        "brass",
+        "organ",
+        "heavy"
+      ]
+    },
+    {
+      "file": "bgm/ending.wav",
+      "duration_s": 50.526304,
+      "format": "WAV PCM16 mono 22050 Hz",
+      "sha256": "4a9fcc2673fdd36bdc23a1ce03270b76ec61aab66bb95b7aa6601bde744c97d3",
+      "peak_dbfs": -5.04,
+      "parameters": [
+        76,
+        [
+          0,
+          2,
+          4,
+          5,
+          7,
+          9,
+          11
+        ],
+        57,
+        [
+          0,
+          4,
+          5,
+          3,
+          2,
+          5,
+          3,
+          4
+        ],
+        [
+          2,
+          4,
+          7,
+          6,
+          4,
+          3,
+          2,
+          0
+        ],
+        "wood",
+        "strings",
+        "glass"
+      ]
+    }
+  ]
+}

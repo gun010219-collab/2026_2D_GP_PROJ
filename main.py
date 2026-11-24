@@ -109,6 +109,7 @@ def run_session(game, flow, *, game_renderer=None, default_art=False):
     canvas.open_canvas(WINDOW_WIDTH, WINDOW_HEIGHT)
     settings_renderer = None
     art_path = None
+    audio = None
     try:
         if not canvas.window or not canvas.renderer:
             raise RuntimeError('Pico2D could not create a window and renderer')
@@ -132,7 +133,14 @@ def run_session(game, flow, *, game_renderer=None, default_art=False):
         if vfx_enabled:
             from combat_vfx import CombatVFX
             vfx = CombatVFX()
-        presentation = flow.enable_presentation() if animation or vfx else None
+        audio_flag = os.environ.get('CHECKMATE_AUDIO')
+        audio_enabled = default_art if audio_flag is None else audio_flag == '1'
+        if audio_enabled:
+            from game_audio import AudioManager, MixerAudio
+            backend = MixerAudio.open(canvas)
+            if backend is not None:
+                audio = AudioManager(backend,menu.audio)
+        presentation = flow.enable_presentation() if animation or vfx or audio else None
         art_path = LiveArenaArtPath(canvas, motion=motion, default_enabled=default_art, animation=animation, vfx=vfx)
         controls = GameplayInput(canvas, move_interval_ticks=flow.run.stats.move_interval_ticks)
         pending_gameplay = []
@@ -149,16 +157,26 @@ def run_session(game, flow, *, game_renderer=None, default_art=False):
             fresh_board = BoardRenderer(chapter=flow.run.chapter + 1)
             return fresh_controls, fresh_board
 
+        def gameplay_key(event, blocked):
+            origin = player.position
+            handled = controls.handle_key(event,player,combat,blocked=blocked,
+                                          parry=parry,occupied=encounter.occupied_cells,
+                                          on_attack=resolver.resolve_player_attack,
+                                          on_parry=resolver.register_parry)
+            if audio and origin != player.position:
+                key = (combat.combat_session_id,combat.stage_instance_id,
+                       player.entity_instance_id,'move',combat.tick)
+                presentation.record('move',key,combat.tick,player.entity_instance_id,None,
+                                    origin=origin,destination=player.position)
+            return handled
+
         def flush_gameplay(blocked=False):
             # Keep both down/up transitions in order, including quick taps
             # between ticks. Blocked draining updates latches without actions.
             queued = tuple(pending_gameplay)
             pending_gameplay.clear()
             for event in queued:
-                controls.handle_key(event, player, combat, blocked=blocked, parry=parry,
-                                    occupied=encounter.occupied_cells,
-                                    on_attack=resolver.resolve_player_attack,
-                                    on_parry=resolver.register_parry)
+                gameplay_key(event,blocked)
 
         previously_focused = controls.focused
         previous_frame = perf_counter()
@@ -170,6 +188,7 @@ def run_session(game, flow, *, game_renderer=None, default_art=False):
         running = True
         while running:
             frame_start = perf_counter()
+            audio_ui = []
             visual_elapsed = max(0.0, frame_start - previous_frame)
             tick_before = combat.tick
             session_before = combat.combat_session_id
@@ -247,8 +266,10 @@ def run_session(game, flow, *, game_renderer=None, default_art=False):
                     encounter, resolver = game.encounter, game.resolver
                     if event.key == ord('n'):
                         controls.next_held = True
+                        audio_ui.append('chapter_enter')
                     else:
                         controls.restart_held = True
+                        audio_ui.append('restart')
                     clock.reset()
                     restarted_this_frame = True
                     continue
@@ -262,11 +283,7 @@ def run_session(game, flow, *, game_renderer=None, default_art=False):
                     pending_gameplay.append(event)
                     continue
                 # Gameplay releases survive modal, focus, and display transitions.
-                if controls.handle_key(event, player, combat,
-                                       blocked=blocked,
-                                       parry=parry, occupied=encounter.occupied_cells,
-                                       on_attack=resolver.resolve_player_attack,
-                                       on_parry=resolver.register_parry):
+                if gameplay_key(event,blocked):
                     continue
                 if display_changed or not focused:
                     selection.handle(event, canvas, blocked=True)
@@ -279,6 +296,8 @@ def run_session(game, flow, *, game_renderer=None, default_art=False):
                     action = menu.key(key)
                 elif event.type == canvas.SDL_MOUSEBUTTONDOWN and event.button == canvas.SDL_BUTTON_LEFT:
                     action = menu.click(logical_mouse_to_canvas(event.x, event.y))
+                if was_open != menu.is_open or action in ('audio_changed','toggle_fullscreen'):
+                    audio_ui.append('ui_select')
                 menu_changed = menu_changed or was_open != menu.is_open
                 if was_open != menu.is_open or action == 'toggle_fullscreen':
                     flush_gameplay(blocked=True)
@@ -305,6 +324,7 @@ def run_session(game, flow, *, game_renderer=None, default_art=False):
                         continue
                     flush_gameplay(blocked=True)
                     game, controls = fresh_game, fresh_controls
+                    audio_ui.append('upgrade_select')
                     player, combat, parry = game.player, game.combat, game.parry
                     encounter, resolver = game.encounter, game.resolver
                     clock.reset()
@@ -348,6 +368,9 @@ def run_session(game, flow, *, game_renderer=None, default_art=False):
                     animation.update(game, visual_elapsed, presentation_batch, paused=paused)
                 if vfx is not None:
                     vfx.update(game, visual_elapsed, presentation_batch, paused=paused, motion=motion)
+                if audio is not None:
+                    audio.update(game, visual_elapsed, presentation_batch, paused=paused,
+                                 motion=motion, ui=audio_ui)
             player_renderer.positions = enemy_renderer.positions = health_renderer.positions = motion.positions
             if measure_frames:
                 active_sample = (not (display_changed or menu_changed or focus_changed or restarted_this_frame
@@ -402,6 +425,8 @@ def run_session(game, flow, *, game_renderer=None, default_art=False):
         flow.run.retire()
         # Release resources on normal exit and exceptions after canvas creation.
         try:
+            if audio is not None:
+                audio.close()
             if art_path is not None:
                 art_path.close()
             if settings_renderer is not None:

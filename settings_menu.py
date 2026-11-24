@@ -2,6 +2,7 @@
 from dataclasses import dataclass
 
 from config import WINDOW_HEIGHT, WINDOW_WIDTH
+from game_audio import AudioSettings
 
 
 @dataclass(frozen=True)
@@ -21,15 +22,21 @@ class Rect:
 
 # The top-right control is anchored to the window, independently of board/HUD.
 SETTINGS_BUTTON = Rect(WINDOW_WIDTH - 240, WINDOW_HEIGHT - 62, 190, 40)
-PANEL = Rect((WINDOW_WIDTH - 600) // 2, (WINDOW_HEIGHT - 400) // 2, 600, 400)
-CLOSE_BUTTON = Rect(PANEL.left + 520, PANEL.bottom + 336, 48, 40)
+PANEL = Rect((WINDOW_WIDTH - 600) // 2, (WINDOW_HEIGHT - 400) // 2, 600, 528)
+CLOSE_BUTTON = Rect(PANEL.left + 520, PANEL.bottom + 458, 48, 40)
 FULLSCREEN_BUTTON = Rect(PANEL.left + 60, PANEL.bottom + 190, 480, 64)
 RETURN_BUTTON = Rect(PANEL.left + 60, PANEL.bottom + 70, 480, 64)
+
+
+AUDIO_ROWS = {name: (Rect(PANEL.left+180,y,44,40), Rect(PANEL.left+328,y,44,40),
+                     Rect(PANEL.left+390,y,150,40))
+              for name,y in (('bgm',PANEL.bottom+369),('sfx',PANEL.bottom+308))}
 
 
 class SettingsMenu:
     def __init__(self):
         self.is_open = False
+        self.audio = AudioSettings()
 
     def key(self, key):
         """Return an action. Callers must not forward consumed input to gameplay."""
@@ -48,11 +55,27 @@ class SettingsMenu:
                 self.is_open = False
             elif FULLSCREEN_BUTTON.contains(point):
                 return 'toggle_fullscreen'
+            elif self._change_audio(point):
+                return 'audio_changed'
             return 'consumed'
         if SETTINGS_BUTTON.contains(point):
             self.is_open = True
             return 'consumed'
         return 'gameplay'
+
+    def _change_audio(self, point):
+        for name, (minus, plus, mute) in AUDIO_ROWS.items():
+            if mute.contains(point):
+                attr = name + '_mute'
+                setattr(self.audio,attr,not getattr(self.audio,attr))
+                return True
+            delta = -5 if minus.contains(point) else 5 if plus.contains(point) else 0
+            value = getattr(self.audio,name)
+            adjusted = max(0,min(100,value+delta))
+            if adjusted != value:
+                setattr(self.audio,name,adjusted)
+                return True
+        return False
 
     def blocks_gameplay(self):
         return self.is_open

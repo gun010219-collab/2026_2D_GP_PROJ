@@ -1,5 +1,9 @@
 # CHECKMATE 에셋 출처
 
+## R5 자체 제작 음원
+
+CHECKMATE 프로젝트와 Codex가 자체 작곡·합성한 8개 BGM, 35개 SFX를 프로젝트 게임과 출품·배포본에 사용한다. 외부 샘플과 제3자 작곡은 사용하지 않았다. 파일별 제작 파라미터, 수정 내역, 포맷, 길이, SHA-256과 공통 권리 표기를 매니페스트에 기록했다. [음원 매니페스트](../assets/audio/manifest.json) · [생성기](../tools/make_game_audio.py)
+
 R4의 참격·광선·파편·피해 숫자는 자체 절차적 SDL 기하로 그린다. 배경과 기물은 기존 승인 PNG를 공유한다. 신규 검수 PNG는 실제 게임 세션에서 캡처했다. [캡처 목록과 해시](../artifacts/combat_vfx_r4/manifest.json)
 
 ## R2 용암·고딕 기물

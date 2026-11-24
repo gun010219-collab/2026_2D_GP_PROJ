@@ -199,7 +199,7 @@ class EnemyEncounter:
                     enemy.state = 'telegraph'
                     enemy.next_action_tick = enemy.current_attack.hit_tick
                 else:
-                    enemy.col, enemy.row = self._choose_move(enemy, player_cell)
+                    self._move_for_presentation(enemy, self._choose_move(enemy, player_cell), now)
                     enemy.state = 'waiting'
                     enemy.next_action_tick = now + self.move_ticks
             # All AI moves for this tick precede damage. A later JSON entry can
@@ -216,10 +216,19 @@ class EnemyEncounter:
     def is_pulse(self, event):
         return self.pulse is not None and self.pulse.owns(event)
 
+    def _move_for_presentation(self, enemy, destination, tick):
+        origin = enemy.position
+        enemy.col, enemy.row = destination
+        if origin != destination and self.ledger.presentation is not None:
+            key = (self.ledger.combat_session_id, self.ledger.stage_instance_id,
+                   enemy.entity_instance_id, 'move', tick)
+            self.ledger.presentation.record('move', key, tick, enemy.entity_instance_id,
+                                            None, origin=origin, destination=destination)
+
     def _begin_queen_action(self, enemy, player_cell, tick):
         occupied = self.occupied_cells - {enemy.position}
         if self.queen_steps[enemy.entity_instance_id] == 'reposition':
-            enemy.col, enemy.row = choose_reposition(enemy.position, player_cell, occupied)
+            self._move_for_presentation(enemy, choose_reposition(enemy.position, player_cell, occupied), tick)
             self.queen_steps[enemy.entity_instance_id] = 'diagonal_attack'
             enemy.state = 'waiting'
             enemy.next_action_tick = tick + 1
@@ -245,8 +254,8 @@ class EnemyEncounter:
             enemy.state = 'telegraph'
             enemy.next_action_tick = enemy.current_attack.hit_tick
         else:
-            enemy.col, enemy.row = choose_king_move(
-                enemy.position, player_cell, self.occupied_cells - {enemy.position})
+            self._move_for_presentation(enemy, choose_king_move(
+                enemy.position, player_cell, self.occupied_cells - {enemy.position}), tick)
             enemy.state = 'waiting'
             enemy.next_action_tick = tick + self.king_move_ticks
 
@@ -260,7 +269,7 @@ class EnemyEncounter:
             enemy.state = 'telegraph'
             enemy.next_action_tick = enemy.current_attack.hit_tick
         else:
-            enemy.col, enemy.row = choose_move(enemy.position, player_cell, occupied)
+            self._move_for_presentation(enemy, choose_move(enemy.position, player_cell, occupied), tick)
             enemy.state = 'waiting'
             enemy.next_action_tick = tick + self.rook_move_ticks
 

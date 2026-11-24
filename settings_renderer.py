@@ -4,7 +4,8 @@ import os
 from pathlib import Path
 
 from config import WINDOW_HEIGHT, WINDOW_WIDTH
-from settings_menu import SETTINGS_BUTTON, PANEL, CLOSE_BUTTON, FULLSCREEN_BUTTON, RETURN_BUTTON
+from settings_menu import SETTINGS_BUTTON, PANEL, CLOSE_BUTTON, FULLSCREEN_BUTTON, RETURN_BUTTON, AUDIO_ROWS
+from health_renderer import HealthRenderer
 
 
 class SettingsRenderer:
@@ -16,7 +17,8 @@ class SettingsRenderer:
         font = canvas.load_font(str(font_path), 24)
         try:
             for text in ('SETTINGS', 'X', 'FULLSCREEN: ON', 'FULLSCREEN: OFF',
-                         'RETURN TO GAME', 'F11 - TOGGLE DISPLAY', 'DISPLAY SWITCH FAILED'):
+                         'RETURN TO GAME', 'F11 - TOGGLE DISPLAY', 'DISPLAY SWITCH FAILED',
+                         'BGM', 'SFX', '+', '-', 'MUTE: ON', 'MUTE: OFF'):
                 self._cache_text(font, text)
         except Exception:
             self.close()
@@ -71,7 +73,19 @@ class SettingsRenderer:
             c.SDL_SetRenderDrawBlendMode(c.renderer, old_mode.value)
         self._rect(PANEL, (174, 139, 73))
         self._rect(Rect(PANEL.left + 3, PANEL.bottom + 3, PANEL.width - 6, PANEL.height - 6), (17, 18, 25))
-        self._label('SETTINGS', WINDOW_WIDTH / 2, PANEL.bottom + 345)
+        self._label('SETTINGS', WINDOW_WIDTH / 2, PANEL.bottom + 478)
+        for name, (minus, plus, mute) in AUDIO_ROWS.items():
+            y = minus.bottom + minus.height / 2
+            self._label(name.upper(),PANEL.left+95,y)
+            self._button(minus,'-')
+            self._button(plus,'+')
+            self._button(mute,'MUTE: ON' if getattr(menu.audio,name+'_mute') else 'MUTE: OFF')
+            value = str(getattr(menu.audio,name))
+            HealthRenderer._text(c,value,PANEL.left+268-len(value)*4,y-5,color=(223,194,130))
+            x = PANEL.left+285
+            c.draw_line(x,y-4,x+7,y+5,223,194,130)
+            c.draw_rectangle(x,y+3,x+2,y+5,223,194,130,filled=True)
+            c.draw_rectangle(x+5,y-4,x+7,y-2,223,194,130,filled=True)
         self._button(CLOSE_BUTTON, 'X')
         self._button(FULLSCREEN_BUTTON, 'FULLSCREEN: ON' if display.fullscreen else 'FULLSCREEN: OFF')
         self._button(RETURN_BUTTON, 'RETURN TO GAME')

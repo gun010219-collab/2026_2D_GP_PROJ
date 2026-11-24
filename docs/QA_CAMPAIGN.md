@@ -2,6 +2,8 @@
 
 ## R7 인간 Windows 캠페인에 이관된 검수
 
+- [ ] Windows의 실제 출력 장치에서 전투 SFX 동기화, 일반·퍼펙트 패링의 청취 차이, BGM 루프·음량·음소거 및 밀집 장면의 믹스를 평가한다. [R5 청취 검수표](TASK5R5_AUDIO.md)
+
 - [ ] `PERF-R4-STAGE25-PULSE`를 동일 장면의 숨김 표본과 Windows 실기에서 재측정한다. R4 P95 5.981ms/P99 6.162ms이며 목표 예산은 5.56ms다. [결함 기록](BUGS.md#perf-r4-stage25-pulse--open)
 
 - [ ] R3F 고유 Idle·피격·사망 자연스러움과 R4 패링 등급, Queen·Bishop 혼합 가독성, 실제 Pulse 프레임 시간과 장시간 메모리를 검수한다. [R4 실전 장면 및 실행](TASK5R4_COMBAT_VFX.md)

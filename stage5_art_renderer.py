@@ -183,7 +183,10 @@ class Stage5ArtRenderer:
                 dead_ids.add(dead.entity_instance_id)
         def cell(e):
             return self.pose(e,positions)
-        actors.sort(key=lambda e:(-cell(e)[1],cell(e)[0],e.entity_instance_id))
+        # A live actor can enter a corpse's cell. Keep the captured death pose
+        # in front on that exact tie instead of letting random UUIDs set order.
+        actors.sort(key=lambda e:(-cell(e)[1],cell(e)[0],
+                                 e.entity_instance_id in dead_ids,e.entity_instance_id))
         labels=[]
         for e in actors:
             kind=getattr(e,'kind','player');u,v,lift=cell(e);layout=self.layout(kind,u,v)

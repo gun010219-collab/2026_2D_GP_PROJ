@@ -5,6 +5,8 @@
 
 ## 1. 목표와 근거 우선순위
 
+- R4F 이후 R5의 일반 실행은 오디오를 기본 활성화한다. `CHECKMATE_AUDIO=0`으로 끈다. Animation/VFX/Audio는 프레임의 동일 불변 배치를 사용하며 게임 규칙이 확정한 사건을 재생한다. [음원 출처·설정·검수](docs/TASK5R5_AUDIO.md)
+
 - R3F 기술 승인 이후 R4는 프레임당 한 번 전달하는 불변 사건 배치를 Animation/VFX가 공유한다. R5도 같은 배치와 원점·피해 영수증을 사용한다. 정적 회귀는 `CHECKMATE_ANIMATION=0`과 `CHECKMATE_VFX=0`, 애니메이션 회귀는 VFX만 끈다. [R4 검수와 큐 계약](docs/TASK5R4_COMBAT_VFX.md)
 
 - R3 작업 트리의 일반 실행은 25스테이지의 기물 애니메이션을 기본 적용한다. `CHECKMATE_ANIMATION=0`은 기존 정적 아트와 캡처를 재현한다. 실제 전투 사건으로 자세를 바꾸고 일반 실행의 표현 배치는 프레임당 한 번 비운다. [R3 상태표·검수](docs/TASK5R3_ANIMATION.md)
