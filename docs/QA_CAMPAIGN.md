@@ -4,6 +4,8 @@
 
 2026-11-24 사용자 위임에 따라 R0와 D4B의 인간 Windows 실전 검수는 R7에서 수행한다. 아래 항목은 미수행 상태로 인계한다.
 
+- [ ] R1F는 기술 승인됐다. 왕실·빙설 연속 조작과 Stage14의 Rook HP·Queen 하체 겹침을 [R1 검수표](TASK5R1_CHAPTER_ART.md)에서 확인한다.
+
 - [ ] Stage11에서 Knight의 발·지상 그림자·HP와 두 Rook 경고의 가독성, 조작·패링, 강화 후 Stage12 전환, GAME_OVER/R을 확인한다. 창 모드와 F11 전체화면에서 SETTINGS·ESC도 확인한다.
 - [ ] Stage13에서 이동 중 Queen 망토와 HP 가림, 새 원점 광선과 혼합 경고, 일반·퍼펙트 패링 및 재시작을 포함한 [D4B 실전 GUI 18항목](TASK5D_CHAPTER3_PLAN.md)을 기록한다.
 - [ ] 인간 Stage1~25 연속 플레이와 보스 5회 결과, 실제 Windows의 60초 이상 조작 구간, FPS/P95/P99 및 장시간 RAM/VRAM을 기록한다. 장비와 빌드 SHA를 함께 남긴다.

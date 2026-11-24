@@ -1,5 +1,11 @@
 # CHECKMATE 에셋 출처
 
+## R1 Ice King 실전용 준비본 채택 후보
+
+기존 B1C의 자체 텍스트 명세 및 OpenAI image_gen 제작 이력을 사용한다. 원화는 [원본 PNG](../assets/character_concepts/source/ch3_king.png), 런타임은 기존 SDL 축소·패딩 [준비 PNG](../assets/character_concepts/ch3_king.png)다. [프롬프트](../assets/character_concepts/prompts.json) · [기존 원화·준비본 해시](../assets/character_concepts/asset_manifest.json)
+
+R1에서 원화와 준비본을 다시 열고 알파를 측정했다. 원화 1199×1312, 가시 알파 박스 (130,4,1037,1279), SHA-256 `c5361571db9798744bbbf88ba155d99b9ea2706374ffe539dade4f061269c9d0`이다. 준비본은 256×256 RGBA, 가시 박스 (49,18,206,238), 투명 픽셀 42,423, SHA-256 `0511e2c74a13596c78cd88dbe8d82b4ebee7b91b70c681b9c1266ad44adf15b1`이다. 원화 박스 비율 907:1275와 준비본 157:220은 축소 반올림 범위에서 일치한다. 준비본은 원화의 왕관, 주먹, 백색 코어, 결정판 망토를 보존하고 최소 18px의 투명 여백이 있다. R1 생성·파생 PNG는 0개이며 신규 PNG는 실전 검수 캡처다. 출품·배포 이용조건 검토는 미완료다.
+
 ## Task 5-D4AF — Ice Queen 사용자 디자인10/10 승인
 
 사용자가 Windows 정적 디자인10/10 통과를 보고했다. 원화/준비본/정적표시크기/원본배치/HP/발/알파/검수도구가 승인됐다.

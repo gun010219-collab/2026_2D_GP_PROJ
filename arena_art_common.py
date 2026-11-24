@@ -38,8 +38,21 @@ class SessionArtPath:
     def load_renderer(self, game):
         return self.factory(self.c)
 
+    def enabled(self, stage_number):
+        if isinstance(self.stage, range):
+            if stage_number not in self.stage:
+                return False
+        elif stage_number != self.stage:
+            return False
+        stage_flag = self.flag or f'CHECKMATE_STAGE{stage_number}_ART'
+        setting = os.environ.get(stage_flag)
+        if setting is None:
+            chapter = (stage_number - 1) // 5 + 1
+            setting = os.environ.get(f'CHECKMATE_CHAPTER{chapter}_ART')
+        return setting == '1'
+
     def draw(self, g, positions):
-        enabled = os.environ.get(self.flag) == '1' and g.stage_number == self.stage
+        enabled = self.enabled(g.stage_number)
         session = g.combat.combat_session_id if enabled else None
         if session != self.session:
             self.close()
@@ -53,7 +66,7 @@ class SessionArtPath:
             self.renderer.draw(g, positions)
             return True
         except (OSError, ArenaArtError):
-            self.logger.exception('Stage%s art unavailable; using original renderer for this session', self.stage)
+            self.logger.exception('Stage%s art unavailable; using original renderer for this session', g.stage_number)
             self.close()
             self.session, self.failed = session, True
             self.c.SDL_SetRenderDrawColor(self.c.renderer, 0, 0, 0, 255)

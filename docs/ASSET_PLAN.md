@@ -1,5 +1,9 @@
 # CHECKMATE 에셋 제작 계획
 
+## R1 왕실·빙설 실전 연결
+
+왕실은 기존 Player·Pawn·Rook·Knight·Bishop·King과 승인 환경 4종을 편성에 따라 로딩한다. Queen은 이 챕터의 편성에 없다. 빙설은 기존 Pawn/Rook/Knight/Bishop/Queen에 B1C Ice King 준비본을 추가 등록한다. 두 챕터 모두 기존 PNG를 쓰며 재생성·덮어쓰기는 없다. R1 신규 실전 표시와 Ice King은 검수 대기다. [측정·캡처](TASK5R1_CHAPTER_ART.md) · [출처](ASSET_CREDITS.md)
+
 ## R0 이후 제작·편입 순서
 
 - R1은 승인 왕실 기물과 빙설 원화/준비본을 실제 편성에 매핑한다. Ice Queen에는 정적 승인이 있고 Stage13 실전 검수가 남아 있다. 빙설 King 콘셉트는 투영 크기·알파 발·HP·Pulse 가독성을 검수한다. R2는 용암·고딕 기물 6종씩과 전면 보드 접합을 다룬다. 등록 시 챕터, 기물 종류, 파일·해시, 원본/준비본, 디자인·실전 승인 범위를 함께 기록한다.

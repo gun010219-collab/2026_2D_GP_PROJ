@@ -1,0 +1,244 @@
+{
+  "renderer": "direct3d11",
+  "resources": {
+    "loads": 296,
+    "releases": 296,
+    "peak": 9,
+    "frames": 597
+  },
+  "routes": {
+    "1": {
+      "clears": [
+        [
+          1,
+          "UPGRADE",
+          352,
+          3,
+          3
+        ],
+        [
+          2,
+          "UPGRADE",
+          313,
+          3,
+          3
+        ],
+        [
+          3,
+          "UPGRADE",
+          355,
+          3,
+          3
+        ],
+        [
+          4,
+          "UPGRADE",
+          324,
+          2,
+          3
+        ],
+        [
+          5,
+          "BOSS_CLEAR",
+          494,
+          2,
+          3
+        ]
+      ],
+      "replay": [
+        5,
+        "BOSS_CLEAR",
+        494,
+        3,
+        3
+      ],
+      "next_stage": 6
+    },
+    "11": {
+      "clears": [
+        [
+          11,
+          "UPGRADE",
+          669,
+          2,
+          3
+        ],
+        [
+          12,
+          "UPGRADE",
+          669,
+          3,
+          4
+        ],
+        [
+          13,
+          "UPGRADE",
+          543,
+          3,
+          4
+        ],
+        [
+          14,
+          "UPGRADE",
+          579,
+          4,
+          5
+        ],
+        [
+          15,
+          "BOSS_CLEAR",
+          818,
+          4,
+          5
+        ]
+      ],
+      "replay": [
+        15,
+        "BOSS_CLEAR",
+        818,
+        5,
+        5
+      ],
+      "next_stage": 16
+    }
+  },
+  "stage14": {
+    "cells": {
+      "queen": 31,
+      "rook": 2,
+      "bishop": 50
+    },
+    "outcomes": {
+      "rook": "hit",
+      "queen": "invulnerable",
+      "bishop": "hit"
+    }
+  },
+  "captures": [
+    {
+      "file": "royal_start.png",
+      "stage": 1,
+      "tick": 0,
+      "state": "PLAYING",
+      "hp": 3,
+      "warnings": [],
+      "sha256": "087a8befbdb752eccc8cc036be5123835cdab8f0152cb6877cc8d0a6a8223d23"
+    },
+    {
+      "file": "queen_start.png",
+      "stage": 13,
+      "tick": 0,
+      "state": "PLAYING",
+      "hp": 3,
+      "warnings": [],
+      "sha256": "705e916bdf26e3d1f97a26cd880d4c4e84fdb47963f6ff3085c2e7b5e4b5ef4f"
+    },
+    {
+      "file": "ice_king_start.png",
+      "stage": 15,
+      "tick": 0,
+      "state": "PLAYING",
+      "hp": 4,
+      "warnings": [],
+      "sha256": "d8ca55c5ff1a90b8ea15117bc5ff24cd3eafe7c481b943a7fbfe1c549a52e34c"
+    },
+    {
+      "file": "ice_boss_clear.png",
+      "stage": 15,
+      "tick": 818,
+      "state": "BOSS_CLEAR",
+      "hp": 4,
+      "warnings": [],
+      "sha256": "faba8fbbd7329de6a4b7c7dff42ff4b8e705b97cbd0365df5cced73bb4d8813b"
+    },
+    {
+      "file": "royal_knight_peak.png",
+      "stage": 3,
+      "tick": 84,
+      "state": "PLAYING",
+      "hp": 3,
+      "warnings": [],
+      "sha256": "983c6951c40c05236d99dba8242238becde124a91cd81b7535e1e4c685d89c15"
+    },
+    {
+      "file": "royal_bishop_warning.png",
+      "stage": 4,
+      "tick": 48,
+      "state": "PLAYING",
+      "hp": 3,
+      "warnings": [
+        {
+          "kind": "bishop",
+          "hit": 156,
+          "cells": 50
+        }
+      ],
+      "sha256": "58b855d716c1fdcbc800a41cfb5fbae88ea51935be4d38cfaf162bd2cb27bdeb"
+    },
+    {
+      "file": "ice_mixed_warning.png",
+      "stage": 14,
+      "tick": 75,
+      "state": "PLAYING",
+      "hp": 4,
+      "warnings": [
+        {
+          "kind": "queen",
+          "hit": 121,
+          "cells": 31
+        },
+        {
+          "kind": "rook",
+          "hit": 110,
+          "cells": 2
+        },
+        {
+          "kind": "bishop",
+          "hit": 183,
+          "cells": 50
+        }
+      ],
+      "sha256": "a0f43790f41ddb585c5cad31d71437060787a40c436efbcc7b7348760828da72"
+    },
+    {
+      "file": "royal_pulse.png",
+      "stage": 5,
+      "tick": 265,
+      "state": "PLAYING",
+      "hp": 1,
+      "warnings": [
+        {
+          "kind": "king",
+          "hit": 385,
+          "cells": 100
+        }
+      ],
+      "sha256": "34b72ed77d42d09e540f7469d501e630a430e1c714a8e24a67d9b40c33458956"
+    },
+    {
+      "file": "ice_pulse.png",
+      "stage": 15,
+      "tick": 265,
+      "state": "PLAYING",
+      "hp": 2,
+      "warnings": [
+        {
+          "kind": "king",
+          "hit": 385,
+          "cells": 100
+        }
+      ],
+      "sha256": "b168fd3dd6703692272a7f2010da00208a54425e8a70e4e5cda76dfd755b0fe2"
+    },
+    {
+      "file": "ice_perfect_reflect.png",
+      "stage": 15,
+      "tick": 385,
+      "state": "PLAYING",
+      "hp": 2,
+      "warnings": [],
+      "sha256": "e7f6c437003a460da02902a93d831223bc1ffe41c494de3ec8b2f4ddfc042574"
+    }
+  ],
+  "forced_decode_fallback": true
+}

@@ -4,6 +4,8 @@
 
 ## 현재 실행 상태
 
+R1 작업 트리에는 Stage1~15의 2.5D 표시가 연결되어 있다. PowerShell에서 `CHECKMATE_CHAPTER1_ART`, `CHECKMATE_CHAPTER2_ART`, `CHECKMATE_CHAPTER3_ART`를 각각 `1`로 설정하면 해당 챕터에 적용한다. 스테이지별 디버그 값이 있는 경우 그 값이 우선한다. 승인·실측 현황과 공용 실행 명령은 [R1 통합 검수표](docs/TASK5R1_CHAPTER_ART.md)를 참고한다.
+
 Stage13 D4B는 재배치·8방향 광선·패링·피해·진행과 실제 SDL 자원 수명 검사를 통과해 사용자 위임으로 기술 승인됐다. Windows 인간 실전 검수 18항목은 R7 캠페인에서 진행한다. [검증 기록과 체크리스트](docs/TASK5D_CHAPTER3_PLAN.md)
 
 Stage1~25·5개 보스전의 핵심 전투를 구현했다. 기본 표시는 임시 도형이며 Stage5~13은 각 환경변수로 2.5D 아트를 독립 활성화할 수 있다. Stage11은 D2F Windows GUI16/16 승인, Ice Bishop은 D3AF 정적 디자인8/8 승인, Stage12는 D3BF 실전GUI20/20 승인 상태다. Ice Queen은 D4AF 정적 디자인10/10 승인이나 Stage13 실전 GUI는 아직 대기다. 최종 아트 전체·음향·저장/해금·정식 엔딩·배포 검증은 미완료다. 인간 전체 캠페인 완주와 실제 Windows FPS/P95/P99는 미확정/미측정이다.
