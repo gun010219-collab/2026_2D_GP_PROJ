@@ -1,0 +1,739 @@
+{
+  "driver": "direct3d11",
+  "campaign": [
+    [
+      1,
+      "UPGRADE",
+      352,
+      3,
+      3
+    ],
+    [
+      2,
+      "UPGRADE",
+      313,
+      3,
+      3
+    ],
+    [
+      3,
+      "UPGRADE",
+      355,
+      3,
+      3
+    ],
+    [
+      4,
+      "UPGRADE",
+      324,
+      2,
+      3
+    ],
+    [
+      5,
+      "BOSS_CLEAR",
+      494,
+      2,
+      3
+    ],
+    [
+      6,
+      "UPGRADE",
+      389,
+      3,
+      3
+    ],
+    [
+      7,
+      "UPGRADE",
+      396,
+      3,
+      3
+    ],
+    [
+      8,
+      "UPGRADE",
+      468,
+      3,
+      3
+    ],
+    [
+      9,
+      "UPGRADE",
+      399,
+      3,
+      3
+    ],
+    [
+      10,
+      "BOSS_CLEAR",
+      457,
+      2,
+      3
+    ],
+    [
+      11,
+      "UPGRADE",
+      399,
+      3,
+      3
+    ],
+    [
+      12,
+      "UPGRADE",
+      410,
+      3,
+      3
+    ],
+    [
+      13,
+      "UPGRADE",
+      338,
+      3,
+      3
+    ],
+    [
+      14,
+      "UPGRADE",
+      432,
+      3,
+      3
+    ],
+    [
+      15,
+      "BOSS_CLEAR",
+      530,
+      3,
+      3
+    ],
+    [
+      16,
+      "UPGRADE",
+      507,
+      3,
+      3
+    ],
+    [
+      17,
+      "UPGRADE",
+      592,
+      3,
+      3
+    ],
+    [
+      18,
+      "UPGRADE",
+      531,
+      3,
+      3
+    ],
+    [
+      19,
+      "UPGRADE",
+      432,
+      1,
+      3
+    ],
+    [
+      20,
+      "BOSS_CLEAR",
+      654,
+      2,
+      4
+    ],
+    [
+      21,
+      "UPGRADE",
+      432,
+      2,
+      3
+    ],
+    [
+      22,
+      "UPGRADE",
+      423,
+      3,
+      4
+    ],
+    [
+      23,
+      "UPGRADE",
+      435,
+      4,
+      5
+    ],
+    [
+      24,
+      "UPGRADE",
+      522,
+      5,
+      6
+    ],
+    [
+      25,
+      "BOSS_CLEAR",
+      638,
+      4,
+      6
+    ]
+  ],
+  "resources": {
+    "loads": 257,
+    "releases": 257,
+    "peak": 12
+  },
+  "captures": {
+    "stage1_player_hit": {
+      "stage": 1,
+      "tick": 110,
+      "visual_time": 1.85,
+      "active": [
+        {
+          "cue": "player_swing",
+          "origin": [
+            7,
+            5
+          ],
+          "cell": [
+            8,
+            5
+          ],
+          "targets": 0,
+          "damage": 0
+        },
+        {
+          "cue": "player_hit",
+          "origin": [
+            7,
+            5
+          ],
+          "cell": [
+            8,
+            5
+          ],
+          "targets": 0,
+          "damage": 1
+        }
+      ],
+      "sha256": "771131e45a9482cfcd423157580de563bec8c9aef1198ba4ba708edb8f8c73ad"
+    },
+    "chapter1_pawn_thrust": {
+      "stage": 1,
+      "tick": 351,
+      "visual_time": 5.866667,
+      "active": [
+        {
+          "cue": "pawn_thrust",
+          "origin": [
+            2,
+            5
+          ],
+          "cell": [
+            3,
+            5
+          ],
+          "targets": 1,
+          "damage": 0
+        },
+        {
+          "cue": "parry_perfect",
+          "origin": [
+            2,
+            5
+          ],
+          "cell": [
+            3,
+            5
+          ],
+          "targets": 0,
+          "damage": 0
+        }
+      ],
+      "sha256": "8aa7d043447d336b6e4fd373d87ec14b9695687f8f6f9a41d10f7a1379249217"
+    },
+    "stage3_knight_land": {
+      "stage": 3,
+      "tick": 92,
+      "visual_time": 1.55,
+      "active": [
+        {
+          "cue": "knight_strike",
+          "origin": [
+            3,
+            6
+          ],
+          "cell": [
+            5,
+            5
+          ],
+          "targets": 1,
+          "damage": 0
+        },
+        {
+          "cue": "knight_land",
+          "origin": [
+            3,
+            6
+          ],
+          "cell": [
+            5,
+            5
+          ],
+          "targets": 1,
+          "damage": 0
+        }
+      ],
+      "sha256": "4283e625659060b5401ac2652c46eb17385062a119edef17ade63beae305a33a"
+    },
+    "chapter3_bishop_cast": {
+      "stage": 12,
+      "tick": 159,
+      "visual_time": 2.666667,
+      "active": [
+        {
+          "cue": "player_hit",
+          "origin": [
+            2,
+            5
+          ],
+          "cell": [
+            1,
+            5
+          ],
+          "targets": 0,
+          "damage": 9
+        },
+        {
+          "cue": "enemy_death",
+          "origin": [
+            2,
+            5
+          ],
+          "cell": [
+            1,
+            5
+          ],
+          "targets": 0,
+          "damage": 0
+        },
+        {
+          "cue": "bishop_cast",
+          "origin": [
+            2,
+            8
+          ],
+          "cell": [
+            9,
+            9
+          ],
+          "targets": 50,
+          "damage": 0
+        },
+        {
+          "cue": "parry_perfect",
+          "origin": [
+            2,
+            8
+          ],
+          "cell": [
+            2,
+            6
+          ],
+          "targets": 0,
+          "damage": 0
+        },
+        {
+          "cue": "player_swing",
+          "origin": [
+            2,
+            6
+          ],
+          "cell": [
+            2,
+            7
+          ],
+          "targets": 0,
+          "damage": 0
+        }
+      ],
+      "sha256": "096179c6eddb8f8d9c7bb2ebf4f0024f44ca162435ad6dc456a4a00b465ad4f3"
+    },
+    "stage16_rook_strike": {
+      "stage": 16,
+      "tick": 98,
+      "visual_time": 1.65,
+      "active": [
+        {
+          "cue": "rook_strike",
+          "origin": [
+            2,
+            4
+          ],
+          "cell": [
+            5,
+            4
+          ],
+          "targets": 3,
+          "damage": 0
+        },
+        {
+          "cue": "rook_impact",
+          "origin": [
+            2,
+            4
+          ],
+          "cell": [
+            5,
+            4
+          ],
+          "targets": 3,
+          "damage": 0
+        }
+      ],
+      "sha256": "0d59b8d45dba82d07d6e7407c76c1f90f70c5b133a17900b1fd549fe8b40c318"
+    },
+    "stage24_two_charges": {
+      "stage": 24,
+      "tick": 63,
+      "visual_time": 1.066667,
+      "active": [],
+      "sha256": "1678c64e3d98eb0084b98a83058b23debd22758c65b4c4880492c7d7523af6f9"
+    },
+    "stage24_queen_fire": {
+      "stage": 24,
+      "tick": 137,
+      "visual_time": 2.3,
+      "active": [
+        {
+          "cue": "queen_fire",
+          "origin": [
+            5,
+            1
+          ],
+          "cell": [
+            0,
+            6
+          ],
+          "targets": 29,
+          "damage": 0
+        },
+        {
+          "cue": "rook_strike",
+          "origin": [
+            7,
+            4
+          ],
+          "cell": [
+            5,
+            4
+          ],
+          "targets": 2,
+          "damage": 0
+        },
+        {
+          "cue": "rook_impact",
+          "origin": [
+            7,
+            4
+          ],
+          "cell": [
+            5,
+            4
+          ],
+          "targets": 2,
+          "damage": 0
+        }
+      ],
+      "sha256": "4e78e8a872be3b3872716f571cc84f880c9ed7ec98563e9d0469bb630bf549d1"
+    },
+    "stage25_boss_death": {
+      "stage": 25,
+      "tick": 532,
+      "visual_time": 8.883333,
+      "active": [
+        {
+          "cue": "player_swing",
+          "origin": [
+            6,
+            6
+          ],
+          "cell": [
+            5,
+            6
+          ],
+          "targets": 0,
+          "damage": 0
+        },
+        {
+          "cue": "player_hit",
+          "origin": [
+            6,
+            6
+          ],
+          "cell": [
+            5,
+            6
+          ],
+          "targets": 0,
+          "damage": 8
+        },
+        {
+          "cue": "boss_death",
+          "origin": [
+            6,
+            6
+          ],
+          "cell": [
+            5,
+            6
+          ],
+          "targets": 0,
+          "damage": 0
+        }
+      ],
+      "sha256": "76c2140b9c69fc8dd9a977311b110d957ccb645b87dd95d238400193d2f68ba8"
+    },
+    "stage6_rook_impact": {
+      "stage": 6,
+      "tick": 216,
+      "visual_time": 3.6,
+      "active": [
+        {
+          "cue": "rook_strike",
+          "origin": [
+            2,
+            1
+          ],
+          "cell": [
+            5,
+            1
+          ],
+          "targets": 3,
+          "damage": 0
+        },
+        {
+          "cue": "player_hurt",
+          "origin": [
+            2,
+            1
+          ],
+          "cell": [
+            5,
+            1
+          ],
+          "targets": 0,
+          "damage": 1
+        },
+        {
+          "cue": "rook_impact",
+          "origin": [
+            2,
+            1
+          ],
+          "cell": [
+            4,
+            1
+          ],
+          "targets": 3,
+          "damage": 0
+        }
+      ],
+      "sha256": "6fca43d160e7c04058ad4df70f14c46480ca8c946bcf6aadbabcb366328461d2"
+    },
+    "pulse_normal": {
+      "stage": 25,
+      "tick": 385,
+      "visual_time": 6.116667,
+      "active": [
+        {
+          "cue": "king_pulse",
+          "origin": [
+            4,
+            6
+          ],
+          "cell": [
+            9,
+            9
+          ],
+          "targets": 100,
+          "damage": 0
+        },
+        {
+          "cue": "parry_normal",
+          "origin": [
+            4,
+            6
+          ],
+          "cell": [
+            5,
+            1
+          ],
+          "targets": 0,
+          "damage": 0
+        }
+      ],
+      "sha256": "6977a24765920e2d415bae5494cfb081aff8758ea57d0a5a7b29caac3ccaf3b0"
+    },
+    "pulse_perfect": {
+      "stage": 25,
+      "tick": 385,
+      "visual_time": 6.416667,
+      "active": [
+        {
+          "cue": "king_pulse",
+          "origin": [
+            4,
+            6
+          ],
+          "cell": [
+            9,
+            9
+          ],
+          "targets": 100,
+          "damage": 0
+        },
+        {
+          "cue": "parry_perfect",
+          "origin": [
+            4,
+            6
+          ],
+          "cell": [
+            5,
+            1
+          ],
+          "targets": 0,
+          "damage": 0
+        },
+        {
+          "cue": "player_hit",
+          "origin": [
+            5,
+            1
+          ],
+          "cell": [
+            4,
+            6
+          ],
+          "targets": 0,
+          "damage": 2
+        }
+      ],
+      "sha256": "138acf2104d63f911eab0e20755121a463d3ba7c8a813ca601bfb86c5bb31d02"
+    },
+    "pulse_perfect_plus_4": {
+      "stage": 25,
+      "tick": 389,
+      "visual_time": 6.483333,
+      "active": [
+        {
+          "cue": "king_pulse",
+          "origin": [
+            4,
+            6
+          ],
+          "cell": [
+            9,
+            9
+          ],
+          "targets": 100,
+          "damage": 0
+        },
+        {
+          "cue": "parry_perfect",
+          "origin": [
+            4,
+            6
+          ],
+          "cell": [
+            5,
+            1
+          ],
+          "targets": 0,
+          "damage": 0
+        },
+        {
+          "cue": "player_hit",
+          "origin": [
+            5,
+            1
+          ],
+          "cell": [
+            4,
+            6
+          ],
+          "targets": 0,
+          "damage": 2
+        }
+      ],
+      "sha256": "a8925f76dbe0adb0cf8b885158b67f3e62114e27dde90736917e8bd65f10850e"
+    },
+    "pulse_perfect_plus_12": {
+      "stage": 25,
+      "tick": 397,
+      "visual_time": 6.616667,
+      "active": [
+        {
+          "cue": "king_pulse",
+          "origin": [
+            4,
+            6
+          ],
+          "cell": [
+            9,
+            9
+          ],
+          "targets": 100,
+          "damage": 0
+        },
+        {
+          "cue": "parry_perfect",
+          "origin": [
+            4,
+            6
+          ],
+          "cell": [
+            5,
+            1
+          ],
+          "targets": 0,
+          "damage": 0
+        },
+        {
+          "cue": "player_hit",
+          "origin": [
+            5,
+            1
+          ],
+          "cell": [
+            4,
+            6
+          ],
+          "targets": 0,
+          "damage": 2
+        }
+      ],
+      "sha256": "5094dd53b981e5ad3a9016a9c417b5e8524681d6eebdb2cdc3507486315612fd"
+    }
+  },
+  "coverage": [
+    "bishop_cast",
+    "boss_death",
+    "enemy_death",
+    "king_pulse",
+    "king_strike",
+    "knight_land",
+    "knight_strike",
+    "parry_normal",
+    "parry_perfect",
+    "pawn_thrust",
+    "player_hit",
+    "player_hurt",
+    "player_swing",
+    "queen_fire",
+    "rook_impact",
+    "rook_strike"
+  ],
+  "peak_effects": 10,
+  "peak_particles": 84
+}

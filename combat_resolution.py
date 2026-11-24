@@ -125,7 +125,10 @@ class CombatResolver:
         if events is not None:
             kind = {'normal': 'parry_normal', 'perfect': 'parry_perfect'}.get(status, 'parry_failed')
             key = (self.combat.combat_session_id, self.combat.stage_instance_id, 'parry', binding.attempt_key)
-            events.record(kind, key, result.tick, self._player_id, result)
+            attack = self._linked_events.get(binding.linked_enemy_event_key)
+            source = self._enemies.get(attack.source_entity_instance_id) if attack else None
+            events.record(kind, key, result.tick, self._player_id, result,
+                          origin=source.position if source else None, destination=result.player_cell)
         return result
 
     def register_parry(self, attempt):
@@ -232,10 +235,15 @@ class CombatResolver:
                               self.combat.tick, actual, before, target.health.current_hp)
         events = self.encounter.ledger.presentation
         if events is not None and actual > 0:
-            events.record('hit', event.key, result.tick, source_id, result)
-            events.record('hurt', event.key, result.tick, target.entity_instance_id, result)
+            source = self.player if source_id == self._player_id else self._enemies[source_id]
+            origin = getattr(event, 'origin_cell', source.position)
+            events.record('hit', event.key, result.tick, source_id, result,
+                          origin=origin, destination=target.position)
+            events.record('hurt', event.key, result.tick, target.entity_instance_id, result,
+                          origin=origin, destination=target.position)
             if result.hp_after == 0:
-                events.record('death', event.key, result.tick, target.entity_instance_id, result)
+                events.record('death', event.key, result.tick, target.entity_instance_id, result,
+                              origin=origin, destination=target.position)
         return result
 
     def resolve_player_attack(self, event):
@@ -265,7 +273,8 @@ class CombatResolver:
             raise ValueError('Multiple active enemies occupy the attack target')
         events = self.encounter.ledger.presentation
         if events is not None:
-            events.record('attack_start', event.key, event.start_tick, self._player_id, event)
+            events.record('attack_start', event.key, event.start_tick, self._player_id, event,
+                          origin=event.origin_cell, destination=event.target_cell)
         amount = self.player_damage + self.combat.attack_damage_bonus(event)
         result = None
         if targets:
@@ -334,7 +343,7 @@ class CombatResolver:
             return None
         if ledger.presentation is not None:
             ledger.presentation.record('attack_start', event.key, self.combat.tick,
-                                       event.source_entity_instance_id, event)
+                                       event.source_entity_instance_id, event, origin=source.position)
         if self.player.position not in event.target_cells:
             ledger.finish(event, 'miss')
             self._fail_parry(event, 'evaded')

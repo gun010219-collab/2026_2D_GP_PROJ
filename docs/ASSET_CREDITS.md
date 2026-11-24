@@ -1,5 +1,7 @@
 # CHECKMATE 에셋 출처
 
+R4의 참격·광선·파편·피해 숫자는 자체 절차적 SDL 기하로 그린다. 배경과 기물은 기존 승인 PNG를 공유한다. 신규 검수 PNG는 실제 게임 세션에서 캡처했다. [캡처 목록과 해시](../artifacts/combat_vfx_r4/manifest.json)
+
 ## R2 용암·고딕 기물
 
 Chapter4·5 각 Pawn/Rook/Knight/Bishop/Queen은 자체 명세로 OpenAI 내장 image_gen에서 생성했다. 두 King은 B1C 원화와 준비본을 재사용했다. 신규 원화는 `assets/late_chapter_units/source/`, 256×256 준비본은 한 단계 위에 있다. [실제 프롬프트·생성 출력명](../assets/late_chapter_units/prompts.json) · [원화·준비본·알파·SHA-256](../assets/late_chapter_units/manifest.json)

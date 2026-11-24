@@ -193,7 +193,7 @@ class EnemyEncounter:
                 if diagonal or contact:
                     enemy.current_attack = self.ledger.create(
                         enemy.entity_instance_id, now, now + self.telegraph_ticks, (player_cell,),
-                        attack_kind='basic' if diagonal else 'pawn_contact')
+                        attack_kind='basic' if diagonal else 'pawn_contact', origin=enemy.position)
                     if not diagonal:
                         self._attack_moves[enemy.current_attack.key] = (enemy.current_attack, enemy, enemy.position)
                     enemy.state = 'telegraph'
@@ -229,7 +229,7 @@ class EnemyEncounter:
             enemy.next_action_tick = tick + 1
             return
         event = self.ledger.create(enemy.entity_instance_id, tick, tick + self.queen_telegraph_ticks,
-                                   targets, attack_kind='queen_diagonal')
+                                   targets, attack_kind='queen_diagonal', origin=enemy.position)
         enemy.current_attack = event
         self._attack_moves[event.key] = (event, enemy, enemy.position)
         self.queen_steps[enemy.entity_instance_id] = 'reposition'
@@ -240,7 +240,7 @@ class EnemyEncounter:
         target = melee_target(enemy.position, player_cell)
         if target is not None:
             enemy.current_attack = self.ledger.create(
-                enemy.entity_instance_id, tick, tick + self.king_telegraph_ticks, (target,))
+                enemy.entity_instance_id, tick, tick + self.king_telegraph_ticks, (target,), origin=enemy.position)
             self._attack_moves[enemy.current_attack.key] = (enemy.current_attack, enemy, enemy.position)
             enemy.state = 'telegraph'
             enemy.next_action_tick = enemy.current_attack.hit_tick
@@ -255,7 +255,7 @@ class EnemyEncounter:
         path = attack_path(enemy.position, player_cell, occupied)
         if path:
             enemy.current_attack = self.ledger.create(
-                enemy.entity_instance_id, tick, tick + self.rook_telegraph_ticks, path)
+                enemy.entity_instance_id, tick, tick + self.rook_telegraph_ticks, path, origin=enemy.position)
             self._attack_moves[enemy.current_attack.key] = (enemy.current_attack, enemy, enemy.position)
             enemy.state = 'telegraph'
             enemy.next_action_tick = enemy.current_attack.hit_tick
@@ -272,7 +272,7 @@ class EnemyEncounter:
             enemy.next_action_tick = tick + self.knight_recovery_ticks
             return
         enemy.current_attack = self.ledger.create(
-            enemy.entity_instance_id, tick, tick + self.knight_telegraph_ticks, (target,))
+            enemy.entity_instance_id, tick, tick + self.knight_telegraph_ticks, (target,), origin=enemy.position)
         self._attack_moves[enemy.current_attack.key] = (enemy.current_attack, enemy, enemy.position)
         enemy.state = 'telegraph'
         enemy.next_action_tick = enemy.current_attack.hit_tick
@@ -289,7 +289,7 @@ class EnemyEncounter:
             return
         enemy.current_attack = self.ledger.create(
             enemy.entity_instance_id, tick, tick + self.bishop_telegraph_ticks,
-            color_targets(enemy.position))
+            color_targets(enemy.position), origin=enemy.position)
         self._attack_moves[enemy.current_attack.key] = (enemy.current_attack, enemy, enemy.position)
         enemy.state = 'telegraph'
         enemy.next_action_tick = enemy.current_attack.hit_tick
@@ -377,6 +377,12 @@ class EnemyEncounter:
                     break
                 destination = cell
         source.col, source.row = destination
+        if origin != destination and self.ledger.presentation is not None:
+            self.ledger.presentation.record('attack_move', event.key, self.tick, source.entity_instance_id,
+                                            event, origin=origin, destination=destination)
+        elif source.kind == 'rook' and self.ledger.presentation is not None:
+            self.ledger.presentation.record('rook_blocked', event.key, self.tick, source.entity_instance_id,
+                                            event, origin=origin, destination=origin)
         self._check_occupancy(player_cell)
         self._cancel_obstructed_moves(self.tick)
         return True

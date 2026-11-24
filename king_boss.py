@@ -57,7 +57,7 @@ class KingPulse:
             self._freeze(now)
             event = self.encounter.ledger.create(
                 self.king.entity_instance_id, now, now + KING_PULSE_TELEGRAPH_TICKS,
-                PULSE_CELLS, attack_kind='king_pulse')
+                PULSE_CELLS, attack_kind='king_pulse', origin=self.king.position)
             self.event = event
             self._issued[event.key] = event
             self.king.current_attack = event

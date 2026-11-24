@@ -1,5 +1,13 @@
 # CHECKMATE 개발 진행 기록
 
+## Task 5-R3F 및 Task 5-R4 전투 임팩트
+
+R4F 위임 기술 승인을 수령했다. 인간 Windows 검수·체감 타격감은 R7 대기다. Stage25 Pulse 프레임 예산 초과를 `PERF-R4-STAGE25-PULSE`로 추적한다. [결함 기록](BUGS.md#perf-r4-stage25-pulse--open)
+
+R3F는 `02951ba9b7672dc7ebcd4100b82175f3b659f202`로 GitHub main에 반영했다. R4는 중단 시의 로컬 12파일을 이어서 완성했다. 실제 발생 위치와 피해량을 불변 사건으로 받아 Animation과 같은 프레임에 소비한다. Rook 이동 후 정지와 제자리 차단, Knight의 실제 18px 보간을 구분한다. 검수본과 상태별 SHA-256은 별도 경로에 보관한다. [R4 기술 결과·Windows 검수·성능](TASK5R4_COMBAT_VFX.md)
+
+최종 전체 unittest **1,554개 / 433.764초 / 실패·오류·skip 0**. 기존 121장과 신규 13장 해시 재현, R2 캠페인 종료 레코드 25/25 일치, 숨김 SDL 텍스처 257로드/257해제·최대 12개다. Stage25 Pulse 결합 모드 중앙값/P95/P99는 4.563/5.981/6.162ms였다. Pulse의 180FPS 예산 초과와 인간 가독성·실기 성능을 후속 확인한다. R4는 미스테이징 상태로 검수에 제출한다.
+
 ## Task 5-R3 기물 상태와 고유 Idle (승인 대기)
 
 R2F `af14e7350e343ccec6ae9ad3156dc4532160ab29`를 일반 Push하고 원격 일치와 Clean을 확인한 뒤 시작했다. 메인 프레임이 실제 표시 사건을 한 번 drain하고 25스테이지 공용 렌더러가 11가지 상태를 사용한다. 기존 PNG를 공유하는 UV 메시 변형과 챕터별 재질 설정을 추가했다. 전투·공격·피해·AI 및 기존 이미지 수정은 없다. [상태 표·Windows 검수·연속 캡처](TASK5R3_ANIMATION.md)

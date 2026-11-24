@@ -1,6 +1,7 @@
 """Opt-in live Stage5 arena. Reads entities/ledger; never constructs a scene."""
 import ctypes
 import logging
+from functools import lru_cache
 from pathlib import Path
 from math import cos,sin,pi
 from arena_art_common import CAMERA, ArenaArtError, SessionArtPath, sprite_layout
@@ -34,14 +35,26 @@ def pick_event(x,y):
     return None if point is None else CAMERA.pick(*point)
 
 
-def polygon(c,points,color=(255,255,255,255),texture=None):
+def _polygon_data(points,color):
     import sdl2 as s
     vertices=(s.SDL_Vertex*len(points))();uv=((0,1),(1,1),(1,0),(0,0))
     for i,(x,y) in enumerate(points):
         vertices[i].position=s.SDL_FPoint(x,899-y);vertices[i].color=s.SDL_Color(*color)
         vertices[i].tex_coord=s.SDL_FPoint(*uv[i%4])
     indices=[i for j in range(1,len(points)-1) for i in (0,j,j+1)]
-    if s.SDL_RenderGeometry(c.renderer,texture,vertices,len(points),(ctypes.c_int*len(indices))(*indices),len(indices)):
+    return vertices,(ctypes.c_int*len(indices))(*indices)
+
+
+# Only board and rim geometry is textured here. Cache CPU vertices without
+# retaining session textures or caching moving actors' shadow coordinates.
+_board_geometry = lru_cache(maxsize=128)(_polygon_data)
+_board_tile = lru_cache(maxsize=100)(CAMERA.tile)
+
+
+def polygon(c,points,color=(255,255,255,255),texture=None):
+    import sdl2 as s
+    vertices,indices = (_board_geometry if texture is not None else _polygon_data)(points,color)
+    if s.SDL_RenderGeometry(c.renderer,texture,vertices,len(vertices),indices,len(indices)):
         raise Stage5ArtError('SDL geometry: '+s.SDL_GetError().decode())
 
 
@@ -67,6 +80,7 @@ class Stage5ArtRenderer:
     files = FILES
     animation = animation_motion = None
     animation_failed = False
+    vfx = None
 
     def layout(self,kind,u,v):
         return actor_layout(kind,u,v)
@@ -125,6 +139,14 @@ class Stage5ArtRenderer:
         return layout['foot'][0], layout['hp_y']
 
     def draw(self,g,positions):
+        if self.vfx is None:
+            self.draw_world(g,positions)
+        else:
+            with self.vfx.world(self.c):
+                self.draw_world(g,positions)
+        self.draw_feedback(g)
+
+    def draw_world(self,g,positions):
         c=self.c;self.warning_cells=[];self.order=[];self.bounds=[];self.actor_layouts={}
         self.image('background',720,450,1440,900);self.draw_frame()
         outer=((- .12,-.12),(10.12,-.12),(10.12,10.12),(-.12,10.12));inner=((0,0),(10,0),(10,10),(0,10))
@@ -135,7 +157,9 @@ class Stage5ArtRenderer:
                 j=(i+1)%4;value=min(255,round(200*gain*(1.05 if i in (2,3) else .94)))
                 polygon(c,tuple(CAMERA.project(*p) for p in (a[i],a[j],b[j],b[i])),(value,value,value,255),self.images['light'].texture)
         for col in range(10):
-            for row in range(10):polygon(c,CAMERA.tile(col,row),texture=self.images['light' if is_light_tile(col,row) else 'dark'].texture)
+            for row in range(10):polygon(c,_board_tile(col,row),texture=self.images['light' if is_light_tile(col,row) else 'dark'].texture)
+        if self.vfx is not None:
+            self.vfx.draw('ground', c, g)
         self.cue=cue_kind(g)
         color={'quiet':(80,84,91),'ready':(69,116,136),'player_attack':(137,123,89),'danger':(130,62,74),
                'parry_window':(95,149,166),'parry_success':(88,149,169),'perfect_success':(183,164,109),'pulse':(146,104,59)}[self.cue]
@@ -180,10 +204,17 @@ class Stage5ArtRenderer:
                 c.draw_line(*CAMERA.project(u+.5,v+.5),*CAMERA.project(u+.5+dx*.32,v+.5+dy*.32),101,201,244)
             hit=e.health.last_damage_tick
             if g.playing and hit is not None and 0<=g.combat.tick-hit<6:outline(c,CAMERA.tile(*e.position),(225,199,255))
+        if self.vfx is not None:
+            self.vfx.draw('front', c, g, self.actor_layouts)
         for e,x,y in labels:
             text=f'{e.health.current_hp}/{e.health.max_hp}';width=len(text)*8
             c.draw_rectangle(x-width/2-3,y-3,x+width/2+3,y+13,12,19,25,filled=True)
             HealthRenderer._text(c,text,x-width/2,y,color=HealthRenderer.HEALTH)
+        if self.vfx is not None:
+            self.vfx.draw('labels', c, g)
+
+    def draw_feedback(self,g):
+        c=self.c
         if g.playing and g.parry.active_at(g.combat.tick):outline(c,CAMERA.tile(*g.player.position),(95,174,218))
         result=g.resolver.last_parry_result
         if g.playing and result and 0<=g.combat.tick-result.tick<18:

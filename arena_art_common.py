@@ -65,6 +65,8 @@ class SessionArtPath:
         try:
             if self.renderer is None:
                 self.renderer = self.load_renderer(g)
+                if getattr(self, 'vfx', None) is not None:
+                    self.renderer.vfx = self.vfx
                 if self.animation is not None:
                     self.renderer.animation = self.animation
                     self.renderer.animation_motion = self.animation_motion

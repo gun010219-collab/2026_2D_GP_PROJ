@@ -1,5 +1,9 @@
 # CHECKMATE — 알려진 결함
 
+## PERF-R4-STAGE25-PULSE — OPEN
+
+Stage25 실제 퍼펙트 패링 4틱 후 숨김 Direct3D11 표본의 애니메이션+VFX P95는 5.981ms, P99는 6.162ms다. 180FPS 예산은 5.56ms다. R7에서 Windows 실기 전체 프레임과 반복 Pulse를 측정하고 재현 시 최적화한다. [R4 측정 조건](TASK5R4_COMBAT_VFX.md)
+
 ## Task 5-D4B — Stage13 실전 사용자 GUI 검수 대기
 
 Queen 정적 디자인은 D4AF Windows10/10 승인, 기존 Stage5~12 승인은 유지한다.

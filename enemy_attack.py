@@ -95,14 +95,14 @@ class EnemyAttackLedger:
     def stage_instance_id(self):
         return self._stage_instance_id
 
-    def create(self, source_entity_instance_id, start_tick, hit_tick, target_cells, *, attack_kind='basic'):
+    def create(self, source_entity_instance_id, start_tick, hit_tick, target_cells, *, attack_kind='basic', origin=None):
         event = EnemyAttackEvent(self._next_attack_id, self.combat_session_id,
                                  self.stage_instance_id, source_entity_instance_id,
                                  start_tick, start_tick, hit_tick, target_cells, attack_kind)
         self._next_attack_id += 1
         self._records[event.key] = _AttackRecord(event)
         if self.presentation is not None:
-            self.presentation.record('telegraph', event.key, start_tick, source_entity_instance_id, event)
+            self.presentation.record('telegraph', event.key, start_tick, source_entity_instance_id, event, origin=origin)
         return event
 
     def _record(self, event):

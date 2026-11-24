@@ -12,7 +12,8 @@ if TYPE_CHECKING:
 
 
 EventKind = Literal['telegraph', 'attack_start', 'hit', 'hurt', 'parry_normal',
-                    'parry_perfect', 'parry_failed', 'stun', 'death', 'stage_transition']
+                    'parry_perfect', 'parry_failed', 'stun', 'death', 'stage_transition',
+                    'attack_move', 'rook_blocked']
 
 
 @dataclass(frozen=True)
@@ -22,6 +23,9 @@ class PresentationEvent:
     tick: int
     subject: str | None
     payload: AttackEvent | EnemyAttackEvent | DamageResult | ParryResult | tuple[int, int]
+
+    origin: tuple[int, int] | None = None
+    destination: tuple[int, int] | None = None
 
     @property
     def key(self):
@@ -33,8 +37,8 @@ class PresentationEvents:
     def __init__(self):
         self._pending = []
 
-    def record(self, kind, cause_key, tick, subject, payload):
-        self._pending.append(PresentationEvent(kind, cause_key, tick, subject, payload))
+    def record(self, kind, cause_key, tick, subject, payload, *, origin=None, destination=None):
+        self._pending.append(PresentationEvent(kind, cause_key, tick, subject, payload, origin, destination))
 
     def drain(self):
         batch = tuple(self._pending)

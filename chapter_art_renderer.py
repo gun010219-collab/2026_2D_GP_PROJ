@@ -68,7 +68,7 @@ CHAPTER_PROFILES = {1: ROYAL, 2: FOREST, 3: FROZEN, **LATE_PROFILES}
 
 class LiveArenaArtPath:
     """Dispatch one path and release outgoing textures before loading the next stage."""
-    def __init__(self, canvas, *, motion=None, default_enabled=False, animation=None):
+    def __init__(self, canvas, *, motion=None, default_enabled=False, animation=None, vfx=None):
         royal = ProfileArtPath(canvas, ROYAL, motion=motion, stage=range(1, 5),
                                flag=None, logger=logging.getLogger(__name__))
         frozen = ProfileArtPath(canvas, FROZEN, motion=motion, stage=range(14, 16),
@@ -82,7 +82,13 @@ class LiveArenaArtPath:
         original_paths = (Stage5ArtPath(canvas), Stage6ArtPath(canvas),
                           *(path(canvas, motion=motion) for path in legacy))
         self.stage_paths = {**self.paths, **{path.stage: path for path in original_paths}}
+        self.vfx = vfx
+        if vfx is not None:
+            from combat_vfx_renderer import VFXRenderer
+            effects_renderer = VFXRenderer(vfx)
         for path in self.stage_paths.values():
+            if vfx is not None:
+                path.vfx = effects_renderer
             path.default_enabled = default_enabled
             path.animation = animation
             path.animation_motion = motion
@@ -90,12 +96,15 @@ class LiveArenaArtPath:
 
     def draw(self, game, positions):
         if game.stage_number != self.stage:
-            self.close()
+            if self.path is not None:
+                self.path.close()
             self.stage = game.stage_number
             self.path = self.stage_paths.get(self.stage)
         return self.path is not None and self.path.draw(game, positions)
 
     def close(self):
+        if self.vfx is not None:
+            self.vfx.close()
         if self.path is not None:
             self.path.close()
         self.stage = self.path = None

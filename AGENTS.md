@@ -5,6 +5,8 @@
 
 ## 1. 목표와 근거 우선순위
 
+- R3F 기술 승인 이후 R4는 프레임당 한 번 전달하는 불변 사건 배치를 Animation/VFX가 공유한다. R5도 같은 배치와 원점·피해 영수증을 사용한다. 정적 회귀는 `CHECKMATE_ANIMATION=0`과 `CHECKMATE_VFX=0`, 애니메이션 회귀는 VFX만 끈다. [R4 검수와 큐 계약](docs/TASK5R4_COMBAT_VFX.md)
+
 - R3 작업 트리의 일반 실행은 25스테이지의 기물 애니메이션을 기본 적용한다. `CHECKMATE_ANIMATION=0`은 기존 정적 아트와 캡처를 재현한다. 실제 전투 사건으로 자세를 바꾸고 일반 실행의 표현 배치는 프레임당 한 번 비운다. [R3 상태표·검수](docs/TASK5R3_ANIMATION.md)
 
 - R2 작업 트리에서 `main.py`는 그래픽 플래그 없이 Stage1~25의 각 챕터 2.5D를 기본 표시한다. 기존 캡처 90장과 공용 원본을 보존한다. Chapter4/5 전면 접합은 기술 검증을 통과했고 인간 Windows 확인을 기다린다. [R2 실행과 검수표](docs/TASK5R2_RELEASE_ART.md)
