@@ -65,6 +65,8 @@ def cue_kind(g):
 class Stage5ArtRenderer:
     # Stage6 reuses this drawing pipeline through these two presentation hooks.
     files = FILES
+    animation = animation_motion = None
+    animation_failed = False
 
     def layout(self,kind,u,v):
         return actor_layout(kind,u,v)
@@ -103,6 +105,25 @@ class Stage5ArtRenderer:
     def draw_frame(self):
         self.image('frame',720,450,1440,900)
 
+    def draw_actor(self, g, actor, kind, layout, *, dead=False):
+        if self.animation is not None and not self.animation_failed:
+            from actor_mesh import draw_actor
+
+            pose = self.animation.pose(g, actor, self.animation_motion)
+            try:
+                profile = getattr(self, 'profile', None)
+                style = profile.pieces[kind].animation_profile if profile is not None else kind
+                x, top = draw_actor(self.c, self.images[kind].texture, style, g.chapter, layout, pose)
+                layout['animation'] = pose.state.value
+                return x, layout['hp_y'] + top - layout['top']
+            except (OSError, ArenaArtError):
+                LOG.exception('Actor animation unavailable; using the static sprites for this session')
+                self.animation_failed = True
+        if not dead:
+            x, y = layout['center']
+            self.image(kind, x, y, layout['height'], layout['height'])
+        return layout['foot'][0], layout['hp_y']
+
     def draw(self,g,positions):
         c=self.c;self.warning_cells=[];self.order=[];self.bounds=[];self.actor_layouts={}
         self.image('background',720,450,1440,900);self.draw_frame()
@@ -131,6 +152,11 @@ class Stage5ArtRenderer:
             if g.combat.active_attack:self.mark(g.combat.active_attack.target_cell,(237,207,113))
         actors=[e for e in g.encounter.enemies if e.active and e.alive]
         if g.player.alive:actors.append(g.player)
+        dead_ids = set()
+        if self.animation is not None and not self.animation_failed:
+            for dead in self.animation.deaths:
+                actors.append(dead)
+                dead_ids.add(dead.entity_instance_id)
         def cell(e):
             return self.pose(e,positions)
         actors.sort(key=lambda e:(-cell(e)[1],cell(e)[0],e.entity_instance_id))
@@ -140,11 +166,15 @@ class Stage5ArtRenderer:
             if lift:
                 layout={**layout,'center':(layout['center'][0],layout['center'][1]+lift),
                         'top':layout['top']+lift,'hp_y':layout['hp_y']+lift,'elevation':lift}
-            x,y=layout['foot'];height=layout['height'];center=layout['center'][1];top=layout['top']
+            x,y=layout['foot'];height=layout['height'];top=layout['top']
             self.actor_layouts[e.entity_instance_id]=layout
+            if e.entity_instance_id in dead_ids:
+                self.draw_actor(g,e,kind,layout,dead=True)
+                continue
             polygon(c,tuple((x+4+cos(i*pi/4)*height*.24,y-2+sin(i*pi/4)*4) for i in range(8)),(24,25,29,255))
-            self.image(kind,x,center,height,height);self.order.append(e.entity_instance_id)
-            self.bounds.append((e.entity_instance_id,x,y,top));labels.append((e,x,layout['hp_y']))
+            label_x,label_y=self.draw_actor(g,e,kind,layout)
+            self.order.append(e.entity_instance_id)
+            self.bounds.append((e.entity_instance_id,x,y,top));labels.append((e,label_x,label_y))
             if e is g.player:
                 dx,dy={'up':(0,1),'down':(0,-1),'left':(-1,0),'right':(1,0)}[e.facing]
                 c.draw_line(*CAMERA.project(u+.5,v+.5),*CAMERA.project(u+.5+dx*.32,v+.5+dy*.32),101,201,244)

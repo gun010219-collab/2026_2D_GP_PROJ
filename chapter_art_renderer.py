@@ -68,7 +68,7 @@ CHAPTER_PROFILES = {1: ROYAL, 2: FOREST, 3: FROZEN, **LATE_PROFILES}
 
 class LiveArenaArtPath:
     """Dispatch one path and release outgoing textures before loading the next stage."""
-    def __init__(self, canvas, *, motion=None, default_enabled=False):
+    def __init__(self, canvas, *, motion=None, default_enabled=False, animation=None):
         royal = ProfileArtPath(canvas, ROYAL, motion=motion, stage=range(1, 5),
                                flag=None, logger=logging.getLogger(__name__))
         frozen = ProfileArtPath(canvas, FROZEN, motion=motion, stage=range(14, 16),
@@ -84,6 +84,8 @@ class LiveArenaArtPath:
         self.stage_paths = {**self.paths, **{path.stage: path for path in original_paths}}
         for path in self.stage_paths.values():
             path.default_enabled = default_enabled
+            path.animation = animation
+            path.animation_motion = motion
         self.stage = self.path = None
 
     def draw(self, game, positions):

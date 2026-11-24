@@ -29,6 +29,7 @@ class SessionArtPath:
         self.session = self.renderer = None
         self.failed = False
         self.default_enabled = False
+        self.animation = self.animation_motion = None
 
     def close(self):
         if self.renderer is not None:
@@ -64,6 +65,9 @@ class SessionArtPath:
         try:
             if self.renderer is None:
                 self.renderer = self.load_renderer(g)
+                if self.animation is not None:
+                    self.renderer.animation = self.animation
+                    self.renderer.animation_motion = self.animation_motion
             self.renderer.draw(g, positions)
             return True
         except (OSError, ArenaArtError):

@@ -4,6 +4,8 @@
 
 ## 현재 실행 상태
 
+R3 작업 트리의 일반 실행은 기존 2.5D에 기물 애니메이션을 기본 적용한다. `CHECKMATE_ANIMATION=0`으로 동일 보드와 기물을 정적으로 비교한다. [실행 명령·상태표·연속 캡처](docs/TASK5R3_ANIMATION.md)
+
 R2 작업 트리의 일반 실행 `python main.py`는 Stage1~25에 챕터별 2.5D를 기본 적용한다. `CHECKMATE_CHAPTER<n>_ART=0` 또는 `CHECKMATE_STAGE<n>_ART=0`으로 기존 표시를 검수할 수 있다. 스테이지 설정이 우선한다. [Windows 실행·개발 진입·검수 명령](docs/TASK5R2_RELEASE_ART.md)
 
 ## R1F 및 이전 검증 기록

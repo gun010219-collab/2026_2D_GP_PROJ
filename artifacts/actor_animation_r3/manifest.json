@@ -1,0 +1,313 @@
+{
+  "driver": "direct3d11",
+  "counts": {
+    "loads": 287,
+    "frees": 287,
+    "peak": 12,
+    "frames": 45
+  },
+  "states": [
+    "attack",
+    "death",
+    "hit",
+    "idle",
+    "move",
+    "parry_failed",
+    "parry_normal",
+    "parry_perfect",
+    "parry_ready",
+    "stun",
+    "windup"
+  ],
+  "captures": [
+    {
+      "file": "idle_25_a.png",
+      "stage": 25,
+      "tick": 0,
+      "visual_time": 0.0,
+      "poses": {
+        "s25_king_1": "idle",
+        "s25_bishop_1": "idle",
+        "s25_queen_1": "idle",
+        "s25_pawn_1": "idle",
+        "s25_knight_1": "idle",
+        "s25_knight_2": "idle",
+        "s25_rook_1": "idle",
+        "s25_rook_2": "idle",
+        "player": "idle"
+      },
+      "sha256": "8b509703d7917e72a7c766e7f25cc8974c8a476074039345dc93fab968a80b85"
+    },
+    {
+      "file": "idle_25_1.png",
+      "stage": 25,
+      "tick": 0,
+      "visual_time": 0.2,
+      "poses": {
+        "s25_king_1": "idle",
+        "s25_bishop_1": "idle",
+        "s25_queen_1": "idle",
+        "s25_pawn_1": "idle",
+        "s25_knight_1": "idle",
+        "s25_knight_2": "idle",
+        "s25_rook_1": "idle",
+        "s25_rook_2": "idle",
+        "player": "idle"
+      },
+      "sha256": "0b6757cbd466880ad1ef66db21a94c564d9b515decc72367193849d7ff81989d"
+    },
+    {
+      "file": "idle_25_2.png",
+      "stage": 25,
+      "tick": 0,
+      "visual_time": 0.4,
+      "poses": {
+        "s25_king_1": "idle",
+        "s25_bishop_1": "idle",
+        "s25_queen_1": "idle",
+        "s25_pawn_1": "idle",
+        "s25_knight_1": "idle",
+        "s25_knight_2": "idle",
+        "s25_rook_1": "idle",
+        "s25_rook_2": "idle",
+        "player": "idle"
+      },
+      "sha256": "198af099c0980554e67e3b8786119e74556be5612f436d67c241be38934ac0bc"
+    },
+    {
+      "file": "knight_peak.png",
+      "stage": 3,
+      "tick": 87,
+      "visual_time": 1.45,
+      "poses": {
+        "s3_knight_1": "attack",
+        "s3_pawn_1": "idle",
+        "s3_pawn_2": "idle",
+        "player": "idle"
+      },
+      "sha256": "318ee9f1c9a320474281450076f0767695b6a896505fcdded318497921da93e2"
+    },
+    {
+      "file": "player_move.png",
+      "stage": 1,
+      "tick": 0,
+      "visual_time": 0.016667,
+      "poses": {
+        "s1_pawn_1": "idle",
+        "s1_pawn_2": "idle",
+        "player": "move"
+      },
+      "sha256": "8485a9147cf55d625a5cccbfabc1fd501f831787ff918415cfada3a6f29d1f19"
+    },
+    {
+      "file": "parry_failed.png",
+      "stage": 25,
+      "tick": 0,
+      "visual_time": 0.016667,
+      "poses": {
+        "s25_king_1": "idle",
+        "s25_bishop_1": "idle",
+        "s25_queen_1": "idle",
+        "s25_pawn_1": "idle",
+        "s25_knight_1": "idle",
+        "s25_knight_2": "idle",
+        "s25_rook_1": "idle",
+        "s25_rook_2": "idle",
+        "player": "parry_failed"
+      },
+      "sha256": "f1f49af737c24c3be4c9a6628728aef5fb3c3d9850314249e1050eea7deb17aa"
+    },
+    {
+      "file": "parry_normal.png",
+      "stage": 25,
+      "tick": 385,
+      "visual_time": 6.133333,
+      "poses": {
+        "s25_bishop_1": "idle",
+        "s25_king_1": "attack",
+        "s25_queen_1": "idle",
+        "s25_pawn_1": "idle",
+        "s25_knight_1": "idle",
+        "s25_knight_2": "idle",
+        "s25_rook_1": "idle",
+        "player": "parry_normal",
+        "s25_rook_2": "idle"
+      },
+      "sha256": "f7a0ddf51f51e4134f21a9ffb7a248de08da460b8001d65ee6fc2a47dad5a1c0"
+    },
+    {
+      "file": "king_pulse_windup.png",
+      "stage": 25,
+      "tick": 340,
+      "visual_time": 5.683333,
+      "poses": {
+        "s25_bishop_1": "idle",
+        "s25_king_1": "windup",
+        "s25_queen_1": "idle",
+        "s25_pawn_1": "idle",
+        "s25_knight_1": "idle",
+        "s25_knight_2": "idle",
+        "s25_rook_1": "idle",
+        "player": "idle",
+        "s25_rook_2": "idle"
+      },
+      "sha256": "8cf4dd9fe8e2d9a2b3cdebeb39562f7c207afdc228061feb29f5290ca0335fba"
+    },
+    {
+      "file": "parry_ready.png",
+      "stage": 25,
+      "tick": 378,
+      "visual_time": 6.316667,
+      "poses": {
+        "s25_bishop_1": "idle",
+        "s25_king_1": "windup",
+        "s25_queen_1": "idle",
+        "s25_pawn_1": "idle",
+        "s25_knight_1": "idle",
+        "s25_knight_2": "idle",
+        "s25_rook_1": "idle",
+        "player": "parry_ready",
+        "s25_rook_2": "idle"
+      },
+      "sha256": "126ddae207b3a362c83a94ee10cb5775419102de7278b522116c2523f4d349e2"
+    },
+    {
+      "file": "parry_perfect.png",
+      "stage": 25,
+      "tick": 385,
+      "visual_time": 6.316667,
+      "poses": {
+        "s25_bishop_1": "idle",
+        "s25_king_1": "stun",
+        "s25_queen_1": "idle",
+        "s25_pawn_1": "idle",
+        "s25_knight_1": "idle",
+        "s25_knight_2": "idle",
+        "s25_rook_1": "idle",
+        "player": "parry_perfect",
+        "s25_rook_2": "idle"
+      },
+      "sha256": "65fefaa3cadfbeb1ebe6c21e0c565019151d1fbe42e6eccd6f75d9e7bc7bab22"
+    },
+    {
+      "file": "attack.png",
+      "stage": 25,
+      "tick": 0,
+      "visual_time": 0.016667,
+      "poses": {
+        "s25_king_1": "idle",
+        "s25_bishop_1": "idle",
+        "s25_queen_1": "idle",
+        "s25_pawn_1": "idle",
+        "s25_knight_1": "idle",
+        "s25_knight_2": "idle",
+        "s25_rook_1": "idle",
+        "s25_rook_2": "idle",
+        "player": "attack"
+      },
+      "sha256": "a2c7f7a0c4b5398f240359a741dee194d31c8108e201de8ec2ace4c5bb474047"
+    },
+    {
+      "file": "hit.png",
+      "stage": 25,
+      "tick": 72,
+      "visual_time": 1.216667,
+      "poses": {
+        "s25_bishop_1": "idle",
+        "s25_king_1": "idle",
+        "s25_pawn_1": "idle",
+        "s25_knight_1": "idle",
+        "s25_knight_2": "idle",
+        "s25_queen_1": "hit",
+        "s25_rook_1": "idle",
+        "player": "attack",
+        "s25_rook_2": "idle"
+      },
+      "sha256": "3194d3a2e49ff88ba59b4941be166100087ec4fc977dd44aa32e912a0688bc95"
+    },
+    {
+      "file": "first_death.png",
+      "stage": 25,
+      "tick": 108,
+      "visual_time": 1.816667,
+      "poses": {
+        "s25_bishop_1": "idle",
+        "s25_king_1": "idle",
+        "s25_pawn_1": "idle",
+        "s25_knight_1": "windup",
+        "s25_knight_2": "idle",
+        "s25_queen_1": "death",
+        "s25_rook_1": "windup",
+        "player": "attack",
+        "s25_rook_2": "windup"
+      },
+      "sha256": "ea0a3f261ec60fa6b8af17271c7b33f69f10ba349421927a3196dfd13970f598"
+    },
+    {
+      "file": "stun.png",
+      "stage": 25,
+      "tick": 123,
+      "visual_time": 2.066667,
+      "poses": {
+        "s25_bishop_1": "idle",
+        "s25_king_1": "move",
+        "s25_pawn_1": "idle",
+        "s25_knight_1": "windup",
+        "s25_knight_2": "windup",
+        "s25_queen_1": "death",
+        "s25_rook_1": "stun",
+        "player": "parry_perfect",
+        "s25_rook_2": "windup"
+      },
+      "sha256": "1c64a46b7552f51d21a1f4b6f8c6a0e4f7af047bf73a1fa4539f8433a80fd1fe"
+    },
+    {
+      "file": "king_death.png",
+      "stage": 25,
+      "tick": 530,
+      "visual_time": 8.85,
+      "poses": {
+        "s25_bishop_1": "idle",
+        "s25_pawn_1": "idle",
+        "s25_king_1": "death",
+        "player": "attack"
+      },
+      "sha256": "9c70daca6560b0a5c41d88ee4cf9395a41f043e3f1880f6c4eefa1c7730e6363"
+    },
+    {
+      "file": "king_death_b.png",
+      "stage": 25,
+      "tick": 558,
+      "visual_time": 9.316667,
+      "poses": {
+        "s25_bishop_1": "idle",
+        "s25_pawn_1": "move",
+        "player": "idle",
+        "s25_king_1": "death"
+      },
+      "sha256": "c36c435d39b0932dab6b97a86bf017079512b464d97c53ea9e58d2c8ec1da189"
+    },
+    {
+      "file": "terminal_death_a.png",
+      "stage": 25,
+      "tick": 638,
+      "visual_time": 10.65,
+      "poses": {
+        "s25_bishop_1": "death",
+        "player": "attack"
+      },
+      "sha256": "d1c077f3487fc909be47e11ba6f22e7c33128c48fc16e1c4ab19147bd576caea"
+    },
+    {
+      "file": "terminal_death_b.png",
+      "stage": 25,
+      "tick": 638,
+      "visual_time": 10.8,
+      "poses": {
+        "s25_bishop_1": "death",
+        "player": "attack"
+      },
+      "sha256": "19850329f5d69131f5b29792c2d94bf8616ebd03923a219fbbe6f9fc35c28a5e"
+    }
+  ]
+}

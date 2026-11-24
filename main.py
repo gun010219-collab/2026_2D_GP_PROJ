@@ -119,7 +119,15 @@ def run_session(game, flow, *, game_renderer=None, default_art=False):
         menu = SettingsMenu()
         settings_renderer = SettingsRenderer(canvas)
         from chapter_art_renderer import LiveArenaArtPath
-        art_path = LiveArenaArtPath(canvas, motion=motion, default_enabled=default_art)
+        animation_flag = os.environ.get('CHECKMATE_ANIMATION')
+        animation_enabled = default_art if animation_flag is None else animation_flag == '1'
+        if animation_enabled:
+            from actor_animation import ActorAnimation
+            animation = ActorAnimation()
+            presentation = flow.enable_presentation()
+        else:
+            animation = presentation = None
+        art_path = LiveArenaArtPath(canvas, motion=motion, default_enabled=default_art, animation=animation)
         controls = GameplayInput(canvas, move_interval_ticks=flow.run.stats.move_interval_ticks)
         pending_gameplay = []
 
@@ -325,6 +333,12 @@ def run_session(game, flow, *, game_renderer=None, default_art=False):
                 frozen.update(e.entity_instance_id for e in encounter.enemies if encounter.pulse.frozen(e))
             motion.update((player, *encounter.enemies), visual_elapsed,
                           session=combat.combat_session_id, snap=visual_reset, frozen=frozen)
+            if presentation is not None:
+                # Immutable batch shared here with future effects and audio consumers.
+                presentation_batch = presentation.drain()
+                animation.update(game, visual_elapsed, presentation_batch,
+                                 paused=menu.is_open or not focused or focus_changed or
+                                 menu_changed or display_changed or restarted_this_frame)
             player_renderer.positions = enemy_renderer.positions = health_renderer.positions = motion.positions
             if measure_frames:
                 active_sample = (not (display_changed or menu_changed or focus_changed or restarted_this_frame
