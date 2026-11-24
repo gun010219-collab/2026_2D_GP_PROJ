@@ -71,27 +71,27 @@ class DamageIntegrationTests(unittest.TestCase):
 
     def test_space_hits_once_during_nine_effect_ticks_and_repeated_keydown(self):
         _, encounter, combat, snapshots, _ = self.run_frames(
-            [[key(32), key(32)]] + [[] for _ in range(9)])
+            [[key(1073742048), key(1073742048)]] + [[] for _ in range(9)])
         self.assertTrue(all(snapshot[2] == (1,) for snapshot in snapshots))
         self.assertEqual(encounter.enemies[0].health.last_damage_tick, 0)
         self.assertIsNone(combat.active_attack)
 
     def test_second_attack_kills_and_same_batch_movement_uses_released_cell(self):
         player, encounter, _, _, _ = self.run_frames(
-            [[key(32)]] + [[] for _ in range(35)] + [[key(32, False), key(32), key(1073741906)]])
+            [[key(1073742048)]] + [[] for _ in range(35)] + [[key(1073742048, False), key(1073742048), key(1073741906)]])
         self.assertEqual(encounter.enemies[0].health.current_hp, 0)
         self.assertFalse(encounter.enemies[0].active)
         self.assertEqual(encounter.occupied_cells, frozenset())
         self.assertEqual(player.position, (5, 2))
 
     def test_same_tick_movement_cannot_retarget_previous_player_attack(self):
-        _, encounter, combat, _, _ = self.run_frames([[key(32), key(1073741903)]])
+        _, encounter, combat, _, _ = self.run_frames([[key(1073742048), key(1073741903)]])
         self.assertEqual(encounter.enemies[0].health.current_hp, 1)
         self.assertEqual(combat.active_attack.target_cell, (5, 2))
 
     def test_empty_attack_never_hits_an_enemy_that_arrives_in_the_effect_cell(self):
         enemy = Enemy('moving', 5, 3, (0, -1), 0)
-        _, encounter, _, _, _ = self.run_frames([[key(32)]] + [[] for _ in range(8)], enemies=(enemy,))
+        _, encounter, _, _, _ = self.run_frames([[key(1073742048)]] + [[] for _ in range(8)], enemies=(enemy,))
         self.assertEqual(enemy.position, (5, 2))
         self.assertEqual(enemy.health.current_hp, 2)
         self.assertTrue(enemy.active)
@@ -99,7 +99,7 @@ class DamageIntegrationTests(unittest.TestCase):
     def test_exact_hit_tick_perfect_parry_prevents_damage(self):
         enemy = Enemy('attacker', 4, 2, (0, -1), 0)
         player, encounter, _, snapshots, _ = self.run_frames(
-            [[] for _ in range(38)] + [[key(1073742049)], []], enemies=(enemy,))
+            [[] for _ in range(38)] + [[key(1073742050)], []], enemies=(enemy,))
         self.assertTrue(all(snapshot[1] == 3 for snapshot in snapshots[:-1]))
         self.assertEqual((snapshots[-1][0], player.health.current_hp), (39, 3))
         self.assertIsNone(player.health.last_damage_tick)
@@ -123,7 +123,7 @@ class DamageIntegrationTests(unittest.TestCase):
         enemy.health.apply_damage(1, tick=0)
         player, encounter, _, _, _ = self.run_frames(
             [[] for _ in range(21)] + [[key(1073741904), key(1073741904, False)]] +
-            [[] for _ in range(17)] + [[key(1073741906), key(32)]], enemies=(enemy,))
+            [[] for _ in range(17)] + [[key(1073741906), key(1073742048)]], enemies=(enemy,))
         # Left moves to (4,1); after release, the blocked up press faces the
         # Pawn without entering its cell, so SPACE kills it before due.
         self.assertEqual(player.health.current_hp, 3)
@@ -169,7 +169,7 @@ class DamageIntegrationTests(unittest.TestCase):
         player = Player(5, 1)
         player.health.apply_damage(3, tick=0)
         _, encounter, combat, snapshots, display = self.run_frames(
-            [[key(1073741906), key(32), key(1073742049)], [key(1073741892)], []], player=player)
+            [[key(1073741906), key(1073742048), key(1073742050)], [key(1073741892)], []], player=player)
         self.assertEqual((combat.tick, encounter.tick), (0, -1))
         self.assertTrue(all(snapshot[1] == 0 for snapshot in snapshots))
         self.assertEqual(player.position, (5, 1))
@@ -185,13 +185,13 @@ class DamageIntegrationTests(unittest.TestCase):
         # Tick 0 accepts SPACE/Shift. A queued zero-step release is flushed at
         # tick 39 before its fatal hit. Input polled by the next 8-tick frame
         # belongs to a later time and must never act after death at tick 39.
-        batches = [[key(32), key(1073742049)]] + [[] for _ in range(38)]
-        batches += [[key(32, False), key(1073742049, False)],
+        batches = [[key(1073742048), key(1073742050)]] + [[] for _ in range(38)]
+        batches += [[key(1073742048, False), key(1073742050, False)],
                     [key(1073741906), key(1073741905), key(1073741904),
-                     key(1073741903), key(32), key(1073742049)],
-                    [key(32), key(1073742049)],
-                    [key(32, False), key(1073742049, False),
-                     key(32), key(1073742053)], []]
+                     key(1073741903), key(1073742048), key(1073742050)],
+                    [key(1073742048), key(1073742050)],
+                    [key(1073742048, False), key(1073742050, False),
+                     key(1073742048), key(1073742050)], []]
         lengths = [FIXED_TIME_STEP] * 38 + [0, FIXED_TIME_STEP * 8, 10, 10, 10, 10]
         with patch.object(main, 'Parry', return_value=parry), \
                 patch.object(player.health, 'apply_damage', wraps=player.health.apply_damage) as damage:
@@ -218,8 +218,8 @@ class DamageIntegrationTests(unittest.TestCase):
                 patch.object(main, 'SettingsMenu', return_value=menu):
             _, encounter, combat, snapshots, display = self.run_frames(
                 [[SimpleNamespace(type=1025, button=1, x=1295, y=41)],
-                 [key(1073741906), key(32), key(1073742049), key(27)],
-                 [key(1073741892), key(32, False), key(1073742049, False)],
+                 [key(1073741906), key(1073742048), key(1073742050), key(27)],
+                 [key(1073741892), key(1073742048, False), key(1073742050, False)],
                  [key(27)]], player=player, lengths=[10, 10, 10, 10])
         self.assertFalse(menu.is_open)
         self.assertEqual(len(snapshots), 3)  # Last ESC exits before rendering.
@@ -284,14 +284,14 @@ class DamageIntegrationTests(unittest.TestCase):
                          (87, 1, 87))
 
     def test_initial_one_tick_frame_settles_initial_ai_without_skipping_tick(self):
-        _, encounter, combat, _, _ = self.run_frames([[key(32)]], initial_elapsed=FIXED_TIME_STEP)
+        _, encounter, combat, _, _ = self.run_frames([[key(1073742048)]], initial_elapsed=FIXED_TIME_STEP)
         self.assertEqual((combat.tick, encounter.tick), (1, 1))
         self.assertEqual(encounter.enemies[0].health.current_hp, 1)
         self.assertEqual(encounter.enemies[0].health.last_damage_tick, 1)
 
     def test_zero_step_quick_tap_waits_for_next_tick_and_hits_once(self):
         _, encounter, combat, snapshots, _ = self.run_frames(
-            [[], [key(32), key(32, False)], []], lengths=[0, FIXED_TIME_STEP, FIXED_TIME_STEP])
+            [[], [key(1073742048), key(1073742048, False)], []], lengths=[0, FIXED_TIME_STEP, FIXED_TIME_STEP])
         self.assertEqual([snapshot[2] for snapshot in snapshots], [(2,), (2,), (1,)])
         self.assertEqual((combat.active_attack.start_tick, encounter.enemies[0].health.last_damage_tick), (1, 1))
 
@@ -299,7 +299,7 @@ class DamageIntegrationTests(unittest.TestCase):
         enemy = Enemy('attacker', 4, 2, (0, -1), 0)
         enemy.health.apply_damage(1, tick=0)
         batches = [[] for _ in range(40)]
-        batches += [[key(1073741904), key(1073741904, False), key(1073741906), key(32)], []]
+        batches += [[key(1073741904), key(1073741904, False), key(1073741906), key(1073742048)], []]
         lengths = [FIXED_TIME_STEP] * 39 + [0, FIXED_TIME_STEP, FIXED_TIME_STEP]
         player, _, combat, snapshots, _ = self.run_frames(batches, enemies=(enemy,), lengths=lengths)
         self.assertEqual(snapshots[40][:3], (39, 2, (1,)))
@@ -311,21 +311,21 @@ class DamageIntegrationTests(unittest.TestCase):
 
     def test_modal_transition_discards_pending_quick_tap_without_attack(self):
         _, encounter, combat, _, _ = self.run_frames(
-            [[], [key(32), key(32, False), SimpleNamespace(type=1025, button=1, x=1295, y=41)],
+            [[], [key(1073742048), key(1073742048, False), SimpleNamespace(type=1025, button=1, x=1295, y=41)],
              [key(27)], []], lengths=[0, FIXED_TIME_STEP, FIXED_TIME_STEP, FIXED_TIME_STEP])
         self.assertEqual(encounter.enemies[0].health.current_hp, 2)
         self.assertIsNone(combat.active_attack)
 
     def test_f11_discards_pending_press_and_keeps_tail_release(self):
         _, encounter, combat, _, _ = self.run_frames(
-            [[], [key(32), key(1073741892), key(32, False)], [key(32)]],
+            [[], [key(1073742048), key(1073741892), key(1073742048, False)], [key(1073742048)]],
             lengths=[0, FIXED_TIME_STEP, FIXED_TIME_STEP])
         self.assertEqual(encounter.enemies[0].health.current_hp, 1)
         self.assertEqual(combat.active_attack.attack_id, 1)
 
     def test_focus_loss_discards_pending_attack_until_a_fresh_press(self):
         _, encounter, combat, _, _ = self.run_frames(
-            [[], [key(32)], [], [], [], [key(32)]],
+            [[], [key(1073742048)], [], [], [], [key(1073742048)]],
             lengths=[0, FIXED_TIME_STEP, FIXED_TIME_STEP, FIXED_TIME_STEP,
                      FIXED_TIME_STEP, FIXED_TIME_STEP], focus=[512, 512, 0, 512, 512, 512])
         self.assertEqual(encounter.enemies[0].health.current_hp, 1)

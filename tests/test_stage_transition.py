@@ -16,8 +16,8 @@ from stage_manager import StageCatalog
 from tests import test_main as canvas_tests
 
 
-N, R, UP, LEFT, SPACE, SHIFT, F11, ESC = (110, 114, 1073741906, 1073741904,
-                                       32, 1073742049, 1073741892, 27)
+N, R, UP, LEFT, CTRL, ALT, F11, ESC = (110, 114, 1073741906, 1073741904,
+                                       1073742048, 1073742050, 1073741892, 27)
 MENU = SimpleNamespace(type=1025, button=1, x=1295, y=41)
 
 
@@ -41,7 +41,7 @@ def run_loop(batches, *, initial_stage=1, initial='clear', focus=None, lengths=N
     """Use actual factories/loop/renderers; replace only the desktop and time."""
     canvas = canvas_tests.WindowLoopTests().make_canvas()
     canvas.SDL_SCANCODE_R, canvas.SDL_SCANCODE_N = 21, 17
-    scans = {49:30,50:31,51:32,N: 17, R: 21, UP: 82, LEFT: 80, SPACE: 44, SHIFT: 225}
+    scans = {49:30,50:31,51:32,N: 17, R: 21, UP: 82, LEFT: 80, CTRL: 224, ALT: 226}
     flags = focus if focus is not None else [512] * len(batches)
     queued = iter(zip(batches + [[SimpleNamespace(type=256)]], flags + [flags[-1]]))
 
@@ -280,7 +280,7 @@ class StageFlowMainTests(unittest.TestCase):
             game.encounter.deactivate(second.entity_instance_id)
             return game
         created, snapshots, _, _, _, _ = run_loop(
-            [[key(SPACE), key(49)], [key(49)], [key(49, False), key(49)]],
+            [[key(CTRL), key(49)], [key(49)], [key(49, False), key(49)]],
             initial='playing', initial_factory=almost_clear)
         self.assertEqual([s['count'] for s in snapshots], [1, 1, 2])
         self.assertEqual(snapshots[0]['state'], GameState.UPGRADE)
@@ -298,7 +298,7 @@ class StageFlowMainTests(unittest.TestCase):
             last.health.apply_damage(last.health.max_hp-1, tick=0)
             return game
         created, snapshots, _, _, _, _ = run_loop(
-            [[key(SPACE)], [], [key(R)]], initial_stage=2, initial='playing',
+            [[key(CTRL)], [], [key(R)]], initial_stage=2, initial='playing',
             initial_factory=almost_clear_two)
         self.assertEqual([g.stage_number for g in created], [2])
         self.assertEqual(snapshots[0]['state'], GameState.UPGRADE)
@@ -338,7 +338,7 @@ class StageFlowMainTests(unittest.TestCase):
             if frame == 1:
                 finish(game, 'clear')
         created, snapshots, _, _, _, _ = run_loop(
-            [[], [key(SPACE)], [], [key(49)], [key(SPACE)], [key(SPACE, False)], [key(SPACE)]],
+            [[], [key(CTRL)], [], [key(49)], [key(CTRL)], [key(CTRL, False)], [key(CTRL)]],
             initial='playing', lengths=[0, 0, 0, FIXED_TIME_STEP, FIXED_TIME_STEP,
                                          FIXED_TIME_STEP, FIXED_TIME_STEP],
             after_render=clear_after_queued_input)
@@ -387,10 +387,10 @@ class StageFlowMainTests(unittest.TestCase):
 
     def test_transition_blocks_tail_actions_and_physical_holds_until_release(self):
         created, snapshots, _, _, _, _ = run_loop([
-            [key(49), key(UP), key(SPACE), key(SHIFT), key(R)],
-            [key(49), key(UP), key(SPACE), key(SHIFT)],
-            [key(49, False), key(R, False), key(UP, False), key(SPACE, False), key(SHIFT, False)],
-            [key(UP), key(SPACE), key(SHIFT)],
+            [key(49), key(UP), key(CTRL), key(ALT), key(R)],
+            [key(49), key(UP), key(CTRL), key(ALT)],
+            [key(49, False), key(R, False), key(UP, False), key(CTRL, False), key(ALT, False)],
+            [key(UP), key(CTRL), key(ALT)],
         ])
         self.assertEqual(len(created), 2)
         self.assertTrue(all(s['position'] == (5, 1) and s['attack'] == s['parry'] == 0
@@ -467,10 +467,10 @@ class StageFlowMainTests(unittest.TestCase):
     def test_stage_two_main_loop_normal_and_perfect_parry_against_real_rook(self):
         for grade in ('normal', 'perfect'):
             if grade == 'perfect':
-                batches = [[key(49)]] + [[] for _ in range(20)] + [[key(SHIFT)], []]
+                batches = [[key(49)]] + [[] for _ in range(20)] + [[key(ALT)], []]
                 lengths = [8 * FIXED_TIME_STEP] * 20 + [FIXED_TIME_STEP, 7 * FIXED_TIME_STEP, FIXED_TIME_STEP]
             else:
-                batches = [[key(49)]] + [[] for _ in range(18)] + [[key(SHIFT)], [], [], []]
+                batches = [[key(49)]] + [[] for _ in range(18)] + [[key(ALT)], [], [], []]
                 lengths = [8 * FIXED_TIME_STEP] * 18 + [6 * FIXED_TIME_STEP, 8 * FIXED_TIME_STEP,
                                                        8 * FIXED_TIME_STEP, 2 * FIXED_TIME_STEP, FIXED_TIME_STEP]
             with self.subTest(grade=grade):
@@ -498,7 +498,7 @@ class StageFlowMainTests(unittest.TestCase):
             if tick==144:
                 game.encounter.enemies[0].health.apply_damage(game.encounter.enemies[0].health.current_hp-1,tick=tick)
         created,_,_,_,_,_=play_to(170,factory=lambda: main._new_stage_game(2),
-            inputs={150:[key(LEFT),key(LEFT,False)],168:[key(LEFT),key(SPACE)]},
+            inputs={150:[key(LEFT),key(LEFT,False)],168:[key(LEFT),key(CTRL)]},
             samples=(144,),observe=expose)
         game=created[-1]
         self.assertFalse(game.encounter.enemies[0].active)

@@ -81,8 +81,8 @@ class StageSixSDLTests(unittest.TestCase):
                 if f==11:
                     push(s.SDL_KEYDOWN,s.SDLK_n)
                     tap(s.SDLK_UP)
-                    tap(s.SDLK_SPACE)
-                    tap(s.SDLK_LSHIFT)
+                    tap(s.SDLK_LCTRL)
+                    tap(s.SDLK_LALT)
                     tap(s.SDLK_r)
                     push(s.SDL_KEYDOWN,s.SDLK_n,repeat=1)
                 if f==12:push(s.SDL_KEYDOWN,s.SDLK_n,repeat=1)
@@ -97,8 +97,8 @@ class StageSixSDLTests(unittest.TestCase):
                     tap(s.SDLK_r)
                     if f!=15:
                         tap(s.SDLK_UP)
-                        tap(s.SDLK_SPACE)
-                        tap(s.SDLK_LSHIFT)
+                        tap(s.SDLK_LCTRL)
+                        tap(s.SDLK_LALT)
                 if f==23:
                     push(s.SDL_MOUSEBUTTONDOWN,x=1295,y=41)
                     push(s.SDL_MOUSEBUTTONUP,x=1295,y=41)

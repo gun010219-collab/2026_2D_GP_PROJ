@@ -14,7 +14,8 @@ class GameplayInput:
         self.next_held = False
         self.arrows = {canvas.SDLK_UP: 'up', canvas.SDLK_DOWN: 'down',
                        canvas.SDLK_LEFT: 'left', canvas.SDLK_RIGHT: 'right'}
-        self.shifts = {canvas.SDLK_LSHIFT: 'left', canvas.SDLK_RSHIFT: 'right'}
+        self.attack_key = canvas.SDLK_LCTRL
+        self.parry_key = canvas.SDLK_LALT
 
     @property
     def focused(self):
@@ -24,8 +25,7 @@ class GameplayInput:
     def is_gameplay_key(self, event):
         c = self.canvas
         return (event.type in (c.SDL_KEYDOWN, c.SDL_KEYUP)
-                and (event.key in self.arrows or event.key in self.shifts
-                     or event.key == c.SDLK_SPACE))
+and (event.key in self.arrows or event.key in (self.attack_key,self.parry_key)))
 
     def handle_restart(self, event, enabled=False, blocked=False):
         """R is edge-triggered and immediate, outside the combat input queue."""
@@ -67,7 +67,7 @@ class GameplayInput:
                    on_attack=None, on_parry=None):
         """Preserve the bool consumption contract; deliver new attacks immediately.
 
-        The callback receives only the event returned by this SPACE press, never
+        The callback receives only the event returned by this Left Ctrl press, never
         the renderer's active effect. Releases remain live when gameplay is dead
         or blocked by a menu/display transition.
         """
@@ -75,11 +75,11 @@ class GameplayInput:
         if event.type not in (c.SDL_KEYDOWN, c.SDL_KEYUP):
             return False
         blocked = blocked or not player.alive
-        if event.key in self.shifts:
+        if event.key == self.parry_key:
             if event.type == c.SDL_KEYUP:
-                self.parry.key_up(self.shifts[event.key])
+                self.parry.key_up('left')
             else:
-                attempt = self.parry.key_down(self.shifts[event.key], parry, combat.tick,
+                attempt = self.parry.key_down('left', parry, combat.tick,
                                               blocked=blocked or parry is None)
                 if attempt is not None and on_parry is not None:
                     on_parry(attempt)
@@ -91,7 +91,7 @@ class GameplayInput:
                 self.movement.key_down(self.arrows[event.key], player, blocked, occupied,
                                        tick=combat.tick)
             return True
-        if event.key == c.SDLK_SPACE:
+        if event.key == self.attack_key:
             if event.type == c.SDL_KEYUP:
                 self.attack.key_up()
             else:
@@ -114,9 +114,8 @@ class GameplayInput:
         self.movement.reconcile(direction for scan, direction in (
             (c.SDL_SCANCODE_UP, 'up'), (c.SDL_SCANCODE_DOWN, 'down'),
             (c.SDL_SCANCODE_LEFT, 'left'), (c.SDL_SCANCODE_RIGHT, 'right')) if keys[scan])
-        self.attack.reconcile(keys[c.SDL_SCANCODE_SPACE])
-        self.parry.reconcile(side for scan, side in (
-            (c.SDL_SCANCODE_LSHIFT, 'left'), (c.SDL_SCANCODE_RSHIFT, 'right')) if keys[scan])
+        self.attack.reconcile(keys[c.SDL_SCANCODE_LCTRL])
+        self.parry.reconcile(('left',) if keys[c.SDL_SCANCODE_LALT] else ())
         scan = getattr(c, 'SDL_SCANCODE_R', None)
         if type(scan) is int:
             self.restart_held = bool(keys[scan])

@@ -1,23 +1,44 @@
 """Display-only bounded motion. No combat clocks, entities or ledgers are mutated."""
-from math import isfinite, sin, pi
+from math import hypot, isfinite, sin, pi
 from config import cell_center, MOTION_SECONDS
 
 
 class RenderMotion:
-    def __init__(self, duration=MOTION_SECONDS):
+    def __init__(self, duration=MOTION_SECONDS, *, improved=False):
         if isinstance(duration, bool) or not isfinite(duration) or duration <= 0:
             raise ValueError('Motion duration must be positive and finite')
         self.duration = duration
+        self.improved = improved
         self.time = 0.0
         self.session = None
         self._tracks = {}
         self._ground_origins = {}
         self.positions = {}
 
+    def _duration(self, track):
+        origin,target,_,kind = track
+        if self.improved and kind == 'player':
+            return self.duration*(.38 if hypot(target[0]-origin[0],target[1]-origin[1]) <= 8.001 else .84)
+        return self.duration
+
+    def segment(self, actor):
+        track = self._tracks.get(actor.entity_instance_id)
+        if track and track[0] != track[1]:
+            return track[2],track[2]+self._duration(track)
+        return None
+
+    def _progress(self, track):
+        _,_,started,kind = track
+        age = max(0.,self.time-started)
+        t = min(1.,age/self._duration(track))
+        if self.improved and kind != 'knight' and t < 1.:
+            # Small immediate lead, nonzero initial velocity and a zero-velocity finish.
+            return t,min(1.,.055+.945*t*(.85+t*(1.30-1.15*t)))
+        return t,t*t*(3-2*t)
+
     def _sample(self, track):
         origin, target, started, kind = track
-        t = min(1.0, max(0.0, (self.time - started) / self.duration))
-        u = t * t * (3 - 2 * t)
+        t,u = self._progress(track)
         x = origin[0] + (target[0] - origin[0]) * u
         y = origin[1] + (target[1] - origin[1]) * u
         if kind == 'knight' and origin != target:
@@ -36,8 +57,7 @@ class RenderMotion:
             return cell_center(*entity.position), 0.0
         origin, target, started, kind = track
         ground = self._ground_origins.get(key, origin)
-        t = min(1.0, max(0.0, (self.time - started) / self.duration))
-        u = t * t * (3 - 2 * t)
+        t,u = self._progress(track)
         center = (ground[0] + (target[0] - ground[0]) * u,
                   ground[1] + (target[1] - ground[1]) * u)
         lift = 18 * sin(pi * t) if kind == 'knight' and ground != target and 0 < t < 1 else 0.0
@@ -61,7 +81,17 @@ class RenderMotion:
             target = cell_center(*entity.position)
             kind = getattr(entity, 'kind', 'player')
             track = self._tracks.get(key)
-            if snap or key in frozen or track is None or kind == 'bishop':
+            if self.improved and not snap and key in frozen and kind == 'player' and track is not None:
+                # Align the rendered foot with the active attack/parry's logical origin.
+                origin = self._sample(track)
+                dx,dy = origin[0]-target[0],origin[1]-target[1]
+                gap = hypot(dx,dy)
+                if track[1] != target or gap > 8.001:
+                    fraction = min(1.,8/max(gap,.001))
+                    origin = target[0]+dx*fraction,target[1]+dy*fraction
+                    track = (origin,target,self.time,kind)
+                ground_origin = track[0]
+            elif snap or key in frozen or track is None or kind == 'bishop':
                 track = (target, target, self.time, kind)
                 ground_origin = target
             elif target != track[1]:

@@ -24,14 +24,14 @@ class WindowLoopTests(unittest.TestCase):
         canvas.SDLK_F11 = 1073741892
         canvas.SDL_MOUSEBUTTONDOWN = 1025
         canvas.SDL_BUTTON_LEFT = 1
-        canvas.SDLK_SPACE = 32
-        canvas.SDLK_LSHIFT, canvas.SDLK_RSHIFT = 1073742049, 1073742053
+        canvas.SDLK_LCTRL = 1073742048
+        canvas.SDLK_LALT, canvas.SDLK_RALT = 1073742050, 1073742054
         canvas.SDL_WINDOW_INPUT_FOCUS = 512
         canvas.SDL_GetWindowFlags.return_value = 512
         canvas.SDL_SCANCODE_UP, canvas.SDL_SCANCODE_DOWN = 82, 81
         canvas.SDL_SCANCODE_LEFT, canvas.SDL_SCANCODE_RIGHT = 80, 79
-        canvas.SDL_SCANCODE_SPACE = 44
-        canvas.SDL_SCANCODE_LSHIFT, canvas.SDL_SCANCODE_RSHIFT = 225, 229
+        canvas.SDL_SCANCODE_LCTRL = 224
+        canvas.SDL_SCANCODE_LALT, canvas.SDL_SCANCODE_RALT = 226, 230
         canvas.SDL_GetKeyboardState.return_value = [0] * 512
         return canvas
 
@@ -185,7 +185,7 @@ class WindowLoopTests(unittest.TestCase):
                 return events
             canvas.get_events.side_effect = poll
         if held_shift:
-            canvas.SDL_GetKeyboardState.return_value[225] = 1
+            canvas.SDL_GetKeyboardState.return_value[226] = 1
         now = [0.0]
         lengths = iter(frame_lengths or [FIXED_TIME_STEP] * len(batches))
         canvas.update_canvas.side_effect = lambda: now.__setitem__(0, now[0] + next(lengths))
@@ -201,8 +201,8 @@ class WindowLoopTests(unittest.TestCase):
             main.main()
         return combat
 
-    def test_space_requests_obey_exact_cooldown_in_main(self):
-        down, up = SimpleNamespace(type=768, key=32), SimpleNamespace(type=769, key=32)
+    def test_ctrl_requests_obey_exact_cooldown_in_main(self):
+        down, up = SimpleNamespace(type=768, key=1073742048), SimpleNamespace(type=769, key=1073742048)
         batches = [[down], [up, down], [up]] + [[] for _ in range(33)] + [[down]]
         combat = self.run_combat_frames(batches)
         self.assertEqual(combat.tick, 36)
@@ -212,36 +212,36 @@ class WindowLoopTests(unittest.TestCase):
     def test_long_menu_pause_does_not_advance_combat_or_expire_effect(self):
         from config import FIXED_TIME_STEP
         combat = self.run_combat_frames([
-            [SimpleNamespace(type=768, key=32)],
+            [SimpleNamespace(type=768, key=1073742048)],
             [SimpleNamespace(type=1025, button=1, x=1295, y=41)],
-            [SimpleNamespace(type=769, key=32)],
+            [SimpleNamespace(type=769, key=1073742048)],
             [SimpleNamespace(type=768, key=27)],
-            [SimpleNamespace(type=768, key=32)],
+            [SimpleNamespace(type=768, key=1073742048)],
         ], [FIXED_TIME_STEP, 10.0, 10.0, FIXED_TIME_STEP, FIXED_TIME_STEP])
         self.assertEqual(combat.tick, 2)
         self.assertEqual(combat.active_attack.attack_id, 1)
 
     def test_f11_retains_space_release_and_does_not_duplicate_attack(self):
-        down = SimpleNamespace(type=768, key=32)
+        down = SimpleNamespace(type=768, key=1073742048)
         batches = [[down], [SimpleNamespace(type=768, key=1073741892),
-                            SimpleNamespace(type=769, key=32)]]
+                            SimpleNamespace(type=769, key=1073742048)]]
         batches += [[] for _ in range(34)] + [[down]]
         combat = self.run_combat_frames(batches)
         self.assertEqual(combat.active_attack.attack_id, 2)
         self.assertEqual(combat.active_attack.start_tick, 36)
 
     def test_move_then_attack_and_attack_then_move_in_main(self):
-        for keys, origin, target in [([1073741903, 32], (6, 1), (7, 1)),
-                                     ([32, 1073741903], (5, 1), (5, 2))]:
+        for keys, origin, target in [([1073741903, 1073742048], (6, 1), (7, 1)),
+                                     ([1073742048, 1073741903], (5, 1), (5, 2))]:
             combat = self.run_combat_frames([[SimpleNamespace(type=768, key=key) for key in keys]])
             self.assertEqual(combat.active_attack.origin_cell, origin)
             self.assertEqual(combat.active_attack.target_cell, target)
 
-    def test_shift_uses_shared_tick_for_phase_and_expiry(self):
+    def test_alt_uses_shared_tick_for_phase_and_expiry(self):
         from parry import Parry
         for ticks, expected in [(0, 'perfect_window'), (8, 'normal_window'), (18, 'inactive')]:
             parry = Parry()
-            combat = self.run_combat_frames([[SimpleNamespace(type=768, key=1073742049)]]
+            combat = self.run_combat_frames([[SimpleNamespace(type=768, key=1073742050)]]
                                             + [[] for _ in range(ticks)], parry=parry)
             self.assertEqual(combat.tick, ticks)
             self.assertEqual(parry.state_at(combat.tick), expected)
@@ -252,23 +252,23 @@ class WindowLoopTests(unittest.TestCase):
         from parry import Parry
         parry = Parry()
         combat = self.run_combat_frames([
-            [SimpleNamespace(type=768, key=1073742049)],
+            [SimpleNamespace(type=768, key=1073742050)],
             [SimpleNamespace(type=1025, button=1, x=1295, y=41)],
-            [SimpleNamespace(type=769, key=1073742049)],
+            [SimpleNamespace(type=769, key=1073742050)],
             [SimpleNamespace(type=768, key=27)], [],
         ], [FIXED_TIME_STEP, 10.0, 10.0, FIXED_TIME_STEP, FIXED_TIME_STEP], parry=parry)
         self.assertEqual(combat.tick, 2)
         self.assertEqual(parry.state_at(combat.tick), 'perfect_window')
         self.assertEqual(parry.next_parry_tick, 60)
 
-    def test_shift_in_menu_is_consumed_and_fresh_press_after_close_starts(self):
+    def test_alt_in_menu_is_consumed_and_fresh_press_after_close_starts(self):
         from parry import Parry
         parry = Parry()
         combat = self.run_combat_frames([
             [SimpleNamespace(type=1025, button=1, x=1295, y=41)],
-            [SimpleNamespace(type=768, key=1073742049)],
+            [SimpleNamespace(type=768, key=1073742050)],
             [SimpleNamespace(type=768, key=27)],
-            [SimpleNamespace(type=769, key=1073742049), SimpleNamespace(type=768, key=1073742053)],
+            [SimpleNamespace(type=769, key=1073742050), SimpleNamespace(type=768, key=1073742050)],
         ], parry=parry)
         self.assertEqual(parry.last_attempt.parry_id, 1)
         self.assertEqual(parry.last_attempt.start_tick, combat.tick)
@@ -276,9 +276,9 @@ class WindowLoopTests(unittest.TestCase):
     def test_f11_keeps_shift_release_and_new_press_after_cooldown(self):
         from parry import Parry
         parry = Parry()
-        batches = [[SimpleNamespace(type=768, key=1073742049)],
-                   [SimpleNamespace(type=768, key=1073741892), SimpleNamespace(type=769, key=1073742049)]]
-        batches += [[] for _ in range(58)] + [[SimpleNamespace(type=768, key=1073742053)]]
+        batches = [[SimpleNamespace(type=768, key=1073742050)],
+                   [SimpleNamespace(type=768, key=1073741892), SimpleNamespace(type=769, key=1073742050)]]
+        batches += [[] for _ in range(58)] + [[SimpleNamespace(type=768, key=1073742050)]]
         combat = self.run_combat_frames(batches, parry=parry)
         self.assertEqual(combat.tick, 60)
         self.assertEqual(parry.last_attempt.parry_id, 2)
@@ -288,16 +288,16 @@ class WindowLoopTests(unittest.TestCase):
         from parry import Parry
         parry = Parry()
         combat = self.run_combat_frames([[], [],
-            [SimpleNamespace(type=768, key=1073742049)],
-            [SimpleNamespace(type=769, key=1073742049), SimpleNamespace(type=768, key=1073742049)],
+            [SimpleNamespace(type=768, key=1073742050)],
+            [SimpleNamespace(type=769, key=1073742050), SimpleNamespace(type=768, key=1073742050)],
         ], parry=parry, focus_flags=[512, 0, 512, 512], held_shift=True)
         self.assertEqual(parry.last_attempt.parry_id, 1)
         self.assertEqual(parry.last_attempt.start_tick, 1)
         self.assertEqual(combat.tick, 1)
 
-    def test_space_shift_same_frame_preserve_attack_and_parry(self):
+    def test_ctrl_shift_same_frame_preserve_attack_and_parry(self):
         from parry import Parry
-        for keys in ([32, 1073742049], [1073742049, 32]):
+        for keys in ([1073742048, 1073742050], [1073742050, 1073742048]):
             parry = Parry()
             combat = self.run_combat_frames([[SimpleNamespace(type=768, key=key) for key in keys]], parry=parry)
             self.assertEqual(combat.active_attack.start_tick, parry.last_attempt.start_tick)

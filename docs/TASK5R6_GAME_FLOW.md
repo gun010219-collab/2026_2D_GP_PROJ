@@ -7,7 +7,7 @@ R5F 기술 승인 커밋은 `92e01a08c8200828e092a56d440a2711c568ed66`이다. �
 - 타이틀의 NEW GAME은 Stage1을 시작하고 활성 체크포인트를 Chapter1로 설정한다. 영구 해금·첫 입장 강화·완료 기록을 보존한다.
 - CONTINUE는 활성 챕터의 **시작 스테이지**를 새 런으로 연다. 처음 실행하거나 설정만 저장했을 때 비활성이다.
 - CHAPTER SELECT는 기존 Royal Chess, Ancient Forest, Frozen Palace, Obsidian Caldera, Gothic Throne을 표시한다. 잠긴 카드를 클릭하면 테마와 필요한 선행 보스를 미리 보며, 잠금 상태에서는 전투에 입장할 수 없다. 해금된 카드는 해당 챕터의 시작 스테이지와 첫 입장 공격 강화 레벨을 표시한다.
-- 타이틀·챕터·엔딩·크레딧에서 방향키와 Enter 또는 마우스를 사용한다. F11은 같은 SDL 창의 데스크톱 전체화면을 전환하며 SDL 논리 좌표를 사용한다. 타이틀 ESC와 EXIT는 종료한다. 전투 ESC와 전투 SETTINGS의 MAIN MENU는 타이틀로 돌아간다. 열린 SETTINGS에서 ESC 또는 RETURN으로 닫는다. 실제 전투는 방향키·SPACE·Shift, 강화 선택은 1/2/3 또는 기존 UI를 사용한다.
+- 타이틀·챕터·엔딩·크레딧에서 방향키와 Enter 또는 마우스를 사용한다. F11은 같은 SDL 창의 데스크톱 전체화면을 전환하며 SDL 논리 좌표를 사용한다. 타이틀 ESC와 EXIT는 종료한다. 전투 ESC와 전투 SETTINGS의 MAIN MENU는 타이틀로 돌아간다. 열린 SETTINGS에서 ESC 또는 RETURN으로 닫는다. R7-A1 조작은 방향키·왼쪽 Ctrl·왼쪽 Alt다. 강화 선택은 1/2/3 또는 기존 UI를 사용한다.
 - GAME_OVER의 R은 현재 챕터 시작과 기존 진입 공격 레벨을 사용한다. Chapter1~4 BOSS_CLEAR의 R은 보스 재도전, N은 정상 다음 챕터 진입이다. Stage25 이후에는 엔딩의 REPLAY FINAL BOSS에서 실제 현재 빌드와 소유한 영수증으로 한 번 더 전투할 수 있다.
 - Stage25 BOSS_CLEAR 후 1.05초의 표시 구간을 거쳐 CHECKMATE 엔딩과 전용 BGM이 시작된다. 설정·포커스 변경 중에는 표시 구간이 멈춘다. 전투 종료 틱·실제 남은 HP/최대 HP·공격 강화 레벨을 표시한다. 엔딩에서 크레딧과 타이틀로 이동한다. 영구 기록은 첫 최종 클리어를 보존하며 엔딩 화면은 해당 전투 결과를 보여 준다.
 

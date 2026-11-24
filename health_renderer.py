@@ -52,6 +52,9 @@ _GLYPHS = {
 
 
 class HealthRenderer:
+    def __init__(self, *, parry_hint='SHIFT TO PARRY'):
+        self.parry_hint = parry_hint
+
     positions = None  # Optional read-only pixel snapshot, supplied by main.
 
     HIT_FLASH_TICKS = 6
@@ -102,7 +105,7 @@ class HealthRenderer:
             if attack_bonus is not None and attack_bonus > 0:
                 self._text(canvas, f'NEXT +{attack_bonus}', 150, 755, color=(255, 226, 116))
             self._text(canvas, 'PARRY WINDOW', 44, 743)
-            self._text(canvas, 'SHIFT TO PARRY', 44, 723)
+            self._text(canvas,self.parry_hint,44,723)
         elif not health.alive:
             self._text(canvas, 'DEAD', 44, 743, color=self.HIT)
             self._text(canvas, 'INPUT LOCKED', 44, 723)

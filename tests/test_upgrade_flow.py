@@ -12,7 +12,7 @@ from stage_progression import StageProgression
 from upgrade_input import UpgradeInput
 from upgrade_renderer import UpgradeRenderer, CARD_RECTS
 from upgrades import ChapterBuild
-from tests.test_stage_transition import run_loop, key, N,R,UP,SPACE,SHIFT,MENU,ESC,F11,finish
+from tests.test_stage_transition import run_loop, key, N,R,UP,CTRL,ALT,MENU,ESC,F11,finish
 from tests import test_main as canvas_tests
 
 
@@ -175,7 +175,7 @@ class UpgradeFlowTests(unittest.TestCase):
 
     def test_main_keyboard_and_mouse_and_same_batch_select_only_once(self):
         click=SimpleNamespace(type=1025,button=1,x=730,y=500)
-        for batch in ([key(49),key(50),key(SPACE),key(UP)],[click,key(49)]):
+        for batch in ([key(49),key(50),key(CTRL),key(UP)],[click,key(49)]):
             created,snapshots,*_=run_loop([batch,[]])
             self.assertEqual([g.stage_number for g in created],[1,2])
             self.assertEqual(snapshots[0]['tick'],0)
@@ -210,8 +210,8 @@ class UpgradeFlowTests(unittest.TestCase):
             g.combat.advance()
             controls.handle_key(key(1073741903),g.player,g.combat)
             self.assertEqual(g.player.position,(6,2))
-            controls.handle_key(key(SPACE),g.player,g.combat)
-            controls.handle_key(key(SHIFT),g.player,g.combat,parry=g.parry)
+            controls.handle_key(key(CTRL),g.player,g.combat)
+            controls.handle_key(key(ALT),g.player,g.combat,parry=g.parry)
             self.assertIsNotNone(g.combat.active_attack)
             self.assertIsNotNone(g.parry.last_attempt)
 
@@ -237,7 +237,7 @@ class UpgradeFlowTests(unittest.TestCase):
 
     def test_same_movement_schedule_is_identical_with_one_or_eight_tick_frames(self):
         schedule={0:[key(UP),key(UP,False)],17:[key(1073741903),key(1073741903,False)],
-                  18:[key(1073741903),key(1073741903,False)],36:[key(SPACE)]}
+                  18:[key(1073741903),key(1073741903,False)],36:[key(CTRL)]}
         results=[]
         for stride in (1,8):
             ticks=sorted(set(range(0,41,stride))|set(schedule)|{40})

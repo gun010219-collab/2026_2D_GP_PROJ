@@ -18,7 +18,7 @@ def key(value, down=True):
 
 
 R = ord('r')
-UP, SPACE, SHIFT, F11, ESC = 1073741906, 32, 1073742049, 1073741892, 27
+UP, CTRL, ALT, F11, ESC = 1073741906, 1073742048, 1073742050, 1073741892, 27
 MENU = SimpleNamespace(type=1025, button=1, x=1295, y=41)
 
 
@@ -28,7 +28,7 @@ class GameFlowIntegrationTests(unittest.TestCase):
         canvas = test_main.WindowLoopTests().make_canvas()
         canvas.SDLK_r, canvas.SDL_SCANCODE_R = R, 21
         scans = {UP: 82, 1073741905: 81, 1073741904: 80, 1073741903: 79,
-                 SPACE: 44, SHIFT: 225, 1073742053: 229, R: 21}
+                 CTRL: 224, ALT: 226, 1073742053: 229, R: 21}
         batches = batches + [[SimpleNamespace(type=256)]]
         flags = (focus + [focus[-1]]) if focus is not None else [512] * len(batches)
         queued = iter(zip(batches, flags))
@@ -93,7 +93,7 @@ class GameFlowIntegrationTests(unittest.TestCase):
 
     def test_game_over_freezes_time_ai_and_blocks_gameplay(self):
         created, snapshots, _, _, _, clock = self.run_loop(
-            [[key(UP), key(SPACE), key(SHIFT)], [], []], lengths=[20, 20, 20])
+            [[key(UP), key(CTRL), key(ALT)], [], []], lengths=[20, 20, 20])
         game = created[0]
         self.assertTrue(all(s[:4] == (GameState.GAME_OVER, 0, (5, 1), 0) for s in snapshots))
         self.assertEqual([e.position for e in game.encounter.enemies], [(1, 6), (8, 6)])
@@ -103,7 +103,7 @@ class GameFlowIntegrationTests(unittest.TestCase):
 
     def test_stage_clear_freezes_time_and_blocks_gameplay(self):
         created, snapshots, _, _, _, clock = self.run_loop(
-            [[key(UP), key(SPACE), key(SHIFT)], [], []], initial='clear', lengths=[20, 20, 20])
+            [[key(UP), key(CTRL), key(ALT)], [], []], initial='clear', lengths=[20, 20, 20])
         game = created[0]
         self.assertTrue(all(s[:4] == (GameState.UPGRADE, 0, (5, 1), 3) for s in snapshots))
         self.assertIsNone(game.combat.active_attack)
@@ -132,10 +132,10 @@ class GameFlowIntegrationTests(unittest.TestCase):
 
     def test_restart_ignores_tail_actions_and_quarantines_held_keys_until_release(self):
         created, snapshots, _, _, _, _ = self.run_loop([
-            [key(R), key(UP), key(SPACE), key(SHIFT)],
-            [key(UP), key(SPACE), key(SHIFT)],
-            [key(UP, False), key(SPACE, False), key(SHIFT, False)],
-            [key(UP), key(SPACE), key(SHIFT)],
+            [key(R), key(UP), key(CTRL), key(ALT)],
+            [key(UP), key(CTRL), key(ALT)],
+            [key(UP, False), key(CTRL, False), key(ALT, False)],
+            [key(UP), key(CTRL), key(ALT)],
         ])
         new = created[-1]
         self.assertTrue(all(s[2] == (5, 1) and s[4:6] == (0, 0) for s in snapshots[:3]))
@@ -240,7 +240,7 @@ class GameFlowIntegrationTests(unittest.TestCase):
             second.health.apply_damage(3, tick=0)
             return game_tests.fixture((first, second))
         created, snapshots, _, _, _, _ = self.run_loop(
-            [[key(SPACE), key(R)], [key(R, False), key(R)]],
+            [[key(CTRL), key(R)], [key(R, False), key(R)]],
             initial='playing', initial_factory=almost_clear)
         self.assertEqual((snapshots[0][0], snapshots[0][-1]), (GameState.UPGRADE, 1))
         self.assertEqual((snapshots[1][0], snapshots[1][-1]), (GameState.UPGRADE, 1))

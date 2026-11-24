@@ -132,12 +132,12 @@ class SDLMouseMappingTests(unittest.TestCase):
                                 event = s.SDL_Event()
                                 event.type = kind
                                 event.key.windowID = s.SDL_GetWindowID(window)
-                                event.key.keysym.sym = s.SDLK_SPACE
+                                event.key.keysym.sym = s.SDLK_LCTRL
                                 event.key.repeat = repeat
                                 assert s.SDL_PushEvent(ctypes.byref(event)) == 1
                             keys = canvas.get_events()
-                            assert [(e.type, e.key) for e in keys] == [(s.SDL_KEYDOWN,s.SDLK_SPACE),(s.SDL_KEYUP,s.SDLK_SPACE)]
-                            for shift in (s.SDLK_LSHIFT, s.SDLK_RSHIFT):
+                            assert [(e.type, e.key) for e in keys] == [(s.SDL_KEYDOWN,s.SDLK_LCTRL),(s.SDL_KEYUP,s.SDLK_LCTRL)]
+                            for shift in (s.SDLK_LALT, s.SDLK_RALT):
                                 for kind, repeat in [(s.SDL_KEYDOWN, 0), (s.SDL_KEYDOWN, 1), (s.SDL_KEYUP, 0)]:
                                     event = s.SDL_Event()
                                     event.type = kind

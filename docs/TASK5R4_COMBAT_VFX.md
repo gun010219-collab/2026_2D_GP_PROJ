@@ -89,9 +89,9 @@ $r4Output = Join-Path $env:TEMP ('checkmate-vfx-' + (Get-Date -Format 'yyyyMMdd-
 .\.venv\Scripts\python.exe -m unittest tests.test_combat_vfx
 ```
 
-- [ ] Stage1에서 SPACE 방향을 바꾸며 빗나감·실제 적중의 참격과 피해 숫자를 구별한다.
+- [ ] Stage1에서 방향을 바꾸며 왼쪽 Ctrl 공격의 빗나감·실제 적중과 피해 숫자를 구별한다.
 - [ ] Stage3·6에서 Knight 착지와 Rook 충돌, 공중 몸체·지면 그림자·HP 정렬을 확인한다.
 - [ ] Stage14·17·24에서 혼합 경고와 실제 발동, 두 Bishop의 순서와 두 Queen의 원점을 확인한다. Stage14 Rook HP와 Queen 하체 가림을 기록한다.
-- [ ] Stage25 Pulse에 Shift를 입력해 일반·퍼펙트·실패, 반사 숫자와 King 사망 후 남은 적을 확인한다. 창·전체화면에서 흔들림이 SETTINGS 버튼과 입력을 움직이는지 살핀다.
+- [ ] Stage25 Pulse에 왼쪽 Alt를 입력해 일반·퍼펙트·실패, 반사 숫자와 King 사망 후 남은 적을 확인한다. 창·전체화면에서 흔들림이 SETTINGS 버튼과 입력을 움직이는지 살핀다.
 - [ ] SETTINGS, 포커스 복귀, F11, GAME_OVER와 재시작 후 이전 효과가 남는지 확인한다.
 - [ ] R7에서 용암·고딕 보드 전면 접합, 고딕 Knight 반투명 끝점, 인간 애니메이션 품질과 지연 체감, 실기 P95/P99·장시간 RAM/VRAM·캠페인·배포를 검수한다.

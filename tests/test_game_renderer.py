@@ -72,6 +72,8 @@ class GameRendererTests(unittest.TestCase):
         with patch.object(HealthRenderer, '_text') as text:
             HealthRenderer().draw(canvas, game.player, game.encounter.enemies, game.combat.tick,
                                   show_feedback=False)
-        self.assertNotIn('SHIFT TO PARRY', [c.args[1] for c in text.call_args_list])
+        hints = [c.args[1] for c in text.call_args_list]
+        self.assertNotIn('SHIFT TO PARRY',hints)
+        self.assertNotIn('L ALT TO PARRY',hints)
         canvas.draw_line.assert_not_called()
         self.assertEqual(game.player.health.current_hp, 2)

@@ -121,9 +121,9 @@ class RenderMotionTests(unittest.TestCase):
         self.assertEqual(before,(g.combat.tick,g.player.position,g.encounter.ledger.pending))
 
     def test_real_main_high_fps_pending_inputs_pause_and_display(self):
-        from tests.test_stage_transition import run_loop,key,UP,SPACE,SHIFT,F11
+        from tests.test_stage_transition import run_loop,key,UP,CTRL,ALT,F11
         # Use a live combat, no terminal fixture. Multiple render frames have zero ticks.
-        batches=[[key(UP),key(UP,False)],[],[],[key(SPACE),key(SPACE,False)],[],[],[key(SHIFT),key(SHIFT,False)],[key(F11)],[],[]]
+        batches=[[key(UP),key(UP,False)],[],[],[key(CTRL),key(CTRL,False)],[],[],[key(ALT),key(ALT,False)],[key(F11)],[],[]]
         games,*_=run_loop(batches,initial='playing',lengths=[1/180]*len(batches))
         self.assertTrue(games[0].playing)
 

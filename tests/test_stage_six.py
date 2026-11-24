@@ -291,10 +291,10 @@ class StageSixTests(unittest.TestCase):
 
     def test_original_stage_six_rook_perfect_parry_in_actual_main_at_208(self):
         from config import FIXED_TIME_STEP
-        from tests.test_stage_transition import key,SHIFT,run_loop
+        from tests.test_stage_transition import key,ALT,run_loop
         ticks = sorted(set(range(0,209,8))|{201,208})
         lengths = [(b-a)*FIXED_TIME_STEP for a,b in zip(ticks,ticks[1:])]+[FIXED_TIME_STEP]
-        created,_,_,_,_,_ = run_loop([[key(SHIFT)] if t==201 else [] for t in ticks],
+        created,_,_,_,_,_ = run_loop([[key(ALT)] if t==201 else [] for t in ticks],
                                      initial_stage=6,initial='playing',lengths=lengths)
         g = created[-1]
         self.assertEqual((g.stage_number,g.chapter,g.combat.tick),(6,2,208))
@@ -312,11 +312,11 @@ class StageSixTests(unittest.TestCase):
 
     def test_stage_six_main_same_parry_schedule_matches_single_and_eight_tick_frames(self):
         from config import FIXED_TIME_STEP
-        from tests.test_stage_transition import key,SHIFT,run_loop
+        from tests.test_stage_transition import key,ALT,run_loop
         traces = []
         for stride in (1,8):
             ticks = sorted(set(range(0,209,stride))|{201,208})
-            batches = [[key(SHIFT)] if tick==201 else [] for tick in ticks]
+            batches = [[key(ALT)] if tick==201 else [] for tick in ticks]
             lengths = [(b-a)*FIXED_TIME_STEP for a,b in zip(ticks,ticks[1:])]+[FIXED_TIME_STEP]
             created,_,_,_,_,_ = run_loop(batches,initial_stage=6,initial='playing',lengths=lengths)
             g = created[-1]

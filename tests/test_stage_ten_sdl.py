@@ -85,8 +85,8 @@ class StageTenSDLTests(unittest.TestCase):
                     push(s.SDL_MOUSEBUTTONUP,x=730,y=500)
                 if f==23:
                     tap(s.SDLK_1)
-                    tap(s.SDLK_SPACE)
-                    tap(s.SDLK_LSHIFT)
+                    tap(s.SDLK_LCTRL)
+                    tap(s.SDLK_LALT)
                     tap(s.SDLK_UP)
                 if f==26:tap(s.SDLK_n)  # Playing boss still blocks N; clear entry tested in Chapter3 SDL.
                 if f==29:

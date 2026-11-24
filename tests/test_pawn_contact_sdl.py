@@ -86,12 +86,12 @@ class PawnContactSDLTests(unittest.TestCase):
                 elif mode == 'evade' and g.combat.tick == 19:
                     tap(s.SDLK_UP)
                 elif mode == 'normal' and g.combat.tick == 20:
-                    tap(s.SDLK_LSHIFT)
+                    tap(s.SDLK_LALT)
                 elif mode == 'perfect' and g.combat.tick == 31:
-                    tap(s.SDLK_LSHIFT)
+                    tap(s.SDLK_LALT)
                 elif mode == 'perfect' and g.combat.tick == 39:
                     tap(s.SDLK_LEFT)  # Occupied move turns without overlap.
-                    tap(s.SDLK_SPACE)
+                    tap(s.SDLK_LCTRL)
                 return poll_real()
 
             def present():
@@ -184,12 +184,12 @@ class PawnContactSDLTests(unittest.TestCase):
     def test_main_contact_parry_schedule_matches_one_and_eight_tick_frames(self):
         from config import FIXED_TIME_STEP
         from tests.test_pawn_contact import session
-        from tests.test_stage_transition import run_loop, key, SHIFT
+        from tests.test_stage_transition import run_loop, key, ALT
         traces = []
         for stride in (1, 8):
             ticks = sorted(set(range(0, 41, stride)) | {32, 39, 40})
             lengths = [(b-a)*FIXED_TIME_STEP for a, b in zip(ticks, ticks[1:])] + [FIXED_TIME_STEP]
-            games, *_ = run_loop([[key(SHIFT), key(SHIFT, False)] if t == 32 else [] for t in ticks],
+            games, *_ = run_loop([[key(ALT), key(ALT, False)] if t == 32 else [] for t in ticks],
                                  initial='playing', initial_factory=session, lengths=lengths)
             g = games[-1]
             traces.append((g.combat.tick, g.player.position, g.player.health.current_hp,

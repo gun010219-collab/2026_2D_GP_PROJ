@@ -15,7 +15,7 @@ from renderer import BoardRenderer
 from sdl_input import GameplayInput
 from tests.test_chapter_three_entry import completed_two
 from tests import test_main as canvas_tests
-from tests.test_stage_transition import key, N, R, SPACE, SHIFT, UP, run_loop
+from tests.test_stage_transition import key, N, R, CTRL, ALT, UP, run_loop
 from upgrades import ChapterBuild
 
 
@@ -73,7 +73,7 @@ class ChapterThreeSDLTests(unittest.TestCase):
                     if mode=='boundary':tap(s.SDLK_ESCAPE)
                     else:push(s.SDL_QUIT)
                 elif f==1:
-                    tap(s.SDLK_n);tap(s.SDLK_SPACE);tap(s.SDLK_LSHIFT);tap(s.SDLK_UP)
+                    tap(s.SDLK_n);tap(s.SDLK_LCTRL);tap(s.SDLK_LALT);tap(s.SDLK_UP)
                 elif f==4:
                     if mode=='boundary':tap(s.SDLK_2)
                     else:click(450,500)  # ATTACK through the real mouse mapping.
@@ -102,9 +102,9 @@ class ChapterThreeSDLTests(unittest.TestCase):
                     if mode=='boundary':tap(s.SDLK_2)
                     else:click(730,500)  # HP +1 sustains the long no-attack transition fixture under carryover.
                 elif phase[0]==8:
-                    tap(s.SDLK_n if mode in ('chapter4','stage16death','stage17death','stage18death','stage19death','stage20death') else s.SDLK_SPACE)
+                    tap(s.SDLK_n if mode in ('chapter4','stage16death','stage17death','stage18death','stage19death','stage20death') else s.SDLK_LCTRL)
                 elif phase[0]==9:tap(s.SDLK_r)
-                elif g.stage_number in (15,20) and g.encounter.pulse.event is not None and g.playing and g.combat.tick==g.encounter.pulse.event.hit_tick-8:tap(s.SDLK_LSHIFT)
+                elif g.stage_number in (15,20) and g.encounter.pulse.event is not None and g.playing and g.combat.tick==g.encounter.pulse.event.hit_tick-8:tap(s.SDLK_LALT)
                 elif phase[0]==5:
                     if mode=='boundary':tap(s.SDLK_1)
                     else:click(450,500)
@@ -112,9 +112,9 @@ class ChapterThreeSDLTests(unittest.TestCase):
                     tap(s.SDLK_1)
                 elif g.stage_number==13 and g.playing and g.combat.tick==49:tap(s.SDLK_UP)
                 elif g.stage_number==13 and g.playing and g.combat.tick==67:tap(s.SDLK_UP)
-                elif mode=='stage13death' and g.stage_number==13 and g.playing and g.combat.tick==113:tap(s.SDLK_LSHIFT)
+                elif mode=='stage13death' and g.stage_number==13 and g.playing and g.combat.tick==113:tap(s.SDLK_LALT)
                 elif phase[0]==2:
-                    for k in (s.SDLK_1,s.SDLK_2,s.SDLK_3,s.SDLK_r,s.SDLK_n,s.SDLK_SPACE,s.SDLK_LSHIFT,s.SDLK_UP):tap(k)
+                    for k in (s.SDLK_1,s.SDLK_2,s.SDLK_3,s.SDLK_r,s.SDLK_n,s.SDLK_LCTRL,s.SDLK_LALT,s.SDLK_UP):tap(k)
                     click(450,500);click(730,500);click(990,500)
                 return poll_real()
             def present():

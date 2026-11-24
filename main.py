@@ -98,12 +98,14 @@ def run_session(game, flow, *, game_renderer=None, default_art=False, app=None):
     parry_result_renderer = ParryResultRenderer()
     enemy_renderer = EnemyRenderer()
     enemy_attack_renderer = EnemyAttackRenderer()
-    health_renderer = HealthRenderer()
+    health_renderer = HealthRenderer(parry_hint='L ALT TO PARRY')
     game_renderer = GameFlowRenderer(official=app is not None) if game_renderer is None else game_renderer
     upgrade_renderer = UpgradeRenderer()
     selection = UpgradeInput()
     clock = SimulationClock()
-    pacer, stats, motion = FramePacer(), FrameStats(), RenderMotion()
+    motion_flag = os.environ.get('CHECKMATE_MOTION')
+    improved = default_art if motion_flag is None else motion_flag == '1'
+    pacer, stats, motion = FramePacer(), FrameStats(), RenderMotion(improved=improved)
     measure_frames = os.environ.get("CHECKMATE_FRAME_STATS") == "1"
     next_report = None
     if app is None:
@@ -128,7 +130,7 @@ def run_session(game, flow, *, game_renderer=None, default_art=False, app=None):
         animation_enabled = default_art if animation_flag is None else animation_flag == '1'
         if animation_enabled:
             from actor_animation import ActorAnimation
-            animation = ActorAnimation()
+            animation = ActorAnimation(improved=improved)
         else:
             animation = None
         vfx_flag = os.environ.get('CHECKMATE_VFX')
@@ -145,7 +147,8 @@ def run_session(game, flow, *, game_renderer=None, default_art=False, app=None):
             if backend is not None:
                 audio = AudioManager(backend,menu.audio)
         presentation = flow.enable_presentation() if animation or vfx or audio else None
-        art_path = LiveArenaArtPath(canvas, motion=motion, default_enabled=default_art, animation=animation, vfx=vfx)
+        art_path = LiveArenaArtPath(canvas,motion=motion,default_enabled=default_art,
+                                    animation=animation,vfx=vfx,enlarged=improved)
         controls = GameplayInput(canvas, move_interval_ticks=flow.run.stats.move_interval_ticks)
         pending_gameplay = []
         last_boss_clear = None
@@ -227,6 +230,8 @@ def run_session(game, flow, *, game_renderer=None, default_art=False, app=None):
             # stale mouse coordinates later in the same polled batch.
             if any(event.type == canvas.SDL_QUIT for event in events):
                 break
+            shortcut = any(event.type == canvas.SDL_KEYDOWN and
+                           event.key in (canvas.SDLK_TAB,canvas.SDLK_F4) for event in events)
             focused = controls.focused
             focus_changed = focused != previously_focused
             if focus_changed:
@@ -303,6 +308,9 @@ def run_session(game, flow, *, game_renderer=None, default_art=False, app=None):
                     continue
                 blocked = (menu.blocks_gameplay() or display_changed or not focused
                            or focus_changed or not game.playing or restarted_this_frame)
+                if shortcut and event.type == canvas.SDL_KEYDOWN and event.key == controls.parry_key:
+                    gameplay_key(event,True)
+                    continue
                 if (not blocked and encounter.tick == combat.tick
                         and controls.is_gameplay_key(event)):
                     # A settled tick cannot accept later input ahead of damage
@@ -400,7 +408,8 @@ def run_session(game, flow, *, game_renderer=None, default_art=False, app=None):
                 paused = (menu.is_open or not focused or focus_changed or menu_changed
                           or display_changed or restarted_this_frame)
                 if animation is not None:
-                    animation.update(game, visual_elapsed, presentation_batch, paused=paused)
+                    animation.update(game,visual_elapsed,presentation_batch,paused=paused,
+                                     motion=motion,reset=visual_reset and game.playing)
                 if vfx is not None:
                     vfx.update(game, visual_elapsed, presentation_batch, paused=paused, motion=motion)
                 if audio is not None:

@@ -59,6 +59,9 @@ class GameFlowRenderer:
             HealthRenderer._text(canvas, f'STAGE {game.stage_number}', 44, 862, scale=3)
             if game.boss:
                 self._draw_boss(canvas, game)
+            if self.official:
+                HealthRenderer._text(canvas,'L CTRL ATTACK',44,101)
+                HealthRenderer._text(canvas,'L ALT PARRY',44,82)
 
     @staticmethod
     def _draw_boss(canvas, game):

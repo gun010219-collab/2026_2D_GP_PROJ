@@ -7,6 +7,20 @@ CAMERA = ArenaCamera('B +12', tuple(
     for x, y in CAMERAS[1].corners), 35.84, 1.232)
 
 
+PIECE_INCREASE = {'pawn':1.08,'rook':1.08,'knight':1.07,'bishop':1.07,'queen':1.06,'king':1.05}
+
+
+def enlarge_sprite(layout, kind):
+    scale = PIECE_INCREASE.get(kind)
+    if scale is None:
+        return layout
+    x,y = layout['foot']
+    top = y+(layout['top']-y)*scale
+    return {**layout,'height':layout['height']*scale,
+            'center':(x,y+(layout['center'][1]-y)*scale),'top':top,
+            'hp_y':top+layout['hp_y']-layout['top']}
+
+
 class ArenaArtError(RuntimeError):
     """An anticipated asset/SDL presentation failure, eligible for fallback."""
 
@@ -30,6 +44,7 @@ class SessionArtPath:
         self.failed = False
         self.default_enabled = False
         self.animation = self.animation_motion = None
+        self.enlarged = False
 
     def close(self):
         if self.renderer is not None:
@@ -65,6 +80,8 @@ class SessionArtPath:
         try:
             if self.renderer is None:
                 self.renderer = self.load_renderer(g)
+                if self.enlarged:
+                    self.renderer.enlarged = True
                 if getattr(self, 'vfx', None) is not None:
                     self.renderer.vfx = self.vfx
                 if self.animation is not None:

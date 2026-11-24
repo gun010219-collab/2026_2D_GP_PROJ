@@ -117,7 +117,7 @@ class ActorAnimationTests(unittest.TestCase):
         flow = StageProgression(g)
         c = WindowLoopTests().make_canvas()
         c.get_events.side_effect = [
-            [SimpleNamespace(type=768, key=32)], [],
+            [SimpleNamespace(type=768, key=1073742048)], [],
             [SimpleNamespace(type=1025, button=1, x=1295, y=41)],
             [], [SimpleNamespace(type=768, key=27)], [], [SimpleNamespace(type=256)],
         ]

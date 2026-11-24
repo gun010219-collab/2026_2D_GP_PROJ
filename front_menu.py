@@ -95,7 +95,7 @@ class FrontRenderer:
                                   'MAIN MENU','REPLAY FINAL BOSS','CREDITS',*CHAPTERS)),
                 ('segoeui.ttf',22,('CAMPAIGN COMPLETE','ALL FIVE CHAPTERS CLEARED',
                                   'CHAPTER CHECKPOINTS ARE SAVED AT THE START OF EACH CHAPTER',
-                                  'MOVE  ARROWS     ATTACK  SPACE     PARRY  SHIFT',
+                                  'MOVE  ARROWS     ATTACK  LEFT CTRL     PARRY  LEFT ALT',
                                   'UPGRADE  1 / 2 / 3     DISPLAY  F11     TITLE  ESC',
                                   'TUK GAME ENGINEERING',
                                   'GAME DESIGN AND PRODUCTION  /  CHECKMATE PROJECT',
@@ -171,7 +171,7 @@ class FrontRenderer:
             self.image('royal',Rect(629,269,708,443))
             self.image('king',Rect(978,360,278,278))
             self.image('player',Rect(744,318,230,230))
-            self.title('MOVE  ARROWS     ATTACK  SPACE     PARRY  SHIFT',983,217,22)
+            self.title('MOVE  ARROWS     ATTACK  LEFT CTRL     PARRY  LEFT ALT',983,217,22)
             self.title('UPGRADE  1 / 2 / 3     DISPLAY  F11     TITLE  ESC',983,181,22)
             self.small('NEW GAME SETS THE ACTIVE CHECKPOINT TO CHAPTER 1',295,584)
             target = data.continue_chapter

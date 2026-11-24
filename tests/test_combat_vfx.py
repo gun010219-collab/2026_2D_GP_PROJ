@@ -169,7 +169,7 @@ class CombatEffectsTests(unittest.TestCase):
             game = _new_stage_game(1)
             flow = StageProgression(game)
             canvas = WindowLoopTests().make_canvas()
-            canvas.get_events.side_effect = [[SimpleNamespace(type=768,key=32)], [SimpleNamespace(type=256)]]
+            canvas.get_events.side_effect = [[SimpleNamespace(type=768,key=1073742048)], [SimpleNamespace(type=256)]]
             batches = []
             drain = PresentationEvents.drain
             def record(queue):

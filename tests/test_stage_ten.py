@@ -12,7 +12,7 @@ from health_renderer import HealthRenderer
 from game_renderer import GameFlowRenderer
 from tests.test_chapter_two_stages import flow_at, state
 from tests.test_upgrade_flow import clear
-from tests.test_stage_transition import finish, run_loop, key, R, N, SPACE, SHIFT, UP
+from tests.test_stage_transition import finish, run_loop, key, R, N, CTRL, ALT, UP
 from upgrades import ChapterBuild
 
 
@@ -182,7 +182,7 @@ class StageTenTests(unittest.TestCase):
 
     def test_main_fourth_choice_then_boss_n_blocked_replay_and_death_retry(self):
         for terminal,target in (('clear',10),('dead',6)):
-            created,_,*_=run_loop([[key(R),key(N),key(SPACE),key(SHIFT),key(UP)]],initial_stage=10,initial=terminal)
+            created,_,*_=run_loop([[key(R),key(N),key(CTRL),key(ALT),key(UP)]],initial_stage=10,initial=terminal)
             self.assertEqual([g.stage_number for g in created],[10,target])
             self.assertEqual(created[-1].combat.tick,0)
 

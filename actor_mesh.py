@@ -53,7 +53,13 @@ ACTION = {
 }
 
 
-def deformation(kind, chapter, pose):
+MOVE = {
+    'player': (3.2,19,3.0,3.5), 'pawn': (2.8,22,3.8,.8), 'rook': (4.2,11,3.0,.5),
+    'knight': (3.0,15,3.6,2.5), 'queen': (2.2,12,1.9,4.1), 'king': (4.3,9,3.2,1.3),
+}
+
+
+def deformation(kind, chapter, pose, *, improved=False):
     tempo, armor, cloth, _ = MATERIAL[chapter]
     state, phase = pose.state, pose.phase
     side = pose.direction
@@ -61,18 +67,30 @@ def deformation(kind, chapter, pose):
         rest = idle(kind, phase*tempo)
         return Deformation(rest.lean*armor, rest.rise, rest.gear*armor, rest.cloth*cloth, rest.core)
     if state is State.MOVE:
+        if improved:
+            lean, stride, gear, cloth_lag = MOVE[kind]
+            cycle = phase * stride * tempo
+            return Deformation(side*lean,.65*sin(cycle),armor*gear*sin(cycle-.75),
+                               cloth*cloth_lag*sin(cycle-1.35))
         step = sin(phase * (19 if kind in ('player','pawn') else 12)*tempo)
         return Deformation(side*(2.8 if kind in ('rook','king') else 2.1),
                            1.1*step, armor*step*2.2, cloth*sin(phase*15)*2)
     charge, launch, action = ACTION[kind]
     if state is State.WINDUP:
         power = min(1., max(0., phase))
+        if improved:
+            power = power*power*(3-2*power)
         pulse = pose.attack_kind == 'king_pulse'
         return Deformation(-side*charge*power, -3*power, action*power*armor, cloth*power*2,
                            power if kind in ('bishop','queen','king') else 0., .10*power if pulse else .035*power)
     if state is State.ATTACK:
         power = (1-phase)**2
         pulse = pose.attack_kind == 'king_pulse'
+        if improved:
+            settle = sin(pi*phase)*(1-phase)
+            return Deformation(0 if pulse else side*launch*power,(8 if pulse else 3)*power,
+                               side*action*(power-.27*settle)*armor,(-3*power+4*settle)*cloth,
+                               power if kind in ('bishop','queen','king') else 0.)
         return Deformation(0 if pulse else side*launch*power, (8 if pulse else 3)*power,
                            side*action*power*armor, -3*power*cloth, power if kind in ('bishop','queen','king') else 0.)
     if state is State.HIT:
@@ -124,10 +142,10 @@ def weighted_vertices(kind, chapter, foot_row):
     return tuple((u,v,*weights(kind,chapter,u,v)) for u,v in points)
 
 
-def draw_actor(canvas, texture, kind, chapter, layout, pose):
+def draw_actor(canvas, texture, kind, chapter, layout, pose, *, effect=None):
     import sdl2 as s
 
-    effect = deformation(kind, chapter, pose)
+    effect = deformation(kind, chapter, pose) if effect is None else effect
     tint = MATERIAL[chapter][3]
     size = layout['height']
     anchor_x = layout['foot'][0]

@@ -185,7 +185,7 @@ class AudioTests(unittest.TestCase):
             game = _new_stage_game(1)
             flow = StageProgression(game)
             canvas = WindowLoopTests().make_canvas()
-            canvas.get_events.side_effect = [[NS(type=768,key=32)],[NS(type=256)]]
+            canvas.get_events.side_effect = [[NS(type=768,key=1073742048)],[NS(type=256)]]
             env = dict(CHECKMATE_STAGE1_ART='0',CHECKMATE_AUDIO='1',
                        CHECKMATE_ANIMATION=value,CHECKMATE_VFX=value)
             with patch.dict(os.environ,env),patch.dict(sys.modules,{'pico2d':NS(pico2d=canvas)}), \

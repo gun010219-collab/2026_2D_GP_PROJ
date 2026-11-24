@@ -32,7 +32,7 @@ class QueenPreviewSDLTests(unittest.TestCase):
                     e=s.SDL_Event();e.type=s.SDL_QUIT;s.SDL_PushEvent(ctypes.byref(e))
                 elif sys.argv[1]=='parry' and g.combat.tick==65:
                     for kind in (s.SDL_KEYDOWN,s.SDL_KEYUP):
-                        e=s.SDL_Event();e.type=kind;e.key.keysym.sym=s.SDLK_LSHIFT
+                        e=s.SDL_Event();e.type=kind;e.key.keysym.sym=s.SDLK_LALT
                         s.SDL_PushEvent(ctypes.byref(e))
                 return poll_real()
             def present():

@@ -9,7 +9,7 @@ from game import GameState
 from game_renderer import GameFlowRenderer
 from health_renderer import HealthRenderer
 from stage_manager import StageCatalog
-from tests.test_stage_transition import (N, R, UP, LEFT, SPACE, SHIFT, F11, ESC,
+from tests.test_stage_transition import (N, R, UP, LEFT, CTRL, ALT, F11, ESC,
                                          MENU, key, finish, run_loop)
 
 
@@ -168,10 +168,10 @@ class StageThreeFlowTests(unittest.TestCase):
 
     def test_transition_to_three_blocks_same_batch_and_held_combat_keys(self):
         created, snapshots, _, _, _, _ = run_loop([
-            [key(49), key(UP), key(SPACE), key(SHIFT), key(R), key(49)],
-            [key(UP), key(SPACE), key(SHIFT), key(R)],
-            [key(UP, False), key(SPACE, False), key(SHIFT, False), key(R, False), key(49, False)],
-            [key(UP), key(SPACE), key(SHIFT)]], initial_stage=2)
+            [key(49), key(UP), key(CTRL), key(ALT), key(R), key(49)],
+            [key(UP), key(CTRL), key(ALT), key(R)],
+            [key(UP, False), key(CTRL, False), key(ALT, False), key(R, False), key(49, False)],
+            [key(UP), key(CTRL), key(ALT)]], initial_stage=2)
         self.assertEqual([g.stage_number for g in created], [2, 3])
         self.assertTrue(all(s['position'] == (5, 1) and s['attack'] == s['parry'] == 0 for s in snapshots[:3]))
         self.assertEqual(created[-1].player.position, (5, 2))
@@ -183,7 +183,7 @@ class StageThreeFlowTests(unittest.TestCase):
             if frame == 1:
                 finish(game, 'clear')
         created, snapshots, _, _, _, _ = run_loop(
-            [[], [key(SPACE)], [], [key(49)], [key(SPACE)], [key(SPACE, False)], [key(SPACE)]],
+            [[], [key(CTRL)], [], [key(49)], [key(CTRL)], [key(CTRL, False)], [key(CTRL)]],
             initial_stage=2, initial='playing',
             lengths=[0, 0, 0, FIXED_TIME_STEP, FIXED_TIME_STEP, FIXED_TIME_STEP, FIXED_TIME_STEP],
             after_render=clear_after_queue)
@@ -269,7 +269,7 @@ class StageThreeMainCombatTests(unittest.TestCase):
         self.assertEqual(game.encounter.enemies[0].position, (6, 3))
 
     def test_main_normal_parry_has_no_perfect_reward(self):
-        created, _, _, _, _, _ = play_to(300, inputs={282: [key(SHIFT)]})
+        created, _, _, _, _, _ = play_to(300, inputs={282: [key(ALT)]})
         game = created[-1]
         self.assertEqual(game.resolver.last_parry_result.status, 'normal')
         self.assertEqual((game.player.health.current_hp, game.combat.pending_attack_bonus), (3, 0))
@@ -282,7 +282,7 @@ class StageThreeMainCombatTests(unittest.TestCase):
             if tick in (300, 359, 360):
                 seen[tick] = (game.encounter.enemies[0].state, game.encounter.enemies[0].position,
                               game.encounter.enemies[0].current_attack)
-        created, _, _, _, _, _ = play_to(360, inputs={280: [key(SPACE)], 293: [key(SHIFT)]},
+        created, _, _, _, _, _ = play_to(360, inputs={280: [key(CTRL)], 293: [key(ALT)]},
                                         samples=(300, 359), observe=record)
         game = created[-1]
         self.assertEqual(game.resolver.last_parry_result.status, 'perfect')
@@ -296,9 +296,9 @@ class StageThreeMainCombatTests(unittest.TestCase):
     def test_main_perfect_next_space_deals_three_and_cancels_knight_once(self):
         def weaken_counter(game,tick):
             if tick==264:game.encounter.enemies[0].health.apply_damage(game.encounter.enemies[0].health.current_hp-3,tick=tick)
-        created, _, _, _, _, _ = play_to(325, samples=(264,), observe=weaken_counter, inputs={293: [key(SHIFT)],
+        created, _, _, _, _, _ = play_to(325, samples=(264,), observe=weaken_counter, inputs={293: [key(ALT)],
             301: [key(UP), key(UP, False)], 313: [key(RIGHT), key(RIGHT, False)],
-            325: [key(UP), key(SPACE)]})
+            325: [key(UP), key(CTRL)]})
         game = created[-1]
         self.assertEqual(game.encounter.enemies[0].health.current_hp, 0)
         self.assertFalse(game.encounter.enemies[0].active)
@@ -312,7 +312,7 @@ class StageThreeMainCombatTests(unittest.TestCase):
                 events.append(game.encounter.enemies[0].current_attack)
                 game.encounter.enemies[0].health.apply_damage(game.encounter.enemies[0].health.current_hp-1, tick=tick)
         created, _, _, _, _, _ = play_to(300, inputs={265: [key(UP), key(UP, False)],
-            277: [key(RIGHT), key(RIGHT, False)], 300: [key(UP), key(SPACE)]},
+            277: [key(RIGHT), key(RIGHT, False)], 300: [key(UP), key(CTRL)]},
             samples=(264,), observe=weaken)
         game = created[-1]
         self.assertFalse(game.encounter.enemies[0].active)
@@ -357,7 +357,7 @@ class StageThreeMainCombatTests(unittest.TestCase):
             knight.health.apply_damage(knight.health.current_hp-1, tick=0)
             return game
         created, snapshots, _, _, _, _ = run_loop(
-            [[key(SPACE), key(49)], [], [key(R)]], initial='playing',
+            [[key(CTRL), key(49)], [], [key(R)]], initial='playing',
             initial_factory=almost_clear)
         self.assertEqual(snapshots[0]['state'], GameState.UPGRADE)
         self.assertEqual([g.stage_number for g in created], [3])
@@ -376,7 +376,7 @@ class StageThreeMainCombatTests(unittest.TestCase):
         def record(game, tick):
             if tick == 41:
                 events.extend(e.current_attack for e in game.encounter.enemies[:2])
-        created, _, _, _, _, _ = play_to(48, inputs={41: [key(SHIFT)]},
+        created, _, _, _, _, _ = play_to(48, inputs={41: [key(ALT)]},
                                         observe=record, factory=simultaneous)
         game = created[-1]
         self.assertEqual([game.encounter.ledger.outcome(e) for e in events], ['hit', 'invulnerable'])

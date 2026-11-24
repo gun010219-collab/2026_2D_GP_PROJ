@@ -1,5 +1,5 @@
 """Read-only animation state driven by the real combat and presentation queue."""
-from dataclasses import dataclass
+from dataclasses import dataclass, fields
 from enum import Enum
 from math import hypot
 from zlib import crc32
@@ -60,7 +60,9 @@ class Cue:
 
 
 class ActorAnimation:
-    def __init__(self):
+    def __init__(self, *, improved=False):
+        self.improved = improved
+        self._display = {}
         self.scope = None
         self.time = 0.
         self._seen = set()
@@ -73,7 +75,7 @@ class ActorAnimation:
     def deaths(self):
         return self._deaths.values()
 
-    def update(self, game, elapsed, batch, *, paused=False):
+    def update(self, game, elapsed, batch, *, paused=False, motion=None, reset=False):
         scope = game.combat.combat_session_id, game.combat.stage_instance_id
         if self.scope != scope:
             self.scope, self.time = scope, 0.
@@ -81,6 +83,7 @@ class ActorAnimation:
             self._cues.clear()
             self._deaths.clear()
             self._phase.clear()
+            self._display.clear()
         elif not paused and 0. <= elapsed <= .15:
             self.time += elapsed
         actors = {e.entity_instance_id: e for e in (game.player, *game.encounter.enemies)}
@@ -122,6 +125,58 @@ class ActorAnimation:
                 if key[1] is State.DEATH:
                     self._deaths.pop(key[0], None)
 
+        if self.improved:
+            if reset:
+                self._display.clear()
+            if not paused or not self._display:
+                self._blend(game,actors,motion)
+
+    def _blend(self, game, actors, motion):
+        from actor_mesh import deformation
+
+        rendered = {}
+        for key,actor in actors.items():
+            if not actor.alive or not getattr(actor,'active',True):
+                continue
+            kind = getattr(actor,'kind','player')
+            pose = self.pose(game,actor,motion)
+            target = deformation(kind,game.chapter,pose,improved=True)
+            old = self._display.get(key)
+            source, started = None, self.time
+            if old:
+                old_pose, old_effect, previous, previous_start = old
+                if old_pose.state is pose.state and old_pose.direction == pose.direction:
+                    source, started = previous, previous_start
+                elif pose.state not in (State.PARRY_PERFECT,State.DEATH):
+                    source = old_effect
+                    cue = self._cues.get((key,pose.state))
+                    if cue:
+                        started = cue.start
+                    if motion is not None and {old_pose.state,pose.state} == {State.IDLE,State.MOVE}:
+                        segment = motion.segment(actor)
+                        if segment is not None:
+                            at = segment[0] if pose.state is State.MOVE else segment[1]
+                            started = self.time-max(0.,motion.time-at)
+                            boundary = Pose(old_pose.state,pose.phase-(self.time-started),
+                                            direction=old_pose.direction)
+                            source = deformation(kind,game.chapter,boundary,improved=True)
+                if source is not None:
+                    duration = .05 if pose.state in (State.ATTACK,State.HIT,State.PARRY_NORMAL) else .09
+                    time = self.time-started
+                    if time >= duration:
+                        source = None
+                    else:
+                        floor = .78 if duration == .05 else 0.
+                        weight = floor+(1-floor)*max(0.,time/duration)
+                        target = type(target)(*(getattr(source,f.name)*(1-weight)+getattr(target,f.name)*weight
+                                                for f in fields(target)))
+            rendered[key] = pose,target,source,started
+        self._display = rendered
+
+    def mesh_pose(self, game, actor, motion):
+        frame = self._display.get(actor.entity_instance_id)
+        return frame[:2] if frame else (self.pose(game,actor,motion),None)
+
     def pose(self, game, actor, motion):
         key = actor.entity_instance_id
         if key in self._deaths:
@@ -147,7 +202,11 @@ class ActorAnimation:
         if kind != 'bishop' and motion is not None and game.playing:
             (x,y), lift = motion.ground_pose(actor)
             tx,ty = cell_center(*actor.position)
-            if hypot(tx-x,ty-y) > .05 or lift > .05:
+            segment = motion.segment(actor) if self.improved else None
+            moving = motion.time < segment[1] if segment is not None else (hypot(tx-x,ty-y) > .05 or lift > .05)
+            if moving:
+                if self.improved and kind == 'player':
+                    return Pose(State.MOVE,self.time+offset,direction=FACING[actor.facing])
                 return Pose(State.MOVE, self.time+offset, direction=1. if tx >= x else -1.)
         return Pose(State.IDLE, self.time+offset)
 

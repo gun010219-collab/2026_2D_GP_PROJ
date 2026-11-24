@@ -8,7 +8,7 @@ from game import GameState
 from game_renderer import GameFlowRenderer
 from health_renderer import HealthRenderer
 from enemy_attack_renderer import EnemyAttackRenderer
-from tests.test_stage_transition import N, R, UP, SPACE, SHIFT, F11, ESC, MENU, key, finish, run_loop
+from tests.test_stage_transition import N, R, UP, CTRL, ALT, F11, ESC, MENU, key, finish, run_loop
 from tests.test_stage_three import play_to
 
 
@@ -86,10 +86,10 @@ class StageFiveTests(unittest.TestCase):
         created,_,_,_,_,_=run_loop([[key(N),key(R)]],initial_stage=5,initial='playing')
         self.assertEqual(len(created),1)
         created,snapshots,_,_,_,_=run_loop([
-            [key(R),key(N),key(SPACE),key(SHIFT),key(UP)],
-            [key(R),key(SPACE),key(SHIFT),key(UP)],
-            [key(R,False),key(SPACE,False),key(SHIFT,False),key(UP,False)],
-            [key(UP),key(SPACE),key(SHIFT)]],initial_stage=5)
+            [key(R),key(N),key(CTRL),key(ALT),key(UP)],
+            [key(R),key(CTRL),key(ALT),key(UP)],
+            [key(R,False),key(CTRL,False),key(ALT,False),key(UP,False)],
+            [key(UP),key(CTRL),key(ALT)]],initial_stage=5)
         self.assertEqual([g.stage_number for g in created],[5,5])
         self.assertTrue(all(s['position']==(5,1) and s['attack']==s['parry']==0 for s in snapshots[:3]))
         self.assertEqual(created[-1].player.position,(5,2))
@@ -101,7 +101,7 @@ class StageFiveTests(unittest.TestCase):
             pulse=g.encounter.pulse
             seen[t]=(pulse.state,g.player.health.current_hp,pulse.king.health.current_hp,
                      [(e.position,e.next_action_tick) for e in g.encounter.enemies[1:]])
-        created,_,_,_,_,_=play_to(445,factory=lambda:factory(5),inputs={378:[key(SHIFT)]},
+        created,_,_,_,_,_=play_to(445,factory=lambda:factory(5),inputs={378:[key(ALT)]},
                                   samples=(239,240,264,265,377,385,414,415,444,445),observe=observe)
         g=created[-1]
         pulse=g.encounter.pulse
@@ -118,7 +118,7 @@ class StageFiveTests(unittest.TestCase):
 
     def test_actual_main_normal_pulse_parry_does_not_reflect_or_reward(self):
         factory=main._new_stage_game
-        created,_,_,_,_,_=play_to(385,factory=lambda:factory(5),inputs={367:[key(SHIFT)]})
+        created,_,_,_,_,_=play_to(385,factory=lambda:factory(5),inputs={367:[key(ALT)]})
         g=created[-1]
         self.assertEqual(g.resolver.last_parry_result.status,'normal')
         self.assertEqual((g.encounter.pulse.king.health.current_hp,g.combat.pending_attack_bonus,g.player.health.current_hp),(28,0,2))

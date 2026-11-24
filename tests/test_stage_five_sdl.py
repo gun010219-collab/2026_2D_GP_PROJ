@@ -75,7 +75,7 @@ class StageFiveSDLTests(unittest.TestCase):
                     push(s.SDL_KEYUP,s.SDLK_1)
                     phase[0]='fight'
                 elif phase[0]=='fight' and games[-1].combat.tick==376:
-                    push(s.SDL_KEYDOWN,s.SDLK_LSHIFT)
+                    push(s.SDL_KEYDOWN,s.SDLK_LALT)
                 elif phase[0]=='clear':
                     push(s.SDL_KEYDOWN,s.SDLK_1)
                     push(s.SDL_KEYUP,s.SDLK_1)

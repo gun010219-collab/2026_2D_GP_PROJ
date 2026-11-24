@@ -4,7 +4,7 @@ import logging
 from functools import lru_cache
 from pathlib import Path
 from math import cos,sin,pi
-from arena_art_common import CAMERA, ArenaArtError, SessionArtPath, sprite_layout
+from arena_art_common import CAMERA, ArenaArtError, SessionArtPath, enlarge_sprite, sprite_layout
 from board import is_light_tile
 from config import BOARD_LEFT,BOARD_BOTTOM,TILE_SIZE
 from render_motion import display_center
@@ -80,6 +80,7 @@ class Stage5ArtRenderer:
     files = FILES
     animation = animation_motion = None
     animation_failed = False
+    enlarged = False
     vfx = None
 
     def layout(self,kind,u,v):
@@ -123,11 +124,11 @@ class Stage5ArtRenderer:
         if self.animation is not None and not self.animation_failed:
             from actor_mesh import draw_actor
 
-            pose = self.animation.pose(g, actor, self.animation_motion)
+            pose, effect = self.animation.mesh_pose(g,actor,self.animation_motion)
             try:
                 profile = getattr(self, 'profile', None)
                 style = profile.pieces[kind].animation_profile if profile is not None else kind
-                x, top = draw_actor(self.c, self.images[kind].texture, style, g.chapter, layout, pose)
+                x, top = draw_actor(self.c,self.images[kind].texture,style,g.chapter,layout,pose,effect=effect)
                 layout['animation'] = pose.state.value
                 return x, layout['hp_y'] + top - layout['top']
             except (OSError, ArenaArtError):
@@ -190,15 +191,18 @@ class Stage5ArtRenderer:
         labels=[]
         for e in actors:
             kind=getattr(e,'kind','player');u,v,lift=cell(e);layout=self.layout(kind,u,v)
+            shadow_height = layout['height']
+            if self.enlarged:
+                layout = enlarge_sprite(layout,kind)
             if lift:
                 layout={**layout,'center':(layout['center'][0],layout['center'][1]+lift),
                         'top':layout['top']+lift,'hp_y':layout['hp_y']+lift,'elevation':lift}
-            x,y=layout['foot'];height=layout['height'];top=layout['top']
+            x,y=layout['foot'];top=layout['top']
             self.actor_layouts[e.entity_instance_id]=layout
             if e.entity_instance_id in dead_ids:
                 self.draw_actor(g,e,kind,layout,dead=True)
                 continue
-            polygon(c,tuple((x+4+cos(i*pi/4)*height*.24,y-2+sin(i*pi/4)*4) for i in range(8)),(24,25,29,255))
+            polygon(c,tuple((x+4+cos(i*pi/4)*shadow_height*.24,y-2+sin(i*pi/4)*4) for i in range(8)),(24,25,29,255))
             label_x,label_y=self.draw_actor(g,e,kind,layout)
             self.order.append(e.entity_instance_id)
             self.bounds.append((e.entity_instance_id,x,y,top));labels.append((e,label_x,label_y))

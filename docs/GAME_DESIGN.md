@@ -1,5 +1,7 @@
 # CHECKMATE 현재 승인 설계
 
+R7-A1의 확정 조작은 방향키 이동, 왼쪽 Ctrl 공격, 왼쪽 Alt 패링이다. 이전 단계의 SPACE·Shift 기재는 당시 검증 이력이다. 확대는 발 기준 표시 스케일과 HP에만 반영하고 기존 이동 쿨타임, 판정, 스테이지와 보스 규칙을 적용한다. [조작 기준과 확대율](TASK5R7A1_MOTION_INPUT.md)
+
 R6의 정식 타이틀은 NEW GAME, CONTINUE, CHAPTER SELECT, SETTINGS, EXIT를 제공한다. CONTINUE는 챕터 시작점만 복원한다. Stage5/10/15/20의 실제 보스 클리어에서 다음 챕터를 해금하며 Stage25의 전체 적 처치와 플레이어 생존으로 정식 엔딩을 연다. 첫 체크포인트와 완료 기록은 재플레이에서도 보존한다. [저장·진입·엔딩 정책](TASK5R6_GAME_FLOW.md)
 
 ## 출품 버전의 플레이 흐름과 표현 요구사항 (R0)

@@ -97,7 +97,7 @@ class HPCarryoverSDLTests(unittest.TestCase):
                 if f in (15,17):
                     click(730,499)
                     tap(s.SDLK_3)
-                    tap(s.SDLK_SPACE)
+                    tap(s.SDLK_LCTRL)
                     tap(s.SDLK_UP)
                 if f==18:tap(s.SDLK_3)  # Boss N enters Chapter 2 in the separate Stage 6 SDL path.
                 if f==20:tap(s.SDLK_n)

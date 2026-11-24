@@ -8,7 +8,7 @@ from config import FIXED_TIME_STEP
 from game import GameState
 from game_renderer import GameFlowRenderer
 from health_renderer import HealthRenderer
-from tests.test_stage_transition import N,R,UP,SPACE,SHIFT,F11,ESC,MENU,key,finish,run_loop
+from tests.test_stage_transition import N,R,UP,CTRL,ALT,F11,ESC,MENU,key,finish,run_loop
 from tests.test_stage_three import play_to
 from tests.test_bishop import battle,bishop
 from enemy import Enemy
@@ -102,10 +102,10 @@ class StageFourFlowTests(unittest.TestCase):
 
     def test_held_flow_and_combat_keys_cannot_generate_ghost_actions_after_transition(self):
         created,snapshots,_,_,_,_=run_loop([
-            [key(49),key(SPACE),key(SHIFT),key(UP),key(R)],
-            [key(49),key(SPACE),key(SHIFT),key(UP)],
-            [key(49,False),key(R,False),key(SPACE,False),key(SHIFT,False),key(UP,False)],
-            [key(UP),key(SPACE),key(SHIFT)]],initial_stage=3)
+            [key(49),key(CTRL),key(ALT),key(UP),key(R)],
+            [key(49),key(CTRL),key(ALT),key(UP)],
+            [key(49,False),key(R,False),key(CTRL,False),key(ALT,False),key(UP,False)],
+            [key(UP),key(CTRL),key(ALT)]],initial_stage=3)
         self.assertEqual([g.stage_number for g in created],[3,4])
         self.assertTrue(all(s['position']==(5,1) and s['attack']==s['parry']==0 for s in snapshots[:3]))
         self.assertEqual(created[-1].player.position,(5,2))
@@ -163,7 +163,7 @@ class StageFourMainCombatTests(unittest.TestCase):
 
     def test_normal_and_perfect_parry_with_other_attackers_independent(self):
         for delta,grade in ((18,'normal'),(7,'perfect')):
-            created,_,_,_,_,_=play_four(156,inputs={156-delta:[key(SHIFT)]})
+            created,_,_,_,_,_=play_four(156,inputs={156-delta:[key(ALT)]})
             g=created[-1]
             self.assertEqual(g.resolver.last_parry_result.status,grade)
             self.assertEqual(g.player.health.current_hp,3)
@@ -176,7 +176,7 @@ class StageFourMainCombatTests(unittest.TestCase):
         def record(g,t):
             if t in (156,215,216):
                 seen[t]=(g.encounter.enemies[0].state,g.encounter.enemies[0].current_attack,g.combat.next_attack_tick)
-        created,_,_,_,_,_=play_four(216,inputs={140:[key(SPACE)],149:[key(SHIFT)]},
+        created,_,_,_,_,_=play_four(216,inputs={140:[key(CTRL)],149:[key(ALT)]},
                                     samples=(156,215),observe=record)
         self.assertEqual(seen[156][0],'stunned')
         self.assertEqual(seen[156][2],156)
@@ -213,7 +213,7 @@ class StageFourMainCombatTests(unittest.TestCase):
                 e.health.apply_damage(e.health.current_hp,tick=0)
                 g.encounter.deactivate(e.entity_instance_id)
             return g
-        created,snapshots,_,_,_,_=run_loop([[key(SPACE),key(49)],[key(49,False)],[key(R)]],
+        created,snapshots,_,_,_,_=run_loop([[key(CTRL),key(49)],[key(49,False)],[key(R)]],
             initial='playing',initial_factory=almost_clear)
         self.assertEqual([g.stage_number for g in created],[4])
         self.assertEqual(snapshots[0]['state'],GameState.UPGRADE)

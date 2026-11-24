@@ -68,7 +68,7 @@ CHAPTER_PROFILES = {1: ROYAL, 2: FOREST, 3: FROZEN, **LATE_PROFILES}
 
 class LiveArenaArtPath:
     """Dispatch one path and release outgoing textures before loading the next stage."""
-    def __init__(self, canvas, *, motion=None, default_enabled=False, animation=None, vfx=None):
+    def __init__(self, canvas, *, motion=None, default_enabled=False, animation=None, vfx=None, enlarged=False):
         royal = ProfileArtPath(canvas, ROYAL, motion=motion, stage=range(1, 5),
                                flag=None, logger=logging.getLogger(__name__))
         frozen = ProfileArtPath(canvas, FROZEN, motion=motion, stage=range(14, 16),
@@ -90,6 +90,7 @@ class LiveArenaArtPath:
             if vfx is not None:
                 path.vfx = effects_renderer
             path.default_enabled = default_enabled
+            path.enlarged = enlarged
             path.animation = animation
             path.animation_motion = motion
         self.stage = self.path = None

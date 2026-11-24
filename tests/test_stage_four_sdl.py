@@ -69,7 +69,7 @@ class StageFourSDLTests(unittest.TestCase):
                     push(s.SDL_KEYDOWN,s.SDLK_1)
                     push(s.SDL_KEYUP,s.SDLK_1)
                 elif frames[0]==19:
-                    push(s.SDL_KEYDOWN,s.SDLK_LSHIFT)
+                    push(s.SDL_KEYDOWN,s.SDLK_LALT)
                 elif frames[0]==21:
                     push(s.SDL_QUIT)
                 return real_poll()
