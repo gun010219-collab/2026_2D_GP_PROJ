@@ -2,6 +2,8 @@
 
 ## R7 인간 Windows 캠페인에 이관된 검수
 
+- [ ] R7-A2B 실제 Windows 재검수에서 고딕 진홍색 번개와 용암 주황 열기를 구별한다. Stage14 Bishop·Rook 중첩의 위험 셀, Stage24 두 Queen의 충전·교차·잔광, Stage25 검은 연기를 동반한 Pulse와 금백색 퍼펙트 패링을 확인한다. HP와 플레이어 위치 및 장시간 피로도를 함께 확인한다. [VFX 전후 비교와 검수](TASK5R7A2_COMBAT_VFX.md)
+
 - [ ] R7-A1에서 왼쪽 Ctrl·Alt 조합, Alt+Tab·Alt+F4, 복귀 후 입력, 기물 가림과 HP 간격, 이동·착지의 자연스러움을 검수한다. 이후 기물 VFX(A2), 전조(A3), BGM(A4), 인간 캠페인·밸런스(B), 성능·버그(C), 배포(D)를 진행한다. [움직임과 조작 검수표](TASK5R7A1_MOTION_INPUT.md)
 
 - [ ] 정식 메인 메뉴부터 인간 캠페인을 진행하고 Chapter1~5 해금·재실행·CONTINUE·F11 복원·엔딩·크레딧을 확인한다. [R6 검수표](TASK5R6_GAME_FLOW.md)

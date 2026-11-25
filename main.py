@@ -138,7 +138,8 @@ def run_session(game, flow, *, game_renderer=None, default_art=False, app=None):
         vfx = None
         if vfx_enabled:
             from combat_vfx import CombatVFX
-            vfx = CombatVFX()
+            style = os.environ.get('CHECKMATE_VFX_STYLE','layered')
+            vfx = CombatVFX(renewed=style!='legacy',layered=style=='layered')
         audio_flag = os.environ.get('CHECKMATE_AUDIO')
         audio_enabled = default_art if audio_flag is None else audio_flag == '1'
         if audio_enabled and app is None:

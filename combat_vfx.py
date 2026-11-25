@@ -60,6 +60,7 @@ class Effect:
     particles: int
     travel_pose: tuple | None = None
     landed: float | None = None
+    source_kind: str | None = None
 
 
 def cue_name(event, kind):
@@ -83,7 +84,9 @@ def cue_name(event, kind):
 
 
 class CombatVFX:
-    def __init__(self):
+    def __init__(self, *, renewed=False, layered=False):
+        self.renewed = renewed or layered
+        self.layered = layered
         self.scope = None
         self.effects = []
         self.charges = {}
@@ -132,7 +135,9 @@ class CombatVFX:
                     continue
                 name = cue_name(event, kind)
                 if name in SPECS:
-                    self._start(game, event, name, getattr(actor, 'data_id', 'player'))
+                    source = actors.get(event.payload.source_entity_instance_id) if event.kind=='hurt' else None
+                    self._start(game,event,name,getattr(actor,'data_id','player'),
+                                source_kind=getattr(source,'kind',None))
         if motion is not None:
             for fx in self.effects:
                 if fx.name in ('knight_land','rook_impact') and fx.landed is None:
@@ -156,7 +161,7 @@ class CombatVFX:
         else:
             fx.travel_pose = ((ground[0]-BOARD_LEFT)/TILE_SIZE, (ground[1]-BOARD_BOTTOM)/TILE_SIZE, lift)
 
-    def _start(self, game, event, name, stable_id):
+    def _start(self, game, event, name, stable_id, *, source_kind=None):
         cells = getattr(event.payload, 'target_cells', ())
         origin = event.origin
         cell = event.destination or (cells[-1] if cells else origin)
@@ -177,7 +182,7 @@ class CombatVFX:
         amount = event.payload.hp_before - event.payload.hp_after if event.kind == 'hurt' else 0
         seed = crc32(f'{stable_id}/{event.tick}/{name}'.encode()) % len(SAMPLES)
         self.effects.append(Effect(name, event.key, origin, cell, cells, start, duration,
-                                   amount, seed, min(free, wanted)))
+                                   amount, seed, min(free,wanted),source_kind=source_kind))
 
     def shake(self):
         for fx in reversed(self.effects):

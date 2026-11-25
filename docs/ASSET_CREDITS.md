@@ -1,5 +1,9 @@
 # CHECKMATE 에셋 출처
 
+## R7-A2B 자체 제작 공격 VFX 아틀라스
+
+256×128 RGBA 아틀라스 한 장과 64px 타일 8개를 CHECKMATE 프로젝트와 Codex가 수학적 마스크와 고정 시드로 제작했다. 외부 이미지, 샘플 또는 폰트는 사용하지 않았다. 게임과 출품·배포본에 함께 사용한다. [원본·제작 정보·SHA-256](../assets/vfx/manifest.json) · [재현 스크립트](../tools/make_vfx_atlas.py)
+
 ## R5 자체 제작 음원
 
 CHECKMATE 프로젝트와 Codex가 자체 작곡·합성한 8개 BGM, 35개 SFX를 프로젝트 게임과 출품·배포본에 사용한다. 외부 샘플과 제3자 작곡은 사용하지 않았다. 파일별 제작 파라미터, 수정 내역, 포맷, 길이, SHA-256과 공통 권리 표기를 매니페스트에 기록했다. [음원 매니페스트](../assets/audio/manifest.json) · [생성기](../tools/make_game_audio.py)

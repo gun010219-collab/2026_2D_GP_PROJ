@@ -83,12 +83,13 @@ class LiveArenaArtPath:
                           *(path(canvas, motion=motion) for path in legacy))
         self.stage_paths = {**self.paths, **{path.stage: path for path in original_paths}}
         self.vfx = vfx
+        self.effects_renderer = None
         if vfx is not None:
             from combat_vfx_renderer import VFXRenderer
-            effects_renderer = VFXRenderer(vfx)
+            self.effects_renderer = VFXRenderer(vfx)
         for path in self.stage_paths.values():
             if vfx is not None:
-                path.vfx = effects_renderer
+                path.vfx = self.effects_renderer
             path.default_enabled = default_enabled
             path.enlarged = enlarged
             path.animation = animation
@@ -104,7 +105,8 @@ class LiveArenaArtPath:
         return self.path is not None and self.path.draw(game, positions)
 
     def close(self):
-        if self.vfx is not None:
+        if self.effects_renderer is not None:
+            self.effects_renderer.close()
             self.vfx.close()
         if self.path is not None:
             self.path.close()

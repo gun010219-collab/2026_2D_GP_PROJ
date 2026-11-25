@@ -1,0 +1,145 @@
+{
+  "driver": "direct3d11",
+  "captures": {
+    "stage3_knight_apex_r7a1.png": {
+      "stage": 3,
+      "tick": 87,
+      "sha256": "8946697ef5564fc520b270b080cc2d4849b461722a8335cf48e55e7e544bc82c"
+    },
+    "stage3_knight_apex_r7a2.png": {
+      "stage": 3,
+      "tick": 87,
+      "sha256": "516de33a59b9125866a8637e53c715b3178679494b5fc766c73d685d8804bf37"
+    },
+    "stage3_knight_land_r7a1.png": {
+      "stage": 3,
+      "tick": 90,
+      "sha256": "8da4269ece35fbf4ed9575abed94e41b9930f83df16a40547465aba1967a90a0"
+    },
+    "stage3_knight_land_r7a2.png": {
+      "stage": 3,
+      "tick": 90,
+      "sha256": "1630ad1c3363840c84fb9f683225bbfd64faf3b2a207efc254b3168773e1f553"
+    },
+    "stage6_rook_impact_r7a1.png": {
+      "stage": 6,
+      "tick": 215,
+      "sha256": "0808692bf2c18ce5eff27b1722e8c3ef1355abafa9341beb74be0d7a134fd10d"
+    },
+    "stage6_rook_impact_r7a2.png": {
+      "stage": 6,
+      "tick": 215,
+      "sha256": "913b7b5a573febf5aa20b297ef89366d7bff1f7fbefef450e589c9c2a7dd2ed0"
+    },
+    "stage12_bishop_cast_r7a1.png": {
+      "stage": 12,
+      "tick": 163,
+      "sha256": "9caf953df623c85a6c0921e7e3d43efbb0ef86a90119979600ca6ee99d5ac36d"
+    },
+    "stage12_bishop_cast_r7a2.png": {
+      "stage": 12,
+      "tick": 163,
+      "sha256": "2001a11d505681efb05156641e8127bd4d16383993dff07a0cf6300b3f942fb3"
+    },
+    "stage24_queen_fire_r7a1.png": {
+      "stage": 24,
+      "tick": 128,
+      "sha256": "68f9657ea6241bd84fddf553f9218f0d0cf38feaed3440eb26bd10fdd000a417"
+    },
+    "stage24_queen_fire_r7a2.png": {
+      "stage": 24,
+      "tick": 128,
+      "sha256": "e1f94b22f88ab35194149982b67f0344ab5bf294475ab2cb5934e43b4547bcd6"
+    },
+    "stage1_pawn_thrust_r7a1.png": {
+      "stage": 1,
+      "tick": 351,
+      "sha256": "16d0b7cbd4c9d8133d6603ef51b004b9a2115de6709b088fc86f52f67d3be346"
+    },
+    "stage1_pawn_thrust_r7a2.png": {
+      "stage": 1,
+      "tick": 351,
+      "sha256": "71bd432da741421675aa31a451ca0b0420b7a1263859cc7396d6b47beea80afa"
+    },
+    "stage25_king_strike_r7a1.png": {
+      "stage": 25,
+      "tick": 493,
+      "sha256": "275a9b065b2c0134af37140b36560f008a0b8db3782db67cec034f9790d9288a"
+    },
+    "stage25_king_strike_r7a2.png": {
+      "stage": 25,
+      "tick": 493,
+      "sha256": "3b08fe051e035354507320c37c7306974d9b0883f97d8b91f5db3e3a55855f62"
+    },
+    "stage25_boss_death_r7a1.png": {
+      "stage": 25,
+      "tick": 536,
+      "sha256": "f561ee1c1dc963e235b028e8180a0cef35a4a35fb96d71e7ef8728e589327d13"
+    },
+    "stage25_boss_death_r7a2.png": {
+      "stage": 25,
+      "tick": 536,
+      "sha256": "72e52355670653be45365f6f84b7eebee1d62d0802efbf15252db462c580e8e4"
+    },
+    "stage16_lava_strike_r7a1.png": {
+      "stage": 16,
+      "tick": 168,
+      "sha256": "59455086037c7227106628799cdd375af3377a72b4a85bbaa2d69702c7a3e026"
+    },
+    "stage16_lava_strike_r7a2.png": {
+      "stage": 16,
+      "tick": 168,
+      "sha256": "8f9253cf758efc524823c044467b70215b8c6edd22277f7115bdfb8d7e9f5ab3"
+    },
+    "stage24_double_charge_r7a2.png": {
+      "stage": 24,
+      "tick": 63,
+      "sha256": "c01dea9a2c6aa553be23bf51d935592bc11605d8dd9b94a2c6706560393a24f1"
+    },
+    "stage24_double_beam_r7a1.png": {
+      "stage": 24,
+      "tick": 135,
+      "sha256": "1e4389513a521f4f166a5aef7d117a10f43acd22514171913098c1cff2b5aac5"
+    },
+    "stage24_double_beam_r7a2.png": {
+      "stage": 24,
+      "tick": 135,
+      "sha256": "c8211c245a201e07e00e26ea749ed0e9a61cf9a461783e30ab93dcc541b1867e"
+    },
+    "stage24_beam_tail_r7a2.png": {
+      "stage": 24,
+      "tick": 143,
+      "sha256": "0818025d3210808cbcbdc3ebe81d63805b811a1f81ca35b79ed3e2b90119cb96"
+    },
+    "stage25_pulse_charge_r7a2.png": {
+      "stage": 25,
+      "tick": 378,
+      "sha256": "cc52c150766587d71333f0edc17318f203dd85c53615e7349de47a344657aabb"
+    },
+    "stage25_pulse_fire_r7a2.png": {
+      "stage": 25,
+      "tick": 385,
+      "sha256": "6c240d18b930f596bda09cf199e3e6de6ffdfa4bf17ec9d87c4ea1350a8e8980"
+    },
+    "stage25_perfect_pulse_r7a1.png": {
+      "stage": 25,
+      "tick": 389,
+      "sha256": "43cda84fe259cd19096bab058d1e9fded4ae1d26a0db64773d7294cbb092263a"
+    },
+    "stage25_perfect_pulse_r7a2.png": {
+      "stage": 25,
+      "tick": 389,
+      "sha256": "a6d19996b5f345526e18d438918c1c0ff4ac6a1133749036fb77fec5ad4916da"
+    },
+    "stage25_pulse_tail_r7a2.png": {
+      "stage": 25,
+      "tick": 399,
+      "sha256": "03191ad61acaf0219a8623f2e2b2ef4f9c5141f62ecff92f3042ae3319d2b232"
+    }
+  },
+  "texture_resources": {
+    "loads": 620,
+    "frees": 620,
+    "peak": 24
+  }
+}

@@ -4,6 +4,8 @@
 
 ## 현재 실행 상태
 
+R7-A2B 전투 효과는 일반 실행에 적용된다. `CHECKMATE_VFX_STYLE=renewed`는 R7-A2, `legacy`는 R7-A1과 비교할 때 사용한다. `CHECKMATE_VFX=0`은 VFX OFF다. [공격별 비교와 Windows 검수](docs/TASK5R7A2_COMBAT_VFX.md)
+
 `python main.py`는 정식 타이틀을 표시한다. NEW GAME으로 시작하고 CONTINUE로 저장된 챕터의 시작점에서 재개한다. CHAPTER SELECT는 해금과 선행 보스를 표시한다. Windows 저장 위치는 `%LOCALAPPDATA%\CHECKMATE\save.json`이다. [메뉴 조작·복구·검수](docs/TASK5R6_GAME_FLOW.md)
 
 일반 실행은 챕터·보스 BGM과 실제 전투 SFX를 재생한다. SETTINGS의 BGM/SFX ±와 MUTE가 즉시 적용된다. `CHECKMATE_AUDIO=0`으로 무음 비교를 실행한다. [음원 목록과 Windows 청취 명령](docs/TASK5R5_AUDIO.md)

@@ -1,4 +1,4 @@
-"""Procedural combat geometry in the approved B+12 projection; no textures."""
+"""Combat geometry and optional atlas layers in the approved B+12 projection."""
 import ctypes
 import logging
 from contextlib import contextmanager
@@ -11,6 +11,9 @@ import sdl2 as s
 from arena_art_common import ArenaArtError, CAMERA
 from combat_vfx import MATERIALS, SAMPLES
 from config import MOTION_SECONDS
+import attack_vfx
+import layered_attack_vfx
+from vfx_atlas import VFXAtlas
 
 
 @lru_cache(maxsize=100)
@@ -156,6 +159,46 @@ class VFXRenderer:
     def __init__(self, manager):
         self.manager = manager
         self.mesh = Mesh()
+        self.atlas = VFXAtlas() if manager.layered else None
+
+    def close(self):
+        if self.atlas is not None:
+            self.atlas.close()
+
+    def draw_atlas(self, layer, canvas, game, layouts, style):
+        atlas = self.atlas
+        if atlas is None or atlas.failed or layer == 'labels':
+            return
+        try:
+            if not atlas.open(canvas):
+                return
+            manager = self.manager
+            tick = game.combat.tick
+            for attack, origin, kind in manager.charges.values():
+                amount = (tick-attack.start_tick)/(attack.hit_tick-attack.start_tick)
+                pulse = attack.attack_kind=='king_pulse'
+                if layer == 'ground':
+                    x,y = center(origin)
+                    layered_attack_vfx.charge(atlas,layer,x,y,kind,pulse,amount,style)
+                elif layouts:
+                    body = layouts.get(attack.source_entity_instance_id)
+                    if body and kind in ('bishop','queen','king'):
+                        x,y = body['center']
+                        x += body['height']*.22 if kind=='bishop' else 0
+                        layered_attack_vfx.charge(atlas,layer,x,y+5,kind,pulse,amount,style)
+                        if pulse:
+                            atlas.stamp('flare',x,body['top']-6,12+13*amount,.85,
+                                        style.edge,.72,angle=amount)
+            for fx in manager.effects:
+                age = max(0.,manager.time-fx.start)
+                t = min(1.,age/fx.duration)
+                layered_attack_vfx.draw(atlas,layer,fx,age,t,style,manager.time)
+            atlas.flush()
+        except (ArenaArtError,OSError):
+            atlas.close()
+            atlas.failed = True
+            logging.getLogger(__name__).warning('Combat VFX atlas unavailable; using combat geometry',
+                                               exc_info=True)
 
     def fail(self):
         self.manager.failed = True
@@ -195,25 +238,37 @@ class VFXRenderer:
                     raise ArenaArtError('Cannot apply VFX alpha blending')
                 changed = True
             mat = MATERIALS[game.chapter]
+            styles = attack_vfx.LAYERED_STYLES if manager.layered else attack_vfx.STYLES
+            style = styles[game.chapter] if manager.renewed else None
+            self.draw_atlas(layer,canvas,game,layouts,style)
             if layer in ('ground','front'):
                 for attack, origin, kind in manager.charges.values():
                     portion = (game.combat.tick-attack.start_tick)/(attack.hit_tick-attack.start_tick)
                     x,y = center(origin)
                     radius = (26 if attack.attack_kind=='king_pulse' else 18)*(1-.55*portion)
                     if layer == 'ground':
-                        mesh.arc(x,y,radius,.43,pi*portion,tau*.8,2,rgba(mat.color,.7))
+                        if style and kind in ('bishop','queen','king'):
+                            attack_vfx.sigil(mesh,x,y,radius*(1.35 if kind=='bishop' else 1.28),
+                                             pi*portion,style,.65)
+                        else:
+                            mesh.arc(x,y,radius,.43,pi*portion,tau*.8,2,rgba(style.color if style else mat.color,.7))
                     elif kind in ('queen','bishop','king') and layouts:
                         body = layouts.get(attack.source_entity_instance_id)
                         if body:
                             cx,cy = body['center']
                             offset = .22*body['height'] if kind=='bishop' else 0
-                            glint(mesh,cx+offset,cy+5,3+9*portion,rgba(mat.edge,.82))
+                            glint(mesh,cx+offset,cy+5,(3+9*portion)*(1.32 if style else 1),
+                                  rgba(style.edge if style else mat.edge,.82))
                             if attack.attack_kind=='king_pulse':
-                                glint(mesh,cx,body['top']-5,3+6*portion,rgba(mat.color,.9))
-            for fx in manager.effects:
+                                glint(mesh,cx,body['top']-5,(3+6*portion)*(1.35 if style else 1),
+                                      rgba(style.color if style else mat.color,.9))
+            effects = manager.effects
+            if style and layer=='front':
+                effects = sorted(effects,key=lambda fx:fx.name.startswith('parry_'))
+            for fx in effects:
                 age = max(0.,manager.time-fx.start)
                 t = min(1.,age/fx.duration)
-                self.effect(layer,fx,age,t,mat)
+                self.effect(layer,fx,age,t,mat,style)
             mesh.flush()
         except (ArenaArtError,OSError):
             mesh.count = 0
@@ -222,7 +277,7 @@ class VFXRenderer:
             if changed and s.SDL_SetRenderDrawBlendMode(canvas.renderer,blend.value):
                 self.fail()
 
-    def effect(self, layer, fx, age, t, mat):
+    def effect(self,layer,fx,age,t,mat,style=None):
         mesh = self.mesh
         x,y = center(fx.cell)
         ox,oy = center(fx.origin)
@@ -233,17 +288,26 @@ class VFXRenderer:
             return
         if name in ('bishop_cast','king_pulse','queen_fire'):
             if layer=='ground':
-                strike(mesh,fx,t,mat)
+                if style:
+                    attack_vfx.strike(mesh,fx,age,t,style)
+                else:
+                    strike(mesh,fx,t,mat)
             x,y = ox,oy
         elif layer == 'ground':
             if name in ('rook_impact','knight_land','boss_death'):
                 delay = MOTION_SECONDS if name != 'boss_death' and fx.cell != fx.origin else 0
                 after_land = self.manager.time-fx.landed if fx.landed is not None else age-delay
-                if fx.travel_pose is None and after_land >= 0:
+                if style:
+                    if name=='boss_death' or fx.landed is not None:
+                        attack_vfx.impact(mesh,fx,after_land,t,style)
+                elif fx.travel_pose is None and after_land >= 0:
                     mesh.arc(x,y,12+after_land*115,.45,0,tau,3,rgba(mat.edge,1-t))
             return
         elif name in ('player_swing','pawn_thrust','rook_strike','knight_strike','king_strike'):
-            strike(mesh,fx,t,mat)
+            if style and name in attack_vfx.ENEMY_STRIKES:
+                attack_vfx.strike(mesh,fx,age,t,style)
+            else:
+                strike(mesh,fx,t,mat)
         elif name in ('rook_impact','knight_land'):
             u = min(1.,age/MOTION_SECONDS) if fx.origin != fx.cell else 1.
             eased = u*u*(3-2*u)
@@ -253,8 +317,14 @@ class VFXRenderer:
                 if fx.travel_pose is not None:
                     col,row,lift = fx.travel_pose
                     lx,ly = CAMERA.project(col,row)
+                if style:
+                    if fx.travel_pose is not None:
+                        attack_vfx.travel(mesh,fx,lx,ly,lift,u,style)
+                    return
                 mesh.stroke((lx-(x-ox)*.13,ly+lift+10-(y-oy)*.13),(lx,ly+lift+10),5,
                             rgba(mat.edge,.53*(1-u)),1)
+                return
+            if style and fx.landed is None:
                 return
             if fx.landed is not None:
                 age = self.manager.time-fx.landed
@@ -281,10 +351,18 @@ class VFXRenderer:
         elif name.endswith('_death'):
             y += 15
             if name=='boss_death':
-                mesh.arc(x,y,15+75*t,.57,0,tau,4,rgba(mat.color,1-t))
-                glint(mesh,x,y+15,29*(1-t),rgba(mat.edge,1-t))
+                if style:
+                    attack_vfx.vein(mesh,(x,y-6),(x,y+72*(1-t)),style,age,.85*(1-t))
+                    glint(mesh,x,y+15,41*(1-t),rgba(style.edge,1-t))
+                else:
+                    mesh.arc(x,y,15+75*t,.57,0,tau,4,rgba(mat.color,1-t))
+                    glint(mesh,x,y+15,29*(1-t),rgba(mat.edge,1-t))
         if layer=='front':
-            debris(mesh,fx,mat,x,y,age,t)
+            if style and (name in attack_vfx.ENEMY_STRIKES or name in ('rook_impact','knight_land','boss_death')
+                          or (name=='player_hurt' and fx.source_kind=='pawn')):
+                attack_vfx.particles(mesh,fx,style,x,y,age,t)
+            else:
+                debris(mesh,fx,mat,x,y,age,t)
 
 
 # Seven-segment digits with a dark under-stroke stay legible on ice and basalt.

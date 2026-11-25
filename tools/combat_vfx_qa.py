@@ -30,14 +30,18 @@ from tools.chapter_art_play import advance_campaign, session
 from tools.stage5_art_preview import capture_png, open_preview
 
 
-def run(driver, output):
+def run(driver,output,*,renewed=False,layered=False):
     import sdl2 as s
     from pico2d import pico2d as c
 
     if output:
         output.mkdir(parents=True,exist_ok=False)
-    motion, animation, vfx = RenderMotion(), ActorAnimation(), CombatVFX()
-    path = LiveArenaArtPath(c,motion=motion,animation=animation,vfx=vfx,default_enabled=True)
+    renewed = renewed or layered
+    motion = RenderMotion(improved=renewed)
+    animation = ActorAnimation(improved=renewed)
+    vfx = CombatVFX(renewed=renewed,layered=layered)
+    path = LiveArenaArtPath(c,motion=motion,animation=animation,vfx=vfx,
+                           default_enabled=True,enlarged=renewed)
     hud = GameFlowRenderer()
     scenes, campaign, coverage, peaks = {}, [], set(), [0,0]
     resources = dict(loads=0,releases=0,peak=0)
@@ -50,7 +54,7 @@ def run(driver, output):
             frozen.update(e.entity_instance_id for e in g.encounter.enemies if g.encounter.pulse.frozen(e))
         motion.update((g.player,*g.encounter.enemies),elapsed,session=g.combat.combat_session_id,frozen=frozen)
         batch = feed.drain()
-        animation.update(g,elapsed,batch)
+        animation.update(g,elapsed,batch,motion=motion)
         vfx.update(g,elapsed,batch,motion=motion)
         active = {fx.name for fx in vfx.effects}
         coverage.update(active)
@@ -227,6 +231,13 @@ def run(driver, output):
                     assert expected <= scenes.keys(),expected-scenes.keys()
                     # Renderer failure must leave the active animated renderer usable.
                     renderer = path.path.renderer
+                    if layered:
+                        atlas = renderer.vfx.atlas
+                        assert atlas.image is not None
+                        with patch.object(atlas,'flush',side_effect=ArenaArtError('QA atlas')) as fail:
+                            frame(g)
+                            frame(g)
+                            assert atlas.failed and atlas.image is None and fail.call_count==1
                     with patch.object(renderer.vfx.mesh,'flush',side_effect=ArenaArtError('QA')) as fail:
                         assert path.draw(g,motion.positions) and vfx.failed
                         assert path.draw(g,motion.positions) and not renderer.animation_failed
@@ -249,5 +260,8 @@ if __name__=='__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--renderer',choices=('software','direct3d11'),default='direct3d11')
     parser.add_argument('--output',type=Path)
+    parser.add_argument('--vfx-renewal',action='store_true')
+    parser.add_argument('--vfx-layered',action='store_true')
     args = parser.parse_args()
-    print(json.dumps(run(args.renderer,args.output),indent=2))
+    print(json.dumps(run(args.renderer,args.output,renewed=args.vfx_renewal,
+                         layered=args.vfx_layered),indent=2))

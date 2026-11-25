@@ -1,0 +1,24 @@
+{
+  "file": "combat_atlas.png",
+  "size": [
+    256,
+    128
+  ],
+  "tile_size": 64,
+  "format": "RGBA8",
+  "tiles": [
+    "halo",
+    "flare",
+    "ribbon",
+    "smoke",
+    "ripple",
+    "runes",
+    "crystal",
+    "ember"
+  ],
+  "seed": 72025,
+  "source": "tools/make_vfx_atlas.py",
+  "creator": "CHECKMATE / Codex",
+  "provenance": "Original project artwork from mathematical masks; no external inputs",
+  "sha256": "ea53432b488ed2e9bd3edd0a4630fa888f7c72275b4a71440da35c293036eaf4"
+}
