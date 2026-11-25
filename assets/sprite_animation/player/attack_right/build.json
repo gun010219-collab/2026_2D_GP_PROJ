@@ -1,0 +1,19 @@
+{
+  "purpose": "production",
+  "columns": 2,
+  "clips": [
+    {
+      "design": "player",
+      "action": "attack",
+      "facing": "right",
+      "reference_height": 256,
+      "impact": 0,
+      "frames": [
+        {"file": "frames/05_release.png", "foot": [192, 302], "ms": 66},
+        {"file": "frames/06_follow_through.png", "foot": [192, 302], "ms": 67},
+        {"file": "frames/07_recovery.png", "foot": [192, 302], "ms": 83},
+        {"file": "frames/08_return.png", "foot": [192, 302], "ms": 84}
+      ]
+    }
+  ]
+}

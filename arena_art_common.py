@@ -44,6 +44,7 @@ class SessionArtPath:
         self.failed = False
         self.default_enabled = False
         self.animation = self.animation_motion = None
+        self.sprite_catalog = None
         self.enlarged = False
 
     def close(self):
@@ -84,11 +85,15 @@ class SessionArtPath:
                     self.renderer.enlarged = True
                 if getattr(self, 'vfx', None) is not None:
                     self.renderer.vfx = self.vfx
+                if getattr(self,'player_combat_visual',False):
+                    self.renderer.player_combat_visual = True
                 if getattr(self, 'telegraph', None) is not None:
                     self.renderer.telegraph = self.telegraph
                 if self.animation is not None:
                     self.renderer.animation = self.animation
                     self.renderer.animation_motion = self.animation_motion
+                    if self.sprite_catalog is not None:
+                        self.renderer.load_sprite_atlases(self.sprite_catalog, g.chapter)
             self.renderer.draw(g, positions)
             return True
         except (OSError, ArenaArtError):

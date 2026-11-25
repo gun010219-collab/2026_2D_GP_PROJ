@@ -1,0 +1,95 @@
+{
+  "left": {
+    "columns": 4,
+    "body_pixels": 221,
+    "prompts": [
+      "A sparse transparent 4x2 grid for a game atlas, exactly eight small full-body sprites of the silver-armored male swordsman in the reference. Camera 3/4 fixed, keep face, brown hair, steel plate and ivory trim, navy cloak, gold-hilt sword in his anatomical right hand, blue silver-rimmed shield on his anatomical left hand. Every body and weapon faces SCREEN LEFT. One independently illustrated left-facing pose per cell, shield on visual right side of chest, no mirroring. Render each character plus weapon SMALL, at most 65 percent of its cell width and height, with broad transparent margins of at least 15 percent on EVERY side of EVERY sprite. For the wide slashes, use a compact foot stance and slightly bent arm so full sword fits inside 65 percent. Nothing touches the canvas edges or adjacent cells. Leave a wider transparent band before the top row and after the bottom row. Four top row poses ready, draw, charge, high windup. Bottom row: leftward strike extending sword point diagonally to the lower left of the knees, leftward follow-through with sword tip at far left of chest, recover blade, ready again. Nose looks left. Physically grounded boots, same baseline in each cell. Sharp painterly realistic contours, portrait human proportions, no effects glow floor labels shadow extra object. NO cropped blade tips at any edge, NO full bleed. Transparent alpha PNG.",
+      "Background extraction for a video game texture. Keep this exact eight pose sprite sheet and layout: four columns, two rows, silver male knight with dark blue shield, same left-facing faces, actual sword edges and all boots. Change only the canvas and faint floor shadows. Remove all white and gray backdrop and all floor shadows outside the characters. Output a true transparent PNG so the rgba alpha for every empty area between every body and weapon is 0, including all four corners, and no opaque white or checkerboard. Do not regenerate the eight figures or adjust poses, camera, palette, armor, margins, sword silhouettes or spacing. Preserve complete cutout of each of the eight tiny fully isolated figures."
+    ],
+    "sha256": "d976ac4115dee837f1dffc3877cae419d62a8f2b8a76c722d1c45a6d524529c5",
+    "source": "OpenAI built-in ImageGen",
+    "references": [
+      "assets/character_concepts/player.png"
+    ],
+    "matte_source": "assets/sprite_animation/player/combat/sheets/left_before_alpha.png",
+    "matte_source_sha256": "e4df167b4b99e16b98ef8f7e62e3eacb4deedf5ddc69f71293a14680fd6e5534"
+  },
+  "up": {
+    "columns": 4,
+    "body_pixels": 318,
+    "prompts": [
+      "Use case: identity-preserve. Asset: transparent raster sprite sheet for a top-down three-quarter fantasy tactics game. Image 1 is the exact identity, costume and neutral stance reference. Image 2 is the approved sprite animation style, camera, anatomy and materials reference. Render the same brown-haired male knight, polished angular silver armor with warm neutrals and highlights, cream front tabard, navy cape, one steel longsword with small gold hilt and one dark navy heraldic kite shield with narrow silver trim. Keep same age, hair, camera elevation, proportions, palette, weapons, and coherent pivot between frames. Crisp photorealistic painterly/concept rendering and detailed silhouettes as in sample. One fully isolated character pose in each cell, from crown to armored boots and complete sword/shield/cape, standing on the same imaginary floor line with two foot soles near bottom of cell. Clear transparent alpha between cells and a generous margin. Each cell is the same width and height. Even cell grid with no drawn separators, labels, numerals, cast shadows, floor or contact circles, weapon trails, glows, effects, extra figures, or checkerboard fake transparency. Do not touch image edges. Space conservatively so long blades remain completely in their own cells. Feet planted. EXACTLY 4 columns by TWO rows, 8 distinct poses aligned to cell centers, row-major playback. up-screen, viewed from rear three-quarter with a natural head turn showing some profile. Show rear plates and blue cape parted to one side. Blade extends toward upper screen in release and follow through. Read direction as away from viewer, not a jump. Row 1: ready, start wind-up, wind up further, max wind-up. Row 2: explosive directionally clear release, follow-through extending the same path, settle, return. Both rows contain exactly four poses."
+    ],
+    "sha256": "2947400539e73874cf1726a88b133d6a399c5b99c2687c9501422f339d4e33cd",
+    "source": "OpenAI built-in ImageGen",
+    "references": [
+      "assets/character_concepts/player.png",
+      "assets/sprite_animation/player/attack_right/player_attack_right_8frames.png"
+    ]
+  },
+  "down": {
+    "columns": 4,
+    "body_pixels": 302,
+    "prompts": [
+      "Use case: identity-preserve. Asset: transparent raster sprite sheet for a top-down three-quarter fantasy tactics game. Image 1 is the exact identity, costume and neutral stance reference. Image 2 is the approved sprite animation style, camera, anatomy and materials reference. Render the same brown-haired male knight, polished angular silver armor with warm neutrals and highlights, cream front tabard, navy cape, one steel longsword with small gold hilt and one dark navy heraldic kite shield with narrow silver trim. Keep same age, hair, camera elevation, proportions, palette, weapons, and coherent pivot between frames. Crisp photorealistic painterly/concept rendering and detailed silhouettes as in sample. One fully isolated character pose in each cell, from crown to armored boots and complete sword/shield/cape, standing on the same imaginary floor line with two foot soles near bottom of cell. Clear transparent alpha between cells and a generous margin. Each cell is the same width and height. Even cell grid with no drawn separators, labels, numerals, cast shadows, floor or contact circles, weapon trails, glows, effects, extra figures, or checkerboard fake transparency. Do not touch image edges. Space conservatively so long blades remain completely in their own cells. Feet planted. EXACTLY 4 columns by TWO rows, 8 distinct poses aligned to cell centers, row-major playback. down-screen, viewed from front three-quarter, blade foreshortened toward lower screen clearly in release and follow through, bend knees on engagement, distinct from the back-view attack. Blade crosses above foot line. Row 1: ready, start wind-up, wind up further, max wind-up. Row 2: explosive directionally clear release, follow-through extending the same path, settle, return. Both rows contain exactly four poses."
+    ],
+    "sha256": "2d50f48702d66baac06cdab19c4044443b8e53e6c8900e04425107ba25e6a6d5",
+    "source": "OpenAI built-in ImageGen",
+    "references": [
+      "assets/character_concepts/player.png",
+      "assets/sprite_animation/player/attack_right/player_attack_right_8frames.png"
+    ]
+  },
+  "parry_ready": {
+    "columns": 3,
+    "body_pixels": 382,
+    "prompts": [
+      "Use case: identity-preserve. Asset: transparent raster sprite sheet for a top-down three-quarter fantasy tactics game. Image 1 is the exact identity, costume and neutral stance reference. Image 2 is the approved sprite animation style, camera, anatomy and materials reference. Render the same brown-haired male knight, polished angular silver armor with warm neutrals and highlights, cream front tabard, navy cape, one steel longsword with small gold hilt and one dark navy heraldic kite shield with narrow silver trim. Keep same age, hair, camera elevation, proportions, palette, weapons, and coherent pivot between frames. Crisp photorealistic painterly/concept rendering and detailed silhouettes as in sample. One fully isolated character pose in each cell, from crown to armored boots and complete sword/shield/cape, standing on the same imaginary floor line with two foot soles near bottom of cell. Clear transparent alpha between cells and a generous margin. Each cell is the same width and height. Even cell grid with no drawn separators, labels, numerals, cast shadows, floor or contact circles, weapon trails, glows, effects, extra figures, or checkerboard fake transparency. Do not touch image edges. Space conservatively so long blades remain completely in their own cells. Feet planted. EXACTLY 3 columns by TWO rows, 6 distinct poses aligned to cell centers, row-major playback. Shield guard preparation only. Six frames: idle, raises shield, feet broaden a little, firmly guarded, slight relaxed guard, guard settles. Sword remains beside body in anatomical right hand. Stays low versus the successful perfect parry. Both rows contain exactly three poses."
+    ],
+    "sha256": "19c50c6e8e4eb7ede431f56c39a99675589406163783821cd7571d83bc1ea705",
+    "source": "OpenAI built-in ImageGen",
+    "references": [
+      "assets/character_concepts/player.png",
+      "assets/sprite_animation/player/attack_right/player_attack_right_8frames.png"
+    ]
+  },
+  "parry_normal": {
+    "columns": 3,
+    "body_pixels": 357,
+    "prompts": [
+      "Use case: identity-preserve. Asset: transparent raster sprite sheet for a top-down three-quarter fantasy tactics game. Image 1 is the exact identity, costume and neutral stance reference. Image 2 is the approved sprite animation style, camera, anatomy and materials reference. Render the same brown-haired male knight, polished angular silver armor with warm neutrals and highlights, cream front tabard, navy cape, one steel longsword with small gold hilt and one dark navy heraldic kite shield with narrow silver trim. Keep same age, hair, camera elevation, proportions, palette, weapons, and coherent pivot between frames. Crisp photorealistic painterly/concept rendering and detailed silhouettes as in sample. One fully isolated character pose in each cell, from crown to armored boots and complete sword/shield/cape, standing on the same imaginary floor line with two foot soles near bottom of cell. Clear transparent alpha between cells and a generous margin. Each cell is the same width and height. Even cell grid with no drawn separators, labels, numerals, cast shadows, floor or contact circles, weapon trails, glows, effects, extra figures, or checkerboard fake transparency. Do not touch image edges. Space conservatively so long blades remain completely in their own cells. Feet planted. EXACTLY 3 columns by TWO rows, 6 distinct poses aligned to cell centers, row-major playback. Normal parry block. Six frames: blue shield blocks in front, subtle recoil, shoulder catches weight slightly backward, re-centers, lowers shield part-way, relaxed guard. Keep grounded. Sword remains next to body. Both rows contain exactly three poses."
+    ],
+    "sha256": "9bd9d36765a1205128c430d1c1c1492451c74d3118dafb0548d3ea7ebcaf0c84",
+    "source": "OpenAI built-in ImageGen",
+    "references": [
+      "assets/character_concepts/player.png",
+      "assets/sprite_animation/player/attack_right/player_attack_right_8frames.png"
+    ]
+  },
+  "parry_perfect": {
+    "columns": 3,
+    "body_pixels": 354,
+    "prompts": [
+      "Use case: identity-preserve. Asset: transparent raster sprite sheet for a top-down three-quarter fantasy tactics game. Image 1 is the exact identity, costume and neutral stance reference. Image 2 is the approved sprite animation style, camera, anatomy and materials reference. Render the same brown-haired male knight, polished angular silver armor with warm neutrals and highlights, cream front tabard, navy cape, one steel longsword with small gold hilt and one dark navy heraldic kite shield with narrow silver trim. Keep same age, hair, camera elevation, proportions, palette, weapons, and coherent pivot between frames. Crisp photorealistic painterly/concept rendering and detailed silhouettes as in sample. One fully isolated character pose in each cell, from crown to armored boots and complete sword/shield/cape, standing on the same imaginary floor line with two foot soles near bottom of cell. Clear transparent alpha between cells and a generous margin. Each cell is the same width and height. Even cell grid with no drawn separators, labels, numerals, cast shadows, floor or contact circles, weapon trails, glows, effects, extra figures, or checkerboard fake transparency. Do not touch image edges. Space conservatively so long blades remain completely in their own cells. Feet planted. EXACTLY 3 columns by TWO rows, 6 distinct poses aligned to cell centers, row-major playback. Perfect parry. Six frames: shield drives outward diagonally to intercept and deflect, pronounced recoil and chest extends taller, shoulders square with cape flaring, regathers grounded weight, shield retracts, ready posture. Stronger obvious body action than ordinary block. Sword stays in right hand. Both rows contain exactly three poses."
+    ],
+    "sha256": "0b1778e5f28bf912496004c561d2d9f54758e83e5f15ac0f04cb6c6ff7236c06",
+    "source": "OpenAI built-in ImageGen",
+    "references": [
+      "assets/character_concepts/player.png",
+      "assets/sprite_animation/player/attack_right/player_attack_right_8frames.png"
+    ]
+  },
+  "parry_failed": {
+    "columns": 3,
+    "body_pixels": 343,
+    "prompts": [
+      "Use case: identity-preserve. Asset: transparent raster sprite sheet for a top-down three-quarter fantasy tactics game. Image 1 is the exact identity, costume and neutral stance reference. Image 2 is the approved sprite animation style, camera, anatomy and materials reference. Render the same brown-haired male knight, polished angular silver armor with warm neutrals and highlights, cream front tabard, navy cape, one steel longsword with small gold hilt and one dark navy heraldic kite shield with narrow silver trim. Keep same age, hair, camera elevation, proportions, palette, weapons, and coherent pivot between frames. Crisp photorealistic painterly/concept rendering and detailed silhouettes as in sample. One fully isolated character pose in each cell, from crown to armored boots and complete sword/shield/cape, standing on the same imaginary floor line with two foot soles near bottom of cell. Clear transparent alpha between cells and a generous margin. Each cell is the same width and height. Even cell grid with no drawn separators, labels, numerals, cast shadows, floor or contact circles, weapon trails, glows, effects, extra figures, or checkerboard fake transparency. Do not touch image edges. Space conservatively so long blades remain completely in their own cells. Feet planted. EXACTLY 3 columns by TWO rows, 6 distinct poses aligned to cell centers, row-major playback. Missed parry. Six frames: late unsteady guard, shield drops off center and chin dips, strongest collapse of guard with flexed knees and bent torso, shield low and angled outward, uneven recovery, ready posture. No falls, no wounds, no damage marks. Distinct hunched body silhouette instead of tall successful guard. Both rows contain exactly three poses."
+    ],
+    "sha256": "d41e77eb7af28759e8655249699ed23ff6302984243fa118bf75580c27e93939",
+    "source": "OpenAI built-in ImageGen",
+    "references": [
+      "assets/character_concepts/player.png",
+      "assets/sprite_animation/player/attack_right/player_attack_right_8frames.png"
+    ]
+  }
+}

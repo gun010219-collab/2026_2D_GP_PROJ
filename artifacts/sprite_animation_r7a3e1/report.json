@@ -1,0 +1,130 @@
+{
+  "driver": "direct3d11",
+  "fixture": "atlas/manifest.json",
+  "texture_formats": [
+    [
+      "SDL_PIXELFORMAT_ARGB8888",
+      4
+    ],
+    [
+      "SDL_PIXELFORMAT_ARGB8888",
+      4
+    ],
+    [
+      "SDL_PIXELFORMAT_ARGB8888",
+      4
+    ]
+  ],
+  "texture_pixel_bytes": 4817408,
+  "texture_load_ms": [
+    9.458,
+    5.015,
+    4.017
+  ],
+  "texture_releases": 3,
+  "p50_p95_p99_ms": {
+    "1": {
+      "mesh": [
+        1.395,
+        1.639,
+        2.051
+      ],
+      "frame": [
+        1.258,
+        1.533,
+        1.91
+      ]
+    },
+    "24": {
+      "mesh": [
+        4.336,
+        5.45,
+        6.28
+      ],
+      "frame": [
+        4.152,
+        4.663,
+        5.47
+      ]
+    },
+    "25": {
+      "mesh": [
+        3.321,
+        4.263,
+        5.193
+      ],
+      "frame": [
+        3.255,
+        3.524,
+        5.174
+      ]
+    }
+  },
+  "player_draw_cpu_p50_p95_p99_ms": {
+    "1": {
+      "mesh": [
+        0.131,
+        0.172,
+        0.22
+      ],
+      "frame": [
+        0.009,
+        0.028,
+        0.045
+      ]
+    },
+    "24": {
+      "mesh": [
+        0.145,
+        0.224,
+        0.253
+      ],
+      "frame": [
+        0.015,
+        0.033,
+        0.055
+      ]
+    },
+    "25": {
+      "mesh": [
+        0.143,
+        0.208,
+        0.245
+      ],
+      "frame": [
+        0.013,
+        0.029,
+        0.034
+      ]
+    }
+  },
+  "captures": {
+    "stage24_frame.png": "bd819a624bba7233951c5fbeec9da6093f0bbe8aa8ba69f9ad5236dafe34434b"
+  },
+  "sample_ticks": {
+    "1": 0,
+    "24": 135,
+    "25": 404
+  },
+  "sample_scope": "Only the player attack draw path changes in the paired benchmark. Stage25 is post-Pulse after a normal parry.",
+  "test_fixture_hashes": {
+    "atlas.png": "31e79184f61315d5daed1bc7726d2e8ba847e587e7c8bdcb918e3ab93d4d9cf8",
+    "manifest.json": "c98d9184156b50597f887d0f8230bcff28f58b730d9e29998dd4f9a27993a6ad"
+  },
+  "verification": {
+    "unittest_count": 1627,
+    "seconds": 381.225,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "campaign_stages": 25,
+    "boss_clears": 5,
+    "campaign_resources": {
+      "loads": 286,
+      "releases": 286,
+      "peak": 14
+    },
+    "previous_png_sha256": 257,
+    "previous_wav_sha256": 43
+  }
+}

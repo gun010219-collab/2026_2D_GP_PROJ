@@ -28,7 +28,7 @@ from tools.stage5_art_preview import capture_png,open_preview
 
 def run(driver,output,isolated):
     import sdl2 as s
-    from sdl2 import sdlmixer as mix
+    from sdl2 import sdlimage, sdlmixer as mix
     from pico2d import pico2d as c
 
     if output:
@@ -71,6 +71,7 @@ def run(driver,output,isolated):
         c.window=c.renderer=None
 
     old_image,old_texture,old_destroy = c.load_image,c.SDL_CreateTextureFromSurface,c.SDL_DestroyTexture
+    old_atlas = sdlimage.IMG_LoadTexture
     def acquire(tex):
         ptr=ctypes.cast(tex,ctypes.c_void_p).value
         if ptr and ptr not in live:
@@ -84,6 +85,8 @@ def run(driver,output,isolated):
         return image
     def load_texture(*args):
         return acquire(old_texture(*args))
+    def load_atlas(*args):
+        return acquire(old_atlas(*args))
     def destroy(tex):
         if tex:
             key=ctypes.cast(tex,ctypes.c_void_p).value
@@ -230,6 +233,7 @@ def run(driver,output,isolated):
          patch.object(c,'SDL_GetWindowFlags',lambda w:flags(w)|s.SDL_WINDOW_INPUT_FOCUS), \
          patch.object(c,'get_events',poll),patch.object(c,'load_image',load_image), \
          patch.object(c,'SDL_CreateTextureFromSurface',load_texture),patch.object(c,'SDL_DestroyTexture',destroy), \
+         patch.object(sdlimage,'IMG_LoadTexture',load_atlas), \
          patch.object(ReleaseGame,'front_loop',observe_front),patch.object(AudioManager,'set_music',music), \
          patch.object(FrontRenderer,'draw_screen',observe_draw),patch.object(SettingsRenderer,'draw',observe_settings):
         launch(main._new_stage_game,play,path=save)

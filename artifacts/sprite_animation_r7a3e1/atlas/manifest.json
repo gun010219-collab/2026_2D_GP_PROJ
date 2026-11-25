@@ -1,0 +1,169 @@
+{
+  "version": 1,
+  "purpose": "test",
+  "atlases": {
+    "actors": {
+      "file": "atlas.png",
+      "size": [
+        1552,
+        776
+      ]
+    }
+  },
+  "clips": [
+    {
+      "design": "player",
+      "action": "attack",
+      "facing": "right",
+      "impact": 4,
+      "reference_height": 256,
+      "frames": [
+        {
+          "rect": [
+            2,
+            2,
+            384,
+            384
+          ],
+          "visible_top": 80,
+          "foot": [
+            192,
+            298
+          ],
+          "ms": 40,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            390,
+            2,
+            384,
+            384
+          ],
+          "visible_top": 80,
+          "foot": [
+            192,
+            298
+          ],
+          "ms": 40,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            778,
+            2,
+            384,
+            384
+          ],
+          "visible_top": 80,
+          "foot": [
+            192,
+            298
+          ],
+          "ms": 45,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            1166,
+            2,
+            384,
+            384
+          ],
+          "visible_top": 80,
+          "foot": [
+            192,
+            298
+          ],
+          "ms": 45,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            2,
+            390,
+            384,
+            384
+          ],
+          "visible_top": 80,
+          "foot": [
+            192,
+            298
+          ],
+          "ms": 55,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            390,
+            390,
+            384,
+            384
+          ],
+          "visible_top": 80,
+          "foot": [
+            192,
+            298
+          ],
+          "ms": 60,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            778,
+            390,
+            384,
+            384
+          ],
+          "visible_top": 80,
+          "foot": [
+            192,
+            298
+          ],
+          "ms": 75,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            1166,
+            390,
+            384,
+            384
+          ],
+          "visible_top": 80,
+          "foot": [
+            192,
+            298
+          ],
+          "ms": 95,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "atlas": "actors"
+    }
+  ]
+}

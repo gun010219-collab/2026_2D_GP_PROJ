@@ -1,0 +1,993 @@
+{
+  "driver": "direct3d11",
+  "samples": {
+    "left": {
+      "stage": 1,
+      "input_tick": 12,
+      "drawn": [
+        [
+          4,
+          null,
+          null,
+          null
+        ],
+        [
+          6,
+          null,
+          null,
+          null
+        ],
+        [
+          8,
+          null,
+          null,
+          null
+        ],
+        [
+          10,
+          null,
+          null,
+          null
+        ],
+        [
+          12,
+          "attack",
+          "left",
+          0
+        ],
+        [
+          14,
+          "attack",
+          "left",
+          0
+        ],
+        [
+          16,
+          "attack",
+          "left",
+          1
+        ],
+        [
+          18,
+          "attack",
+          "left",
+          1
+        ],
+        [
+          20,
+          "attack",
+          "left",
+          2
+        ],
+        [
+          22,
+          "attack",
+          "left",
+          2
+        ],
+        [
+          24,
+          "attack",
+          "left",
+          2
+        ],
+        [
+          26,
+          "attack",
+          "left",
+          3
+        ],
+        [
+          28,
+          "attack",
+          "left",
+          3
+        ],
+        [
+          30,
+          null,
+          null,
+          null
+        ],
+        [
+          32,
+          null,
+          null,
+          null
+        ],
+        [
+          34,
+          null,
+          null,
+          null
+        ],
+        [
+          36,
+          null,
+          null,
+          null
+        ],
+        [
+          38,
+          null,
+          null,
+          null
+        ],
+        [
+          40,
+          null,
+          null,
+          null
+        ]
+      ],
+      "full_ms": {
+        "right_only": [
+          1.388,
+          1.62,
+          1.911
+        ],
+        "all_combat": [
+          1.26,
+          1.501,
+          1.705
+        ]
+      },
+      "player_draw_ms": {
+        "right_only": [
+          0.129,
+          0.165,
+          0.229
+        ],
+        "all_combat": [
+          0.008,
+          0.023,
+          0.031
+        ]
+      },
+      "benchmark_tick": 12
+    },
+    "down": {
+      "stage": 1,
+      "input_tick": 12,
+      "drawn": [
+        [
+          4,
+          null,
+          null,
+          null
+        ],
+        [
+          6,
+          null,
+          null,
+          null
+        ],
+        [
+          8,
+          null,
+          null,
+          null
+        ],
+        [
+          10,
+          null,
+          null,
+          null
+        ],
+        [
+          12,
+          "attack",
+          "down",
+          0
+        ],
+        [
+          14,
+          "attack",
+          "down",
+          0
+        ],
+        [
+          16,
+          "attack",
+          "down",
+          1
+        ],
+        [
+          18,
+          "attack",
+          "down",
+          1
+        ],
+        [
+          20,
+          "attack",
+          "down",
+          2
+        ],
+        [
+          22,
+          "attack",
+          "down",
+          2
+        ],
+        [
+          24,
+          "attack",
+          "down",
+          2
+        ],
+        [
+          26,
+          "attack",
+          "down",
+          3
+        ],
+        [
+          28,
+          "attack",
+          "down",
+          3
+        ],
+        [
+          30,
+          null,
+          null,
+          null
+        ],
+        [
+          32,
+          null,
+          null,
+          null
+        ],
+        [
+          34,
+          null,
+          null,
+          null
+        ],
+        [
+          36,
+          null,
+          null,
+          null
+        ],
+        [
+          38,
+          null,
+          null,
+          null
+        ],
+        [
+          40,
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    "up": {
+      "stage": 24,
+      "input_tick": 135,
+      "drawn": [
+        [
+          127,
+          null,
+          null,
+          null
+        ],
+        [
+          129,
+          null,
+          null,
+          null
+        ],
+        [
+          131,
+          null,
+          null,
+          null
+        ],
+        [
+          133,
+          null,
+          null,
+          null
+        ],
+        [
+          135,
+          "attack",
+          "up",
+          0
+        ],
+        [
+          137,
+          "attack",
+          "up",
+          0
+        ],
+        [
+          139,
+          "attack",
+          "up",
+          1
+        ],
+        [
+          141,
+          "attack",
+          "up",
+          1
+        ],
+        [
+          143,
+          "attack",
+          "up",
+          2
+        ],
+        [
+          145,
+          "attack",
+          "up",
+          2
+        ],
+        [
+          147,
+          "attack",
+          "up",
+          2
+        ],
+        [
+          149,
+          "attack",
+          "up",
+          3
+        ],
+        [
+          151,
+          "attack",
+          "up",
+          3
+        ],
+        [
+          153,
+          null,
+          null,
+          null
+        ],
+        [
+          155,
+          null,
+          null,
+          null
+        ],
+        [
+          157,
+          null,
+          null,
+          null
+        ],
+        [
+          159,
+          null,
+          null,
+          null
+        ],
+        [
+          161,
+          null,
+          null,
+          null
+        ],
+        [
+          163,
+          null,
+          null,
+          null
+        ]
+      ],
+      "full_ms": {
+        "right_only": [
+          3.933,
+          5.94,
+          6.002
+        ],
+        "all_combat": [
+          3.875,
+          4.516,
+          5.479
+        ]
+      },
+      "player_draw_ms": {
+        "right_only": [
+          0.131,
+          0.197,
+          0.297
+        ],
+        "all_combat": [
+          0.009,
+          0.031,
+          0.06
+        ]
+      },
+      "benchmark_tick": 135
+    },
+    "normal": {
+      "stage": 25,
+      "input_tick": 367,
+      "drawn": [
+        [
+          359,
+          null,
+          null,
+          null
+        ],
+        [
+          361,
+          null,
+          null,
+          null
+        ],
+        [
+          363,
+          null,
+          null,
+          null
+        ],
+        [
+          365,
+          null,
+          null,
+          null
+        ],
+        [
+          367,
+          "parry_ready",
+          "neutral",
+          0
+        ],
+        [
+          369,
+          "parry_ready",
+          "neutral",
+          1
+        ],
+        [
+          371,
+          "parry_ready",
+          "neutral",
+          2
+        ],
+        [
+          373,
+          "parry_ready",
+          "neutral",
+          3
+        ],
+        [
+          375,
+          "parry_ready",
+          "neutral",
+          3
+        ],
+        [
+          377,
+          "parry_ready",
+          "neutral",
+          4
+        ],
+        [
+          379,
+          "parry_ready",
+          "neutral",
+          4
+        ],
+        [
+          381,
+          "parry_ready",
+          "neutral",
+          5
+        ],
+        [
+          383,
+          "parry_ready",
+          "neutral",
+          5
+        ],
+        [
+          385,
+          "parry_normal",
+          "neutral",
+          0
+        ],
+        [
+          387,
+          "parry_normal",
+          "neutral",
+          1
+        ],
+        [
+          389,
+          "parry_normal",
+          "neutral",
+          1
+        ],
+        [
+          391,
+          "parry_normal",
+          "neutral",
+          2
+        ],
+        [
+          393,
+          "parry_normal",
+          "neutral",
+          3
+        ],
+        [
+          395,
+          "parry_normal",
+          "neutral",
+          4
+        ],
+        [
+          397,
+          "parry_normal",
+          "neutral",
+          4
+        ],
+        [
+          399,
+          "parry_normal",
+          "neutral",
+          5
+        ],
+        [
+          401,
+          null,
+          null,
+          null
+        ],
+        [
+          403,
+          null,
+          null,
+          null
+        ],
+        [
+          405,
+          null,
+          null,
+          null
+        ],
+        [
+          407,
+          null,
+          null,
+          null
+        ],
+        [
+          409,
+          null,
+          null,
+          null
+        ]
+      ],
+      "full_ms": {
+        "right_only": [
+          3.85,
+          4.229,
+          5.194
+        ],
+        "all_combat": [
+          3.742,
+          4.148,
+          4.481
+        ]
+      },
+      "player_draw_ms": {
+        "right_only": [
+          0.145,
+          0.194,
+          0.225
+        ],
+        "all_combat": [
+          0.018,
+          0.037,
+          0.04
+        ]
+      },
+      "benchmark_tick": 385
+    },
+    "perfect": {
+      "stage": 25,
+      "input_tick": 378,
+      "drawn": [
+        [
+          370,
+          null,
+          null,
+          null
+        ],
+        [
+          372,
+          null,
+          null,
+          null
+        ],
+        [
+          374,
+          null,
+          null,
+          null
+        ],
+        [
+          376,
+          null,
+          null,
+          null
+        ],
+        [
+          378,
+          "parry_ready",
+          "neutral",
+          0
+        ],
+        [
+          380,
+          "parry_ready",
+          "neutral",
+          1
+        ],
+        [
+          382,
+          "parry_ready",
+          "neutral",
+          2
+        ],
+        [
+          384,
+          "parry_ready",
+          "neutral",
+          3
+        ],
+        [
+          386,
+          "parry_perfect",
+          "neutral",
+          0
+        ],
+        [
+          388,
+          "parry_perfect",
+          "neutral",
+          1
+        ],
+        [
+          390,
+          "parry_perfect",
+          "neutral",
+          2
+        ],
+        [
+          392,
+          "parry_perfect",
+          "neutral",
+          2
+        ],
+        [
+          394,
+          "parry_perfect",
+          "neutral",
+          3
+        ],
+        [
+          396,
+          "parry_perfect",
+          "neutral",
+          3
+        ],
+        [
+          398,
+          "parry_perfect",
+          "neutral",
+          4
+        ],
+        [
+          400,
+          "parry_perfect",
+          "neutral",
+          4
+        ],
+        [
+          402,
+          "parry_perfect",
+          "neutral",
+          5
+        ],
+        [
+          404,
+          "parry_perfect",
+          "neutral",
+          5
+        ],
+        [
+          406,
+          null,
+          null,
+          null
+        ],
+        [
+          408,
+          null,
+          null,
+          null
+        ],
+        [
+          410,
+          null,
+          null,
+          null
+        ]
+      ],
+      "perfect_entry": {
+        "hint": "perfect",
+        "ticks_left": 7,
+        "warning_cells": 100,
+        "display": [
+          "ALT",
+          "NEXT INPUT",
+          "L ALT  PERFECT"
+        ],
+        "full_ms": {
+          "right_only": [
+            3.721,
+            4.05,
+            4.338
+          ],
+          "all_combat": [
+            3.72,
+            3.965,
+            4.366
+          ]
+        },
+        "player_draw_ms": {
+          "right_only": [
+            0.133,
+            0.205,
+            0.25
+          ],
+          "all_combat": [
+            0.132,
+            0.188,
+            0.234
+          ]
+        },
+        "benchmark_tick": 378
+      },
+      "full_ms": {
+        "right_only": [
+          4.111,
+          4.909,
+          6.372
+        ],
+        "all_combat": [
+          4.045,
+          4.581,
+          6.214
+        ]
+      },
+      "player_draw_ms": {
+        "right_only": [
+          0.143,
+          0.241,
+          0.271
+        ],
+        "all_combat": [
+          0.017,
+          0.035,
+          0.037
+        ]
+      },
+      "benchmark_tick": 385
+    },
+    "failed": {
+      "stage": 1,
+      "input_tick": 12,
+      "drawn": [
+        [
+          4,
+          null,
+          null,
+          null
+        ],
+        [
+          6,
+          null,
+          null,
+          null
+        ],
+        [
+          8,
+          null,
+          null,
+          null
+        ],
+        [
+          10,
+          null,
+          null,
+          null
+        ],
+        [
+          12,
+          "parry_failed",
+          "neutral",
+          0
+        ],
+        [
+          14,
+          "parry_failed",
+          "neutral",
+          1
+        ],
+        [
+          16,
+          "parry_failed",
+          "neutral",
+          2
+        ],
+        [
+          18,
+          "parry_failed",
+          "neutral",
+          3
+        ],
+        [
+          20,
+          "parry_failed",
+          "neutral",
+          3
+        ],
+        [
+          22,
+          "parry_failed",
+          "neutral",
+          4
+        ],
+        [
+          24,
+          "parry_failed",
+          "neutral",
+          5
+        ],
+        [
+          26,
+          "parry_failed",
+          "neutral",
+          5
+        ],
+        [
+          28,
+          null,
+          null,
+          null
+        ],
+        [
+          30,
+          null,
+          null,
+          null
+        ],
+        [
+          32,
+          null,
+          null,
+          null
+        ],
+        [
+          34,
+          null,
+          null,
+          null
+        ],
+        [
+          36,
+          null,
+          null,
+          null
+        ]
+      ]
+    }
+  },
+  "texture_loads": {
+    "atlas.png": {
+      "size": [
+        776,
+        776
+      ],
+      "bytes": 2408704,
+      "ms": [
+        3.892,
+        3.482,
+        3.399,
+        3.987,
+        3.599,
+        3.989
+      ]
+    },
+    "player_attacks.png": {
+      "size": [
+        1004,
+        687
+      ],
+      "bytes": 2758992,
+      "ms": [
+        6.489,
+        6.296,
+        6.601,
+        6.782,
+        6.765,
+        6.397
+      ]
+    },
+    "player_parries.png": {
+      "size": [
+        1398,
+        960
+      ],
+      "bytes": 5368320,
+      "ms": [
+        13.225,
+        12.784,
+        12.37,
+        12.713,
+        13.837,
+        12.431
+      ]
+    }
+  },
+  "atlas_count": 18,
+  "atlas_releases": 18,
+  "verification": {
+    "unittest_count": 1635,
+    "new_tests": 5,
+    "related_rerun": 18,
+    "unittest_sec": 411.078,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "campaign_stages": 25,
+    "campaign_boss_clears": 5,
+    "campaign_textures": {
+      "loads": 342,
+      "releases": 342,
+      "peak": 16
+    },
+    "release_textures": {
+      "loads": 106,
+      "frees": 106,
+      "peak": 66
+    },
+    "restart_stage": 21,
+    "normalized_frames": 48,
+    "cropped_regions_checked": 36,
+    "wav_hashes": 43,
+    "damaged_parry_page_mesh_fallback": true
+  },
+  "artifact_sha256": {
+    "stage1_down.gif": "638f7c2f626713f7c6620891c51360af4149e3fe9a17ef822e30019f28357864",
+    "stage1_failed.gif": "8cec585a775f673ead4ccf1edf788e68a6f960d0e703dfeffdb55ed3ea4c994a",
+    "stage1_left.gif": "47952e06319d1f30dfbf2afafaaad0a9bba0b023413c080a62fc02b7afb6eadf",
+    "stage24_up.gif": "39d7d76c48c3b29be0c83063d0a71ee98f4de9f67bdb6f86f1d231f00753e8c3",
+    "stage25_normal.gif": "1940d8282f9c97012295696fd2ec8a2964a4ed3693810d3725de5eaf2b8cac5e",
+    "stage25_perfect.gif": "f1f7517393f7dd1da8439181128be5fe9fbfd20b12293c2e706a9d101ea35517",
+    "stage25_perfect_entry.png": "c0cbbdc23de4834b97296dc56cfe13f3b4df3d49c68050fa43091fe8faabf24c"
+  },
+  "runtime_sha256": {
+    "manifest.json": "20b0546b2a72be35cf444ed96b0bf81f501a5b66be656679d64ba5ca88ebeefb",
+    "manifest_right_only.json": "701657c313bc04f8073232453d8cc1322ce43098f82a19b40e676f80f59de289",
+    "atlas.png": "1894837e4d8b166702b423bcc19c34156125fd66f4480a591ab7615b089bca85",
+    "player_attacks.png": "e657ad988e86334cceb0f727be956e84af8ac6d03874afa71c53db41a20fdfc2",
+    "player_parries.png": "12f6de09e88367247b39625df9ab170717aeb0808ab4051fad77d17175f20551"
+  }
+}

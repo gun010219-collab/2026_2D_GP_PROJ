@@ -9,6 +9,7 @@ from board import is_light_tile
 from config import BOARD_LEFT,BOARD_BOTTOM,TILE_SIZE
 from render_motion import display_center
 from health_renderer import HealthRenderer
+from player_combat_guide import draw_aim, player_aim
 from display_settings import logical_mouse_to_canvas
 
 LOG=logging.getLogger(__name__)
@@ -82,6 +83,8 @@ class Stage5ArtRenderer:
     animation_failed = False
     enlarged = False
     vfx = telegraph = parry_hint = None
+    player_combat_visual = False
+    sprite_atlases = None
 
     def layout(self,kind,u,v):
         return actor_layout(kind,u,v)
@@ -100,7 +103,22 @@ class Stage5ArtRenderer:
             if c.SDL_SetTextureColorMod(self.images['background'].texture,190,190,190):raise Stage5ArtError('Background tint failed')
         except BaseException:self.close();raise
 
+    def load_sprite_atlases(self, catalog, chapter):
+        from sprite_atlas import SpriteAtlases
+
+        self.sprite_atlases = SpriteAtlases(self.c, catalog, chapter,
+                                            {self.animation_style(key) for key in self.images})
+
+    def animation_style(self, kind):
+        profile = getattr(self, 'profile', None)
+        if profile is not None and kind in profile.pieces:
+            return profile.pieces[kind].animation_profile
+        return kind
+
     def close(self):
+        if self.sprite_atlases is not None:
+            self.sprite_atlases.close()
+            self.sprite_atlases = None
         # Nulling the Pico2D handle makes its later __del__ safe and idempotent.
         for image in self.images.values():
             if image.texture:self.c.SDL_DestroyTexture(image.texture);image.texture=None
@@ -121,13 +139,26 @@ class Stage5ArtRenderer:
         self.image('frame',720,450,1440,900)
 
     def draw_actor(self, g, actor, kind, layout, *, dead=False):
+        if self.animation is not None and (not self.animation_failed or self.sprite_atlases is not None):
+            pose, effect = self.animation.mesh_pose(g,actor,self.animation_motion)
+            style = self.animation_style(kind)
+            if self.sprite_atlases is not None and not dead:
+                from sprite_atlas import SPRITE_COMPLETE
+
+                label = self.sprite_atlases.draw(g, actor, style, layout, self.animation, pose)
+                if label is SPRITE_COMPLETE:
+                    from actor_mesh import deformation
+
+                    pose = self.animation.locomotion_pose(g, actor, self.animation_motion)
+                    effect = deformation(style, g.chapter, pose, improved=self.animation.improved)
+                elif label is not None:
+                    layout['animation'] = pose.state.value
+                    layout['sprite_frame'] = True
+                    return label
         if self.animation is not None and not self.animation_failed:
             from actor_mesh import draw_actor
 
-            pose, effect = self.animation.mesh_pose(g,actor,self.animation_motion)
             try:
-                profile = getattr(self, 'profile', None)
-                style = profile.pieces[kind].animation_profile if profile is not None else kind
                 x, top = draw_actor(self.c,self.images[kind].texture,style,g.chapter,layout,pose,effect=effect)
                 layout['animation'] = pose.state.value
                 return x, layout['hp_y'] + top - layout['top']
@@ -186,8 +217,11 @@ class Stage5ArtRenderer:
                     c.draw_line(*CAMERA.project(*rail(start)),*CAMERA.project(*rail(end)),*color)
         self.parry_hint = None
         if g.playing:
+            if self.player_combat_visual and g.player.alive:
+                draw_aim(c,player_aim(g))
             self.draw_warnings(g)
-            if g.combat.active_attack:self.mark(g.combat.active_attack.target_cell,(237,207,113))
+            if not self.player_combat_visual and g.combat.active_attack:
+                self.mark(g.combat.active_attack.target_cell,(237,207,113))
         actors=[e for e in g.encounter.enemies if e.active and e.alive]
         if g.player.alive:actors.append(g.player)
         dead_ids = set()
@@ -219,7 +253,7 @@ class Stage5ArtRenderer:
             label_x,label_y=self.draw_actor(g,e,kind,layout)
             self.order.append(e.entity_instance_id)
             self.bounds.append((e.entity_instance_id,x,y,top));labels.append((e,label_x,label_y))
-            if e is g.player:
+            if e is g.player and not self.player_combat_visual:
                 dx,dy={'up':(0,1),'down':(0,-1),'left':(-1,0),'right':(1,0)}[e.facing]
                 c.draw_line(*CAMERA.project(u+.5,v+.5),*CAMERA.project(u+.5+dx*.32,v+.5+dy*.32),101,201,244)
             hit=e.health.last_damage_tick

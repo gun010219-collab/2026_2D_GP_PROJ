@@ -1,0 +1,227 @@
+{
+  "schema": "CHECKMATE handoff metadata; NOT runtime manifest",
+  "character": "player",
+  "design": "shared_all_5_chapters",
+  "action": "attack",
+  "direction": "right",
+  "frame_size_px": [
+    384,
+    384
+  ],
+  "sheet_size_px": [
+    1536,
+    768
+  ],
+  "anchor_px_top_left": [
+    192,
+    302
+  ],
+  "reference_canvas_size_px": [
+    256,
+    256
+  ],
+  "reference_anchor_px_top_left": [
+    128,
+    238
+  ],
+  "pixels_per_reference_pixel": 1.0,
+  "source_size_px": [
+    1774,
+    887
+  ],
+  "uniform_source_scale": 0.5597964376590331,
+  "source_sha256": "e5d4257ec3a976a8b448063ff6d8ceaccf3fa050336d82824d1b4271c1aef602",
+  "original_ingame_sha256": "5a7301e29f6a8446fe03eb8d0cd29a334f392d3c93badb1c0ce5c0dedb56bf64",
+  "frames": [
+    {
+      "index": 0,
+      "name": "ready",
+      "file": "frames/01_ready.png",
+      "anchor_px_top_left": [
+        192,
+        302
+      ],
+      "alpha_bbox_px": [
+        119,
+        80,
+        283,
+        304
+      ],
+      "source_component_bounds_px": [
+        80,
+        17,
+        365,
+        410
+      ],
+      "sha256": "5b2395a0477d6a41205dd48eef551a753d020deb0466d9441ead4d63a58b66f3"
+    },
+    {
+      "index": 1,
+      "name": "windup_1",
+      "file": "frames/02_windup_1.png",
+      "anchor_px_top_left": [
+        192,
+        302
+      ],
+      "alpha_bbox_px": [
+        99,
+        110,
+        283,
+        304
+      ],
+      "source_component_bounds_px": [
+        490,
+        70,
+        811,
+        409
+      ],
+      "sha256": "3051e20f90c6e1bb32cc213efc38f672857e01b4899f80b4ade85328327c33dd"
+    },
+    {
+      "index": 2,
+      "name": "windup_2",
+      "file": "frames/03_windup_2.png",
+      "anchor_px_top_left": [
+        192,
+        302
+      ],
+      "alpha_bbox_px": [
+        83,
+        110,
+        287,
+        304
+      ],
+      "source_component_bounds_px": [
+        905,
+        71,
+        1261,
+        410
+      ],
+      "sha256": "7c52e008dd8342ccdae0b27e6b2b6025084719014463935eb71defef03b9cb67"
+    },
+    {
+      "index": 3,
+      "name": "windup_max",
+      "file": "frames/04_windup_max.png",
+      "anchor_px_top_left": [
+        192,
+        302
+      ],
+      "alpha_bbox_px": [
+        98,
+        75,
+        286,
+        304
+      ],
+      "source_component_bounds_px": [
+        1376,
+        9,
+        1704,
+        410
+      ],
+      "sha256": "50930180e6c379443f7c7886c7f119569a487ed96e18b7bb8f3e7d108236962c"
+    },
+    {
+      "index": 4,
+      "name": "release",
+      "file": "frames/05_release.png",
+      "anchor_px_top_left": [
+        192,
+        302
+      ],
+      "alpha_bbox_px": [
+        96,
+        113,
+        326,
+        304
+      ],
+      "source_component_bounds_px": [
+        40,
+        519,
+        443,
+        853
+      ],
+      "sha256": "73ccc3694eea623eb4a2a8c183b51a69e2ce228d7902a1e5aa3037f51a9689c3"
+    },
+    {
+      "index": 5,
+      "name": "follow_through",
+      "file": "frames/06_follow_through.png",
+      "anchor_px_top_left": [
+        192,
+        302
+      ],
+      "alpha_bbox_px": [
+        97,
+        115,
+        334,
+        304
+      ],
+      "source_component_bounds_px": [
+        485,
+        523,
+        901,
+        853
+      ],
+      "sha256": "61350ce4e1ac79ddea27eec58038a93951d0d2c7ac8d3973e3743b693d39bb14"
+    },
+    {
+      "index": 6,
+      "name": "recovery",
+      "file": "frames/07_recovery.png",
+      "anchor_px_top_left": [
+        192,
+        302
+      ],
+      "alpha_bbox_px": [
+        101,
+        113,
+        280,
+        304
+      ],
+      "source_component_bounds_px": [
+        938,
+        519,
+        1249,
+        853
+      ],
+      "sha256": "5a98554cf3f5bc1d010d7e77a53c0ac7c9f6b524e571b1a92785fd03086122e8"
+    },
+    {
+      "index": 7,
+      "name": "return",
+      "file": "frames/08_return.png",
+      "anchor_px_top_left": [
+        192,
+        302
+      ],
+      "alpha_bbox_px": [
+        124,
+        83,
+        284,
+        304
+      ],
+      "source_component_bounds_px": [
+        1418,
+        466,
+        1695,
+        853
+      ],
+      "sha256": "d5aa268845ede164d8ac5dfd473f7f3fc56ec2fcba53d1af972d530ca18236fd"
+    }
+  ],
+  "suggested_live_sequence_zero_based": [
+    4,
+    5,
+    6,
+    7
+  ],
+  "suggested_live_durations_ticks_60hz": [
+    4,
+    4,
+    5,
+    5
+  ],
+  "release_index_zero_based": 4,
+  "note": "Use actual R7-A3E-1 schema/build tool, do not treat this file as runtime manifest. First 4 poses are authoring assets only; immediate attack begins with frame 5. Preserve existing combat rules. Keep 384 canvas at reference sprite pixel scale, not fit 384 into old 256 rect."
+}

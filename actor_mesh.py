@@ -1,8 +1,8 @@
 """Continuous UV mesh for actor poses. Original sprite pixels stay in one texture."""
 import ctypes
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from functools import lru_cache
-from math import pi, sin
+from math import cos, pi, radians, sin
 
 from actor_animation import State
 from arena_art_common import ArenaArtError
@@ -17,6 +17,10 @@ class Deformation:
     core: float = 0.
     squash: float = 0.
     opacity: float = 1.
+    gear_lift: float = 0.
+    spread: float = 0.
+    gear_turn: float = 0.
+    torso_turn: float = 0.
 
 
 # Tempo, armor response, loose material response, and localized tint.
@@ -59,7 +63,155 @@ MOVE = {
 }
 
 
+# Each tuple holds the charged pose, release, follow-through and follow-through time.
+# Offsets are in pixels at a 100px square. Squash stays anchored to ground contact.
+ENEMY_ACTION = {
+    'pawn': (Deformation(lean=-5,rise=-2,gear=-10,gear_lift=2),
+             Deformation(lean=9,rise=2,gear=14,squash=.028),
+             Deformation(lean=1,gear=-4,gear_lift=1), .24),
+    'rook': (Deformation(lean=-4,rise=-3,gear=-4,squash=.09),
+             Deformation(lean=12,rise=-2,gear=8,squash=.045),
+             Deformation(lean=-4,rise=-2,gear=-3,squash=.04), .32),
+    'knight': (Deformation(lean=-2,rise=-3,gear=-5,gear_lift=-5,squash=.075),
+               Deformation(lean=6,rise=3,gear=8,gear_lift=6,cloth=3),
+               Deformation(lean=-3,rise=-2,gear=-4,cloth=2,squash=.042), .32),
+    'bishop': (Deformation(rise=3,gear=-3,gear_lift=14,cloth=-3,core=.82),
+               Deformation(rise=-3,gear=7,gear_lift=-7,cloth=5,core=1.,squash=.045),
+               Deformation(rise=1,gear=-3,gear_lift=3,cloth=-4,core=.37), .40),
+    'queen': (Deformation(rise=3,gear=-4,gear_lift=8,cloth=8,core=.8,spread=-4),
+              Deformation(rise=5,gear=7,gear_lift=-4,cloth=16,core=1.,spread=12),
+              Deformation(rise=-3,gear=-2,gear_lift=4,cloth=9,core=.4,squash=.056,spread=-2), .42),
+    'king': (Deformation(lean=-7,rise=5,gear=-6,gear_lift=9,cloth=-3,core=.35),
+             Deformation(lean=13,rise=-6,gear=10,gear_lift=-7,cloth=7,core=.64,squash=.085),
+             Deformation(lean=-4,rise=1,gear=-4,gear_lift=2,cloth=4,squash=.027), .46),
+    'king_pulse': (Deformation(rise=-5,gear_lift=7,cloth=-6,core=1.,squash=.08,spread=-14),
+                   Deformation(rise=9,gear_lift=4,cloth=17,core=1.,spread=20),
+                   Deformation(rise=-5,gear_lift=-4,cloth=8,core=.47,squash=.072,spread=-4), .44),
+}
+
+ARRIVAL = {
+    'rook': Deformation(lean=-8,rise=-4,gear=-7,gear_lift=-3,squash=.11),
+    'knight': Deformation(lean=-4,rise=-5,gear=-5,gear_lift=-8,cloth=5,squash=.12),
+}
+REST = Deformation()
+
+
+def enemy_action(kind, chapter, pose):
+    profile = 'king_pulse' if pose.attack_kind=='king_pulse' else kind
+    charge,release,follow,turn = ENEMY_ACTION[profile]
+    phase = min(1.,max(0.,pose.phase))
+    if pose.attack_motion=='anticipation':
+        a,b,t = REST,charge,phase
+    elif pose.attack_motion=='travel':
+        a,b,t = release, Deformation(lean=release.lean*.7,gear=release.gear*.8,gear_lift=release.gear_lift*.7,
+                                    cloth=release.cloth,squash=release.squash), phase
+    else:
+        first = ARRIVAL[kind] if pose.attack_motion=='arrival' else release
+        a,b,t = (first,follow,phase/turn) if phase<turn else (follow,REST,(phase-turn)/(1-turn))
+    t = t*t*(3-2*t)
+    _,armor,cloth,_ = MATERIAL[chapter]
+    cast = profile in ('bishop','queen','king_pulse')
+    hand = (1. if chapter==3 else -1.) if cast else pose.direction
+    # Mostly north/south attacks articulate through pitch instead of fake sideways lunges.
+    depth = pose.depth_direction
+    pitch = 1.-.20*depth
+    def mix(name):
+        return getattr(a,name)*(1-t)+getattr(b,name)*t
+    gear = mix('gear')
+    lean = mix('lean')
+    return Deformation(lean=lean*pose.direction,rise=mix('rise')*pitch+.32*lean*depth,
+                       gear=gear*hand*armor,cloth=mix('cloth')*cloth,core=mix('core'),
+                       squash=mix('squash'),gear_lift=(mix('gear_lift')*pitch+.52*gear*depth)*armor,
+                       spread=mix('spread'))
+
+
+PLAYER_SWING = (
+    (0., Deformation(lean=-3,rise=-1,gear=-7,gear_lift=4,cloth=-3,squash=.03)),
+    (.19, Deformation(lean=11,rise=3,gear=15,gear_lift=-3,cloth=-5)),
+    (.46, Deformation(lean=5,rise=-2,gear=9,gear_lift=-5,cloth=12,squash=.035)),
+    (.73, Deformation(lean=-1,gear=-3,gear_lift=2,cloth=5)),
+    (1., REST),
+)
+PLAYER_GUARD = {
+    State.PARRY_READY: Deformation(lean=-4,rise=-2,gear=-7,gear_lift=3,cloth=2,squash=.035),
+    State.PARRY_NORMAL: Deformation(lean=-7,rise=-3,gear=-11,gear_lift=5,cloth=5,squash=.06),
+    State.PARRY_PERFECT: Deformation(lean=8,rise=5,gear=-17,gear_lift=10,cloth=15,core=1.,spread=5),
+    State.PARRY_FAILED: Deformation(lean=-10,rise=-6,gear=6,gear_lift=-9,cloth=4,squash=.095),
+}
+
+
+def player_action(pose):
+    side,depth = pose.direction,pose.depth_direction
+    if pose.attack_motion=='swing':
+        for (start,a),(end,b) in zip(PLAYER_SWING,PLAYER_SWING[1:]):
+            if pose.phase <= end:
+                weight = (pose.phase-start)/(end-start)
+                break
+    else:
+        a,b = PLAYER_GUARD[pose.state],REST
+        weight = 0. if pose.state is State.PARRY_READY else pose.phase
+    weight = weight*weight*(3-2*weight)
+    def mix(name):
+        return getattr(a,name)*(1-weight)+getattr(b,name)*weight
+    gear = mix('gear')
+    lean = mix('lean')
+    # Longitudinal strokes articulate vertically. The individual sleeve, sword
+    # and opposite shield already have signed weights on the original mesh.
+    hand = side if side else .32
+    return Deformation(lean=lean*side,rise=mix('rise')+.48*lean*depth,
+                       gear=gear*hand,gear_lift=mix('gear_lift')+.64*gear*depth,
+                       cloth=mix('cloth')*(.85+.18*depth),core=mix('core'),
+                       squash=mix('squash'),spread=mix('spread'))
+
+
+# Weighted local pivots keep the intact texture and ankle anchors.
+ATTACK_TURNS = {
+    'player': ((-58,-12),(44,17),(22,9)),
+    'pawn': ((-38,-11),(28,17),(-12,-6)),
+    'rook': ((-19,-14),(24,20),(-16,-10)),
+    'knight': ((-30,-13),(35,14),(16,7)),
+    'bishop': ((-66,-5),(45,11),(-20,-6)),
+    'queen': ((-35,-8),(49,13),(16,-7)),
+    'king': ((-68,-13),(38,15),(22,-11)),
+    'king_pulse': ((-18,-6),(32,7),(-15,-5)),
+}
+CONTACT_TURNS = {'rook':(-31,-15),'knight':(-34,-16)}
+
+
+def articulated_action(kind,chapter,pose):
+    profile = 'king_pulse' if pose.attack_kind=='king_pulse' else kind
+    charge,release,follow = ATTACK_TURNS[profile]
+    phase = pose.phase
+    action = pose.attack_motion
+    if action=='anticipation':
+        steps = ((0.,(0,0)),(1.,charge))
+    elif action=='travel':
+        steps = ((0.,release),(.66,release),(1.,follow))
+    elif action=='swing':
+        steps = ((0.,charge),(.19,release),(.35,release),(.61,follow),(1.,(0,0)))
+    else:
+        first = CONTACT_TURNS[kind] if action=='arrival' else release
+        steps = ((0.,first),(.18,first),(.50,follow),(1.,(0,0)))
+    for (start,a),(end,b) in zip(steps,steps[1:]):
+        if phase<=end:
+            t = (phase-start)/(end-start)
+            t = t*t*(3-2*t)
+            gear,torso = (x+(y-x)*t for x,y in zip(a,b))
+            break
+    cast = profile in ('bishop','queen','king_pulse')
+    sign = (1. if chapter==3 else -1.) if cast else pose.direction or -pose.depth_direction
+    base = player_action(pose) if kind=='player' else enemy_action(kind,chapter,pose)
+    return replace(base,lean=base.lean*1.22,rise=base.rise*1.27,cloth=base.cloth*1.25,
+                   spread=base.spread*1.23,gear_turn=gear*sign,torso_turn=torso*sign)
+
+
 def deformation(kind, chapter, pose, *, improved=False):
+    if pose.articulated:
+        return articulated_action(kind,chapter,pose)
+    if pose.attack_motion and kind=='player':
+        return player_action(pose)
+    if pose.attack_motion:
+        return enemy_action(kind,chapter,pose)
     tempo, armor, cloth, _ = MATERIAL[chapter]
     state, phase = pose.state, pose.phase
     side = pose.direction
@@ -123,8 +275,14 @@ INDICES = tuple(i for r in range(ROWS) for c in range(COLS) for j in (r*(COLS+1)
 SDL_INDICES = (ctypes.c_int*len(INDICES))(*INDICES)
 
 
-def weights(kind, chapter, u, v):
-    gear_x = .30 if kind == 'knight' and chapter in (1, 2, 3) else GEAR_X[kind]
+def gear_column(kind,chapter,attack):
+    if attack and chapter==3 and kind in ('bishop','queen'):
+        return .64  # Ice Bishop's staff and Ice Queen's scepter are on the right.
+    return .30 if kind=='knight' and chapter in (1,2,3) else GEAR_X[kind]
+
+
+def weights(kind, chapter, u, v, attack=False):
+    gear_x = gear_column(kind,chapter,attack)
     gear = max(0., 1-abs(u-gear_x)/.42) * max(0., 1-abs(v-GEAR_Y[kind])/.49)
     cloth = min(1., abs(u-.5)*2.5) * max(0., 1-abs(v-.66)/.47)
     core = max(0., 1-abs(u-.50)*3.2-abs(v-.40)*3.0)
@@ -137,9 +295,9 @@ def weights(kind, chapter, u, v):
 
 
 @lru_cache(maxsize=128)
-def weighted_vertices(kind, chapter, foot_row):
+def weighted_vertices(kind, chapter, foot_row, attack=False):
     points = ((u, foot_row if v == (ROWS-1)/ROWS else v) for u,v in UV)
-    return tuple((u,v,*weights(kind,chapter,u,v)) for u,v in points)
+    return tuple((u,v,*weights(kind,chapter,u,v,attack)) for u,v in points)
 
 
 def draw_actor(canvas, texture, kind, chapter, layout, pose, *, effect=None):
@@ -152,6 +310,14 @@ def draw_actor(canvas, texture, kind, chapter, layout, pose, *, effect=None):
     ground = layout['foot'][1] + layout.get('elevation', 0.)
     top_of_square = layout['center'][1] + size/2
     strength = size/100
+    attack = bool(pose.attack_motion)
+    turns = ()
+    if effect.gear_turn or effect.torso_turn:
+        def turn(pivot_x,pivot_y,angle):
+            r = radians(angle)
+            return pivot_x,pivot_y,cos(r)-1.,sin(r)
+        turns = (turn(.5+(gear_column(kind,chapter,attack)-.5)*.66,.53,effect.gear_turn),
+                 turn(.5,.61,effect.torso_turn))
 
     def point(u,v,gear,cloth):
         y = top_of_square-v*size
@@ -159,15 +325,22 @@ def draw_actor(canvas, texture, kind, chapter, layout, pose, *, effect=None):
         height = max(0., min(1., (y-ground)/(.78*size)))
         pin = min(1., height*5)
         x = anchor_x + (u-.5)*size + strength*(
-            effect.lean*height + pin*(effect.gear*gear + effect.cloth*cloth*(u-.5)*2))
+            effect.lean*height + pin*(effect.gear*gear + effect.cloth*cloth*(u-.5)*2)
+            + effect.spread*(u-.5)*height)
         y = y - max(0., y-ground)*effect.squash + strength*(
-            effect.rise*height + effect.gear*gear*pin*(.43 if kind == 'knight' else .16))
+            effect.rise*height + effect.gear*gear*pin*(.43 if kind == 'knight' else .16)
+            + effect.gear_lift*max(0.,gear)*pin)
+        if turns:
+            for (pivot_x,pivot_y,c,s),weight in zip(turns,(max(0.,gear)*pin,height)):
+                dx,dy = u-pivot_x,pivot_y-v
+                x += (c*dx-s*dy)*weight*size
+                y += (s*dx+c*dy)*weight*size
         return x, y
 
     verts = (s.SDL_Vertex * len(UV))()
     alpha = round(effect.opacity*255)
     foot_row = round((top_of_square-ground)/size*256)/256
-    for i, (u,v,gear,cloth,core) in enumerate(weighted_vertices(kind,chapter,foot_row)):
+    for i, (u,v,gear,cloth,core) in enumerate(weighted_vertices(kind,chapter,foot_row,attack)):
         x,y = point(u,v,gear,cloth)
         color = effect.core*core*.72
         verts[i].position = s.SDL_FPoint(x,899-y)
@@ -176,5 +349,5 @@ def draw_actor(canvas, texture, kind, chapter, layout, pose, *, effect=None):
     if s.SDL_RenderGeometry(canvas.renderer, texture, verts, len(verts), SDL_INDICES, len(INDICES)):
         raise ArenaArtError('SDL actor mesh failed: ' + s.SDL_GetError().decode())
     top_v = (top_of_square-layout['top'])/size
-    gear,cloth,_ = weights(kind,chapter,.5,top_v)
+    gear,cloth,_ = weights(kind,chapter,.5,top_v,attack)
     return point(.5,top_v,gear,cloth)

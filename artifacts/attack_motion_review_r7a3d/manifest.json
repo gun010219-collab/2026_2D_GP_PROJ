@@ -1,0 +1,249 @@
+{
+  "driver": "direct3d11",
+  "fps": 30,
+  "ticks_per_frame": 2,
+  "comparison": "previous A3D versus articulated, same scene",
+  "clips": {
+    "pawn": {
+      "stage": 1,
+      "attack_tick": 615,
+      "first_tick": 597,
+      "last_tick": 659,
+      "frames": 32,
+      "sha256": "ceb127791e314660a74a87c231431cca41466a6cd347f873d18bc58564ee5efa"
+    },
+    "rook": {
+      "stage": 6,
+      "attack_tick": 208,
+      "first_tick": 190,
+      "last_tick": 252,
+      "frames": 32,
+      "sha256": "1da9d2acc389313e63138017760fc24dcedb3fd6b24d080bfd88289fe1c517b3"
+    },
+    "knight": {
+      "stage": 3,
+      "attack_tick": 84,
+      "first_tick": 66,
+      "last_tick": 128,
+      "frames": 32,
+      "sha256": "0ab4f15a910469933f92015858a4c698c10e0e0214b8523e813d20a0439d1000"
+    },
+    "bishop": {
+      "stage": 12,
+      "attack_tick": 156,
+      "first_tick": 138,
+      "last_tick": 200,
+      "frames": 32,
+      "sha256": "65902e8ad801d013a1188640023536daf98d90824907b0fa6e48adcf9a51bfdd"
+    },
+    "queen": {
+      "stage": 24,
+      "attack_tick": 121,
+      "first_tick": 103,
+      "last_tick": 165,
+      "frames": 32,
+      "sha256": "2d670fd63320f7e9af81c3ab82db67e27d7c362ec3041b71a97741db44b09f0d"
+    },
+    "king_melee": {
+      "stage": 5,
+      "attack_tick": 168,
+      "first_tick": 150,
+      "last_tick": 212,
+      "frames": 32,
+      "sha256": "4cd4563ab53ce9c5ad6aaf21c91d140e0d1a0035d7d2ab44b40684e3cc2152c4"
+    },
+    "king_pulse": {
+      "stage": 25,
+      "attack_tick": 385,
+      "first_tick": 367,
+      "last_tick": 429,
+      "frames": 32,
+      "sha256": "6687a7547e3e94e23692ba4266496dfb7241f1f493ce65335c109eb54a223383"
+    },
+    "player_up": {
+      "stage": 1,
+      "attack_tick": 19,
+      "first_tick": 11,
+      "last_tick": 51,
+      "frames": 21,
+      "sha256": "5186fe94ac14d00ec9a5a3cabe0c4cf1845fc759a3638e5411768b52c414ebbc"
+    },
+    "player_down": {
+      "stage": 1,
+      "attack_tick": 37,
+      "first_tick": 29,
+      "last_tick": 69,
+      "frames": 21,
+      "sha256": "d7883877b17cab6b3cbe61c4f08c1a5f90d0f156f2a71c842f178319f2a3065c"
+    },
+    "player_left": {
+      "stage": 1,
+      "attack_tick": 19,
+      "first_tick": 11,
+      "last_tick": 51,
+      "frames": 21,
+      "sha256": "553e109d33b6d96f4ee704abc137eb1fbfe2cf357015f598f5cd1cbe0ddcfc5a"
+    },
+    "player_right": {
+      "stage": 1,
+      "attack_tick": 19,
+      "first_tick": 11,
+      "last_tick": 51,
+      "frames": 21,
+      "sha256": "6b161315359d81cf1523abdbee4df60f49ffadcbb5b1b6400ec61809247b0beb"
+    }
+  },
+  "mesh_sample": {
+    "player": {
+      "before_px": 17.2,
+      "after_px": 22.3,
+      "delta_px": 20.5,
+      "before_degrees": -5.5,
+      "after_degrees": -33.3
+    },
+    "pawn": {
+      "before_px": 14.6,
+      "after_px": 17.2,
+      "delta_px": 21.8,
+      "before_degrees": 1.3,
+      "after_degrees": 25.6
+    },
+    "rook": {
+      "before_px": 19.8,
+      "after_px": 37.8,
+      "delta_px": 26.2,
+      "before_degrees": -2.9,
+      "after_degrees": 27.4
+    },
+    "knight": {
+      "before_px": 20.6,
+      "after_px": 34.2,
+      "delta_px": 28.0,
+      "before_degrees": -3.0,
+      "after_degrees": 40.5
+    },
+    "bishop": {
+      "before_px": 12.8,
+      "after_px": 25.5,
+      "delta_px": 25.3,
+      "before_degrees": 1.2,
+      "after_degrees": -43.0
+    },
+    "queen": {
+      "before_px": 27.8,
+      "after_px": 35.4,
+      "delta_px": 30.7,
+      "before_degrees": -0.2,
+      "after_degrees": 39.5
+    },
+    "king_melee": {
+      "before_px": 27.6,
+      "after_px": 34.4,
+      "delta_px": 26.9,
+      "before_degrees": 11.9,
+      "after_degrees": -34.9
+    },
+    "king_pulse": {
+      "before_px": 38.8,
+      "after_px": 48.9,
+      "delta_px": 25.7,
+      "before_degrees": 0.1,
+      "after_degrees": 24.4
+    }
+  },
+  "mesh_sweep": {
+    "poses": 98172,
+    "folds": 0
+  },
+  "p50_p95_p99_ms": {
+    "enemy": {
+      "stage24_crossing": {
+        "previous": [
+          4.287,
+          4.633,
+          5.171
+        ],
+        "articulated": [
+          4.411,
+          4.818,
+          7.126
+        ]
+      },
+      "stage25_pulse": {
+        "previous": [
+          5.215,
+          6.392,
+          6.673
+        ],
+        "articulated": [
+          5.147,
+          6.747,
+          7.567
+        ]
+      }
+    },
+    "player": {
+      "player_swing": {
+        "previous": [
+          1.388,
+          1.619,
+          1.88
+        ],
+        "articulated": [
+          1.42,
+          1.715,
+          2.142
+        ]
+      },
+      "stage24_crossing": {
+        "previous": [
+          4.173,
+          4.501,
+          4.878
+        ],
+        "articulated": [
+          4.277,
+          4.491,
+          5.387
+        ]
+      },
+      "stage25_pulse_windup": {
+        "previous": [
+          4.488,
+          5.278,
+          5.62
+        ],
+        "articulated": [
+          4.26,
+          5.244,
+          5.482
+        ]
+      },
+      "stage25_pulse_perfect": {
+        "previous": [
+          4.69,
+          6.236,
+          6.319
+        ],
+        "articulated": [
+          4.733,
+          5.995,
+          6.166
+        ]
+      }
+    }
+  },
+  "checked": {
+    "tests": 1617,
+    "seconds": 365.713,
+    "stage_outcomes": 25,
+    "boss_clears": 5,
+    "png": 257,
+    "wav": 43,
+    "textures": {
+      "loads": 258,
+      "releases": 258,
+      "peak": 13
+    }
+  }
+}

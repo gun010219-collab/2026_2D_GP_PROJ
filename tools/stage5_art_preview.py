@@ -239,13 +239,14 @@ class SampleRenderer:
             c.draw_circle(x+dx*36,y+dy*36,3,110,208,245)
 
 
-def capture_png(canvas, path):
+def capture_png(canvas, path, region=None):
     import sdl2 as s
     from sdl2.sdlimage import IMG_SavePNG
-    surface=s.SDL_CreateRGBSurfaceWithFormat(0,WINDOW_WIDTH,WINDOW_HEIGHT,32,s.SDL_PIXELFORMAT_RGBA32)
+    width, height = (region.w, region.h) if region is not None else (WINDOW_WIDTH, WINDOW_HEIGHT)
+    surface=s.SDL_CreateRGBSurfaceWithFormat(0,width,height,32,s.SDL_PIXELFORMAT_RGBA32)
     if not surface:raise RuntimeError('Cannot allocate SDL capture surface')
     try:
-        if s.SDL_RenderReadPixels(canvas.renderer,None,s.SDL_PIXELFORMAT_RGBA32,surface.contents.pixels,surface.contents.pitch)!=0:
+        if s.SDL_RenderReadPixels(canvas.renderer,region,s.SDL_PIXELFORMAT_RGBA32,surface.contents.pixels,surface.contents.pitch)!=0:
             raise RuntimeError('Cannot read SDL render pixels')
         if IMG_SavePNG(surface,str(path).encode('utf-8'))!=0:raise RuntimeError('Cannot save PNG: '+str(path))
     finally:s.SDL_FreeSurface(surface)

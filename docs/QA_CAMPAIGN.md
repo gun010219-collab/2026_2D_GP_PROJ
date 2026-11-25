@@ -2,6 +2,10 @@
 
 ## R7 인간 Windows 캠페인에 이관된 검수
 
+- [x] R7-A3E-2F에서 사용자가 네 방향 공격·패링 스프라이트를 실제 플레이하고 승인했다. Stage24·25의 Windows 사용자 창 P95·P99 측정은 R7-C 검수 대상이다. [실행과 검수 자료](TASK5R7A3E_SPRITE_ANIMATION.md#r7-a3e-2b-플레이어-전방향-공격과-패링)
+
+- [ ] R7-A3D 재검수에서 플레이어 4방향과 방향 전환 중 기존 공격의 방향 고정, Pawn 창격, Rook 정지 반동, Knight 착지, Bishop 50칸 발동, 두 Queen, King 근접과 Pulse를 정상 속도로 확인한다. 장비 왜곡과 HP·전조 가림을 확인하고 Stage24 P99와 Stage25 P95·P99를 R7-C에서 반복 측정한다. [공격 모션 비교와 검수](TASK5R7A3D_ATTACK_ANIMATION.md)
+
 - [ ] R7-A3에서 최초 전조부터 모서리가 표시되는 퍼펙트 구간을 비교한다. Stage24 교차 광선 위 다음 위험 셀과 Stage25 Pulse 100칸을 확인한다. 쿨타임·키 유지·설정·F11·포커스 복구·재시작에서 다음 입력 안내가 일치하는지 본다. [A3 검수 명령과 캡처](TASK5R7A3_TELEGRAPH_PARRY.md)
 
 - [ ] R7-A2B 실제 Windows 재검수에서 고딕 진홍색 번개와 용암 주황 열기를 구별한다. Stage14 Bishop·Rook 중첩의 위험 셀, Stage24 두 Queen의 충전·교차·잔광, Stage25 검은 연기를 동반한 Pulse와 금백색 퍼펙트 패링을 확인한다. HP와 플레이어 위치 및 장시간 피로도를 함께 확인한다. [VFX 전후 비교와 검수](TASK5R7A2_COMBAT_VFX.md)

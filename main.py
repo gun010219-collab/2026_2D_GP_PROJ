@@ -126,11 +126,20 @@ def run_session(game, flow, *, game_renderer=None, default_art=False, app=None):
         else:
             display, menu, settings_renderer, audio = app.display, app.menu, app.settings_renderer, app.audio
         from chapter_art_renderer import LiveArenaArtPath
+        player_visual = default_art and os.environ.get('CHECKMATE_PLAYER_COMBAT_VISUAL') not in ('legacy','0')
         animation_flag = os.environ.get('CHECKMATE_ANIMATION')
         animation_enabled = default_art if animation_flag is None else animation_flag == '1'
+        sprite_catalog = None
         if animation_enabled:
             from actor_animation import ActorAnimation
-            animation = ActorAnimation(improved=improved)
+            from sprite_atlas import opted_in_catalog
+
+            sprite_catalog = opted_in_catalog()
+            attack_motion = os.environ.get('CHECKMATE_ATTACK_MOTION') not in ('legacy','0')
+            articulated = os.environ.get('CHECKMATE_ATTACK_ARTICULATION') not in ('legacy','0')
+            animation = ActorAnimation(improved=improved,enemy_attacks=attack_motion,
+                                       player_actions=player_visual,articulated=articulated,
+                                       sprites=sprite_catalog is not None)
         else:
             animation = None
         vfx_flag = os.environ.get('CHECKMATE_VFX')
@@ -153,7 +162,8 @@ def run_session(game, flow, *, game_renderer=None, default_art=False, app=None):
             from attack_telegraph import TelegraphRenderer
             telegraph = TelegraphRenderer()
         art_path = LiveArenaArtPath(canvas,motion=motion,default_enabled=default_art,
-                                    animation=animation,vfx=vfx,enlarged=improved,telegraph=telegraph)
+                                    animation=animation,vfx=vfx,enlarged=improved,telegraph=telegraph,
+                                    player_combat_visual=player_visual,sprite_catalog=sprite_catalog)
         controls = GameplayInput(canvas, move_interval_ticks=flow.run.stats.move_interval_ticks)
         pending_gameplay = []
         last_boss_clear = None

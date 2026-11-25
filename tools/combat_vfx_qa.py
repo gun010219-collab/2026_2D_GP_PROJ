@@ -30,20 +30,24 @@ from tools.chapter_art_play import advance_campaign, session
 from tools.stage5_art_preview import capture_png, open_preview
 
 
-def run(driver,output,*,renewed=False,layered=False,telegraph=False):
+def run(driver,output,*,renewed=False,layered=False,telegraph=False,attack_motion=False,
+        player_combat=False,articulation=False,sprite_catalog=None):
     import sdl2 as s
+    from sdl2 import sdlimage
     from pico2d import pico2d as c
 
     if output:
         output.mkdir(parents=True,exist_ok=False)
     renewed = renewed or layered
     motion = RenderMotion(improved=renewed)
-    animation = ActorAnimation(improved=renewed)
+    animation = ActorAnimation(improved=renewed,enemy_attacks=attack_motion,player_actions=player_combat,
+                               articulated=articulation,sprites=sprite_catalog is not None)
     vfx = CombatVFX(renewed=renewed,layered=layered)
     from attack_telegraph import TelegraphRenderer
     warning = TelegraphRenderer() if telegraph else None
     path = LiveArenaArtPath(c,motion=motion,animation=animation,vfx=vfx,
-                           default_enabled=True,enlarged=renewed,telegraph=warning)
+                           default_enabled=True,enlarged=renewed,telegraph=warning,
+                           player_combat_visual=player_combat,sprite_catalog=sprite_catalog)
     hud = GameFlowRenderer()
     scenes, campaign, coverage, peaks = {}, [], set(), [0,0]
     resources = dict(loads=0,releases=0,peak=0)
@@ -126,20 +130,29 @@ def run(driver,output,*,renewed=False,layered=False,telegraph=False):
             info = s.SDL_RendererInfo()
             assert s.SDL_GetRendererInfo(c.renderer,ctypes.byref(info))==0 and info.name.decode()==driver
             load,destroy = c.load_image,c.SDL_DestroyTexture
-            def acquire(file):
-                img = load(file)
-                handle = ctypes.cast(img.texture,ctypes.c_void_p).value
+            def track(tex):
+                handle = ctypes.cast(tex,ctypes.c_void_p).value
                 assert handle and handle not in live
                 live.add(handle)
                 resources['loads']+=1
                 resources['peak']=max(resources['peak'],len(live))
+            def acquire(file):
+                img = load(file)
+                track(img.texture)
                 return img
+            load_atlas = sdlimage.IMG_LoadTexture
+            def acquire_atlas(*args):
+                texture = load_atlas(*args)
+                if texture:
+                    track(texture)
+                return texture
             def release(tex):
                 if tex:
                     live.remove(ctypes.cast(tex,ctypes.c_void_p).value)
                     resources['releases']+=1
                 return destroy(tex)
-            with patch.object(c,'load_image',acquire),patch.object(c,'SDL_DestroyTexture',release):
+            with (patch.object(c,'load_image',acquire),patch.object(c,'SDL_DestroyTexture',release),
+                  patch.object(sdlimage,'IMG_LoadTexture',acquire_atlas)):
                 try:
                     g,flow = session(1)
                     flow.enable_presentation()
@@ -269,6 +282,15 @@ if __name__=='__main__':
     parser.add_argument('--vfx-renewal',action='store_true')
     parser.add_argument('--vfx-layered',action='store_true')
     parser.add_argument('--telegraph',action='store_true')
+    parser.add_argument('--attack-motion',action='store_true')
+    parser.add_argument('--player-combat',action='store_true')
+    parser.add_argument('--articulation',action='store_true')
+    parser.add_argument('--sprite-manifest',type=Path)
     args = parser.parse_args()
+    from sprite_animation import SpriteCatalog
+
+    sprites = SpriteCatalog.read(args.sprite_manifest,allow_test=True) if args.sprite_manifest else None
     print(json.dumps(run(args.renderer,args.output,renewed=args.vfx_renewal,
-                         layered=args.vfx_layered,telegraph=args.telegraph),indent=2))
+                         layered=args.vfx_layered,telegraph=args.telegraph,
+                         attack_motion=args.attack_motion,player_combat=args.player_combat,
+                         articulation=args.articulation,sprite_catalog=sprites),indent=2))

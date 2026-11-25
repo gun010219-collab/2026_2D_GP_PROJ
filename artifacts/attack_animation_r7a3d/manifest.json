@@ -1,0 +1,1217 @@
+{
+  "driver": "direct3d11",
+  "frames": {
+    "pawn_anticipation_a3f": {
+      "stage": 1,
+      "tick": 610,
+      "pose": "windup",
+      "attack_motion": "",
+      "phase": 0.87179,
+      "foot": [
+        443.554054054054,
+        290.4324324324324
+      ],
+      "hp_y": 381.31409491243244,
+      "lift": 0.0,
+      "warning_cells": 1,
+      "vfx": [],
+      "sha256": "8666f1159a0ae894a7061c2fc9e931648de452debf2571a56d0a542178e3783f"
+    },
+    "pawn_anticipation_a3d": {
+      "stage": 1,
+      "tick": 610,
+      "pose": "windup",
+      "attack_motion": "anticipation",
+      "phase": 0.87179,
+      "foot": [
+        443.554054054054,
+        290.4324324324324
+      ],
+      "hp_y": 381.31409491243244,
+      "lift": 0.0,
+      "warning_cells": 1,
+      "vfx": [],
+      "sha256": "8666f1159a0ae894a7061c2fc9e931648de452debf2571a56d0a542178e3783f"
+    },
+    "pawn_release_a3f": {
+      "stage": 1,
+      "tick": 615,
+      "pose": "attack",
+      "attack_motion": "",
+      "phase": 0.0,
+      "foot": [
+        443.554054054054,
+        290.4324324324324
+      ],
+      "hp_y": 381.31409491243244,
+      "lift": 0.0,
+      "warning_cells": 0,
+      "vfx": [
+        "pawn_thrust",
+        "player_hurt"
+      ],
+      "sha256": "0d2ad56673320b7e9ebe935048db80fa7fb46fff4411daf99b0a9f6f7c37f0c1"
+    },
+    "pawn_release_a3d": {
+      "stage": 1,
+      "tick": 615,
+      "pose": "attack",
+      "attack_motion": "release",
+      "phase": 0.0,
+      "foot": [
+        443.554054054054,
+        290.4324324324324
+      ],
+      "hp_y": 381.31409491243244,
+      "lift": 0.0,
+      "warning_cells": 0,
+      "vfx": [
+        "pawn_thrust",
+        "player_hurt"
+      ],
+      "sha256": "ffc6407fca3cff4090af76de0a6457b8db347a7b4b74d14b30b7ba006e5f60d7"
+    },
+    "pawn_follow_a3f": {
+      "stage": 1,
+      "tick": 622,
+      "pose": "attack",
+      "attack_motion": "",
+      "phase": 0.50725,
+      "foot": [
+        443.554054054054,
+        290.4324324324324
+      ],
+      "hp_y": 381.31409491243244,
+      "lift": 0.0,
+      "warning_cells": 0,
+      "vfx": [
+        "pawn_thrust",
+        "player_hurt"
+      ],
+      "sha256": "14ea20d6b5006cb08b5551f303fc14198f87053e569e35b82bbd69b209a76b81"
+    },
+    "pawn_follow_a3d": {
+      "stage": 1,
+      "tick": 622,
+      "pose": "attack",
+      "attack_motion": "release",
+      "phase": 0.55556,
+      "foot": [
+        443.554054054054,
+        290.4324324324324
+      ],
+      "hp_y": 381.31409491243244,
+      "lift": 0.0,
+      "warning_cells": 0,
+      "vfx": [
+        "pawn_thrust",
+        "player_hurt"
+      ],
+      "sha256": "8426e5f57d041a476d13ae0e406403718c1edeab9570c11cc4eceef0dda5799e"
+    },
+    "pawn_recovery_a3f": {
+      "stage": 1,
+      "tick": 625,
+      "pose": "attack",
+      "attack_motion": "",
+      "phase": 0.72464,
+      "foot": [
+        443.554054054054,
+        290.4324324324324
+      ],
+      "hp_y": 381.31409491243244,
+      "lift": 0.0,
+      "warning_cells": 0,
+      "vfx": [
+        "player_hurt"
+      ],
+      "sha256": "8b4db8c4366a0981b5e35c7db2572d6ff26ff3912c65047c28c2f6539810506e"
+    },
+    "pawn_recovery_a3d": {
+      "stage": 1,
+      "tick": 625,
+      "pose": "attack",
+      "attack_motion": "release",
+      "phase": 0.79365,
+      "foot": [
+        443.554054054054,
+        290.4324324324324
+      ],
+      "hp_y": 381.31409491243244,
+      "lift": 0.0,
+      "warning_cells": 0,
+      "vfx": [
+        "player_hurt"
+      ],
+      "sha256": "35c7dd6a71c97f45f291b30fbd8f4fefa981f91c955de8e34ab5ddf0364cf0fc"
+    },
+    "rook_anticipation_a3f": {
+      "stage": 6,
+      "tick": 203,
+      "pose": "windup",
+      "attack_motion": "",
+      "phase": 0.89583,
+      "foot": [
+        521.4569230769232,
+        222.83076923076925
+      ],
+      "hp_y": 324.9170368907692,
+      "lift": 0.0,
+      "warning_cells": 3,
+      "vfx": [],
+      "sha256": "0413de337a82f5c22a59b8c591831a829896646aa7b519cc5daa85128d916d7f"
+    },
+    "rook_anticipation_a3d": {
+      "stage": 6,
+      "tick": 203,
+      "pose": "windup",
+      "attack_motion": "anticipation",
+      "phase": 0.89583,
+      "foot": [
+        521.4569230769232,
+        222.83076923076925
+      ],
+      "hp_y": 324.9170368907692,
+      "lift": 0.0,
+      "warning_cells": 3,
+      "vfx": [],
+      "sha256": "0413de337a82f5c22a59b8c591831a829896646aa7b519cc5daa85128d916d7f"
+    },
+    "rook_release_a3f": {
+      "stage": 6,
+      "tick": 208,
+      "pose": "attack",
+      "attack_motion": "",
+      "phase": 0.0,
+      "foot": [
+        530.8902523076924,
+        222.83076923076925
+      ],
+      "hp_y": 324.9170368907692,
+      "lift": 0.0,
+      "warning_cells": 0,
+      "vfx": [
+        "rook_strike",
+        "player_hurt",
+        "rook_impact"
+      ],
+      "sha256": "72b353a29a79f10f0400e398c1b206b2905a9e9a1c566f87f963d07c99792cdb"
+    },
+    "rook_release_a3d": {
+      "stage": 6,
+      "tick": 208,
+      "pose": "attack",
+      "attack_motion": "travel",
+      "phase": 0.0,
+      "foot": [
+        530.8902523076924,
+        222.83076923076925
+      ],
+      "hp_y": 324.9170368907692,
+      "lift": 0.0,
+      "warning_cells": 0,
+      "vfx": [
+        "rook_strike",
+        "player_hurt",
+        "rook_impact"
+      ],
+      "sha256": "f499d4cae8e9fa9181fe058940b734fc80ba3f6213e013af2992185ff15f6dba"
+    },
+    "rook_travel_a3f": {
+      "stage": 6,
+      "tick": 211,
+      "pose": "attack",
+      "attack_motion": "",
+      "phase": 0.21739,
+      "foot": [
+        629.1523118461591,
+        222.83076923076925
+      ],
+      "hp_y": 324.9170368907692,
+      "lift": 0.0,
+      "warning_cells": 0,
+      "vfx": [
+        "rook_strike",
+        "player_hurt",
+        "rook_impact"
+      ],
+      "sha256": "379e83503ea792a3bea118e754cbb5d0425d55eea4019b399cd06945f4a49b3f"
+    },
+    "rook_travel_a3d": {
+      "stage": 6,
+      "tick": 211,
+      "pose": "attack",
+      "attack_motion": "travel",
+      "phase": 0.5,
+      "foot": [
+        629.1523118461591,
+        222.83076923076925
+      ],
+      "hp_y": 324.9170368907692,
+      "lift": 0.0,
+      "warning_cells": 0,
+      "vfx": [
+        "rook_strike",
+        "player_hurt",
+        "rook_impact"
+      ],
+      "sha256": "bf5589cd3c660e8c3bdf648f604c3fd9499c87cf2ce51e56236e689af3840a2b"
+    },
+    "rook_contact_a3f": {
+      "stage": 6,
+      "tick": 214,
+      "pose": "attack",
+      "attack_motion": "",
+      "phase": 0.43478,
+      "foot": [
+        692.9720000000002,
+        222.83076923076925
+      ],
+      "hp_y": 324.9170368907692,
+      "lift": 0.0,
+      "warning_cells": 0,
+      "vfx": [
+        "rook_strike",
+        "player_hurt",
+        "rook_impact"
+      ],
+      "sha256": "09c50a9e3d6dc123266f9a54fa7395fd0644dfa6e1ad32468370e57df1390e81"
+    },
+    "rook_contact_a3d": {
+      "stage": 6,
+      "tick": 214,
+      "pose": "attack",
+      "attack_motion": "arrival",
+      "phase": 0.0,
+      "foot": [
+        692.9720000000002,
+        222.83076923076925
+      ],
+      "hp_y": 324.9170368907692,
+      "lift": 0.0,
+      "warning_cells": 0,
+      "vfx": [
+        "rook_strike",
+        "player_hurt",
+        "rook_impact"
+      ],
+      "sha256": "cc5662d97237d14d38fbea27d4bd73008c38c05a620b076a4e15f0d10f67fd8a"
+    },
+    "rook_follow_a3f": {
+      "stage": 6,
+      "tick": 222,
+      "pose": "idle",
+      "attack_motion": "",
+      "phase": 4.53307,
+      "foot": [
+        692.9720000000002,
+        222.83076923076925
+      ],
+      "hp_y": 324.9170368907692,
+      "lift": 0.0,
+      "warning_cells": 0,
+      "vfx": [
+        "player_hurt",
+        "rook_impact"
+      ],
+      "sha256": "d0b3fa993833de04dbf06cf22b304799fe94f0f5d21c22f74fc83f8984d796bd"
+    },
+    "rook_follow_a3d": {
+      "stage": 6,
+      "tick": 222,
+      "pose": "attack",
+      "attack_motion": "arrival",
+      "phase": 0.53333,
+      "foot": [
+        692.9720000000002,
+        222.83076923076925
+      ],
+      "hp_y": 324.9170368907692,
+      "lift": 0.0,
+      "warning_cells": 0,
+      "vfx": [
+        "player_hurt",
+        "rook_impact"
+      ],
+      "sha256": "2718543d6055482781b0c0ee67ee337fd9e82d08e2a3efe221b334dbd9562d8e"
+    },
+    "rook_recovery_a3f": {
+      "stage": 6,
+      "tick": 226,
+      "pose": "idle",
+      "attack_motion": "",
+      "phase": 4.59974,
+      "foot": [
+        692.9720000000002,
+        222.83076923076925
+      ],
+      "hp_y": 324.9170368907692,
+      "lift": 0.0,
+      "warning_cells": 0,
+      "vfx": [
+        "player_hurt"
+      ],
+      "sha256": "a54d1ab5cc55ea02955998b3bdb93bc6087c32e3d8da6f22341cd7bbda74a4f4"
+    },
+    "rook_recovery_a3d": {
+      "stage": 6,
+      "tick": 226,
+      "pose": "attack",
+      "attack_motion": "arrival",
+      "phase": 0.8,
+      "foot": [
+        692.9720000000002,
+        222.83076923076925
+      ],
+      "hp_y": 324.9170368907692,
+      "lift": 0.0,
+      "warning_cells": 0,
+      "vfx": [
+        "player_hurt"
+      ],
+      "sha256": "c004a9792f18269b653a8d133cf773363fb85d2a4dac874cb0ce1f5c9ecc35e1"
+    },
+    "knight_anticipation_a3f": {
+      "stage": 3,
+      "tick": 79,
+      "pose": "windup",
+      "attack_motion": "",
+      "phase": 0.86111,
+      "foot": [
+        624.248493150685,
+        531.2054794520549
+      ],
+      "hp_y": 616.5320697920548,
+      "lift": 0.0,
+      "warning_cells": 1,
+      "vfx": [],
+      "sha256": "ae6f84b9e671e2d89cb09b8ad77f864fcd11fe519c3992dee7fb58bb51184b78"
+    },
+    "knight_anticipation_a3d": {
+      "stage": 3,
+      "tick": 79,
+      "pose": "windup",
+      "attack_motion": "anticipation",
+      "phase": 0.86111,
+      "foot": [
+        624.248493150685,
+        531.2054794520549
+      ],
+      "hp_y": 616.5320697920548,
+      "lift": 0.0,
+      "warning_cells": 1,
+      "vfx": [],
+      "sha256": "ae6f84b9e671e2d89cb09b8ad77f864fcd11fe519c3992dee7fb58bb51184b78"
+    },
+    "knight_release_a3f": {
+      "stage": 3,
+      "tick": 84,
+      "pose": "attack",
+      "attack_motion": "",
+      "phase": 0.0,
+      "foot": [
+        624.248493150685,
+        531.2054794520549
+      ],
+      "hp_y": 616.5320697920548,
+      "lift": 0.0,
+      "warning_cells": 0,
+      "vfx": [
+        "knight_strike",
+        "knight_land"
+      ],
+      "sha256": "8e387d702332f2aa9e68d16edab69ffa213335d97bdfbe4887f07d0156902f5b"
+    },
+    "knight_release_a3d": {
+      "stage": 3,
+      "tick": 84,
+      "pose": "attack",
+      "attack_motion": "travel",
+      "phase": 0.0,
+      "foot": [
+        624.248493150685,
+        531.2054794520549
+      ],
+      "hp_y": 616.5320697920548,
+      "lift": 0.0,
+      "warning_cells": 0,
+      "vfx": [
+        "knight_strike",
+        "knight_land"
+      ],
+      "sha256": "b5ff79b39bce6f7869074bb81762a3b69016c193c690ddb57dcf260dafba0ff7"
+    },
+    "knight_travel_a3f": {
+      "stage": 3,
+      "tick": 87,
+      "pose": "attack",
+      "attack_motion": "",
+      "phase": 0.21739,
+      "foot": [
+        699.9204986149641,
+        503.4432132963967
+      ],
+      "hp_y": 607.6822316913969,
+      "lift": 18.0,
+      "warning_cells": 0,
+      "vfx": [
+        "knight_strike",
+        "knight_land"
+      ],
+      "sha256": "e96b38dd4b849e20a145575c2cdafdc9178746d5109fc9cd884493c7c6c06473"
+    },
+    "knight_travel_a3d": {
+      "stage": 3,
+      "tick": 87,
+      "pose": "attack",
+      "attack_motion": "travel",
+      "phase": 0.5,
+      "foot": [
+        699.9204986149641,
+        503.4432132963967
+      ],
+      "hp_y": 607.6822316913969,
+      "lift": 18.0,
+      "warning_cells": 0,
+      "vfx": [
+        "knight_strike",
+        "knight_land"
+      ],
+      "sha256": "69e4338528953943de1ac3c664822b2508b12cf800d35dbba46926655678676e"
+    },
+    "knight_contact_a3f": {
+      "stage": 3,
+      "tick": 90,
+      "pose": "attack",
+      "attack_motion": "",
+      "phase": 0.43478,
+      "foot": [
+        777.2882352941177,
+        475.05882352941177
+      ],
+      "hp_y": 562.2102699794118,
+      "lift": 0.0,
+      "warning_cells": 0,
+      "vfx": [
+        "knight_strike",
+        "knight_land"
+      ],
+      "sha256": "e3fc4e346f2cb9ebd27fa387b1073ffdc60926290015835a033c718f034a023e"
+    },
+    "knight_contact_a3d": {
+      "stage": 3,
+      "tick": 90,
+      "pose": "attack",
+      "attack_motion": "arrival",
+      "phase": 0.0,
+      "foot": [
+        777.2882352941177,
+        475.05882352941177
+      ],
+      "hp_y": 562.2102699794118,
+      "lift": 0.0,
+      "warning_cells": 0,
+      "vfx": [
+        "knight_strike",
+        "knight_land"
+      ],
+      "sha256": "0a5bf0a7e9cd11a017456d88b35da79a618f6968259d1d93fe4d3f7cea6f3353"
+    },
+    "knight_follow_a3f": {
+      "stage": 3,
+      "tick": 97,
+      "pose": "attack",
+      "attack_motion": "",
+      "phase": 0.94203,
+      "foot": [
+        777.2882352941177,
+        475.05882352941177
+      ],
+      "hp_y": 562.2102699794118,
+      "lift": 0.0,
+      "warning_cells": 0,
+      "vfx": [
+        "knight_land"
+      ],
+      "sha256": "bd6f789369f5444f8f358e90894a69d98b6976dbf0bfeb88f1db9e9eba842348"
+    },
+    "knight_follow_a3d": {
+      "stage": 3,
+      "tick": 97,
+      "pose": "attack",
+      "attack_motion": "arrival",
+      "phase": 0.5303,
+      "foot": [
+        777.2882352941177,
+        475.05882352941177
+      ],
+      "hp_y": 562.2102699794118,
+      "lift": 0.0,
+      "warning_cells": 0,
+      "vfx": [
+        "knight_land"
+      ],
+      "sha256": "c7e6420c679d8949337c5f0995462f48c34fa857277729a1c1d49231b2b8a8ee"
+    },
+    "knight_recovery_a3f": {
+      "stage": 3,
+      "tick": 101,
+      "pose": "idle",
+      "attack_motion": "",
+      "phase": 4.64076,
+      "foot": [
+        777.2882352941177,
+        475.05882352941177
+      ],
+      "hp_y": 562.2102699794118,
+      "lift": 0.0,
+      "warning_cells": 0,
+      "vfx": [
+        "knight_land"
+      ],
+      "sha256": "7a416b434fb275392f60bf0344d0300af210cc6ea80afcbfe08997095c7202cc"
+    },
+    "knight_recovery_a3d": {
+      "stage": 3,
+      "tick": 101,
+      "pose": "attack",
+      "attack_motion": "arrival",
+      "phase": 0.83333,
+      "foot": [
+        777.2882352941177,
+        475.05882352941177
+      ],
+      "hp_y": 562.2102699794118,
+      "lift": 0.0,
+      "warning_cells": 0,
+      "vfx": [
+        "knight_land"
+      ],
+      "sha256": "d36a587b085380815b9a4219ffa882353f4d360754743a618dc36f44fa75ab42"
+    },
+    "bishop_anticipation_a3f": {
+      "stage": 12,
+      "tick": 151,
+      "pose": "windup",
+      "attack_motion": "",
+      "phase": 0.9537,
+      "foot": [
+        556.907874015748,
+        636.4251968503937
+      ],
+      "hp_y": 721.2707241231209,
+      "lift": 0.0,
+      "warning_cells": 51,
+      "vfx": [],
+      "sha256": "6accfa2ca2c14a2823c7ff344840422c040f9a5649f1c35f4c587751358ff4d0"
+    },
+    "bishop_anticipation_a3d": {
+      "stage": 12,
+      "tick": 151,
+      "pose": "windup",
+      "attack_motion": "anticipation",
+      "phase": 0.9537,
+      "foot": [
+        556.907874015748,
+        636.4251968503937
+      ],
+      "hp_y": 721.2707241231209,
+      "lift": 0.0,
+      "warning_cells": 51,
+      "vfx": [],
+      "sha256": "6accfa2ca2c14a2823c7ff344840422c040f9a5649f1c35f4c587751358ff4d0"
+    },
+    "bishop_release_a3f": {
+      "stage": 12,
+      "tick": 156,
+      "pose": "attack",
+      "attack_motion": "",
+      "phase": 0.0,
+      "foot": [
+        556.907874015748,
+        636.4251968503937
+      ],
+      "hp_y": 721.2707241231209,
+      "lift": 0.0,
+      "warning_cells": 3,
+      "vfx": [
+        "bishop_cast",
+        "player_hurt"
+      ],
+      "sha256": "8272386d1e1eab911fe874f26fc890537186390b659c2665854080c85151d6ae"
+    },
+    "bishop_release_a3d": {
+      "stage": 12,
+      "tick": 156,
+      "pose": "attack",
+      "attack_motion": "release",
+      "phase": 0.0,
+      "foot": [
+        556.907874015748,
+        636.4251968503937
+      ],
+      "hp_y": 721.2707241231209,
+      "lift": 0.0,
+      "warning_cells": 3,
+      "vfx": [
+        "bishop_cast",
+        "player_hurt"
+      ],
+      "sha256": "09f84985bb911e3a6fa0d2262317ef6d382fc6d070d91a7afab516000ad2e872"
+    },
+    "bishop_follow_a3f": {
+      "stage": 12,
+      "tick": 169,
+      "pose": "attack",
+      "attack_motion": "",
+      "phase": 0.94203,
+      "foot": [
+        556.907874015748,
+        636.4251968503937
+      ],
+      "hp_y": 721.2707241231209,
+      "lift": 0.0,
+      "warning_cells": 52,
+      "vfx": [
+        "bishop_cast",
+        "player_hurt"
+      ],
+      "sha256": "328c3ca285a90b6d691c1aeb873723bb4eb740dc9315689addf49882afc6e2a5"
+    },
+    "bishop_follow_a3d": {
+      "stage": 12,
+      "tick": 169,
+      "pose": "attack",
+      "attack_motion": "release",
+      "phase": 0.51587,
+      "foot": [
+        556.907874015748,
+        636.4251968503937
+      ],
+      "hp_y": 721.2707241231209,
+      "lift": 0.0,
+      "warning_cells": 52,
+      "vfx": [
+        "bishop_cast",
+        "player_hurt"
+      ],
+      "sha256": "0d1ce0afea2eb65d75560d49c2c6ff09073283264073bdf098cdfbcc60497469"
+    },
+    "bishop_recovery_a3f": {
+      "stage": 12,
+      "tick": 176,
+      "pose": "idle",
+      "attack_motion": "",
+      "phase": 5.93739,
+      "foot": [
+        556.907874015748,
+        636.4251968503937
+      ],
+      "hp_y": 721.2707241231209,
+      "lift": 0.0,
+      "warning_cells": 52,
+      "vfx": [
+        "bishop_cast",
+        "player_hurt"
+      ],
+      "sha256": "53244c5954805d03daed2728c1fa460d24d3a762d20ee916971301b22ed7f11d"
+    },
+    "bishop_recovery_a3d": {
+      "stage": 12,
+      "tick": 176,
+      "pose": "attack",
+      "attack_motion": "release",
+      "phase": 0.79365,
+      "foot": [
+        556.907874015748,
+        636.4251968503937
+      ],
+      "hp_y": 721.2707241231209,
+      "lift": 0.0,
+      "warning_cells": 52,
+      "vfx": [
+        "bishop_cast",
+        "player_hurt"
+      ],
+      "sha256": "bdf9221df3ddb0e2b77c6f1af937b5d04dd876cdb7065d32f8937ba864332852"
+    },
+    "queen_anticipation_a3f": {
+      "stage": 24,
+      "tick": 116,
+      "pose": "windup",
+      "attack_motion": "",
+      "phase": 0.93056,
+      "foot": [
+        776.9673972602742,
+        531.2054794520549
+      ],
+      "hp_y": 634.9802794520548,
+      "lift": 0.0,
+      "warning_cells": 78,
+      "vfx": [],
+      "sha256": "900ff2f8246506b9713a7abd52bc856433edd3d74c552159c85aa6f8241fe40c"
+    },
+    "queen_anticipation_a3d": {
+      "stage": 24,
+      "tick": 116,
+      "pose": "windup",
+      "attack_motion": "anticipation",
+      "phase": 0.93056,
+      "foot": [
+        776.9673972602742,
+        531.2054794520549
+      ],
+      "hp_y": 634.9802794520548,
+      "lift": 0.0,
+      "warning_cells": 78,
+      "vfx": [],
+      "sha256": "900ff2f8246506b9713a7abd52bc856433edd3d74c552159c85aa6f8241fe40c"
+    },
+    "queen_release_a3f": {
+      "stage": 24,
+      "tick": 121,
+      "pose": "attack",
+      "attack_motion": "",
+      "phase": 0.0,
+      "foot": [
+        776.9673972602742,
+        531.2054794520549
+      ],
+      "hp_y": 634.9802794520548,
+      "lift": 0.0,
+      "warning_cells": 60,
+      "vfx": [
+        "queen_fire",
+        "player_hurt"
+      ],
+      "sha256": "b7ede5cfaa2a2ba6add596dab8748ae19a1f9d9de4a143869d9cfccbd3a251f8"
+    },
+    "queen_release_a3d": {
+      "stage": 24,
+      "tick": 121,
+      "pose": "attack",
+      "attack_motion": "release",
+      "phase": 0.0,
+      "foot": [
+        776.9673972602742,
+        531.2054794520549
+      ],
+      "hp_y": 634.9802794520548,
+      "lift": 0.0,
+      "warning_cells": 60,
+      "vfx": [
+        "queen_fire",
+        "player_hurt"
+      ],
+      "sha256": "b89486c43760f86c1279d8c6bff50bf5d39fe3c09b3b23055a52b18c6f2b2b47"
+    },
+    "queen_follow_a3f": {
+      "stage": 24,
+      "tick": 135,
+      "pose": "idle",
+      "attack_motion": "",
+      "phase": 3.34732,
+      "foot": [
+        776.9673972602742,
+        531.2054794520549
+      ],
+      "hp_y": 634.9802794520548,
+      "lift": 0.0,
+      "warning_cells": 51,
+      "vfx": [
+        "queen_fire",
+        "player_hurt",
+        "queen_fire"
+      ],
+      "sha256": "09ba781f375dc84d7e789b045db70e8348ddcc62725d85d327dbda042cba245a"
+    },
+    "queen_follow_a3d": {
+      "stage": 24,
+      "tick": 135,
+      "pose": "attack",
+      "attack_motion": "release",
+      "phase": 0.5303,
+      "foot": [
+        776.9673972602742,
+        531.2054794520549
+      ],
+      "hp_y": 634.9802794520548,
+      "lift": 0.0,
+      "warning_cells": 51,
+      "vfx": [
+        "queen_fire",
+        "player_hurt",
+        "queen_fire"
+      ],
+      "sha256": "10e89bb1274e0b6fcf7cb286838be52e43a7d99af6cc1c93ea8f0b402d58e912"
+    },
+    "queen_recovery_a3f": {
+      "stage": 24,
+      "tick": 142,
+      "pose": "idle",
+      "attack_motion": "",
+      "phase": 3.46399,
+      "foot": [
+        776.9673972602742,
+        531.2054794520549
+      ],
+      "hp_y": 634.9802794520548,
+      "lift": 0.0,
+      "warning_cells": 51,
+      "vfx": [
+        "queen_fire",
+        "player_hurt",
+        "queen_fire"
+      ],
+      "sha256": "632c7f3e1bb9ac5385c27d0d559a55bce1bcb1a3f712d8a13f3eeef5679402ca"
+    },
+    "queen_recovery_a3d": {
+      "stage": 24,
+      "tick": 142,
+      "pose": "attack",
+      "attack_motion": "release",
+      "phase": 0.79545,
+      "foot": [
+        776.9673972602742,
+        531.2054794520549
+      ],
+      "hp_y": 634.9802794520548,
+      "lift": 0.0,
+      "warning_cells": 51,
+      "vfx": [
+        "queen_fire",
+        "player_hurt",
+        "queen_fire"
+      ],
+      "sha256": "d818b690c27585833fb3e82d0ab817fbd8414af550960892641f0eb5e94e35c3"
+    },
+    "king_melee_anticipation_a3f": {
+      "stage": 5,
+      "tick": 163,
+      "pose": "windup",
+      "attack_motion": "",
+      "phase": 0.89583,
+      "foot": [
+        776.3661417322835,
+        636.4251968503937
+      ],
+      "hp_y": 732.2072732303938,
+      "lift": 0.0,
+      "warning_cells": 3,
+      "vfx": [],
+      "sha256": "aa295609a79fbb3fd8acb689d20ee2c4fe02b4a288de1a8871fd2d9a9b3b2f2c"
+    },
+    "king_melee_anticipation_a3d": {
+      "stage": 5,
+      "tick": 163,
+      "pose": "windup",
+      "attack_motion": "anticipation",
+      "phase": 0.89583,
+      "foot": [
+        776.3661417322835,
+        636.4251968503937
+      ],
+      "hp_y": 732.2072732303938,
+      "lift": 0.0,
+      "warning_cells": 3,
+      "vfx": [],
+      "sha256": "aa295609a79fbb3fd8acb689d20ee2c4fe02b4a288de1a8871fd2d9a9b3b2f2c"
+    },
+    "king_melee_release_a3f": {
+      "stage": 5,
+      "tick": 168,
+      "pose": "attack",
+      "attack_motion": "",
+      "phase": 0.0,
+      "foot": [
+        776.3661417322835,
+        636.4251968503937
+      ],
+      "hp_y": 732.2072732303938,
+      "lift": 0.0,
+      "warning_cells": 3,
+      "vfx": [
+        "king_strike",
+        "player_hurt"
+      ],
+      "sha256": "928d7bdefb4f1e06bbdff055c72d2627037eddfd6dc560bfb86b30f6d4a1fb7c"
+    },
+    "king_melee_release_a3d": {
+      "stage": 5,
+      "tick": 168,
+      "pose": "attack",
+      "attack_motion": "release",
+      "phase": 0.0,
+      "foot": [
+        776.3661417322835,
+        636.4251968503937
+      ],
+      "hp_y": 732.2072732303938,
+      "lift": 0.0,
+      "warning_cells": 3,
+      "vfx": [
+        "king_strike",
+        "player_hurt"
+      ],
+      "sha256": "f630087544ca9f527ae4468b399ade0c5f8452707b171c30bd83caf6d7a6ad86"
+    },
+    "king_melee_follow_a3f": {
+      "stage": 5,
+      "tick": 181,
+      "pose": "attack",
+      "attack_motion": "",
+      "phase": 0.77381,
+      "foot": [
+        776.3661417322835,
+        636.4251968503937
+      ],
+      "hp_y": 732.2072732303938,
+      "lift": 0.0,
+      "warning_cells": 3,
+      "vfx": [
+        "king_strike",
+        "player_hurt"
+      ],
+      "sha256": "50e36c3c47451a4c78e5822ba65bf06f0edbec3b5a70aefe845783a79041f8e6"
+    },
+    "king_melee_follow_a3d": {
+      "stage": 5,
+      "tick": 181,
+      "pose": "attack",
+      "attack_motion": "release",
+      "phase": 0.50388,
+      "foot": [
+        776.3661417322835,
+        636.4251968503937
+      ],
+      "hp_y": 732.2072732303938,
+      "lift": 0.0,
+      "warning_cells": 3,
+      "vfx": [
+        "king_strike",
+        "player_hurt"
+      ],
+      "sha256": "4e815cbdcc7561c9dfa9f61559aaadd3636849d2f2d0e5780fc9d272feb4e4cb"
+    },
+    "king_melee_recovery_a3f": {
+      "stage": 5,
+      "tick": 189,
+      "pose": "idle",
+      "attack_motion": "",
+      "phase": 3.82245,
+      "foot": [
+        776.3661417322835,
+        636.4251968503937
+      ],
+      "hp_y": 732.2072732303938,
+      "lift": 0.0,
+      "warning_cells": 0,
+      "vfx": [
+        "player_hurt",
+        "rook_strike",
+        "rook_impact"
+      ],
+      "sha256": "b78b403897b2f7afa21d7edb92bbb84169e4aa8ddd9d9a4ad7d6bbd0fc2a3343"
+    },
+    "king_melee_recovery_a3d": {
+      "stage": 5,
+      "tick": 189,
+      "pose": "attack",
+      "attack_motion": "release",
+      "phase": 0.81395,
+      "foot": [
+        776.3661417322835,
+        636.4251968503937
+      ],
+      "hp_y": 732.2072732303938,
+      "lift": 0.0,
+      "warning_cells": 0,
+      "vfx": [
+        "player_hurt",
+        "rook_strike",
+        "rook_impact"
+      ],
+      "sha256": "a67b48b01a461bd3f09e3e8959cb33e80c603b92f9a11324f74ebe2559492d40"
+    },
+    "king_pulse_anticipation_a3f": {
+      "stage": 25,
+      "tick": 380,
+      "pose": "windup",
+      "attack_motion": "",
+      "phase": 0.95833,
+      "foot": [
+        700.6079452054796,
+        531.2054794520549
+      ],
+      "hp_y": 659.9078430884186,
+      "lift": 0.0,
+      "warning_cells": 100,
+      "vfx": [],
+      "sha256": "8578911d219371fbb7efe751c84fed3d863113d2e69b8f704763262b7a21d461"
+    },
+    "king_pulse_anticipation_a3d": {
+      "stage": 25,
+      "tick": 380,
+      "pose": "windup",
+      "attack_motion": "anticipation",
+      "phase": 0.95833,
+      "foot": [
+        700.6079452054796,
+        531.2054794520549
+      ],
+      "hp_y": 659.9078430884186,
+      "lift": 0.0,
+      "warning_cells": 100,
+      "vfx": [],
+      "sha256": "8578911d219371fbb7efe751c84fed3d863113d2e69b8f704763262b7a21d461"
+    },
+    "king_pulse_release_a3f": {
+      "stage": 25,
+      "tick": 385,
+      "pose": "attack",
+      "attack_motion": "",
+      "phase": 0.0,
+      "foot": [
+        700.6079452054796,
+        531.2054794520549
+      ],
+      "hp_y": 659.9078430884186,
+      "lift": 0.0,
+      "warning_cells": 0,
+      "vfx": [
+        "king_pulse",
+        "parry_normal"
+      ],
+      "sha256": "c98985be81e1c7de0c7206a09e3bee23ddf5aec4ce849695c204d64253e5ffbd"
+    },
+    "king_pulse_release_a3d": {
+      "stage": 25,
+      "tick": 385,
+      "pose": "attack",
+      "attack_motion": "release",
+      "phase": 0.0,
+      "foot": [
+        700.6079452054796,
+        531.2054794520549
+      ],
+      "hp_y": 659.9078430884186,
+      "lift": 0.0,
+      "warning_cells": 0,
+      "vfx": [
+        "king_pulse",
+        "parry_normal"
+      ],
+      "sha256": "5c31d1a94daf071fb9017b29d35905680f0642fad7e8db72c80931a2c1491fb8"
+    },
+    "king_pulse_follow_a3f": {
+      "stage": 25,
+      "tick": 402,
+      "pose": "attack",
+      "attack_motion": "",
+      "phase": 0.74561,
+      "foot": [
+        700.6079452054796,
+        531.2054794520549
+      ],
+      "hp_y": 659.9078430884186,
+      "lift": 0.0,
+      "warning_cells": 0,
+      "vfx": [
+        "king_pulse"
+      ],
+      "sha256": "fc12baf416dfc9d0c51f256b7c9cfeaabcf31c8bc06638101e13a86ef3af9637"
+    },
+    "king_pulse_follow_a3d": {
+      "stage": 25,
+      "tick": 402,
+      "pose": "attack",
+      "attack_motion": "release",
+      "phase": 0.50595,
+      "foot": [
+        700.6079452054796,
+        531.2054794520549
+      ],
+      "hp_y": 659.9078430884186,
+      "lift": 0.0,
+      "warning_cells": 0,
+      "vfx": [
+        "king_pulse"
+      ],
+      "sha256": "2a0f11f087127b4a43a7e39b25baa194091c6a1aadf0a1eedc943e597a46be7f"
+    },
+    "king_pulse_recovery_a3f": {
+      "stage": 25,
+      "tick": 412,
+      "pose": "idle",
+      "attack_motion": "",
+      "phase": 11.56503,
+      "foot": [
+        700.6079452054796,
+        531.2054794520549
+      ],
+      "hp_y": 659.9078430884186,
+      "lift": 0.0,
+      "warning_cells": 0,
+      "vfx": [
+        "king_pulse"
+      ],
+      "sha256": "5ce6931dc5898cfdc29d105430ac85bdeb9feacf116aa956435ca0f90914789d"
+    },
+    "king_pulse_recovery_a3d": {
+      "stage": 25,
+      "tick": 412,
+      "pose": "attack",
+      "attack_motion": "release",
+      "phase": 0.80357,
+      "foot": [
+        700.6079452054796,
+        531.2054794520549
+      ],
+      "hp_y": 659.9078430884186,
+      "lift": 0.0,
+      "warning_cells": 0,
+      "vfx": [
+        "king_pulse"
+      ],
+      "sha256": "07a532f4a0a97dec8ac4b979c1417f6d29d7e6cb49cf137072767f9ac579cf5e"
+    }
+  },
+  "files": {
+    "bishop.png": "2091c2a54c6bb90f08621236c7a9353637b9cc477222d9f79dfd09bc7ee72e1b",
+    "king_melee.png": "2a865a324973a196e6bc5d02cada7b2135e13daa2adf1925e2348d55571d21a4",
+    "king_pulse.png": "92745737cdfd5592482881be0a9af681c93c9a9b63d73f65f7028224cca0ae4a",
+    "king_pulse_release_a3d.png": "5c31d1a94daf071fb9017b29d35905680f0642fad7e8db72c80931a2c1491fb8",
+    "knight.png": "a0b11ad4edf8c06f8c748f5d7ffe3c633db4218b5af51531fd3805f00bcd64b4",
+    "pawn.png": "2fa9044bc5269ba3e1b33f38700874763651af628bf40d16e873d3bdf7d68ced",
+    "queen.png": "277c7f4fd0075a8812719de6198385b465117cb6c46c127cbb1b6822bfe546f1",
+    "queen_release_a3d.png": "b89486c43760f86c1279d8c6bff50bf5d39fe3c09b3b23055a52b18c6f2b2b47",
+    "rook.png": "8639bcb3c816a0f8b56b4883d7e90fb2d9f6947d89e120fada40a745642fd7ca"
+  },
+  "raw_frame_scope": "Raw paired frames produced by tools/attack_animation_qa.py. Seven comparison strips are native crops.",
+  "paired_performance_ms": {
+    "stage24_crossing": {
+      "a3f": [
+        4.153,
+        4.321,
+        4.421
+      ],
+      "a3d": [
+        4.168,
+        4.327,
+        4.625
+      ]
+    },
+    "stage25_pulse": {
+      "a3f": [
+        4.74,
+        5.935,
+        6.68
+      ],
+      "a3d": [
+        4.749,
+        5.507,
+        5.688
+      ]
+    }
+  }
+}
