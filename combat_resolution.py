@@ -131,6 +131,28 @@ class CombatResolver:
                           origin=source.position if source else None, destination=result.player_cell)
         return result
 
+    def live_telegraphs(self, tick):
+        """Only published, source-owned warnings still awaiting impact."""
+        ledger = self.encounter.ledger
+        for event in ledger.telegraphs:
+            source = self._enemies.get(event.source_entity_instance_id)
+            if (source is not None and source.active
+                    and event.combat_session_id == ledger.combat_session_id
+                    and event.stage_instance_id == ledger.stage_instance_id
+                    and event.telegraph_start_tick <= tick < event.hit_tick):
+                yield event
+
+    def parry_target(self, tick, *, telegraphs=None):
+        """Read-only version of the target selection used at input."""
+        if self.stopped or not self.player.alive:
+            return None
+        if telegraphs is None:
+            telegraphs = self.live_telegraphs(tick)
+        candidates = (e for e in telegraphs if self.player.position in e.target_cells
+                      and e.key not in self._event_parries
+                      and grade_for_delta(e.hit_tick - tick) is not None)
+        return min(candidates, key=lambda e: (e.hit_tick,e.attack_id,e.key), default=None)
+
     def register_parry(self, attempt):
         """Bind a genuine newly emitted attempt to one existing telegraph.
 
@@ -150,22 +172,7 @@ class CombatResolver:
             raise ValueError('A parry attempt must be registered at its input tick')
         if not self.player.alive:
             raise ValueError('A dead player cannot register a parry attempt')
-        ledger = self.encounter.ledger
-        candidates = []
-        for event in ledger.telegraphs:
-            source = self._enemies.get(event.source_entity_instance_id)
-            if (event.combat_session_id == ledger.combat_session_id
-                    and event.stage_instance_id == ledger.stage_instance_id
-                    and source is not None and source.active
-                    and ledger.state(event) == 'telegraph'
-                    and event.telegraph_start_tick <= self.combat.tick
-                    and self.player.position in event.target_cells
-                    and grade_for_delta(event.hit_tick - attempt.start_tick) is not None
-                    and event.key not in self._event_parries):
-                candidates.append(event)
-        # Numeric IDs are stable JSON publication order within this ledger;
-        # the complete scoped key is a final tie-break, never an unscoped ID.
-        event = min(candidates, key=lambda e: (e.hit_tick, e.attack_id, e.key)) if candidates else None
+        event = self.parry_target(attempt.start_tick)
         binding = ParryBinding(attempt.key, attempt.parry_id, attempt.start_tick,
                                event.key if event else None, event.hit_tick if event else None,
                                grade_for_delta(event.hit_tick - attempt.start_tick) if event else None)

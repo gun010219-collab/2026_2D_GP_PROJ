@@ -2,6 +2,8 @@
 
 ## R7 인간 Windows 캠페인에 이관된 검수
 
+- [ ] R7-A3에서 최초 전조부터 모서리가 표시되는 퍼펙트 구간을 비교한다. Stage24 교차 광선 위 다음 위험 셀과 Stage25 Pulse 100칸을 확인한다. 쿨타임·키 유지·설정·F11·포커스 복구·재시작에서 다음 입력 안내가 일치하는지 본다. [A3 검수 명령과 캡처](TASK5R7A3_TELEGRAPH_PARRY.md)
+
 - [ ] R7-A2B 실제 Windows 재검수에서 고딕 진홍색 번개와 용암 주황 열기를 구별한다. Stage14 Bishop·Rook 중첩의 위험 셀, Stage24 두 Queen의 충전·교차·잔광, Stage25 검은 연기를 동반한 Pulse와 금백색 퍼펙트 패링을 확인한다. HP와 플레이어 위치 및 장시간 피로도를 함께 확인한다. [VFX 전후 비교와 검수](TASK5R7A2_COMBAT_VFX.md)
 
 - [ ] R7-A1에서 왼쪽 Ctrl·Alt 조합, Alt+Tab·Alt+F4, 복귀 후 입력, 기물 가림과 HP 간격, 이동·착지의 자연스러움을 검수한다. 이후 기물 VFX(A2), 전조(A3), BGM(A4), 인간 캠페인·밸런스(B), 성능·버그(C), 배포(D)를 진행한다. [움직임과 조작 검수표](TASK5R7A1_MOTION_INPUT.md)

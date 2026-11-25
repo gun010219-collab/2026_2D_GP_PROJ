@@ -84,6 +84,8 @@ class SessionArtPath:
                     self.renderer.enlarged = True
                 if getattr(self, 'vfx', None) is not None:
                     self.renderer.vfx = self.vfx
+                if getattr(self, 'telegraph', None) is not None:
+                    self.renderer.telegraph = self.telegraph
                 if self.animation is not None:
                     self.renderer.animation = self.animation
                     self.renderer.animation_motion = self.animation_motion

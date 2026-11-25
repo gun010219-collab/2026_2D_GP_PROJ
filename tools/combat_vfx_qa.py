@@ -30,7 +30,7 @@ from tools.chapter_art_play import advance_campaign, session
 from tools.stage5_art_preview import capture_png, open_preview
 
 
-def run(driver,output,*,renewed=False,layered=False):
+def run(driver,output,*,renewed=False,layered=False,telegraph=False):
     import sdl2 as s
     from pico2d import pico2d as c
 
@@ -40,8 +40,10 @@ def run(driver,output,*,renewed=False,layered=False):
     motion = RenderMotion(improved=renewed)
     animation = ActorAnimation(improved=renewed)
     vfx = CombatVFX(renewed=renewed,layered=layered)
+    from attack_telegraph import TelegraphRenderer
+    warning = TelegraphRenderer() if telegraph else None
     path = LiveArenaArtPath(c,motion=motion,animation=animation,vfx=vfx,
-                           default_enabled=True,enlarged=renewed)
+                           default_enabled=True,enlarged=renewed,telegraph=warning)
     hud = GameFlowRenderer()
     scenes, campaign, coverage, peaks = {}, [], set(), [0,0]
     resources = dict(loads=0,releases=0,peak=0)
@@ -69,6 +71,10 @@ def run(driver,output,*,renewed=False,layered=False):
         c.SDL_RenderClear(c.renderer)
         assert path.draw(g,motion.positions)
         assert not vfx.failed and not path.path.renderer.animation_failed
+        if warning is not None:
+            assert not warning.failed
+            expected = {cell for e in g.resolver.live_telegraphs(g.combat.tick) for cell in e.target_cells} if g.playing else set()
+            assert set(path.path.renderer.warning_cells)==expected
 
     def capture(g,name):
         if name in scenes:
@@ -262,6 +268,7 @@ if __name__=='__main__':
     parser.add_argument('--output',type=Path)
     parser.add_argument('--vfx-renewal',action='store_true')
     parser.add_argument('--vfx-layered',action='store_true')
+    parser.add_argument('--telegraph',action='store_true')
     args = parser.parse_args()
     print(json.dumps(run(args.renderer,args.output,renewed=args.vfx_renewal,
-                         layered=args.vfx_layered),indent=2))
+                         layered=args.vfx_layered,telegraph=args.telegraph),indent=2))

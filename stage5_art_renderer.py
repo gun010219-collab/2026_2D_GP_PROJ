@@ -81,7 +81,7 @@ class Stage5ArtRenderer:
     animation = animation_motion = None
     animation_failed = False
     enlarged = False
-    vfx = None
+    vfx = telegraph = parry_hint = None
 
     def layout(self,kind,u,v):
         return actor_layout(kind,u,v)
@@ -147,6 +147,20 @@ class Stage5ArtRenderer:
                 self.draw_world(g,positions)
         self.draw_feedback(g)
 
+    def draw_warnings(self,g):
+        if self.telegraph is not None and not self.telegraph.failed:
+            try:
+                cells,self.parry_hint = self.telegraph.draw(self.c,g)
+                self.warning_cells.extend(cells)
+                return
+            except ArenaArtError:
+                self.telegraph.failed = True
+                LOG.exception('Telegraph batch unavailable; restoring the original warnings')
+        for event in g.encounter.ledger.telegraphs:
+            for cell in event.target_cells:
+                self.warning_cells.append(tuple(cell))
+                self.mark(cell,(241,144,62) if event.attack_kind=='king_pulse' else (239,88,109))
+
     def draw_world(self,g,positions):
         c=self.c;self.warning_cells=[];self.order=[];self.bounds=[];self.actor_layouts={}
         self.image('background',720,450,1440,900);self.draw_frame()
@@ -170,10 +184,9 @@ class Stage5ArtRenderer:
                 for start,end in intervals:
                     def rail(t):return ((t*10,-.095),(10.095,t*10),((1-t)*10,10.095),(-.095,(1-t)*10))[side]
                     c.draw_line(*CAMERA.project(*rail(start)),*CAMERA.project(*rail(end)),*color)
+        self.parry_hint = None
         if g.playing:
-            for event in g.encounter.ledger.telegraphs:
-                for cell in event.target_cells:
-                    self.warning_cells.append(tuple(cell));self.mark(cell,(241,144,62) if event.attack_kind=='king_pulse' else (239,88,109))
+            self.draw_warnings(g)
             if g.combat.active_attack:self.mark(g.combat.active_attack.target_cell,(237,207,113))
         actors=[e for e in g.encounter.enemies if e.active and e.alive]
         if g.player.alive:actors.append(g.player)
@@ -234,6 +247,8 @@ class Stage5ArtRenderer:
                     x,y=CAMERA.center(*result.player_cell)
                     for dx,dy in ((0,1),(1,0),(0,-1),(-1,0)):c.draw_line(x+dx*10,y+dy*10,x+dx*23,y+dy*23,255,226,116)
         HealthRenderer().draw(c,g.player,(),g.combat.tick,g.combat.pending_attack_bonus if g.playing else None,show_feedback=False)
+        if self.telegraph is not None:
+            self.telegraph.draw_hint(c,self.parry_hint)
 
 
 class Stage5ArtPath(SessionArtPath):

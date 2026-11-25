@@ -4,6 +4,8 @@
 
 ## 현재 실행 상태
 
+정식 실행의 공격 전조는 실제 공격까지의 틱에 따라 진해집니다. HP 패널의 NEXT INPUT은 실제 왼쪽 Alt 연결 후보를 안내합니다. `CHECKMATE_TELEGRAPH=legacy`로 이전 표시를 비교할 수 있습니다. [R7-A3 전조와 패링 검수](docs/TASK5R7A3_TELEGRAPH_PARRY.md)
+
 R7-A2B 전투 효과는 일반 실행에 적용된다. `CHECKMATE_VFX_STYLE=renewed`는 R7-A2, `legacy`는 R7-A1과 비교할 때 사용한다. `CHECKMATE_VFX=0`은 VFX OFF다. [공격별 비교와 Windows 검수](docs/TASK5R7A2_COMBAT_VFX.md)
 
 `python main.py`는 정식 타이틀을 표시한다. NEW GAME으로 시작하고 CONTINUE로 저장된 챕터의 시작점에서 재개한다. CHAPTER SELECT는 해금과 선행 보스를 표시한다. Windows 저장 위치는 `%LOCALAPPDATA%\CHECKMATE\save.json`이다. [메뉴 조작·복구·검수](docs/TASK5R6_GAME_FLOW.md)

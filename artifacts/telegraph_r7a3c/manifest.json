@@ -1,0 +1,438 @@
+{
+  "driver": "direct3d11",
+  "captures": {
+    "stage4_bishop_perfect_entry": {
+      "stage": 4,
+      "tick": 149,
+      "mode": "a3c",
+      "warned": 51,
+      "hit_ticks": [
+        156,
+        182
+      ],
+      "phase": "perfect",
+      "input_tick": 150,
+      "target_id": 1,
+      "fill": [
+        0.092,
+        0.65
+      ],
+      "active": [],
+      "ring": {
+        "target_id": 1,
+        "ticks_left": 7,
+        "radius": 0.2527,
+        "alt": true
+      },
+      "sha256": "5b75cec7ae0368ff3f4732feb0da567036f8c0ea5f41ac451214d97933e66b41",
+      "file": "stage4_bishop_perfect_entry.png"
+    },
+    "stage14_bishop_perfect_entry": {
+      "stage": 14,
+      "tick": 176,
+      "mode": "a3c",
+      "warned": 51,
+      "hit_ticks": [
+        182,
+        183
+      ],
+      "phase": "perfect",
+      "input_tick": 177,
+      "target_id": 3,
+      "fill": [
+        0.65,
+        0.672
+      ],
+      "active": [],
+      "ring": {
+        "target_id": 3,
+        "ticks_left": 6,
+        "radius": 0.2737,
+        "alt": true
+      },
+      "sha256": "b9c9fd687bc74625d427e12349885e344d5a3a17170edada306ce16a3c8ad591",
+      "file": "stage14_bishop_perfect_entry.png"
+    },
+    "stage9_targeted_warning": {
+      "stage": 9,
+      "tick": 48,
+      "mode": "a3c",
+      "warned": 50,
+      "hit_ticks": [
+        156
+      ],
+      "phase": "wait",
+      "input_tick": 49,
+      "target_id": null,
+      "fill": [
+        0.04
+      ],
+      "active": [],
+      "ring": {
+        "target_id": 1,
+        "ticks_left": 108,
+        "radius": 0.58,
+        "alt": false
+      },
+      "sha256": "29704adbe2e764eb04f373ee168ec9d19caf3629fc7c3c753d36b9431fe9a02d",
+      "file": "stage9_targeted_warning.png"
+    },
+    "stage19_targeted_warning": {
+      "stage": 19,
+      "tick": 49,
+      "mode": "a3c",
+      "warned": 33,
+      "hit_ticks": [
+        121
+      ],
+      "phase": "wait",
+      "input_tick": 50,
+      "target_id": null,
+      "fill": [
+        0.04
+      ],
+      "active": [],
+      "ring": {
+        "target_id": 1,
+        "ticks_left": 72,
+        "radius": 0.58,
+        "alt": false
+      },
+      "sha256": "ece47fcb1cfc96f324f03be696280174e29b4c7e029a32b5a050009c919c4663",
+      "file": "stage19_targeted_warning.png"
+    },
+    "stage24_two_queen_warnings": {
+      "stage": 24,
+      "tick": 63,
+      "mode": "a3c",
+      "warned": 55,
+      "hit_ticks": [
+        121,
+        135
+      ],
+      "phase": "wait",
+      "input_tick": 64,
+      "target_id": null,
+      "fill": [
+        0.04,
+        0.063
+      ],
+      "active": [],
+      "ring": {
+        "target_id": 1,
+        "ticks_left": 58,
+        "radius": 0.5119,
+        "alt": false
+      },
+      "sha256": "115a5f569b5c360150ef5d86d3008735108f0c8add8c7e680de8edd676e637b0",
+      "a3b_reference": "../telegraph_r7a3b/stage24_two_queen_warnings.png",
+      "a3b_sha256": "e8219ba296ddeb85fc3ab3f8a7901a0fa7b239ae5107147855b4867df0787ed6",
+      "file": "stage24_two_queen_warnings.png"
+    },
+    "stage24_crossing_a3": {
+      "stage": 24,
+      "tick": 135,
+      "mode": "a3c",
+      "warned": 51,
+      "hit_ticks": [
+        150,
+        164,
+        209
+      ],
+      "phase": "wait",
+      "input_tick": 136,
+      "target_id": null,
+      "fill": [
+        0.063,
+        0.093,
+        0.504
+      ],
+      "active": [
+        "queen_fire",
+        "player_hurt",
+        "queen_fire"
+      ],
+      "ring": {
+        "target_id": 3,
+        "ticks_left": 74,
+        "radius": 0.4698,
+        "alt": false
+      },
+      "sha256": "da0682c500bb35df68a026a76763e011e4d21bffd8d691bb3a33d4052c79b4d3",
+      "a3b_reference": "../telegraph_r7a3b/stage24_crossing_a3.png",
+      "a3b_sha256": "98c9de5ef82dd6fec5a60b8fc79bd211770f70b6634dad27b6da4d155804d705",
+      "file": "stage24_crossing_a3.png"
+    },
+    "stage25_pulse_start": {
+      "stage": 25,
+      "tick": 265,
+      "mode": "a3c",
+      "warned": 100,
+      "hit_ticks": [
+        385
+      ],
+      "phase": "wait",
+      "input_tick": 266,
+      "target_id": null,
+      "fill": [
+        0.05
+      ],
+      "active": [
+        "knight_strike",
+        "knight_land"
+      ],
+      "ring": {
+        "target_id": 9,
+        "ticks_left": 120,
+        "radius": 0.58,
+        "alt": false
+      },
+      "sha256": "b2796a02adef322ace49cd29d3a4c50f04a532066b326f040e7add3562a7ba1d",
+      "a3b_reference": "../telegraph_r7a3b/stage25_pulse_start.png",
+      "a3b_sha256": "c669eeed2dbf58cdf968f3e0f78f19f3ba19b02b5fe96d9f477bd77457f71829",
+      "file": "stage25_pulse_start.png"
+    },
+    "stage25_pulse_charge": {
+      "stage": 25,
+      "tick": 325,
+      "mode": "a3c",
+      "warned": 100,
+      "hit_ticks": [
+        385
+      ],
+      "phase": "wait",
+      "input_tick": 326,
+      "target_id": null,
+      "fill": [
+        0.135
+      ],
+      "active": [],
+      "ring": {
+        "target_id": 9,
+        "ticks_left": 60,
+        "radius": 0.405,
+        "alt": false
+      },
+      "sha256": "20eee7713a89f89ddc9daf284fce3545f49f4bea35de3ebcfa4d02a105709e41",
+      "file": "stage25_pulse_charge.png"
+    },
+    "stage25_pulse_normal_next_tick": {
+      "stage": 25,
+      "tick": 366,
+      "mode": "a3c",
+      "warned": 100,
+      "hit_ticks": [
+        385
+      ],
+      "phase": "normal",
+      "input_tick": 367,
+      "target_id": 9,
+      "fill": [
+        0.261
+      ],
+      "active": [],
+      "ring": {
+        "target_id": 9,
+        "ticks_left": 19,
+        "radius": 0.2854,
+        "alt": false
+      },
+      "sha256": "c3138b3529e5194914e23e4f28bd2f1efd2dcdc704f1cb6cbc6cefb72003b5cd",
+      "file": "stage25_pulse_normal_next_tick.png"
+    },
+    "stage25_pulse_normal": {
+      "stage": 25,
+      "tick": 367,
+      "mode": "a3c",
+      "warned": 100,
+      "hit_ticks": [
+        385
+      ],
+      "phase": "normal",
+      "input_tick": 368,
+      "target_id": 9,
+      "fill": [
+        0.341
+      ],
+      "active": [],
+      "ring": {
+        "target_id": 9,
+        "ticks_left": 18,
+        "radius": 0.2825,
+        "alt": false
+      },
+      "sha256": "6e805a6949aad56537647dd7f72faa2734a5d9e9588cf627501ac69a9fd2f752",
+      "a3b_reference": "../telegraph_r7a3/stage25_pulse_normal.png",
+      "a3b_sha256": "8923aa07ca0f8242909ce2f79d582308d119f8678c212b30dcf3a71bc255e677",
+      "file": "stage25_pulse_normal.png"
+    },
+    "stage25_pulse_perfect_next_tick": {
+      "stage": 25,
+      "tick": 377,
+      "mode": "a3c",
+      "warned": 100,
+      "hit_ticks": [
+        385
+      ],
+      "phase": "perfect",
+      "input_tick": 378,
+      "target_id": 9,
+      "fill": [
+        0.445
+      ],
+      "active": [],
+      "ring": {
+        "target_id": 9,
+        "ticks_left": 8,
+        "radius": 0.2533,
+        "alt": true
+      },
+      "sha256": "d02bcbfd66d2a53a7cdb7085745739e270e72636ba3fd03cd61d07a4d438d2c5",
+      "file": "stage25_pulse_perfect_next_tick.png"
+    },
+    "stage25_pulse_perfect_entry": {
+      "stage": 25,
+      "tick": 378,
+      "mode": "a3c",
+      "warned": 100,
+      "hit_ticks": [
+        385
+      ],
+      "phase": "perfect",
+      "input_tick": 379,
+      "target_id": 9,
+      "fill": [
+        0.457
+      ],
+      "active": [],
+      "ring": {
+        "target_id": 9,
+        "ticks_left": 7,
+        "radius": 0.2504,
+        "alt": true
+      },
+      "sha256": "7b77bec14f86340a79bf71cdcfe25e4813e79c68aa3ef0f823e636784368633b",
+      "a3b_reference": "../telegraph_r7a3/stage25_pulse_perfect_entry.png",
+      "a3b_sha256": "28d26920d6a6f7c2be07648b2488e6f66bd0394691503ceffeac39ed8256502c",
+      "file": "stage25_pulse_perfect_entry.png"
+    },
+    "stage25_pulse_last_warning": {
+      "stage": 25,
+      "tick": 384,
+      "mode": "a3c",
+      "warned": 100,
+      "hit_ticks": [
+        385
+      ],
+      "phase": "cooldown",
+      "input_tick": 385,
+      "target_id": null,
+      "fill": [
+        0.532
+      ],
+      "active": [],
+      "ring": {
+        "target_id": 9,
+        "ticks_left": 1,
+        "radius": 0.2329,
+        "alt": false
+      },
+      "sha256": "d74c2a299a5485469afe46b06f9eb3c2edd89d12185e6a7bf9f8b971ed73fe3b",
+      "file": "stage25_pulse_last_warning.png"
+    },
+    "stage25_pulse_impact_perfect": {
+      "stage": 25,
+      "tick": 385,
+      "mode": "a3c",
+      "warned": 0,
+      "hit_ticks": [],
+      "phase": null,
+      "input_tick": null,
+      "target_id": null,
+      "fill": [],
+      "active": [
+        "king_pulse",
+        "parry_perfect",
+        "player_hit"
+      ],
+      "sha256": "1de6eaf95f5a806c27a6acf8b68d6702675a7a523fbdd73a8a4ec72ef3cfdada",
+      "file": "stage25_pulse_impact_perfect.png"
+    },
+    "stage25_pulse_resolved_a3": {
+      "stage": 25,
+      "tick": 389,
+      "mode": "a3c",
+      "warned": 0,
+      "hit_ticks": [],
+      "phase": null,
+      "input_tick": null,
+      "target_id": null,
+      "fill": [],
+      "active": [
+        "king_pulse",
+        "parry_perfect",
+        "player_hit"
+      ],
+      "sha256": "7076e8f0ddcc35414d5427bd49550708529605bc29ebbd6c5c33cab9c5951ad7",
+      "a3b_reference": "../telegraph_r7a3/stage25_pulse_resolved_a3.png",
+      "a3b_sha256": "7076e8f0ddcc35414d5427bd49550708529605bc29ebbd6c5c33cab9c5951ad7",
+      "file": "../telegraph_r7a3/stage25_pulse_resolved_a3.png"
+    },
+    "stage25_unparried_impact": {
+      "stage": 25,
+      "tick": 385,
+      "mode": "a3c",
+      "warned": 0,
+      "hit_ticks": [],
+      "phase": null,
+      "input_tick": null,
+      "target_id": null,
+      "fill": [],
+      "active": [
+        "king_pulse",
+        "player_hurt",
+        "player_death"
+      ],
+      "sha256": "ee005e8c5e2e7e01bedecc84cd6a0db5d14631e3bd2cd91cfd94be2a5f89dab3",
+      "file": "stage25_unparried_impact.png"
+    }
+  },
+  "paired_performance_ms": {
+    "stage24_crossing": {
+      "a3b": [
+        4.055,
+        4.709,
+        6.347
+      ],
+      "a3c": [
+        4.082,
+        4.567,
+        5.725
+      ]
+    },
+    "stage25_pulse_perfect_entry": {
+      "a3b": [
+        4.078,
+        4.93,
+        5.963
+      ],
+      "a3c": [
+        3.959,
+        4.762,
+        6.741
+      ]
+    },
+    "stage25_pulse_resolved": {
+      "a3b": [
+        4.259,
+        4.521,
+        5.133
+      ],
+      "a3c": [
+        4.258,
+        4.84,
+        5.702
+      ]
+    }
+  }
+}

@@ -82,10 +82,13 @@ class Parry:
     def last_attempt(self):
         return self._last_attempt
 
+    def can_request(self, tick):
+        _validate_tick(tick)
+        return tick >= self.next_parry_tick and not self.active_at(tick)
+
     def request(self, tick):
         """Start one availability window, or reject without renewing it."""
-        _validate_tick(tick)
-        if tick < self.next_parry_tick or self.active_at(tick):
+        if not self.can_request(tick):
             return None
         attempt = ParryAttempt(self._next_parry_id, tick,
                                tick + self.perfect_ticks, tick + self.window_ticks,

@@ -148,8 +148,12 @@ def run_session(game, flow, *, game_renderer=None, default_art=False, app=None):
             if backend is not None:
                 audio = AudioManager(backend,menu.audio)
         presentation = flow.enable_presentation() if animation or vfx or audio else None
+        telegraph = None
+        if default_art and os.environ.get('CHECKMATE_TELEGRAPH') not in ('legacy','0'):
+            from attack_telegraph import TelegraphRenderer
+            telegraph = TelegraphRenderer()
         art_path = LiveArenaArtPath(canvas,motion=motion,default_enabled=default_art,
-                                    animation=animation,vfx=vfx,enlarged=improved)
+                                    animation=animation,vfx=vfx,enlarged=improved,telegraph=telegraph)
         controls = GameplayInput(canvas, move_interval_ticks=flow.run.stats.move_interval_ticks)
         pending_gameplay = []
         last_boss_clear = None
@@ -438,6 +442,10 @@ def run_session(game, flow, *, game_renderer=None, default_art=False, app=None):
             # RenderClear clears the whole output, including letterbox bars.
             canvas.SDL_SetRenderDrawColor(canvas.renderer, 0, 0, 0, 255)
             canvas.SDL_RenderClear(canvas.renderer)
+            if telegraph is not None:
+                telegraph.blocked = (not focused or focus_changed or menu.blocks_gameplay() or menu_changed
+                                     or display_changed or restarted_this_frame or bool(pending_gameplay))
+                telegraph.held = bool(controls.parry.held)
             if not art_path.draw(game, motion.positions):
                 board_renderer.draw(canvas)
                 enemy_attack_renderer.tick = combat.tick
