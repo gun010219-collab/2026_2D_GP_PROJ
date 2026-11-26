@@ -7,6 +7,8 @@ from config import MOTION_SECONDS, cell_center
 
 ROOT = Path(__file__).resolve().parent / 'assets' / 'audio'
 TRACKS = ('menu', 'royal', 'forest', 'frozen', 'caldera', 'gothic', 'boss', 'ending')
+BOSS_TRACKS = tuple(f'boss_{name}' for name in TRACKS[1:6])
+BGM_PLAYLIST = ('menu', *(name for pair in zip(TRACKS[1:6],BOSS_TRACKS) for name in pair), 'ending')
 VOICES = 8
 # Source WAVs are peak-normalized. Trim individual voices to leave mix headroom.
 CHUNK_GAIN = 23
@@ -90,7 +92,7 @@ class AudioManager:
 
         state = game.state.value
         music = None if state in ('BOSS_CLEAR','GAME_OVER') else (
-            'boss' if game.stage_number % 5 == 0 else TRACKS[game.chapter])
+            BOSS_TRACKS[game.chapter-1] if game.stage_number % 5 == 0 else TRACKS[game.chapter])
         self.set_music(music)
         for event in batch:
             if event.cause_key[:2] != scope or event.tick < self.tick:
@@ -148,6 +150,7 @@ class MixerAudio:
         self.root = root
         self.sounds = {}
         self.tracks = {}
+        self.track_paths = {}
         self.failures = []
         self.closed = False
         mixer.Mix_AllocateChannels(VOICES)
@@ -192,10 +195,26 @@ class MixerAudio:
         if track is None:
             return
         if track not in self.tracks:
-            self._load(self.tracks,track,'bgm',self.mix.Mix_LoadMUS)
+            legacy = 'boss' if track in BOSS_TRACKS else track
+            path = self.root/'bgm'/(legacy+'.wav')
+            handle = None
+            if track in TRACKS[1:6] or track in BOSS_TRACKS:
+                candidate = self.root/'renewal'/(track+'.ogg')
+                if candidate.is_file():
+                    handle = self.mix.Mix_LoadMUS(str(candidate).encode('utf-8'))
+                    if handle:
+                        path = candidate
+                    else:
+                        self.failures.append(candidate)
+            if not handle:
+                handle = self.mix.Mix_LoadMUS(str(path).encode('utf-8'))
+                if not handle:
+                    self.failures.append(path)
+            self.tracks[track] = handle
+            self.track_paths[track] = path
         handle = self.tracks[track]
         if handle and self.mix.Mix_FadeInMusic(handle,-1,180) != 0:
-            self.failures.append(self.root/'bgm'/(track+'.wav'))
+            self.failures.append(self.track_paths[track])
 
     def clear_voices(self):
         self.mix.Mix_HaltChannel(-1)
@@ -214,3 +233,4 @@ class MixerAudio:
                 self.mix.Mix_FreeMusic(track)
         self.sounds.clear()
         self.tracks.clear()
+        self.track_paths.clear()

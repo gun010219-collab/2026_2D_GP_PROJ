@@ -1,14 +1,17 @@
 from dataclasses import asdict
+from hashlib import sha256
+import json
 import os
 import pickle
 from pathlib import Path
 import subprocess
 import sys
+from tempfile import TemporaryDirectory
 from types import SimpleNamespace as NS
 import unittest
 from unittest.mock import Mock, patch
 
-from game_audio import AudioManager, AudioSettings, MixerAudio, VOICES
+from game_audio import AudioManager, AudioSettings, BGM_PLAYLIST, MixerAudio, ROOT, VOICES
 from main import _new_stage_game
 from presentation_events import PresentationEvents
 from render_motion import RenderMotion
@@ -125,10 +128,11 @@ class AudioTests(unittest.TestCase):
         self.assertEqual(self.backend.cues.count('knight_land'),1)
 
     def test_chapter_music_boss_terminal_and_restart(self):
-        for stage in (1,2,4,5,6,11,16,21):
+        for stage in (1,2,4,5,6,7,10,11,15,16,20,21,25):
             self.audio.update(_new_stage_game(stage),0,())
         tracks = [call[1] for call in self.backend.calls if call[0]=='music']
-        self.assertEqual(tracks,['royal','boss','forest','frozen','caldera','gothic'])
+        self.assertEqual(tracks,['royal','boss_royal','forest','boss_forest','frozen','boss_frozen',
+                                 'caldera','boss_caldera','gothic','boss_gothic'])
         game,flow = session(2)
         feed = flow.enable_presentation()
         self.audio.update(game,0,())
@@ -209,7 +213,9 @@ class AudioTests(unittest.TestCase):
         mixer = Mock()
         mixer.Mix_LoadWAV.return_value = None
         mixer.Mix_LoadMUS.return_value = None
-        backend = MixerAudio(mixer)
+        directory = TemporaryDirectory()
+        self.addCleanup(directory.cleanup)
+        backend = MixerAudio(mixer,root=Path(directory.name))
         self.assertFalse(backend.sound('player_swing',0))
         backend.music('royal')
         mixer.Mix_FadeInMusic.assert_not_called()
@@ -219,7 +225,40 @@ class AudioTests(unittest.TestCase):
         mixer.Mix_FreeMusic.assert_not_called()
         mixer.Mix_FreeChunk.assert_not_called()
 
-    def test_native_mixer_all_wavs(self):
+    def test_corrupt_renewal_reuses_legacy_boss_music(self):
+        with TemporaryDirectory() as directory:
+            root=Path(directory)
+            (root/'renewal').mkdir()
+            candidate=root/'renewal'/'boss_frozen.ogg'
+            candidate.write_bytes(b'bad')
+            mixer=Mock()
+            mixer.Mix_LoadMUS.side_effect=[None,'legacy']
+            mixer.Mix_FadeInMusic.return_value=0
+            backend=MixerAudio(mixer,root)
+            backend.music('boss_frozen')
+            backend.music('boss_frozen')
+            self.assertEqual([args.args[0].decode() for args in mixer.Mix_LoadMUS.call_args_list],
+                             [str(candidate),str(root/'bgm'/'boss.wav')])
+            self.assertEqual(backend.failures,[candidate])
+            backend.close()
+            mixer.Mix_FreeMusic.assert_called_once_with('legacy')
+
+    def test_renewal_masters_and_existing_wavs_match_their_manifests(self):
+        sources = json.loads((ROOT/'manifest.json').read_text(encoding='utf-8'))['files']
+        self.assertEqual(len(sources),43)
+        renewal=ROOT/'renewal'
+        masters=json.loads((renewal/'manifest.json').read_text(encoding='utf-8'))['files']
+        self.assertEqual({Path(row['file']).stem for row in masters},set(BGM_PLAYLIST[1:-1]))
+        for row in masters:
+            self.assertEqual((row['sample_rate'],row['channels']),(44100,2))
+            self.assertLess(row['peak_dbfs'],-3)
+            self.assertLess(row['seam_step_dbfs'],-34)
+        for root,entries in ((ROOT,sources),(renewal,masters)):
+            for row in entries:
+                data=(root/row['file']).read_bytes()
+                self.assertEqual(sha256(data).hexdigest(),row['sha256'],row['file'])
+
+    def test_native_mixer_all_assets(self):
         result = subprocess.run([sys.executable,'tools/audio_review.py','--verify'],
                                 cwd=Path(__file__).resolve().parents[1],capture_output=True,timeout=20)
         self.assertEqual(result.returncode,0,result.stderr.decode(errors='replace'))

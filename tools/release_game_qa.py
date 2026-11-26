@@ -15,7 +15,7 @@ sys.path.insert(0,str(ROOT))
 from chapter_art_renderer import LiveArenaArtPath
 from front_menu import FrontRenderer,buttons
 from game_renderer import GameFlowRenderer
-from game_audio import AudioManager
+from game_audio import AudioManager, BOSS_TRACKS
 import main
 from release_game import ReleaseGame,launch
 from save_manager import SaveData,SaveStore
@@ -246,7 +246,9 @@ def run(driver,output,isolated):
     from campaign_save import start_chapter
     continued=start_chapter(SaveStore(save),restored.continue_chapter,main._new_stage_game)
     assert continued.game.stage_number==21 and continued.run.entry_attack_level==restored.entry_attack[-1]
-    assert tracks.count('ending')==2 and tracks.count('boss')==6 and tracks[0]=='menu',tracks
+    assert tracks.count('ending')==2 and tracks[0]=='menu',tracks
+    assert tuple(track for track in tracks if track is not None and track.startswith('boss'))==(
+        *BOSS_TRACKS,BOSS_TRACKS[-1]),tracks
     assert set(tracks) >= {'royal','forest','frozen','caldera','gothic'},tracks
     assert counts['opens']==counts['closes']==1 and counts['loads']==counts['frees']
     assert len(frames)==9,frames

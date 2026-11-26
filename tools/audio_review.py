@@ -8,16 +8,55 @@ import sys
 from time import perf_counter_ns, sleep
 
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
-from game_audio import AudioManager, AudioSettings, MixerAudio, PRIORITIES, ROOT, TRACKS
+from game_audio import AudioManager, AudioSettings, BGM_PLAYLIST, MixerAudio, PRIORITIES, ROOT, TRACKS
 from presentation_events import PresentationEvents
+
+
+def private_bytes():
+    if sys.platform!='win32':
+        return None
+    import ctypes as c
+    from ctypes import wintypes as w
+
+    class Counters(c.Structure):
+        _fields_=[('size',w.DWORD),('faults',w.DWORD),('values',c.c_size_t*8),('private',c.c_size_t)]
+
+    counters=Counters()
+    counters.size=c.sizeof(counters)
+    query=c.windll.psapi.GetProcessMemoryInfo
+    query.argtypes=[w.HANDLE,c.POINTER(Counters),w.DWORD]
+    return counters.private if query(w.HANDLE(-1),c.byref(counters),counters.size) else None
 
 
 def verify(backend):
     mix = backend.mix
     assert len(backend.sounds)==len(PRIORITIES) and all(backend.sounds.values())
-    for name in TRACKS:
+    cold_ms={}
+    initial_memory=private_bytes()
+    memory_samples=[]
+    loops=[]
+    for name in (*BGM_PLAYLIST,'boss'):
+        start=perf_counter_ns()
         backend.music(name)
+        cold_ms[name]=round((perf_counter_ns()-start)/1e6,3)
         assert mix.Mix_PlayingMusic()==1 and not backend.failures
+        expected=ROOT/'renewal'/(name+'.ogg')
+        if expected.is_file():
+            assert backend.track_paths[name]==expected
+            handle=backend.tracks[name]
+            assert mix.Mix_GetMusicType(handle)==mix.MUS_OGG
+            duration=mix.Mix_MusicDuration(handle)
+            assert duration>1 and mix.Mix_SetMusicPosition(duration-.065)==0,name
+            sleep(.19)
+            assert mix.Mix_PlayingMusic()==1 and 0<=mix.Mix_GetMusicPosition(handle)<2,name
+            loops.append(name)
+        memory=private_bytes()
+        if memory is not None and initial_memory is not None:
+            memory_samples.append(memory-initial_memory)
+    print('First music loads and starts in ms',cold_ms)
+    print('Native Vorbis loop wraps',len(loops))
+    if memory_samples:
+        print('Maximum sampled Windows private bytes above SFX-loaded baseline',max(memory_samples))
     for name in PRIORITIES:
         assert backend.sound(name,0) and backend.playing(0),name
     backend.clear_voices()
@@ -26,7 +65,7 @@ def verify(backend):
     assert not mix.Mix_PlayingMusic()
     backend.close()
     assert not backend.sounds and not backend.tracks
-    print(f'Dummy SDL_mixer loaded, played and released {len(PRIORITIES)} SFX and {len(TRACKS)} BGM')
+    print(f'Dummy SDL_mixer loaded, played and released {len(PRIORITIES)} SFX and {len(cold_ms)} BGM')
 
 
 def benchmark(backend):
@@ -70,6 +109,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('name',nargs='*',choices=None,help='SFX or BGM names in playback order')
     parser.add_argument('--list',action='store_true')
+    parser.add_argument('--all-bgm',action='store_true',help='Play menu, five chapter/boss pairs, and ending in order')
     parser.add_argument('--verify',action='store_true',help='Use the silent SDL dummy device')
     parser.add_argument('--benchmark',action='store_true',help='Time real Queen / Pulse batches on dummy SDL')
     parser.add_argument('--seconds',type=float,default=9,help='Seconds per BGM preview')
@@ -78,11 +118,17 @@ def main():
     args = parser.parse_args()
     manifest = json.loads((ROOT/'manifest.json').read_text(encoding='utf-8'))
     durations = {Path(row['file']).stem:row['duration_s'] for row in manifest['files']}
-    for name in args.name:
+    renewal = ROOT/'renewal'/'manifest.json'
+    if renewal.is_file():
+        for row in json.loads(renewal.read_text(encoding='utf-8'))['files']:
+            durations[Path(row['file']).stem]=row['duration_s']
+    durations.update({name:durations.get(name,durations['boss']) for name in BGM_PLAYLIST if name.startswith('boss_')})
+    playlist=BGM_PLAYLIST if args.all_bgm else args.name
+    for name in playlist:
         if name not in durations:
             parser.error(f'Unknown audio cue: {name}')
-    if args.list or not (args.name or args.verify or args.benchmark):
-        print('BGM:',', '.join(TRACKS))
+    if args.list or not (playlist or args.verify or args.benchmark):
+        print('BGM:',', '.join(BGM_PLAYLIST))
         print('SFX:',', '.join(PRIORITIES))
         return
     if args.verify or args.benchmark:
@@ -103,9 +149,9 @@ def main():
                 if args.verify:
                     verify(backend)
                 elif not args.benchmark:
-                    for name in args.name:
+                    for name in playlist:
                         print(name,flush=True)
-                        if name in TRACKS:
+                        if name in BGM_PLAYLIST or name in TRACKS:
                             manager.set_music(name)
                             sleep(max(0,min(args.seconds,durations[name])))
                             manager.set_music(None)

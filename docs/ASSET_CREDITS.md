@@ -1,5 +1,9 @@
 # CHECKMATE 에셋 출처
 
+## R7-A4 챕터 음악
+
+새 원곡 열 곡은 GeneralUser GS 악기와 합창 샘플을 사용했다. 숲 일반전·보스전의 현장음은 RabMusicLab 및 Cinetony의 CC0 녹음이다. 기존 WAV 43개의 출처 기록은 유지한다. [음원별 해시](../assets/audio/renewal/manifest.json) · [권리·제작 세부 정보](TASK5R7A4_BGM.md#제작-출처)
+
 ## R7-A3E-5~6 마법과 King 공격 스프라이트
 
 기존 CHECKMATE 런타임 그림, 왕실 Queen 콘셉트 및 숲 Queen 아트 바이블을 참조해 내장 OpenAI ImageGen으로 20개 시트를 제작했다. 개별 제작 프롬프트와 참조·생성 PNG의 SHA-256을 기록했다. [제작 기록](../assets/sprite_animation/enemies_caster/recipes.json) · [프레임과 아틀라스 해시](../assets/sprite_animation/enemies_caster/frames.json)
