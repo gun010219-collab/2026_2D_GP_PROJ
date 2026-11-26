@@ -1,5 +1,9 @@
 # CHECKMATE 에셋 출처
 
+## R7-A3E-4 적 공격 스프라이트
+
+CHECKMATE의 기존 인게임 유닛을 참조해 내장 OpenAI ImageGen으로 5챕터 Pawn·Rook·Knight의 공격 시트를 각각 제작했다. 제작 시트와 참조 PNG의 SHA-256, 프롬프트, 정규화 규격을 기록했다. [제작 기록](../assets/sprite_animation/enemies/recipes.json) · [프레임과 아틀라스 해시](../assets/sprite_animation/enemies/frames.json) · [정규화 도구](../tools/enemy_combat_sheets.py)
+
 ## R7-A2B 자체 제작 공격 VFX 아틀라스
 
 256×128 RGBA 아틀라스 한 장과 64px 타일 8개를 CHECKMATE 프로젝트와 Codex가 수학적 마스크와 고정 시드로 제작했다. 외부 이미지, 샘플 또는 폰트는 사용하지 않았다. 게임과 출품·배포본에 함께 사용한다. [원본·제작 정보·SHA-256](../assets/vfx/manifest.json) · [재현 스크립트](../tools/make_vfx_atlas.py)

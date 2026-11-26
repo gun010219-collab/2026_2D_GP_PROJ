@@ -1,0 +1,829 @@
+{
+  "version": 1,
+  "purpose": "production",
+  "atlases": {
+    "actors": {
+      "file": "atlas.png",
+      "size": [
+        776,
+        776
+      ]
+    },
+    "attacks": {
+      "file": "player_attacks.png",
+      "size": [
+        1004,
+        687
+      ]
+    },
+    "parries": {
+      "file": "player_parries.png",
+      "size": [
+        1398,
+        960
+      ]
+    }
+  },
+  "clips": [
+    {
+      "design": "player",
+      "action": "attack",
+      "facing": "right",
+      "reference_height": 256,
+      "impact": 0,
+      "frames": [
+        {
+          "rect": [
+            2,
+            2,
+            384,
+            384
+          ],
+          "visible_top": 113,
+          "foot": [
+            192,
+            302
+          ],
+          "ms": 66,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            390,
+            2,
+            384,
+            384
+          ],
+          "visible_top": 115,
+          "foot": [
+            192,
+            302
+          ],
+          "ms": 67,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            2,
+            390,
+            384,
+            384
+          ],
+          "visible_top": 113,
+          "foot": [
+            192,
+            302
+          ],
+          "ms": 83,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            390,
+            390,
+            384,
+            384
+          ],
+          "visible_top": 83,
+          "foot": [
+            192,
+            302
+          ],
+          "ms": 84,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "atlas": "actors"
+    },
+    {
+      "design": "player",
+      "action": "attack",
+      "facing": "left",
+      "reference_height": 256,
+      "impact": 0,
+      "frames": [
+        {
+          "rect": [
+            2,
+            2,
+            235,
+            182
+          ],
+          "visible_top": 1,
+          "foot": [
+            162,
+            179
+          ],
+          "ms": 66,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            253,
+            2,
+            247,
+            193
+          ],
+          "visible_top": 1,
+          "foot": [
+            177,
+            190
+          ],
+          "ms": 67,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            504,
+            2,
+            178,
+            197
+          ],
+          "visible_top": 1,
+          "foot": [
+            105,
+            194
+          ],
+          "ms": 83,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            755,
+            2,
+            169,
+            199
+          ],
+          "visible_top": 1,
+          "foot": [
+            102,
+            196
+          ],
+          "ms": 84,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "atlas": "attacks"
+    },
+    {
+      "design": "player",
+      "action": "attack",
+      "facing": "up",
+      "reference_height": 256,
+      "impact": 0,
+      "frames": [
+        {
+          "rect": [
+            2,
+            231,
+            213,
+            225
+          ],
+          "visible_top": 1,
+          "foot": [
+            104,
+            222
+          ],
+          "ms": 66,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            253,
+            231,
+            231,
+            196
+          ],
+          "visible_top": 1,
+          "foot": [
+            106,
+            193
+          ],
+          "ms": 67,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            504,
+            231,
+            180,
+            194
+          ],
+          "visible_top": 1,
+          "foot": [
+            90,
+            191
+          ],
+          "ms": 83,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            755,
+            231,
+            162,
+            196
+          ],
+          "visible_top": 1,
+          "foot": [
+            82,
+            193
+          ],
+          "ms": 84,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "atlas": "attacks"
+    },
+    {
+      "design": "player",
+      "action": "attack",
+      "facing": "down",
+      "reference_height": 256,
+      "impact": 0,
+      "frames": [
+        {
+          "rect": [
+            2,
+            460,
+            198,
+            195
+          ],
+          "visible_top": 1,
+          "foot": [
+            109,
+            192
+          ],
+          "ms": 66,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            253,
+            460,
+            232,
+            190
+          ],
+          "visible_top": 1,
+          "foot": [
+            108,
+            187
+          ],
+          "ms": 67,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            504,
+            460,
+            184,
+            199
+          ],
+          "visible_top": 1,
+          "foot": [
+            111,
+            196
+          ],
+          "ms": 83,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            755,
+            460,
+            168,
+            219
+          ],
+          "visible_top": 1,
+          "foot": [
+            97,
+            216
+          ],
+          "ms": 84,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "atlas": "attacks"
+    },
+    {
+      "design": "player",
+      "action": "parry_ready",
+      "facing": "neutral",
+      "reference_height": 256,
+      "impact": 0,
+      "frames": [
+        {
+          "rect": [
+            2,
+            2,
+            170,
+            199
+          ],
+          "visible_top": 1,
+          "foot": [
+            103,
+            197
+          ],
+          "ms": 33,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            235,
+            2,
+            170,
+            201
+          ],
+          "visible_top": 1,
+          "foot": [
+            109,
+            199
+          ],
+          "ms": 33,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            468,
+            2,
+            180,
+            201
+          ],
+          "visible_top": 1,
+          "foot": [
+            109,
+            199
+          ],
+          "ms": 34,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            701,
+            2,
+            186,
+            199
+          ],
+          "visible_top": 1,
+          "foot": [
+            110,
+            197
+          ],
+          "ms": 50,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            934,
+            2,
+            187,
+            200
+          ],
+          "visible_top": 1,
+          "foot": [
+            112,
+            198
+          ],
+          "ms": 66,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            1167,
+            2,
+            180,
+            200
+          ],
+          "visible_top": 1,
+          "foot": [
+            109,
+            198
+          ],
+          "ms": 84,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "atlas": "parries"
+    },
+    {
+      "design": "player",
+      "action": "parry_normal",
+      "facing": "neutral",
+      "reference_height": 256,
+      "impact": 0,
+      "frames": [
+        {
+          "rect": [
+            2,
+            242,
+            154,
+            221
+          ],
+          "visible_top": 1,
+          "foot": [
+            84,
+            219
+          ],
+          "ms": 33,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            235,
+            242,
+            159,
+            216
+          ],
+          "visible_top": 1,
+          "foot": [
+            87,
+            214
+          ],
+          "ms": 34,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            468,
+            242,
+            167,
+            209
+          ],
+          "visible_top": 1,
+          "foot": [
+            96,
+            207
+          ],
+          "ms": 36,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            701,
+            242,
+            153,
+            208
+          ],
+          "visible_top": 1,
+          "foot": [
+            83,
+            206
+          ],
+          "ms": 47,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            934,
+            242,
+            159,
+            210
+          ],
+          "visible_top": 1,
+          "foot": [
+            88,
+            208
+          ],
+          "ms": 53,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            1167,
+            242,
+            153,
+            211
+          ],
+          "visible_top": 1,
+          "foot": [
+            84,
+            209
+          ],
+          "ms": 57,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "atlas": "parries"
+    },
+    {
+      "design": "player",
+      "action": "parry_perfect",
+      "facing": "neutral",
+      "reference_height": 256,
+      "impact": 0,
+      "frames": [
+        {
+          "rect": [
+            2,
+            482,
+            155,
+            223
+          ],
+          "visible_top": 1,
+          "foot": [
+            88,
+            221
+          ],
+          "ms": 33,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            235,
+            482,
+            188,
+            199
+          ],
+          "visible_top": 1,
+          "foot": [
+            110,
+            197
+          ],
+          "ms": 44,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            468,
+            482,
+            227,
+            209
+          ],
+          "visible_top": 1,
+          "foot": [
+            140,
+            207
+          ],
+          "ms": 55,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            701,
+            482,
+            204,
+            208
+          ],
+          "visible_top": 1,
+          "foot": [
+            128,
+            206
+          ],
+          "ms": 61,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            934,
+            482,
+            186,
+            202
+          ],
+          "visible_top": 1,
+          "foot": [
+            114,
+            200
+          ],
+          "ms": 68,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            1167,
+            482,
+            165,
+            214
+          ],
+          "visible_top": 1,
+          "foot": [
+            98,
+            212
+          ],
+          "ms": 79,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "atlas": "parries"
+    },
+    {
+      "design": "player",
+      "action": "parry_failed",
+      "facing": "neutral",
+      "reference_height": 256,
+      "impact": 0,
+      "frames": [
+        {
+          "rect": [
+            2,
+            722,
+            171,
+            236
+          ],
+          "visible_top": 1,
+          "foot": [
+            99,
+            234
+          ],
+          "ms": 25,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            235,
+            722,
+            204,
+            187
+          ],
+          "visible_top": 1,
+          "foot": [
+            120,
+            185
+          ],
+          "ms": 33,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            468,
+            722,
+            224,
+            168
+          ],
+          "visible_top": 1,
+          "foot": [
+            126,
+            166
+          ],
+          "ms": 40,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            701,
+            722,
+            229,
+            170
+          ],
+          "visible_top": 1,
+          "foot": [
+            128,
+            168
+          ],
+          "ms": 42,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            934,
+            722,
+            207,
+            198
+          ],
+          "visible_top": 1,
+          "foot": [
+            119,
+            196
+          ],
+          "ms": 50,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            1167,
+            722,
+            184,
+            236
+          ],
+          "visible_top": 1,
+          "foot": [
+            107,
+            234
+          ],
+          "ms": 60,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "atlas": "parries"
+    }
+  ]
+}

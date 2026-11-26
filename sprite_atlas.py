@@ -101,10 +101,16 @@ class SpriteAtlases:
             return SPRITE_COMPLETE
         import sdl2 as s
 
-        rect, label = frame.placement(layout, clip.reference_height)
+        rect, label = frame.placement(layout, clip.reference_height, flip_x=clip.flip_x)
+        source = byref(s.SDL_Rect(*frame.rect))
+        destination = byref(s.SDL_FRect(*rect))
         try:
-            if not s.SDL_RenderCopyF(self.canvas.renderer, texture, byref(s.SDL_Rect(*frame.rect)),
-                                     byref(s.SDL_FRect(*rect))):
+            if clip.flip_x:
+                status = s.SDL_RenderCopyExF(self.canvas.renderer, texture, source, destination,
+                                             0., None, s.SDL_FLIP_HORIZONTAL)
+            else:
+                status = s.SDL_RenderCopyF(self.canvas.renderer, texture, source, destination)
+            if not status:
                 return label
             LOG.warning('Sprite atlas copy failed for %s: %s', clip.atlas, s.SDL_GetError())
         except OSError:

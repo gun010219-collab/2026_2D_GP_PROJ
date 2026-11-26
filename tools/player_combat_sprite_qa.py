@@ -39,7 +39,7 @@ def run(output, *, benchmark_only=False):
     from pico2d import pico2d as c
 
     output.mkdir(parents=True)
-    full = SpriteCatalog.read(DEFAULT_CATALOG)
+    full = SpriteCatalog.read(DEFAULT_CATALOG.with_name('manifest_player_only.json'))
     previous = SpriteController(SpriteCatalog.read(DEFAULT_CATALOG.with_name('manifest_right_only.json')))
     report = dict(driver='direct3d11', samples={}, texture_loads={}, atlas_count=0, atlas_releases=0)
     old_load = SpriteAtlases._load

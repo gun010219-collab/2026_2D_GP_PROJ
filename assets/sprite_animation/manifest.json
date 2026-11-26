@@ -22,6 +22,111 @@
         1398,
         960
       ]
+    },
+    "ch1_pawn": {
+      "file": "enemies/ch1_pawn.png",
+      "size": [
+        1056,
+        684
+      ]
+    },
+    "ch1_rook": {
+      "file": "enemies/ch1_rook.png",
+      "size": [
+        944,
+        693
+      ]
+    },
+    "ch1_knight": {
+      "file": "enemies/ch1_knight.png",
+      "size": [
+        1036,
+        702
+      ]
+    },
+    "ch2_pawn": {
+      "file": "enemies/ch2_pawn.png",
+      "size": [
+        1040,
+        702
+      ]
+    },
+    "ch2_rook": {
+      "file": "enemies/ch2_rook.png",
+      "size": [
+        932,
+        597
+      ]
+    },
+    "ch2_knight": {
+      "file": "enemies/ch2_knight.png",
+      "size": [
+        988,
+        690
+      ]
+    },
+    "ch3_pawn": {
+      "file": "enemies/ch3_pawn.png",
+      "size": [
+        1048,
+        729
+      ]
+    },
+    "ch3_rook": {
+      "file": "enemies/ch3_rook.png",
+      "size": [
+        992,
+        720
+      ]
+    },
+    "ch3_knight": {
+      "file": "enemies/ch3_knight.png",
+      "size": [
+        1040,
+        723
+      ]
+    },
+    "ch4_pawn": {
+      "file": "enemies/ch4_pawn.png",
+      "size": [
+        1096,
+        747
+      ]
+    },
+    "ch4_rook": {
+      "file": "enemies/ch4_rook.png",
+      "size": [
+        888,
+        702
+      ]
+    },
+    "ch4_knight": {
+      "file": "enemies/ch4_knight.png",
+      "size": [
+        948,
+        681
+      ]
+    },
+    "ch5_pawn": {
+      "file": "enemies/ch5_pawn.png",
+      "size": [
+        1080,
+        717
+      ]
+    },
+    "ch5_rook": {
+      "file": "enemies/ch5_rook.png",
+      "size": [
+        920,
+        690
+      ]
+    },
+    "ch5_knight": {
+      "file": "enemies/ch5_knight.png",
+      "size": [
+        1108,
+        684
+      ]
     }
   },
   "clips": [
@@ -824,6 +929,5101 @@
         }
       ],
       "atlas": "parries"
+    },
+    {
+      "chapter": 1,
+      "design": "pawn",
+      "action": "attack",
+      "facing": "right",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "pawn_contact",
+      "frames": [
+        {
+          "rect": [
+            2,
+            2,
+            103,
+            211
+          ],
+          "visible_top": 1,
+          "foot": [
+            50,
+            208
+          ],
+          "ms": 75,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            266,
+            2,
+            198,
+            201
+          ],
+          "visible_top": 1,
+          "foot": [
+            117,
+            198
+          ],
+          "ms": 125,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            530,
+            2,
+            260,
+            187
+          ],
+          "visible_top": 1,
+          "foot": [
+            72,
+            184
+          ],
+          "ms": 106,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            794,
+            2,
+            131,
+            212
+          ],
+          "visible_top": 1,
+          "foot": [
+            64,
+            209
+          ],
+          "ms": 204,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "atlas": "ch1_pawn"
+    },
+    {
+      "chapter": 1,
+      "design": "pawn",
+      "action": "attack",
+      "facing": "left",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "pawn_contact",
+      "frames": [
+        {
+          "rect": [
+            2,
+            2,
+            103,
+            211
+          ],
+          "visible_top": 1,
+          "foot": [
+            50,
+            208
+          ],
+          "ms": 75,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            266,
+            2,
+            198,
+            201
+          ],
+          "visible_top": 1,
+          "foot": [
+            117,
+            198
+          ],
+          "ms": 125,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            530,
+            2,
+            260,
+            187
+          ],
+          "visible_top": 1,
+          "foot": [
+            72,
+            184
+          ],
+          "ms": 106,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            794,
+            2,
+            131,
+            212
+          ],
+          "visible_top": 1,
+          "foot": [
+            64,
+            209
+          ],
+          "ms": 204,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "flip_x": true,
+      "atlas": "ch1_pawn"
+    },
+    {
+      "chapter": 1,
+      "design": "pawn",
+      "action": "attack",
+      "facing": "up",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "pawn_contact",
+      "frames": [
+        {
+          "rect": [
+            2,
+            230,
+            104,
+            217
+          ],
+          "visible_top": 1,
+          "foot": [
+            54,
+            214
+          ],
+          "ms": 75,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            266,
+            230,
+            163,
+            201
+          ],
+          "visible_top": 1,
+          "foot": [
+            85,
+            198
+          ],
+          "ms": 125,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            530,
+            230,
+            168,
+            221
+          ],
+          "visible_top": 1,
+          "foot": [
+            84,
+            218
+          ],
+          "ms": 106,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            794,
+            230,
+            121,
+            219
+          ],
+          "visible_top": 1,
+          "foot": [
+            59,
+            216
+          ],
+          "ms": 204,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "atlas": "ch1_pawn"
+    },
+    {
+      "chapter": 1,
+      "design": "pawn",
+      "action": "attack",
+      "facing": "down",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "pawn_contact",
+      "frames": [
+        {
+          "rect": [
+            2,
+            458,
+            118,
+            222
+          ],
+          "visible_top": 1,
+          "foot": [
+            58,
+            219
+          ],
+          "ms": 75,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            266,
+            458,
+            174,
+            216
+          ],
+          "visible_top": 1,
+          "foot": [
+            144,
+            213
+          ],
+          "ms": 125,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            530,
+            458,
+            144,
+            201
+          ],
+          "visible_top": 1,
+          "foot": [
+            114,
+            198
+          ],
+          "ms": 106,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            794,
+            458,
+            122,
+            224
+          ],
+          "visible_top": 1,
+          "foot": [
+            61,
+            221
+          ],
+          "ms": 204,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "atlas": "ch1_pawn"
+    },
+    {
+      "chapter": 1,
+      "design": "rook",
+      "action": "attack",
+      "facing": "right",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "basic",
+      "frames": [
+        {
+          "rect": [
+            2,
+            2,
+            202,
+            212
+          ],
+          "visible_top": 1,
+          "foot": [
+            109,
+            209
+          ],
+          "ms": 65,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            238,
+            2,
+            206,
+            190
+          ],
+          "visible_top": 1,
+          "foot": [
+            98,
+            187
+          ],
+          "ms": 135,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            474,
+            2,
+            229,
+            178
+          ],
+          "visible_top": 1,
+          "foot": [
+            111,
+            175
+          ],
+          "ms": 100,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            710,
+            2,
+            221,
+            193
+          ],
+          "visible_top": 1,
+          "foot": [
+            111,
+            190
+          ],
+          "ms": 320,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "contact": 3,
+      "atlas": "ch1_rook"
+    },
+    {
+      "chapter": 1,
+      "design": "rook",
+      "action": "attack",
+      "facing": "left",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "basic",
+      "frames": [
+        {
+          "rect": [
+            2,
+            2,
+            202,
+            212
+          ],
+          "visible_top": 1,
+          "foot": [
+            109,
+            209
+          ],
+          "ms": 65,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            238,
+            2,
+            206,
+            190
+          ],
+          "visible_top": 1,
+          "foot": [
+            98,
+            187
+          ],
+          "ms": 135,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            474,
+            2,
+            229,
+            178
+          ],
+          "visible_top": 1,
+          "foot": [
+            111,
+            175
+          ],
+          "ms": 100,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            710,
+            2,
+            221,
+            193
+          ],
+          "visible_top": 1,
+          "foot": [
+            111,
+            190
+          ],
+          "ms": 320,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "contact": 3,
+      "flip_x": true,
+      "atlas": "ch1_rook"
+    },
+    {
+      "chapter": 1,
+      "design": "rook",
+      "action": "attack",
+      "facing": "up",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "basic",
+      "frames": [
+        {
+          "rect": [
+            2,
+            233,
+            193,
+            227
+          ],
+          "visible_top": 1,
+          "foot": [
+            82,
+            224
+          ],
+          "ms": 65,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            238,
+            233,
+            188,
+            197
+          ],
+          "visible_top": 1,
+          "foot": [
+            74,
+            194
+          ],
+          "ms": 135,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            474,
+            233,
+            209,
+            194
+          ],
+          "visible_top": 1,
+          "foot": [
+            59,
+            191
+          ],
+          "ms": 100,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            710,
+            233,
+            209,
+            206
+          ],
+          "visible_top": 1,
+          "foot": [
+            104,
+            203
+          ],
+          "ms": 320,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "contact": 3,
+      "atlas": "ch1_rook"
+    },
+    {
+      "chapter": 1,
+      "design": "rook",
+      "action": "attack",
+      "facing": "down",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "basic",
+      "frames": [
+        {
+          "rect": [
+            2,
+            464,
+            209,
+            224
+          ],
+          "visible_top": 1,
+          "foot": [
+            120,
+            221
+          ],
+          "ms": 65,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            238,
+            464,
+            220,
+            194
+          ],
+          "visible_top": 1,
+          "foot": [
+            124,
+            191
+          ],
+          "ms": 135,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            474,
+            464,
+            212,
+            197
+          ],
+          "visible_top": 1,
+          "foot": [
+            111,
+            194
+          ],
+          "ms": 100,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            710,
+            464,
+            232,
+            215
+          ],
+          "visible_top": 1,
+          "foot": [
+            119,
+            212
+          ],
+          "ms": 320,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "contact": 3,
+      "atlas": "ch1_rook"
+    },
+    {
+      "chapter": 1,
+      "design": "knight",
+      "action": "attack",
+      "facing": "right",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "basic",
+      "frames": [
+        {
+          "rect": [
+            2,
+            2,
+            201,
+            210
+          ],
+          "visible_top": 1,
+          "foot": [
+            108,
+            207
+          ],
+          "ms": 65,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            261,
+            2,
+            240,
+            165
+          ],
+          "visible_top": 1,
+          "foot": [
+            139,
+            162
+          ],
+          "ms": 135,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            520,
+            2,
+            238,
+            190
+          ],
+          "visible_top": 1,
+          "foot": [
+            65,
+            187
+          ],
+          "ms": 100,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            779,
+            2,
+            255,
+            186
+          ],
+          "visible_top": 1,
+          "foot": [
+            160,
+            183
+          ],
+          "ms": 310,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "contact": 3,
+      "atlas": "ch1_knight"
+    },
+    {
+      "chapter": 1,
+      "design": "knight",
+      "action": "attack",
+      "facing": "left",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "basic",
+      "frames": [
+        {
+          "rect": [
+            2,
+            2,
+            201,
+            210
+          ],
+          "visible_top": 1,
+          "foot": [
+            108,
+            207
+          ],
+          "ms": 65,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            261,
+            2,
+            240,
+            165
+          ],
+          "visible_top": 1,
+          "foot": [
+            139,
+            162
+          ],
+          "ms": 135,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            520,
+            2,
+            238,
+            190
+          ],
+          "visible_top": 1,
+          "foot": [
+            65,
+            187
+          ],
+          "ms": 100,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            779,
+            2,
+            255,
+            186
+          ],
+          "visible_top": 1,
+          "foot": [
+            160,
+            183
+          ],
+          "ms": 310,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "contact": 3,
+      "flip_x": true,
+      "atlas": "ch1_knight"
+    },
+    {
+      "chapter": 1,
+      "design": "knight",
+      "action": "attack",
+      "facing": "up",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "basic",
+      "frames": [
+        {
+          "rect": [
+            2,
+            236,
+            163,
+            220
+          ],
+          "visible_top": 1,
+          "foot": [
+            94,
+            217
+          ],
+          "ms": 65,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            261,
+            236,
+            194,
+            183
+          ],
+          "visible_top": 1,
+          "foot": [
+            99,
+            180
+          ],
+          "ms": 135,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            520,
+            236,
+            177,
+            194
+          ],
+          "visible_top": 1,
+          "foot": [
+            54,
+            191
+          ],
+          "ms": 100,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            779,
+            236,
+            219,
+            201
+          ],
+          "visible_top": 1,
+          "foot": [
+            135,
+            198
+          ],
+          "ms": 310,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "contact": 3,
+      "atlas": "ch1_knight"
+    },
+    {
+      "chapter": 1,
+      "design": "knight",
+      "action": "attack",
+      "facing": "down",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "basic",
+      "frames": [
+        {
+          "rect": [
+            2,
+            470,
+            196,
+            230
+          ],
+          "visible_top": 1,
+          "foot": [
+            92,
+            227
+          ],
+          "ms": 65,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            261,
+            470,
+            194,
+            195
+          ],
+          "visible_top": 1,
+          "foot": [
+            71,
+            192
+          ],
+          "ms": 135,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            520,
+            470,
+            185,
+            182
+          ],
+          "visible_top": 1,
+          "foot": [
+            83,
+            179
+          ],
+          "ms": 100,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            779,
+            470,
+            212,
+            212
+          ],
+          "visible_top": 1,
+          "foot": [
+            45,
+            209
+          ],
+          "ms": 310,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "contact": 3,
+      "atlas": "ch1_knight"
+    },
+    {
+      "chapter": 2,
+      "design": "pawn",
+      "action": "attack",
+      "facing": "right",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "pawn_contact",
+      "frames": [
+        {
+          "rect": [
+            2,
+            2,
+            125,
+            222
+          ],
+          "visible_top": 1,
+          "foot": [
+            55,
+            219
+          ],
+          "ms": 75,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            262,
+            2,
+            184,
+            209
+          ],
+          "visible_top": 1,
+          "foot": [
+            91,
+            206
+          ],
+          "ms": 125,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            522,
+            2,
+            256,
+            198
+          ],
+          "visible_top": 1,
+          "foot": [
+            72,
+            195
+          ],
+          "ms": 106,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            782,
+            2,
+            128,
+            222
+          ],
+          "visible_top": 1,
+          "foot": [
+            64,
+            219
+          ],
+          "ms": 204,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "atlas": "ch2_pawn"
+    },
+    {
+      "chapter": 2,
+      "design": "pawn",
+      "action": "attack",
+      "facing": "left",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "pawn_contact",
+      "frames": [
+        {
+          "rect": [
+            2,
+            2,
+            125,
+            222
+          ],
+          "visible_top": 1,
+          "foot": [
+            55,
+            219
+          ],
+          "ms": 75,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            262,
+            2,
+            184,
+            209
+          ],
+          "visible_top": 1,
+          "foot": [
+            91,
+            206
+          ],
+          "ms": 125,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            522,
+            2,
+            256,
+            198
+          ],
+          "visible_top": 1,
+          "foot": [
+            72,
+            195
+          ],
+          "ms": 106,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            782,
+            2,
+            128,
+            222
+          ],
+          "visible_top": 1,
+          "foot": [
+            64,
+            219
+          ],
+          "ms": 204,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "flip_x": true,
+      "atlas": "ch2_pawn"
+    },
+    {
+      "chapter": 2,
+      "design": "pawn",
+      "action": "attack",
+      "facing": "up",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "pawn_contact",
+      "frames": [
+        {
+          "rect": [
+            2,
+            236,
+            114,
+            213
+          ],
+          "visible_top": 1,
+          "foot": [
+            65,
+            210
+          ],
+          "ms": 75,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            262,
+            236,
+            163,
+            211
+          ],
+          "visible_top": 1,
+          "foot": [
+            69,
+            208
+          ],
+          "ms": 125,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            522,
+            236,
+            152,
+            217
+          ],
+          "visible_top": 1,
+          "foot": [
+            50,
+            214
+          ],
+          "ms": 106,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            782,
+            236,
+            118,
+            211
+          ],
+          "visible_top": 1,
+          "foot": [
+            64,
+            208
+          ],
+          "ms": 204,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "atlas": "ch2_pawn"
+    },
+    {
+      "chapter": 2,
+      "design": "pawn",
+      "action": "attack",
+      "facing": "down",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "pawn_contact",
+      "frames": [
+        {
+          "rect": [
+            2,
+            470,
+            132,
+            227
+          ],
+          "visible_top": 1,
+          "foot": [
+            59,
+            224
+          ],
+          "ms": 75,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            262,
+            470,
+            170,
+            223
+          ],
+          "visible_top": 1,
+          "foot": [
+            87,
+            220
+          ],
+          "ms": 125,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            522,
+            470,
+            168,
+            209
+          ],
+          "visible_top": 1,
+          "foot": [
+            84,
+            206
+          ],
+          "ms": 106,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            782,
+            470,
+            138,
+            230
+          ],
+          "visible_top": 1,
+          "foot": [
+            67,
+            227
+          ],
+          "ms": 204,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "atlas": "ch2_pawn"
+    },
+    {
+      "chapter": 2,
+      "design": "rook",
+      "action": "attack",
+      "facing": "right",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "basic",
+      "frames": [
+        {
+          "rect": [
+            2,
+            2,
+            200,
+            180
+          ],
+          "visible_top": 1,
+          "foot": [
+            106,
+            177
+          ],
+          "ms": 65,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            235,
+            2,
+            208,
+            161
+          ],
+          "visible_top": 1,
+          "foot": [
+            110,
+            158
+          ],
+          "ms": 135,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            468,
+            2,
+            229,
+            160
+          ],
+          "visible_top": 1,
+          "foot": [
+            102,
+            157
+          ],
+          "ms": 100,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            701,
+            2,
+            225,
+            162
+          ],
+          "visible_top": 1,
+          "foot": [
+            107,
+            159
+          ],
+          "ms": 320,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "contact": 3,
+      "atlas": "ch2_rook"
+    },
+    {
+      "chapter": 2,
+      "design": "rook",
+      "action": "attack",
+      "facing": "left",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "basic",
+      "frames": [
+        {
+          "rect": [
+            2,
+            2,
+            200,
+            180
+          ],
+          "visible_top": 1,
+          "foot": [
+            106,
+            177
+          ],
+          "ms": 65,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            235,
+            2,
+            208,
+            161
+          ],
+          "visible_top": 1,
+          "foot": [
+            110,
+            158
+          ],
+          "ms": 135,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            468,
+            2,
+            229,
+            160
+          ],
+          "visible_top": 1,
+          "foot": [
+            102,
+            157
+          ],
+          "ms": 100,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            701,
+            2,
+            225,
+            162
+          ],
+          "visible_top": 1,
+          "foot": [
+            107,
+            159
+          ],
+          "ms": 320,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "contact": 3,
+      "flip_x": true,
+      "atlas": "ch2_rook"
+    },
+    {
+      "chapter": 2,
+      "design": "rook",
+      "action": "attack",
+      "facing": "up",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "basic",
+      "frames": [
+        {
+          "rect": [
+            2,
+            201,
+            187,
+            195
+          ],
+          "visible_top": 1,
+          "foot": [
+            88,
+            192
+          ],
+          "ms": 65,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            235,
+            201,
+            189,
+            173
+          ],
+          "visible_top": 1,
+          "foot": [
+            89,
+            170
+          ],
+          "ms": 135,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            468,
+            201,
+            185,
+            187
+          ],
+          "visible_top": 1,
+          "foot": [
+            54,
+            184
+          ],
+          "ms": 100,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            701,
+            201,
+            197,
+            178
+          ],
+          "visible_top": 1,
+          "foot": [
+            92,
+            175
+          ],
+          "ms": 320,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "contact": 3,
+      "atlas": "ch2_rook"
+    },
+    {
+      "chapter": 2,
+      "design": "rook",
+      "action": "attack",
+      "facing": "down",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "basic",
+      "frames": [
+        {
+          "rect": [
+            2,
+            400,
+            203,
+            195
+          ],
+          "visible_top": 1,
+          "foot": [
+            106,
+            192
+          ],
+          "ms": 65,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            235,
+            400,
+            222,
+            171
+          ],
+          "visible_top": 1,
+          "foot": [
+            123,
+            168
+          ],
+          "ms": 135,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            468,
+            400,
+            221,
+            182
+          ],
+          "visible_top": 1,
+          "foot": [
+            112,
+            179
+          ],
+          "ms": 100,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            701,
+            400,
+            204,
+            185
+          ],
+          "visible_top": 1,
+          "foot": [
+            101,
+            182
+          ],
+          "ms": 320,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "contact": 3,
+      "atlas": "ch2_rook"
+    },
+    {
+      "chapter": 2,
+      "design": "knight",
+      "action": "attack",
+      "facing": "right",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "basic",
+      "frames": [
+        {
+          "rect": [
+            2,
+            2,
+            190,
+            211
+          ],
+          "visible_top": 1,
+          "foot": [
+            105,
+            208
+          ],
+          "ms": 65,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            249,
+            2,
+            240,
+            160
+          ],
+          "visible_top": 1,
+          "foot": [
+            114,
+            157
+          ],
+          "ms": 135,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            496,
+            2,
+            243,
+            178
+          ],
+          "visible_top": 1,
+          "foot": [
+            119,
+            175
+          ],
+          "ms": 100,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            743,
+            2,
+            240,
+            177
+          ],
+          "visible_top": 1,
+          "foot": [
+            144,
+            174
+          ],
+          "ms": 310,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "contact": 3,
+      "atlas": "ch2_knight"
+    },
+    {
+      "chapter": 2,
+      "design": "knight",
+      "action": "attack",
+      "facing": "left",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "basic",
+      "frames": [
+        {
+          "rect": [
+            2,
+            2,
+            190,
+            211
+          ],
+          "visible_top": 1,
+          "foot": [
+            105,
+            208
+          ],
+          "ms": 65,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            249,
+            2,
+            240,
+            160
+          ],
+          "visible_top": 1,
+          "foot": [
+            114,
+            157
+          ],
+          "ms": 135,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            496,
+            2,
+            243,
+            178
+          ],
+          "visible_top": 1,
+          "foot": [
+            119,
+            175
+          ],
+          "ms": 100,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            743,
+            2,
+            240,
+            177
+          ],
+          "visible_top": 1,
+          "foot": [
+            144,
+            174
+          ],
+          "ms": 310,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "contact": 3,
+      "flip_x": true,
+      "atlas": "ch2_knight"
+    },
+    {
+      "chapter": 2,
+      "design": "knight",
+      "action": "attack",
+      "facing": "up",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "basic",
+      "frames": [
+        {
+          "rect": [
+            2,
+            232,
+            145,
+            218
+          ],
+          "visible_top": 1,
+          "foot": [
+            76,
+            215
+          ],
+          "ms": 65,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            249,
+            232,
+            161,
+            184
+          ],
+          "visible_top": 1,
+          "foot": [
+            82,
+            181
+          ],
+          "ms": 135,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            496,
+            232,
+            146,
+            186
+          ],
+          "visible_top": 1,
+          "foot": [
+            46,
+            183
+          ],
+          "ms": 100,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            743,
+            232,
+            160,
+            197
+          ],
+          "visible_top": 1,
+          "foot": [
+            84,
+            194
+          ],
+          "ms": 310,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "contact": 3,
+      "atlas": "ch2_knight"
+    },
+    {
+      "chapter": 2,
+      "design": "knight",
+      "action": "attack",
+      "facing": "down",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "basic",
+      "frames": [
+        {
+          "rect": [
+            2,
+            462,
+            141,
+            226
+          ],
+          "visible_top": 1,
+          "foot": [
+            66,
+            223
+          ],
+          "ms": 65,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            249,
+            462,
+            183,
+            181
+          ],
+          "visible_top": 1,
+          "foot": [
+            76,
+            178
+          ],
+          "ms": 135,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            496,
+            462,
+            163,
+            185
+          ],
+          "visible_top": 1,
+          "foot": [
+            69,
+            182
+          ],
+          "ms": 100,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            743,
+            462,
+            177,
+            197
+          ],
+          "visible_top": 1,
+          "foot": [
+            38,
+            194
+          ],
+          "ms": 310,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "contact": 3,
+      "atlas": "ch2_knight"
+    },
+    {
+      "chapter": 3,
+      "design": "pawn",
+      "action": "attack",
+      "facing": "right",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "pawn_contact",
+      "frames": [
+        {
+          "rect": [
+            2,
+            2,
+            106,
+            222
+          ],
+          "visible_top": 1,
+          "foot": [
+            45,
+            219
+          ],
+          "ms": 75,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            264,
+            2,
+            168,
+            213
+          ],
+          "visible_top": 1,
+          "foot": [
+            95,
+            210
+          ],
+          "ms": 125,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            526,
+            2,
+            258,
+            201
+          ],
+          "visible_top": 1,
+          "foot": [
+            74,
+            198
+          ],
+          "ms": 106,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            788,
+            2,
+            119,
+            222
+          ],
+          "visible_top": 1,
+          "foot": [
+            48,
+            219
+          ],
+          "ms": 204,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "atlas": "ch3_pawn"
+    },
+    {
+      "chapter": 3,
+      "design": "pawn",
+      "action": "attack",
+      "facing": "left",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "pawn_contact",
+      "frames": [
+        {
+          "rect": [
+            2,
+            2,
+            106,
+            222
+          ],
+          "visible_top": 1,
+          "foot": [
+            45,
+            219
+          ],
+          "ms": 75,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            264,
+            2,
+            168,
+            213
+          ],
+          "visible_top": 1,
+          "foot": [
+            95,
+            210
+          ],
+          "ms": 125,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            526,
+            2,
+            258,
+            201
+          ],
+          "visible_top": 1,
+          "foot": [
+            74,
+            198
+          ],
+          "ms": 106,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            788,
+            2,
+            119,
+            222
+          ],
+          "visible_top": 1,
+          "foot": [
+            48,
+            219
+          ],
+          "ms": 204,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "flip_x": true,
+      "atlas": "ch3_pawn"
+    },
+    {
+      "chapter": 3,
+      "design": "pawn",
+      "action": "attack",
+      "facing": "up",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "pawn_contact",
+      "frames": [
+        {
+          "rect": [
+            2,
+            245,
+            110,
+            239
+          ],
+          "visible_top": 1,
+          "foot": [
+            55,
+            236
+          ],
+          "ms": 75,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            264,
+            245,
+            143,
+            233
+          ],
+          "visible_top": 1,
+          "foot": [
+            70,
+            230
+          ],
+          "ms": 125,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            526,
+            245,
+            158,
+            231
+          ],
+          "visible_top": 1,
+          "foot": [
+            58,
+            228
+          ],
+          "ms": 106,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            788,
+            245,
+            117,
+            236
+          ],
+          "visible_top": 1,
+          "foot": [
+            57,
+            233
+          ],
+          "ms": 204,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "atlas": "ch3_pawn"
+    },
+    {
+      "chapter": 3,
+      "design": "pawn",
+      "action": "attack",
+      "facing": "down",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "pawn_contact",
+      "frames": [
+        {
+          "rect": [
+            2,
+            488,
+            110,
+            224
+          ],
+          "visible_top": 1,
+          "foot": [
+            54,
+            221
+          ],
+          "ms": 75,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            264,
+            488,
+            151,
+            209
+          ],
+          "visible_top": 1,
+          "foot": [
+            90,
+            206
+          ],
+          "ms": 125,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            526,
+            488,
+            126,
+            209
+          ],
+          "visible_top": 1,
+          "foot": [
+            62,
+            206
+          ],
+          "ms": 106,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            788,
+            488,
+            125,
+            224
+          ],
+          "visible_top": 1,
+          "foot": [
+            67,
+            221
+          ],
+          "ms": 204,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "atlas": "ch3_pawn"
+    },
+    {
+      "chapter": 3,
+      "design": "rook",
+      "action": "attack",
+      "facing": "right",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "basic",
+      "frames": [
+        {
+          "rect": [
+            2,
+            2,
+            180,
+            217
+          ],
+          "visible_top": 1,
+          "foot": [
+            88,
+            214
+          ],
+          "ms": 65,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            250,
+            2,
+            219,
+            191
+          ],
+          "visible_top": 1,
+          "foot": [
+            112,
+            188
+          ],
+          "ms": 135,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            498,
+            2,
+            244,
+            186
+          ],
+          "visible_top": 1,
+          "foot": [
+            108,
+            183
+          ],
+          "ms": 100,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            746,
+            2,
+            228,
+            186
+          ],
+          "visible_top": 1,
+          "foot": [
+            114,
+            183
+          ],
+          "ms": 320,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "contact": 3,
+      "atlas": "ch3_rook"
+    },
+    {
+      "chapter": 3,
+      "design": "rook",
+      "action": "attack",
+      "facing": "left",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "basic",
+      "frames": [
+        {
+          "rect": [
+            2,
+            2,
+            180,
+            217
+          ],
+          "visible_top": 1,
+          "foot": [
+            88,
+            214
+          ],
+          "ms": 65,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            250,
+            2,
+            219,
+            191
+          ],
+          "visible_top": 1,
+          "foot": [
+            112,
+            188
+          ],
+          "ms": 135,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            498,
+            2,
+            244,
+            186
+          ],
+          "visible_top": 1,
+          "foot": [
+            108,
+            183
+          ],
+          "ms": 100,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            746,
+            2,
+            228,
+            186
+          ],
+          "visible_top": 1,
+          "foot": [
+            114,
+            183
+          ],
+          "ms": 320,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "contact": 3,
+      "flip_x": true,
+      "atlas": "ch3_rook"
+    },
+    {
+      "chapter": 3,
+      "design": "rook",
+      "action": "attack",
+      "facing": "up",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "basic",
+      "frames": [
+        {
+          "rect": [
+            2,
+            242,
+            193,
+            236
+          ],
+          "visible_top": 1,
+          "foot": [
+            108,
+            233
+          ],
+          "ms": 65,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            250,
+            242,
+            225,
+            212
+          ],
+          "visible_top": 1,
+          "foot": [
+            106,
+            209
+          ],
+          "ms": 135,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            498,
+            242,
+            214,
+            229
+          ],
+          "visible_top": 1,
+          "foot": [
+            88,
+            226
+          ],
+          "ms": 100,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            746,
+            242,
+            203,
+            229
+          ],
+          "visible_top": 1,
+          "foot": [
+            101,
+            226
+          ],
+          "ms": 320,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "contact": 3,
+      "atlas": "ch3_rook"
+    },
+    {
+      "chapter": 3,
+      "design": "rook",
+      "action": "attack",
+      "facing": "down",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "basic",
+      "frames": [
+        {
+          "rect": [
+            2,
+            482,
+            190,
+            224
+          ],
+          "visible_top": 1,
+          "foot": [
+            95,
+            221
+          ],
+          "ms": 65,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            250,
+            482,
+            237,
+            207
+          ],
+          "visible_top": 1,
+          "foot": [
+            125,
+            204
+          ],
+          "ms": 135,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            498,
+            482,
+            244,
+            200
+          ],
+          "visible_top": 1,
+          "foot": [
+            131,
+            197
+          ],
+          "ms": 100,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            746,
+            482,
+            228,
+            204
+          ],
+          "visible_top": 1,
+          "foot": [
+            114,
+            201
+          ],
+          "ms": 320,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "contact": 3,
+      "atlas": "ch3_rook"
+    },
+    {
+      "chapter": 3,
+      "design": "knight",
+      "action": "attack",
+      "facing": "right",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "basic",
+      "frames": [
+        {
+          "rect": [
+            2,
+            2,
+            202,
+            213
+          ],
+          "visible_top": 1,
+          "foot": [
+            114,
+            210
+          ],
+          "ms": 65,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            262,
+            2,
+            256,
+            169
+          ],
+          "visible_top": 1,
+          "foot": [
+            128,
+            166
+          ],
+          "ms": 135,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            522,
+            2,
+            241,
+            179
+          ],
+          "visible_top": 1,
+          "foot": [
+            127,
+            176
+          ],
+          "ms": 100,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            782,
+            2,
+            245,
+            179
+          ],
+          "visible_top": 1,
+          "foot": [
+            142,
+            176
+          ],
+          "ms": 310,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "contact": 3,
+      "atlas": "ch3_knight"
+    },
+    {
+      "chapter": 3,
+      "design": "knight",
+      "action": "attack",
+      "facing": "left",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "basic",
+      "frames": [
+        {
+          "rect": [
+            2,
+            2,
+            202,
+            213
+          ],
+          "visible_top": 1,
+          "foot": [
+            114,
+            210
+          ],
+          "ms": 65,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            262,
+            2,
+            256,
+            169
+          ],
+          "visible_top": 1,
+          "foot": [
+            128,
+            166
+          ],
+          "ms": 135,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            522,
+            2,
+            241,
+            179
+          ],
+          "visible_top": 1,
+          "foot": [
+            127,
+            176
+          ],
+          "ms": 100,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            782,
+            2,
+            245,
+            179
+          ],
+          "visible_top": 1,
+          "foot": [
+            142,
+            176
+          ],
+          "ms": 310,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "contact": 3,
+      "flip_x": true,
+      "atlas": "ch3_knight"
+    },
+    {
+      "chapter": 3,
+      "design": "knight",
+      "action": "attack",
+      "facing": "up",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "basic",
+      "frames": [
+        {
+          "rect": [
+            2,
+            243,
+            144,
+            237
+          ],
+          "visible_top": 1,
+          "foot": [
+            88,
+            234
+          ],
+          "ms": 65,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            262,
+            243,
+            171,
+            187
+          ],
+          "visible_top": 1,
+          "foot": [
+            92,
+            184
+          ],
+          "ms": 135,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            522,
+            243,
+            148,
+            183
+          ],
+          "visible_top": 1,
+          "foot": [
+            61,
+            180
+          ],
+          "ms": 100,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            782,
+            243,
+            191,
+            204
+          ],
+          "visible_top": 1,
+          "foot": [
+            113,
+            201
+          ],
+          "ms": 310,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "contact": 3,
+      "atlas": "ch3_knight"
+    },
+    {
+      "chapter": 3,
+      "design": "knight",
+      "action": "attack",
+      "facing": "down",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "basic",
+      "frames": [
+        {
+          "rect": [
+            2,
+            484,
+            159,
+            223
+          ],
+          "visible_top": 1,
+          "foot": [
+            62,
+            220
+          ],
+          "ms": 65,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            262,
+            484,
+            178,
+            184
+          ],
+          "visible_top": 1,
+          "foot": [
+            75,
+            181
+          ],
+          "ms": 135,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            522,
+            484,
+            161,
+            170
+          ],
+          "visible_top": 1,
+          "foot": [
+            62,
+            167
+          ],
+          "ms": 100,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            782,
+            484,
+            187,
+            190
+          ],
+          "visible_top": 1,
+          "foot": [
+            75,
+            187
+          ],
+          "ms": 310,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "contact": 3,
+      "atlas": "ch3_knight"
+    },
+    {
+      "chapter": 4,
+      "design": "pawn",
+      "action": "attack",
+      "facing": "right",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "pawn_contact",
+      "frames": [
+        {
+          "rect": [
+            2,
+            2,
+            128,
+            223
+          ],
+          "visible_top": 1,
+          "foot": [
+            57,
+            220
+          ],
+          "ms": 75,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            276,
+            2,
+            200,
+            199
+          ],
+          "visible_top": 1,
+          "foot": [
+            106,
+            196
+          ],
+          "ms": 125,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            550,
+            2,
+            270,
+            195
+          ],
+          "visible_top": 1,
+          "foot": [
+            83,
+            192
+          ],
+          "ms": 106,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            824,
+            2,
+            142,
+            216
+          ],
+          "visible_top": 1,
+          "foot": [
+            62,
+            213
+          ],
+          "ms": 204,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "atlas": "ch4_pawn"
+    },
+    {
+      "chapter": 4,
+      "design": "pawn",
+      "action": "attack",
+      "facing": "left",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "pawn_contact",
+      "frames": [
+        {
+          "rect": [
+            2,
+            2,
+            128,
+            223
+          ],
+          "visible_top": 1,
+          "foot": [
+            57,
+            220
+          ],
+          "ms": 75,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            276,
+            2,
+            200,
+            199
+          ],
+          "visible_top": 1,
+          "foot": [
+            106,
+            196
+          ],
+          "ms": 125,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            550,
+            2,
+            270,
+            195
+          ],
+          "visible_top": 1,
+          "foot": [
+            83,
+            192
+          ],
+          "ms": 106,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            824,
+            2,
+            142,
+            216
+          ],
+          "visible_top": 1,
+          "foot": [
+            62,
+            213
+          ],
+          "ms": 204,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "flip_x": true,
+      "atlas": "ch4_pawn"
+    },
+    {
+      "chapter": 4,
+      "design": "pawn",
+      "action": "attack",
+      "facing": "up",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "pawn_contact",
+      "frames": [
+        {
+          "rect": [
+            2,
+            251,
+            135,
+            234
+          ],
+          "visible_top": 1,
+          "foot": [
+            73,
+            231
+          ],
+          "ms": 75,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            276,
+            251,
+            173,
+            215
+          ],
+          "visible_top": 1,
+          "foot": [
+            73,
+            212
+          ],
+          "ms": 125,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            550,
+            251,
+            159,
+            245
+          ],
+          "visible_top": 1,
+          "foot": [
+            90,
+            242
+          ],
+          "ms": 106,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            824,
+            251,
+            136,
+            229
+          ],
+          "visible_top": 1,
+          "foot": [
+            76,
+            226
+          ],
+          "ms": 204,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "atlas": "ch4_pawn"
+    },
+    {
+      "chapter": 4,
+      "design": "pawn",
+      "action": "attack",
+      "facing": "down",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "pawn_contact",
+      "frames": [
+        {
+          "rect": [
+            2,
+            500,
+            132,
+            220
+          ],
+          "visible_top": 1,
+          "foot": [
+            56,
+            217
+          ],
+          "ms": 75,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            276,
+            500,
+            174,
+            207
+          ],
+          "visible_top": 1,
+          "foot": [
+            85,
+            204
+          ],
+          "ms": 125,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            550,
+            500,
+            147,
+            206
+          ],
+          "visible_top": 1,
+          "foot": [
+            61,
+            203
+          ],
+          "ms": 106,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            824,
+            500,
+            143,
+            217
+          ],
+          "visible_top": 1,
+          "foot": [
+            63,
+            214
+          ],
+          "ms": 204,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "atlas": "ch4_pawn"
+    },
+    {
+      "chapter": 4,
+      "design": "rook",
+      "action": "attack",
+      "facing": "right",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "basic",
+      "frames": [
+        {
+          "rect": [
+            2,
+            2,
+            191,
+            223
+          ],
+          "visible_top": 1,
+          "foot": [
+            104,
+            220
+          ],
+          "ms": 65,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            224,
+            2,
+            204,
+            205
+          ],
+          "visible_top": 1,
+          "foot": [
+            102,
+            202
+          ],
+          "ms": 135,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            446,
+            2,
+            218,
+            202
+          ],
+          "visible_top": 1,
+          "foot": [
+            106,
+            199
+          ],
+          "ms": 100,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            668,
+            2,
+            202,
+            204
+          ],
+          "visible_top": 1,
+          "foot": [
+            100,
+            201
+          ],
+          "ms": 320,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "contact": 3,
+      "atlas": "ch4_rook"
+    },
+    {
+      "chapter": 4,
+      "design": "rook",
+      "action": "attack",
+      "facing": "left",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "basic",
+      "frames": [
+        {
+          "rect": [
+            2,
+            2,
+            191,
+            223
+          ],
+          "visible_top": 1,
+          "foot": [
+            104,
+            220
+          ],
+          "ms": 65,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            224,
+            2,
+            204,
+            205
+          ],
+          "visible_top": 1,
+          "foot": [
+            102,
+            202
+          ],
+          "ms": 135,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            446,
+            2,
+            218,
+            202
+          ],
+          "visible_top": 1,
+          "foot": [
+            106,
+            199
+          ],
+          "ms": 100,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            668,
+            2,
+            202,
+            204
+          ],
+          "visible_top": 1,
+          "foot": [
+            100,
+            201
+          ],
+          "ms": 320,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "contact": 3,
+      "flip_x": true,
+      "atlas": "ch4_rook"
+    },
+    {
+      "chapter": 4,
+      "design": "rook",
+      "action": "attack",
+      "facing": "up",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "basic",
+      "frames": [
+        {
+          "rect": [
+            2,
+            236,
+            172,
+            228
+          ],
+          "visible_top": 1,
+          "foot": [
+            86,
+            225
+          ],
+          "ms": 65,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            224,
+            236,
+            215,
+            217
+          ],
+          "visible_top": 1,
+          "foot": [
+            97,
+            214
+          ],
+          "ms": 135,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            446,
+            236,
+            201,
+            230
+          ],
+          "visible_top": 1,
+          "foot": [
+            101,
+            227
+          ],
+          "ms": 100,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            668,
+            236,
+            194,
+            213
+          ],
+          "visible_top": 1,
+          "foot": [
+            97,
+            210
+          ],
+          "ms": 320,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "contact": 3,
+      "atlas": "ch4_rook"
+    },
+    {
+      "chapter": 4,
+      "design": "rook",
+      "action": "attack",
+      "facing": "down",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "basic",
+      "frames": [
+        {
+          "rect": [
+            2,
+            470,
+            194,
+            222
+          ],
+          "visible_top": 1,
+          "foot": [
+            105,
+            219
+          ],
+          "ms": 65,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            224,
+            470,
+            206,
+            202
+          ],
+          "visible_top": 1,
+          "foot": [
+            104,
+            199
+          ],
+          "ms": 135,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            446,
+            470,
+            216,
+            220
+          ],
+          "visible_top": 1,
+          "foot": [
+            111,
+            217
+          ],
+          "ms": 100,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            668,
+            470,
+            216,
+            222
+          ],
+          "visible_top": 1,
+          "foot": [
+            108,
+            219
+          ],
+          "ms": 320,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "contact": 3,
+      "atlas": "ch4_rook"
+    },
+    {
+      "chapter": 4,
+      "design": "knight",
+      "action": "attack",
+      "facing": "right",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "basic",
+      "frames": [
+        {
+          "rect": [
+            2,
+            2,
+            199,
+            218
+          ],
+          "visible_top": 1,
+          "foot": [
+            97,
+            215
+          ],
+          "ms": 65,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            239,
+            2,
+            233,
+            176
+          ],
+          "visible_top": 1,
+          "foot": [
+            134,
+            173
+          ],
+          "ms": 135,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            476,
+            2,
+            223,
+            192
+          ],
+          "visible_top": 1,
+          "foot": [
+            62,
+            189
+          ],
+          "ms": 100,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            713,
+            2,
+            230,
+            174
+          ],
+          "visible_top": 1,
+          "foot": [
+            130,
+            171
+          ],
+          "ms": 310,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "contact": 3,
+      "atlas": "ch4_knight"
+    },
+    {
+      "chapter": 4,
+      "design": "knight",
+      "action": "attack",
+      "facing": "left",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "basic",
+      "frames": [
+        {
+          "rect": [
+            2,
+            2,
+            199,
+            218
+          ],
+          "visible_top": 1,
+          "foot": [
+            97,
+            215
+          ],
+          "ms": 65,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            239,
+            2,
+            233,
+            176
+          ],
+          "visible_top": 1,
+          "foot": [
+            134,
+            173
+          ],
+          "ms": 135,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            476,
+            2,
+            223,
+            192
+          ],
+          "visible_top": 1,
+          "foot": [
+            62,
+            189
+          ],
+          "ms": 100,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            713,
+            2,
+            230,
+            174
+          ],
+          "visible_top": 1,
+          "foot": [
+            130,
+            171
+          ],
+          "ms": 310,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "contact": 3,
+      "flip_x": true,
+      "atlas": "ch4_knight"
+    },
+    {
+      "chapter": 4,
+      "design": "knight",
+      "action": "attack",
+      "facing": "up",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "basic",
+      "frames": [
+        {
+          "rect": [
+            2,
+            229,
+            123,
+            223
+          ],
+          "visible_top": 1,
+          "foot": [
+            67,
+            220
+          ],
+          "ms": 65,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            239,
+            229,
+            163,
+            185
+          ],
+          "visible_top": 1,
+          "foot": [
+            85,
+            182
+          ],
+          "ms": 135,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            476,
+            229,
+            138,
+            191
+          ],
+          "visible_top": 1,
+          "foot": [
+            45,
+            188
+          ],
+          "ms": 100,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            713,
+            229,
+            161,
+            191
+          ],
+          "visible_top": 1,
+          "foot": [
+            84,
+            188
+          ],
+          "ms": 310,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "contact": 3,
+      "atlas": "ch4_knight"
+    },
+    {
+      "chapter": 4,
+      "design": "knight",
+      "action": "attack",
+      "facing": "down",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "basic",
+      "frames": [
+        {
+          "rect": [
+            2,
+            456,
+            155,
+            223
+          ],
+          "visible_top": 1,
+          "foot": [
+            79,
+            220
+          ],
+          "ms": 65,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            239,
+            456,
+            186,
+            180
+          ],
+          "visible_top": 1,
+          "foot": [
+            105,
+            177
+          ],
+          "ms": 135,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            476,
+            456,
+            154,
+            202
+          ],
+          "visible_top": 1,
+          "foot": [
+            80,
+            199
+          ],
+          "ms": 100,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            713,
+            456,
+            179,
+            184
+          ],
+          "visible_top": 1,
+          "foot": [
+            134,
+            181
+          ],
+          "ms": 310,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "contact": 3,
+      "atlas": "ch4_knight"
+    },
+    {
+      "chapter": 5,
+      "design": "pawn",
+      "action": "attack",
+      "facing": "right",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "pawn_contact",
+      "frames": [
+        {
+          "rect": [
+            2,
+            2,
+            118,
+            224
+          ],
+          "visible_top": 1,
+          "foot": [
+            50,
+            221
+          ],
+          "ms": 75,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            272,
+            2,
+            230,
+            203
+          ],
+          "visible_top": 1,
+          "foot": [
+            131,
+            200
+          ],
+          "ms": 125,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            542,
+            2,
+            266,
+            203
+          ],
+          "visible_top": 1,
+          "foot": [
+            77,
+            200
+          ],
+          "ms": 106,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            812,
+            2,
+            166,
+            223
+          ],
+          "visible_top": 1,
+          "foot": [
+            56,
+            220
+          ],
+          "ms": 204,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "atlas": "ch5_pawn"
+    },
+    {
+      "chapter": 5,
+      "design": "pawn",
+      "action": "attack",
+      "facing": "left",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "pawn_contact",
+      "frames": [
+        {
+          "rect": [
+            2,
+            2,
+            118,
+            224
+          ],
+          "visible_top": 1,
+          "foot": [
+            50,
+            221
+          ],
+          "ms": 75,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            272,
+            2,
+            230,
+            203
+          ],
+          "visible_top": 1,
+          "foot": [
+            131,
+            200
+          ],
+          "ms": 125,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            542,
+            2,
+            266,
+            203
+          ],
+          "visible_top": 1,
+          "foot": [
+            77,
+            200
+          ],
+          "ms": 106,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            812,
+            2,
+            166,
+            223
+          ],
+          "visible_top": 1,
+          "foot": [
+            56,
+            220
+          ],
+          "ms": 204,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "flip_x": true,
+      "atlas": "ch5_pawn"
+    },
+    {
+      "chapter": 5,
+      "design": "pawn",
+      "action": "attack",
+      "facing": "up",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "pawn_contact",
+      "frames": [
+        {
+          "rect": [
+            2,
+            241,
+            123,
+            216
+          ],
+          "visible_top": 1,
+          "foot": [
+            64,
+            213
+          ],
+          "ms": 75,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            272,
+            241,
+            197,
+            194
+          ],
+          "visible_top": 1,
+          "foot": [
+            80,
+            191
+          ],
+          "ms": 125,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            542,
+            241,
+            156,
+            235
+          ],
+          "visible_top": 1,
+          "foot": [
+            86,
+            232
+          ],
+          "ms": 106,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            812,
+            241,
+            139,
+            213
+          ],
+          "visible_top": 1,
+          "foot": [
+            71,
+            210
+          ],
+          "ms": 204,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "atlas": "ch5_pawn"
+    },
+    {
+      "chapter": 5,
+      "design": "pawn",
+      "action": "attack",
+      "facing": "down",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "pawn_contact",
+      "frames": [
+        {
+          "rect": [
+            2,
+            480,
+            133,
+            224
+          ],
+          "visible_top": 1,
+          "foot": [
+            54,
+            221
+          ],
+          "ms": 75,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            272,
+            480,
+            202,
+            209
+          ],
+          "visible_top": 1,
+          "foot": [
+            168,
+            206
+          ],
+          "ms": 125,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            542,
+            480,
+            138,
+            219
+          ],
+          "visible_top": 1,
+          "foot": [
+            93,
+            216
+          ],
+          "ms": 106,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            812,
+            480,
+            149,
+            223
+          ],
+          "visible_top": 1,
+          "foot": [
+            70,
+            220
+          ],
+          "ms": 204,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "atlas": "ch5_pawn"
+    },
+    {
+      "chapter": 5,
+      "design": "rook",
+      "action": "attack",
+      "facing": "right",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "basic",
+      "frames": [
+        {
+          "rect": [
+            2,
+            2,
+            182,
+            224
+          ],
+          "visible_top": 1,
+          "foot": [
+            91,
+            221
+          ],
+          "ms": 65,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            232,
+            2,
+            191,
+            188
+          ],
+          "visible_top": 1,
+          "foot": [
+            98,
+            185
+          ],
+          "ms": 135,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            462,
+            2,
+            218,
+            148
+          ],
+          "visible_top": 1,
+          "foot": [
+            122,
+            145
+          ],
+          "ms": 100,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            692,
+            2,
+            208,
+            201
+          ],
+          "visible_top": 1,
+          "foot": [
+            108,
+            198
+          ],
+          "ms": 320,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "contact": 3,
+      "atlas": "ch5_rook"
+    },
+    {
+      "chapter": 5,
+      "design": "rook",
+      "action": "attack",
+      "facing": "left",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "basic",
+      "frames": [
+        {
+          "rect": [
+            2,
+            2,
+            182,
+            224
+          ],
+          "visible_top": 1,
+          "foot": [
+            91,
+            221
+          ],
+          "ms": 65,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            232,
+            2,
+            191,
+            188
+          ],
+          "visible_top": 1,
+          "foot": [
+            98,
+            185
+          ],
+          "ms": 135,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            462,
+            2,
+            218,
+            148
+          ],
+          "visible_top": 1,
+          "foot": [
+            122,
+            145
+          ],
+          "ms": 100,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            692,
+            2,
+            208,
+            201
+          ],
+          "visible_top": 1,
+          "foot": [
+            108,
+            198
+          ],
+          "ms": 320,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "contact": 3,
+      "flip_x": true,
+      "atlas": "ch5_rook"
+    },
+    {
+      "chapter": 5,
+      "design": "rook",
+      "action": "attack",
+      "facing": "up",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "basic",
+      "frames": [
+        {
+          "rect": [
+            2,
+            232,
+            169,
+            220
+          ],
+          "visible_top": 1,
+          "foot": [
+            77,
+            217
+          ],
+          "ms": 65,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            232,
+            232,
+            187,
+            188
+          ],
+          "visible_top": 1,
+          "foot": [
+            80,
+            185
+          ],
+          "ms": 135,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            462,
+            232,
+            212,
+            175
+          ],
+          "visible_top": 1,
+          "foot": [
+            81,
+            172
+          ],
+          "ms": 100,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            692,
+            232,
+            193,
+            197
+          ],
+          "visible_top": 1,
+          "foot": [
+            94,
+            194
+          ],
+          "ms": 320,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "contact": 3,
+      "atlas": "ch5_rook"
+    },
+    {
+      "chapter": 5,
+      "design": "rook",
+      "action": "attack",
+      "facing": "down",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "basic",
+      "frames": [
+        {
+          "rect": [
+            2,
+            462,
+            188,
+            226
+          ],
+          "visible_top": 1,
+          "foot": [
+            92,
+            223
+          ],
+          "ms": 65,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            232,
+            462,
+            221,
+            174
+          ],
+          "visible_top": 1,
+          "foot": [
+            122,
+            171
+          ],
+          "ms": 135,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            462,
+            462,
+            226,
+            178
+          ],
+          "visible_top": 1,
+          "foot": [
+            157,
+            175
+          ],
+          "ms": 100,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            692,
+            462,
+            219,
+            220
+          ],
+          "visible_top": 1,
+          "foot": [
+            108,
+            217
+          ],
+          "ms": 320,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "contact": 3,
+      "atlas": "ch5_rook"
+    },
+    {
+      "chapter": 5,
+      "design": "knight",
+      "action": "attack",
+      "facing": "right",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "basic",
+      "frames": [
+        {
+          "rect": [
+            2,
+            2,
+            218,
+            211
+          ],
+          "visible_top": 1,
+          "foot": [
+            107,
+            208
+          ],
+          "ms": 65,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            279,
+            2,
+            265,
+            174
+          ],
+          "visible_top": 1,
+          "foot": [
+            108,
+            171
+          ],
+          "ms": 135,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            556,
+            2,
+            273,
+            180
+          ],
+          "visible_top": 1,
+          "foot": [
+            105,
+            177
+          ],
+          "ms": 100,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            833,
+            2,
+            268,
+            180
+          ],
+          "visible_top": 1,
+          "foot": [
+            170,
+            177
+          ],
+          "ms": 310,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "contact": 3,
+      "atlas": "ch5_knight"
+    },
+    {
+      "chapter": 5,
+      "design": "knight",
+      "action": "attack",
+      "facing": "left",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "basic",
+      "frames": [
+        {
+          "rect": [
+            2,
+            2,
+            218,
+            211
+          ],
+          "visible_top": 1,
+          "foot": [
+            107,
+            208
+          ],
+          "ms": 65,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            279,
+            2,
+            265,
+            174
+          ],
+          "visible_top": 1,
+          "foot": [
+            108,
+            171
+          ],
+          "ms": 135,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            556,
+            2,
+            273,
+            180
+          ],
+          "visible_top": 1,
+          "foot": [
+            105,
+            177
+          ],
+          "ms": 100,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            833,
+            2,
+            268,
+            180
+          ],
+          "visible_top": 1,
+          "foot": [
+            170,
+            177
+          ],
+          "ms": 310,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "contact": 3,
+      "flip_x": true,
+      "atlas": "ch5_knight"
+    },
+    {
+      "chapter": 5,
+      "design": "knight",
+      "action": "attack",
+      "facing": "up",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "basic",
+      "frames": [
+        {
+          "rect": [
+            2,
+            230,
+            152,
+            219
+          ],
+          "visible_top": 1,
+          "foot": [
+            85,
+            216
+          ],
+          "ms": 65,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            279,
+            230,
+            167,
+            192
+          ],
+          "visible_top": 1,
+          "foot": [
+            82,
+            189
+          ],
+          "ms": 135,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            556,
+            230,
+            170,
+            196
+          ],
+          "visible_top": 1,
+          "foot": [
+            52,
+            193
+          ],
+          "ms": 100,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            833,
+            230,
+            194,
+            197
+          ],
+          "visible_top": 1,
+          "foot": [
+            127,
+            194
+          ],
+          "ms": 310,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "contact": 3,
+      "atlas": "ch5_knight"
+    },
+    {
+      "chapter": 5,
+      "design": "knight",
+      "action": "attack",
+      "facing": "down",
+      "reference_height": 256,
+      "impact": 2,
+      "attack_kind": "basic",
+      "frames": [
+        {
+          "rect": [
+            2,
+            458,
+            162,
+            224
+          ],
+          "visible_top": 1,
+          "foot": [
+            87,
+            221
+          ],
+          "ms": 65,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            279,
+            458,
+            174,
+            199
+          ],
+          "visible_top": 1,
+          "foot": [
+            94,
+            196
+          ],
+          "ms": 135,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            556,
+            458,
+            166,
+            190
+          ],
+          "visible_top": 1,
+          "foot": [
+            86,
+            187
+          ],
+          "ms": 100,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            833,
+            458,
+            178,
+            205
+          ],
+          "visible_top": 1,
+          "foot": [
+            107,
+            202
+          ],
+          "ms": 310,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "contact": 3,
+      "atlas": "ch5_knight"
     }
   ]
 }

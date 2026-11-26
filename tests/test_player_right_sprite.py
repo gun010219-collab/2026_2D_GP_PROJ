@@ -25,7 +25,7 @@ class PlayerRightSpriteTests(TestCase):
             self.assertIsNone(opted_in_catalog())
         data = json.loads(DEFAULT_CATALOG.read_text(encoding='utf-8'))
         self.assertEqual(data['purpose'],'production')
-        self.assertEqual(sum(clip['facing']=='right' for clip in data['clips']),1)
+        self.assertEqual(sum(clip['design']=='player' and clip['facing']=='right' for clip in data['clips']),1)
         self.assertEqual(self.catalog.clip(1,'player','attack','right','basic'),
                          self.right_only.clip(1,'player','attack','right','basic'))
         self.assertEqual(self.catalog.atlases['actors'],self.right_only.atlases['actors'])

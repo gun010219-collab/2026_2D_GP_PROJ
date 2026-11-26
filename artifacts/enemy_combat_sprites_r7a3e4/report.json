@@ -1,0 +1,1372 @@
+{
+  "driver": "direct3d11",
+  "scenes": {
+    "ch1_pawn": {
+      "stage": 1,
+      "source": "s1_pawn_1",
+      "hit_tick": 615,
+      "phases": {
+        "anticipation": {
+          "tick": 576,
+          "frame": 0,
+          "facing": "down",
+          "elevation": 0.0
+        },
+        "release": {
+          "tick": 615,
+          "frame": 2,
+          "origin": [
+            1,
+            2
+          ],
+          "target": [
+            1,
+            1
+          ]
+        }
+      },
+      "performance": {
+        "phase": "release",
+        "tick": 615,
+        "frame_ms": {
+          "player_only": [
+            1.354,
+            1.55,
+            1.651
+          ],
+          "enemy_sprite": [
+            1.251,
+            1.402,
+            1.8
+          ]
+        }
+      },
+      "clip_frames": 29
+    },
+    "ch1_rook": {
+      "stage": 2,
+      "source": "s2_rook_1",
+      "hit_tick": 168,
+      "phases": {
+        "anticipation": {
+          "tick": 120,
+          "frame": 0,
+          "facing": "right",
+          "elevation": 0.0
+        },
+        "release": {
+          "tick": 168,
+          "frame": 2,
+          "origin": [
+            2,
+            1
+          ],
+          "target": [
+            3,
+            1
+          ]
+        },
+        "travel": {
+          "tick": 168,
+          "frame": 2,
+          "facing": "right",
+          "elevation": 0.0
+        },
+        "arrival": {
+          "tick": 174,
+          "frame": 3,
+          "facing": "right",
+          "elevation": 0.0
+        }
+      },
+      "clip_frames": 0
+    },
+    "ch1_knight": {
+      "stage": 3,
+      "source": "s3_knight_1",
+      "hit_tick": 84,
+      "phases": {
+        "anticipation": {
+          "tick": 48,
+          "frame": 0,
+          "facing": "right",
+          "elevation": 0.0
+        },
+        "release": {
+          "tick": 84,
+          "frame": 2,
+          "origin": [
+            3,
+            6
+          ],
+          "target": [
+            5,
+            5
+          ]
+        },
+        "travel": {
+          "tick": 84,
+          "frame": 2,
+          "facing": "right",
+          "elevation": 0.0
+        },
+        "arrival": {
+          "tick": 90,
+          "frame": 3,
+          "facing": "right",
+          "elevation": 2.020445086709934e-13
+        }
+      },
+      "clip_frames": 0
+    },
+    "ch2_pawn": {
+      "stage": 7,
+      "source": "s7_pawn_1",
+      "hit_tick": 642,
+      "phases": {
+        "anticipation": {
+          "tick": 603,
+          "frame": 0,
+          "facing": "down",
+          "elevation": 0.0
+        },
+        "release": {
+          "tick": 642,
+          "frame": 2,
+          "origin": [
+            1,
+            2
+          ],
+          "target": [
+            1,
+            1
+          ]
+        }
+      },
+      "clip_frames": 0
+    },
+    "ch2_rook": {
+      "stage": 6,
+      "source": "s6_rook_1",
+      "hit_tick": 208,
+      "phases": {
+        "anticipation": {
+          "tick": 160,
+          "frame": 0,
+          "facing": "right",
+          "elevation": 0.0
+        },
+        "release": {
+          "tick": 208,
+          "frame": 2,
+          "origin": [
+            2,
+            1
+          ],
+          "target": [
+            3,
+            1
+          ]
+        },
+        "travel": {
+          "tick": 208,
+          "frame": 2,
+          "facing": "right",
+          "elevation": 0.0
+        },
+        "arrival": {
+          "tick": 214,
+          "frame": 3,
+          "facing": "right",
+          "elevation": 0.0
+        }
+      },
+      "performance": {
+        "phase": "arrival",
+        "tick": 214,
+        "frame_ms": {
+          "player_only": [
+            1.925,
+            2.141,
+            2.245
+          ],
+          "enemy_sprite": [
+            1.813,
+            1.991,
+            2.109
+          ]
+        }
+      },
+      "clip_frames": 33
+    },
+    "ch2_knight": {
+      "stage": 7,
+      "source": "s7_knight_1",
+      "hit_tick": 84,
+      "phases": {
+        "anticipation": {
+          "tick": 48,
+          "frame": 0,
+          "facing": "right",
+          "elevation": 0.0
+        },
+        "release": {
+          "tick": 84,
+          "frame": 2,
+          "origin": [
+            3,
+            6
+          ],
+          "target": [
+            5,
+            5
+          ]
+        },
+        "travel": {
+          "tick": 84,
+          "frame": 2,
+          "facing": "right",
+          "elevation": 0.0
+        },
+        "arrival": {
+          "tick": 90,
+          "frame": 3,
+          "facing": "right",
+          "elevation": 2.020445086709934e-13
+        }
+      },
+      "clip_frames": 0
+    },
+    "ch3_pawn": {
+      "stage": 13,
+      "source": "s13_pawn_1",
+      "hit_tick": 642,
+      "phases": {
+        "anticipation": {
+          "tick": 603,
+          "frame": 0,
+          "facing": "down",
+          "elevation": 0.0
+        },
+        "release": {
+          "tick": 642,
+          "frame": 2,
+          "origin": [
+            1,
+            2
+          ],
+          "target": [
+            1,
+            1
+          ]
+        }
+      },
+      "clip_frames": 0
+    },
+    "ch3_rook": {
+      "stage": 11,
+      "source": "s11_rook_1",
+      "hit_tick": 168,
+      "phases": {
+        "anticipation": {
+          "tick": 120,
+          "frame": 0,
+          "facing": "right",
+          "elevation": 0.0
+        },
+        "release": {
+          "tick": 168,
+          "frame": 2,
+          "origin": [
+            2,
+            1
+          ],
+          "target": [
+            3,
+            1
+          ]
+        },
+        "travel": {
+          "tick": 168,
+          "frame": 2,
+          "facing": "right",
+          "elevation": 0.0
+        },
+        "arrival": {
+          "tick": 174,
+          "frame": 3,
+          "facing": "right",
+          "elevation": 0.0
+        }
+      },
+      "clip_frames": 0
+    },
+    "ch3_knight": {
+      "stage": 11,
+      "source": "s11_knight_1",
+      "hit_tick": 111,
+      "phases": {
+        "anticipation": {
+          "tick": 75,
+          "frame": 0,
+          "facing": "right",
+          "elevation": 0.0
+        },
+        "release": {
+          "tick": 111,
+          "frame": 2,
+          "origin": [
+            3,
+            6
+          ],
+          "target": [
+            5,
+            5
+          ]
+        },
+        "travel": {
+          "tick": 111,
+          "frame": 2,
+          "facing": "right",
+          "elevation": 0.0
+        },
+        "arrival": {
+          "tick": 117,
+          "frame": 3,
+          "facing": "right",
+          "elevation": 2.020445086709934e-13
+        }
+      },
+      "performance": {
+        "phase": "arrival",
+        "tick": 117,
+        "frame_ms": {
+          "player_only": [
+            2.384,
+            3.641,
+            4.113
+          ],
+          "enemy_sprite": [
+            2.158,
+            3.352,
+            3.768
+          ]
+        }
+      },
+      "clip_frames": 29
+    },
+    "ch4_pawn": {
+      "stage": 17,
+      "source": "s17_pawn_1",
+      "hit_tick": 285,
+      "phases": {
+        "anticipation": {
+          "tick": 246,
+          "frame": 0,
+          "facing": "down",
+          "elevation": 0.0
+        },
+        "release": {
+          "tick": 285,
+          "frame": 2,
+          "origin": [
+            1,
+            5
+          ],
+          "target": [
+            1,
+            4
+          ]
+        }
+      },
+      "clip_frames": 0
+    },
+    "ch4_rook": {
+      "stage": 16,
+      "source": "s16_rook_1",
+      "hit_tick": 168,
+      "phases": {
+        "anticipation": {
+          "tick": 120,
+          "frame": 0,
+          "facing": "right",
+          "elevation": 0.0
+        },
+        "release": {
+          "tick": 168,
+          "frame": 2,
+          "origin": [
+            2,
+            1
+          ],
+          "target": [
+            3,
+            1
+          ]
+        },
+        "travel": {
+          "tick": 168,
+          "frame": 2,
+          "facing": "right",
+          "elevation": 0.0
+        },
+        "arrival": {
+          "tick": 174,
+          "frame": 3,
+          "facing": "right",
+          "elevation": 0.0
+        }
+      },
+      "clip_frames": 0
+    },
+    "ch4_knight": {
+      "stage": 16,
+      "source": "s16_knight_1",
+      "hit_tick": 111,
+      "phases": {
+        "anticipation": {
+          "tick": 75,
+          "frame": 0,
+          "facing": "right",
+          "elevation": 0.0
+        },
+        "release": {
+          "tick": 111,
+          "frame": 2,
+          "origin": [
+            3,
+            6
+          ],
+          "target": [
+            5,
+            5
+          ]
+        },
+        "travel": {
+          "tick": 111,
+          "frame": 2,
+          "facing": "right",
+          "elevation": 0.0
+        },
+        "arrival": {
+          "tick": 117,
+          "frame": 3,
+          "facing": "right",
+          "elevation": 2.020445086709934e-13
+        }
+      },
+      "clip_frames": 0
+    },
+    "ch5_pawn": {
+      "stage": 21,
+      "source": "s21_pawn_1",
+      "hit_tick": 299,
+      "phases": {
+        "anticipation": {
+          "tick": 260,
+          "frame": 0,
+          "facing": "down",
+          "elevation": 0.0
+        },
+        "release": {
+          "tick": 299,
+          "frame": 2,
+          "origin": [
+            1,
+            5
+          ],
+          "target": [
+            1,
+            4
+          ]
+        }
+      },
+      "clip_frames": 0
+    },
+    "ch5_rook": {
+      "stage": 21,
+      "source": "s21_rook_1",
+      "hit_tick": 182,
+      "phases": {
+        "anticipation": {
+          "tick": 134,
+          "frame": 0,
+          "facing": "right",
+          "elevation": 0.0
+        },
+        "release": {
+          "tick": 182,
+          "frame": 2,
+          "origin": [
+            2,
+            1
+          ],
+          "target": [
+            3,
+            1
+          ]
+        },
+        "travel": {
+          "tick": 182,
+          "frame": 2,
+          "facing": "right",
+          "elevation": 0.0
+        },
+        "arrival": {
+          "tick": 188,
+          "frame": 3,
+          "facing": "right",
+          "elevation": 0.0
+        }
+      },
+      "performance": {
+        "phase": "arrival",
+        "tick": 188,
+        "frame_ms": {
+          "player_only": [
+            3.798,
+            3.965,
+            4.07
+          ],
+          "enemy_sprite": [
+            3.584,
+            3.838,
+            4.12
+          ]
+        }
+      },
+      "clip_frames": 0
+    },
+    "ch5_knight": {
+      "stage": 21,
+      "source": "s21_knight_1",
+      "hit_tick": 124,
+      "phases": {
+        "anticipation": {
+          "tick": 88,
+          "frame": 0,
+          "facing": "right",
+          "elevation": 0.0
+        },
+        "release": {
+          "tick": 124,
+          "frame": 2,
+          "origin": [
+            3,
+            6
+          ],
+          "target": [
+            5,
+            5
+          ]
+        },
+        "travel": {
+          "tick": 124,
+          "frame": 2,
+          "facing": "right",
+          "elevation": 0.0
+        },
+        "arrival": {
+          "tick": 130,
+          "frame": 3,
+          "facing": "right",
+          "elevation": 2.020445086709934e-13
+        }
+      },
+      "clip_frames": 0
+    },
+    "ch1_rook_left": {
+      "stage": 2,
+      "source": "s2_rook_1",
+      "hit_tick": 234,
+      "phases": {
+        "anticipation": {
+          "tick": 186,
+          "frame": 0,
+          "facing": "left",
+          "elevation": 0.0
+        },
+        "release": {
+          "tick": 234,
+          "frame": 2,
+          "origin": [
+            2,
+            1
+          ],
+          "target": [
+            1,
+            1
+          ]
+        },
+        "travel": {
+          "tick": 234,
+          "frame": 2,
+          "facing": "left",
+          "elevation": 0.0
+        },
+        "arrival": {
+          "tick": 240,
+          "frame": 3,
+          "facing": "left",
+          "elevation": 0.0
+        }
+      },
+      "clip_frames": 0
+    },
+    "ch1_rook_up": {
+      "stage": 2,
+      "source": "s2_rook_1",
+      "hit_tick": 306,
+      "phases": {
+        "anticipation": {
+          "tick": 258,
+          "frame": 0,
+          "facing": "up",
+          "elevation": 0.0
+        },
+        "release": {
+          "tick": 306,
+          "frame": 3,
+          "origin": [
+            2,
+            4
+          ],
+          "target": [
+            2,
+            5
+          ]
+        },
+        "arrival": {
+          "tick": 306,
+          "frame": 3,
+          "facing": "up",
+          "elevation": 0.0
+        }
+      },
+      "clip_frames": 0
+    },
+    "ch1_knight_left": {
+      "stage": 3,
+      "source": "s3_knight_1",
+      "hit_tick": 192,
+      "phases": {
+        "anticipation": {
+          "tick": 156,
+          "frame": 0,
+          "facing": "left",
+          "elevation": 0.0
+        },
+        "release": {
+          "tick": 192,
+          "frame": 2,
+          "origin": [
+            5,
+            5
+          ],
+          "target": [
+            3,
+            4
+          ]
+        },
+        "travel": {
+          "tick": 192,
+          "frame": 2,
+          "facing": "left",
+          "elevation": 0.0
+        },
+        "arrival": {
+          "tick": 198,
+          "frame": 3,
+          "facing": "left",
+          "elevation": 2.020445086709934e-13
+        }
+      },
+      "clip_frames": 0
+    },
+    "ch1_knight_up": {
+      "stage": 3,
+      "source": "s3_knight_1",
+      "hit_tick": 408,
+      "phases": {
+        "anticipation": {
+          "tick": 372,
+          "frame": 0,
+          "facing": "up",
+          "elevation": 0.0
+        },
+        "release": {
+          "tick": 408,
+          "frame": 2,
+          "origin": [
+            0,
+            0
+          ],
+          "target": [
+            1,
+            2
+          ]
+        },
+        "travel": {
+          "tick": 408,
+          "frame": 2,
+          "facing": "up",
+          "elevation": 0.0
+        },
+        "arrival": {
+          "tick": 414,
+          "frame": 3,
+          "facing": "up",
+          "elevation": 2.020445086709934e-13
+        }
+      },
+      "clip_frames": 0
+    }
+  },
+  "textures": {
+    "atlas.png": {
+      "size": [
+        776,
+        776
+      ],
+      "ms": [
+        4.283,
+        3.485,
+        3.394,
+        3.304,
+        3.372,
+        4.279,
+        3.459,
+        3.976,
+        4.015,
+        3.855,
+        3.736,
+        4.72,
+        4.159,
+        4.194,
+        3.405,
+        3.371,
+        3.889,
+        3.381,
+        3.332
+      ],
+      "pixel_bytes": 2408704
+    },
+    "player_attacks.png": {
+      "size": [
+        1004,
+        687
+      ],
+      "ms": [
+        7.275,
+        6.402,
+        6.062,
+        5.923,
+        6.03,
+        7.588,
+        6.081,
+        7.563,
+        7.534,
+        7.253,
+        6.238,
+        8.108,
+        7.42,
+        6.981,
+        6.308,
+        6.304,
+        6.178,
+        6.199,
+        6.255
+      ],
+      "pixel_bytes": 2758992
+    },
+    "ch1_pawn.png": {
+      "size": [
+        1056,
+        684
+      ],
+      "ms": [
+        6.267,
+        5.962,
+        5.666,
+        5.936,
+        5.712,
+        5.934,
+        5.739
+      ],
+      "pixel_bytes": 2889216
+    },
+    "player_parries.png": {
+      "size": [
+        1398,
+        960
+      ],
+      "ms": [
+        13.093,
+        13.285,
+        11.961,
+        11.923,
+        12.1,
+        14.574,
+        13.347,
+        14.103,
+        14.557,
+        13.796,
+        12.045,
+        12.903,
+        14.959,
+        15.083,
+        12.244,
+        12.35,
+        12.356,
+        11.763,
+        12.143
+      ],
+      "pixel_bytes": 5368320
+    },
+    "ch1_rook.png": {
+      "size": [
+        944,
+        693
+      ],
+      "ms": [
+        9.184,
+        9.354,
+        10.249
+      ],
+      "pixel_bytes": 2616768
+    },
+    "ch1_knight.png": {
+      "size": [
+        1036,
+        702
+      ],
+      "ms": [
+        7.859,
+        7.085,
+        6.983
+      ],
+      "pixel_bytes": 2909088
+    },
+    "ch2_knight.png": {
+      "size": [
+        988,
+        690
+      ],
+      "ms": [
+        6.761,
+        7.349
+      ],
+      "pixel_bytes": 2726880
+    },
+    "ch2_pawn.png": {
+      "size": [
+        1040,
+        702
+      ],
+      "ms": [
+        6.407,
+        6.928,
+        7.61
+      ],
+      "pixel_bytes": 2920320
+    },
+    "ch2_rook.png": {
+      "size": [
+        932,
+        597
+      ],
+      "ms": [
+        8.35
+      ],
+      "pixel_bytes": 2225616
+    },
+    "ch3_knight.png": {
+      "size": [
+        1040,
+        723
+      ],
+      "ms": [
+        6.686,
+        7.975,
+        7.621
+      ],
+      "pixel_bytes": 3007680
+    },
+    "ch3_pawn.png": {
+      "size": [
+        1048,
+        729
+      ],
+      "ms": [
+        7.683,
+        7.436,
+        7.217
+      ],
+      "pixel_bytes": 3055968
+    },
+    "ch3_rook.png": {
+      "size": [
+        992,
+        720
+      ],
+      "ms": [
+        10.701,
+        10.395
+      ],
+      "pixel_bytes": 2856960
+    },
+    "ch4_knight.png": {
+      "size": [
+        948,
+        681
+      ],
+      "ms": [
+        7.668,
+        6.439,
+        8.69
+      ],
+      "pixel_bytes": 2582352
+    },
+    "ch4_pawn.png": {
+      "size": [
+        1096,
+        747
+      ],
+      "ms": [
+        8.409,
+        6.968,
+        8.967
+      ],
+      "pixel_bytes": 3274848
+    },
+    "ch4_rook.png": {
+      "size": [
+        888,
+        702
+      ],
+      "ms": [
+        9.353,
+        8.308,
+        8.283
+      ],
+      "pixel_bytes": 2493504
+    },
+    "ch5_knight.png": {
+      "size": [
+        1108,
+        684
+      ],
+      "ms": [
+        7.732,
+        8.103,
+        7.006
+      ],
+      "pixel_bytes": 3031488
+    },
+    "ch5_pawn.png": {
+      "size": [
+        1080,
+        717
+      ],
+      "ms": [
+        9.118,
+        7.675,
+        6.769
+      ],
+      "pixel_bytes": 3097440
+    },
+    "ch5_rook.png": {
+      "size": [
+        920,
+        690
+      ],
+      "ms": [
+        9.487,
+        9.149,
+        7.649
+      ],
+      "pixel_bytes": 2539200
+    }
+  },
+  "loads": 102,
+  "releases": 102,
+  "peak": 6,
+  "capture_sha256": {
+    "ch1_knight_articulated.png": "8cfb127ab97c160ee0b27b40ab7b92fede287f0a73d87425424e016628dc5343",
+    "ch1_knight_left_articulated.png": "279134f8469b05c5742568d23170911374e64055746829d311bd9068b6d28804",
+    "ch1_knight_left_previous.png": "ca888edd4f025ed7099ca07fb2586a4ed27c1e3b0d1ec559c5ea455340fd7021",
+    "ch1_knight_previous.png": "52922226e84369db0f723e37996dd24ea9dd42cb4d518474d1d4d19a8bdf15e0",
+    "ch1_knight_up_articulated.png": "924e56620e7d4a0865fa2e08415d81d76169d0dccb485c05ad3d0b9ede132543",
+    "ch1_knight_up_previous.png": "0964f83252b635e5dc5d857030b2143871c36a610d647b092703662e6f0d23e3",
+    "ch1_pawn_articulated.png": "1530288c724934104458da03a849266a07ea8425f39698a55d90efb525961983",
+    "ch1_pawn_previous.png": "110338aef1fcc4d43933c8ffb2877d36e838fe397906724cd6f881a185703d52",
+    "ch1_rook_articulated.png": "29f4359cdcb6888c579b784660570c670ad2b92065e1aa9d289dc4dedeefe31a",
+    "ch1_rook_left_articulated.png": "b55c6957ff48fe6f4c85c91fbc5cbfbac3a72080fafadb27674217b88b77c05f",
+    "ch1_rook_left_previous.png": "3f5fd189fa3166ae7c034cd4a38a73a4e2435bdfcbe46584bfbbacbc536d24ae",
+    "ch1_rook_previous.png": "39e6bf168ffaf62863162104690170a7436f8884f17e79e1ad314059f7279e99",
+    "ch1_rook_up_articulated.png": "3cb8c6d551c39774f012fae4510b8f7ade198c838ed5b0e50e97f9284225e0d4",
+    "ch1_rook_up_previous.png": "3e12e53ee97bffcd2461b71ec44eaaaa67ed85138c27c4c7ba7c8b8ffa693dd0",
+    "ch2_knight_articulated.png": "9ce890acd13186341dbf5634b060c4e0f230897c7f475b7e674c6e239248b0ec",
+    "ch2_knight_previous.png": "6b3334ad886c4108258123df487e88db204c0fa02fd64c9f5b3589fd9913e473",
+    "ch2_pawn_articulated.png": "900535bfa0ce9df743ceffed55a2d8d80292d878740261c4ee7264dfc1fc9676",
+    "ch2_pawn_previous.png": "5a6cccab40024abccea580a511153e55ae5afbd55005e02c729ee0c7fad501dd",
+    "ch2_rook_articulated.png": "136f5061a041d5ace2120fd4a4bcac22e04c6b5618714c4b8d71f9a5de9022d6",
+    "ch2_rook_previous.png": "834e37c6130102082887d8541403e97f9dff0df5f1963cade1f0ca5ed5b0cfb6",
+    "ch3_knight_articulated.png": "fc9b23bf34b88c2578fcdb96dd12f9b44d275026a86d7edf50a02c69ea741b67",
+    "ch3_knight_previous.png": "eea7e861af980a408b9c9a3e5b50ec42fca853e9310e03bbd6302fbce65df6b9",
+    "ch3_pawn_articulated.png": "59f76478b5df5ecf77111a138e333c9184ba5e9ba634a582343f36ec0661236e",
+    "ch3_pawn_previous.png": "c3b12c3b29d998e1c9a6a11dfccdf26fb62410466e54c27a98a19d70603b6ecf",
+    "ch3_rook_articulated.png": "adeaae3403c3948074d067ab6d6739a3022467054dbc1a55ceaedb2301932759",
+    "ch3_rook_previous.png": "1f8b3268de15923d146e9b717f780550d798aef95330a67f32e87b2059c8e153",
+    "ch4_knight_articulated.png": "0aa223ca80ef4649d2ed7fa290af5df6c2fe7f070ecbaaf1b282b6581383ebb2",
+    "ch4_knight_previous.png": "53ad472a6e0a7b27f23de2ea2fcd435e3980b3625bb9dd2e0410a96a460baa61",
+    "ch4_pawn_articulated.png": "51aadae2591bce9d77c7782a4314d70ccbdd2bfb8578d167fef37e8f7f82f16d",
+    "ch4_pawn_previous.png": "b316d62edcdf960b2a671dd6a13ac2900b6d191e192cc1eefbff9add9802869e",
+    "ch4_rook_articulated.png": "d8d95ee2a884af5cc9527ff05601120bcc6f620302af9ace9ed411cd86aa558e",
+    "ch4_rook_previous.png": "49538bd0b4d8e90288623ea481e926bcf2f531ee0751ec9d4718adef0d5534ac",
+    "ch5_knight_articulated.png": "4c7343eaba7fa2672a027d461ae7208f941bea0b5aa65e684cfe21ab479758fa",
+    "ch5_knight_previous.png": "a1aab06cd8d91e14374a00520579045efb0d70fe6dbfd3416ac80a3f1a11ede1",
+    "ch5_pawn_articulated.png": "e1b6d74503b28f539f28850387c0d907b3dc02515f4b55a58dbfcede054d876e",
+    "ch5_pawn_previous.png": "df3a1141d67e1f9e94f1852aeb262ee8d87ce8a43082e29db17461d299fcc2e8",
+    "ch5_rook_articulated.png": "0c93962a6719a33ac4f0220597f8159107944513e7a456ebd44aab6a327ca378",
+    "ch5_rook_previous.png": "c212cb2bd35a7a01db077c929e49583385e5eda254e831f4c5e8645f46c3f839"
+  },
+  "timing_method": "Hidden Windows Direct3D11. 120 samples per mode at each actual tick. Animation update, arena draw, and Present. Comparison runs use one resident texture bank.",
+  "standalone_sprite_load_ms": {
+    "atlas.png": [
+      3.949,
+      3.551,
+      3.758,
+      3.781,
+      4.052,
+      3.51,
+      3.437,
+      3.507,
+      3.501,
+      3.841,
+      4.56,
+      4.866,
+      4.245,
+      3.518,
+      3.411,
+      3.497,
+      3.722,
+      4.374,
+      3.263
+    ],
+    "player_attacks.png": [
+      6.725,
+      6.319,
+      6.531,
+      6.661,
+      6.498,
+      6.151,
+      6.162,
+      6.23,
+      6.029,
+      7.175,
+      8.386,
+      7.476,
+      6.135,
+      6.521,
+      6.612,
+      6.652,
+      6.806,
+      8.122,
+      5.817
+    ],
+    "ch1_pawn.png": [
+      6.186,
+      5.905,
+      6.188,
+      5.768,
+      6.77,
+      7.176,
+      6.052
+    ],
+    "player_parries.png": [
+      12.947,
+      13.044,
+      12.977,
+      12.731,
+      12.81,
+      11.966,
+      12.18,
+      12.255,
+      12.053,
+      15.762,
+      13.39,
+      13.616,
+      13.936,
+      11.697,
+      12.814,
+      12.091,
+      13.084,
+      12.569,
+      11.719
+    ],
+    "ch1_rook.png": [
+      8.975,
+      9.262,
+      9.332
+    ],
+    "ch1_knight.png": [
+      7.33,
+      8.597,
+      7.112
+    ],
+    "ch2_knight.png": [
+      6.551,
+      6.132
+    ],
+    "ch2_pawn.png": [
+      6.824,
+      6.806,
+      6.285
+    ],
+    "ch2_rook.png": [
+      8.218
+    ],
+    "ch3_knight.png": [
+      6.961,
+      6.461,
+      6.339
+    ],
+    "ch3_pawn.png": [
+      6.096,
+      6.109,
+      5.825
+    ],
+    "ch3_rook.png": [
+      9.047,
+      9.341
+    ],
+    "ch4_knight.png": [
+      7.773,
+      7.523,
+      7.401
+    ],
+    "ch4_pawn.png": [
+      9.156,
+      7.648,
+      7.991
+    ],
+    "ch4_rook.png": [
+      10.527,
+      9.312,
+      8.778
+    ],
+    "ch5_knight.png": [
+      7.381,
+      7.498,
+      7.678
+    ],
+    "ch5_pawn.png": [
+      8.464,
+      7.053,
+      6.849
+    ],
+    "ch5_rook.png": [
+      9.26,
+      7.967,
+      8.802
+    ]
+  },
+  "campaign": {
+    "campaign": [
+      [
+        1,
+        "UPGRADE",
+        352,
+        3,
+        3
+      ],
+      [
+        2,
+        "UPGRADE",
+        313,
+        3,
+        3
+      ],
+      [
+        3,
+        "UPGRADE",
+        355,
+        3,
+        3
+      ],
+      [
+        4,
+        "UPGRADE",
+        324,
+        2,
+        3
+      ],
+      [
+        5,
+        "BOSS_CLEAR",
+        494,
+        2,
+        3
+      ],
+      [
+        6,
+        "UPGRADE",
+        389,
+        3,
+        3
+      ],
+      [
+        7,
+        "UPGRADE",
+        396,
+        3,
+        3
+      ],
+      [
+        8,
+        "UPGRADE",
+        468,
+        3,
+        3
+      ],
+      [
+        9,
+        "UPGRADE",
+        399,
+        3,
+        3
+      ],
+      [
+        10,
+        "BOSS_CLEAR",
+        457,
+        2,
+        3
+      ],
+      [
+        11,
+        "UPGRADE",
+        399,
+        3,
+        3
+      ],
+      [
+        12,
+        "UPGRADE",
+        410,
+        3,
+        3
+      ],
+      [
+        13,
+        "UPGRADE",
+        338,
+        3,
+        3
+      ],
+      [
+        14,
+        "UPGRADE",
+        432,
+        3,
+        3
+      ],
+      [
+        15,
+        "BOSS_CLEAR",
+        530,
+        3,
+        3
+      ],
+      [
+        16,
+        "UPGRADE",
+        507,
+        3,
+        3
+      ],
+      [
+        17,
+        "UPGRADE",
+        592,
+        3,
+        3
+      ],
+      [
+        18,
+        "UPGRADE",
+        531,
+        3,
+        3
+      ],
+      [
+        19,
+        "UPGRADE",
+        432,
+        1,
+        3
+      ],
+      [
+        20,
+        "BOSS_CLEAR",
+        654,
+        2,
+        4
+      ],
+      [
+        21,
+        "UPGRADE",
+        432,
+        2,
+        3
+      ],
+      [
+        22,
+        "UPGRADE",
+        423,
+        3,
+        4
+      ],
+      [
+        23,
+        "UPGRADE",
+        435,
+        4,
+        5
+      ],
+      [
+        24,
+        "UPGRADE",
+        522,
+        5,
+        6
+      ],
+      [
+        25,
+        "BOSS_CLEAR",
+        638,
+        4,
+        6
+      ]
+    ],
+    "resources": {
+      "loads": 410,
+      "releases": 410,
+      "peak": 19
+    }
+  },
+  "unittest": {
+    "count": 1640,
+    "passed": 1640,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 380.644
+  },
+  "gif_sha256": {
+    "ch1_pawn.gif": "1d4d86dab29449dda6de8f456db2196aa3d23f55939ecfa0e8ad09dc8658701b",
+    "ch2_rook.gif": "4c34eb8ddd0e61d56e67b76c9f2af9efe2afad4b4d3a41b0f37e878778a8f7f8",
+    "ch3_knight.gif": "458539ef333e8a949f07f7e87d6dd223766ca52750ddc98ac25962e2671153cd"
+  }
+}

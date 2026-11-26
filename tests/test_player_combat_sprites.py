@@ -87,8 +87,9 @@ class PlayerCombatSpritesTests(TestCase):
         actions = {('attack',side) for side in ('left','up','right','down')}
         actions.update((action,'neutral') for action in
                        ('parry_ready','parry_normal','parry_perfect','parry_failed'))
-        self.assertEqual(len(self.catalog.clips),len(actions))
-        self.assertEqual(len(self.catalog.atlases),3)
+        player_clips = [clip for clip in self.catalog.clips.values() if clip.design=='player']
+        self.assertEqual(len(player_clips),len(actions))
+        self.assertEqual({clip.atlas for clip in player_clips},{'actors','attacks','parries'})
         for chapter,profile in CHAPTER_PROFILES.items():
             for action,facing in actions:
                 clip = self.catalog.clip(chapter,'player',action,facing,'basic')

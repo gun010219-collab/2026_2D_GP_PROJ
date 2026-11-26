@@ -41,12 +41,13 @@ class SpriteFrame:
             raise ValueError(f'Invalid sprite frame: {data!r}')
         return cls(rect, foot, ms, offset, top)
 
-    def placement(self, layout, reference_height):
+    def placement(self, layout, reference_height, *, flip_x=False):
         """Return SDL rect and HP anchor; the source foot follows world foot plus visual lift."""
         scale = layout['height'] / reference_height
         foot_x, foot_y = layout['foot']
         foot_y += layout.get('elevation', 0.)
-        x = foot_x + (self.offset[0] - self.foot[0]) * scale
+        local_x = self.rect[2]-self.foot[0] if flip_x else self.foot[0]
+        x = foot_x + (self.offset[0] - local_x) * scale
         sdl_y = 899 - foot_y + (self.offset[1] - self.foot[1]) * scale
         visible_top = 899 - sdl_y - self.visible_top * scale
         return ((x, sdl_y, self.rect[2] * scale, self.rect[3] * scale),
@@ -65,6 +66,8 @@ class SpriteClip:
     frames: tuple[SpriteFrame, ...]
     impact: int
     loop: bool
+    flip_x: bool = False
+    contact: int | None = None
     ends_ms: tuple[int, ...] = field(init=False)
 
     def __post_init__(self):
@@ -80,10 +83,11 @@ class SpriteClip:
         duration = self.ends_ms[self.impact - 1]
         return self.frames[bisect_right(self.ends_ms, progress * duration)]
 
-    def reaction(self, elapsed):
+    def reaction(self, elapsed, *, first=None):
         if elapsed < 0.:
             return None
-        start = self.ends_ms[self.impact - 1] if self.impact else 0
+        first = self.impact if first is None else first
+        start = self.ends_ms[first - 1] if first else 0
         total = self.ends_ms[-1] - start
         ms = round(elapsed * 1000, 7)
         if self.loop:
@@ -136,7 +140,13 @@ class SpriteCatalog:
             frames = tuple(SpriteFrame.read(frame, atlases[atlas].size) for frame in clip['frames'])
             if type(impact) is not int or not 0 <= impact < len(frames):
                 raise ValueError(f'Invalid impact index: {impact}')
-            item = SpriteClip(chapter, design, action, facing, attack_kind, atlas, reference, frames, impact, loop)
+            flip_x, contact = clip.get('flip_x', False), clip.get('contact')
+            if (type(flip_x) is not bool or (contact is not None and
+                    (design not in ('rook', 'knight') or action != 'attack' or loop
+                     or type(contact) is not int or not impact < contact < len(frames)))):
+                raise ValueError(f'Invalid sprite transform or contact index: {design} / {facing}')
+            item = SpriteClip(chapter, design, action, facing, attack_kind, atlas, reference, frames, impact, loop,
+                              flip_x, contact)
             if item.key in clips:
                 raise ValueError(f'Duplicate sprite clip: {item.key}')
             clips[item.key] = item
@@ -183,6 +193,13 @@ class SpriteController:
         if state is State.WINDUP:
             frame = clip.preparation((game.combat.tick - receipt.telegraph_start_tick)
                                      / (receipt.hit_tick - receipt.telegraph_start_tick))
+        elif clip.contact is not None:
+            if pose.state is not State.ATTACK:
+                return None
+            if pose.attack_motion == 'arrival':
+                frame = clip.reaction(pose.phase*animation.recovery_seconds[actor.kind],first=clip.contact)
+            else:
+                frame = clip.frames[clip.impact]
         else:
             frame = clip.reaction(elapsed)
         # Return to locomotion when a spent action would briefly fall back to an older mesh cue.

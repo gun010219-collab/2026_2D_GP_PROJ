@@ -1,0 +1,257 @@
+{
+  "ch1_pawn": {
+    "reference": "assets/character_concepts/ch1_pawn.png",
+    "reference_sha256": "cfb0921074b2553934a6e62c95389bc2fc94cb0908c97d3ec6bba4fa0fe25c00",
+    "source_sha256": "8b71df0be9b3f79c598fb9d1cac04dd143c2c2611424d8a68efc7b215f04b532",
+    "directions": [
+      "right",
+      "up",
+      "down"
+    ],
+    "generator": "OpenAI built-in ImageGen",
+    "prompt": "Transparent production sprite sheet, a 4-column by 3-row grid with EXACTLY twelve distinct isolated full-body poses of the specific pawn shown in the reference image. Exact character preservation for the CHECKMATE game asset: Royal ivory stone and steel with muted gold. Reproduce that specific silhouette, species, costume, surface materials, proportions, color and existing equipment, same realistic painterly lighting, same 3/4 board-camera elevation. Do not introduce new costume, weapons, enemies, outlines or fantasy effects. All sprites are small relative to their cells, at most 72 percent of a cell in each dimension so weapon and tail tips have generous blank alpha margins. Equal sized cells, with even space and no drawn grid, decor, marks, typography, floor or shadow. Exactly four poses per row. In each row use these four distinct poses in chronological left to right order. Short armored foot soldier with the original spear and shield. Pose 1: compact guard, spear drawn close. Pose 2: knees bend and spear is pulled far backward in anticipation. Pose 3: a decisive short grounded spear thrust with the spear tip and arm extended in the row's direction. Pose 4: recover from that extended spear strike, stable shield and retracted spear, feet planted. Keep the spear and shield handing and style as in the source. All poses in the first row face screen RIGHT and travel or thrust horizontally toward the right edge. All poses in row 2 face UP-screen away from viewer, show back three-quarter anatomy, and attack away from viewer toward top edge. All poses in row 3 face DOWN-screen toward viewer, show front three-quarter anatomy, and attack downward toward bottom edge. Do not reuse the same facing for all rows. The actor floor line and scale remain consistent across each row. The sheet must be true alpha PNG, with RGBA alpha 0 in all empty spaces including all four corners, everything fully inside its own cell, unchanged image style. No effects trails or glow, because the realtime game draws the existing effects separately.",
+    "scale": 0.84
+  },
+  "ch1_rook": {
+    "reference": "assets/character_concepts/ch1_rook.png",
+    "reference_sha256": "7c588ce0926d4fe3cdb558761cc09f8d34d4077c466da56011eba7e7daa2e65f",
+    "source_sha256": "a4d891507d6c00374cb566943d56d9d1a0b3a38972a0c28d801c54ded68d268a",
+    "directions": [
+      "right",
+      "up",
+      "down"
+    ],
+    "generator": "OpenAI built-in ImageGen",
+    "prompt": "Transparent production sprite sheet, a 4-column by 3-row grid with EXACTLY twelve distinct isolated full-body poses of the specific rook shown in the reference image. Exact character preservation for the CHECKMATE game asset: Royal ivory stone and steel with muted gold. Reproduce that specific silhouette, species, costume, surface materials, proportions, color and existing equipment, same realistic painterly lighting, same 3/4 board-camera elevation. Do not introduce new costume, weapons, enemies, outlines or fantasy effects. All sprites are small relative to their cells, at most 72 percent of a cell in each dimension so weapon and tail tips have generous blank alpha margins. Equal sized cells, with even space and no drawn grid, decor, marks, typography, floor or shadow. Exactly four poses per row. In each row use these four distinct poses in chronological left to right order. The massive squat original castle-shaped guard with its exact helmet, broad shoulders, shield, fist, and existing weapon if any. Pose 1: braced stance. Pose 2: crouch with heavy shoulders and shield drawn back. Pose 3: ground charge leaning strongly into the row direction behind the tower shield. Pose 4: heavy sudden collision with that shield planted out in front, feet spread and body recoils. Keep the original weight and fortress contours. All poses in the first row face screen RIGHT and travel or thrust horizontally toward the right edge. All poses in row 2 face UP-screen away from viewer, show back three-quarter anatomy, and attack away from viewer toward top edge. All poses in row 3 face DOWN-screen toward viewer, show front three-quarter anatomy, and attack downward toward bottom edge. Do not reuse the same facing for all rows. The actor floor line and scale remain consistent across each row. The sheet must be true alpha PNG, with RGBA alpha 0 in all empty spaces including all four corners, everything fully inside its own cell, unchanged image style. No effects trails or glow, because the realtime game draws the existing effects separately."
+  },
+  "ch1_knight": {
+    "reference": "assets/character_concepts/ch1_knight.png",
+    "reference_sha256": "7e33825ab4e4418af8421418ef09c636ee45217b15694150aec5e3cbacb8ef1d",
+    "source_sha256": "33d4e50b56906d263f5f8b610ce73a5bb59486206b9500f123581e5dae1ffb4a",
+    "directions": [
+      "right",
+      "up",
+      "down"
+    ],
+    "generator": "OpenAI built-in ImageGen",
+    "prompt": "Transparent production sprite sheet, a 4-column by 3-row grid with EXACTLY twelve distinct isolated full-body poses of the specific knight shown in the reference image. Exact character preservation for the CHECKMATE game asset: Royal ivory stone and steel with muted gold. Reproduce that specific silhouette, species, costume, surface materials, proportions, color and existing equipment, same realistic painterly lighting, same 3/4 board-camera elevation. Do not introduce new costume, weapons, enemies, outlines or fantasy effects. All sprites are small relative to their cells, at most 72 percent of a cell in each dimension so weapon and tail tips have generous blank alpha margins. Equal sized cells, with even space and no drawn grid, decor, marks, typography, floor or shadow. Exactly four poses per row. In each row use these four distinct poses in chronological left to right order. The original unmanned armored horse, four hooves, unchanged saddle armor, equine face, mane and tail. Pose 1: quadruped balanced stance. Pose 2: compress and crouch, pushing against the floor. Pose 3: leap in the row's direction, four hooves distinctly airborne and tucked, mane and tail trailing. Pose 4: land in the same direction with two leading hooves planted and slightly bent forelegs, trailing mane. No rider, no human appendages, no rearranged anatomy. All poses in the first row face screen RIGHT and travel or thrust horizontally toward the right edge. All poses in row 2 face UP-screen away from viewer, show back three-quarter anatomy, and attack away from viewer toward top edge. All poses in row 3 face DOWN-screen toward viewer, show front three-quarter anatomy, and attack downward toward bottom edge. Do not reuse the same facing for all rows. The actor floor line and scale remain consistent across each row. The sheet must be true alpha PNG, with RGBA alpha 0 in all empty spaces including all four corners, everything fully inside its own cell, unchanged image style. No effects trails or glow, because the realtime game draws the existing effects separately."
+  },
+  "ch2_pawn": {
+    "reference": "assets/chapter2_units/pawn.png",
+    "reference_sha256": "68c886b0e373fcdf90e6c2079676a21f11331c28ffa2aaba9b4ab47982b30fd6",
+    "source_sha256": "93c063cb2d2de0f7483d035ffa8e02b1af78e88ff2b8677b152d0d8f0607bea4",
+    "directions": [
+      "right",
+      "up",
+      "down"
+    ],
+    "generator": "OpenAI built-in ImageGen",
+    "prompt": "Transparent production sprite sheet, a 4-column by 3-row grid with EXACTLY twelve distinct isolated full-body poses of the specific pawn shown in the reference image. Exact character preservation for the CHECKMATE game asset: Woodland bark, exposed timber grain, olive moss and green leaves. Reproduce that specific silhouette, species, costume, surface materials, proportions, color and existing equipment, same realistic painterly lighting, same 3/4 board-camera elevation. Do not introduce new costume, weapons, enemies, outlines or fantasy effects. All sprites are small relative to their cells, at most 72 percent of a cell in each dimension so weapon and tail tips have generous blank alpha margins. Equal sized cells, with even space and no drawn grid, decor, marks, typography, floor or shadow. Exactly four poses per row. In each row use these four distinct poses in chronological left to right order. Short armored foot soldier with the original spear and shield. Pose 1: compact guard, spear drawn close. Pose 2: knees bend and spear is pulled far backward in anticipation. Pose 3: a decisive short grounded spear thrust with the spear tip and arm extended in the row's direction. Pose 4: recover from that extended spear strike, stable shield and retracted spear, feet planted. Keep the spear and shield handing and style as in the source. All poses in the first row face screen RIGHT and travel or thrust horizontally toward the right edge. All poses in row 2 face UP-screen away from viewer, show back three-quarter anatomy, and attack away from viewer toward top edge. All poses in row 3 face DOWN-screen toward viewer, show front three-quarter anatomy, and attack downward toward bottom edge. Do not reuse the same facing for all rows. The actor floor line and scale remain consistent across each row. The sheet must be true alpha PNG, with RGBA alpha 0 in all empty spaces including all four corners, everything fully inside its own cell, unchanged image style. No effects trails or glow, because the realtime game draws the existing effects separately."
+  },
+  "ch2_rook": {
+    "reference": "assets/chapter2_units/rook.png",
+    "reference_sha256": "837690a33f5977253862f3c517dc2d00b7a4094d1cc6538cff2b3f3a2eb28e15",
+    "source_sha256": "e50b9e04d7e86a2db659d07879040a4b10a6be53c4b3d956f929be09b9fda40f",
+    "directions": [
+      "right",
+      "up",
+      "down"
+    ],
+    "generator": "OpenAI built-in ImageGen",
+    "prompt": "Transparent production sprite sheet, a 4-column by 3-row grid with EXACTLY twelve distinct isolated full-body poses of the specific rook shown in the reference image. Exact character preservation for the CHECKMATE game asset: Woodland bark, exposed timber grain, olive moss and green leaves. Reproduce that specific silhouette, species, costume, surface materials, proportions, color and existing equipment, same realistic painterly lighting, same 3/4 board-camera elevation. Do not introduce new costume, weapons, enemies, outlines or fantasy effects. All sprites are small relative to their cells, at most 72 percent of a cell in each dimension so weapon and tail tips have generous blank alpha margins. Equal sized cells, with even space and no drawn grid, decor, marks, typography, floor or shadow. Exactly four poses per row. In each row use these four distinct poses in chronological left to right order. The massive squat original castle-shaped guard with its exact helmet, broad shoulders, shield, fist, and existing weapon if any. Pose 1: braced stance. Pose 2: crouch with heavy shoulders and shield drawn back. Pose 3: ground charge leaning strongly into the row direction behind the tower shield. Pose 4: heavy sudden collision with that shield planted out in front, feet spread and body recoils. Keep the original weight and fortress contours. All poses in the first row face screen RIGHT and travel or thrust horizontally toward the right edge. All poses in row 2 face UP-screen away from viewer, show back three-quarter anatomy, and attack away from viewer toward top edge. All poses in row 3 face DOWN-screen toward viewer, show front three-quarter anatomy, and attack downward toward bottom edge. Do not reuse the same facing for all rows. The actor floor line and scale remain consistent across each row. The sheet must be true alpha PNG, with RGBA alpha 0 in all empty spaces including all four corners, everything fully inside its own cell, unchanged image style. No effects trails or glow, because the realtime game draws the existing effects separately."
+  },
+  "ch2_knight": {
+    "reference": "assets/chapter2_units/knight.png",
+    "reference_sha256": "2d28bd80576c43999b88f20198be0b57f31f2cdbb71e3622d9ebb09493ecab47",
+    "source_sha256": "f3f390d77a4442014cc2227a5aac7a546a4b5a18a76bc13a06a9b1b6d40d986f",
+    "directions": [
+      "right",
+      "up",
+      "down"
+    ],
+    "generator": "OpenAI built-in ImageGen",
+    "prompt": "Transparent production sprite sheet, a 4-column by 3-row grid with EXACTLY twelve distinct isolated full-body poses of the specific knight shown in the reference image. Exact character preservation for the CHECKMATE game asset: Woodland bark, exposed timber grain, olive moss and green leaves. Reproduce that specific silhouette, species, costume, surface materials, proportions, color and existing equipment, same realistic painterly lighting, same 3/4 board-camera elevation. Do not introduce new costume, weapons, enemies, outlines or fantasy effects. All sprites are small relative to their cells, at most 72 percent of a cell in each dimension so weapon and tail tips have generous blank alpha margins. Equal sized cells, with even space and no drawn grid, decor, marks, typography, floor or shadow. Exactly four poses per row. In each row use these four distinct poses in chronological left to right order. The original unmanned armored horse, four hooves, unchanged saddle armor, equine face, mane and tail. Pose 1: quadruped balanced stance. Pose 2: compress and crouch, pushing against the floor. Pose 3: leap in the row's direction, four hooves distinctly airborne and tucked, mane and tail trailing. Pose 4: land in the same direction with two leading hooves planted and slightly bent forelegs, trailing mane. No rider, no human appendages, no rearranged anatomy. All poses in the first row face screen RIGHT and travel or thrust horizontally toward the right edge. All poses in row 2 face UP-screen away from viewer, show back three-quarter anatomy, and attack away from viewer toward top edge. All poses in row 3 face DOWN-screen toward viewer, show front three-quarter anatomy, and attack downward toward bottom edge. Do not reuse the same facing for all rows. The actor floor line and scale remain consistent across each row. The sheet must be true alpha PNG, with RGBA alpha 0 in all empty spaces including all four corners, everything fully inside its own cell, unchanged image style. No effects trails or glow, because the realtime game draws the existing effects separately."
+  },
+  "ch3_pawn": {
+    "reference": "assets/chapter3_units/pawn.png",
+    "reference_sha256": "03d636cb736651fd825be4b1bfc1e24bea44adccd7af89d824b627ae46e75d58",
+    "source_sha256": "b273fb76c7e0deb9caeca6db5b673b5d66a0638264b6a10c30dc99400fb88b37",
+    "directions": [
+      "right",
+      "up",
+      "down"
+    ],
+    "generator": "OpenAI built-in ImageGen",
+    "prompt": "Transparent production sprite sheet, a 4-column by 3-row grid with EXACTLY twelve distinct isolated full-body poses of the specific pawn shown in the reference image. Exact character preservation for the CHECKMATE game asset: Frozen ice, blue-silver armored blocks and translucent blue crystals. Reproduce that specific silhouette, species, costume, surface materials, proportions, color and existing equipment, same realistic painterly lighting, same 3/4 board-camera elevation. Do not introduce new costume, weapons, enemies, outlines or fantasy effects. All sprites are small relative to their cells, at most 72 percent of a cell in each dimension so weapon and tail tips have generous blank alpha margins. Equal sized cells, with even space and no drawn grid, decor, marks, typography, floor or shadow. Exactly four poses per row. In each row use these four distinct poses in chronological left to right order. Short armored foot soldier with the original spear and shield. Pose 1: compact guard, spear drawn close. Pose 2: knees bend and spear is pulled far backward in anticipation. Pose 3: a decisive short grounded spear thrust with the spear tip and arm extended in the row's direction. Pose 4: recover from that extended spear strike, stable shield and retracted spear, feet planted. Keep the spear and shield handing and style as in the source. All poses in the first row face screen RIGHT and travel or thrust horizontally toward the right edge. All poses in row 2 face UP-screen away from viewer, show back three-quarter anatomy, and attack away from viewer toward top edge. All poses in row 3 face DOWN-screen toward viewer, show front three-quarter anatomy, and attack downward toward bottom edge. Do not reuse the same facing for all rows. The actor floor line and scale remain consistent across each row. The sheet must be true alpha PNG, with RGBA alpha 0 in all empty spaces including all four corners, everything fully inside its own cell, unchanged image style. No effects trails or glow, because the realtime game draws the existing effects separately."
+  },
+  "ch3_rook": {
+    "reference": "assets/chapter3_units/rook.png",
+    "reference_sha256": "ab1cec71d3a1b3f34587c1038871aa2b6b3f18c6ad2be78fa67a34678acf5679",
+    "source_sha256": "7fa2f4b4542023a8633e8473cbf1c58604044f909d38333d344001b9a8fd41d0",
+    "directions": [
+      "right",
+      "up",
+      "down"
+    ],
+    "generator": "OpenAI built-in ImageGen",
+    "prompt": "Transparent production sprite sheet, a 4-column by 3-row grid with EXACTLY twelve distinct isolated full-body poses of the specific rook shown in the reference image. Exact character preservation for the CHECKMATE game asset: Frozen ice, blue-silver armored blocks and translucent blue crystals. Reproduce that specific silhouette, species, costume, surface materials, proportions, color and existing equipment, same realistic painterly lighting, same 3/4 board-camera elevation. Do not introduce new costume, weapons, enemies, outlines or fantasy effects. All sprites are small relative to their cells, at most 72 percent of a cell in each dimension so weapon and tail tips have generous blank alpha margins. Equal sized cells, with even space and no drawn grid, decor, marks, typography, floor or shadow. Exactly four poses per row. In each row use these four distinct poses in chronological left to right order. The massive squat original castle-shaped guard with its exact helmet, broad shoulders, shield, fist, and existing weapon if any. Pose 1: braced stance. Pose 2: crouch with heavy shoulders and shield drawn back. Pose 3: ground charge leaning strongly into the row direction behind the tower shield. Pose 4: heavy sudden collision with that shield planted out in front, feet spread and body recoils. Keep the original weight and fortress contours. All poses in the first row face screen RIGHT and travel or thrust horizontally toward the right edge. All poses in row 2 face UP-screen away from viewer, show back three-quarter anatomy, and attack away from viewer toward top edge. All poses in row 3 face DOWN-screen toward viewer, show front three-quarter anatomy, and attack downward toward bottom edge. Do not reuse the same facing for all rows. The actor floor line and scale remain consistent across each row. The sheet must be true alpha PNG, with RGBA alpha 0 in all empty spaces including all four corners, everything fully inside its own cell, unchanged image style. No effects trails or glow, because the realtime game draws the existing effects separately."
+  },
+  "ch3_knight": {
+    "reference": "assets/chapter3_units/knight.png",
+    "reference_sha256": "bda5a25dda74421d268045014582ccd97ca3924219c7ffd38c7fe530911872f7",
+    "source_sha256": "4b16fb6af2ce7a00ece32611f31b4ec79adb68ced462d27ba2a21c97ca1d9473",
+    "directions": [
+      "right",
+      "up",
+      "down"
+    ],
+    "generator": "OpenAI built-in ImageGen",
+    "prompt": "Transparent production sprite sheet, a 4-column by 3-row grid with EXACTLY twelve distinct isolated full-body poses of the specific knight shown in the reference image. Exact character preservation for the CHECKMATE game asset: Frozen ice, blue-silver armored blocks and translucent blue crystals. Reproduce that specific silhouette, species, costume, surface materials, proportions, color and existing equipment, same realistic painterly lighting, same 3/4 board-camera elevation. Do not introduce new costume, weapons, enemies, outlines or fantasy effects. All sprites are small relative to their cells, at most 72 percent of a cell in each dimension so weapon and tail tips have generous blank alpha margins. Equal sized cells, with even space and no drawn grid, decor, marks, typography, floor or shadow. Exactly four poses per row. In each row use these four distinct poses in chronological left to right order. The original unmanned armored horse, four hooves, unchanged saddle armor, equine face, mane and tail. Pose 1: quadruped balanced stance. Pose 2: compress and crouch, pushing against the floor. Pose 3: leap in the row's direction, four hooves distinctly airborne and tucked, mane and tail trailing. Pose 4: land in the same direction with two leading hooves planted and slightly bent forelegs, trailing mane. No rider, no human appendages, no rearranged anatomy. All poses in the first row face screen RIGHT and travel or thrust horizontally toward the right edge. All poses in row 2 face UP-screen away from viewer, show back three-quarter anatomy, and attack away from viewer toward top edge. All poses in row 3 face DOWN-screen toward viewer, show front three-quarter anatomy, and attack downward toward bottom edge. Do not reuse the same facing for all rows. The actor floor line and scale remain consistent across each row. The sheet must be true alpha PNG, with RGBA alpha 0 in all empty spaces including all four corners, everything fully inside its own cell, unchanged image style. No effects trails or glow, because the realtime game draws the existing effects separately."
+  },
+  "ch4_pawn": {
+    "reference": "assets/late_chapter_units/ch4_pawn.png",
+    "reference_sha256": "1836b1a8ce506deea4063593f1f60b6cca6126fc52dc945631cf4608cf8a1f3f",
+    "source_sha256": "1a316331bdd9b2dcad5d41bc0ff1d175896b5ed10ed05aaccefb1a5485096865",
+    "directions": [
+      "right",
+      "up",
+      "down"
+    ],
+    "generator": "OpenAI built-in ImageGen",
+    "prompt": "Transparent production sprite sheet, a 4-column by 3-row grid with EXACTLY twelve distinct isolated full-body poses of the specific pawn shown in the reference image. Exact character preservation for the CHECKMATE game asset: Volcanic matte obsidian, rough dark plates with thin ember-orange seams. Reproduce that specific silhouette, species, costume, surface materials, proportions, color and existing equipment, same realistic painterly lighting, same 3/4 board-camera elevation. Do not introduce new costume, weapons, enemies, outlines or fantasy effects. All sprites are small relative to their cells, at most 72 percent of a cell in each dimension so weapon and tail tips have generous blank alpha margins. Equal sized cells, with even space and no drawn grid, decor, marks, typography, floor or shadow. Exactly four poses per row. In each row use these four distinct poses in chronological left to right order. Short armored foot soldier with the original spear and shield. Pose 1: compact guard, spear drawn close. Pose 2: knees bend and spear is pulled far backward in anticipation. Pose 3: a decisive short grounded spear thrust with the spear tip and arm extended in the row's direction. Pose 4: recover from that extended spear strike, stable shield and retracted spear, feet planted. Keep the spear and shield handing and style as in the source. All poses in the first row face screen RIGHT and travel or thrust horizontally toward the right edge. All poses in row 2 face UP-screen away from viewer, show back three-quarter anatomy, and attack away from viewer toward top edge. All poses in row 3 face DOWN-screen toward viewer, show front three-quarter anatomy, and attack downward toward bottom edge. Do not reuse the same facing for all rows. The actor floor line and scale remain consistent across each row. The sheet must be true alpha PNG, with RGBA alpha 0 in all empty spaces including all four corners, everything fully inside its own cell, unchanged image style. No effects trails or glow, because the realtime game draws the existing effects separately."
+  },
+  "ch4_knight": {
+    "reference": "assets/late_chapter_units/ch4_knight.png",
+    "reference_sha256": "7cbf0a16bef1eb555853c7befd23d96b0a76ab05c3d2ccde7ae9171bd3843eae",
+    "source_sha256": "ac27cd730584c5a8f1d17283a2314cf413bfd0ffa007562552607027c01f17b0",
+    "directions": [
+      "right",
+      "up",
+      "down"
+    ],
+    "generator": "OpenAI built-in ImageGen",
+    "prompt": "Transparent production sprite sheet, a 4-column by 3-row grid with EXACTLY twelve distinct isolated full-body poses of the specific knight shown in the reference image. Exact character preservation for the CHECKMATE game asset: Volcanic matte obsidian, rough dark plates with thin ember-orange seams. Reproduce that specific silhouette, species, costume, surface materials, proportions, color and existing equipment, same realistic painterly lighting, same 3/4 board-camera elevation. Do not introduce new costume, weapons, enemies, outlines or fantasy effects. All sprites are small relative to their cells, at most 72 percent of a cell in each dimension so weapon and tail tips have generous blank alpha margins. Equal sized cells, with even space and no drawn grid, decor, marks, typography, floor or shadow. Exactly four poses per row. In each row use these four distinct poses in chronological left to right order. The original unmanned armored horse, four hooves, unchanged saddle armor, equine face, mane and tail. Pose 1: quadruped balanced stance. Pose 2: compress and crouch, pushing against the floor. Pose 3: leap in the row's direction, four hooves distinctly airborne and tucked, mane and tail trailing. Pose 4: land in the same direction with two leading hooves planted and slightly bent forelegs, trailing mane. No rider, no human appendages, no rearranged anatomy. All poses in the first row face screen RIGHT and travel or thrust horizontally toward the right edge. All poses in row 2 face UP-screen away from viewer, show back three-quarter anatomy, and attack away from viewer toward top edge. All poses in row 3 face DOWN-screen toward viewer, show front three-quarter anatomy, and attack downward toward bottom edge. Do not reuse the same facing for all rows. The actor floor line and scale remain consistent across each row. The sheet must be true alpha PNG, with RGBA alpha 0 in all empty spaces including all four corners, everything fully inside its own cell, unchanged image style. No effects trails or glow, because the realtime game draws the existing effects separately."
+  },
+  "ch5_pawn": {
+    "reference": "assets/late_chapter_units/ch5_pawn.png",
+    "reference_sha256": "8a84a88c3d37ac1f6a36eb2c3a381f5193c087ce7f2d16ed0efca4e634d068e2",
+    "source_sha256": "efc3257584ef2b86dfc9ce9aebbe37860c7f8d2a567a93ce410056da36c5ddc2",
+    "directions": [
+      "right",
+      "up",
+      "down"
+    ],
+    "generator": "OpenAI built-in ImageGen",
+    "prompt": "Transparent production sprite sheet, a 4-column by 3-row grid with EXACTLY twelve distinct isolated full-body poses of the specific pawn shown in the reference image. Exact character preservation for the CHECKMATE game asset: Gothic black iron and differentiated burgundy, white spectral mane for the horse. Reproduce that specific silhouette, species, costume, surface materials, proportions, color and existing equipment, same realistic painterly lighting, same 3/4 board-camera elevation. Do not introduce new costume, weapons, enemies, outlines or fantasy effects. All sprites are small relative to their cells, at most 72 percent of a cell in each dimension so weapon and tail tips have generous blank alpha margins. Equal sized cells, with even space and no drawn grid, decor, marks, typography, floor or shadow. Exactly four poses per row. In each row use these four distinct poses in chronological left to right order. Short armored foot soldier with the original spear and shield. Pose 1: compact guard, spear drawn close. Pose 2: knees bend and spear is pulled far backward in anticipation. Pose 3: a decisive short grounded spear thrust with the spear tip and arm extended in the row's direction. Pose 4: recover from that extended spear strike, stable shield and retracted spear, feet planted. Keep the spear and shield handing and style as in the source. All poses in the first row face screen RIGHT and travel or thrust horizontally toward the right edge. All poses in row 2 face UP-screen away from viewer, show back three-quarter anatomy, and attack away from viewer toward top edge. All poses in row 3 face DOWN-screen toward viewer, show front three-quarter anatomy, and attack downward toward bottom edge. Do not reuse the same facing for all rows. The actor floor line and scale remain consistent across each row. The sheet must be true alpha PNG, with RGBA alpha 0 in all empty spaces including all four corners, everything fully inside its own cell, unchanged image style. No effects trails or glow, because the realtime game draws the existing effects separately.",
+    "cells": [
+      [
+        0,
+        0,
+        362,
+        362
+      ],
+      [
+        362,
+        0,
+        724,
+        362
+      ],
+      [
+        724,
+        0,
+        1120,
+        362
+      ],
+      [
+        1120,
+        0,
+        1448,
+        362
+      ],
+      [
+        0,
+        362,
+        362,
+        724
+      ],
+      [
+        362,
+        362,
+        724,
+        724
+      ],
+      [
+        724,
+        362,
+        1086,
+        724
+      ],
+      [
+        1086,
+        362,
+        1448,
+        724
+      ],
+      [
+        0,
+        724,
+        362,
+        1086
+      ],
+      [
+        362,
+        724,
+        724,
+        1086
+      ],
+      [
+        724,
+        724,
+        1086,
+        1086
+      ],
+      [
+        1086,
+        724,
+        1448,
+        1086
+      ]
+    ]
+  },
+  "ch5_knight": {
+    "reference": "assets/late_chapter_units/ch5_knight.png",
+    "reference_sha256": "6a01ea6c46ce5908cf1019500301dff818c6836de0eaa94bb47c64b69c9c7207",
+    "source_sha256": "faa44112193c474b6e57a3143b22910efc45a67eb31634e6692426f8704f75fe",
+    "directions": [
+      "right",
+      "up",
+      "down"
+    ],
+    "generator": "OpenAI built-in ImageGen",
+    "prompt": "Transparent production sprite sheet, a 4-column by 3-row grid with EXACTLY twelve distinct isolated full-body poses of the specific knight shown in the reference image. Exact character preservation for the CHECKMATE game asset: Gothic black iron and differentiated burgundy, white spectral mane for the horse. Reproduce that specific silhouette, species, costume, surface materials, proportions, color and existing equipment, same realistic painterly lighting, same 3/4 board-camera elevation. Do not introduce new costume, weapons, enemies, outlines or fantasy effects. All sprites are small relative to their cells, at most 72 percent of a cell in each dimension so weapon and tail tips have generous blank alpha margins. Equal sized cells, with even space and no drawn grid, decor, marks, typography, floor or shadow. Exactly four poses per row. In each row use these four distinct poses in chronological left to right order. The original unmanned armored horse, four hooves, unchanged saddle armor, equine face, mane and tail. Pose 1: quadruped balanced stance. Pose 2: compress and crouch, pushing against the floor. Pose 3: leap in the row's direction, four hooves distinctly airborne and tucked, mane and tail trailing. Pose 4: land in the same direction with two leading hooves planted and slightly bent forelegs, trailing mane. No rider, no human appendages, no rearranged anatomy. All poses in the first row face screen RIGHT and travel or thrust horizontally toward the right edge. All poses in row 2 face UP-screen away from viewer, show back three-quarter anatomy, and attack away from viewer toward top edge. All poses in row 3 face DOWN-screen toward viewer, show front three-quarter anatomy, and attack downward toward bottom edge. Do not reuse the same facing for all rows. The actor floor line and scale remain consistent across each row. The sheet must be true alpha PNG, with RGBA alpha 0 in all empty spaces including all four corners, everything fully inside its own cell, unchanged image style. No effects trails or glow, because the realtime game draws the existing effects separately."
+  },
+  "ch5_rook": {
+    "reference": "assets/late_chapter_units/ch5_rook.png",
+    "reference_sha256": "b229b2cce7990130a87ee30b1c5f53a27db5eaf202f307eff71a16b57a4cdc2f",
+    "source_sha256": "48297516a00f3cac61c15b098c252c6a0a4f947f11d63c78818a47fbd27f796f",
+    "directions": [
+      "right",
+      "up",
+      "down"
+    ],
+    "generator": "OpenAI built-in ImageGen",
+    "prompt": "Transparent production sprite sheet, a 4-column by 3-row grid with EXACTLY twelve distinct isolated full-body poses of the specific rook shown in the reference image. Exact character preservation for the CHECKMATE game asset: Gothic black iron and differentiated burgundy, white spectral mane for the horse. Reproduce that specific silhouette, species, costume, surface materials, proportions, color and existing equipment, same realistic painterly lighting, same 3/4 board-camera elevation. Do not introduce new costume, weapons, enemies, outlines or fantasy effects. All sprites are small relative to their cells, at most 72 percent of a cell in each dimension so weapon and tail tips have generous blank alpha margins. Equal sized cells, with even space and no drawn grid, decor, marks, typography, floor or shadow. Exactly four poses per row. In each row use these four distinct poses in chronological left to right order. The massive squat original castle-shaped guard with its exact helmet, broad shoulders, shield, fist, and existing weapon if any. Pose 1: braced stance. Pose 2: crouch with heavy shoulders and shield drawn back. Pose 3: ground charge leaning strongly into the row direction behind the tower shield. Pose 4: heavy sudden collision with that shield planted out in front, feet spread and body recoils. Keep the original weight and fortress contours. All poses in the first row face screen RIGHT and travel or thrust horizontally toward the right edge. All poses in row 2 face UP-screen away from viewer, show back three-quarter anatomy, and attack away from viewer toward top edge. All poses in row 3 face DOWN-screen toward viewer, show front three-quarter anatomy, and attack downward toward bottom edge. Do not reuse the same facing for all rows. The actor floor line and scale remain consistent across each row. The sheet must be true alpha PNG, with RGBA alpha 0 in all empty spaces including all four corners, everything fully inside its own cell, unchanged image style. No effects trails or glow, because the realtime game draws the existing effects separately."
+  },
+  "ch4_rook": {
+    "reference": "assets/late_chapter_units/ch4_rook.png",
+    "reference_sha256": "1a81941c0428812c9d44214450f6da56b3ca7d4953c59fef04b8b111a89a981a",
+    "source_sha256": "f0a82a531df90befbc51ba367c0a032849c6eef3d63822040118b7ba2f00c0ed",
+    "directions": [
+      "right",
+      "up",
+      "down"
+    ],
+    "generator": "OpenAI built-in ImageGen",
+    "prompt": "Transparent production sprite sheet, a 4-column by 3-row grid with EXACTLY twelve distinct isolated full-body poses of the specific rook shown in the reference image. Exact character preservation for the CHECKMATE game asset: Volcanic matte obsidian, rough dark plates with thin ember-orange seams. Reproduce that specific silhouette, species, costume, surface materials, proportions, color and existing equipment, same realistic painterly lighting, same 3/4 board-camera elevation. Do not introduce new costume, weapons, enemies, outlines or fantasy effects. All sprites are small relative to their cells, at most 72 percent of a cell in each dimension so weapon and tail tips have generous blank alpha margins. Equal sized cells, with even space and no drawn grid, decor, marks, typography, floor or shadow. Exactly four poses per row. In each row use these four distinct poses in chronological left to right order. The massive squat original castle-shaped guard with its exact helmet, broad shoulders, shield, fist, and existing weapon if any. Pose 1: braced stance. Pose 2: crouch with heavy shoulders and shield drawn back. Pose 3: ground charge leaning strongly into the row direction behind the tower shield. Pose 4: heavy sudden collision with that shield planted out in front, feet spread and body recoils. Keep the original weight and fortress contours. All poses in the first row face screen RIGHT and travel or thrust horizontally toward the right edge. All poses in row 2 face UP-screen away from viewer, show back three-quarter anatomy, and attack away from viewer toward top edge. All poses in row 3 face DOWN-screen toward viewer, show front three-quarter anatomy, and attack downward toward bottom edge. Do not reuse the same facing for all rows. The actor floor line and scale remain consistent across each row. The sheet must be true alpha PNG, with RGBA alpha 0 in all empty spaces including all four corners, everything fully inside its own cell, unchanged image style. No effects trails or glow, because the realtime game draws the existing effects separately."
+  }
+}

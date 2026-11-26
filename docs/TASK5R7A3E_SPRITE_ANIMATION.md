@@ -1,6 +1,61 @@
 
 # CHECKMATE R7-A3E 프레임별 공격 애니메이션
 
+## R7-A3E-4 Pawn·Rook·Knight 공격 스프라이트
+
+승인된 플레이어 공격·패링은 통합 커밋 `7a4a4a0a68b84fe59f0929e2561da49b0e15540e`에서 원격 `main`과 일치한다. 기존에 승인된 플레이어 클립은 비교용 카탈로그에 보존한다. [플레이어 전용 매니페스트](../assets/sprite_animation/manifest_player_only.json)
+
+왕실·숲·빙설·용암·고딕의 실제 런타임 원본을 각각 참조했다. 내장 ImageGen 시트는 정규화 전 원본과 프롬프트를 보존한다. 각 행의 두 준비 포즈는 기존 예고에 대응한다. Pawn은 실제 공격 시작에 창격과 회수를 재생한다. Rook은 돌진 포즈에서 충돌로, Knight는 공중 포즈에서 착지로 넘어가는 시점을 기존 이동 보간 도착에서 읽는다. Rook의 흐름에는 기존 막힌 돌진 사건도 포함한다. Knight의 18px 도약과 발의 지상 투영, 기존 효과·피해·패링·오디오는 승인 기준을 따른다.
+
+가로 시트의 반대 방향은 발 앵커를 보정해 수평 반전하고, 위·아래는 별도 포즈를 사용한다. 대각선 이동은 우세한 보드 축의 포즈를 쓰며 실제 이동 경로와 공격 방향 표시는 원장과 일치한다. 한 디자인에서 발 위치와 배율을 일관되게 유지한다. 텍스처가 없는 디자인은 기존 메시로 표시한다.
+
+### 제작·검증 자료
+
+15개 제작 시트는 디자인마다 12개 포즈를 가진다. 384×384 RGBA 프레임 180장의 발 앵커는 모두 (192, 302)다. 가시 영역을 잘라 2px 패딩을 적용한 15개 아틀라스에서 챕터별 네 방향, 총 60개 적 클립을 재생한다. Pawn의 실제 캠페인 42기는 아래로 전진한다. Pawn의 다른 방향 포즈는 카탈로그에서 검증하고 실제 방향 확인은 캠페인 공격 패턴에 맞춰 진행했다. [제작 프롬프트·참조 해시](../assets/sprite_animation/enemies/recipes.json) · [프레임·페이지 해시](../assets/sprite_animation/enemies/frames.json) · [런타임 매니페스트](../assets/sprite_animation/manifest.json)
+
+| 기물 | 실제 사건에 맞춘 표시 |
+| --- | --- |
+| Pawn | 두 준비 포즈가 공격 예고의 약 37.5%에서 바뀐다. 발동 106ms와 창 회수 204ms를 실제 창격 사건부터 재생한다. |
+| Rook | 두 준비 포즈가 예고의 약 32.5%에서 바뀐다. 실제 돌진 동안 전방 자세를 유지한다. 도착 또는 막힘에서 충돌 포즈를 시작하고 최대 320ms 이내에 기존 자세로 돌아온다. |
+| Knight | 두 준비 포즈가 예고의 약 32.5%에서 바뀐다. 공중 포즈는 기존 도약을 따라간다. 기존 착지 VFX·음원이 시작되는 프레임에 착지 포즈로 전환해 최대 310ms 표시한다. |
+
+숨김 Windows Direct3D11의 같은 틱 비교에서 대상 기물의 발 위치, 위험 셀과 패링 힌트가 일치했다. 이전 매니페스트와 신규 매니페스트의 렌더링 전후 전투 상태가 일치했다. [Pawn 창격 GIF](../artifacts/enemy_combat_sprites_r7a3e4/ch1_pawn.gif) · [Rook 돌진·충돌 GIF](../artifacts/enemy_combat_sprites_r7a3e4/ch2_rook.gif) · [Knight 도약·착지 GIF](../artifacts/enemy_combat_sprites_r7a3e4/ch3_knight.gif)
+
+### 자동 검증과 성능
+
+- 전체 unittest 1,640개가 통과했다. 신규 5개를 포함하며 실패·오류·skip 0개, 380.644초다. 관련 테스트 30개, 일반·`-O` 스테이지 검사와 compileall도 통과했다.
+- Stage1~25의 자동 캠페인 결과가 기준과 일치했다. 보스 5전을 클리어했고 Stage25 종료 기록은 638틱, HP 4, 공격 레벨 6이다. SDL 텍스처 410개를 로드하고 해제했다.
+- Windows 숨김 렌더 19장면에서 캡처 38장의 해시를 확인했다. 좌향·상향 Rook·Knight를 실제 입력으로 재현했고, 상향 Rook의 막힌 돌진은 발동 틱에 충돌 자세로 전환했다. 캡처 비교에서 스프라이트 페이지 102개를 로드하고 모두 해제했으며 동시 최대는 6개였다. 신규 페이지의 챕터별 최대 추가 픽셀 메모리는 8.51 MiB, 단독 표본의 한 페이지 로딩 최대는 10.527ms다.
+- RGBA 프레임 180장의 가시 영역은 384px 경계 안에 있다. 준비 자세의 가시 높이 중앙값은 참조 PNG의 100.9%다. 프레임·페이지·매니페스트 등 생성물 197개가 재빌드에서 SHA-256까지 일치했다. 승인된 플레이어 PNG와 기존 WAV 43개를 보존했다. [해시 및 상세 결과](../artifacts/enemy_combat_sprites_r7a3e4/report.json)
+
+Windows 숨김 Direct3D11에서 동일 전투 틱마다 두 모드 각각 120프레임의 자세 갱신·렌더링·Present를 쟀다. 같은 텍스처 뱅크에서 포즈 선택에 따른 렌더 비용을 비교했다. 아래 단위는 ms이며 순서는 P50 / P95 / P99다.
+
+| 장면 | 플레이어 전용 | 적 스프라이트 포함 |
+| --- | --- | --- |
+| Stage1 Pawn 창격 | 1.354 / 1.550 / 1.651 | 1.251 / 1.402 / 1.800 |
+| Stage6 Rook 충돌 | 1.925 / 2.141 / 2.245 | 1.813 / 1.991 / 2.109 |
+| Stage11 Knight 착지 | 2.384 / 3.641 / 4.113 | 2.158 / 3.352 / 3.768 |
+| Stage21 Rook 충돌 | 3.798 / 3.965 / 4.070 | 3.584 / 3.838 / 4.120 |
+
+R7-A3E-4F에서 사용자가 Pawn·Rook·Knight 공격 스프라이트를 실제 플레이하고 최종 승인했다. Stage24 교차 광선과 Stage25 Pulse의 180FPS 예산은 R7-C에서 계속 추적한다.
+
+Windows PowerShell에서 기본 실행과 플레이어 전용 비교를 할 수 있다.
+
+```powershell
+.\.venv\Scripts\python.exe main.py
+.\.venv\Scripts\python.exe tools/chapter_art_play.py 6
+
+$env:CHECKMATE_ATTACK_SPRITES = '1'
+$env:CHECKMATE_SPRITE_MANIFEST = 'assets/sprite_animation/manifest_player_only.json'
+.\.venv\Scripts\python.exe tools/chapter_art_play.py 6
+Remove-Item Env:CHECKMATE_ATTACK_SPRITES, Env:CHECKMATE_SPRITE_MANIFEST
+
+$qa = Join-Path $env:TEMP ('checkmate-enemy-sprite-qa-' + [guid]::NewGuid())
+.\.venv\Scripts\python.exe tools/enemy_combat_sprite_qa.py $qa
+$build = Join-Path $env:TEMP ('checkmate-enemy-sprite-build-' + [guid]::NewGuid())
+.\.venv\Scripts\python.exe tools/enemy_combat_sheets.py assets/sprite_animation $build
+```
+
 ## R7-A3E-2B 플레이어 전방향 공격과 패링
 
 5개 챕터에서 기본 실행 시 네 방향 공격과 네 가지 패링 상태가 프레임별 스프라이트를 사용한다. 승인된 우측 공격 PNG와 776×776 아틀라스를 재사용한다. [정식 매니페스트](../assets/sprite_animation/manifest.json) · [우측 전용 비교 매니페스트](../assets/sprite_animation/manifest_right_only.json)
