@@ -1,5 +1,9 @@
 # CHECKMATE 에셋 출처
 
+## R7-A4C 전투 효과음
+
+CHECKMATE 프로젝트와 Codex가 도구로 합성한 공통 13개 및 챕터 전용 40개다. 외부 샘플을 사용하지 않았으며 CHECKMATE 게임·전시 빌드에 포함해 배포할 수 있다. 각 파일의 길이, 피크, RMS, SHA-256은 매니페스트에 기록했다. [제작 코드](../tools/render_combat_sfx.py) · [음원 매니페스트](../assets/audio/combat_sfx/manifest.json)
+
 ## R7-A4 챕터 음악
 
 새 원곡 열 곡은 GeneralUser GS 악기와 합창 샘플을 사용했다. 숲 일반전·보스전의 현장음은 RabMusicLab 및 Cinetony의 CC0 녹음이다. 기존 WAV 43개의 출처 기록은 유지한다. [음원별 해시](../assets/audio/renewal/manifest.json) · [권리·제작 세부 정보](TASK5R7A4_BGM.md#제작-출처)

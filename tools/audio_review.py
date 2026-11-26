@@ -1,6 +1,9 @@
 """Play CHECKMATE sounds individually or verify the actual mixer on a dummy device."""
 import argparse
+from array import array
+from ctypes import string_at
 import json
+from math import log10
 import os
 from pathlib import Path
 from statistics import median
@@ -8,7 +11,8 @@ import sys
 from time import perf_counter_ns, sleep
 
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
-from game_audio import AudioManager, AudioSettings, BGM_PLAYLIST, MixerAudio, PRIORITIES, ROOT, TRACKS
+from game_audio import (AudioManager, AudioSettings, BGM_PLAYLIST, MixerAudio, PRIORITIES,
+                        RENEWED_CUES, ROOT, THEMED_SFX, TRACKS, VOICES)
 from presentation_events import PresentationEvents
 
 
@@ -57,15 +61,70 @@ def verify(backend):
     print('Native Vorbis loop wraps',len(loops))
     if memory_samples:
         print('Maximum sampled Windows private bytes above SFX-loaded baseline',max(memory_samples))
-    for name in PRIORITIES:
-        assert backend.sound(name,0) and backend.playing(0),name
+    backend.music(None)
+    verify_sfx(backend)
     backend.clear_voices()
     assert not backend.playing(0)
     backend.music(None)
     assert not mix.Mix_PlayingMusic()
     backend.close()
-    assert not backend.sounds and not backend.tracks
-    print(f'Dummy SDL_mixer loaded, played and released {len(PRIORITIES)} SFX and {len(cold_ms)} BGM')
+    assert not backend.sounds and not backend.replacements and not backend.tracks
+    print(f'Dummy SDL_mixer played {len(PRIORITIES)} shared cues, {len(THEMED_SFX)} themed cues and {len(cold_ms)} BGM paths')
+
+
+def verify_sfx(backend):
+    mix = backend.mix
+    blocks = []
+
+    @mix.mix_func
+    def capture(_, stream, length):
+        blocks.append(string_at(stream, length))
+
+    def recorded_peak():
+        samples = array('h')
+        samples.frombytes(b''.join(blocks))
+        return max(map(abs, samples), default=0)/32768
+
+    backend.volume(45,75)
+    mix.Mix_SetPostMix(capture,None)
+    levels = {}
+    try:
+        for name in (*PRIORITIES, *THEMED_SFX):
+            backend.clear_voices()
+            blocks.clear()
+            assert backend.sound(name,0) and backend.playing(0),name
+            sleep(.11)
+            peak = recorded_peak()
+            assert .01 < peak < .25,(name,peak)
+            levels[name] = round(20*log10(peak),1)
+        assert all(backend.replacements.get(name) for name in (*RENEWED_CUES, *THEMED_SFX))
+        assert levels['parry_perfect'] > levels['parry_normal']+1.5,levels
+        backend.clear_voices()
+        backend.volume(100,100)
+        backend.music('boss_gothic')
+        sleep(.22)
+        blocks.clear()
+        for channel in range(VOICES):
+            assert backend.sound('parry_perfect',channel)
+        sleep(.27)
+        stacked_peak = recorded_peak()
+        assert .25 < stacked_peak < .97,stacked_peak
+        backend.clear_voices()
+        blocks.clear()
+        mixed = ('player_hit','parry_perfect','player_hurt','rook_impact',
+                 'forest/bishop_cast','frozen/queen_fire','gothic/king_pulse','ui_select')
+        for channel,name in enumerate(mixed):
+            assert backend.sound(name,channel)
+        sleep(.27)
+        mixed_peak = recorded_peak()
+        assert .20 < mixed_peak < .97,mixed_peak
+        print('SFX postmix peak dBFS range', min(levels.values()), max(levels.values()))
+        print('Isolated cue peaks dBFS', {name:levels[name] for name in
+              ('player_swing','player_hit','parry_normal','parry_perfect','royal/queen_fire','ui_select')})
+        print('Full-volume stacked / mixed postmix peaks dBFS',
+              round(20*log10(stacked_peak),1),round(20*log10(mixed_peak),1))
+    finally:
+        mix.Mix_SetPostMix(mix.mix_func(),None)
 
 
 def benchmark(backend):
@@ -110,6 +169,7 @@ def main():
     parser.add_argument('name',nargs='*',choices=None,help='SFX or BGM names in playback order')
     parser.add_argument('--list',action='store_true')
     parser.add_argument('--all-bgm',action='store_true',help='Play menu, five chapter/boss pairs, and ending in order')
+    parser.add_argument('--combat-sfx',action='store_true',help='Play renewed combat sounds followed by all five chapter sets')
     parser.add_argument('--verify',action='store_true',help='Use the silent SDL dummy device')
     parser.add_argument('--benchmark',action='store_true',help='Time real Queen / Pulse batches on dummy SDL')
     parser.add_argument('--seconds',type=float,default=9,help='Seconds per BGM preview')
@@ -122,14 +182,21 @@ def main():
     if renewal.is_file():
         for row in json.loads(renewal.read_text(encoding='utf-8'))['files']:
             durations[Path(row['file']).stem]=row['duration_s']
+    combat = ROOT/'combat_sfx'/'manifest.json'
+    if combat.is_file():
+        for row in json.loads(combat.read_text(encoding='utf-8'))['files']:
+            durations[row['file'].removesuffix('.wav')]=row['duration_s']
     durations.update({name:durations.get(name,durations['boss']) for name in BGM_PLAYLIST if name.startswith('boss_')})
-    playlist=BGM_PLAYLIST if args.all_bgm else args.name
+    playlist = BGM_PLAYLIST if args.all_bgm else args.name
+    if args.combat_sfx:
+        playlist = (*playlist, *RENEWED_CUES, *THEMED_SFX)
     for name in playlist:
         if name not in durations:
             parser.error(f'Unknown audio cue: {name}')
     if args.list or not (playlist or args.verify or args.benchmark):
         print('BGM:',', '.join(BGM_PLAYLIST))
         print('SFX:',', '.join(PRIORITIES))
+        print('Chapter SFX:',', '.join(THEMED_SFX))
         return
     if args.verify or args.benchmark:
         os.environ['SDL_AUDIODRIVER'] = 'dummy'

@@ -1,0 +1,379 @@
+{
+  "creator": "CHECKMATE project / Codex",
+  "source": "tools/render_combat_sfx.py",
+  "rights": "Original project synthesis. No third-party samples. May be used and redistributed with CHECKMATE.",
+  "format": "WAV PCM16 stereo 44100 Hz",
+  "files": [
+    {
+      "file": "player_swing.wav",
+      "duration_s": 0.24,
+      "peak_dbfs": -3.61,
+      "rms_dbfs": -16.33,
+      "sha256": "f548df6a9461952b0cf901cb782d63381c3242b4bdc58ad97afcd6ebf9e99637"
+    },
+    {
+      "file": "player_hit.wav",
+      "duration_s": 0.28,
+      "peak_dbfs": -2.97,
+      "rms_dbfs": -17.65,
+      "sha256": "3beb5e680614fa0d48b570ae13f8a5e4d7f8d1961d4881f270785a593dd7d623"
+    },
+    {
+      "file": "player_hurt.wav",
+      "duration_s": 0.32,
+      "peak_dbfs": -3.22,
+      "rms_dbfs": -20.3,
+      "sha256": "a04b25bf001bf9e9244e3148bc79c7670471d8eac2caf5148a5ecdfe3883e8ba"
+    },
+    {
+      "file": "parry_normal.wav",
+      "duration_s": 0.34,
+      "peak_dbfs": -4.01,
+      "rms_dbfs": -22.33,
+      "sha256": "34bf9d14b36d1c175935e835e27a46e260f8ad51fd04eabe22216e3b380f05bd"
+    },
+    {
+      "file": "parry_perfect.wav",
+      "duration_s": 0.62,
+      "peak_dbfs": -1.72,
+      "rms_dbfs": -19.59,
+      "sha256": "cd107d333074299c0f55b3a88b4320e2864d63cbae4a72bc8a35a95d74b98b55"
+    },
+    {
+      "file": "parry_failed.wav",
+      "duration_s": 0.27,
+      "peak_dbfs": -5.68,
+      "rms_dbfs": -23.23,
+      "sha256": "c7c0344565d81525be06acc8e5ccb1efcffc7eafebf68670f1c1316ff7ddaa0f"
+    },
+    {
+      "file": "pawn_thrust.wav",
+      "duration_s": 0.19,
+      "peak_dbfs": -3.61,
+      "rms_dbfs": -16.34,
+      "sha256": "eedc92c369594b6a2baad63eccc845c4424b5db3c8aaab9edfd15c6af4c512a9"
+    },
+    {
+      "file": "rook_strike.wav",
+      "duration_s": 0.39,
+      "peak_dbfs": -3.61,
+      "rms_dbfs": -16.3,
+      "sha256": "ca09b0f91a06497960c72a505bf9c84007ee59e5a81bfb98c943bb6e82566f30"
+    },
+    {
+      "file": "rook_impact.wav",
+      "duration_s": 0.46,
+      "peak_dbfs": -2.38,
+      "rms_dbfs": -20.15,
+      "sha256": "0b0aa963ff575c67046a29eaab507a6026e17330f1a2fb0c3eecb6f58de89fbd"
+    },
+    {
+      "file": "knight_strike.wav",
+      "duration_s": 0.3,
+      "peak_dbfs": -3.61,
+      "rms_dbfs": -18.11,
+      "sha256": "4a94399b14e4d236bc2e857ae91c317d5b036112e33f321ef3820606828fcf9c"
+    },
+    {
+      "file": "knight_land.wav",
+      "duration_s": 0.4,
+      "peak_dbfs": -3.1,
+      "rms_dbfs": -17.81,
+      "sha256": "d618a14c31f88ab3702f27e994f9f738a5e293e5074b48c3a7bcfcf88d9d8c06"
+    },
+    {
+      "file": "enemy_death.wav",
+      "duration_s": 0.54,
+      "peak_dbfs": -3.35,
+      "rms_dbfs": -20.91,
+      "sha256": "56395b7a3df09a99b978541f9dcbf6272e10e58fd651fbd2e3c153edf8a70dc3"
+    },
+    {
+      "file": "boss_death.wav",
+      "duration_s": 0.95,
+      "peak_dbfs": -2.16,
+      "rms_dbfs": -23.6,
+      "sha256": "2cfeb20612e34925ff74259addeade15b5f079af6497b2e26bcf0990424255b2"
+    },
+    {
+      "file": "royal/bishop_charge.wav",
+      "duration_s": 0.5,
+      "peak_dbfs": -5.19,
+      "rms_dbfs": -18.3,
+      "sha256": "b349009a1e7a48208ea478cee2acf063d893e659a1d14fd98cb2413b1acb21ea"
+    },
+    {
+      "file": "royal/bishop_cast.wav",
+      "duration_s": 0.61,
+      "peak_dbfs": -3.35,
+      "rms_dbfs": -21.34,
+      "sha256": "95d3ab930cd3743aed7e2d4093b6f5f9749d590d3f6710a622cfa459c9367b66"
+    },
+    {
+      "file": "royal/queen_charge.wav",
+      "duration_s": 0.64,
+      "peak_dbfs": -4.73,
+      "rms_dbfs": -17.81,
+      "sha256": "43894b9d74b1401eccd0acd7d7811f78dfd71869164f67f9fc56c9cee9c6ecf9"
+    },
+    {
+      "file": "royal/queen_fire.wav",
+      "duration_s": 0.58,
+      "peak_dbfs": -2.62,
+      "rms_dbfs": -19.68,
+      "sha256": "b27c3188f4149f02bec29a0820526489ee97855aef509d40fbdc767e2ad23086"
+    },
+    {
+      "file": "royal/king_melee_charge.wav",
+      "duration_s": 0.46,
+      "peak_dbfs": -5.19,
+      "rms_dbfs": -18.21,
+      "sha256": "7e324451fbfc0e3e7ab15ce9f8dc32c83b988266862b2b14e84b58bba0054123"
+    },
+    {
+      "file": "royal/king_strike.wav",
+      "duration_s": 0.55,
+      "peak_dbfs": -2.05,
+      "rms_dbfs": -18.91,
+      "sha256": "b483ba05192160cdf15ea8a59003339d31f9a2187eafcd21744eb9ed6efe92f2"
+    },
+    {
+      "file": "royal/king_charge.wav",
+      "duration_s": 0.82,
+      "peak_dbfs": -3.74,
+      "rms_dbfs": -18.53,
+      "sha256": "ab4b27287cca42bbeee30d2ccca0898ae704d93b7b1e9bccf82cf904db15b12e"
+    },
+    {
+      "file": "royal/king_pulse.wav",
+      "duration_s": 0.91,
+      "peak_dbfs": -1.94,
+      "rms_dbfs": -20.25,
+      "sha256": "f70924340a6862ec4f108389e002bb355ad5cd1b64a3aff438f6bba2a78b17d9"
+    },
+    {
+      "file": "forest/bishop_charge.wav",
+      "duration_s": 0.5,
+      "peak_dbfs": -5.19,
+      "rms_dbfs": -18.63,
+      "sha256": "f2b285e1bf3a8757364a71b98b345e447d110ed044604ce044939e41387e88a6"
+    },
+    {
+      "file": "forest/bishop_cast.wav",
+      "duration_s": 0.61,
+      "peak_dbfs": -3.35,
+      "rms_dbfs": -21.9,
+      "sha256": "4b469172c35b3a33bd97f1d0d3b13ca4f374d059a26a50729c84c8144a2c0b57"
+    },
+    {
+      "file": "forest/queen_charge.wav",
+      "duration_s": 0.64,
+      "peak_dbfs": -4.73,
+      "rms_dbfs": -18.88,
+      "sha256": "8ec356f73b4b06ee0981df065ddd021cd51681a5b26323d4f74d7c0087cbd219"
+    },
+    {
+      "file": "forest/queen_fire.wav",
+      "duration_s": 0.58,
+      "peak_dbfs": -2.62,
+      "rms_dbfs": -20.12,
+      "sha256": "10017a5ba29f57b192f1eeb1948d0b7fefbd1dcb698ccc8923e9cf0f0a4685b0"
+    },
+    {
+      "file": "forest/king_melee_charge.wav",
+      "duration_s": 0.46,
+      "peak_dbfs": -5.19,
+      "rms_dbfs": -18.4,
+      "sha256": "a65ae13166c954767392e4e1f2651abc37ad381519222cf4a86971de85da3b94"
+    },
+    {
+      "file": "forest/king_strike.wav",
+      "duration_s": 0.55,
+      "peak_dbfs": -2.05,
+      "rms_dbfs": -19.67,
+      "sha256": "e2ab7b78f90e08b1d289af76b66e218ec6dd1c4c01040e862e043de00a458c7b"
+    },
+    {
+      "file": "forest/king_charge.wav",
+      "duration_s": 0.82,
+      "peak_dbfs": -3.74,
+      "rms_dbfs": -17.55,
+      "sha256": "43ec3e04e9794f7e5862b0c5d627b455a99ea5a9ce35d134d26bd2e6bfabbf9a"
+    },
+    {
+      "file": "forest/king_pulse.wav",
+      "duration_s": 0.91,
+      "peak_dbfs": -1.94,
+      "rms_dbfs": -22.55,
+      "sha256": "b2ffe80dfcd53daabfe7c90ab872e10c58f02e77658450f53452545d75916225"
+    },
+    {
+      "file": "frozen/bishop_charge.wav",
+      "duration_s": 0.5,
+      "peak_dbfs": -5.19,
+      "rms_dbfs": -21.12,
+      "sha256": "c2a1b90b7a12ddb7bcb7bc84244d5084bb9e1f3b205b714fdab889b3d29ba750"
+    },
+    {
+      "file": "frozen/bishop_cast.wav",
+      "duration_s": 0.61,
+      "peak_dbfs": -3.35,
+      "rms_dbfs": -21.01,
+      "sha256": "5bbd049d40814c048fddef81757afc2229a914ac472aa07284fbfab3599daac4"
+    },
+    {
+      "file": "frozen/queen_charge.wav",
+      "duration_s": 0.64,
+      "peak_dbfs": -4.73,
+      "rms_dbfs": -18.43,
+      "sha256": "dd503b63897fba50c463e59c5bb2a82f493dca030246ac7d55e842047b3d8548"
+    },
+    {
+      "file": "frozen/queen_fire.wav",
+      "duration_s": 0.58,
+      "peak_dbfs": -2.62,
+      "rms_dbfs": -20.41,
+      "sha256": "ec198a65374ce9acb18308b6e3ba5c27844f01dbec223567779797243b5c013f"
+    },
+    {
+      "file": "frozen/king_melee_charge.wav",
+      "duration_s": 0.46,
+      "peak_dbfs": -5.19,
+      "rms_dbfs": -19.72,
+      "sha256": "c417a6ce05136b8f7289602644bf693b92af1a98c81750b1b4a1124dcf8aed73"
+    },
+    {
+      "file": "frozen/king_strike.wav",
+      "duration_s": 0.55,
+      "peak_dbfs": -2.05,
+      "rms_dbfs": -21.77,
+      "sha256": "b8cbfb53d483179d1248921d542237386a169e50275d9cc37bbb101f5501b389"
+    },
+    {
+      "file": "frozen/king_charge.wav",
+      "duration_s": 0.82,
+      "peak_dbfs": -3.74,
+      "rms_dbfs": -19.17,
+      "sha256": "d5d844650edb9add508707eec25284fac3945021f4b0844aed1472ddf08e9614"
+    },
+    {
+      "file": "frozen/king_pulse.wav",
+      "duration_s": 0.91,
+      "peak_dbfs": -1.94,
+      "rms_dbfs": -22.19,
+      "sha256": "5c6c79f533670bd7498452cbe5f245015e1590ab571faed0ee27b856ccf79393"
+    },
+    {
+      "file": "caldera/bishop_charge.wav",
+      "duration_s": 0.5,
+      "peak_dbfs": -5.19,
+      "rms_dbfs": -20.41,
+      "sha256": "b2fbcb6503c53268bf9ba5538cb0fe326bcfd7def565735503cb153d820da203"
+    },
+    {
+      "file": "caldera/bishop_cast.wav",
+      "duration_s": 0.61,
+      "peak_dbfs": -3.35,
+      "rms_dbfs": -23.1,
+      "sha256": "d00ee3293a96be742230955758717ada98697c8ac6d12c2942aff9fb0ca1c118"
+    },
+    {
+      "file": "caldera/queen_charge.wav",
+      "duration_s": 0.64,
+      "peak_dbfs": -4.73,
+      "rms_dbfs": -19.37,
+      "sha256": "c6da4c83bbe825ea3f68190b1c4cf1c85c02f47b51943553143b6a4c2345d145"
+    },
+    {
+      "file": "caldera/queen_fire.wav",
+      "duration_s": 0.58,
+      "peak_dbfs": -2.62,
+      "rms_dbfs": -21.01,
+      "sha256": "906b94f72c66f42ababd98ba1a12eb7a2beabc0168ec7d2c367b0473a39eb53c"
+    },
+    {
+      "file": "caldera/king_melee_charge.wav",
+      "duration_s": 0.46,
+      "peak_dbfs": -5.19,
+      "rms_dbfs": -19.37,
+      "sha256": "801699849f08d47845683120a5db80ecde739bb091faf4a95a0bfb1cb8e560a8"
+    },
+    {
+      "file": "caldera/king_strike.wav",
+      "duration_s": 0.55,
+      "peak_dbfs": -2.05,
+      "rms_dbfs": -20.58,
+      "sha256": "fe92e975fe8cc455f5a9821c5bf5dedd93001e93be8e05fd8df8f9547238c520"
+    },
+    {
+      "file": "caldera/king_charge.wav",
+      "duration_s": 0.82,
+      "peak_dbfs": -3.74,
+      "rms_dbfs": -21.89,
+      "sha256": "aa4c5eb9ccdaf5735f231be92c30b6c1918eb8ed5f416d06159cffac04d375ae"
+    },
+    {
+      "file": "caldera/king_pulse.wav",
+      "duration_s": 0.91,
+      "peak_dbfs": -1.94,
+      "rms_dbfs": -20.47,
+      "sha256": "918a81fdeebeb9d41e62a56e4fd65f3c816005a241dbc854272651833403f339"
+    },
+    {
+      "file": "gothic/bishop_charge.wav",
+      "duration_s": 0.5,
+      "peak_dbfs": -5.19,
+      "rms_dbfs": -18.25,
+      "sha256": "9f629a77a3dbcf52b1c712972ed5bfc9facbb66b0e77286b59a67674700fcecf"
+    },
+    {
+      "file": "gothic/bishop_cast.wav",
+      "duration_s": 0.61,
+      "peak_dbfs": -3.35,
+      "rms_dbfs": -21.8,
+      "sha256": "a37fd58391d96c2b17de6611f7f4e51149fb513dd04c65ffe3431e8475237832"
+    },
+    {
+      "file": "gothic/queen_charge.wav",
+      "duration_s": 0.64,
+      "peak_dbfs": -4.73,
+      "rms_dbfs": -16.55,
+      "sha256": "437e8e7a454efe00d6b2fe2574343d12aeadd9ec81a2c276f81380f54d67da1e"
+    },
+    {
+      "file": "gothic/queen_fire.wav",
+      "duration_s": 0.58,
+      "peak_dbfs": -2.62,
+      "rms_dbfs": -19.53,
+      "sha256": "d6d0e205c9627bfc686841ee5beb5cac078dd23ed6d7638f4d14d9e037b068e9"
+    },
+    {
+      "file": "gothic/king_melee_charge.wav",
+      "duration_s": 0.46,
+      "peak_dbfs": -5.19,
+      "rms_dbfs": -17.19,
+      "sha256": "b9dd0c597640e37e662d781308cce4a3c47c6141684dc16c9f1ca51054e79f95"
+    },
+    {
+      "file": "gothic/king_strike.wav",
+      "duration_s": 0.55,
+      "peak_dbfs": -2.05,
+      "rms_dbfs": -19.58,
+      "sha256": "6d7ac0364c97a28d4e1b97b6a8407d4f6b3e8a22b5bad3878641b6cdda53dcac"
+    },
+    {
+      "file": "gothic/king_charge.wav",
+      "duration_s": 0.82,
+      "peak_dbfs": -3.74,
+      "rms_dbfs": -17.85,
+      "sha256": "b1233ca3bca2629921a4672a6f8082c9fa671c5aae9efc096ca0b0ca7ab66a33"
+    },
+    {
+      "file": "gothic/king_pulse.wav",
+      "duration_s": 0.91,
+      "peak_dbfs": -1.94,
+      "rms_dbfs": -18.56,
+      "sha256": "ffbcfbb1317eb835f98cf174188ed34754a2c1bb147fe32f4258fd70e0a7e91c"
+    }
+  ]
+}

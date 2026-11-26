@@ -11,11 +11,14 @@ from types import SimpleNamespace as NS
 import unittest
 from unittest.mock import Mock, patch
 
-from game_audio import AudioManager, AudioSettings, BGM_PLAYLIST, MixerAudio, ROOT, VOICES
+from enemy import Enemy
+from game_audio import (AudioManager, AudioSettings, BGM_PLAYLIST, MixerAudio, RENEWED_CUES,
+                        ROOT, SFX_CHAPTERS, THEMED_SFX, VOICES)
 from main import _new_stage_game
 from presentation_events import PresentationEvents
 from render_motion import RenderMotion
 from settings_menu import AUDIO_ROWS, SETTINGS_BUTTON, SettingsMenu
+from tests.test_bishop import battle
 from tests.test_combat_resolution import pawn, setup
 from tests.test_king_pulse import parry, pulse_battle
 from tools.chapter_art_play import session
@@ -109,6 +112,56 @@ class AudioTests(unittest.TestCase):
                          for e in batch)
         self.assertGreaterEqual(count,2)
         self.assertEqual(self.backend.cues.count('queen_fire'),count)
+
+    def test_each_chapter_routes_real_enemy_telegraphs_and_releases(self):
+        class ChapterMixer(FakeMixer):
+            def sound_in_chapter(self,cue,channel,chapter):
+                return self.sound(f'{chapter}/{cue}',channel)
+
+        self.backend = ChapterMixer()
+        self.audio = AudioManager(self.backend,AudioSettings())
+        pairs = {
+            ('bishop','telegraph'): 'bishop_charge', ('bishop','attack_start'): 'bishop_cast',
+            ('queen','telegraph'): 'queen_charge', ('queen','attack_start'): 'queen_fire',
+            ('king','telegraph'): 'king_melee_charge', ('king','attack_start'): 'king_strike',
+        }
+        heard = set()
+        for chapter, name in enumerate(SFX_CHAPTERS,1):
+            bishop = Enemy('b',2,8,None,.10,kind='bishop')
+            queen = Enemy('q',4,4,None,.10,kind='queen',max_hp=14)
+            king = Enemy('k',5,2,None,.10,kind='king',boss_hp=40)
+            boss = _new_stage_game(chapter*5)
+            encounters = [(boss,boss.advance)]
+            for enemies in ((bishop,queen),(king,)):
+                p,c,_,e,r = battle(enemies=enemies)
+                scenario = NS(player=p,combat=c,encounter=e,chapter=chapter,
+                              stage_number=chapter*5-1,state=NS(value='PLAYING'))
+                encounters.append((scenario,r.advance))
+            for game, advance in encounters:
+                feed = game.encounter.ledger.presentation = PresentationEvents()
+                actors = {actor.entity_instance_id:actor.kind for actor in game.encounter.enemies}
+                for _ in range(720):
+                    advance(1)
+                    batch = feed.drain()
+                    offset = len(self.backend.cues)
+                    self.backend.live.clear()
+                    self.audio.update(game,1/60,batch)
+                    self.audio.update(game,0,batch)
+                    expected = []
+                    for event in batch:
+                        key = actors.get(event.subject),event.kind
+                        if key not in pairs:
+                            continue
+                        cue = pairs[key]
+                        if getattr(event.payload,'attack_kind','') == 'king_pulse':
+                            cue = 'king_charge' if event.kind == 'telegraph' else 'king_pulse'
+                        expected.append(f'{name}/{cue}')
+                    delivered = [cue for cue in self.backend.cues[offset:] if '/' in cue]
+                    self.assertEqual(delivered,expected)
+                    heard.update(delivered)
+                    if game is boss and not boss.playing:
+                        break
+        self.assertEqual(heard,set(THEMED_SFX))
 
     def test_knight_sound_follows_render_landing(self):
         game = _new_stage_game(3)
@@ -242,6 +295,77 @@ class AudioTests(unittest.TestCase):
             self.assertEqual(backend.failures,[candidate])
             backend.close()
             mixer.Mix_FreeMusic.assert_called_once_with('legacy')
+
+    def test_missing_and_corrupt_chapter_sfx_use_shared_chunk(self):
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            bad = root/'combat_sfx'/'forest'/'queen_fire.wav'
+            bad.parent.mkdir(parents=True)
+            bad.write_bytes(b'bad')
+            mixer = Mock()
+            mixer.Mix_LoadWAV.side_effect = lambda path: None if path.decode()==str(bad) else path
+            mixer.Mix_Playing.return_value = 0
+            mixer.Mix_PlayChannel.return_value = 0
+            backend = MixerAudio(mixer,root)
+            common = str(root/'sfx'/'queen_fire.wav').encode()
+            for key in ('royal/queen_fire','forest/queen_fire','forest/queen_fire'):
+                self.assertTrue(backend.sound(key,0))
+                mixer.Mix_PlayChannel.assert_called_with(0,common,0)
+            self.assertEqual(backend.failures,[bad])
+            backend.close()
+            self.assertEqual(sum(call.args==(common,) for call in mixer.Mix_FreeChunk.call_args_list),1)
+
+    def test_single_cue_gains_and_mixed_voice_headroom_preserve_ui(self):
+        mixer = Mock()
+        mixer.Mix_LoadWAV.side_effect = lambda path: path
+        active = set()
+        mixer.Mix_Playing.side_effect = lambda channel: int(channel in active)
+        mixer.Mix_PlayChannel.side_effect = lambda channel,chunk,loops: (active.add(channel) or channel)
+        mixer.Mix_HaltChannel.side_effect = lambda channel: active.clear() if channel==-1 else active.discard(channel)
+        backend = MixerAudio(mixer)
+        loaded_gains = {Path(path.decode()).stem:gain for path,gain in
+                        (call.args for call in mixer.Mix_VolumeChunk.call_args_list)}
+        self.assertEqual([loaded_gains[name] for name in
+                          ('player_swing','player_hit','parry_perfect','ui_select')],[32,41,36,23])
+        backend.volume(100,100)
+        self.assertTrue(backend.sound('ui_select',0))
+        self.assertEqual(backend.channel_volumes[0],128)
+        names = ('player_hit','parry_perfect','player_hurt','rook_impact',
+                 'forest/bishop_cast','frozen/queen_fire','gothic/king_pulse')
+        for channel,cue in enumerate(names,1):
+            self.assertTrue(backend.sound(cue,channel))
+        self.assertEqual(backend.channel_volumes[0],58)  # Previous eight-voice limit at full BGM.
+        self.assertLess(backend.channel_volumes[1],58)
+        weighted = 23*backend.channel_volumes[0] + sum(
+            gain*backend.channel_volumes[channel]
+            for channel,gain in enumerate((41,36,32,32,32,32,32),1))
+        self.assertLessEqual(.61*90/128 + .82*weighted/128**2,.97)
+        backend.volume(100,0)
+        self.assertEqual(set(backend.channel_volumes.values()),{0})
+        backend.close()
+
+    def test_renewed_combat_effects_have_distinct_valid_pcm_masters(self):
+        import wave
+        from array import array
+        folder = ROOT/'combat_sfx'
+        rows = json.loads((folder/'manifest.json').read_text(encoding='utf-8'))['files']
+        self.assertEqual({row['file'] for row in rows},{cue+'.wav' for cue in (*RENEWED_CUES,*THEMED_SFX)})
+        hashes = set()
+        for row in rows:
+            path = folder/row['file']
+            digest = sha256(path.read_bytes()).hexdigest()
+            self.assertEqual(digest,row['sha256'],path)
+            hashes.add(digest)
+            with wave.open(str(path),'rb') as audio:
+                self.assertEqual((audio.getnchannels(),audio.getsampwidth(),audio.getframerate()),(2,2,44100))
+                self.assertEqual(audio.getnframes()/44100,row['duration_s'])
+                pcm = array('h')
+                pcm.frombytes(audio.readframes(audio.getnframes()))
+                if sys.byteorder!='little':
+                    pcm.byteswap()
+            self.assertEqual(tuple(pcm[-2:]),(0,0))
+            self.assertLessEqual(max(map(abs,pcm))/32768,.82)
+        self.assertEqual(len(hashes),53)
 
     def test_renewal_masters_and_existing_wavs_match_their_manifests(self):
         sources = json.loads((ROOT/'manifest.json').read_text(encoding='utf-8'))['files']
