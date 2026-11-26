@@ -1,6 +1,58 @@
 
 # CHECKMATE R7-A3E 프레임별 공격 애니메이션
 
+## R7-A3E-5~6 Bishop·Queen·King 공격 스프라이트
+
+R7-A3E-7에서 사용자가 Bishop·Queen·King을 실제 플레이하고 최종 승인했다. 전투 스프라이트의 제작·통합 단계를 종료한다. 180FPS 예산 추적은 R7-C에서 이어간다.
+
+사용자 실기 승인분 R7-A3E-4F는 `798039936b14e068f630d0eb6fbea26652a8380c`로 Push했다. 이번 단계는 Bishop 마법, Queen 광선과 별도 King 근접·Pulse를 같은 스프라이트 시스템에 추가한다. [승인 직후 비교 카탈로그](../assets/sprite_animation/manifest_martial.json)
+
+아트 바이블과 현재 인게임 그림을 기준으로 5챕터를 제작한다. 왕실 Queen은 기존 콘셉트, 숲 Queen은 숲 Bishop의 재질 참조와 아트 바이블의 펼친 잎 왕관·망토·호박 봉오리 홀을 따른다. 왕실·숲 Queen은 기존 전투 편성에 등장하지 않아 이번 캠페인에서 로드하지 않는다. 나머지 Queen 세 챕터, Bishop과 두 King 공격의 다섯 챕터는 기존 전투 장면에서 재생한다.
+
+| 기물·공격 | 예고 | 발동 후 시각 시간 |
+| --- | --- | --- |
+| Bishop 마법 | 제자리에서 지팡이와 로브를 들어 올린다. | 발동 120ms + 회수 400ms |
+| Queen 광선 | 홀을 안으로 모으고 망토를 펼친다. | 발사 140ms + 회수 400ms |
+| King 근접 | 실제 공격 대상 방향으로 갑주와 무기 또는 주먹을 준비한다. | 타격 135ms + 회수 395ms |
+| King Pulse | 발을 고정하고 갑주와 팔을 중앙에 모은다. | 양팔 방출 185ms + 회수 465ms |
+
+충전 포즈 두 장의 전환은 실제 예고 시작부터 적중 틱까지의 진행률에 맞춘다. 발동은 같은 전투 사건을 사용한다. 광선·마법·Pulse 본체 효과와 효과음은 기존 경로가 재생한다. 퍼펙트 패링 시 King 기절이 우선한다. King 근접은 상·하·가로 자세를 별도 제작하고 가로 반대 방향을 발 기준 수평 반전한다. 대각선은 실제 원장 벡터의 우세 축 자세를 사용한다.
+
+### 제작 및 검증 자료
+
+내장 OpenAI ImageGen으로 챕터별 네 공격 시트, 총 20개를 제작했다. 120장의 384×384 RGBA 프레임은 발 앵커 (192, 302)에 맞췄다. 준비 자세 높이의 중앙값은 기준 이미지의 100.5%다. 가시 영역과 발을 포함해 잘라낸 2px 패딩 아틀라스 20개에 새 공격 클립 35개를 등록했다. 왕실과 빙설 King의 칸 경계를 넘는 검·팔은 개별 추출 범위를 조정했다. [제작 프롬프트 및 원본 해시](../assets/sprite_animation/enemies_caster/recipes.json) · [프레임·아틀라스 해시](../assets/sprite_animation/enemies_caster/frames.json) · [정식 매니페스트](../assets/sprite_animation/manifest.json)
+
+18개 실제 전투 장면에서 충전·발동·회수 프레임을 확인했다. 같은 틱의 두 모드에서 발 위치, 위험 셀, 패링 안내 및 전투 상태가 일치했다. Stage24의 두 Queen은 121·135틱에 발사하고, 교차 시에는 서로 다른 재생 프레임을 유지했다. Stage25 Pulse의 큐·100칸 판정과 퍼펙트 패링 기절·반사 피해를 기존 사건 기준으로 검증했다. [Bishop](../artifacts/caster_combat_sprites_r7a3e56/ch3_bishop.gif) · [Queen](../artifacts/caster_combat_sprites_r7a3e56/ch5_queen.gif) · [King 근접](../artifacts/caster_combat_sprites_r7a3e56/ch1_king_melee.gif) · [King Pulse](../artifacts/caster_combat_sprites_r7a3e56/ch5_king_pulse.gif)
+
+- 같은 틱의 PNG 42장과 30FPS 비교 GIF 4개의 해시를 기록했다. [Stage24 교차](../artifacts/caster_combat_sprites_r7a3e56/poses/stage24_queen_crossing_articulated.png) · [Stage25 발동 후](../artifacts/caster_combat_sprites_r7a3e56/poses/stage25_pulse_389_articulated.png) · [검증 리포트](../artifacts/caster_combat_sprites_r7a3e56/report.json)
+- 자동 캠페인 25스테이지·보스 5전이 R7-A3E-4F 기록과 일치했다. Stage25는 638틱, HP 4, 공격 레벨 6으로 종료했다. 캠페인 전체 텍스처 454로드/454해제, 숨김 렌더의 스프라이트 페이지 139로드/139해제를 확인했다.
+- 제작 배치에서 새 생성물 142개와 승인된 Pawn·Rook·Knight 생성물 197개가 재빌드에서 각각 해시까지 일치했다. 누락된 Pulse 페이지의 King 메시 대체와 다른 페이지 사용을 확인했다.
+
+### 테스트와 성능
+
+전체 unittest 1,646개와 관련 테스트 36개가 통과했다. 신규 6개로 실패·오류·skip 0개이고 전체 실행은 388.475초였다. 일반·`-O` 스테이지 검사, compileall, 에셋 해시, 문서 링크와 Git 공백 검사도 통과했다.
+
+Windows 숨김 Direct3D11에서 자세 갱신·렌더링·Present를 같은 틱에 비교했다. 아래 값은 단독 실행 3회의 각 분위수 중앙값이며, 회차마다 모드별 120프레임을 측정했다. 순서는 P50 / P95 / P99이고 단위는 ms다.
+
+| 장면 | R7-A3E-4F | 새 적 스프라이트 |
+| --- | --- | --- |
+| Stage24 교차 광선 135틱 | 4.174 / 4.969 / 5.726 | 3.820 / 4.087 / 4.627 |
+| Stage25 Pulse 충전 378틱 | 3.860 / 5.456 / 5.994 | 3.826 / 4.700 / 5.389 |
+| Stage25 Pulse 발동 후 389틱 | 4.201 / 4.683 / 5.241 | 4.080 / 4.488 / 5.000 |
+
+Stage25 Pulse 충전의 신규 P99는 세 회차에서 9.931 / 5.301 / 5.389ms였다. 180FPS 예산 5.56ms를 넘긴 표본이 있으므로 실제 사용자 창 검수와 R7-C 추적을 유지한다. Stage25의 추가 페이지 네 장은 픽셀 기준 4.59MiB이고, 최초 단독 실행에서 이 페이지들의 로딩 최대는 8.297ms였다. 숨김 비교에서 동시에 보유한 스프라이트 페이지는 최대 10개였다. [세 회차와 로드 기록](../artifacts/caster_combat_sprites_r7a3e56/report.json)
+
+Windows PowerShell에서 시전 장면을 확인하고 비교 자료를 재현할 수 있다.
+
+```powershell
+.\.venv\Scripts\python.exe tools/chapter_art_play.py 24
+.\.venv\Scripts\python.exe tools/chapter_art_play.py 25
+$qa = Join-Path $env:TEMP ('checkmate-caster-qa-' + [guid]::NewGuid())
+.\.venv\Scripts\python.exe tools/enemy_combat_sprite_qa.py $qa --group caster
+$atlas = Join-Path $env:TEMP ('checkmate-caster-atlas-' + [guid]::NewGuid())
+.\.venv\Scripts\python.exe tools/enemy_combat_sheets.py assets/sprite_animation $atlas --group caster
+```
+
 ## R7-A3E-4 Pawn·Rook·Knight 공격 스프라이트
 
 승인된 플레이어 공격·패링은 통합 커밋 `7a4a4a0a68b84fe59f0929e2561da49b0e15540e`에서 원격 `main`과 일치한다. 기존에 승인된 플레이어 클립은 비교용 카탈로그에 보존한다. [플레이어 전용 매니페스트](../assets/sprite_animation/manifest_player_only.json)

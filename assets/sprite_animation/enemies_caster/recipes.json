@@ -1,0 +1,379 @@
+{
+  "ch1_bishop": {
+    "reference": "assets/character_concepts/ch1_bishop.png",
+    "reference_sha256": "7c05643d4e7b692e4c5cc88d8fb55f97036f0f3b76c697a7df19f1f8e65e0f4c",
+    "source_sha256": "19d010673ca03164e9480383c510e19f98978eeefb776ee130a5d1893b6865e7",
+    "generator": "OpenAI built-in ImageGen",
+    "prompt": "Create an original sprite attack sheet for this existing CHECKMATE fantasy chess bishop, mode magic cast. Use case illustration-story, production game character animation. The supplied picture is the EXACT in-game bishop design identity. Preserve their original crown or head, armor anatomy, shoulder ornaments, silhouette, weapons/staff, stocky or slender body proportions, fabric, wear, and royal white, graphite and golden highlights. Use the existing named gear. If hands are empty in the reference use empty fists and keep them empty. Use a strict two-column by TWO-row square sheet, exactly 4 poses and no other content. Preserve the reference\u2019s 3/4 facing and raised isometric game camera consistently. This ability is radial, with no turned viewpoint between phases. Reading order upper left, upper right, lower left, lower right: (1) established ready pose, staff low; (2) visibly raise and pull the staff inward, with torso and fabric winding up; (3) sharply plant or thrust the staff forward and free hand outward, strong planted cast silhouette that reads at 90px; (4) ease staff and robe back at the same soles. Full head, feet and weapon inside every cell, same actual canonical character scale. Equal cells and large clear margins on all sides, including a transparent gutter through the entire cell border. Do not let capes, helmet tips, fists or equipment cross midlines. Very clear changes of arms, shoulders, staff/fist and cloth that read instantly at 85\u2013110px. Same raised 3/4 game camera. Dark fantasy detailed painted 3D game sprite texture, original armor values and original light angle. Feet stay on same floor line, characters occupy about 65% of cell height and width. Genuinely transparent RGBA behind every isolated figure. No ground, shadow, floating objects, movement arcs, beams, fog, magical particles, backdrop, typography, labels, borders, grid rules or checkerboard. Leave those effects to the existing runtime.",
+    "directions": [
+      "neutral"
+    ]
+  },
+  "ch1_queen": {
+    "reference": "assets/character_concepts/ch1_queen.png",
+    "reference_sha256": "93086ce2b9481e09ad948df9120207bfa6ecaf8392b74d9e45a766a6a11b6d7e",
+    "source_sha256": "5301fa0ef3e15ebe703d1e1fa34b6cecc5e8784771b59889f39a49cbec124d78",
+    "generator": "OpenAI built-in ImageGen",
+    "prompt": "Create an original sprite attack sheet for this existing CHECKMATE fantasy chess queen, mode magic cast. Use case illustration-story, production game character animation. The supplied picture is the EXACT in-game queen design identity. Preserve their original crown or head, armor anatomy, shoulder ornaments, silhouette, weapons/staff, stocky or slender body proportions, fabric, wear, and royal white, graphite and golden highlights. Use the existing named gear. If hands are empty in the reference use empty fists and keep them empty. Use a strict two-column by TWO-row square sheet, exactly 4 poses and no other content. Preserve the reference\u2019s 3/4 facing and raised isometric game camera consistently. This ability is radial, with no turned viewpoint between phases. Reading order upper left, upper right, lower left, lower right: (1) established poised ready stance; (2) draw the scepter tightly to the torso and open the cape; (3) sharply throw the scepter out with open opposite arm and a clear powerful spell release, both shoes remain anchored; (4) the open cape settles while the weapon lowers. Full head, feet and weapon inside every cell, same actual canonical character scale. Equal cells and large clear margins on all sides, including a transparent gutter through the entire cell border. Do not let capes, helmet tips, fists or equipment cross midlines. Very clear changes of arms, shoulders, staff/fist and cloth that read instantly at 85\u2013110px. Same raised 3/4 game camera. Dark fantasy detailed painted 3D game sprite texture, original armor values and original light angle. Feet stay on same floor line, characters occupy about 65% of cell height and width. Genuinely transparent RGBA behind every isolated figure. No ground, shadow, floating objects, movement arcs, beams, fog, magical particles, backdrop, typography, labels, borders, grid rules or checkerboard. Leave those effects to the existing runtime.",
+    "directions": [
+      "neutral"
+    ]
+  },
+  "ch1_king_melee": {
+    "reference": "assets/character_concepts/ch1_king.png",
+    "reference_sha256": "284775b64f351c17afd92232be06be64258fe34d3273bb0e649fe85940206c32",
+    "source_sha256": "f4e381513ba8b99536bd7ce9d35b9da17336828c9e94f402ed3ef05c5b3e6a9f",
+    "generator": "OpenAI built-in ImageGen",
+    "prompt": "Create an original sprite attack sheet for this existing CHECKMATE fantasy chess king, mode melee. Use case illustration-story, production game character animation. The supplied picture is the EXACT in-game king design identity. Preserve their original crown or head, armor anatomy, shoulder ornaments, silhouette, weapons/staff, stocky or slender body proportions, fabric, wear, and royal white, graphite and golden highlights. Use the existing named gear. If hands are empty in the reference use empty fists and keep them empty. Use a strict four-column THREE-row sheet, 12 poses total, landscape 4:3. FIRST ROW attack towards screen RIGHT (right side profile at existing 3/4 camera): clearly reach the weapon/fist to the right. SECOND ROW attack UP away from camera showing the full back of armor and shoulders as necessary. THIRD ROW attack DOWN toward the camera with fore-shortened strike and strong face/torso view. The rows must have visibly different orientations. Reading order left-to-right WITHIN EACH ROW: (1) neutral grounded ready stance; (2) visibly shift the shoulders and draw the weapon or fist back for a heavy strike; (3) perform a strong clearly directional low hit with weapon or fist following this row toward its target, moving torso with a planted foot; (4) arrest the strike, settle the shoulder/weapon and return to grounded posture. Full head, feet and weapon inside every cell, same actual canonical character scale. Equal cells and large clear margins on all sides, including a transparent gutter through the entire cell border. Do not let capes, helmet tips, fists or equipment cross midlines. Very clear changes of arms, shoulders, staff/fist and cloth that read instantly at 85\u2013110px. Same raised 3/4 game camera. Dark fantasy detailed painted 3D game sprite texture, original armor values and original light angle. Feet stay on same floor line, characters occupy about 65% of cell height and width. Genuinely transparent RGBA behind every isolated figure. No ground, shadow, floating objects, movement arcs, beams, fog, magical particles, backdrop, typography, labels, borders, grid rules or checkerboard. Leave those effects to the existing runtime.",
+    "directions": [
+      "right",
+      "up",
+      "down"
+    ],
+    "cells": [
+      [
+        0,
+        0,
+        375,
+        330
+      ],
+      [
+        348,
+        0,
+        725,
+        330
+      ],
+      [
+        702,
+        0,
+        1168,
+        327
+      ],
+      [
+        1075,
+        0,
+        1448,
+        335
+      ],
+      [
+        0,
+        361,
+        374,
+        698
+      ],
+      [
+        343,
+        313,
+        746,
+        695
+      ],
+      [
+        697,
+        283,
+        1100,
+        700
+      ],
+      [
+        1074,
+        362,
+        1448,
+        699
+      ],
+      [
+        0,
+        689,
+        393,
+        1086
+      ],
+      [
+        344,
+        683,
+        760,
+        1086
+      ],
+      [
+        691,
+        695,
+        1115,
+        1086
+      ],
+      [
+        1066,
+        695,
+        1448,
+        1086
+      ]
+    ],
+    "isolate": [
+      2,
+      3,
+      4,
+      6,
+      7,
+      10,
+      11,
+      9
+    ],
+    "feet": {
+      "11": [
+        206,
+        354
+      ]
+    }
+  },
+  "ch1_king_pulse": {
+    "reference": "assets/character_concepts/ch1_king.png",
+    "reference_sha256": "284775b64f351c17afd92232be06be64258fe34d3273bb0e649fe85940206c32",
+    "source_sha256": "e25a84a478af802f4b080c7fcd5c5d890c0cd79c66039bbe05527be88d7a7a3e",
+    "generator": "OpenAI built-in ImageGen",
+    "prompt": "Create an original sprite attack sheet for this existing CHECKMATE fantasy chess king, mode pulse. Use case illustration-story, production game character animation. The supplied picture is the EXACT in-game king design identity. Preserve their original crown or head, armor anatomy, shoulder ornaments, silhouette, weapons/staff, stocky or slender body proportions, fabric, wear, and royal white, graphite and golden highlights. Use the existing named gear. If hands are empty in the reference use empty fists and keep them empty. Use a strict two-column by TWO-row square sheet, exactly 4 poses and no other content. Preserve the reference\u2019s 3/4 facing and raised isometric game camera consistently. This ability is radial, with no turned viewpoint between phases. Reading order upper left, upper right, lower left, lower right: (1) established grounded stance; (2) brace down on BOTH feet with shoulders curled inward and both elbows drawn to the chest core; (3) dramatic centered radial pulse release, both shoulders/arms pushed symmetrically away from the breastplate in a wide powerful expansion, waist and lower body planted; (4) rebound and lower the shoulders and arms, chest still forward and feet in place. Full head, feet and weapon inside every cell, same actual canonical character scale. Equal cells and large clear margins on all sides, including a transparent gutter through the entire cell border. Do not let capes, helmet tips, fists or equipment cross midlines. Very clear changes of arms, shoulders, staff/fist and cloth that read instantly at 85\u2013110px. Same raised 3/4 game camera. Dark fantasy detailed painted 3D game sprite texture, original armor values and original light angle. Feet stay on same floor line, characters occupy about 65% of cell height and width. Genuinely transparent RGBA behind every isolated figure. No ground, shadow, floating objects, movement arcs, beams, fog, magical particles, backdrop, typography, labels, borders, grid rules or checkerboard. Leave those effects to the existing runtime.",
+    "directions": [
+      "neutral"
+    ]
+  },
+  "ch2_bishop": {
+    "reference": "assets/chapter2_units/bishop.png",
+    "reference_sha256": "086c744b4d7c36d4d1e3ebb7ec812974f45c47bf8bf7d81faa971bf61a57b96b",
+    "source_sha256": "9cd670787a9d7295292a24d2e5475c14fb1841b302526a52dfb2fdc1fa0cb7f9",
+    "generator": "OpenAI built-in ImageGen",
+    "prompt": "Create an original sprite attack sheet for this existing CHECKMATE fantasy chess bishop, mode magic cast. Use case illustration-story, production game character animation. The supplied picture is the EXACT in-game bishop design identity. Preserve their original crown or head, armor anatomy, shoulder ornaments, silhouette, weapons/staff, stocky or slender body proportions, fabric, wear, and forest bark, leafy green and restrained amber. Use the existing named gear. If hands are empty in the reference use empty fists and keep them empty. Use a strict two-column by TWO-row square sheet, exactly 4 poses and no other content. Preserve the reference\u2019s 3/4 facing and raised isometric game camera consistently. This ability is radial, with no turned viewpoint between phases. Reading order upper left, upper right, lower left, lower right: (1) established ready pose, staff low; (2) visibly raise and pull the staff inward, with torso and fabric winding up; (3) sharply plant or thrust the staff forward and free hand outward, strong planted cast silhouette that reads at 90px; (4) ease staff and robe back at the same soles. Full head, feet and weapon inside every cell, same actual canonical character scale. Equal cells and large clear margins on all sides, including a transparent gutter through the entire cell border. Do not let capes, helmet tips, fists or equipment cross midlines. Very clear changes of arms, shoulders, staff/fist and cloth that read instantly at 85\u2013110px. Same raised 3/4 game camera. Dark fantasy detailed painted 3D game sprite texture, original armor values and original light angle. Feet stay on same floor line, characters occupy about 65% of cell height and width. Genuinely transparent RGBA behind every isolated figure. No ground, shadow, floating objects, movement arcs, beams, fog, magical particles, backdrop, typography, labels, borders, grid rules or checkerboard. Leave those effects to the existing runtime.",
+    "directions": [
+      "neutral"
+    ]
+  },
+  "ch2_queen": {
+    "reference": "assets/character_concepts/ch1_queen.png",
+    "reference_sha256": "93086ce2b9481e09ad948df9120207bfa6ecaf8392b74d9e45a766a6a11b6d7e",
+    "source_sha256": "134b0c0453db342c83f17b296de271a282dedd0dad3a40fad36a76280abb1637",
+    "generator": "OpenAI built-in ImageGen",
+    "prompt": "Create an original sprite attack sheet for this existing CHECKMATE fantasy chess queen, mode magic cast. Use case illustration-story, production game character animation. The first reference is the royal Queen role and body silhouette only. Transform that role into the game\u2019s Forest Queen from its existing art bible: wide splayed fan of green/golden leaves for the cape, a low flared branch-and-leaf crown, narrow waist with branch plates, an amber bud staff and little central amber gem. The second image is the Forest Bishop, a reference only for forest material, render finish and camera. Preserve the Queen\u2019s broad silhouette. Use a strict two-column by TWO-row square sheet, exactly 4 poses and no other content. Preserve the reference\u2019s 3/4 facing and raised isometric game camera consistently. This ability is radial, with no turned viewpoint between phases. Reading order upper left, upper right, lower left, lower right: (1) established poised ready stance; (2) draw the scepter tightly to the torso and open the cape; (3) sharply throw the scepter out with open opposite arm and a clear powerful spell release, both shoes remain anchored; (4) the open cape settles while the weapon lowers. Full head, feet and weapon inside every cell, same actual canonical character scale. Equal cells and large clear margins on all sides, including a transparent gutter through the entire cell border. Do not let capes, helmet tips, fists or equipment cross midlines. Very clear changes of arms, shoulders, staff/fist and cloth that read instantly at 85\u2013110px. Same raised 3/4 game camera. Dark fantasy detailed painted 3D game sprite texture, original armor values and original light angle. Feet stay on same floor line, characters occupy about 65% of cell height and width. Genuinely transparent RGBA behind every isolated figure. No ground, shadow, floating objects, movement arcs, beams, fog, magical particles, backdrop, typography, labels, borders, grid rules or checkerboard. Leave those effects to the existing runtime.",
+    "directions": [
+      "neutral"
+    ],
+    "supporting_references": {
+      "assets/chapter2_units/bishop.png": "086c744b4d7c36d4d1e3ebb7ec812974f45c47bf8bf7d81faa971bf61a57b96b"
+    }
+  },
+  "ch2_king_melee": {
+    "reference": "assets/chapter2_units/king_c6.png",
+    "reference_sha256": "1d4b71bdb0386cbf6e933ba171371f65ed266494f5672a9a524a0ce198538117",
+    "source_sha256": "ad08b740931e37ca2c51d03492e314744160310b4211f6947ded17b914f8a792",
+    "generator": "OpenAI built-in ImageGen",
+    "prompt": "Create an original sprite attack sheet for this existing CHECKMATE fantasy chess king, mode melee. Use case illustration-story, production game character animation. The supplied picture is the EXACT in-game king design identity. Preserve their original crown or head, armor anatomy, shoulder ornaments, silhouette, weapons/staff, stocky or slender body proportions, fabric, wear, and forest bark, leafy green and restrained amber. Use the existing named gear. If hands are empty in the reference use empty fists and keep them empty. Use a strict four-column THREE-row sheet, 12 poses total, landscape 4:3. FIRST ROW attack towards screen RIGHT (right side profile at existing 3/4 camera): clearly reach the weapon/fist to the right. SECOND ROW attack UP away from camera showing the full back of armor and shoulders as necessary. THIRD ROW attack DOWN toward the camera with fore-shortened strike and strong face/torso view. The rows must have visibly different orientations. Reading order left-to-right WITHIN EACH ROW: (1) neutral grounded ready stance; (2) visibly shift the shoulders and draw the weapon or fist back for a heavy strike; (3) perform a strong clearly directional low hit with weapon or fist following this row toward its target, moving torso with a planted foot; (4) arrest the strike, settle the shoulder/weapon and return to grounded posture. Full head, feet and weapon inside every cell, same actual canonical character scale. Equal cells and large clear margins on all sides, including a transparent gutter through the entire cell border. Do not let capes, helmet tips, fists or equipment cross midlines. Very clear changes of arms, shoulders, staff/fist and cloth that read instantly at 85\u2013110px. Same raised 3/4 game camera. Dark fantasy detailed painted 3D game sprite texture, original armor values and original light angle. Feet stay on same floor line, characters occupy about 65% of cell height and width. Genuinely transparent RGBA behind every isolated figure. No ground, shadow, floating objects, movement arcs, beams, fog, magical particles, backdrop, typography, labels, borders, grid rules or checkerboard. Leave those effects to the existing runtime.",
+    "directions": [
+      "right",
+      "up",
+      "down"
+    ]
+  },
+  "ch2_king_pulse": {
+    "reference": "assets/chapter2_units/king_c6.png",
+    "reference_sha256": "1d4b71bdb0386cbf6e933ba171371f65ed266494f5672a9a524a0ce198538117",
+    "source_sha256": "9779caf2699d6d6f75fafafc052069271a7a9d5c48b85397a520c533cd29f532",
+    "generator": "OpenAI built-in ImageGen",
+    "prompt": "Create an original sprite attack sheet for this existing CHECKMATE fantasy chess king, mode pulse. Use case illustration-story, production game character animation. The supplied picture is the EXACT in-game king design identity. Preserve their original crown or head, armor anatomy, shoulder ornaments, silhouette, weapons/staff, stocky or slender body proportions, fabric, wear, and forest bark, leafy green and restrained amber. Use the existing named gear. If hands are empty in the reference use empty fists and keep them empty. Use a strict two-column by TWO-row square sheet, exactly 4 poses and no other content. Preserve the reference\u2019s 3/4 facing and raised isometric game camera consistently. This ability is radial, with no turned viewpoint between phases. Reading order upper left, upper right, lower left, lower right: (1) established grounded stance; (2) brace down on BOTH feet with shoulders curled inward and both elbows drawn to the chest core; (3) dramatic centered radial pulse release, both shoulders/arms pushed symmetrically away from the breastplate in a wide powerful expansion, waist and lower body planted; (4) rebound and lower the shoulders and arms, chest still forward and feet in place. Full head, feet and weapon inside every cell, same actual canonical character scale. Equal cells and large clear margins on all sides, including a transparent gutter through the entire cell border. Do not let capes, helmet tips, fists or equipment cross midlines. Very clear changes of arms, shoulders, staff/fist and cloth that read instantly at 85\u2013110px. Same raised 3/4 game camera. Dark fantasy detailed painted 3D game sprite texture, original armor values and original light angle. Feet stay on same floor line, characters occupy about 65% of cell height and width. Genuinely transparent RGBA behind every isolated figure. No ground, shadow, floating objects, movement arcs, beams, fog, magical particles, backdrop, typography, labels, borders, grid rules or checkerboard. Leave those effects to the existing runtime.",
+    "directions": [
+      "neutral"
+    ]
+  },
+  "ch3_bishop": {
+    "reference": "assets/chapter3_units/bishop.png",
+    "reference_sha256": "922f80d8e7d3c06e5c40e1143eda4a80b1ea0250365234c29c06e05dfbab396e",
+    "source_sha256": "1bf434c2137b2320f80d338a33efc7d44f930cc0fd2b85ee8ac7224be62ed45a",
+    "generator": "OpenAI built-in ImageGen",
+    "prompt": "Create an original sprite attack sheet for this existing CHECKMATE fantasy chess bishop, mode magic cast. Use case illustration-story, production game character animation. The supplied picture is the EXACT in-game bishop design identity. Preserve their original crown or head, armor anatomy, shoulder ornaments, silhouette, weapons/staff, stocky or slender body proportions, fabric, wear, and frozen blue ice crystal and silver frost. Use the existing named gear. If hands are empty in the reference use empty fists and keep them empty. Use a strict two-column by TWO-row square sheet, exactly 4 poses and no other content. Preserve the reference\u2019s 3/4 facing and raised isometric game camera consistently. This ability is radial, with no turned viewpoint between phases. Reading order upper left, upper right, lower left, lower right: (1) established ready pose, staff low; (2) visibly raise and pull the staff inward, with torso and fabric winding up; (3) sharply plant or thrust the staff forward and free hand outward, strong planted cast silhouette that reads at 90px; (4) ease staff and robe back at the same soles. Full head, feet and weapon inside every cell, same actual canonical character scale. Equal cells and large clear margins on all sides, including a transparent gutter through the entire cell border. Do not let capes, helmet tips, fists or equipment cross midlines. Very clear changes of arms, shoulders, staff/fist and cloth that read instantly at 85\u2013110px. Same raised 3/4 game camera. Dark fantasy detailed painted 3D game sprite texture, original armor values and original light angle. Feet stay on same floor line, characters occupy about 65% of cell height and width. Genuinely transparent RGBA behind every isolated figure. No ground, shadow, floating objects, movement arcs, beams, fog, magical particles, backdrop, typography, labels, borders, grid rules or checkerboard. Leave those effects to the existing runtime.",
+    "directions": [
+      "neutral"
+    ]
+  },
+  "ch3_queen": {
+    "reference": "assets/chapter3_units/queen.png",
+    "reference_sha256": "0dccbda43d2234089857e1d91f998c6f550d6aa0dc99c914ababee0c3fbe8a07",
+    "source_sha256": "7c8e06ca16b9cc9e4788b7f827ea913c3fdffdbf809023f76b44141c33cffd87",
+    "generator": "OpenAI built-in ImageGen",
+    "prompt": "Create an original sprite attack sheet for this existing CHECKMATE fantasy chess queen, mode magic cast. Use case illustration-story, production game character animation. The supplied picture is the EXACT in-game queen design identity. Preserve their original crown or head, armor anatomy, shoulder ornaments, silhouette, weapons/staff, stocky or slender body proportions, fabric, wear, and frozen blue ice crystal and silver frost. Use the existing named gear. If hands are empty in the reference use empty fists and keep them empty. Use a strict two-column by TWO-row square sheet, exactly 4 poses and no other content. Preserve the reference\u2019s 3/4 facing and raised isometric game camera consistently. This ability is radial, with no turned viewpoint between phases. Reading order upper left, upper right, lower left, lower right: (1) established poised ready stance; (2) draw the scepter tightly to the torso and open the cape; (3) sharply throw the scepter out with open opposite arm and a clear powerful spell release, both shoes remain anchored; (4) the open cape settles while the weapon lowers. Full head, feet and weapon inside every cell, same actual canonical character scale. Equal cells and large clear margins on all sides, including a transparent gutter through the entire cell border. Do not let capes, helmet tips, fists or equipment cross midlines. Very clear changes of arms, shoulders, staff/fist and cloth that read instantly at 85\u2013110px. Same raised 3/4 game camera. Dark fantasy detailed painted 3D game sprite texture, original armor values and original light angle. Feet stay on same floor line, characters occupy about 65% of cell height and width. Genuinely transparent RGBA behind every isolated figure. No ground, shadow, floating objects, movement arcs, beams, fog, magical particles, backdrop, typography, labels, borders, grid rules or checkerboard. Leave those effects to the existing runtime.",
+    "directions": [
+      "neutral"
+    ]
+  },
+  "ch3_king_melee": {
+    "reference": "assets/character_concepts/ch3_king.png",
+    "reference_sha256": "0511e2c74a13596c78cd88dbe8d82b4ebee7b91b70c681b9c1266ad44adf15b1",
+    "source_sha256": "d4303502a9704740b44b11e9034b6793fea96b854461cd8ed595ca81ae96fc34",
+    "generator": "OpenAI built-in ImageGen",
+    "prompt": "Create an original sprite attack sheet for this existing CHECKMATE fantasy chess king, mode melee. Use case illustration-story, production game character animation. The supplied picture is the EXACT in-game king design identity. Preserve their original crown or head, armor anatomy, shoulder ornaments, silhouette, weapons/staff, stocky or slender body proportions, fabric, wear, and frozen blue ice crystal and silver frost. Use the existing named gear. If hands are empty in the reference use empty fists and keep them empty. Use a strict four-column THREE-row sheet, 12 poses total, landscape 4:3. FIRST ROW attack towards screen RIGHT (right side profile at existing 3/4 camera): clearly reach the weapon/fist to the right. SECOND ROW attack UP away from camera showing the full back of armor and shoulders as necessary. THIRD ROW attack DOWN toward the camera with fore-shortened strike and strong face/torso view. The rows must have visibly different orientations. Reading order left-to-right WITHIN EACH ROW: (1) neutral grounded ready stance; (2) visibly shift the shoulders and draw the weapon or fist back for a heavy strike; (3) perform a strong clearly directional low hit with weapon or fist following this row toward its target, moving torso with a planted foot; (4) arrest the strike, settle the shoulder/weapon and return to grounded posture. Full head, feet and weapon inside every cell, same actual canonical character scale. Equal cells and large clear margins on all sides, including a transparent gutter through the entire cell border. Do not let capes, helmet tips, fists or equipment cross midlines. Very clear changes of arms, shoulders, staff/fist and cloth that read instantly at 85\u2013110px. Same raised 3/4 game camera. Dark fantasy detailed painted 3D game sprite texture, original armor values and original light angle. Feet stay on same floor line, characters occupy about 65% of cell height and width. Genuinely transparent RGBA behind every isolated figure. No ground, shadow, floating objects, movement arcs, beams, fog, magical particles, backdrop, typography, labels, borders, grid rules or checkerboard. Leave those effects to the existing runtime.",
+    "directions": [
+      "right",
+      "up",
+      "down"
+    ],
+    "cells": [
+      [
+        0,
+        0,
+        362,
+        362
+      ],
+      [
+        362,
+        0,
+        724,
+        362
+      ],
+      [
+        724,
+        0,
+        1086,
+        347
+      ],
+      [
+        1086,
+        0,
+        1448,
+        362
+      ],
+      [
+        0,
+        362,
+        362,
+        724
+      ],
+      [
+        362,
+        362,
+        724,
+        724
+      ],
+      [
+        724,
+        342,
+        1086,
+        724
+      ],
+      [
+        1086,
+        362,
+        1448,
+        724
+      ],
+      [
+        0,
+        724,
+        362,
+        1086
+      ],
+      [
+        362,
+        724,
+        724,
+        1086
+      ],
+      [
+        724,
+        724,
+        1086,
+        1086
+      ],
+      [
+        1086,
+        724,
+        1448,
+        1086
+      ]
+    ]
+  },
+  "ch3_king_pulse": {
+    "reference": "assets/character_concepts/ch3_king.png",
+    "reference_sha256": "0511e2c74a13596c78cd88dbe8d82b4ebee7b91b70c681b9c1266ad44adf15b1",
+    "source_sha256": "9ff13a07cf79fc4edf36211fd2a806e951418af22b80d36c1822216b8a87a442",
+    "generator": "OpenAI built-in ImageGen",
+    "prompt": "Create an original sprite attack sheet for this existing CHECKMATE fantasy chess king, mode pulse. Use case illustration-story, production game character animation. The supplied picture is the EXACT in-game king design identity. Preserve their original crown or head, armor anatomy, shoulder ornaments, silhouette, weapons/staff, stocky or slender body proportions, fabric, wear, and frozen blue ice crystal and silver frost. Use the existing named gear. If hands are empty in the reference use empty fists and keep them empty. Use a strict two-column by TWO-row square sheet, exactly 4 poses and no other content. Preserve the reference\u2019s 3/4 facing and raised isometric game camera consistently. This ability is radial, with no turned viewpoint between phases. Reading order upper left, upper right, lower left, lower right: (1) established grounded stance; (2) brace down on BOTH feet with shoulders curled inward and both elbows drawn to the chest core; (3) dramatic centered radial pulse release, both shoulders/arms pushed symmetrically away from the breastplate in a wide powerful expansion, waist and lower body planted; (4) rebound and lower the shoulders and arms, chest still forward and feet in place. Full head, feet and weapon inside every cell, same actual canonical character scale. Equal cells and large clear margins on all sides, including a transparent gutter through the entire cell border. Do not let capes, helmet tips, fists or equipment cross midlines. Very clear changes of arms, shoulders, staff/fist and cloth that read instantly at 85\u2013110px. Same raised 3/4 game camera. Dark fantasy detailed painted 3D game sprite texture, original armor values and original light angle. Feet stay on same floor line, characters occupy about 65% of cell height and width. Genuinely transparent RGBA behind every isolated figure. No ground, shadow, floating objects, movement arcs, beams, fog, magical particles, backdrop, typography, labels, borders, grid rules or checkerboard. Leave those effects to the existing runtime.",
+    "directions": [
+      "neutral"
+    ]
+  },
+  "ch4_bishop": {
+    "reference": "assets/late_chapter_units/ch4_bishop.png",
+    "reference_sha256": "f40fe2943aefe53a46fce5dc7a0ffdc384f0b8c4664a306260f5a19cc3ac657c",
+    "source_sha256": "43cc6a1fe92b67dba0c215c1fe7ae2110fb27ce32554ae81f3f1acf4628112db",
+    "generator": "OpenAI built-in ImageGen",
+    "prompt": "Create an original sprite attack sheet for this existing CHECKMATE fantasy chess bishop, mode magic cast. Use case illustration-story, production game character animation. The supplied picture is the EXACT in-game bishop design identity. Preserve their original crown or head, armor anatomy, shoulder ornaments, silhouette, weapons/staff, stocky or slender body proportions, fabric, wear, and volcanic obsidian and ember orange. Use the existing named gear. If hands are empty in the reference use empty fists and keep them empty. Use a strict two-column by TWO-row square sheet, exactly 4 poses and no other content. Preserve the reference\u2019s 3/4 facing and raised isometric game camera consistently. This ability is radial, with no turned viewpoint between phases. Reading order upper left, upper right, lower left, lower right: (1) established ready pose, staff low; (2) visibly raise and pull the staff inward, with torso and fabric winding up; (3) sharply plant or thrust the staff forward and free hand outward, strong planted cast silhouette that reads at 90px; (4) ease staff and robe back at the same soles. Full head, feet and weapon inside every cell, same actual canonical character scale. Equal cells and large clear margins on all sides, including a transparent gutter through the entire cell border. Do not let capes, helmet tips, fists or equipment cross midlines. Very clear changes of arms, shoulders, staff/fist and cloth that read instantly at 85\u2013110px. Same raised 3/4 game camera. Dark fantasy detailed painted 3D game sprite texture, original armor values and original light angle. Feet stay on same floor line, characters occupy about 65% of cell height and width. Genuinely transparent RGBA behind every isolated figure. No ground, shadow, floating objects, movement arcs, beams, fog, magical particles, backdrop, typography, labels, borders, grid rules or checkerboard. Leave those effects to the existing runtime.",
+    "directions": [
+      "neutral"
+    ]
+  },
+  "ch4_queen": {
+    "reference": "assets/late_chapter_units/ch4_queen.png",
+    "reference_sha256": "56e7787606db54f0ee2805564cf4aa25581b28531695a5487d7653023147d1cb",
+    "source_sha256": "e3fa378cba69ae99ef32048ba472171cf3a1f1608c14fb6c759dc95d82e4bc41",
+    "generator": "OpenAI built-in ImageGen",
+    "prompt": "Create an original sprite attack sheet for this existing CHECKMATE fantasy chess queen, mode magic cast. Use case illustration-story, production game character animation. The supplied picture is the EXACT in-game queen design identity. Preserve their original crown or head, armor anatomy, shoulder ornaments, silhouette, weapons/staff, stocky or slender body proportions, fabric, wear, and volcanic obsidian and ember orange. Use the existing named gear. If hands are empty in the reference use empty fists and keep them empty. Use a strict two-column by TWO-row square sheet, exactly 4 poses and no other content. Preserve the reference\u2019s 3/4 facing and raised isometric game camera consistently. This ability is radial, with no turned viewpoint between phases. Reading order upper left, upper right, lower left, lower right: (1) established poised ready stance; (2) draw the scepter tightly to the torso and open the cape; (3) sharply throw the scepter out with open opposite arm and a clear powerful spell release, both shoes remain anchored; (4) the open cape settles while the weapon lowers. Full head, feet and weapon inside every cell, same actual canonical character scale. Equal cells and large clear margins on all sides, including a transparent gutter through the entire cell border. Do not let capes, helmet tips, fists or equipment cross midlines. Very clear changes of arms, shoulders, staff/fist and cloth that read instantly at 85\u2013110px. Same raised 3/4 game camera. Dark fantasy detailed painted 3D game sprite texture, original armor values and original light angle. Feet stay on same floor line, characters occupy about 65% of cell height and width. Genuinely transparent RGBA behind every isolated figure. No ground, shadow, floating objects, movement arcs, beams, fog, magical particles, backdrop, typography, labels, borders, grid rules or checkerboard. Leave those effects to the existing runtime.",
+    "directions": [
+      "neutral"
+    ]
+  },
+  "ch4_king_melee": {
+    "reference": "assets/character_concepts/ch4_king.png",
+    "reference_sha256": "207f8068e31f311896a5933cc67c5b5406370725a6df20c44bcd3dc5bc4a5902",
+    "source_sha256": "c63ed9d2f73454dc1b60d66df6fded83f012c93ea629e0f3de8dbf4834c48f7b",
+    "generator": "OpenAI built-in ImageGen",
+    "prompt": "Create an original sprite attack sheet for this existing CHECKMATE fantasy chess king, mode melee. Use case illustration-story, production game character animation. The supplied picture is the EXACT in-game king design identity. Preserve their original crown or head, armor anatomy, shoulder ornaments, silhouette, weapons/staff, stocky or slender body proportions, fabric, wear, and volcanic obsidian and ember orange. Use the existing named gear. If hands are empty in the reference use empty fists and keep them empty. Use a strict four-column THREE-row sheet, 12 poses total, landscape 4:3. FIRST ROW attack towards screen RIGHT (right side profile at existing 3/4 camera): clearly reach the weapon/fist to the right. SECOND ROW attack UP away from camera showing the full back of armor and shoulders as necessary. THIRD ROW attack DOWN toward the camera with fore-shortened strike and strong face/torso view. The rows must have visibly different orientations. Reading order left-to-right WITHIN EACH ROW: (1) neutral grounded ready stance; (2) visibly shift the shoulders and draw the weapon or fist back for a heavy strike; (3) perform a strong clearly directional low hit with weapon or fist following this row toward its target, moving torso with a planted foot; (4) arrest the strike, settle the shoulder/weapon and return to grounded posture. Full head, feet and weapon inside every cell, same actual canonical character scale. Equal cells and large clear margins on all sides, including a transparent gutter through the entire cell border. Do not let capes, helmet tips, fists or equipment cross midlines. Very clear changes of arms, shoulders, staff/fist and cloth that read instantly at 85\u2013110px. Same raised 3/4 game camera. Dark fantasy detailed painted 3D game sprite texture, original armor values and original light angle. Feet stay on same floor line, characters occupy about 65% of cell height and width. Genuinely transparent RGBA behind every isolated figure. No ground, shadow, floating objects, movement arcs, beams, fog, magical particles, backdrop, typography, labels, borders, grid rules or checkerboard. Leave those effects to the existing runtime.",
+    "directions": [
+      "right",
+      "up",
+      "down"
+    ]
+  },
+  "ch4_king_pulse": {
+    "reference": "assets/character_concepts/ch4_king.png",
+    "reference_sha256": "207f8068e31f311896a5933cc67c5b5406370725a6df20c44bcd3dc5bc4a5902",
+    "source_sha256": "0792d9ea82a5426e3e3def7c0bb48aaf44c0ac6f028e319554fe6bc88bcbd326",
+    "generator": "OpenAI built-in ImageGen",
+    "prompt": "Create an original sprite attack sheet for this existing CHECKMATE fantasy chess king, mode pulse. Use case illustration-story, production game character animation. The supplied picture is the EXACT in-game king design identity. Preserve their original crown or head, armor anatomy, shoulder ornaments, silhouette, weapons/staff, stocky or slender body proportions, fabric, wear, and volcanic obsidian and ember orange. Use the existing named gear. If hands are empty in the reference use empty fists and keep them empty. Use a strict two-column by TWO-row square sheet, exactly 4 poses and no other content. Preserve the reference\u2019s 3/4 facing and raised isometric game camera consistently. This ability is radial, with no turned viewpoint between phases. Reading order upper left, upper right, lower left, lower right: (1) established grounded stance; (2) brace down on BOTH feet with shoulders curled inward and both elbows drawn to the chest core; (3) dramatic centered radial pulse release, both shoulders/arms pushed symmetrically away from the breastplate in a wide powerful expansion, waist and lower body planted; (4) rebound and lower the shoulders and arms, chest still forward and feet in place. Full head, feet and weapon inside every cell, same actual canonical character scale. Equal cells and large clear margins on all sides, including a transparent gutter through the entire cell border. Do not let capes, helmet tips, fists or equipment cross midlines. Very clear changes of arms, shoulders, staff/fist and cloth that read instantly at 85\u2013110px. Same raised 3/4 game camera. Dark fantasy detailed painted 3D game sprite texture, original armor values and original light angle. Feet stay on same floor line, characters occupy about 65% of cell height and width. Genuinely transparent RGBA behind every isolated figure. No ground, shadow, floating objects, movement arcs, beams, fog, magical particles, backdrop, typography, labels, borders, grid rules or checkerboard. Leave those effects to the existing runtime.",
+    "directions": [
+      "neutral"
+    ]
+  },
+  "ch5_bishop": {
+    "reference": "assets/late_chapter_units/ch5_bishop.png",
+    "reference_sha256": "2dad27cbb922fa0614c1a07ba991bbc808fe0af2455f9abd21c96bec323e24a7",
+    "source_sha256": "d2e5ed5681806d47b1918c2628e08e70955f92d14f322cd94aedfb4de628f1d7",
+    "generator": "OpenAI built-in ImageGen",
+    "prompt": "Create an original sprite attack sheet for this existing CHECKMATE fantasy chess bishop, mode magic cast. Use case illustration-story, production game character animation. The supplied picture is the EXACT in-game bishop design identity. Preserve their original crown or head, armor anatomy, shoulder ornaments, silhouette, weapons/staff, stocky or slender body proportions, fabric, wear, and gothic near-black armor, tarnished silver and crimson. Use the existing named gear. If hands are empty in the reference use empty fists and keep them empty. Use a strict two-column by TWO-row square sheet, exactly 4 poses and no other content. Preserve the reference\u2019s 3/4 facing and raised isometric game camera consistently. This ability is radial, with no turned viewpoint between phases. Reading order upper left, upper right, lower left, lower right: (1) established ready pose, staff low; (2) visibly raise and pull the staff inward, with torso and fabric winding up; (3) sharply plant or thrust the staff forward and free hand outward, strong planted cast silhouette that reads at 90px; (4) ease staff and robe back at the same soles. Full head, feet and weapon inside every cell, same actual canonical character scale. Equal cells and large clear margins on all sides, including a transparent gutter through the entire cell border. Do not let capes, helmet tips, fists or equipment cross midlines. Very clear changes of arms, shoulders, staff/fist and cloth that read instantly at 85\u2013110px. Same raised 3/4 game camera. Dark fantasy detailed painted 3D game sprite texture, original armor values and original light angle. Feet stay on same floor line, characters occupy about 65% of cell height and width. Genuinely transparent RGBA behind every isolated figure. No ground, shadow, floating objects, movement arcs, beams, fog, magical particles, backdrop, typography, labels, borders, grid rules or checkerboard. Leave those effects to the existing runtime.",
+    "directions": [
+      "neutral"
+    ]
+  },
+  "ch5_queen": {
+    "reference": "assets/late_chapter_units/ch5_queen.png",
+    "reference_sha256": "a8431988dc0fd91cf911ca61e01cbdfba8ceeda0b6081609f9d094ec8dfa2227",
+    "source_sha256": "b761fa40c689d655dd99480bb98c08bb9db2cec9497b20d563a56a4d148dcb85",
+    "generator": "OpenAI built-in ImageGen",
+    "prompt": "Create an original sprite attack sheet for this existing CHECKMATE fantasy chess queen, mode magic cast. Use case illustration-story, production game character animation. The supplied picture is the EXACT in-game queen design identity. Preserve their original crown or head, armor anatomy, shoulder ornaments, silhouette, weapons/staff, stocky or slender body proportions, fabric, wear, and gothic near-black armor, tarnished silver and crimson. Use the existing named gear. If hands are empty in the reference use empty fists and keep them empty. Use a strict two-column by TWO-row square sheet, exactly 4 poses and no other content. Preserve the reference\u2019s 3/4 facing and raised isometric game camera consistently. This ability is radial, with no turned viewpoint between phases. Reading order upper left, upper right, lower left, lower right: (1) established poised ready stance; (2) draw the scepter tightly to the torso and open the cape; (3) sharply throw the scepter out with open opposite arm and a clear powerful spell release, both shoes remain anchored; (4) the open cape settles while the weapon lowers. Full head, feet and weapon inside every cell, same actual canonical character scale. Equal cells and large clear margins on all sides, including a transparent gutter through the entire cell border. Do not let capes, helmet tips, fists or equipment cross midlines. Very clear changes of arms, shoulders, staff/fist and cloth that read instantly at 85\u2013110px. Same raised 3/4 game camera. Dark fantasy detailed painted 3D game sprite texture, original armor values and original light angle. Feet stay on same floor line, characters occupy about 65% of cell height and width. Genuinely transparent RGBA behind every isolated figure. No ground, shadow, floating objects, movement arcs, beams, fog, magical particles, backdrop, typography, labels, borders, grid rules or checkerboard. Leave those effects to the existing runtime.",
+    "directions": [
+      "neutral"
+    ]
+  },
+  "ch5_king_melee": {
+    "reference": "assets/character_concepts/ch5_king.png",
+    "reference_sha256": "d2f68d7f4a38d431c0cc2672b57b60e0c41eb2e7ec8fc88898aa0b73c9905ce4",
+    "source_sha256": "e534379c76a2076611174219ea66a4e5ad3a22be896abb3bc9033d0301ed3dd8",
+    "generator": "OpenAI built-in ImageGen",
+    "prompt": "Create an original sprite attack sheet for this existing CHECKMATE fantasy chess king, mode melee. Use case illustration-story, production game character animation. The supplied picture is the EXACT in-game king design identity. Preserve their original crown or head, armor anatomy, shoulder ornaments, silhouette, weapons/staff, stocky or slender body proportions, fabric, wear, and gothic near-black armor, tarnished silver and crimson. Use the existing named gear. If hands are empty in the reference use empty fists and keep them empty. Use a strict four-column THREE-row sheet, 12 poses total, landscape 4:3. FIRST ROW attack towards screen RIGHT (right side profile at existing 3/4 camera): clearly reach the weapon/fist to the right. SECOND ROW attack UP away from camera showing the full back of armor and shoulders as necessary. THIRD ROW attack DOWN toward the camera with fore-shortened strike and strong face/torso view. The rows must have visibly different orientations. Reading order left-to-right WITHIN EACH ROW: (1) neutral grounded ready stance; (2) visibly shift the shoulders and draw the weapon or fist back for a heavy strike; (3) perform a strong clearly directional low hit with weapon or fist following this row toward its target, moving torso with a planted foot; (4) arrest the strike, settle the shoulder/weapon and return to grounded posture. Full head, feet and weapon inside every cell, same actual canonical character scale. Equal cells and large clear margins on all sides, including a transparent gutter through the entire cell border. Do not let capes, helmet tips, fists or equipment cross midlines. Very clear changes of arms, shoulders, staff/fist and cloth that read instantly at 85\u2013110px. Same raised 3/4 game camera. Dark fantasy detailed painted 3D game sprite texture, original armor values and original light angle. Feet stay on same floor line, characters occupy about 65% of cell height and width. Genuinely transparent RGBA behind every isolated figure. No ground, shadow, floating objects, movement arcs, beams, fog, magical particles, backdrop, typography, labels, borders, grid rules or checkerboard. Leave those effects to the existing runtime.",
+    "directions": [
+      "right",
+      "up",
+      "down"
+    ]
+  },
+  "ch5_king_pulse": {
+    "reference": "assets/character_concepts/ch5_king.png",
+    "reference_sha256": "d2f68d7f4a38d431c0cc2672b57b60e0c41eb2e7ec8fc88898aa0b73c9905ce4",
+    "source_sha256": "a52bb524e4e6501bb7c3da8fe4f6f48fe305d040d58e5fc70993783b5061220e",
+    "generator": "OpenAI built-in ImageGen",
+    "prompt": "Create an original sprite attack sheet for this existing CHECKMATE fantasy chess king, mode pulse. Use case illustration-story, production game character animation. The supplied picture is the EXACT in-game king design identity. Preserve their original crown or head, armor anatomy, shoulder ornaments, silhouette, weapons/staff, stocky or slender body proportions, fabric, wear, and gothic near-black armor, tarnished silver and crimson. Use the existing named gear. If hands are empty in the reference use empty fists and keep them empty. Use a strict two-column by TWO-row square sheet, exactly 4 poses and no other content. Preserve the reference\u2019s 3/4 facing and raised isometric game camera consistently. This ability is radial, with no turned viewpoint between phases. Reading order upper left, upper right, lower left, lower right: (1) established grounded stance; (2) brace down on BOTH feet with shoulders curled inward and both elbows drawn to the chest core; (3) dramatic centered radial pulse release, both shoulders/arms pushed symmetrically away from the breastplate in a wide powerful expansion, waist and lower body planted; (4) rebound and lower the shoulders and arms, chest still forward and feet in place. Full head, feet and weapon inside every cell, same actual canonical character scale. Equal cells and large clear margins on all sides, including a transparent gutter through the entire cell border. Do not let capes, helmet tips, fists or equipment cross midlines. Very clear changes of arms, shoulders, staff/fist and cloth that read instantly at 85\u2013110px. Same raised 3/4 game camera. Dark fantasy detailed painted 3D game sprite texture, original armor values and original light angle. Feet stay on same floor line, characters occupy about 65% of cell height and width. Genuinely transparent RGBA behind every isolated figure. No ground, shadow, floating objects, movement arcs, beams, fog, magical particles, backdrop, typography, labels, borders, grid rules or checkerboard. Leave those effects to the existing runtime.",
+    "directions": [
+      "neutral"
+    ]
+  }
+}

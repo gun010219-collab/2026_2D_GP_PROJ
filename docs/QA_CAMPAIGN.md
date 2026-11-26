@@ -2,6 +2,8 @@
 
 ## R7 인간 Windows 캠페인에 이관된 검수
 
+- [x] R7-A3E-7에서 사용자가 Bishop·Queen·King 전투 스프라이트를 직접 플레이하고 최종 승인했다. Stage24·25의 사용자 창 성능은 R7-C에서 추적한다. [시전 비교 및 성능](TASK5R7A3E_SPRITE_ANIMATION.md#r7-a3e-56-bishopqueenking-공격-스프라이트)
+
 - [x] R7-A3E-4F에서 사용자가 Pawn·Rook·Knight 공격 스프라이트를 실제 플레이하고 최종 승인했다. [검수 명령과 GIF](TASK5R7A3E_SPRITE_ANIMATION.md#r7-a3e-4-pawnrookknight-공격-스프라이트)
 
 - [x] R7-A3E-2F에서 사용자가 네 방향 공격·패링 스프라이트를 실제 플레이하고 승인했다. Stage24·25의 Windows 사용자 창 P95·P99 측정은 R7-C 검수 대상이다. [실행과 검수 자료](TASK5R7A3E_SPRITE_ANIMATION.md#r7-a3e-2b-플레이어-전방향-공격과-패링)

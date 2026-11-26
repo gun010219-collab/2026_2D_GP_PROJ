@@ -1,0 +1,1510 @@
+{
+  "driver": "direct3d11",
+  "group": "caster",
+  "scenes": {
+    "ch1_bishop": {
+      "stage": 4,
+      "source": "s4_bishop_1",
+      "hit_tick": 156,
+      "phases": {
+        "anticipation": {
+          "tick": 48,
+          "frame": 0,
+          "facing": "neutral",
+          "elevation": 0.0
+        },
+        "release": {
+          "tick": 156,
+          "frame": 2,
+          "origin": [
+            2,
+            8
+          ],
+          "target": [
+            0,
+            0
+          ],
+          "attack_kind": "basic"
+        }
+      },
+      "observed_frames": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "clip_frames": 0
+    },
+    "ch2_bishop": {
+      "stage": 8,
+      "source": "s8_bishop_1",
+      "hit_tick": 156,
+      "phases": {
+        "anticipation": {
+          "tick": 48,
+          "frame": 0,
+          "facing": "neutral",
+          "elevation": 0.0
+        },
+        "release": {
+          "tick": 156,
+          "frame": 2,
+          "origin": [
+            2,
+            8
+          ],
+          "target": [
+            0,
+            0
+          ],
+          "attack_kind": "basic"
+        }
+      },
+      "observed_frames": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "clip_frames": 0
+    },
+    "ch3_bishop": {
+      "stage": 12,
+      "source": "s12_bishop_1",
+      "hit_tick": 156,
+      "phases": {
+        "anticipation": {
+          "tick": 48,
+          "frame": 0,
+          "facing": "neutral",
+          "elevation": 0.0
+        },
+        "release": {
+          "tick": 156,
+          "frame": 2,
+          "origin": [
+            2,
+            8
+          ],
+          "target": [
+            0,
+            0
+          ],
+          "attack_kind": "basic"
+        }
+      },
+      "observed_frames": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "clip_frames": 40
+    },
+    "ch4_bishop": {
+      "stage": 16,
+      "source": "s16_bishop_1",
+      "hit_tick": 209,
+      "phases": {
+        "anticipation": {
+          "tick": 101,
+          "frame": 0,
+          "facing": "neutral",
+          "elevation": 0.0
+        },
+        "release": {
+          "tick": 209,
+          "frame": 2,
+          "origin": [
+            2,
+            8
+          ],
+          "target": [
+            0,
+            0
+          ],
+          "attack_kind": "basic"
+        }
+      },
+      "observed_frames": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "clip_frames": 0
+    },
+    "ch5_bishop": {
+      "stage": 21,
+      "source": "s21_bishop_1",
+      "hit_tick": 222,
+      "phases": {
+        "anticipation": {
+          "tick": 114,
+          "frame": 0,
+          "facing": "neutral",
+          "elevation": 0.0
+        },
+        "release": {
+          "tick": 222,
+          "frame": 2,
+          "origin": [
+            2,
+            8
+          ],
+          "target": [
+            0,
+            0
+          ],
+          "attack_kind": "basic"
+        }
+      },
+      "observed_frames": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "clip_frames": 0
+    },
+    "ch3_queen": {
+      "stage": 13,
+      "source": "s13_queen_1",
+      "hit_tick": 121,
+      "phases": {
+        "anticipation": {
+          "tick": 49,
+          "frame": 0,
+          "facing": "neutral",
+          "elevation": 0.0
+        },
+        "release": {
+          "tick": 121,
+          "frame": 2,
+          "origin": [
+            5,
+            6
+          ],
+          "target": [
+            5,
+            7
+          ],
+          "attack_kind": "queen_diagonal"
+        }
+      },
+      "observed_frames": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "clip_frames": 0
+    },
+    "ch4_queen": {
+      "stage": 18,
+      "source": "s18_queen_1",
+      "hit_tick": 121,
+      "phases": {
+        "anticipation": {
+          "tick": 49,
+          "frame": 0,
+          "facing": "neutral",
+          "elevation": 0.0
+        },
+        "release": {
+          "tick": 121,
+          "frame": 2,
+          "origin": [
+            5,
+            6
+          ],
+          "target": [
+            5,
+            7
+          ],
+          "attack_kind": "queen_diagonal"
+        }
+      },
+      "observed_frames": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "clip_frames": 0
+    },
+    "ch5_queen": {
+      "stage": 24,
+      "source": "s24_queen_1",
+      "hit_tick": 121,
+      "phases": {
+        "anticipation": {
+          "tick": 49,
+          "frame": 0,
+          "facing": "neutral",
+          "elevation": 0.0
+        },
+        "release": {
+          "tick": 121,
+          "frame": 2,
+          "origin": [
+            5,
+            6
+          ],
+          "target": [
+            5,
+            7
+          ],
+          "attack_kind": "queen_diagonal"
+        }
+      },
+      "observed_frames": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "clip_frames": 40
+    },
+    "ch1_king_melee": {
+      "stage": 5,
+      "source": "s5_king_1",
+      "hit_tick": 240,
+      "phases": {
+        "anticipation": {
+          "tick": 192,
+          "frame": 0,
+          "facing": "down",
+          "elevation": 0.0
+        },
+        "release": {
+          "tick": 240,
+          "frame": 2,
+          "origin": [
+            5,
+            7
+          ],
+          "target": [
+            5,
+            6
+          ],
+          "attack_kind": "basic"
+        }
+      },
+      "observed_frames": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "clip_frames": 40
+    },
+    "ch2_king_melee": {
+      "stage": 10,
+      "source": "s10_king_1",
+      "hit_tick": 240,
+      "phases": {
+        "anticipation": {
+          "tick": 192,
+          "frame": 0,
+          "facing": "right",
+          "elevation": 0.0
+        },
+        "release": {
+          "tick": 240,
+          "frame": 2,
+          "origin": [
+            4,
+            7
+          ],
+          "target": [
+            5,
+            6
+          ],
+          "attack_kind": "basic"
+        }
+      },
+      "observed_frames": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "clip_frames": 0
+    },
+    "ch3_king_melee": {
+      "stage": 15,
+      "source": "s15_king_1",
+      "hit_tick": 463,
+      "phases": {
+        "anticipation": {
+          "tick": 415,
+          "frame": 0,
+          "facing": "right",
+          "elevation": 0.0
+        },
+        "release": {
+          "tick": 463,
+          "frame": 2,
+          "origin": [
+            4,
+            6
+          ],
+          "target": [
+            5,
+            5
+          ],
+          "attack_kind": "basic"
+        }
+      },
+      "observed_frames": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "clip_frames": 0
+    },
+    "ch4_king_melee": {
+      "stage": 20,
+      "source": "s20_king_1",
+      "hit_tick": 463,
+      "phases": {
+        "anticipation": {
+          "tick": 415,
+          "frame": 0,
+          "facing": "down",
+          "elevation": 0.0
+        },
+        "release": {
+          "tick": 463,
+          "frame": 2,
+          "origin": [
+            6,
+            6
+          ],
+          "target": [
+            6,
+            5
+          ],
+          "attack_kind": "basic"
+        }
+      },
+      "observed_frames": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "clip_frames": 0
+    },
+    "ch5_king_melee": {
+      "stage": 25,
+      "source": "s25_king_1",
+      "hit_tick": 463,
+      "phases": {
+        "anticipation": {
+          "tick": 415,
+          "frame": 0,
+          "facing": "down",
+          "elevation": 0.0
+        },
+        "release": {
+          "tick": 463,
+          "frame": 2,
+          "origin": [
+            6,
+            6
+          ],
+          "target": [
+            6,
+            5
+          ],
+          "attack_kind": "basic"
+        }
+      },
+      "observed_frames": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "clip_frames": 0
+    },
+    "ch1_king_pulse": {
+      "stage": 5,
+      "source": "s5_king_1",
+      "hit_tick": 385,
+      "phases": {
+        "anticipation": {
+          "tick": 265,
+          "frame": 0,
+          "facing": "neutral",
+          "elevation": 0.0
+        },
+        "release": {
+          "tick": 385,
+          "frame": 2,
+          "origin": [
+            5,
+            6
+          ],
+          "target": [
+            0,
+            0
+          ],
+          "attack_kind": "king_pulse"
+        }
+      },
+      "observed_frames": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "clip_frames": 0
+    },
+    "ch2_king_pulse": {
+      "stage": 10,
+      "source": "s10_king_1",
+      "hit_tick": 385,
+      "phases": {
+        "anticipation": {
+          "tick": 265,
+          "frame": 0,
+          "facing": "neutral",
+          "elevation": 0.0
+        },
+        "release": {
+          "tick": 385,
+          "frame": 2,
+          "origin": [
+            5,
+            6
+          ],
+          "target": [
+            0,
+            0
+          ],
+          "attack_kind": "king_pulse"
+        }
+      },
+      "observed_frames": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "clip_frames": 0
+    },
+    "ch3_king_pulse": {
+      "stage": 15,
+      "source": "s15_king_1",
+      "hit_tick": 385,
+      "phases": {
+        "anticipation": {
+          "tick": 265,
+          "frame": 0,
+          "facing": "neutral",
+          "elevation": 0.0
+        },
+        "release": {
+          "tick": 385,
+          "frame": 2,
+          "origin": [
+            4,
+            6
+          ],
+          "target": [
+            0,
+            0
+          ],
+          "attack_kind": "king_pulse"
+        }
+      },
+      "observed_frames": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "clip_frames": 0
+    },
+    "ch4_king_pulse": {
+      "stage": 20,
+      "source": "s20_king_1",
+      "hit_tick": 385,
+      "phases": {
+        "anticipation": {
+          "tick": 265,
+          "frame": 0,
+          "facing": "neutral",
+          "elevation": 0.0
+        },
+        "release": {
+          "tick": 385,
+          "frame": 2,
+          "origin": [
+            4,
+            6
+          ],
+          "target": [
+            0,
+            0
+          ],
+          "attack_kind": "king_pulse"
+        }
+      },
+      "observed_frames": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "clip_frames": 0
+    },
+    "ch5_king_pulse": {
+      "stage": 25,
+      "source": "s25_king_1",
+      "hit_tick": 385,
+      "phases": {
+        "anticipation": {
+          "tick": 265,
+          "frame": 0,
+          "facing": "neutral",
+          "elevation": 0.0
+        },
+        "release": {
+          "tick": 385,
+          "frame": 2,
+          "origin": [
+            4,
+            6
+          ],
+          "target": [
+            0,
+            0
+          ],
+          "attack_kind": "king_pulse"
+        }
+      },
+      "observed_frames": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "clip_frames": 40
+    }
+  },
+  "textures": {
+    "atlas.png": {
+      "size": [
+        776,
+        776
+      ],
+      "ms": [
+        4.075,
+        3.773,
+        3.921,
+        3.946,
+        3.41,
+        4.004,
+        3.295,
+        3.435,
+        3.609,
+        3.553,
+        3.507,
+        3.566,
+        3.802,
+        3.382,
+        3.411,
+        3.607,
+        3.583,
+        3.411
+      ],
+      "pixel_bytes": 2408704
+    },
+    "player_attacks.png": {
+      "size": [
+        1004,
+        687
+      ],
+      "ms": [
+        6.636,
+        6.46,
+        6.616,
+        6.652,
+        6.065,
+        6.002,
+        5.75,
+        5.988,
+        6.475,
+        6.471,
+        6.493,
+        6.345,
+        7.087,
+        6.185,
+        5.97,
+        6.72,
+        6.567,
+        5.851
+      ],
+      "pixel_bytes": 2758992
+    },
+    "ch1_bishop.png": {
+      "size": [
+        390,
+        454
+      ],
+      "ms": [
+        2.505
+      ],
+      "pixel_bytes": 708240
+    },
+    "ch1_pawn.png": {
+      "size": [
+        1056,
+        684
+      ],
+      "ms": [
+        6.348,
+        5.903,
+        5.684
+      ],
+      "pixel_bytes": 2889216
+    },
+    "ch1_rook.png": {
+      "size": [
+        944,
+        693
+      ],
+      "ms": [
+        9.597,
+        9.067,
+        8.621
+      ],
+      "pixel_bytes": 2616768
+    },
+    "player_parries.png": {
+      "size": [
+        1398,
+        960
+      ],
+      "ms": [
+        13.069,
+        13.195,
+        12.94,
+        13.458,
+        12.061,
+        11.872,
+        11.447,
+        11.634,
+        12.607,
+        12.862,
+        13.726,
+        12.626,
+        13.153,
+        12.165,
+        13.306,
+        11.814,
+        12.569,
+        11.639
+      ],
+      "pixel_bytes": 5368320
+    },
+    "ch2_bishop.png": {
+      "size": [
+        344,
+        456
+      ],
+      "ms": [
+        2.415,
+        2.282,
+        2.111
+      ],
+      "pixel_bytes": 627456
+    },
+    "ch2_knight.png": {
+      "size": [
+        988,
+        690
+      ],
+      "ms": [
+        6.616,
+        6.16,
+        5.988
+      ],
+      "pixel_bytes": 2726880
+    },
+    "ch2_pawn.png": {
+      "size": [
+        1040,
+        702
+      ],
+      "ms": [
+        6.79,
+        6.909,
+        6.342
+      ],
+      "pixel_bytes": 2920320
+    },
+    "ch2_rook.png": {
+      "size": [
+        932,
+        597
+      ],
+      "ms": [
+        8.26
+      ],
+      "pixel_bytes": 2225616
+    },
+    "ch3_bishop.png": {
+      "size": [
+        422,
+        456
+      ],
+      "ms": [
+        2.336
+      ],
+      "pixel_bytes": 769728
+    },
+    "ch3_pawn.png": {
+      "size": [
+        1048,
+        729
+      ],
+      "ms": [
+        6.622,
+        6.338,
+        6.153,
+        6.258
+      ],
+      "pixel_bytes": 3055968
+    },
+    "ch3_rook.png": {
+      "size": [
+        992,
+        720
+      ],
+      "ms": [
+        9.551,
+        9.772,
+        9.354
+      ],
+      "pixel_bytes": 2856960
+    },
+    "ch4_bishop.png": {
+      "size": [
+        324,
+        452
+      ],
+      "ms": [
+        2.224,
+        1.866,
+        2.063,
+        2.014
+      ],
+      "pixel_bytes": 585792
+    },
+    "ch4_knight.png": {
+      "size": [
+        948,
+        681
+      ],
+      "ms": [
+        7.005,
+        7.437,
+        6.94
+      ],
+      "pixel_bytes": 2582352
+    },
+    "ch4_pawn.png": {
+      "size": [
+        1096,
+        747
+      ],
+      "ms": [
+        8.559,
+        6.844,
+        7.686,
+        7.824
+      ],
+      "pixel_bytes": 3274848
+    },
+    "ch4_rook.png": {
+      "size": [
+        888,
+        702
+      ],
+      "ms": [
+        9.306,
+        8.035
+      ],
+      "pixel_bytes": 2493504
+    },
+    "ch5_bishop.png": {
+      "size": [
+        356,
+        454
+      ],
+      "ms": [
+        2.271,
+        2.183,
+        2.292,
+        2.158
+      ],
+      "pixel_bytes": 646496
+    },
+    "ch5_knight.png": {
+      "size": [
+        1108,
+        684
+      ],
+      "ms": [
+        8.147,
+        6.923,
+        7.362,
+        7.365
+      ],
+      "pixel_bytes": 3031488
+    },
+    "ch5_pawn.png": {
+      "size": [
+        1080,
+        717
+      ],
+      "ms": [
+        7.404,
+        6.744,
+        7.502,
+        7.01
+      ],
+      "pixel_bytes": 3097440
+    },
+    "ch5_queen.png": {
+      "size": [
+        402,
+        454
+      ],
+      "ms": [
+        2.684,
+        2.792,
+        3.056,
+        2.759
+      ],
+      "pixel_bytes": 730032
+    },
+    "ch5_rook.png": {
+      "size": [
+        920,
+        690
+      ],
+      "ms": [
+        7.933,
+        7.917,
+        8.525,
+        8.051
+      ],
+      "pixel_bytes": 2539200
+    },
+    "ch3_knight.png": {
+      "size": [
+        1040,
+        723
+      ],
+      "ms": [
+        6.819
+      ],
+      "pixel_bytes": 3007680
+    },
+    "ch3_queen.png": {
+      "size": [
+        426,
+        458
+      ],
+      "ms": [
+        2.593,
+        2.971,
+        3.042
+      ],
+      "pixel_bytes": 780432
+    },
+    "ch4_queen.png": {
+      "size": [
+        426,
+        468
+      ],
+      "ms": [
+        3.139,
+        3.04,
+        2.819
+      ],
+      "pixel_bytes": 797472
+    },
+    "ch1_king_melee.png": {
+      "size": [
+        1232,
+        873
+      ],
+      "ms": [
+        9.571,
+        9.262
+      ],
+      "pixel_bytes": 4302144
+    },
+    "ch1_king_pulse.png": {
+      "size": [
+        490,
+        452
+      ],
+      "ms": [
+        3.297,
+        2.945
+      ],
+      "pixel_bytes": 885920
+    },
+    "ch2_king_melee.png": {
+      "size": [
+        992,
+        732
+      ],
+      "ms": [
+        8.732,
+        7.828
+      ],
+      "pixel_bytes": 2904576
+    },
+    "ch2_king_pulse.png": {
+      "size": [
+        434,
+        454
+      ],
+      "ms": [
+        2.737,
+        2.584
+      ],
+      "pixel_bytes": 788144
+    },
+    "ch3_king_melee.png": {
+      "size": [
+        880,
+        714
+      ],
+      "ms": [
+        6.783,
+        6.954
+      ],
+      "pixel_bytes": 2513280
+    },
+    "ch3_king_pulse.png": {
+      "size": [
+        442,
+        458
+      ],
+      "ms": [
+        2.421,
+        2.795
+      ],
+      "pixel_bytes": 809744
+    },
+    "ch4_king_melee.png": {
+      "size": [
+        912,
+        732
+      ],
+      "ms": [
+        8.486,
+        8.084
+      ],
+      "pixel_bytes": 2670336
+    },
+    "ch4_king_pulse.png": {
+      "size": [
+        506,
+        468
+      ],
+      "ms": [
+        3.218,
+        3.056
+      ],
+      "pixel_bytes": 947232
+    },
+    "ch5_king_melee.png": {
+      "size": [
+        932,
+        705
+      ],
+      "ms": [
+        8.297,
+        8.226
+      ],
+      "pixel_bytes": 2628240
+    },
+    "ch5_king_pulse.png": {
+      "size": [
+        438,
+        462
+      ],
+      "ms": [
+        2.975,
+        2.762
+      ],
+      "pixel_bytes": 809424
+    }
+  },
+  "loads": 139,
+  "releases": 139,
+  "peak": 10,
+  "boss_performance": {
+    "stage24_queen": {
+      "phase": "crossing",
+      "tick": 135,
+      "frame_ms": {
+        "martial": [
+          4.174,
+          4.969,
+          5.726
+        ],
+        "enemy_sprite": [
+          3.82,
+          4.087,
+          4.627
+        ]
+      }
+    },
+    "stage25_pulse_378": {
+      "phase": "charge",
+      "tick": 378,
+      "frame_ms": {
+        "martial": [
+          3.86,
+          5.456,
+          5.994
+        ],
+        "enemy_sprite": [
+          3.826,
+          4.7,
+          5.389
+        ]
+      }
+    },
+    "stage25_pulse_389": {
+      "phase": "release",
+      "tick": 389,
+      "frame_ms": {
+        "martial": [
+          4.201,
+          4.683,
+          5.241
+        ],
+        "enemy_sprite": [
+          4.08,
+          4.488,
+          5.0
+        ]
+      }
+    }
+  },
+  "capture_sha256": {
+    "ch1_bishop_articulated.png": "342ed9da19f01986391e0abb71d47f1f8d56f001298b22cc16080630303f8ee5",
+    "ch1_bishop_previous.png": "5513203f161c8536d07d51c978186da7674ac20b21ec6565d1fd35c6a01cb3a5",
+    "ch1_king_melee_articulated.png": "2486d9c87a2830b2bb544fca9a32643bb099ab94faef1daa758efb63ed288e0f",
+    "ch1_king_melee_previous.png": "4c4ca7d205627da87e257ff1d268786c428c0ee8109e103e5ae2fd78bc1d36b5",
+    "ch1_king_pulse_articulated.png": "9c50665739b88fd8ce236d031915487c05ee6e53e2bb42ef1dd44a439ec8dfe9",
+    "ch1_king_pulse_previous.png": "43d212b4d7a42dd3fb5984a5f586ad2a0ba3df97ab594919459c0033b5369321",
+    "ch2_bishop_articulated.png": "c7d46c63536c16bb73558eda9964ac3f2bd6caa5ada8ff1f2e3aafc727db25b6",
+    "ch2_bishop_previous.png": "de28b3f9fea27f83027266333aabedc959883fc55a590f06d9c82a20562470a7",
+    "ch2_king_melee_articulated.png": "a13db47271c4788e0ed2e44f5e9d81fa1fd33932a25c76dde1950f0456804756",
+    "ch2_king_melee_previous.png": "33c8bc2f0e2a202b81fac3eb87eb9965c9b3ffae0c6c13eea60cee884f54d488",
+    "ch2_king_pulse_articulated.png": "d62ce869df5e17a15c3104c7b57d2a285c6634beaa34a9a5b46bbc810afcb24a",
+    "ch2_king_pulse_previous.png": "c458165c0707fd42270ea6739e87ec8620a32aa562407e69a2d14f949d0bff9e",
+    "ch3_bishop_articulated.png": "aa4a65bd37ff9b03ebaa11cd0ab153a751be65d34771a1220dc598860855f2e5",
+    "ch3_bishop_previous.png": "63624bd1a04bbbbe75d6cf5d5410efde05fb34291aa56b9fe86c912ef6fca6ff",
+    "ch3_king_melee_articulated.png": "7ac7131474c4ee32b817634f2c8cddea5579f6c989ca52873e9b8fff8a17cef2",
+    "ch3_king_melee_previous.png": "b0fa2387f99b66cc98b93638675b8186e47ce85a87ae4018da9e0cb453080394",
+    "ch3_king_pulse_articulated.png": "2815f2b641c9358f51c311f80b088f556adb151e1049422fe574e7576441871d",
+    "ch3_king_pulse_previous.png": "6a2933fd36b5a4a0fcf48034a320fa9d380414cd437942ba5c2268d0e8a438ed",
+    "ch3_queen_articulated.png": "293bd49d1209c65d62b3b721e844fa6eb7c14b96b2e6f260a2588d204bca3812",
+    "ch3_queen_previous.png": "42a742f4ff70b2db8bc020021fd106191c1e269d179d9b13ccee3dcbcb0a7e44",
+    "ch4_bishop_articulated.png": "58d14d2f3da1d71c409a93fe0aa3f9187f964c0205c18b15bb84abbf45d0a50a",
+    "ch4_bishop_previous.png": "c98e87e6c45027d6d4569e353acdb2e5931be141258c2a517bb906100c7291bc",
+    "ch4_king_melee_articulated.png": "89f4d54635ead90a7057bef1e299dad257229cf469e23c45bb8a8290f6f91c11",
+    "ch4_king_melee_previous.png": "57180a29e84798b698d15fd746594277df1aaea9104a1a34ec040fdb4be7b731",
+    "ch4_king_pulse_articulated.png": "cc96b3a702fa15b00589a2d7f5fea6afa98106ab0f32934c6b9f0f1129ee0c56",
+    "ch4_king_pulse_previous.png": "033b69a41b4470e84b06183b504176708983fe84a2ea280a402e70516b2ff506",
+    "ch4_queen_articulated.png": "85e13ac5f14c1a28700e453779c466e319294bd95ada94d8f1d54b754a111465",
+    "ch4_queen_previous.png": "675fe44fe6c25bad4bb68637c56c6f74a05c2f644e5cfea00a1a5db555db280f",
+    "ch5_bishop_articulated.png": "90953b0ccf2553d1a79412367723fbe4dea7c2f7b5de9a0507c2ee2a958cd816",
+    "ch5_bishop_previous.png": "dea936effee29069b76a87eebf29757f3686daa390656771cac6c14ac3bf5bdf",
+    "ch5_king_melee_articulated.png": "7d27ef8b70ac7d7cd54b7250f071e2140e4d2038c071591bb8e555e3473854cc",
+    "ch5_king_melee_previous.png": "7db779f9dfb57e087b033ad53870ef66ae9c3da363cab0b524391abd9770fad5",
+    "ch5_king_pulse_articulated.png": "9aac136aed2d5ee5e152497e32746693b5daaabaa168b475d1a213ca8a076175",
+    "ch5_king_pulse_previous.png": "6d4e5b2a4837510fa2e65bc544d7f7459ac54bf71e5aad4b40fe9c498cb9b7e3",
+    "ch5_queen_articulated.png": "b0b27dea98d82b37fd63ff22a4f7b036116a460dc205e3400f3b9af1083c4093",
+    "ch5_queen_previous.png": "5bf16b7858b5807fae8f2c422b2d5355b9233c7a72488076789484c0f4117f61",
+    "stage24_queen_crossing_articulated.png": "b0caf84975d1fd661ce3dae86bf4a764e297a87e244e11738d74df02875e72aa",
+    "stage24_queen_crossing_previous.png": "8edb749085465f1c329fe7389dc4b68ea62f80315e9da4269a46fa9da3d3ab5c",
+    "stage25_pulse_378_articulated.png": "4702f1528593cf1f15007566e590a7c9ff7e16f13ec9b6e22935f535597c94e7",
+    "stage25_pulse_378_previous.png": "cfbfd65cc8dc19c36364631a1512b7bfccf5950874b449ec46f2a9a52c65a16b",
+    "stage25_pulse_389_articulated.png": "2343293d6b545202a8c95eb433739deaedca4501def06ea30e11eed45bb9e327",
+    "stage25_pulse_389_previous.png": "054d9c48e0da87a786ed60c4b62c73d8ddd05d60e82b4370fe516df8b5dfc1ed"
+  },
+  "campaign": {
+    "campaign": [
+      [
+        1,
+        "UPGRADE",
+        352,
+        3,
+        3
+      ],
+      [
+        2,
+        "UPGRADE",
+        313,
+        3,
+        3
+      ],
+      [
+        3,
+        "UPGRADE",
+        355,
+        3,
+        3
+      ],
+      [
+        4,
+        "UPGRADE",
+        324,
+        2,
+        3
+      ],
+      [
+        5,
+        "BOSS_CLEAR",
+        494,
+        2,
+        3
+      ],
+      [
+        6,
+        "UPGRADE",
+        389,
+        3,
+        3
+      ],
+      [
+        7,
+        "UPGRADE",
+        396,
+        3,
+        3
+      ],
+      [
+        8,
+        "UPGRADE",
+        468,
+        3,
+        3
+      ],
+      [
+        9,
+        "UPGRADE",
+        399,
+        3,
+        3
+      ],
+      [
+        10,
+        "BOSS_CLEAR",
+        457,
+        2,
+        3
+      ],
+      [
+        11,
+        "UPGRADE",
+        399,
+        3,
+        3
+      ],
+      [
+        12,
+        "UPGRADE",
+        410,
+        3,
+        3
+      ],
+      [
+        13,
+        "UPGRADE",
+        338,
+        3,
+        3
+      ],
+      [
+        14,
+        "UPGRADE",
+        432,
+        3,
+        3
+      ],
+      [
+        15,
+        "BOSS_CLEAR",
+        530,
+        3,
+        3
+      ],
+      [
+        16,
+        "UPGRADE",
+        507,
+        3,
+        3
+      ],
+      [
+        17,
+        "UPGRADE",
+        592,
+        3,
+        3
+      ],
+      [
+        18,
+        "UPGRADE",
+        531,
+        3,
+        3
+      ],
+      [
+        19,
+        "UPGRADE",
+        432,
+        1,
+        3
+      ],
+      [
+        20,
+        "BOSS_CLEAR",
+        654,
+        2,
+        4
+      ],
+      [
+        21,
+        "UPGRADE",
+        432,
+        2,
+        3
+      ],
+      [
+        22,
+        "UPGRADE",
+        423,
+        3,
+        4
+      ],
+      [
+        23,
+        "UPGRADE",
+        435,
+        4,
+        5
+      ],
+      [
+        24,
+        "UPGRADE",
+        522,
+        5,
+        6
+      ],
+      [
+        25,
+        "BOSS_CLEAR",
+        638,
+        4,
+        6
+      ]
+    ],
+    "resources": {
+      "loads": 454,
+      "releases": 454,
+      "peak": 23
+    }
+  },
+  "gif_sha256": {
+    "ch1_king_melee.gif": "497805c94d76db3241c0cbe52364b22d88cbda89cb50be05ff78d6dc926c20bc",
+    "ch3_bishop.gif": "4c95860d9f54f16f5223890b9ee1dadf6ce8975e04f754654a136117143ea6b0",
+    "ch5_king_pulse.gif": "de43d3fa4411aefe417acd2913caf4a46882d31f83709f82c1199d7bfd388b36",
+    "ch5_queen.gif": "2d316a9255ae24205cc250c39ad0502d5c37a99fb60e48b02bff3eddec6a556d"
+  },
+  "test_assets": {
+    "sheets": 20,
+    "frames": 120,
+    "caster_rebuild": 142,
+    "approved_martial_rebuild": 197
+  },
+  "timing_method": "Windows hidden Direct3D11. Standalone animation update, arena draw and Present. 120 samples per mode at each real combat tick, with one resident texture bank.",
+  "unittest": {
+    "count": 1646,
+    "seconds": 388.475,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "boss_performance_runs": [
+    {
+      "stage24_queen": {
+        "phase": "crossing",
+        "tick": 135,
+        "frame_ms": {
+          "martial": [
+            4.154,
+            5.007,
+            6.344
+          ],
+          "enemy_sprite": [
+            3.818,
+            4.543,
+            5.535
+          ]
+        }
+      },
+      "stage25_pulse_378": {
+        "phase": "charge",
+        "tick": 378,
+        "frame_ms": {
+          "martial": [
+            3.817,
+            5.392,
+            5.994
+          ],
+          "enemy_sprite": [
+            3.903,
+            4.742,
+            9.931
+          ]
+        }
+      },
+      "stage25_pulse_389": {
+        "phase": "release",
+        "tick": 389,
+        "frame_ms": {
+          "martial": [
+            4.176,
+            4.491,
+            4.852
+          ],
+          "enemy_sprite": [
+            4.097,
+            4.664,
+            5.419
+          ]
+        }
+      }
+    },
+    {
+      "stage24_queen": {
+        "phase": "crossing",
+        "tick": 135,
+        "frame_ms": {
+          "martial": [
+            4.211,
+            4.969,
+            5.726
+          ],
+          "enemy_sprite": [
+            3.859,
+            4.087,
+            4.627
+          ]
+        }
+      },
+      "stage25_pulse_378": {
+        "phase": "charge",
+        "tick": 378,
+        "frame_ms": {
+          "martial": [
+            3.86,
+            5.516,
+            6.418
+          ],
+          "enemy_sprite": [
+            3.76,
+            4.653,
+            5.301
+          ]
+        }
+      },
+      "stage25_pulse_389": {
+        "phase": "release",
+        "tick": 389,
+        "frame_ms": {
+          "martial": [
+            4.203,
+            5.049,
+            5.696
+          ],
+          "enemy_sprite": [
+            4.077,
+            4.488,
+            5.0
+          ]
+        }
+      }
+    },
+    {
+      "stage24_queen": {
+        "phase": "crossing",
+        "tick": 135,
+        "frame_ms": {
+          "martial": [
+            4.174,
+            4.333,
+            4.624
+          ],
+          "enemy_sprite": [
+            3.82,
+            3.985,
+            4.461
+          ]
+        }
+      },
+      "stage25_pulse_378": {
+        "phase": "charge",
+        "tick": 378,
+        "frame_ms": {
+          "martial": [
+            3.878,
+            5.456,
+            5.833
+          ],
+          "enemy_sprite": [
+            3.826,
+            4.7,
+            5.389
+          ]
+        }
+      },
+      "stage25_pulse_389": {
+        "phase": "release",
+        "tick": 389,
+        "frame_ms": {
+          "martial": [
+            4.201,
+            4.683,
+            5.241
+          ],
+          "enemy_sprite": [
+            4.08,
+            4.427,
+            4.93
+          ]
+        }
+      }
+    }
+  ],
+  "boss_performance_method": "Median of each percentile across 3 standalone runs. Individual 120-frame runs are retained."
+}

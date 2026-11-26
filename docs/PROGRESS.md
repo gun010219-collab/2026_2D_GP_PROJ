@@ -1,5 +1,13 @@
 # CHECKMATE 개발 진행 기록
 
+## R7-A3E-7 전투 스프라이트 최종 승인
+
+사용자가 Bishop·Queen·King을 실제 플레이하고 최종 승인했다. 관련 테스트 36개와 전체 unittest 1,646개, 25스테이지·보스 5전 및 SDL 비교 기록을 검토하고 전투 스프라이트 개발을 종료했다. [시전 비교와 성능](TASK5R7A3E_SPRITE_ANIMATION.md#r7-a3e-56-bishopqueenking-공격-스프라이트)
+
+## R7-A3E-5~6 마법 기물과 King 근접·Pulse 스프라이트
+
+5챕터 시트 20개·정규화 프레임 120장을 연결했다. 실제 편성이 있는 18개 공격 장면에서 발 위치와 전조를 비교했고, 전체 자동 캠페인 25스테이지·보스 5전 기록이 R7-A3E-4F와 일치했다. 전체 unittest 1,646개와 관련 테스트 36개가 통과했다. 왕실·숲 Queen은 아트 자료로 준비했다. 실제 Windows 플레이 승인은 대기 상태다. [제작·검증과 비교 GIF](TASK5R7A3E_SPRITE_ANIMATION.md#r7-a3e-56-bishopqueenking-공격-스프라이트)
+
 ## R7-A3E-4 적 공격 스프라이트
 
 왕실·숲·빙설·용암·고딕의 Pawn·Rook·Knight 15종을 기존 원본에 맞춰 제작했다. 실제 예고·발동과 Rook 정지점·Knight 착지에 연결했다. 전체 unittest 1,640개와 25스테이지·보스 5전 자동 캠페인이 통과했다. Windows 19장면의 같은 틱 캡처, 기물별 비교 GIF 3개와 페이지 수명 기록을 보존했다. 사용자가 R7-A3E-4F에서 이 세 기물의 공격 스프라이트를 실제 플레이하고 최종 승인했다. [검증과 성능](TASK5R7A3E_SPRITE_ANIMATION.md#r7-a3e-4-pawnrookknight-공격-스프라이트)

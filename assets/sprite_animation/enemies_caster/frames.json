@@ -1,0 +1,3762 @@
+{
+  "ch1_bishop": {
+    "scale": 0.4116541353383459,
+    "reference_alpha_height": 219,
+    "frames": [
+      {
+        "file": "frames/ch1_bishop/neutral_1.png",
+        "sha256": "f5d20c4ec55beeb7e3b70ac54d417c80cd803b193feacb13abd9fd899a8c4906",
+        "source_cell": [
+          0,
+          0,
+          630,
+          624
+        ],
+        "source_alpha": [
+          205,
+          49,
+          474,
+          582
+        ],
+        "source_foot": [
+          337.0,
+          580
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          137,
+          83,
+          249,
+          303
+        ]
+      },
+      {
+        "file": "frames/ch1_bishop/neutral_2.png",
+        "sha256": "d181bbea5cf13c12d0d7ac15725ec8c364e9df9765d8090ece6861ac70171881",
+        "source_cell": [
+          630,
+          0,
+          1261,
+          624
+        ],
+        "source_alpha": [
+          116,
+          46,
+          449,
+          582
+        ],
+        "source_foot": [
+          317.5,
+          580
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          109,
+          82,
+          246,
+          303
+        ]
+      },
+      {
+        "file": "frames/ch1_bishop/neutral_3.png",
+        "sha256": "eb9f0f03ba05a0890dd9225c72d42ad3ca05d7c9ef3c52ceec7960ce402c2de3",
+        "source_cell": [
+          0,
+          624,
+          630,
+          1247
+        ],
+        "source_alpha": [
+          84,
+          39,
+          542,
+          566
+        ],
+        "source_foot": [
+          332.0,
+          564
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          90,
+          86,
+          279,
+          303
+        ]
+      },
+      {
+        "file": "frames/ch1_bishop/neutral_4.png",
+        "sha256": "0be7b1b9c1a58a8befdf47523fd74c94ad75c1812ecc144be0712dd7be2e5f94",
+        "source_cell": [
+          630,
+          624,
+          1261,
+          1247
+        ],
+        "source_alpha": [
+          159,
+          38,
+          470,
+          564
+        ],
+        "source_foot": [
+          318.0,
+          562
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          126,
+          86,
+          255,
+          303
+        ]
+      }
+    ],
+    "atlas_bytes": 232863,
+    "atlas_sha256": "fadc9d8af417f69151dda6613beed66e33af8bba4e17b9ab6de129dc8324c618"
+  },
+  "ch1_queen": {
+    "scale": 0.4296875,
+    "reference_alpha_height": 220,
+    "frames": [
+      {
+        "file": "frames/ch1_queen/neutral_1.png",
+        "sha256": "eda2bef50f30915ea2cae65f2b15e24c859bd118a559e2149b9f522111c21c22",
+        "source_cell": [
+          0,
+          0,
+          637,
+          618
+        ],
+        "source_alpha": [
+          134,
+          44,
+          541,
+          557
+        ],
+        "source_foot": [
+          279.5,
+          555
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          129,
+          82,
+          305,
+          303
+        ]
+      },
+      {
+        "file": "frames/ch1_queen/neutral_2.png",
+        "sha256": "0ae5f085023acbe8ea2471810514d5e89f92188012a8869eb76c67d61e13d79b",
+        "source_cell": [
+          637,
+          0,
+          1274,
+          618
+        ],
+        "source_alpha": [
+          43,
+          47,
+          570,
+          557
+        ],
+        "source_foot": [
+          301.5,
+          555
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          81,
+          84,
+          308,
+          303
+        ]
+      },
+      {
+        "file": "frames/ch1_queen/neutral_3.png",
+        "sha256": "9647aa38e21d3649436094a2c5e562b33e4d8f070a5b8c0c3bc3be5750a895ec",
+        "source_cell": [
+          0,
+          618,
+          637,
+          1235
+        ],
+        "source_alpha": [
+          76,
+          39,
+          605,
+          562
+        ],
+        "source_foot": [
+          368.0,
+          560
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          66,
+          78,
+          294,
+          303
+        ]
+      },
+      {
+        "file": "frames/ch1_queen/neutral_4.png",
+        "sha256": "6f55259d813434d11977e27e3c5b2800cfd5158df85368e015246e14f1acf9f1",
+        "source_cell": [
+          637,
+          618,
+          1274,
+          1235
+        ],
+        "source_alpha": [
+          53,
+          47,
+          545,
+          561
+        ],
+        "source_foot": [
+          204.0,
+          559
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          127,
+          82,
+          339,
+          303
+        ]
+      }
+    ],
+    "atlas_bytes": 334856,
+    "atlas_sha256": "217e325878e70edb6d59086932acaa90da161bae6894cd90fdd3472d72257d10"
+  },
+  "ch1_king_melee": {
+    "scale": 0.7284768211920529,
+    "reference_alpha_height": 220,
+    "frames": [
+      {
+        "file": "frames/ch1_king_melee/right_1.png",
+        "sha256": "f9c0cf4abc15434b5bd2ebb37f940e5abc1f6ab5acbf1a9867fcac41cb9682de",
+        "source_cell": [
+          0,
+          0,
+          375,
+          330
+        ],
+        "source_alpha": [
+          55,
+          15,
+          314,
+          318
+        ],
+        "source_foot": [
+          184.0,
+          316
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          98,
+          82,
+          287,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch1_king_melee/right_2.png",
+        "sha256": "924add93c4a6bef42fdd016e9b57b60dc2d9e7be77f110b5c7f3e93cb8c474e5",
+        "source_cell": [
+          348,
+          0,
+          725,
+          330
+        ],
+        "source_alpha": [
+          28,
+          15,
+          324,
+          314
+        ],
+        "source_foot": [
+          195.5,
+          312
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          70,
+          85,
+          286,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch1_king_melee/right_3.png",
+        "sha256": "e66dfa7282857918ebd3701b8c7ab3a3cb26270ab144d68b71092cce261e0250",
+        "source_cell": [
+          702,
+          0,
+          1168,
+          327
+        ],
+        "source_alpha": [
+          26,
+          22,
+          439,
+          311
+        ],
+        "source_foot": [
+          213.0,
+          309
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          55,
+          93,
+          357,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch1_king_melee/right_4.png",
+        "sha256": "594ef424a97269007d94ac61bcb7eb285d4479ebf829ea122774fc76661d73c1",
+        "source_cell": [
+          1075,
+          0,
+          1448,
+          335
+        ],
+        "source_alpha": [
+          54,
+          12,
+          310,
+          319
+        ],
+        "source_foot": [
+          182.0,
+          317
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          98,
+          79,
+          286,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch1_king_melee/up_1.png",
+        "sha256": "bfe6d3f13ef0ec6c638dba48f48970c015704c1ebdd89d5419031bcd3249147e",
+        "source_cell": [
+          0,
+          361,
+          374,
+          698
+        ],
+        "source_alpha": [
+          63,
+          33,
+          310,
+          333
+        ],
+        "source_foot": [
+          186.5,
+          331
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          102,
+          85,
+          282,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch1_king_melee/up_2.png",
+        "sha256": "2d49ba7a6a573e7a7dd4d6b56e4446581516f5390a98f507c6349a907ecb6bc8",
+        "source_cell": [
+          343,
+          313,
+          746,
+          695
+        ],
+        "source_alpha": [
+          43,
+          26,
+          308,
+          381
+        ],
+        "source_foot": [
+          209.5,
+          379
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          70,
+          44,
+          264,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch1_king_melee/up_3.png",
+        "sha256": "a9effa9037fab7f7d4d4aee7e368494d9ecff85b53dfdb443c3b7166ff95f9f9",
+        "source_cell": [
+          697,
+          283,
+          1100,
+          700
+        ],
+        "source_alpha": [
+          34,
+          20,
+          328,
+          410
+        ],
+        "source_foot": [
+          195.0,
+          408
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          74,
+          19,
+          289,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch1_king_melee/up_4.png",
+        "sha256": "a727edb20b16a79c0b23554a6136e2dfa2c0be3ba725566631f7b1660c02221c",
+        "source_cell": [
+          1074,
+          362,
+          1448,
+          699
+        ],
+        "source_alpha": [
+          68,
+          31,
+          319,
+          333
+        ],
+        "source_foot": [
+          193.0,
+          331
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          101,
+          83,
+          284,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch1_king_melee/down_1.png",
+        "sha256": "46163d4628f2f1fcbb0567de55ccd82af238b5cd3234b2400fde0efdd7b6f44b",
+        "source_cell": [
+          0,
+          689,
+          393,
+          1086
+        ],
+        "source_alpha": [
+          41,
+          46,
+          327,
+          361
+        ],
+        "source_foot": [
+          183.0,
+          359
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          88,
+          74,
+          297,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch1_king_melee/down_2.png",
+        "sha256": "47e25d929ad20027dc972b3d2d10173a7ea8d14e840aa81fd403fd720153c541",
+        "source_cell": [
+          344,
+          683,
+          760,
+          1086
+        ],
+        "source_alpha": [
+          27,
+          19,
+          314,
+          363
+        ],
+        "source_foot": [
+          183.0,
+          361
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          78,
+          53,
+          288,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch1_king_melee/down_3.png",
+        "sha256": "f5d0d3f73c3c6a7083caf85342e8560b6278635563460166ced5dc9ca3212780",
+        "source_cell": [
+          691,
+          695,
+          1115,
+          1086
+        ],
+        "source_alpha": [
+          32,
+          64,
+          350,
+          370
+        ],
+        "source_foot": [
+          206,
+          354
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          65,
+          90,
+          297,
+          314
+        ]
+      },
+      {
+        "file": "frames/ch1_king_melee/down_4.png",
+        "sha256": "a7c7fb3a375af90d5d172dd3ce68dd70ae7c8570c37ec9ed99f02f08212379c0",
+        "source_cell": [
+          1066,
+          695,
+          1448,
+          1086
+        ],
+        "source_alpha": [
+          51,
+          38,
+          337,
+          355
+        ],
+        "source_foot": [
+          193.5,
+          353
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          88,
+          72,
+          297,
+          304
+        ]
+      }
+    ],
+    "atlas_bytes": 1083758,
+    "atlas_sha256": "04453305c2f7afc94f82068a444e5dac15d5124b2954a9d3d951f10cfbc30780"
+  },
+  "ch1_king_pulse": {
+    "scale": 0.4498977505112474,
+    "reference_alpha_height": 220,
+    "frames": [
+      {
+        "file": "frames/ch1_king_pulse/neutral_1.png",
+        "sha256": "c2b5b4ab8c2338f6dfeca91c0de7e3f2a08e015e1668e5ed1fdbc4b46ad9e015",
+        "source_cell": [
+          0,
+          0,
+          630,
+          624
+        ],
+        "source_alpha": [
+          117,
+          65,
+          530,
+          554
+        ],
+        "source_foot": [
+          328.5,
+          552
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          97,
+          83,
+          283,
+          303
+        ]
+      },
+      {
+        "file": "frames/ch1_king_pulse/neutral_2.png",
+        "sha256": "3cd5462e1c1897b64fd652ee22c1e6325e7f1e56f301d137bddfbbe68c70dadf",
+        "source_cell": [
+          630,
+          0,
+          1261,
+          624
+        ],
+        "source_alpha": [
+          83,
+          98,
+          510,
+          554
+        ],
+        "source_foot": [
+          298.5,
+          552
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          95,
+          98,
+          287,
+          303
+        ]
+      },
+      {
+        "file": "frames/ch1_king_pulse/neutral_3.png",
+        "sha256": "e0352e7ccff56f9046901d6127e28724b2ba0ab82f223db400dc320b080b7c74",
+        "source_cell": [
+          0,
+          624,
+          630,
+          1247
+        ],
+        "source_alpha": [
+          65,
+          66,
+          595,
+          550
+        ],
+        "source_foot": [
+          348.5,
+          548
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          64,
+          85,
+          303,
+          303
+        ]
+      },
+      {
+        "file": "frames/ch1_king_pulse/neutral_4.png",
+        "sha256": "7fde084949c15a01ff861e0fc299c7db3d66f6184127eb5528cd8a996c120fc2",
+        "source_cell": [
+          630,
+          624,
+          1261,
+          1247
+        ],
+        "source_alpha": [
+          85,
+          76,
+          530,
+          548
+        ],
+        "source_foot": [
+          307.5,
+          546
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          92,
+          90,
+          292,
+          303
+        ]
+      }
+    ],
+    "atlas_bytes": 342895,
+    "atlas_sha256": "a7b675a072493db9dfe5e0a9123d53a538bf5ddf63a4d83f5f9e1a1b46ab8ec2"
+  },
+  "ch2_bishop": {
+    "scale": 0.4462474645030426,
+    "reference_alpha_height": 220,
+    "frames": [
+      {
+        "file": "frames/ch2_bishop/neutral_1.png",
+        "sha256": "37c8570494891e066ec7fe1a7b80d6df34f1f8c623b5f218d0c7db665fe61bf0",
+        "source_cell": [
+          0,
+          0,
+          632,
+          622
+        ],
+        "source_alpha": [
+          200,
+          65,
+          467,
+          559
+        ],
+        "source_foot": [
+          330.5,
+          557
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          134,
+          82,
+          253,
+          303
+        ]
+      },
+      {
+        "file": "frames/ch2_bishop/neutral_2.png",
+        "sha256": "244c79a37d374cff2b788cc2f1db03f4d25ad342553c182d11a93e04a90321cf",
+        "source_cell": [
+          632,
+          0,
+          1265,
+          622
+        ],
+        "source_alpha": [
+          168,
+          64,
+          436,
+          560
+        ],
+        "source_foot": [
+          290.0,
+          558
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          137,
+          81,
+          257,
+          303
+        ]
+      },
+      {
+        "file": "frames/ch2_bishop/neutral_3.png",
+        "sha256": "feb4e7bfd4cbdec4d07ab5391e900f3402f9fca7fa70296907153827f8114ada",
+        "source_cell": [
+          0,
+          622,
+          632,
+          1243
+        ],
+        "source_alpha": [
+          156,
+          58,
+          527,
+          546
+        ],
+        "source_foot": [
+          317.0,
+          544
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          120,
+          85,
+          286,
+          303
+        ]
+      },
+      {
+        "file": "frames/ch2_bishop/neutral_4.png",
+        "sha256": "03f88d0ee8955d448438ea1ae4043db924197662161fe5010e35e8d5c5396eab",
+        "source_cell": [
+          632,
+          622,
+          1265,
+          1243
+        ],
+        "source_alpha": [
+          156,
+          51,
+          448,
+          546
+        ],
+        "source_foot": [
+          273.0,
+          544
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          140,
+          82,
+          270,
+          303
+        ]
+      }
+    ],
+    "atlas_bytes": 241794,
+    "atlas_sha256": "3ab42fd759d7364dc45be83dd974fa1e2df8c250fa2697a236641f79ab8aa247"
+  },
+  "ch2_queen": {
+    "scale": 0.41825095057034223,
+    "reference_alpha_height": 220,
+    "frames": [
+      {
+        "file": "frames/ch2_queen/neutral_1.png",
+        "sha256": "29af277e4a12c749315ec862e8f24c0f3ddf8509f2ee2bf3afb10f692a7776e9",
+        "source_cell": [
+          0,
+          0,
+          636,
+          618
+        ],
+        "source_alpha": [
+          99,
+          50,
+          537,
+          578
+        ],
+        "source_foot": [
+          281.5,
+          576
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          115,
+          82,
+          299,
+          303
+        ]
+      },
+      {
+        "file": "frames/ch2_queen/neutral_2.png",
+        "sha256": "8fdb05e293cd16c11ea8c8227cd8419e7379664f08db868c2f5eab6bde561dab",
+        "source_cell": [
+          636,
+          0,
+          1271,
+          618
+        ],
+        "source_alpha": [
+          46,
+          52,
+          591,
+          578
+        ],
+        "source_foot": [
+          332.0,
+          576
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          72,
+          83,
+          300,
+          303
+        ]
+      },
+      {
+        "file": "frames/ch2_queen/neutral_3.png",
+        "sha256": "bd1b8b4436b7e53a9b0aaea25c448edbe92ba8f3e3ac9b8d0adb11a5e84096fe",
+        "source_cell": [
+          0,
+          618,
+          636,
+          1237
+        ],
+        "source_alpha": [
+          52,
+          30,
+          627,
+          568
+        ],
+        "source_foot": [
+          328.0,
+          566
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          76,
+          78,
+          317,
+          303
+        ]
+      },
+      {
+        "file": "frames/ch2_queen/neutral_4.png",
+        "sha256": "5a3cc31cc5bba0c41f48f7f4293aaa1466927e45f02aad075e2c08ea92e8dfe8",
+        "source_cell": [
+          636,
+          618,
+          1271,
+          1237
+        ],
+        "source_alpha": [
+          76,
+          43,
+          518,
+          568
+        ],
+        "source_foot": [
+          261.5,
+          566
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          115,
+          83,
+          299,
+          303
+        ]
+      }
+    ],
+    "atlas_bytes": 372491,
+    "atlas_sha256": "f386c048153d2014667b9d942fc986132c9300f4e4c03843733b910903e2f02c"
+  },
+  "ch2_king_melee": {
+    "scale": 0.7534246575342466,
+    "reference_alpha_height": 220,
+    "frames": [
+      {
+        "file": "frames/ch2_king_melee/right_1.png",
+        "sha256": "a3276bdbff939cc5bdcfd6712511de85ed488e80ff2a2c6718438ad6f0cadf97",
+        "source_cell": [
+          0,
+          0,
+          362,
+          362
+        ],
+        "source_alpha": [
+          75,
+          24,
+          314,
+          318
+        ],
+        "source_foot": [
+          196.5,
+          316
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          100,
+          82,
+          281,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch2_king_melee/right_2.png",
+        "sha256": "976d06cb454de323533ab78968c496b81211020c1b68f229e78c469e1b3a94ef",
+        "source_cell": [
+          362,
+          0,
+          724,
+          362
+        ],
+        "source_alpha": [
+          57,
+          23,
+          319,
+          319
+        ],
+        "source_foot": [
+          171.5,
+          317
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          105,
+          80,
+          303,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch2_king_melee/right_3.png",
+        "sha256": "1b6a3bef8c40226c9a3ba38260c6d7e8aeff4bc393613fc971569330ef374f9f",
+        "source_cell": [
+          724,
+          0,
+          1086,
+          362
+        ],
+        "source_alpha": [
+          28,
+          48,
+          348,
+          321
+        ],
+        "source_foot": [
+          162.5,
+          319
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          90,
+          97,
+          332,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch2_king_melee/right_4.png",
+        "sha256": "ab88b751d3d30c8ba9a40c3856412862021fa20032d4a47e6422afc2e75b4a29",
+        "source_cell": [
+          1086,
+          0,
+          1448,
+          362
+        ],
+        "source_alpha": [
+          44,
+          23,
+          281,
+          321
+        ],
+        "source_foot": [
+          175.0,
+          319
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          93,
+          79,
+          272,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch2_king_melee/up_1.png",
+        "sha256": "a7aa36e00702303c28ea0b8b219e886d7be97752c3d8b609e641fb585df55fce",
+        "source_cell": [
+          0,
+          362,
+          362,
+          724
+        ],
+        "source_alpha": [
+          70,
+          26,
+          294,
+          317
+        ],
+        "source_foot": [
+          184.0,
+          315
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          106,
+          84,
+          275,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch2_king_melee/up_2.png",
+        "sha256": "6f1203a9660786e6664bf69c628a2c741711238b53a10feae182c711738ab0e4",
+        "source_cell": [
+          362,
+          362,
+          724,
+          724
+        ],
+        "source_alpha": [
+          68,
+          24,
+          282,
+          318
+        ],
+        "source_foot": [
+          175.0,
+          316
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          111,
+          82,
+          273,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch2_king_melee/up_3.png",
+        "sha256": "ce3c9eec89d5b588bdb9feab1a6942aaba861b9346f31efd8d756674490d77b2",
+        "source_cell": [
+          724,
+          362,
+          1086,
+          724
+        ],
+        "source_alpha": [
+          50,
+          8,
+          270,
+          323
+        ],
+        "source_foot": [
+          169.5,
+          321
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          102,
+          66,
+          268,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch2_king_melee/up_4.png",
+        "sha256": "8a11b3ad5aa1c893184a7c4d57bd1c454820e2f54fa72aa3bd9595dc9106cc3c",
+        "source_cell": [
+          1086,
+          362,
+          1448,
+          724
+        ],
+        "source_alpha": [
+          49,
+          28,
+          282,
+          319
+        ],
+        "source_foot": [
+          172.5,
+          317
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          99,
+          84,
+          275,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch2_king_melee/down_1.png",
+        "sha256": "0f745e5e422099324f0fc64f372d0e42f68bbf72607a0331a97bb958e41dc205",
+        "source_cell": [
+          0,
+          724,
+          362,
+          1086
+        ],
+        "source_alpha": [
+          67,
+          22,
+          306,
+          321
+        ],
+        "source_foot": [
+          184.5,
+          319
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          103,
+          78,
+          284,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch2_king_melee/down_2.png",
+        "sha256": "beef2842a8a2bf208a9d4a287c30a979c7cbaa061d4931d2790b039649c8f07e",
+        "source_cell": [
+          362,
+          724,
+          724,
+          1086
+        ],
+        "source_alpha": [
+          50,
+          18,
+          303,
+          322
+        ],
+        "source_foot": [
+          178.5,
+          320
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          95,
+          74,
+          286,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch2_king_melee/down_3.png",
+        "sha256": "67c8c85e6cc415b2ae6e701f6479e19dba058b13b836455c39e4e809b18cec74",
+        "source_cell": [
+          724,
+          724,
+          1086,
+          1086
+        ],
+        "source_alpha": [
+          31,
+          33,
+          302,
+          322
+        ],
+        "source_foot": [
+          166.0,
+          320
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          90,
+          85,
+          295,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch2_king_melee/down_4.png",
+        "sha256": "4f157b00fee1a5e9e9d591b3bf59bd45ef79927781bc48bd1cfec681a93f08e7",
+        "source_cell": [
+          1086,
+          724,
+          1448,
+          1086
+        ],
+        "source_alpha": [
+          53,
+          22,
+          298,
+          321
+        ],
+        "source_foot": [
+          175.5,
+          319
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          99,
+          78,
+          285,
+          304
+        ]
+      }
+    ],
+    "atlas_bytes": 1086085,
+    "atlas_sha256": "0b0d64e1a13cbd3e40b185cdcfb1b91c700fc5e78c2c9722d1717cebbbdeced4"
+  },
+  "ch2_king_pulse": {
+    "scale": 0.43824701195219123,
+    "reference_alpha_height": 220,
+    "frames": [
+      {
+        "file": "frames/ch2_king_pulse/neutral_1.png",
+        "sha256": "317d2093dd7dfc204710b31f37ba93fa4b3dc03dbc669c90488177eaf3c6e605",
+        "source_cell": [
+          0,
+          0,
+          630,
+          624
+        ],
+        "source_alpha": [
+          142,
+          58,
+          530,
+          562
+        ],
+        "source_foot": [
+          340.0,
+          560
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          105,
+          82,
+          275,
+          303
+        ]
+      },
+      {
+        "file": "frames/ch2_king_pulse/neutral_2.png",
+        "sha256": "ab988e44690be7696f77ed50265339f622a83d0496bc2697707b3dad2ecbe233",
+        "source_cell": [
+          630,
+          0,
+          1261,
+          624
+        ],
+        "source_alpha": [
+          110,
+          86,
+          473,
+          563
+        ],
+        "source_foot": [
+          277.0,
+          561
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          119,
+          94,
+          278,
+          303
+        ]
+      },
+      {
+        "file": "frames/ch2_king_pulse/neutral_3.png",
+        "sha256": "4fef333e0dbc237274679161e0bd1319ad1c306fb334b4073c9981fe745c574a",
+        "source_cell": [
+          0,
+          624,
+          630,
+          1247
+        ],
+        "source_alpha": [
+          89,
+          55,
+          569,
+          557
+        ],
+        "source_foot": [
+          325.0,
+          555
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          88,
+          83,
+          299,
+          303
+        ]
+      },
+      {
+        "file": "frames/ch2_king_pulse/neutral_4.png",
+        "sha256": "71f159264fcba4b92590e224b4a98eecfc5667bf20e833f4a67702fe362448dd",
+        "source_cell": [
+          630,
+          624,
+          1261,
+          1247
+        ],
+        "source_alpha": [
+          78,
+          73,
+          492,
+          558
+        ],
+        "source_foot": [
+          278.0,
+          556
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          104,
+          90,
+          286,
+          303
+        ]
+      }
+    ],
+    "atlas_bytes": 333629,
+    "atlas_sha256": "5021b3361f9f52659cdcd83e684c394e4a01a4aeb9bb20d0e1eeb8136bf09cd3"
+  },
+  "ch3_bishop": {
+    "scale": 0.4280155642023346,
+    "reference_alpha_height": 220,
+    "frames": [
+      {
+        "file": "frames/ch3_bishop/neutral_1.png",
+        "sha256": "43c9d06cc601382d7de7d664ec438e480c70670101111d9893ab96ac47027cf1",
+        "source_cell": [
+          0,
+          0,
+          630,
+          624
+        ],
+        "source_alpha": [
+          220,
+          50,
+          413,
+          566
+        ],
+        "source_foot": [
+          315.0,
+          564
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          151,
+          82,
+          234,
+          303
+        ]
+      },
+      {
+        "file": "frames/ch3_bishop/neutral_2.png",
+        "sha256": "3c88e4f5d12b58c42c0c89de7a5b0e48ba3e0d1a636cf15a44d7893689063e3e",
+        "source_cell": [
+          630,
+          0,
+          1261,
+          624
+        ],
+        "source_alpha": [
+          153,
+          45,
+          434,
+          565
+        ],
+        "source_foot": [
+          327.5,
+          563
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          117,
+          81,
+          238,
+          303
+        ]
+      },
+      {
+        "file": "frames/ch3_bishop/neutral_3.png",
+        "sha256": "3cc22e00de617165ec2e29635bb986699a9c5d38b2be2a8d7dd90b345dcccb08",
+        "source_cell": [
+          0,
+          624,
+          630,
+          1247
+        ],
+        "source_alpha": [
+          100,
+          59,
+          580,
+          565
+        ],
+        "source_foot": [
+          340.5,
+          563
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          89,
+          86,
+          294,
+          303
+        ]
+      },
+      {
+        "file": "frames/ch3_bishop/neutral_4.png",
+        "sha256": "8abe0cb537f3613f11f1d6048f28868e0d2a5fc002e554ad0ff1bafcc1e711bb",
+        "source_cell": [
+          630,
+          624,
+          1261,
+          1247
+        ],
+        "source_alpha": [
+          164,
+          58,
+          472,
+          565
+        ],
+        "source_foot": [
+          297.5,
+          563
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          135,
+          86,
+          267,
+          303
+        ]
+      }
+    ],
+    "atlas_bytes": 242486,
+    "atlas_sha256": "2debd021426c1cf19fbb44682391c93805ba815fea79cd0daf9b45ae126f5d8b"
+  },
+  "ch3_queen": {
+    "scale": 0.44969199178644764,
+    "reference_alpha_height": 219,
+    "frames": [
+      {
+        "file": "frames/ch3_queen/neutral_1.png",
+        "sha256": "a4571afc76e83961c66a384c48d231b59303864c3e2bce81168867c78ebf5fc6",
+        "source_cell": [
+          0,
+          0,
+          632,
+          623
+        ],
+        "source_alpha": [
+          172,
+          62,
+          471,
+          551
+        ],
+        "source_foot": [
+          326.0,
+          549
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          123,
+          83,
+          257,
+          303
+        ]
+      },
+      {
+        "file": "frames/ch3_queen/neutral_2.png",
+        "sha256": "2a02ba9f3af596247bb03c04b60e1ec1043308a1163882dafad7e924795799bd",
+        "source_cell": [
+          632,
+          0,
+          1263,
+          623
+        ],
+        "source_alpha": [
+          84,
+          62,
+          506,
+          552
+        ],
+        "source_foot": [
+          293.5,
+          550
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          98,
+          82,
+          288,
+          303
+        ]
+      },
+      {
+        "file": "frames/ch3_queen/neutral_3.png",
+        "sha256": "9b42dbcaaedd7c0d6df0a80f64601249a7bdf2abdd1b3d0a68ef27ed9b1768ff",
+        "source_cell": [
+          0,
+          623,
+          632,
+          1246
+        ],
+        "source_alpha": [
+          86,
+          57,
+          546,
+          549
+        ],
+        "source_foot": [
+          307.5,
+          547
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          92,
+          81,
+          299,
+          303
+        ]
+      },
+      {
+        "file": "frames/ch3_queen/neutral_4.png",
+        "sha256": "0af86dea31482aafee4c9a9b044b11d459f9185199a5b90bd4ee81f00f05a232",
+        "source_cell": [
+          632,
+          623,
+          1263,
+          1246
+        ],
+        "source_alpha": [
+          113,
+          57,
+          441,
+          552
+        ],
+        "source_foot": [
+          287.0,
+          550
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          114,
+          80,
+          261,
+          303
+        ]
+      }
+    ],
+    "atlas_bytes": 307536,
+    "atlas_sha256": "11db05b155e38713f2e5236b1560510bd731ff50f892901fffb6fa6c60df9796"
+  },
+  "ch3_king_melee": {
+    "scale": 0.7166123778501629,
+    "reference_alpha_height": 220,
+    "frames": [
+      {
+        "file": "frames/ch3_king_melee/right_1.png",
+        "sha256": "445007eba8949d5b87d52c496202d9abfaa44a9e32054a64af15a166a9f140e8",
+        "source_cell": [
+          0,
+          0,
+          362,
+          362
+        ],
+        "source_alpha": [
+          86,
+          12,
+          297,
+          321
+        ],
+        "source_foot": [
+          178.0,
+          319
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          126,
+          82,
+          278,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch3_king_melee/right_2.png",
+        "sha256": "1a8dba19acaa9bd2ec0b37d3109212de0787a4d7656d992fe64393f57379449b",
+        "source_cell": [
+          362,
+          0,
+          724,
+          362
+        ],
+        "source_alpha": [
+          61,
+          25,
+          293,
+          315
+        ],
+        "source_foot": [
+          178.0,
+          313
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          108,
+          95,
+          275,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch3_king_melee/right_3.png",
+        "sha256": "04f5979a4f74f1e5082b1bd33182b2ee7ebfeebdbeaa218dd3183e16ec080681",
+        "source_cell": [
+          724,
+          0,
+          1086,
+          347
+        ],
+        "source_alpha": [
+          40,
+          35,
+          337,
+          319
+        ],
+        "source_foot": [
+          174.5,
+          317
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          95,
+          100,
+          309,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch3_king_melee/right_4.png",
+        "sha256": "7a675998ec890cdfdd684ae98c8ce170ba0f3847efea8c1ceeaab23d1ca915be",
+        "source_cell": [
+          1086,
+          0,
+          1448,
+          362
+        ],
+        "source_alpha": [
+          69,
+          11,
+          299,
+          322
+        ],
+        "source_foot": [
+          173.5,
+          320
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          117,
+          80,
+          282,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch3_king_melee/up_1.png",
+        "sha256": "aa14e10265682fdfe897eb5987fb37a446d1b3ce549569d5f0e8c028db3281bf",
+        "source_cell": [
+          0,
+          362,
+          362,
+          724
+        ],
+        "source_alpha": [
+          86,
+          15,
+          283,
+          317
+        ],
+        "source_foot": [
+          186.0,
+          315
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          120,
+          87,
+          262,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch3_king_melee/up_2.png",
+        "sha256": "cf3954e963e1e35954ff8711ff7754d5c13f776f2fe42cb9fa9e9bdd4ec2d057",
+        "source_cell": [
+          362,
+          362,
+          724,
+          724
+        ],
+        "source_alpha": [
+          74,
+          21,
+          291,
+          318
+        ],
+        "source_foot": [
+          183.5,
+          316
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          113,
+          90,
+          269,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch3_king_melee/up_3.png",
+        "sha256": "043a2fafd8bc87704ff020b96adcf605020de1bbd2f2a852c89d874ab6c588a7",
+        "source_cell": [
+          724,
+          342,
+          1086,
+          724
+        ],
+        "source_alpha": [
+          75,
+          19,
+          275,
+          341
+        ],
+        "source_foot": [
+          191.5,
+          339
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          108,
+          72,
+          252,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch3_king_melee/up_4.png",
+        "sha256": "040da380dff92a060e39b9dd770122c4a937f1d0a1f8ed0bbef8084488f79437",
+        "source_cell": [
+          1086,
+          362,
+          1448,
+          724
+        ],
+        "source_alpha": [
+          80,
+          12,
+          281,
+          319
+        ],
+        "source_foot": [
+          179.0,
+          317
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          121,
+          83,
+          265,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch3_king_melee/down_1.png",
+        "sha256": "c5e94338220ecf9468007aa4fbb15f92e06601f67ba88a575a0cfb275223eca8",
+        "source_cell": [
+          0,
+          724,
+          362,
+          1086
+        ],
+        "source_alpha": [
+          70,
+          20,
+          295,
+          332
+        ],
+        "source_foot": [
+          187.0,
+          330
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          108,
+          80,
+          270,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch3_king_melee/down_2.png",
+        "sha256": "5d62d6df32dd3f9df67046ce5f948d1facbc9c43803698ace513d7309c20706d",
+        "source_cell": [
+          362,
+          724,
+          724,
+          1086
+        ],
+        "source_alpha": [
+          57,
+          24,
+          288,
+          336
+        ],
+        "source_foot": [
+          178.0,
+          334
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          105,
+          80,
+          271,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch3_king_melee/down_3.png",
+        "sha256": "4f07799b37a8ecdfc2b17958950a36b977a8972ccf0261eb5ffef301277973d7",
+        "source_cell": [
+          724,
+          724,
+          1086,
+          1086
+        ],
+        "source_alpha": [
+          32,
+          60,
+          288,
+          334
+        ],
+        "source_foot": [
+          166.0,
+          332
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          96,
+          107,
+          280,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch3_king_melee/down_4.png",
+        "sha256": "9fb0d379f4d8bcbdf6b99b4bbcb580246cf5c45909a63800db37bc285e4a6698",
+        "source_cell": [
+          1086,
+          724,
+          1448,
+          1086
+        ],
+        "source_alpha": [
+          52,
+          20,
+          288,
+          331
+        ],
+        "source_foot": [
+          178.0,
+          329
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          101,
+          80,
+          271,
+          304
+        ]
+      }
+    ],
+    "atlas_bytes": 969730,
+    "atlas_sha256": "fccd809a5d881b6b316374860cc1633b49f8e0b8c2b91587e330c118eeb616b8"
+  },
+  "ch3_king_pulse": {
+    "scale": 0.43737574552683894,
+    "reference_alpha_height": 220,
+    "frames": [
+      {
+        "file": "frames/ch3_king_pulse/neutral_1.png",
+        "sha256": "151d1ee3c4d2ca541f609ce007c4c31c32caca83eb70d539b300a1429908000b",
+        "source_cell": [
+          0,
+          0,
+          632,
+          622
+        ],
+        "source_alpha": [
+          150,
+          53,
+          504,
+          558
+        ],
+        "source_foot": [
+          323.5,
+          556
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          116,
+          82,
+          271,
+          303
+        ]
+      },
+      {
+        "file": "frames/ch3_king_pulse/neutral_2.png",
+        "sha256": "1a6e4cf5b1cad9eadbba07fc1ab0c792c3fe40143747e1c2c6a5f03a799e50cb",
+        "source_cell": [
+          632,
+          0,
+          1263,
+          622
+        ],
+        "source_alpha": [
+          131,
+          85,
+          458,
+          556
+        ],
+        "source_foot": [
+          285.0,
+          554
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          124,
+          97,
+          268,
+          303
+        ]
+      },
+      {
+        "file": "frames/ch3_king_pulse/neutral_3.png",
+        "sha256": "2f40abc8261a068f6a1a18565da79a38d548463c88b3ebb0c0a34f2a141ff929",
+        "source_cell": [
+          0,
+          622,
+          632,
+          1245
+        ],
+        "source_alpha": [
+          100,
+          41,
+          590,
+          551
+        ],
+        "source_foot": [
+          362.0,
+          549
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          77,
+          80,
+          292,
+          303
+        ]
+      },
+      {
+        "file": "frames/ch3_king_pulse/neutral_4.png",
+        "sha256": "64b29d2e74b16a3f557638d0441ab56ec083d267ff31b9aaf3fae79c05653338",
+        "source_cell": [
+          632,
+          622,
+          1263,
+          1245
+        ],
+        "source_alpha": [
+          119,
+          47,
+          515,
+          553
+        ],
+        "source_foot": [
+          288.0,
+          551
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          118,
+          81,
+          291,
+          303
+        ]
+      }
+    ],
+    "atlas_bytes": 337153,
+    "atlas_sha256": "6ffdbac588674745ea14aec1d1cbc49b9c974a27951194f98e245667239cfaee"
+  },
+  "ch4_bishop": {
+    "scale": 0.41714285714285715,
+    "reference_alpha_height": 219,
+    "frames": [
+      {
+        "file": "frames/ch4_bishop/neutral_1.png",
+        "sha256": "fedb20c0601b939ab3c7d207a29a2bf8ca765099d7a7e97b58a66a27c97bda24",
+        "source_cell": [
+          0,
+          0,
+          627,
+          627
+        ],
+        "source_alpha": [
+          215,
+          54,
+          450,
+          581
+        ],
+        "source_foot": [
+          332.0,
+          579
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          143,
+          83,
+          241,
+          303
+        ]
+      },
+      {
+        "file": "frames/ch4_bishop/neutral_2.png",
+        "sha256": "21c3d531295ecf325eb887f517ee4bfec046aee28d997bf2f4c1037fc6bf2e69",
+        "source_cell": [
+          627,
+          0,
+          1254,
+          627
+        ],
+        "source_alpha": [
+          155,
+          60,
+          414,
+          579
+        ],
+        "source_foot": [
+          314.5,
+          577
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          125,
+          86,
+          234,
+          303
+        ]
+      },
+      {
+        "file": "frames/ch4_bishop/neutral_3.png",
+        "sha256": "44d21a4845a1a37d532980bdf1ff9c873e2bdafabfb02d4f023e77244c42aa24",
+        "source_cell": [
+          0,
+          627,
+          627,
+          1254
+        ],
+        "source_alpha": [
+          139,
+          56,
+          512,
+          576
+        ],
+        "source_foot": [
+          341.0,
+          574
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          108,
+          86,
+          264,
+          303
+        ]
+      },
+      {
+        "file": "frames/ch4_bishop/neutral_4.png",
+        "sha256": "0d2eebb4e687d09d10580a898a26bd6569b68cc338b14244bfac874207d89fef",
+        "source_cell": [
+          627,
+          627,
+          1254,
+          1254
+        ],
+        "source_alpha": [
+          174,
+          56,
+          439,
+          578
+        ],
+        "source_foot": [
+          296.5,
+          576
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          141,
+          85,
+          252,
+          303
+        ]
+      }
+    ],
+    "atlas_bytes": 205735,
+    "atlas_sha256": "502db94da2f73ee4140150a1d2129bfbe128670fc2a79cdc707472a4fa2d9e1b"
+  },
+  "ch4_queen": {
+    "scale": 0.45454545454545453,
+    "reference_alpha_height": 220,
+    "frames": [
+      {
+        "file": "frames/ch4_queen/neutral_1.png",
+        "sha256": "b1e52f6624753822e679120164d22583817bacacfc6eceb4d2e374230c42c4da",
+        "source_cell": [
+          0,
+          0,
+          631,
+          623
+        ],
+        "source_alpha": [
+          178,
+          91,
+          491,
+          577
+        ],
+        "source_foot": [
+          331.0,
+          575
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          122,
+          82,
+          265,
+          303
+        ]
+      },
+      {
+        "file": "frames/ch4_queen/neutral_2.png",
+        "sha256": "5f8da3666fe6df055d7327bf684125adad8a2ddb4e32e34ef028fe7a06d8c721",
+        "source_cell": [
+          631,
+          0,
+          1262,
+          623
+        ],
+        "source_alpha": [
+          85,
+          90,
+          496,
+          575
+        ],
+        "source_foot": [
+          281.5,
+          573
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          102,
+          82,
+          290,
+          303
+        ]
+      },
+      {
+        "file": "frames/ch4_queen/neutral_3.png",
+        "sha256": "c73221464723aa19b197ea426c7dfa746e138934292acd57c8561aa59d99a300",
+        "source_cell": [
+          0,
+          623,
+          631,
+          1246
+        ],
+        "source_alpha": [
+          109,
+          46,
+          565,
+          546
+        ],
+        "source_foot": [
+          334.0,
+          544
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          90,
+          75,
+          297,
+          303
+        ]
+      },
+      {
+        "file": "frames/ch4_queen/neutral_4.png",
+        "sha256": "fb2d5e01289c3d9ad33933574bbdfe9eebc9ce08591a97cfa934db9e0ace63c6",
+        "source_cell": [
+          631,
+          623,
+          1262,
+          1246
+        ],
+        "source_alpha": [
+          88,
+          65,
+          454,
+          548
+        ],
+        "source_foot": [
+          278.5,
+          546
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          105,
+          83,
+          272,
+          303
+        ]
+      }
+    ],
+    "atlas_bytes": 297863,
+    "atlas_sha256": "638f667a1c6c6725c03c8c02a3d48e8846af69fbeba98027112debed0844943b"
+  },
+  "ch4_king_melee": {
+    "scale": 0.7203947368421053,
+    "reference_alpha_height": 219,
+    "frames": [
+      {
+        "file": "frames/ch4_king_melee/right_1.png",
+        "sha256": "c4717bdb9c94624b2da22400acd9508c29efd8cb354283ebcc6447d9535452a5",
+        "source_cell": [
+          0,
+          0,
+          362,
+          362
+        ],
+        "source_alpha": [
+          91,
+          24,
+          316,
+          329
+        ],
+        "source_foot": [
+          198.0,
+          327
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          115,
+          83,
+          277,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch4_king_melee/right_2.png",
+        "sha256": "14999d06b69029ea18b119af03982ea61062a833423c1dfd6ca80e055c40722d",
+        "source_cell": [
+          362,
+          0,
+          724,
+          362
+        ],
+        "source_alpha": [
+          66,
+          24,
+          320,
+          326
+        ],
+        "source_foot": [
+          188.5,
+          324
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          103,
+          86,
+          287,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch4_king_melee/right_3.png",
+        "sha256": "4c4326026a8e83778aefdd9a54ae1bbb385c293a70a6c8939d0a303ef34d6123",
+        "source_cell": [
+          724,
+          0,
+          1086,
+          362
+        ],
+        "source_alpha": [
+          49,
+          54,
+          355,
+          328
+        ],
+        "source_foot": [
+          178.5,
+          326
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          98,
+          106,
+          320,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch4_king_melee/right_4.png",
+        "sha256": "23adfbdf5c3b225c44819e2540ed93dfa109e4a30cabbcf2f5fe3f901007ca5a",
+        "source_cell": [
+          1086,
+          0,
+          1448,
+          362
+        ],
+        "source_alpha": [
+          74,
+          24,
+          310,
+          326
+        ],
+        "source_foot": [
+          183.0,
+          324
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          113,
+          86,
+          284,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch4_king_melee/up_1.png",
+        "sha256": "5b871cb16088d07f71b2c3e6ca5aa475e9f9e529961c4fb73dfd9471248b6ae8",
+        "source_cell": [
+          0,
+          362,
+          362,
+          724
+        ],
+        "source_alpha": [
+          75,
+          25,
+          298,
+          332
+        ],
+        "source_foot": [
+          196.0,
+          330
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          104,
+          82,
+          266,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch4_king_melee/up_2.png",
+        "sha256": "f092f2b716a6e265dc0862020a34509e04a159da27da27114c66030d579394bc",
+        "source_cell": [
+          362,
+          362,
+          724,
+          724
+        ],
+        "source_alpha": [
+          82,
+          26,
+          312,
+          329
+        ],
+        "source_foot": [
+          189.5,
+          327
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          114,
+          85,
+          281,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch4_king_melee/up_3.png",
+        "sha256": "ab5eb20b991214d3690e2a81330a7bcaf09baaaf2b3db5ab78bf46c49c32cb9b",
+        "source_cell": [
+          724,
+          362,
+          1086,
+          724
+        ],
+        "source_alpha": [
+          61,
+          3,
+          294,
+          332
+        ],
+        "source_foot": [
+          190.0,
+          330
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          99,
+          66,
+          267,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch4_king_melee/up_4.png",
+        "sha256": "f66ffd2aaa38c1d929696b6a8c49a093fa01906948633287f5597727a58bb99d",
+        "source_cell": [
+          1086,
+          362,
+          1448,
+          724
+        ],
+        "source_alpha": [
+          65,
+          32,
+          302,
+          331
+        ],
+        "source_foot": [
+          187.5,
+          329
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          103,
+          88,
+          275,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch4_king_melee/down_1.png",
+        "sha256": "11236c7ad8fb341c063d9fd0985c8902d72c51eb35ab7c5c1fe6aa3b2b267822",
+        "source_cell": [
+          0,
+          724,
+          362,
+          1086
+        ],
+        "source_alpha": [
+          65,
+          23,
+          308,
+          331
+        ],
+        "source_foot": [
+          181.0,
+          329
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          108,
+          81,
+          284,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch4_king_melee/down_2.png",
+        "sha256": "6abe968a8c7cd6dececbd4f049f48f69833a9fe3a7344d41a56e42106df5fd09",
+        "source_cell": [
+          362,
+          724,
+          724,
+          1086
+        ],
+        "source_alpha": [
+          56,
+          26,
+          304,
+          330
+        ],
+        "source_foot": [
+          178.5,
+          328
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          103,
+          84,
+          283,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch4_king_melee/down_3.png",
+        "sha256": "0f1daaff90c8649892e262790ba50c8423edf09cb94466ef11f38e68dcfec1c0",
+        "source_cell": [
+          724,
+          724,
+          1086,
+          1086
+        ],
+        "source_alpha": [
+          50,
+          55,
+          305,
+          331
+        ],
+        "source_foot": [
+          167.0,
+          329
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          107,
+          104,
+          292,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch4_king_melee/down_4.png",
+        "sha256": "44c1904b6aaaf59b913010ae596f2c5facf7c69d38cd8df52e5814ddeda400d0",
+        "source_cell": [
+          1086,
+          724,
+          1448,
+          1086
+        ],
+        "source_alpha": [
+          59,
+          24,
+          306,
+          328
+        ],
+        "source_foot": [
+          172.5,
+          326
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          110,
+          84,
+          289,
+          304
+        ]
+      }
+    ],
+    "atlas_bytes": 976515,
+    "atlas_sha256": "91a838c9b7ae20b085682a32cf98a1349a1377ad63c2ba42ab00efe20a513bb4"
+  },
+  "ch4_king_pulse": {
+    "scale": 0.453416149068323,
+    "reference_alpha_height": 219,
+    "frames": [
+      {
+        "file": "frames/ch4_king_pulse/neutral_1.png",
+        "sha256": "00c53db3c8cfe012feca6678867522eb2d6874cb5f9fe37fdc5b8e6fe870e6cf",
+        "source_cell": [
+          0,
+          0,
+          627,
+          627
+        ],
+        "source_alpha": [
+          151,
+          64,
+          530,
+          548
+        ],
+        "source_foot": [
+          340.5,
+          546
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          106,
+          83,
+          278,
+          303
+        ]
+      },
+      {
+        "file": "frames/ch4_king_pulse/neutral_2.png",
+        "sha256": "ece3dd0d5841d96341a67bf4abd69828cf0b2a6a6808b7b7dfb328862cfe24d6",
+        "source_cell": [
+          627,
+          0,
+          1254,
+          627
+        ],
+        "source_alpha": [
+          108,
+          100,
+          475,
+          548
+        ],
+        "source_foot": [
+          295.5,
+          546
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          107,
+          100,
+          274,
+          303
+        ]
+      },
+      {
+        "file": "frames/ch4_king_pulse/neutral_3.png",
+        "sha256": "c1f4fdd3602c193b51859758754f7395e6b3577defcf23cbdd451385353b262f",
+        "source_cell": [
+          0,
+          627,
+          627,
+          1254
+        ],
+        "source_alpha": [
+          50,
+          58,
+          594,
+          561
+        ],
+        "source_foot": [
+          344.5,
+          559
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          58,
+          75,
+          305,
+          303
+        ]
+      },
+      {
+        "file": "frames/ch4_king_pulse/neutral_4.png",
+        "sha256": "8875cc149156a18b21b0a42a6b0474fb707b43ed6717d44fc1ef9fb906061f6d",
+        "source_cell": [
+          627,
+          627,
+          1254,
+          1254
+        ],
+        "source_alpha": [
+          109,
+          70,
+          543,
+          557
+        ],
+        "source_foot": [
+          323.5,
+          555
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          95,
+          82,
+          292,
+          303
+        ]
+      }
+    ],
+    "atlas_bytes": 343480,
+    "atlas_sha256": "ea247922e043abcaae5aadeceb5eb612602f448c6fb7d3bf31d763abdbf917c9"
+  },
+  "ch5_bishop": {
+    "scale": 0.4435483870967742,
+    "reference_alpha_height": 220,
+    "frames": [
+      {
+        "file": "frames/ch5_bishop/neutral_1.png",
+        "sha256": "53b8ee6e57b3984a2c5853089487f8f466f9869cf7505439bbb09c2e0ae0b996",
+        "source_cell": [
+          0,
+          0,
+          632,
+          622
+        ],
+        "source_alpha": [
+          201,
+          54,
+          445,
+          551
+        ],
+        "source_foot": [
+          346.0,
+          549
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          127,
+          82,
+          236,
+          303
+        ]
+      },
+      {
+        "file": "frames/ch5_bishop/neutral_2.png",
+        "sha256": "fc8b885373e45929a1ecac8e2525ad1a2e4dbac3aacd83faf0fec8ae9c0e8684",
+        "source_cell": [
+          632,
+          0,
+          1263,
+          622
+        ],
+        "source_alpha": [
+          167,
+          61,
+          416,
+          554
+        ],
+        "source_foot": [
+          316.0,
+          552
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          126,
+          84,
+          237,
+          303
+        ]
+      },
+      {
+        "file": "frames/ch5_bishop/neutral_3.png",
+        "sha256": "f38ae29888931d2474325d347f869523d0286294a5841959937f0481137567ab",
+        "source_cell": [
+          0,
+          622,
+          632,
+          1245
+        ],
+        "source_alpha": [
+          147,
+          65,
+          535,
+          556
+        ],
+        "source_foot": [
+          325.0,
+          554
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          113,
+          85,
+          285,
+          303
+        ]
+      },
+      {
+        "file": "frames/ch5_bishop/neutral_4.png",
+        "sha256": "d41553012eb4591e77ea51487def5ce309b0653f410c801b8f27ec2ea888000b",
+        "source_cell": [
+          632,
+          622,
+          1263,
+          1245
+        ],
+        "source_alpha": [
+          193,
+          65,
+          430,
+          556
+        ],
+        "source_foot": [
+          321.0,
+          554
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          135,
+          85,
+          241,
+          303
+        ]
+      }
+    ],
+    "atlas_bytes": 211081,
+    "atlas_sha256": "81baacbe60f3ad09a70b7a5209d573bce6e369e5dc8c2d80def639ed9ebdeb65"
+  },
+  "ch5_queen": {
+    "scale": 0.4460285132382892,
+    "reference_alpha_height": 219,
+    "frames": [
+      {
+        "file": "frames/ch5_queen/neutral_1.png",
+        "sha256": "43cf503cc7f898b0f3c94b36d7c313260caafb1f4f0a5ae09b0d37dc4c54aae3",
+        "source_cell": [
+          0,
+          0,
+          634,
+          620
+        ],
+        "source_alpha": [
+          188,
+          66,
+          503,
+          559
+        ],
+        "source_foot": [
+          349.0,
+          557
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          120,
+          83,
+          261,
+          303
+        ]
+      },
+      {
+        "file": "frames/ch5_queen/neutral_2.png",
+        "sha256": "99a1856bbfd8281338be0da7b0b4340311f000418194f7baf326e5a3a085522c",
+        "source_cell": [
+          634,
+          0,
+          1269,
+          620
+        ],
+        "source_alpha": [
+          96,
+          71,
+          509,
+          558
+        ],
+        "source_foot": [
+          309.5,
+          556
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          97,
+          85,
+          281,
+          303
+        ]
+      },
+      {
+        "file": "frames/ch5_queen/neutral_3.png",
+        "sha256": "65c3502011264a3e6697b3f71478a3b295e7879bb726fd35935c9240101a1241",
+        "source_cell": [
+          0,
+          620,
+          634,
+          1240
+        ],
+        "source_alpha": [
+          114,
+          58,
+          549,
+          552
+        ],
+        "source_foot": [
+          344.0,
+          550
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          89,
+          82,
+          284,
+          303
+        ]
+      },
+      {
+        "file": "frames/ch5_queen/neutral_4.png",
+        "sha256": "6ffe640bca876e3045335646292b56db3dced02817eaeeaa957ad14b59cdaedd",
+        "source_cell": [
+          634,
+          620,
+          1269,
+          1240
+        ],
+        "source_alpha": [
+          141,
+          65,
+          464,
+          552
+        ],
+        "source_foot": [
+          308.5,
+          550
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          117,
+          85,
+          262,
+          303
+        ]
+      }
+    ],
+    "atlas_bytes": 300660,
+    "atlas_sha256": "bd295d3baad4c4175cb7cdeb43515d63221664c31966f227387182ffc371fc0f"
+  },
+  "ch5_king_melee": {
+    "scale": 0.7096774193548387,
+    "reference_alpha_height": 220,
+    "frames": [
+      {
+        "file": "frames/ch5_king_melee/right_1.png",
+        "sha256": "f18e7f79c493d775510f671ed0b7f0c8ca0bc194542a74ffeb8b58c2650617f6",
+        "source_cell": [
+          0,
+          0,
+          362,
+          362
+        ],
+        "source_alpha": [
+          46,
+          19,
+          279,
+          331
+        ],
+        "source_foot": [
+          162.0,
+          329
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          109,
+          82,
+          275,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch5_king_melee/right_2.png",
+        "sha256": "8b2e17a513da9d4c07e81dc50ef558be51ab8b9619db02c6c78316ca52c0b85b",
+        "source_cell": [
+          362,
+          0,
+          724,
+          362
+        ],
+        "source_alpha": [
+          49,
+          30,
+          278,
+          331
+        ],
+        "source_foot": [
+          164.5,
+          329
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          110,
+          89,
+          273,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch5_king_melee/right_3.png",
+        "sha256": "f71cdd2823593b99d21c5c611b24118ffef2fb4ced37d6959e4634adbd6670fc",
+        "source_cell": [
+          724,
+          0,
+          1086,
+          362
+        ],
+        "source_alpha": [
+          27,
+          42,
+          346,
+          329
+        ],
+        "source_foot": [
+          174.5,
+          327
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          87,
+          99,
+          314,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch5_king_melee/right_4.png",
+        "sha256": "f613a257c70d5526284bfef9d0df9d32e2737abad388aa20a01274c9c34c0d3f",
+        "source_cell": [
+          1086,
+          0,
+          1448,
+          362
+        ],
+        "source_alpha": [
+          55,
+          24,
+          275,
+          330
+        ],
+        "source_foot": [
+          167.5,
+          328
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          112,
+          86,
+          269,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch5_king_melee/up_1.png",
+        "sha256": "a1be8cabf7a3f76585ca1a7b1da4d8801c146d60a637cae0d9a776e125009d06",
+        "source_cell": [
+          0,
+          362,
+          362,
+          724
+        ],
+        "source_alpha": [
+          61,
+          18,
+          302,
+          329
+        ],
+        "source_foot": [
+          181.5,
+          327
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          106,
+          82,
+          278,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch5_king_melee/up_2.png",
+        "sha256": "2b12f90306e74437ad6e0413c0a2771c4da2d66a70cc6c249d3e959b4a27112f",
+        "source_cell": [
+          362,
+          362,
+          724,
+          724
+        ],
+        "source_alpha": [
+          65,
+          21,
+          319,
+          328
+        ],
+        "source_foot": [
+          160.5,
+          326
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          124,
+          85,
+          305,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch5_king_melee/up_3.png",
+        "sha256": "86e294f863e04d918d4a3c564e13b00e2e151ed903a6e467a0731c2bccf6c4b2",
+        "source_cell": [
+          724,
+          362,
+          1086,
+          724
+        ],
+        "source_alpha": [
+          63,
+          10,
+          315,
+          332
+        ],
+        "source_foot": [
+          165.0,
+          330
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          119,
+          75,
+          299,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch5_king_melee/up_4.png",
+        "sha256": "eb23e7773b4f9f791e25c2115810d5ac42a5332fa0623d858d3069afe698e5e0",
+        "source_cell": [
+          1086,
+          362,
+          1448,
+          724
+        ],
+        "source_alpha": [
+          63,
+          20,
+          302,
+          330
+        ],
+        "source_foot": [
+          182.5,
+          328
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          107,
+          83,
+          277,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch5_king_melee/down_1.png",
+        "sha256": "da161e3687bfa8988ad682c77a83f0ef6c27b551c7809e2289e9528ff5656f56",
+        "source_cell": [
+          0,
+          724,
+          362,
+          1086
+        ],
+        "source_alpha": [
+          47,
+          19,
+          316,
+          324
+        ],
+        "source_foot": [
+          181.0,
+          322
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          97,
+          87,
+          288,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch5_king_melee/down_2.png",
+        "sha256": "2da3a225fea38c05d1936bb9410fb62a3099d6593a9c445d9959b408c3d4d49b",
+        "source_cell": [
+          362,
+          724,
+          724,
+          1086
+        ],
+        "source_alpha": [
+          31,
+          26,
+          312,
+          328
+        ],
+        "source_foot": [
+          181.0,
+          326
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          85,
+          89,
+          285,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch5_king_melee/down_3.png",
+        "sha256": "b81f58bc70b290fb3242d5f9c3a1104131beeca9d0ad5491e404a960c83c73cf",
+        "source_cell": [
+          724,
+          724,
+          1086,
+          1086
+        ],
+        "source_alpha": [
+          21,
+          62,
+          325,
+          329
+        ],
+        "source_foot": [
+          180.5,
+          327
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          78,
+          114,
+          295,
+          304
+        ]
+      },
+      {
+        "file": "frames/ch5_king_melee/down_4.png",
+        "sha256": "cbe69257cd3619e7fb7707503894d2f6eda41b227070f3cc4f041024e3658e31",
+        "source_cell": [
+          1086,
+          724,
+          1448,
+          1086
+        ],
+        "source_alpha": [
+          46,
+          19,
+          311,
+          325
+        ],
+        "source_foot": [
+          178.5,
+          323
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          98,
+          86,
+          286,
+          304
+        ]
+      }
+    ],
+    "atlas_bytes": 876366,
+    "atlas_sha256": "723db246ab186d4d0cf2396317bff5ec4474f14ad456cd291551bce73e247c01"
+  },
+  "ch5_king_pulse": {
+    "scale": 0.4612159329140461,
+    "reference_alpha_height": 220,
+    "frames": [
+      {
+        "file": "frames/ch5_king_pulse/neutral_1.png",
+        "sha256": "e865de1944bade612e376350aab120c667dfe6f37a65a3dae50613d844ce7992",
+        "source_cell": [
+          0,
+          0,
+          622,
+          632
+        ],
+        "source_alpha": [
+          133,
+          57,
+          535,
+          535
+        ],
+        "source_foot": [
+          369.5,
+          533
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          83,
+          82,
+          269,
+          303
+        ]
+      },
+      {
+        "file": "frames/ch5_king_pulse/neutral_2.png",
+        "sha256": "07f467b2f8e54c6b70909678b4b055a59d8ea5f103cf3116004c81243e220c55",
+        "source_cell": [
+          622,
+          0,
+          1245,
+          632
+        ],
+        "source_alpha": [
+          113,
+          89,
+          508,
+          538
+        ],
+        "source_foot": [
+          336.5,
+          536
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          89,
+          96,
+          271,
+          303
+        ]
+      },
+      {
+        "file": "frames/ch5_king_pulse/neutral_3.png",
+        "sha256": "72e3474fe6d71fd54dadc03714d4d185003fadaba781e2db86e92309c4629bdb",
+        "source_cell": [
+          0,
+          632,
+          622,
+          1263
+        ],
+        "source_alpha": [
+          90,
+          51,
+          552,
+          538
+        ],
+        "source_foot": [
+          348.5,
+          536
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          73,
+          78,
+          286,
+          303
+        ]
+      },
+      {
+        "file": "frames/ch5_king_pulse/neutral_4.png",
+        "sha256": "cf3d8c73e834d6377e4c03adc08e6c8c0cbf99760ab3598db27e7508ed97fdf7",
+        "source_cell": [
+          622,
+          632,
+          1245,
+          1263
+        ],
+        "source_alpha": [
+          90,
+          60,
+          516,
+          537
+        ],
+        "source_foot": [
+          335.5,
+          535
+        ],
+        "anchor": [
+          192,
+          302
+        ],
+        "alpha": [
+          79,
+          83,
+          275,
+          303
+        ]
+      }
+    ],
+    "atlas_bytes": 296899,
+    "atlas_sha256": "ca339d8dc3719d2b29dbee9b84e54b88619c483b80b84db3cf31dc22876bd5eb"
+  }
+}

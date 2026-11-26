@@ -1,5 +1,9 @@
 # CHECKMATE 에셋 출처
 
+## R7-A3E-5~6 마법과 King 공격 스프라이트
+
+기존 CHECKMATE 런타임 그림, 왕실 Queen 콘셉트 및 숲 Queen 아트 바이블을 참조해 내장 OpenAI ImageGen으로 20개 시트를 제작했다. 개별 제작 프롬프트와 참조·생성 PNG의 SHA-256을 기록했다. [제작 기록](../assets/sprite_animation/enemies_caster/recipes.json) · [프레임과 아틀라스 해시](../assets/sprite_animation/enemies_caster/frames.json)
+
 ## R7-A3E-4 적 공격 스프라이트
 
 CHECKMATE의 기존 인게임 유닛을 참조해 내장 OpenAI ImageGen으로 5챕터 Pawn·Rook·Knight의 공격 시트를 각각 제작했다. 제작 시트와 참조 PNG의 SHA-256, 프롬프트, 정규화 규격을 기록했다. [제작 기록](../assets/sprite_animation/enemies/recipes.json) · [프레임과 아틀라스 해시](../assets/sprite_animation/enemies/frames.json) · [정규화 도구](../tools/enemy_combat_sheets.py)
