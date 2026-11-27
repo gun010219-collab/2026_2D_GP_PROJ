@@ -1,0 +1,26 @@
+{
+  "hud": {
+    "median_ms": 0.3922,
+    "p95_ms": 0.568
+  },
+  "reward": {
+    "median_ms": 3.3115,
+    "p95_ms": 3.6192
+  },
+  "reward_max": {
+    "median_ms": 3.339,
+    "p95_ms": 3.9013
+  },
+  "pulse": {
+    "median_ms": 1.2601,
+    "p95_ms": 1.6683
+  },
+  "pulse_parry": {
+    "median_ms": 1.2295,
+    "p95_ms": 1.2938
+  },
+  "final_boss": {
+    "median_ms": 0.2988,
+    "p95_ms": 0.3702
+  }
+}

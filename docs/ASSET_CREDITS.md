@@ -1,5 +1,14 @@
 # CHECKMATE 에셋 출처
 
+## R7-C1 전투 UI
+
+HUD와 결과 화면의 은장 금속 프레임, 진홍색 보석, 다마스크 안감은 CHECKMATE용 내장 OpenAI ImageGen 출력이다. 원화에서 모서리와 중앙 보석의 비율을 유지해 패널별로 축소·배치하고 자체 체력 게이지를 한 PNG에 수록했다. 외부 소스 이미지를 사용하지 않았다. CHECKMATE 게임과 배포본에 포함하는 프로젝트 에셋이다. 아이콘과 글꼴은 아래 R7-UI의 기존 자원을 사용한다. [런타임 아틀라스](../assets/ui/combat_frames.png) · [생성 프롬프트와 검수](TASK5R7C1.md)
+
+## R7-UI 릴리스 화면
+
+- 대성당 배경과 CHECKMATE 로고는 사용자가 제공한 승인 이미지에서 ImageGen으로 분리했다. 금속 버튼, 강조 버튼, 장식선, 메뉴·보상 아이콘은 CHECKMATE 프로젝트용 ImageGen 출력이다. 아틀라스 요소를 투명 PNG로 분리하고 화면에 필요한 크기로 축소했다. [런타임 에셋](../assets/ui)
+- 제목은 Natanael Gama와 Cinzel 프로젝트의 **Cinzel**, 본문과 수치는 Adobe의 **Source Sans 3**를 사용한다. 두 폰트는 SIL Open Font License 1.1로 배포되며, 수정하지 않은 폰트 파일과 저작권·라이선스 원문을 함께 둔다. [Cinzel 공식 소스](https://github.com/google/fonts/tree/main/ofl/cinzel) · [Source Sans 3 공식 소스](https://github.com/adobe-fonts/source-sans/tree/release) · [라이선스 원문](../assets/ui/fonts)
+
 ## R7-A4C 전투 효과음
 
 CHECKMATE 프로젝트와 Codex가 도구로 합성한 공통 13개 및 챕터 전용 40개다. 외부 샘플을 사용하지 않았으며 CHECKMATE 게임·전시 빌드에 포함해 배포할 수 있다. 각 파일의 길이, 피크, RMS, SHA-256은 매니페스트에 기록했다. [제작 코드](../tools/render_combat_sfx.py) · [음원 매니페스트](../assets/audio/combat_sfx/manifest.json)

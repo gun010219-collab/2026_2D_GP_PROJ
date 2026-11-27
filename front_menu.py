@@ -7,6 +7,7 @@ from pathlib import Path
 from chapter_themes import get_theme
 from health_renderer import HealthRenderer
 from settings_menu import Rect
+from ui_theme import DIM as UI_DIM, ROSE, SILVER, PALE, current as current_ui
 
 THEMES = ('royal','forest','frozen','volcanic','gothic')
 CHAPTERS = tuple(get_theme(chapter).name.upper() for chapter in range(1,6))
@@ -28,7 +29,7 @@ def buttons(screen, data, replay=False):
     if screen == 'main':
         rows = [('new','NEW GAME',True),('continue','CONTINUE',data.continue_chapter is not None),
                 ('chapters','CHAPTER SELECT',True),('settings','SETTINGS',True),('exit','EXIT',True)]
-        return tuple(Button(a,label,Rect(104,492-i*70,382,55),enabled)
+        return tuple(Button(a,label,Rect(567,490-i*72,416,63),enabled)
                      for i,(a,label,enabled) in enumerate(rows))
     if screen == 'chapters':
         cards = tuple(Button(i,name,Rect(128,611-(i-1)*105,540,87),i in data.unlocked)
@@ -79,13 +80,16 @@ class FrontRenderer:
         self.images = {}
         try:
             art = {theme:ROOT/'assets'/'themed_arena'/(theme+'.png') for theme in THEMES}
-            art.update(player=ROOT/'assets'/'character_concepts'/'player.png',
-                       king=ROOT/'assets'/'character_concepts'/'ch1_king.png')
+            if not current_ui(canvas):
+                art.update(player=ROOT/'assets'/'character_concepts'/'player.png',
+                           king=ROOT/'assets'/'character_concepts'/'ch1_king.png')
             for name,path in art.items():
                 try:
                     self.images[name] = canvas.load_image(str(path))
                 except OSError:
                     pass
+            if current_ui(canvas):
+                return
             fonts = Path(os.environ.get('WINDIR','C:/Windows'))/'Fonts'
             for file,size,labels in (
                 ('georgia.ttf',80,('CHECKMATE',)),
@@ -160,6 +164,10 @@ class FrontRenderer:
         HealthRenderer._text(self.c,text,x-(len(text)*4-1)*scale/2,y,scale=scale,color=color)
 
     def draw_screen(self,screen,data,notice,selection,ending=None,replay=False):
+        theme = current_ui(self.c)
+        if theme:
+            self._draw_themed(theme,screen,data,notice,selection,ending,replay)
+            return
         items = buttons(screen,data,replay)
         if screen == 'main':
             self.backdrop('royal')
@@ -225,6 +233,72 @@ class FrontRenderer:
         if notice:
             self.fill(Rect(100,12,1240,34),(29,21,23))
             self.small(notice,720,24,color=(247,178,144))
+
+    def _draw_themed(self,theme,screen,data,notice,selection,ending,replay):
+        theme.sprite('cathedral',Rect(0,0,1440,900),fit='cover')
+        items = buttons(screen,data,replay)
+        pointer = theme.pointer()
+        hovered = next((i for i,item in enumerate(items) if item.rect.contains(pointer)),None)
+        active = selection if hovered is None else hovered
+        if screen == 'main':
+            theme.sprite('wordmark',Rect(294,570,968,265))
+            for i,(item,icon) in enumerate(zip(items,('knight','crown','book','gear','power'))):
+                theme.button(item.rect,item.label,active=i==active,enabled=item.enabled,
+                             icon=icon,decorated=True)
+            theme.rule(775,178,310)
+            if data.final_clear:
+                theme.text('CAMPAIGN COMPLETE',775,153,size=18,color=PALE)
+        elif screen == 'chapters':
+            current_index = min(selection if hovered is None else hovered,4)
+            theme.text('CHAPTER SELECT',398,790,size=54,display=True)
+            theme.rule(398,750,268)
+            for i,item in enumerate(items[:5]):
+                box = item.rect
+                theme.panel(box,active=i==active,muted=not item.enabled)
+                image = self.images.get(THEMES[i])
+                if image:
+                    theme.image(image,Rect(box.left+10,box.bottom+9,112,69))
+                x = box.left+140
+                color = SILVER if item.enabled else UI_DIM
+                theme.text(item.label,x,box.bottom+55,size=26,display=True,align='left',color=color)
+                status = (f'Stage {i*5+1}  /  Entry attack +{data.entry_attack[i]}' if item.enabled
+                          else f'Locked  /  Defeat the Stage {i*5} boss')
+                theme.text(status,x,box.bottom+27,size=20,align='left',color=PALE if item.enabled else UI_DIM)
+            theme.button(items[-1].rect,items[-1].label,active=active==5)
+            theme.panel(Rect(725,193,620,466))
+            preview = self.images.get(THEMES[current_index])
+            if preview:
+                theme.image(preview,Rect(740,251,590,348))
+            theme.text(CHAPTERS[current_index],1035,625,size=29,display=True)
+            theme.text('Checkpoints are saved at each chapter entrance.',1035,222,size=20,color=PALE)
+        else:
+            theme.panel(Rect(288,262,864,503))
+            theme.rule(720,686,358)
+            if screen == 'ending':
+                theme.text('CHECKMATE',720,628,size=68,display=True)
+                theme.text('CAMPAIGN COMPLETE',720,546,size=34,display=True,color=ROSE)
+                theme.text('All five chapters cleared',720,492,size=25,color=PALE)
+                if ending:
+                    theme.text(f'Final stage 25  /  HP {ending.hp}/{ending.max_hp}',720,424,size=23)
+                    theme.text(f'Finish tick {ending.tick}  /  Attack level {ending.attack_level}',
+                               720,383,size=20,color=PALE)
+            else:
+                theme.text('CREDITS',720,631,size=54,display=True)
+                for i,(role,credit) in enumerate((
+                    ('GAME DESIGN & PRODUCTION','CHECKMATE Project · TUK Game Engineering'),
+                    ('IMPLEMENTATION & TESTING','CHECKMATE Project with Codex'),
+                    ('VISUAL ART','Project direction and AI-assisted illustration'),
+                    ('AUDIO','Original project composition and synthesis'),
+                    ('TYPE & RUNTIME','Cinzel · Source Sans 3 · Python · Pico2D · SDL2'),
+                )):
+                    y = 548-i*49
+                    theme.text(role,720,y,size=19,display=True,color=ROSE)
+                    theme.text(credit,720,y-23,size=19,color=PALE)
+            for i,item in enumerate(items):
+                theme.button(item.rect,item.label,active=i==active)
+        if notice:
+            theme.panel(Rect(100,11,1240,36))
+            theme.text(notice,720,29,size=20,color=ROSE,width=1180)
 
     def close(self):
         for image in self.images.values():

@@ -25,7 +25,7 @@ class ReleaseGame:
         self.settings_renderer = self.front = self.audio = None
         self.ending = None
         try:
-            self.settings_renderer = SettingsRenderer(canvas)
+            self.settings_renderer = SettingsRenderer(canvas,themed=True)
             self.front = FrontRenderer(canvas,self.settings_renderer)
             if os.environ.get('CHECKMATE_AUDIO','1') == '1':
                 backend = MixerAudio.open(canvas)

@@ -6,6 +6,8 @@ UI placeholders and can be replaced with a proper text renderer later.
 """
 from config import TILE_SIZE, cell_center
 from render_motion import display_center
+from settings_menu import Rect
+from ui_theme import PALE, ROSE, SILVER, current
 
 
 # Three by five pixel glyphs, top row first. Only the small HUD's alphabet is used.
@@ -64,7 +66,12 @@ class HealthRenderer:
 
     @staticmethod
     def _text(canvas, text, x, y, scale=2, color=TEXT):
-        """Draw a bottom-left-anchored small label with no native resources."""
+        """Draw a bottom-left label. Archival renderers can omit the UI theme."""
+        theme = current(canvas)
+        if theme:
+            theme.text(text,x,y+scale*2.5,size=8*scale,color=color,align='left',
+                       width=max(1,(len(text)*4-1)*scale))
+            return
         for index, char in enumerate(text):
             for row, bits in enumerate(_GLYPHS[char]):
                 for col, bit in enumerate(bits):
@@ -91,6 +98,10 @@ class HealthRenderer:
                 canvas.draw_line(px, py, px, py - sy * length, *cls.HIT)
 
     def draw(self, canvas, player, enemies, tick, attack_bonus=None, show_feedback=True):
+        theme = current(canvas)
+        if theme:
+            self._draw_themed(theme,player,enemies,tick,attack_bonus,show_feedback)
+            return
         health = player.health
         # Compact actual information in the left margin; no fixed right HUD.
         canvas.draw_rectangle(30, 704, 270, 844, 17, 22, 27, filled=True)
@@ -130,3 +141,39 @@ class HealthRenderer:
                 self._text(canvas, 'STUN', x - 15, y - 39, color=(255, 226, 116))
             if show_feedback:
                 self._hit_flash(canvas, enemy, tick)
+
+    @staticmethod
+    def badge(theme, health, x, y):
+        label = f'{health.current_hp}/{health.max_hp}'
+        width = max(40,8*len(label)+14)
+        theme.combat_frame('badge',x-width/2,y-4,width=width)
+        theme.text(label,x,y+6,size=15,color=SILVER,width=width-9)
+        width -= 8
+        theme.fill(Rect(x-width/2,y-3,width,2),(72,50,65))
+        filled = round(width*health.current_hp/health.max_hp)
+        if filled:
+            theme.fill(Rect(x-width/2,y-3,filled,2),ROSE)
+
+    def _draw_themed(self,theme,player,enemies,tick,attack_bonus,show_feedback):
+        canvas,health = theme.canvas,player.health
+        theme.combat_frame('player',30,703)
+        theme.sprite('knight',Rect(44,792,39,39))
+        theme.text('Player HP',91,811,size=21,display=True,align='left')
+        theme.text(f'{health.current_hp}/{health.max_hp}',256,811,size=24,align='right')
+        theme.health_bar(health,49,782,210,segmented=True)
+        if not health.alive:
+            theme.text('DEFEATED  ·  INPUT LOCKED',46,752,size=15,color=ROSE,align='left')
+        elif attack_bonus:
+            theme.text(f'Next attack +{attack_bonus}',256,765,size=16,color=ROSE,align='right')
+        if health.alive and show_feedback:
+            theme.text(self.parry_hint,46,727,size=16,color=PALE,align='left')
+        if show_feedback:
+            self._hit_flash(canvas,player,tick)
+        for enemy in enemies:
+            if enemy.active:
+                x,y = display_center(enemy,self.positions)
+                self.badge(theme,enemy.health,x,y+30)
+                if enemy.state=='stunned' and tick<enemy.stun_until_tick:
+                    theme.text('STUN',x,y-32,size=15,color=ROSE)
+                if show_feedback:
+                    self._hit_flash(canvas,enemy,tick)

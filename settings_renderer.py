@@ -7,12 +7,16 @@ from config import WINDOW_HEIGHT, WINDOW_WIDTH
 from settings_menu import (SETTINGS_BUTTON, PANEL, CLOSE_BUTTON, FULLSCREEN_BUTTON,
                            RETURN_BUTTON, AUDIO_ROWS, MAIN_MENU_BUTTON)
 from health_renderer import HealthRenderer
+from ui_theme import PALE, ROSE, UITheme
 
 
 class SettingsRenderer:
-    def __init__(self, canvas):
+    def __init__(self, canvas, *, themed=False):
         self.canvas = canvas
         self.textures = {}
+        self.theme = UITheme(canvas) if themed and getattr(canvas,'__name__','') == 'pico2d.pico2d' else None
+        if self.theme:
+            return
         # Use the installed Windows font without copying or distributing it.
         font_path = Path(os.environ.get('WINDIR', 'C:/Windows')) / 'Fonts' / 'segoeui.ttf'
         font = canvas.load_font(str(font_path), 24)
@@ -58,6 +62,9 @@ class SettingsRenderer:
         self._label(label, rect.left + rect.width / 2, rect.bottom + rect.height / 2)
 
     def draw(self, menu, display):
+        if self.theme:
+            self._draw_themed(menu,display)
+            return
         from settings_menu import Rect
         c = self.canvas
         self._button(SETTINGS_BUTTON, 'SETTINGS')
@@ -97,6 +104,48 @@ class SettingsRenderer:
             self._label('DISPLAY SWITCH FAILED', WINDOW_WIDTH / 2, PANEL.bottom + 60)
 
     def close(self):
+        if self.theme:
+            self.theme.close()
         for texture, _, _ in self.textures.values():
             self.canvas.SDL_DestroyTexture(texture)
         self.textures.clear()
+
+    def _draw_themed(self,menu,display):
+        from settings_menu import Rect
+        c,theme = self.canvas,self.theme
+        pointer = theme.pointer()
+
+        def button(rect, label, *, enabled=True, active=False):
+            theme.button(rect,label,enabled=enabled,active=active or rect.contains(pointer))
+
+        if not menu.in_frontend and not menu.is_open:
+            button(SETTINGS_BUTTON,'SETTINGS')
+        if not menu.is_open:
+            return
+        old_mode = ctypes.c_int()
+        c.SDL_GetRenderDrawBlendMode(c.renderer,ctypes.byref(old_mode))
+        c.SDL_SetRenderDrawBlendMode(c.renderer,c.SDL_BLENDMODE_BLEND)
+        try:
+            theme.fill(Rect(0,0,WINDOW_WIDTH,WINDOW_HEIGHT),(7,4,9),180)
+        finally:
+            c.SDL_SetRenderDrawBlendMode(c.renderer,old_mode.value)
+        theme.panel(PANEL)
+        theme.text('SETTINGS',720,PANEL.bottom+480,size=37,display=True)
+        theme.rule(720,PANEL.bottom+437,295)
+        for name,(minus,plus,mute) in AUDIO_ROWS.items():
+            y = minus.bottom+minus.height//2
+            value = getattr(menu.audio,name)
+            muted = getattr(menu.audio,name+'_mute')
+            theme.text(name.upper(),PANEL.left+97,y,size=23,display=True)
+            button(minus,'−',enabled=value>0)
+            button(plus,'+',enabled=value<100)
+            button(mute,'MUTE: ON' if muted else 'MUTE: OFF',active=muted)
+            theme.text(f'{value}%',PANEL.left+275,y,size=24,color=PALE if muted else ROSE)
+        button(CLOSE_BUTTON,'×')
+        button(FULLSCREEN_BUTTON,'Fullscreen: On' if display.fullscreen else 'Fullscreen: Off')
+        theme.text('F11  ·  Toggle display',720,PANEL.bottom+159,size=20,color=PALE)
+        button(RETURN_BUTTON,'RETURN' if menu.in_frontend else 'RETURN TO GAME')
+        if menu.can_return_to_title:
+            button(MAIN_MENU_BUTTON,'MAIN MENU')
+        if display.error:
+            theme.text('Display switch failed',720,PANEL.bottom+60,size=18,color=ROSE)

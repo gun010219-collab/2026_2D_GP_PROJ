@@ -1,0 +1,53 @@
+[
+  {
+    "fullscreen": false,
+    "size": [
+      1060,
+      710
+    ],
+    "new_game_raw": [
+      570,
+      302
+    ],
+    "new_game_logical": [
+      774.339599609375,
+      521.3396301269531
+    ],
+    "menu_buttons_checked": 5,
+    "reward_cards_checked": 3
+  },
+  {
+    "fullscreen": true,
+    "size": [
+      1060,
+      710
+    ],
+    "new_game_raw": [
+      570,
+      302
+    ],
+    "new_game_logical": [
+      774.339599609375,
+      521.3396301269531
+    ],
+    "menu_buttons_checked": 5,
+    "reward_cards_checked": 3
+  },
+  {
+    "fullscreen": false,
+    "size": [
+      1060,
+      710
+    ],
+    "new_game_raw": [
+      570,
+      302
+    ],
+    "new_game_logical": [
+      774.339599609375,
+      521.3396301269531
+    ],
+    "menu_buttons_checked": 5,
+    "reward_cards_checked": 3
+  }
+]
