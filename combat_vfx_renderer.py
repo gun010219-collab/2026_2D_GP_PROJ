@@ -32,7 +32,8 @@ def ray_ends(origin, cells):
     return rays.values()
 
 
-_VERTEX = Struct('=ff4B8x')  # SDL_Vertex with unused texture coordinates
+# Three SDL_Vertex records with unused texture coordinates, in submission order.
+_TRIANGLE = Struct('=ff4B8xff4B8xff4B8x')
 
 
 class Mesh:
@@ -50,10 +51,11 @@ class Mesh:
     def tri(self, a, b, c, color):
         if self.count == len(self.vertices):
             self.flush()
-        offset = self.count * _VERTEX.size
-        for x, y in (a, b, c):
-            _VERTEX.pack_into(self.vertices, offset, x, 899-y, *color)
-            offset += _VERTEX.size
+        red,green,blue,alpha = color
+        _TRIANGLE.pack_into(self.vertices,self.count//3*_TRIANGLE.size,
+                            a[0],899-a[1],red,green,blue,alpha,
+                            b[0],899-b[1],red,green,blue,alpha,
+                            c[0],899-c[1],red,green,blue,alpha)
         self.count += 3
 
     def stroke(self, a, b, width, color, tip=None):

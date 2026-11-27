@@ -1,0 +1,45 @@
+{
+  "captures": 13,
+  "campaign": 25,
+  "resources": {
+    "loads": 454,
+    "releases": 454,
+    "peak": 23
+  },
+  "peaks": [
+    10,
+    84
+  ],
+  "median_p95_p99_ms": {
+    "idle_static": [
+      2.314,
+      3.489,
+      4.43
+    ],
+    "idle_animation": [
+      3.032,
+      4.057,
+      4.533
+    ],
+    "idle_animation_vfx": [
+      3.016,
+      4.132,
+      4.543
+    ],
+    "pulse_static": [
+      2.732,
+      3.687,
+      4.684
+    ],
+    "pulse_animation": [
+      3.893,
+      5.313,
+      5.384
+    ],
+    "pulse_animation_vfx": [
+      4.733,
+      6.882,
+      8.552
+    ]
+  }
+}

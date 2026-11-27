@@ -1,0 +1,437 @@
+{
+  "24_135": {
+    "timing": {
+      "frames": 360,
+      "p50": 1.9709,
+      "p95": 2.3189,
+      "p99": 2.8605,
+      "max_ms": 3.1386,
+      "over_budget": 0
+    },
+    "sha256": "eda6e0f689b16c85cc8f768de0267732de06dbea41d27f311f96859152aa3cea",
+    "profile": [
+      {
+        "function": "combat_vfx_renderer.py:tri",
+        "calls": 32080,
+        "self_ms_frame": 0.3832,
+        "total_ms_frame": 0.625
+      },
+      {
+        "function": "~:<method 'pack_into' of '_struct.Struct' objects>",
+        "calls": 60080,
+        "self_ms_frame": 0.3024,
+        "total_ms_frame": 0.3024
+      },
+      {
+        "function": "combat_vfx_renderer.py:stroke",
+        "calls": 15520,
+        "self_ms_frame": 0.2614,
+        "total_ms_frame": 0.8996
+      },
+      {
+        "function": "stage5_art_renderer.py:polygon",
+        "calls": 4920,
+        "self_ms_frame": 0.2219,
+        "total_ms_frame": 0.4697
+      },
+      {
+        "function": "actor_mesh.py:point",
+        "calls": 8600,
+        "self_ms_frame": 0.1816,
+        "total_ms_frame": 0.2568
+      },
+      {
+        "function": "vfx_atlas.py:quad",
+        "calls": 2840,
+        "self_ms_frame": 0.1795,
+        "total_ms_frame": 0.2714
+      },
+      {
+        "function": "stage5_art_renderer.py:_polygon_data",
+        "calls": 360,
+        "self_ms_frame": 0.1519,
+        "total_ms_frame": 0.2319
+      },
+      {
+        "function": "stage5_art_renderer.py:draw_world",
+        "calls": 40,
+        "self_ms_frame": 0.1473,
+        "total_ms_frame": 3.9014
+      },
+      {
+        "function": "actor_mesh.py:draw_actor",
+        "calls": 200,
+        "self_ms_frame": 0.1377,
+        "total_ms_frame": 0.4629
+      },
+      {
+        "function": "pico2d.py:update_canvas",
+        "calls": 40,
+        "self_ms_frame": 0.1108,
+        "total_ms_frame": 0.1108
+      },
+      {
+        "function": "attack_vfx.py:tint",
+        "calls": 9720,
+        "self_ms_frame": 0.0919,
+        "total_ms_frame": 0.1511
+      },
+      {
+        "function": "attack_vfx.py:lightning",
+        "calls": 640,
+        "self_ms_frame": 0.0917,
+        "total_ms_frame": 0.561
+      },
+      {
+        "function": "~:<built-in method builtins.len>",
+        "calls": 48800,
+        "self_ms_frame": 0.0878,
+        "total_ms_frame": 0.0878
+      },
+      {
+        "function": "~:<built-in method builtins.max>",
+        "calls": 42960,
+        "self_ms_frame": 0.0794,
+        "total_ms_frame": 0.0794
+      },
+      {
+        "function": "pico2d.py:draw_line",
+        "calls": 1160,
+        "self_ms_frame": 0.0714,
+        "total_ms_frame": 0.0714
+      },
+      {
+        "function": "combat_vfx_renderer.py:arc",
+        "calls": 400,
+        "self_ms_frame": 0.0677,
+        "total_ms_frame": 0.3732
+      },
+      {
+        "function": "~:<built-in method builtins.min>",
+        "calls": 34440,
+        "self_ms_frame": 0.0653,
+        "total_ms_frame": 0.0685
+      },
+      {
+        "function": "pico2d.py:draw_rectangle",
+        "calls": 1040,
+        "self_ms_frame": 0.0565,
+        "total_ms_frame": 0.0665
+      },
+      {
+        "function": "attack_telegraph.py:draw",
+        "calls": 40,
+        "self_ms_frame": 0.0495,
+        "total_ms_frame": 0.1347
+      },
+      {
+        "function": "~:<built-in method builtins.round>",
+        "calls": 17600,
+        "self_ms_frame": 0.0492,
+        "total_ms_frame": 0.0492
+      },
+      {
+        "function": "rect.py:__init__",
+        "calls": 5760,
+        "self_ms_frame": 0.0482,
+        "total_ms_frame": 0.0482
+      },
+      {
+        "function": "arena_projection.py:project",
+        "calls": 3280,
+        "self_ms_frame": 0.0478,
+        "total_ms_frame": 0.1139
+      }
+    ]
+  },
+  "25_378": {
+    "timing": {
+      "frames": 360,
+      "p50": 1.4042,
+      "p95": 1.9504,
+      "p99": 2.3266,
+      "max_ms": 2.3512,
+      "over_budget": 0
+    },
+    "sha256": "f87e354772fe7c7bca9397e318899f2001c36092ddae7a0d796810518ebc26e3",
+    "profile": [
+      {
+        "function": "actor_mesh.py:point",
+        "calls": 12040,
+        "self_ms_frame": 0.2466,
+        "total_ms_frame": 0.3508
+      },
+      {
+        "function": "stage5_art_renderer.py:polygon",
+        "calls": 4920,
+        "self_ms_frame": 0.2138,
+        "total_ms_frame": 0.4618
+      },
+      {
+        "function": "actor_mesh.py:draw_actor",
+        "calls": 280,
+        "self_ms_frame": 0.192,
+        "total_ms_frame": 0.6519
+      },
+      {
+        "function": "stage5_art_renderer.py:_polygon_data",
+        "calls": 360,
+        "self_ms_frame": 0.1537,
+        "total_ms_frame": 0.2326
+      },
+      {
+        "function": "stage5_art_renderer.py:draw_world",
+        "calls": 40,
+        "self_ms_frame": 0.1453,
+        "total_ms_frame": 2.597
+      },
+      {
+        "function": "pico2d.py:update_canvas",
+        "calls": 40,
+        "self_ms_frame": 0.1147,
+        "total_ms_frame": 0.1147
+      },
+      {
+        "function": "attack_telegraph.py:paint",
+        "calls": 12000,
+        "self_ms_frame": 0.106,
+        "total_ms_frame": 0.1423
+      },
+      {
+        "function": "attack_telegraph.py:draw",
+        "calls": 40,
+        "self_ms_frame": 0.0984,
+        "total_ms_frame": 0.2736
+      },
+      {
+        "function": "~:<method 'pack_into' of '_struct.Struct' objects>",
+        "calls": 19120,
+        "self_ms_frame": 0.0916,
+        "total_ms_frame": 0.0916
+      },
+      {
+        "function": "~:<built-in method builtins.max>",
+        "calls": 40080,
+        "self_ms_frame": 0.0769,
+        "total_ms_frame": 0.0836
+      },
+      {
+        "function": "pico2d.py:draw_rectangle",
+        "calls": 1200,
+        "self_ms_frame": 0.065,
+        "total_ms_frame": 0.0765
+      },
+      {
+        "function": "rect.py:__init__",
+        "calls": 5760,
+        "self_ms_frame": 0.0475,
+        "total_ms_frame": 0.0475
+      },
+      {
+        "function": "~:<built-in method builtins.min>",
+        "calls": 27360,
+        "self_ms_frame": 0.0471,
+        "total_ms_frame": 0.0486
+      },
+      {
+        "function": "pico2d.py:draw_line",
+        "calls": 680,
+        "self_ms_frame": 0.0435,
+        "total_ms_frame": 0.0435
+      },
+      {
+        "function": "ui_theme.py:_copy",
+        "calls": 1000,
+        "self_ms_frame": 0.0433,
+        "total_ms_frame": 0.0562
+      },
+      {
+        "function": "arena_projection.py:project",
+        "calls": 2760,
+        "self_ms_frame": 0.0419,
+        "total_ms_frame": 0.098
+      },
+      {
+        "function": "combat_vfx_renderer.py:tri",
+        "calls": 3360,
+        "self_ms_frame": 0.0413,
+        "total_ms_frame": 0.0676
+      },
+      {
+        "function": "~:<method 'extend' of 'array.array' objects>",
+        "calls": 12040,
+        "self_ms_frame": 0.0365,
+        "total_ms_frame": 0.0365
+      },
+      {
+        "function": "arena_projection.py:coefficients",
+        "calls": 2760,
+        "self_ms_frame": 0.0361,
+        "total_ms_frame": 0.0455
+      },
+      {
+        "function": "rect.py:__init__",
+        "calls": 3680,
+        "self_ms_frame": 0.0361,
+        "total_ms_frame": 0.0361
+      },
+      {
+        "function": "ui_theme.py:combat_frame",
+        "calls": 560,
+        "self_ms_frame": 0.0348,
+        "total_ms_frame": 0.0517
+      },
+      {
+        "function": "combat_vfx_renderer.py:stroke",
+        "calls": 1600,
+        "self_ms_frame": 0.0313,
+        "total_ms_frame": 0.0996
+      }
+    ]
+  },
+  "25_389": {
+    "timing": {
+      "frames": 360,
+      "p50": 2.2677,
+      "p95": 3.2539,
+      "p99": 3.414,
+      "max_ms": 3.4635,
+      "over_budget": 0
+    },
+    "sha256": "d7133c6d6e80d1597ce8d77c5a0145d12548b8022c13b4071fc6bb1af1470b82",
+    "profile": [
+      {
+        "function": "combat_vfx_renderer.py:tri",
+        "calls": 31440,
+        "self_ms_frame": 0.413,
+        "total_ms_frame": 0.6737
+      },
+      {
+        "function": "~:<method 'pack_into' of '_struct.Struct' objects>",
+        "calls": 63600,
+        "self_ms_frame": 0.3543,
+        "total_ms_frame": 0.3543
+      },
+      {
+        "function": "actor_mesh.py:point",
+        "calls": 13760,
+        "self_ms_frame": 0.3065,
+        "total_ms_frame": 0.4322
+      },
+      {
+        "function": "combat_vfx_renderer.py:stroke",
+        "calls": 14200,
+        "self_ms_frame": 0.276,
+        "total_ms_frame": 0.9184
+      },
+      {
+        "function": "stage5_art_renderer.py:polygon",
+        "calls": 4920,
+        "self_ms_frame": 0.2509,
+        "total_ms_frame": 0.5196
+      },
+      {
+        "function": "actor_mesh.py:draw_actor",
+        "calls": 320,
+        "self_ms_frame": 0.2413,
+        "total_ms_frame": 0.8023
+      },
+      {
+        "function": "vfx_atlas.py:quad",
+        "calls": 3120,
+        "self_ms_frame": 0.2263,
+        "total_ms_frame": 0.3428
+      },
+      {
+        "function": "stage5_art_renderer.py:draw_world",
+        "calls": 40,
+        "self_ms_frame": 0.1693,
+        "total_ms_frame": 4.4013
+      },
+      {
+        "function": "stage5_art_renderer.py:_polygon_data",
+        "calls": 360,
+        "self_ms_frame": 0.1654,
+        "total_ms_frame": 0.2519
+      },
+      {
+        "function": "attack_vfx.py:strike",
+        "calls": 40,
+        "self_ms_frame": 0.1187,
+        "total_ms_frame": 0.9913
+      },
+      {
+        "function": "pico2d.py:update_canvas",
+        "calls": 40,
+        "self_ms_frame": 0.1151,
+        "total_ms_frame": 0.1151
+      },
+      {
+        "function": "~:<built-in method builtins.max>",
+        "calls": 57360,
+        "self_ms_frame": 0.1138,
+        "total_ms_frame": 0.1211
+      },
+      {
+        "function": "attack_vfx.py:tint",
+        "calls": 9960,
+        "self_ms_frame": 0.1049,
+        "total_ms_frame": 0.17
+      },
+      {
+        "function": "pico2d.py:draw_line",
+        "calls": 1480,
+        "self_ms_frame": 0.0979,
+        "total_ms_frame": 0.0979
+      },
+      {
+        "function": "~:<built-in method builtins.len>",
+        "calls": 48960,
+        "self_ms_frame": 0.097,
+        "total_ms_frame": 0.097
+      },
+      {
+        "function": "~:<built-in method builtins.min>",
+        "calls": 45360,
+        "self_ms_frame": 0.0853,
+        "total_ms_frame": 0.0853
+      },
+      {
+        "function": "pico2d.py:draw_rectangle",
+        "calls": 1120,
+        "self_ms_frame": 0.0687,
+        "total_ms_frame": 0.0809
+      },
+      {
+        "function": "~:<built-in method builtins.round>",
+        "calls": 20680,
+        "self_ms_frame": 0.0627,
+        "total_ms_frame": 0.0627
+      },
+      {
+        "function": "arena_projection.py:project",
+        "calls": 3760,
+        "self_ms_frame": 0.0587,
+        "total_ms_frame": 0.1387
+      },
+      {
+        "function": "combat_vfx_renderer.py:arc",
+        "calls": 320,
+        "self_ms_frame": 0.0563,
+        "total_ms_frame": 0.2957
+      },
+      {
+        "function": "ui_theme.py:_copy",
+        "calls": 1080,
+        "self_ms_frame": 0.055,
+        "total_ms_frame": 0.071
+      },
+      {
+        "function": "arena_projection.py:coefficients",
+        "calls": 3760,
+        "self_ms_frame": 0.0525,
+        "total_ms_frame": 0.0656
+      }
+    ]
+  }
+}

@@ -4,6 +4,15 @@ from input_controller import InputController
 from parry_input import ParryInput
 
 
+def poll_ready_events(canvas):
+    """Pump focus and device state every frame, avoiding Pico2D's 1ms idle delay."""
+    canvas.SDL_PumpEvents()
+    if canvas.SDL_HasEvents(canvas.SDL_FIRSTEVENT,canvas.SDL_LASTEVENT):
+        return canvas.get_events()
+    canvas.print_fps()
+    return ()
+
+
 class GameplayInput:
     def __init__(self, canvas, *, move_interval_ticks=None):
         self.canvas = canvas

@@ -15,9 +15,19 @@ class FramePacer:
         if isinstance(fps, bool) or not isfinite(fps) or fps <= 0:
             raise ValueError('FPS must be positive and finite')
         self.interval = 1.0 / fps
+        self.deadline = None
 
-    def remaining(self, work_seconds):
-        return max(0.0, self.interval - seconds(work_seconds))
+    def remaining(self, work_seconds, started=None):
+        work = seconds(work_seconds)
+        if started is None:
+            return max(0.0,self.interval-work)
+        started = seconds(started)
+        end = started+self.interval
+        # Carry just this wake-up's oversleep; discard debt after a missed frame.
+        if self.deadline is not None and 0<=started-self.deadline<self.interval:
+            end = self.deadline+self.interval
+        self.deadline = end
+        return max(0.0,end-started-work)
 
 
 class FrameStats:

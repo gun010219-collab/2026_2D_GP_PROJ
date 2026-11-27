@@ -1,0 +1,42 @@
+{
+  "24": {
+    "tick": 135,
+    "first_draw": {
+      "calls": {
+        "load_image": 11,
+        "IMG_LoadTexture": 8,
+        "load_font": 7,
+        "SDL_CreateTextureFromSurface": 14
+      },
+      "ms": {
+        "load_image": 45.778,
+        "IMG_LoadTexture": 53.876,
+        "load_font": 2.149,
+        "SDL_CreateTextureFromSurface": 2.189
+      }
+    },
+    "warm_frames": 180,
+    "warm_creations": 0,
+    "warm_calls": {}
+  },
+  "25": {
+    "tick": 389,
+    "first_draw": {
+      "calls": {
+        "load_image": 12,
+        "IMG_LoadTexture": 10,
+        "SDL_CreateTextureFromSurface": 6,
+        "load_font": 3
+      },
+      "ms": {
+        "load_image": 45.645,
+        "IMG_LoadTexture": 62.92,
+        "SDL_CreateTextureFromSurface": 0.918,
+        "load_font": 0.941
+      }
+    },
+    "warm_frames": 180,
+    "warm_creations": 0,
+    "warm_calls": {}
+  }
+}

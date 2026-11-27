@@ -3,6 +3,7 @@ import ctypes
 from dataclasses import dataclass, replace
 from functools import lru_cache
 from math import cos, pi, radians, sin
+from struct import Struct
 
 from actor_animation import State
 from arena_art_common import ArenaArtError
@@ -273,6 +274,7 @@ UV = tuple((col/COLS,row/ROWS) for row in range(ROWS+1) for col in range(COLS+1)
 INDICES = tuple(i for r in range(ROWS) for c in range(COLS) for j in (r*(COLS+1)+c,)
                 for i in (j,j+1,j+COLS+1,j+1,j+COLS+2,j+COLS+1))
 SDL_INDICES = (ctypes.c_int*len(INDICES))(*INDICES)
+_VERTEX = Struct('=ff4Bff')
 
 
 def gear_column(kind,chapter,attack):
@@ -343,9 +345,11 @@ def draw_actor(canvas, texture, kind, chapter, layout, pose, *, effect=None):
     for i, (u,v,gear,cloth,core) in enumerate(weighted_vertices(kind,chapter,foot_row,attack)):
         x,y = point(u,v,gear,cloth)
         color = effect.core*core*.72
-        verts[i].position = s.SDL_FPoint(x,899-y)
-        verts[i].tex_coord = s.SDL_FPoint(u,v)
-        verts[i].color = s.SDL_Color(*(round(255+(channel-255)*color) for channel in tint),alpha)
+        if color:
+            red,green,blue = (round(255+(channel-255)*color) for channel in tint)
+        else:
+            red = green = blue = 255
+        _VERTEX.pack_into(verts,i*_VERTEX.size,x,899-y,red,green,blue,alpha,u,v)
     if s.SDL_RenderGeometry(canvas.renderer, texture, verts, len(verts), SDL_INDICES, len(INDICES)):
         raise ArenaArtError('SDL actor mesh failed: ' + s.SDL_GetError().decode())
     top_v = (top_of_square-layout['top'])/size

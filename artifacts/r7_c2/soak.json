@@ -1,0 +1,3581 @@
+{
+  "pid": 46632,
+  "samples": [
+    {
+      "seconds": 0.092,
+      "phase": "open",
+      "frames": 0,
+      "transitions": 0,
+      "memory_bytes": {
+        "private": 125108224,
+        "working_set": 102395904,
+        "dedicated": 35258368,
+        "shared": 15622144
+      },
+      "live": {
+        "texture": 14,
+        "font": 0,
+        "chunk": 35,
+        "music": 0
+      }
+    },
+    {
+      "seconds": 9.538,
+      "phase": "stage25",
+      "frames": 1650,
+      "transitions": 2,
+      "memory_bytes": {
+        "private": 261959680,
+        "working_set": 195309568,
+        "dedicated": 83529728,
+        "shared": 77160448
+      },
+      "live": {
+        "texture": 229,
+        "font": 12,
+        "chunk": 48,
+        "music": 2
+      }
+    },
+    {
+      "seconds": 18.698,
+      "phase": "stage20",
+      "frames": 3210,
+      "transitions": 6,
+      "memory_bytes": {
+        "private": 291438592,
+        "working_set": 193966080,
+        "dedicated": 80457728,
+        "shared": 55853056
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 28.124,
+      "phase": "stage25",
+      "frames": 4860,
+      "transitions": 8,
+      "memory_bytes": {
+        "private": 234967040,
+        "working_set": 169000960,
+        "dedicated": 83734528,
+        "shared": 63565824
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 37.265,
+      "phase": "stage20",
+      "frames": 6420,
+      "transitions": 12,
+      "memory_bytes": {
+        "private": 288292864,
+        "working_set": 193052672,
+        "dedicated": 80453632,
+        "shared": 55853056
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 46.673,
+      "phase": "stage25",
+      "frames": 8070,
+      "transitions": 14,
+      "memory_bytes": {
+        "private": 235487232,
+        "working_set": 169242624,
+        "dedicated": 83738624,
+        "shared": 63565824
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 55.788,
+      "phase": "stage20",
+      "frames": 9630,
+      "transitions": 18,
+      "memory_bytes": {
+        "private": 285392896,
+        "working_set": 193093632,
+        "dedicated": 80449536,
+        "shared": 55853056
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 65.192,
+      "phase": "stage25",
+      "frames": 11280,
+      "transitions": 20,
+      "memory_bytes": {
+        "private": 236699648,
+        "working_set": 169291776,
+        "dedicated": 83738624,
+        "shared": 63565824
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 74.328,
+      "phase": "stage20",
+      "frames": 12840,
+      "transitions": 24,
+      "memory_bytes": {
+        "private": 290787328,
+        "working_set": 192851968,
+        "dedicated": 80465920,
+        "shared": 55853056
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 83.746,
+      "phase": "stage25",
+      "frames": 14490,
+      "transitions": 26,
+      "memory_bytes": {
+        "private": 237191168,
+        "working_set": 168890368,
+        "dedicated": 83746816,
+        "shared": 64065536
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 92.878,
+      "phase": "stage20",
+      "frames": 16050,
+      "transitions": 30,
+      "memory_bytes": {
+        "private": 296009728,
+        "working_set": 195158016,
+        "dedicated": 80461824,
+        "shared": 55853056
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 102.338,
+      "phase": "stage25",
+      "frames": 17700,
+      "transitions": 32,
+      "memory_bytes": {
+        "private": 238428160,
+        "working_set": 169316352,
+        "dedicated": 83734528,
+        "shared": 64065536
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 111.457,
+      "phase": "stage20",
+      "frames": 19260,
+      "transitions": 36,
+      "memory_bytes": {
+        "private": 300138496,
+        "working_set": 195448832,
+        "dedicated": 80457728,
+        "shared": 55853056
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 120.887,
+      "phase": "stage25",
+      "frames": 20910,
+      "transitions": 38,
+      "memory_bytes": {
+        "private": 235696128,
+        "working_set": 168407040,
+        "dedicated": 83738624,
+        "shared": 63565824
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 130.003,
+      "phase": "stage20",
+      "frames": 22470,
+      "transitions": 42,
+      "memory_bytes": {
+        "private": 287383552,
+        "working_set": 193736704,
+        "dedicated": 80449536,
+        "shared": 55853056
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 139.55,
+      "phase": "stage25",
+      "frames": 24120,
+      "transitions": 44,
+      "memory_bytes": {
+        "private": 237338624,
+        "working_set": 168771584,
+        "dedicated": 83755008,
+        "shared": 63565824
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 148.682,
+      "phase": "stage20",
+      "frames": 25680,
+      "transitions": 48,
+      "memory_bytes": {
+        "private": 293146624,
+        "working_set": 194301952,
+        "dedicated": 80457728,
+        "shared": 55353344
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 158.092,
+      "phase": "stage25",
+      "frames": 27330,
+      "transitions": 50,
+      "memory_bytes": {
+        "private": 237199360,
+        "working_set": 168845312,
+        "dedicated": 83730432,
+        "shared": 63066112
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 167.204,
+      "phase": "stage20",
+      "frames": 28890,
+      "transitions": 54,
+      "memory_bytes": {
+        "private": 291799040,
+        "working_set": 195297280,
+        "dedicated": 80465920,
+        "shared": 55353344
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 176.613,
+      "phase": "stage25",
+      "frames": 30540,
+      "transitions": 56,
+      "memory_bytes": {
+        "private": 237326336,
+        "working_set": 169070592,
+        "dedicated": 83742720,
+        "shared": 63565824
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 185.749,
+      "phase": "stage20",
+      "frames": 32100,
+      "transitions": 60,
+      "memory_bytes": {
+        "private": 291999744,
+        "working_set": 195084288,
+        "dedicated": 80453632,
+        "shared": 55353344
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 195.156,
+      "phase": "stage25",
+      "frames": 33750,
+      "transitions": 62,
+      "memory_bytes": {
+        "private": 240496640,
+        "working_set": 169299968,
+        "dedicated": 83742720,
+        "shared": 63066112
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 204.295,
+      "phase": "stage20",
+      "frames": 35310,
+      "transitions": 66,
+      "memory_bytes": {
+        "private": 292827136,
+        "working_set": 193257472,
+        "dedicated": 80445440,
+        "shared": 55353344
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 213.714,
+      "phase": "stage25",
+      "frames": 36960,
+      "transitions": 68,
+      "memory_bytes": {
+        "private": 238796800,
+        "working_set": 169639936,
+        "dedicated": 83726336,
+        "shared": 63066112
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 222.859,
+      "phase": "stage20",
+      "frames": 38520,
+      "transitions": 72,
+      "memory_bytes": {
+        "private": 297394176,
+        "working_set": 197275648,
+        "dedicated": 80445440,
+        "shared": 55353344
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 232.266,
+      "phase": "stage25",
+      "frames": 40170,
+      "transitions": 74,
+      "memory_bytes": {
+        "private": 238874624,
+        "working_set": 169504768,
+        "dedicated": 83734528,
+        "shared": 62918656
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 241.377,
+      "phase": "stage20",
+      "frames": 41730,
+      "transitions": 78,
+      "memory_bytes": {
+        "private": 293818368,
+        "working_set": 193482752,
+        "dedicated": 80453632,
+        "shared": 55205888
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 250.786,
+      "phase": "stage25",
+      "frames": 43380,
+      "transitions": 80,
+      "memory_bytes": {
+        "private": 239124480,
+        "working_set": 169693184,
+        "dedicated": 83726336,
+        "shared": 63049728
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 259.901,
+      "phase": "stage20",
+      "frames": 44940,
+      "transitions": 84,
+      "memory_bytes": {
+        "private": 292847616,
+        "working_set": 196825088,
+        "dedicated": 80461824,
+        "shared": 55336960
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 269.317,
+      "phase": "stage25",
+      "frames": 46590,
+      "transitions": 86,
+      "memory_bytes": {
+        "private": 239210496,
+        "working_set": 169680896,
+        "dedicated": 83738624,
+        "shared": 63049728
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 278.434,
+      "phase": "stage20",
+      "frames": 48150,
+      "transitions": 90,
+      "memory_bytes": {
+        "private": 288165888,
+        "working_set": 196231168,
+        "dedicated": 80449536,
+        "shared": 55336960
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 287.834,
+      "phase": "stage25",
+      "frames": 49800,
+      "transitions": 92,
+      "memory_bytes": {
+        "private": 236703744,
+        "working_set": 169844736,
+        "dedicated": 83738624,
+        "shared": 63049728
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 296.97,
+      "phase": "stage20",
+      "frames": 51360,
+      "transitions": 96,
+      "memory_bytes": {
+        "private": 289431552,
+        "working_set": 194031616,
+        "dedicated": 80457728,
+        "shared": 55336960
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 306.374,
+      "phase": "stage25",
+      "frames": 53010,
+      "transitions": 98,
+      "memory_bytes": {
+        "private": 236433408,
+        "working_set": 170172416,
+        "dedicated": 83746816,
+        "shared": 63049728
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 315.488,
+      "phase": "stage20",
+      "frames": 54570,
+      "transitions": 102,
+      "memory_bytes": {
+        "private": 295698432,
+        "working_set": 198361088,
+        "dedicated": 80453632,
+        "shared": 55336960
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 324.896,
+      "phase": "stage25",
+      "frames": 56220,
+      "transitions": 104,
+      "memory_bytes": {
+        "private": 241139712,
+        "working_set": 170082304,
+        "dedicated": 83738624,
+        "shared": 63049728
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 334.043,
+      "phase": "stage20",
+      "frames": 57780,
+      "transitions": 108,
+      "memory_bytes": {
+        "private": 298405888,
+        "working_set": 198348800,
+        "dedicated": 80465920,
+        "shared": 55336960
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 343.443,
+      "phase": "stage25",
+      "frames": 59430,
+      "transitions": 110,
+      "memory_bytes": {
+        "private": 239300608,
+        "working_set": 170065920,
+        "dedicated": 83750912,
+        "shared": 63049728
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 352.575,
+      "phase": "stage20",
+      "frames": 60990,
+      "transitions": 114,
+      "memory_bytes": {
+        "private": 292757504,
+        "working_set": 196730880,
+        "dedicated": 80457728,
+        "shared": 55336960
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 361.99,
+      "phase": "stage25",
+      "frames": 62640,
+      "transitions": 116,
+      "memory_bytes": {
+        "private": 238800896,
+        "working_set": 170160128,
+        "dedicated": 83726336,
+        "shared": 63049728
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 371.1,
+      "phase": "stage20",
+      "frames": 64200,
+      "transitions": 120,
+      "memory_bytes": {
+        "private": 291823616,
+        "working_set": 196259840,
+        "dedicated": 80445440,
+        "shared": 55336960
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 380.506,
+      "phase": "stage25",
+      "frames": 65850,
+      "transitions": 122,
+      "memory_bytes": {
+        "private": 237154304,
+        "working_set": 170426368,
+        "dedicated": 83722240,
+        "shared": 63049728
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 389.621,
+      "phase": "stage20",
+      "frames": 67410,
+      "transitions": 126,
+      "memory_bytes": {
+        "private": 291659776,
+        "working_set": 196366336,
+        "dedicated": 80441344,
+        "shared": 55336960
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 399.025,
+      "phase": "stage25",
+      "frames": 69060,
+      "transitions": 128,
+      "memory_bytes": {
+        "private": 237432832,
+        "working_set": 170328064,
+        "dedicated": 83726336,
+        "shared": 63049728
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 408.161,
+      "phase": "stage20",
+      "frames": 70620,
+      "transitions": 132,
+      "memory_bytes": {
+        "private": 292876288,
+        "working_set": 200380416,
+        "dedicated": 80445440,
+        "shared": 55189504
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 417.567,
+      "phase": "stage25",
+      "frames": 72270,
+      "transitions": 134,
+      "memory_bytes": {
+        "private": 236822528,
+        "working_set": 170393600,
+        "dedicated": 83726336,
+        "shared": 62902272
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 426.687,
+      "phase": "stage20",
+      "frames": 73830,
+      "transitions": 138,
+      "memory_bytes": {
+        "private": 290619392,
+        "working_set": 196415488,
+        "dedicated": 80453632,
+        "shared": 55189504
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 436.088,
+      "phase": "stage25",
+      "frames": 75480,
+      "transitions": 140,
+      "memory_bytes": {
+        "private": 238067712,
+        "working_set": 170450944,
+        "dedicated": 83738624,
+        "shared": 62902272
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 445.205,
+      "phase": "stage20",
+      "frames": 77040,
+      "transitions": 144,
+      "memory_bytes": {
+        "private": 293953536,
+        "working_set": 195878912,
+        "dedicated": 80465920,
+        "shared": 55255040
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 454.603,
+      "phase": "stage25",
+      "frames": 78690,
+      "transitions": 146,
+      "memory_bytes": {
+        "private": 238985216,
+        "working_set": 170455040,
+        "dedicated": 83755008,
+        "shared": 62967808
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 463.718,
+      "phase": "stage20",
+      "frames": 80250,
+      "transitions": 150,
+      "memory_bytes": {
+        "private": 291201024,
+        "working_set": 196878336,
+        "dedicated": 80461824,
+        "shared": 55255040
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 473.132,
+      "phase": "stage25",
+      "frames": 81900,
+      "transitions": 152,
+      "memory_bytes": {
+        "private": 241098752,
+        "working_set": 170459136,
+        "dedicated": 83738624,
+        "shared": 62967808
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 482.265,
+      "phase": "stage20",
+      "frames": 83460,
+      "transitions": 156,
+      "memory_bytes": {
+        "private": 290836480,
+        "working_set": 195903488,
+        "dedicated": 80457728,
+        "shared": 55255040
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 491.678,
+      "phase": "stage25",
+      "frames": 85110,
+      "transitions": 158,
+      "memory_bytes": {
+        "private": 240140288,
+        "working_set": 170295296,
+        "dedicated": 83746816,
+        "shared": 62967808
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 500.799,
+      "phase": "stage20",
+      "frames": 86670,
+      "transitions": 162,
+      "memory_bytes": {
+        "private": 293978112,
+        "working_set": 194990080,
+        "dedicated": 80457728,
+        "shared": 55255040
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 510.209,
+      "phase": "stage25",
+      "frames": 88320,
+      "transitions": 164,
+      "memory_bytes": {
+        "private": 239435776,
+        "working_set": 170381312,
+        "dedicated": 83742720,
+        "shared": 63098880
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 519.321,
+      "phase": "stage20",
+      "frames": 89880,
+      "transitions": 168,
+      "memory_bytes": {
+        "private": 333230080,
+        "working_set": 238923776,
+        "dedicated": 80506880,
+        "shared": 55517184
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 528.727,
+      "phase": "stage25",
+      "frames": 91530,
+      "transitions": 170,
+      "memory_bytes": {
+        "private": 241975296,
+        "working_set": 170819584,
+        "dedicated": 83791872,
+        "shared": 63229952
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 537.822,
+      "phase": "stage20",
+      "frames": 93090,
+      "transitions": 174,
+      "memory_bytes": {
+        "private": 294866944,
+        "working_set": 199012352,
+        "dedicated": 80498688,
+        "shared": 55517184
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 547.218,
+      "phase": "stage25",
+      "frames": 94740,
+      "transitions": 176,
+      "memory_bytes": {
+        "private": 238977024,
+        "working_set": 170856448,
+        "dedicated": 83787776,
+        "shared": 63229952
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 556.317,
+      "phase": "stage20",
+      "frames": 96300,
+      "transitions": 180,
+      "memory_bytes": {
+        "private": 291991552,
+        "working_set": 195358720,
+        "dedicated": 80490496,
+        "shared": 55517184
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 565.712,
+      "phase": "stage25",
+      "frames": 97950,
+      "transitions": 182,
+      "memory_bytes": {
+        "private": 241049600,
+        "working_set": 170811392,
+        "dedicated": 83771392,
+        "shared": 63229952
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 574.82,
+      "phase": "stage20",
+      "frames": 99510,
+      "transitions": 186,
+      "memory_bytes": {
+        "private": 296001536,
+        "working_set": 198119424,
+        "dedicated": 80486400,
+        "shared": 55517184
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 584.216,
+      "phase": "stage25",
+      "frames": 101160,
+      "transitions": 188,
+      "memory_bytes": {
+        "private": 238497792,
+        "working_set": 170885120,
+        "dedicated": 83779584,
+        "shared": 63229952
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 593.324,
+      "phase": "stage20",
+      "frames": 102720,
+      "transitions": 192,
+      "memory_bytes": {
+        "private": 287428608,
+        "working_set": 200564736,
+        "dedicated": 80482304,
+        "shared": 55517184
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 602.735,
+      "phase": "stage25",
+      "frames": 104370,
+      "transitions": 194,
+      "memory_bytes": {
+        "private": 238247936,
+        "working_set": 170758144,
+        "dedicated": 83771392,
+        "shared": 63229952
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 611.851,
+      "phase": "stage20",
+      "frames": 105930,
+      "transitions": 198,
+      "memory_bytes": {
+        "private": 290811904,
+        "working_set": 196202496,
+        "dedicated": 80482304,
+        "shared": 55517184
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 621.254,
+      "phase": "stage25",
+      "frames": 107580,
+      "transitions": 200,
+      "memory_bytes": {
+        "private": 238477312,
+        "working_set": 170987520,
+        "dedicated": 83763200,
+        "shared": 63229952
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 630.355,
+      "phase": "stage20",
+      "frames": 109140,
+      "transitions": 204,
+      "memory_bytes": {
+        "private": 293588992,
+        "working_set": 200024064,
+        "dedicated": 80486400,
+        "shared": 55517184
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 639.748,
+      "phase": "stage25",
+      "frames": 110790,
+      "transitions": 206,
+      "memory_bytes": {
+        "private": 239005696,
+        "working_set": 171024384,
+        "dedicated": 83763200,
+        "shared": 63229952
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 648.842,
+      "phase": "stage20",
+      "frames": 112350,
+      "transitions": 210,
+      "memory_bytes": {
+        "private": 295522304,
+        "working_set": 199897088,
+        "dedicated": 80482304,
+        "shared": 55517184
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 658.252,
+      "phase": "stage25",
+      "frames": 114000,
+      "transitions": 212,
+      "memory_bytes": {
+        "private": 238653440,
+        "working_set": 171024384,
+        "dedicated": 83771392,
+        "shared": 63229952
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 667.364,
+      "phase": "stage20",
+      "frames": 115560,
+      "transitions": 216,
+      "memory_bytes": {
+        "private": 288935936,
+        "working_set": 197201920,
+        "dedicated": 80482304,
+        "shared": 55517184
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 676.796,
+      "phase": "stage25",
+      "frames": 117210,
+      "transitions": 218,
+      "memory_bytes": {
+        "private": 238551040,
+        "working_set": 171257856,
+        "dedicated": 83767296,
+        "shared": 63229952
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 685.954,
+      "phase": "stage20",
+      "frames": 118770,
+      "transitions": 222,
+      "memory_bytes": {
+        "private": 298524672,
+        "working_set": 201879552,
+        "dedicated": 80470016,
+        "shared": 55320576
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 695.371,
+      "phase": "stage25",
+      "frames": 120420,
+      "transitions": 224,
+      "memory_bytes": {
+        "private": 239378432,
+        "working_set": 170975232,
+        "dedicated": 83755008,
+        "shared": 63033344
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 704.472,
+      "phase": "stage20",
+      "frames": 121980,
+      "transitions": 228,
+      "memory_bytes": {
+        "private": 298889216,
+        "working_set": 197881856,
+        "dedicated": 80461824,
+        "shared": 55320576
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 713.872,
+      "phase": "stage25",
+      "frames": 123630,
+      "transitions": 230,
+      "memory_bytes": {
+        "private": 240205824,
+        "working_set": 171036672,
+        "dedicated": 83750912,
+        "shared": 63033344
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 722.981,
+      "phase": "stage20",
+      "frames": 125190,
+      "transitions": 234,
+      "memory_bytes": {
+        "private": 295428096,
+        "working_set": 200175616,
+        "dedicated": 80461824,
+        "shared": 55320576
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 732.389,
+      "phase": "stage25",
+      "frames": 126840,
+      "transitions": 236,
+      "memory_bytes": {
+        "private": 240238592,
+        "working_set": 171114496,
+        "dedicated": 83759104,
+        "shared": 63533056
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 741.5,
+      "phase": "stage20",
+      "frames": 128400,
+      "transitions": 240,
+      "memory_bytes": {
+        "private": 295419904,
+        "working_set": 199766016,
+        "dedicated": 80474112,
+        "shared": 55320576
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 750.908,
+      "phase": "stage25",
+      "frames": 130050,
+      "transitions": 242,
+      "memory_bytes": {
+        "private": 237604864,
+        "working_set": 171302912,
+        "dedicated": 83755008,
+        "shared": 63033344
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 760.018,
+      "phase": "stage20",
+      "frames": 131610,
+      "transitions": 246,
+      "memory_bytes": {
+        "private": 294916096,
+        "working_set": 197046272,
+        "dedicated": 80478208,
+        "shared": 55320576
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 769.429,
+      "phase": "stage25",
+      "frames": 133260,
+      "transitions": 248,
+      "memory_bytes": {
+        "private": 241307648,
+        "working_set": 171347968,
+        "dedicated": 83755008,
+        "shared": 63033344
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 778.552,
+      "phase": "stage20",
+      "frames": 134820,
+      "transitions": 252,
+      "memory_bytes": {
+        "private": 340717568,
+        "working_set": 243621888,
+        "dedicated": 80519168,
+        "shared": 55386112
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 787.961,
+      "phase": "stage25",
+      "frames": 136470,
+      "transitions": 254,
+      "memory_bytes": {
+        "private": 240930816,
+        "working_set": 171036672,
+        "dedicated": 83783680,
+        "shared": 63098880
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 797.071,
+      "phase": "stage20",
+      "frames": 138030,
+      "transitions": 258,
+      "memory_bytes": {
+        "private": 302399488,
+        "working_set": 204132352,
+        "dedicated": 80490496,
+        "shared": 55386112
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 806.482,
+      "phase": "stage25",
+      "frames": 139680,
+      "transitions": 260,
+      "memory_bytes": {
+        "private": 240439296,
+        "working_set": 171155456,
+        "dedicated": 83775488,
+        "shared": 63098880
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 815.604,
+      "phase": "stage20",
+      "frames": 141240,
+      "transitions": 264,
+      "memory_bytes": {
+        "private": 297480192,
+        "working_set": 197709824,
+        "dedicated": 80498688,
+        "shared": 55386112
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 825.001,
+      "phase": "stage25",
+      "frames": 142890,
+      "transitions": 266,
+      "memory_bytes": {
+        "private": 239759360,
+        "working_set": 171110400,
+        "dedicated": 83783680,
+        "shared": 63598592
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 834.101,
+      "phase": "stage20",
+      "frames": 144450,
+      "transitions": 270,
+      "memory_bytes": {
+        "private": 290795520,
+        "working_set": 194994176,
+        "dedicated": 80490496,
+        "shared": 55386112
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 843.509,
+      "phase": "stage25",
+      "frames": 146100,
+      "transitions": 272,
+      "memory_bytes": {
+        "private": 239292416,
+        "working_set": 171200512,
+        "dedicated": 83779584,
+        "shared": 63598592
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 852.629,
+      "phase": "stage20",
+      "frames": 147660,
+      "transitions": 276,
+      "memory_bytes": {
+        "private": 297672704,
+        "working_set": 199012352,
+        "dedicated": 80490496,
+        "shared": 55386112
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 862.031,
+      "phase": "stage25",
+      "frames": 149310,
+      "transitions": 278,
+      "memory_bytes": {
+        "private": 241438720,
+        "working_set": 171339776,
+        "dedicated": 83779584,
+        "shared": 63098880
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 871.162,
+      "phase": "stage20",
+      "frames": 150870,
+      "transitions": 282,
+      "memory_bytes": {
+        "private": 294154240,
+        "working_set": 198176768,
+        "dedicated": 80490496,
+        "shared": 55386112
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 880.578,
+      "phase": "stage25",
+      "frames": 152520,
+      "transitions": 284,
+      "memory_bytes": {
+        "private": 239435776,
+        "working_set": 171286528,
+        "dedicated": 83779584,
+        "shared": 63098880
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 889.68,
+      "phase": "stage20",
+      "frames": 154080,
+      "transitions": 288,
+      "memory_bytes": {
+        "private": 302829568,
+        "working_set": 209182720,
+        "dedicated": 80482304,
+        "shared": 55386112
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 899.096,
+      "phase": "stage25",
+      "frames": 155730,
+      "transitions": 290,
+      "memory_bytes": {
+        "private": 239157248,
+        "working_set": 171380736,
+        "dedicated": 83767296,
+        "shared": 63021056
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 908.199,
+      "phase": "stage20",
+      "frames": 157290,
+      "transitions": 294,
+      "memory_bytes": {
+        "private": 297263104,
+        "working_set": 202588160,
+        "dedicated": 80482304,
+        "shared": 55386112
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 917.606,
+      "phase": "stage25",
+      "frames": 158940,
+      "transitions": 296,
+      "memory_bytes": {
+        "private": 239218688,
+        "working_set": 171405312,
+        "dedicated": 83763200,
+        "shared": 63098880
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 926.716,
+      "phase": "stage20",
+      "frames": 160500,
+      "transitions": 300,
+      "memory_bytes": {
+        "private": 304156672,
+        "working_set": 209596416,
+        "dedicated": 80486400,
+        "shared": 55386112
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 936.124,
+      "phase": "stage25",
+      "frames": 162150,
+      "transitions": 302,
+      "memory_bytes": {
+        "private": 242294784,
+        "working_set": 171450368,
+        "dedicated": 83759104,
+        "shared": 63598592
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 945.238,
+      "phase": "stage20",
+      "frames": 163710,
+      "transitions": 306,
+      "memory_bytes": {
+        "private": 311427072,
+        "working_set": 207478784,
+        "dedicated": 80478208,
+        "shared": 55386112
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 954.636,
+      "phase": "stage25",
+      "frames": 165360,
+      "transitions": 308,
+      "memory_bytes": {
+        "private": 238936064,
+        "working_set": 171307008,
+        "dedicated": 83759104,
+        "shared": 63033344
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 963.754,
+      "phase": "stage20",
+      "frames": 166920,
+      "transitions": 312,
+      "memory_bytes": {
+        "private": 304734208,
+        "working_set": 207355904,
+        "dedicated": 80465920,
+        "shared": 55320576
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 973.154,
+      "phase": "stage25",
+      "frames": 168570,
+      "transitions": 314,
+      "memory_bytes": {
+        "private": 241057792,
+        "working_set": 171413504,
+        "dedicated": 83755008,
+        "shared": 63533056
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 982.272,
+      "phase": "stage20",
+      "frames": 170130,
+      "transitions": 318,
+      "memory_bytes": {
+        "private": 312479744,
+        "working_set": 212221952,
+        "dedicated": 80465920,
+        "shared": 55320576
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 991.685,
+      "phase": "stage25",
+      "frames": 171780,
+      "transitions": 320,
+      "memory_bytes": {
+        "private": 238022656,
+        "working_set": 171335680,
+        "dedicated": 83750912,
+        "shared": 63033344
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1000.804,
+      "phase": "stage20",
+      "frames": 173340,
+      "transitions": 324,
+      "memory_bytes": {
+        "private": 308887552,
+        "working_set": 208637952,
+        "dedicated": 80461824,
+        "shared": 55320576
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1010.197,
+      "phase": "stage25",
+      "frames": 174990,
+      "transitions": 326,
+      "memory_bytes": {
+        "private": 295731200,
+        "working_set": 228188160,
+        "dedicated": 83824640,
+        "shared": 63164416
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1019.092,
+      "phase": "stage20",
+      "frames": 176550,
+      "transitions": 330,
+      "memory_bytes": {
+        "private": 302428160,
+        "working_set": 208097280,
+        "dedicated": 80556032,
+        "shared": 55451648
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1028.498,
+      "phase": "stage25",
+      "frames": 178200,
+      "transitions": 332,
+      "memory_bytes": {
+        "private": 243265536,
+        "working_set": 171929600,
+        "dedicated": 83836928,
+        "shared": 63164416
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1037.618,
+      "phase": "stage20",
+      "frames": 179760,
+      "transitions": 336,
+      "memory_bytes": {
+        "private": 307646464,
+        "working_set": 209936384,
+        "dedicated": 80535552,
+        "shared": 55451648
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1047.02,
+      "phase": "stage25",
+      "frames": 181410,
+      "transitions": 338,
+      "memory_bytes": {
+        "private": 240640000,
+        "working_set": 171888640,
+        "dedicated": 83820544,
+        "shared": 63164416
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1056.135,
+      "phase": "stage20",
+      "frames": 182970,
+      "transitions": 342,
+      "memory_bytes": {
+        "private": 301363200,
+        "working_set": 207065088,
+        "dedicated": 80543744,
+        "shared": 55451648
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1065.545,
+      "phase": "stage25",
+      "frames": 184620,
+      "transitions": 344,
+      "memory_bytes": {
+        "private": 240619520,
+        "working_set": 171925504,
+        "dedicated": 83820544,
+        "shared": 63164416
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1074.637,
+      "phase": "stage20",
+      "frames": 186180,
+      "transitions": 348,
+      "memory_bytes": {
+        "private": 301174784,
+        "working_set": 204537856,
+        "dedicated": 80539648,
+        "shared": 55451648
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1084.032,
+      "phase": "stage25",
+      "frames": 187830,
+      "transitions": 350,
+      "memory_bytes": {
+        "private": 240140288,
+        "working_set": 171945984,
+        "dedicated": 83824640,
+        "shared": 63164416
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1093.12,
+      "phase": "stage20",
+      "frames": 189390,
+      "transitions": 354,
+      "memory_bytes": {
+        "private": 304246784,
+        "working_set": 210198528,
+        "dedicated": 80531456,
+        "shared": 55451648
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1102.518,
+      "phase": "stage25",
+      "frames": 191040,
+      "transitions": 356,
+      "memory_bytes": {
+        "private": 243200000,
+        "working_set": 171745280,
+        "dedicated": 83820544,
+        "shared": 63164416
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1111.622,
+      "phase": "stage20",
+      "frames": 192600,
+      "transitions": 360,
+      "memory_bytes": {
+        "private": 311296000,
+        "working_set": 210423808,
+        "dedicated": 80523264,
+        "shared": 55451648
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1121.015,
+      "phase": "stage25",
+      "frames": 194250,
+      "transitions": 362,
+      "memory_bytes": {
+        "private": 308420608,
+        "working_set": 235282432,
+        "dedicated": 83828736,
+        "shared": 63164416
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1130.12,
+      "phase": "stage20",
+      "frames": 195810,
+      "transitions": 366,
+      "memory_bytes": {
+        "private": 309600256,
+        "working_set": 210194432,
+        "dedicated": 80539648,
+        "shared": 55451648
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1139.512,
+      "phase": "stage25",
+      "frames": 197460,
+      "transitions": 368,
+      "memory_bytes": {
+        "private": 300666880,
+        "working_set": 228204544,
+        "dedicated": 83841024,
+        "shared": 63164416
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1148.602,
+      "phase": "stage20",
+      "frames": 199020,
+      "transitions": 372,
+      "memory_bytes": {
+        "private": 309452800,
+        "working_set": 211079168,
+        "dedicated": 80551936,
+        "shared": 55451648
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1157.992,
+      "phase": "stage25",
+      "frames": 200670,
+      "transitions": 374,
+      "memory_bytes": {
+        "private": 243458048,
+        "working_set": 172265472,
+        "dedicated": 83836928,
+        "shared": 63164416
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1167.077,
+      "phase": "stage20",
+      "frames": 202230,
+      "transitions": 378,
+      "memory_bytes": {
+        "private": 298684416,
+        "working_set": 204451840,
+        "dedicated": 80527360,
+        "shared": 55451648
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1176.489,
+      "phase": "stage25",
+      "frames": 203880,
+      "transitions": 380,
+      "memory_bytes": {
+        "private": 239849472,
+        "working_set": 172015616,
+        "dedicated": 83824640,
+        "shared": 63164416
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1185.369,
+      "phase": "stage20",
+      "frames": 205440,
+      "transitions": 384,
+      "memory_bytes": {
+        "private": 303128576,
+        "working_set": 203333632,
+        "dedicated": 80535552,
+        "shared": 55451648
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1194.761,
+      "phase": "stage25",
+      "frames": 207090,
+      "transitions": 386,
+      "memory_bytes": {
+        "private": 241946624,
+        "working_set": 171966464,
+        "dedicated": 83808256,
+        "shared": 63164416
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1203.88,
+      "phase": "stage20",
+      "frames": 208650,
+      "transitions": 390,
+      "memory_bytes": {
+        "private": 305848320,
+        "working_set": 210804736,
+        "dedicated": 80519168,
+        "shared": 55451648
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1213.276,
+      "phase": "stage25",
+      "frames": 210300,
+      "transitions": 392,
+      "memory_bytes": {
+        "private": 240840704,
+        "working_set": 172134400,
+        "dedicated": 83808256,
+        "shared": 63164416
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1222.366,
+      "phase": "stage20",
+      "frames": 211860,
+      "transitions": 396,
+      "memory_bytes": {
+        "private": 305549312,
+        "working_set": 205987840,
+        "dedicated": 80519168,
+        "shared": 55320576
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1231.775,
+      "phase": "stage25",
+      "frames": 213510,
+      "transitions": 398,
+      "memory_bytes": {
+        "private": 241856512,
+        "working_set": 172298240,
+        "dedicated": 83808256,
+        "shared": 63033344
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1240.89,
+      "phase": "stage20",
+      "frames": 215070,
+      "transitions": 402,
+      "memory_bytes": {
+        "private": 305201152,
+        "working_set": 205324288,
+        "dedicated": 80515072,
+        "shared": 55320576
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1250.294,
+      "phase": "stage25",
+      "frames": 216720,
+      "transitions": 404,
+      "memory_bytes": {
+        "private": 242708480,
+        "working_set": 172118016,
+        "dedicated": 83804160,
+        "shared": 63033344
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1259.427,
+      "phase": "stage20",
+      "frames": 218280,
+      "transitions": 408,
+      "memory_bytes": {
+        "private": 315305984,
+        "working_set": 210391040,
+        "dedicated": 80506880,
+        "shared": 55320576
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1268.849,
+      "phase": "stage25",
+      "frames": 219930,
+      "transitions": 410,
+      "memory_bytes": {
+        "private": 240304128,
+        "working_set": 172081152,
+        "dedicated": 83787776,
+        "shared": 63033344
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1277.937,
+      "phase": "stage20",
+      "frames": 221490,
+      "transitions": 414,
+      "memory_bytes": {
+        "private": 304263168,
+        "working_set": 209649664,
+        "dedicated": 80502784,
+        "shared": 55320576
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1287.339,
+      "phase": "stage25",
+      "frames": 223140,
+      "transitions": 416,
+      "memory_bytes": {
+        "private": 240029696,
+        "working_set": 172077056,
+        "dedicated": 83791872,
+        "shared": 63033344
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1296.457,
+      "phase": "stage20",
+      "frames": 224700,
+      "transitions": 420,
+      "memory_bytes": {
+        "private": 340983808,
+        "working_set": 244527104,
+        "dedicated": 80510976,
+        "shared": 55320576
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1305.849,
+      "phase": "stage25",
+      "frames": 226350,
+      "transitions": 422,
+      "memory_bytes": {
+        "private": 242073600,
+        "working_set": 172584960,
+        "dedicated": 83783680,
+        "shared": 63033344
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1314.947,
+      "phase": "stage20",
+      "frames": 227910,
+      "transitions": 426,
+      "memory_bytes": {
+        "private": 307359744,
+        "working_set": 213532672,
+        "dedicated": 80510976,
+        "shared": 55320576
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1324.347,
+      "phase": "stage25",
+      "frames": 229560,
+      "transitions": 428,
+      "memory_bytes": {
+        "private": 242827264,
+        "working_set": 172257280,
+        "dedicated": 83804160,
+        "shared": 63033344
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1333.437,
+      "phase": "stage20",
+      "frames": 231120,
+      "transitions": 432,
+      "memory_bytes": {
+        "private": 305319936,
+        "working_set": 210190336,
+        "dedicated": 80510976,
+        "shared": 55320576
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1342.833,
+      "phase": "stage25",
+      "frames": 232770,
+      "transitions": 434,
+      "memory_bytes": {
+        "private": 240476160,
+        "working_set": 172593152,
+        "dedicated": 83800064,
+        "shared": 63033344
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1351.928,
+      "phase": "stage20",
+      "frames": 234330,
+      "transitions": 438,
+      "memory_bytes": {
+        "private": 299831296,
+        "working_set": 203255808,
+        "dedicated": 80519168,
+        "shared": 55320576
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1361.32,
+      "phase": "stage25",
+      "frames": 235980,
+      "transitions": 440,
+      "memory_bytes": {
+        "private": 241217536,
+        "working_set": 172740608,
+        "dedicated": 83791872,
+        "shared": 63033344
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1370.431,
+      "phase": "stage20",
+      "frames": 237540,
+      "transitions": 444,
+      "memory_bytes": {
+        "private": 300400640,
+        "working_set": 207355904,
+        "dedicated": 80510976,
+        "shared": 55320576
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1379.826,
+      "phase": "stage25",
+      "frames": 239190,
+      "transitions": 446,
+      "memory_bytes": {
+        "private": 239321088,
+        "working_set": 172539904,
+        "dedicated": 83783680,
+        "shared": 63033344
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1388.918,
+      "phase": "stage20",
+      "frames": 240750,
+      "transitions": 450,
+      "memory_bytes": {
+        "private": 307511296,
+        "working_set": 207110144,
+        "dedicated": 80515072,
+        "shared": 55320576
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1398.314,
+      "phase": "stage25",
+      "frames": 242400,
+      "transitions": 452,
+      "memory_bytes": {
+        "private": 241065984,
+        "working_set": 172306432,
+        "dedicated": 83779584,
+        "shared": 62902272
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1407.307,
+      "phase": "stage20",
+      "frames": 243960,
+      "transitions": 456,
+      "memory_bytes": {
+        "private": 299241472,
+        "working_set": 204681216,
+        "dedicated": 80494592,
+        "shared": 55189504
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1416.703,
+      "phase": "stage25",
+      "frames": 245610,
+      "transitions": 458,
+      "memory_bytes": {
+        "private": 240721920,
+        "working_set": 172089344,
+        "dedicated": 83783680,
+        "shared": 62902272
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1425.804,
+      "phase": "stage20",
+      "frames": 247170,
+      "transitions": 462,
+      "memory_bytes": {
+        "private": 298704896,
+        "working_set": 203694080,
+        "dedicated": 80502784,
+        "shared": 55189504
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1435.201,
+      "phase": "stage25",
+      "frames": 248820,
+      "transitions": 464,
+      "memory_bytes": {
+        "private": 240844800,
+        "working_set": 172613632,
+        "dedicated": 83775488,
+        "shared": 62902272
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1444.295,
+      "phase": "stage20",
+      "frames": 250380,
+      "transitions": 468,
+      "memory_bytes": {
+        "private": 351379456,
+        "working_set": 256692224,
+        "dedicated": 80556032,
+        "shared": 55320576
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1453.687,
+      "phase": "stage25",
+      "frames": 252030,
+      "transitions": 470,
+      "memory_bytes": {
+        "private": 239558656,
+        "working_set": 172724224,
+        "dedicated": 83841024,
+        "shared": 63033344
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1462.778,
+      "phase": "stage20",
+      "frames": 253590,
+      "transitions": 474,
+      "memory_bytes": {
+        "private": 301174784,
+        "working_set": 208355328,
+        "dedicated": 80539648,
+        "shared": 55320576
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1472.171,
+      "phase": "stage25",
+      "frames": 255240,
+      "transitions": 476,
+      "memory_bytes": {
+        "private": 239276032,
+        "working_set": 172384256,
+        "dedicated": 83841024,
+        "shared": 63033344
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1481.268,
+      "phase": "stage20",
+      "frames": 256800,
+      "transitions": 480,
+      "memory_bytes": {
+        "private": 305164288,
+        "working_set": 205578240,
+        "dedicated": 80556032,
+        "shared": 55320576
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1490.667,
+      "phase": "stage25",
+      "frames": 258450,
+      "transitions": 482,
+      "memory_bytes": {
+        "private": 242749440,
+        "working_set": 172699648,
+        "dedicated": 83816448,
+        "shared": 63533056
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1499.772,
+      "phase": "stage20",
+      "frames": 260010,
+      "transitions": 486,
+      "memory_bytes": {
+        "private": 299421696,
+        "working_set": 204886016,
+        "dedicated": 80535552,
+        "shared": 55320576
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1509.167,
+      "phase": "stage25",
+      "frames": 261660,
+      "transitions": 488,
+      "memory_bytes": {
+        "private": 241410048,
+        "working_set": 172650496,
+        "dedicated": 83808256,
+        "shared": 63033344
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1518.259,
+      "phase": "stage20",
+      "frames": 263220,
+      "transitions": 492,
+      "memory_bytes": {
+        "private": 293150720,
+        "working_set": 205221888,
+        "dedicated": 80531456,
+        "shared": 55320576
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1527.656,
+      "phase": "stage25",
+      "frames": 264870,
+      "transitions": 494,
+      "memory_bytes": {
+        "private": 240279552,
+        "working_set": 172371968,
+        "dedicated": 83808256,
+        "shared": 63533056
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1536.75,
+      "phase": "stage20",
+      "frames": 266430,
+      "transitions": 498,
+      "memory_bytes": {
+        "private": 303284224,
+        "working_set": 204861440,
+        "dedicated": 80535552,
+        "shared": 55320576
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1546.143,
+      "phase": "stage25",
+      "frames": 268080,
+      "transitions": 500,
+      "memory_bytes": {
+        "private": 241569792,
+        "working_set": 172507136,
+        "dedicated": 83804160,
+        "shared": 63033344
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1555.23,
+      "phase": "stage20",
+      "frames": 269640,
+      "transitions": 504,
+      "memory_bytes": {
+        "private": 306638848,
+        "working_set": 210722816,
+        "dedicated": 80510976,
+        "shared": 55320576
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1564.629,
+      "phase": "stage25",
+      "frames": 271290,
+      "transitions": 506,
+      "memory_bytes": {
+        "private": 242405376,
+        "working_set": 172298240,
+        "dedicated": 83791872,
+        "shared": 63033344
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1573.714,
+      "phase": "stage20",
+      "frames": 272850,
+      "transitions": 510,
+      "memory_bytes": {
+        "private": 301977600,
+        "working_set": 208748544,
+        "dedicated": 80519168,
+        "shared": 55320576
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1583.112,
+      "phase": "stage25",
+      "frames": 274500,
+      "transitions": 512,
+      "memory_bytes": {
+        "private": 241356800,
+        "working_set": 172793856,
+        "dedicated": 83800064,
+        "shared": 63033344
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1592.205,
+      "phase": "stage20",
+      "frames": 276060,
+      "transitions": 516,
+      "memory_bytes": {
+        "private": 310132736,
+        "working_set": 207077376,
+        "dedicated": 80523264,
+        "shared": 55320576
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1601.609,
+      "phase": "stage25",
+      "frames": 277710,
+      "transitions": 518,
+      "memory_bytes": {
+        "private": 244330496,
+        "working_set": 172408832,
+        "dedicated": 83800064,
+        "shared": 63033344
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1610.706,
+      "phase": "stage20",
+      "frames": 279270,
+      "transitions": 522,
+      "memory_bytes": {
+        "private": 308547584,
+        "working_set": 211451904,
+        "dedicated": 80498688,
+        "shared": 55320576
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1620.103,
+      "phase": "stage25",
+      "frames": 280920,
+      "transitions": 524,
+      "memory_bytes": {
+        "private": 242671616,
+        "working_set": 172453888,
+        "dedicated": 83795968,
+        "shared": 63033344
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1629.205,
+      "phase": "stage20",
+      "frames": 282480,
+      "transitions": 528,
+      "memory_bytes": {
+        "private": 308592640,
+        "working_set": 207654912,
+        "dedicated": 80515072,
+        "shared": 55320576
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1638.613,
+      "phase": "stage25",
+      "frames": 284130,
+      "transitions": 530,
+      "memory_bytes": {
+        "private": 249274368,
+        "working_set": 178847744,
+        "dedicated": 83791872,
+        "shared": 63033344
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1647.714,
+      "phase": "stage20",
+      "frames": 285690,
+      "transitions": 534,
+      "memory_bytes": {
+        "private": 325976064,
+        "working_set": 227180544,
+        "dedicated": 80539648,
+        "shared": 55320576
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1657.122,
+      "phase": "stage25",
+      "frames": 287340,
+      "transitions": 536,
+      "memory_bytes": {
+        "private": 241176576,
+        "working_set": 172765184,
+        "dedicated": 83812352,
+        "shared": 63033344
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1666.222,
+      "phase": "stage20",
+      "frames": 288900,
+      "transitions": 540,
+      "memory_bytes": {
+        "private": 305496064,
+        "working_set": 208531456,
+        "dedicated": 80523264,
+        "shared": 55320576
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1675.619,
+      "phase": "stage25",
+      "frames": 290550,
+      "transitions": 542,
+      "memory_bytes": {
+        "private": 241176576,
+        "working_set": 172642304,
+        "dedicated": 83808256,
+        "shared": 63033344
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1684.717,
+      "phase": "stage20",
+      "frames": 292110,
+      "transitions": 546,
+      "memory_bytes": {
+        "private": 306806784,
+        "working_set": 211529728,
+        "dedicated": 80535552,
+        "shared": 55320576
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1694.118,
+      "phase": "stage25",
+      "frames": 293760,
+      "transitions": 548,
+      "memory_bytes": {
+        "private": 241635328,
+        "working_set": 172556288,
+        "dedicated": 83812352,
+        "shared": 63033344
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1703.217,
+      "phase": "stage20",
+      "frames": 295320,
+      "transitions": 552,
+      "memory_bytes": {
+        "private": 294051840,
+        "working_set": 205537280,
+        "dedicated": 80523264,
+        "shared": 55320576
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1712.621,
+      "phase": "stage25",
+      "frames": 296970,
+      "transitions": 554,
+      "memory_bytes": {
+        "private": 241741824,
+        "working_set": 172617728,
+        "dedicated": 83808256,
+        "shared": 63033344
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1721.724,
+      "phase": "stage20",
+      "frames": 298530,
+      "transitions": 558,
+      "memory_bytes": {
+        "private": 310349824,
+        "working_set": 207564800,
+        "dedicated": 80498688,
+        "shared": 55320576
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1731.122,
+      "phase": "stage25",
+      "frames": 300180,
+      "transitions": 560,
+      "memory_bytes": {
+        "private": 241631232,
+        "working_set": 172634112,
+        "dedicated": 83800064,
+        "shared": 63033344
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1740.224,
+      "phase": "stage20",
+      "frames": 301740,
+      "transitions": 564,
+      "memory_bytes": {
+        "private": 302809088,
+        "working_set": 208543744,
+        "dedicated": 80510976,
+        "shared": 55320576
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1749.626,
+      "phase": "stage25",
+      "frames": 303390,
+      "transitions": 566,
+      "memory_bytes": {
+        "private": 243167232,
+        "working_set": 161476608,
+        "dedicated": 83771392,
+        "shared": 63033344
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1758.719,
+      "phase": "stage20",
+      "frames": 304950,
+      "transitions": 570,
+      "memory_bytes": {
+        "private": 308174848,
+        "working_set": 199561216,
+        "dedicated": 80498688,
+        "shared": 55320576
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1768.117,
+      "phase": "stage25",
+      "frames": 306600,
+      "transitions": 572,
+      "memory_bytes": {
+        "private": 242200576,
+        "working_set": 164311040,
+        "dedicated": 83767296,
+        "shared": 63033344
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1777.216,
+      "phase": "stage20",
+      "frames": 308160,
+      "transitions": 576,
+      "memory_bytes": {
+        "private": 298471424,
+        "working_set": 194695168,
+        "dedicated": 80510976,
+        "shared": 55320576
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1786.613,
+      "phase": "stage25",
+      "frames": 309810,
+      "transitions": 578,
+      "memory_bytes": {
+        "private": 240726016,
+        "working_set": 161198080,
+        "dedicated": 83791872,
+        "shared": 63033344
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1795.702,
+      "phase": "stage20",
+      "frames": 311370,
+      "transitions": 582,
+      "memory_bytes": {
+        "private": 298754048,
+        "working_set": 197083136,
+        "dedicated": 80506880,
+        "shared": 55320576
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1805.097,
+      "phase": "stage25",
+      "frames": 313020,
+      "transitions": 584,
+      "memory_bytes": {
+        "private": 240447488,
+        "working_set": 161579008,
+        "dedicated": 83779584,
+        "shared": 63033344
+      },
+      "live": {
+        "texture": 251,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1814.192,
+      "phase": "stage20",
+      "frames": 314580,
+      "transitions": 588,
+      "memory_bytes": {
+        "private": 307949568,
+        "working_set": 193875968,
+        "dedicated": 80494592,
+        "shared": 55320576
+      },
+      "live": {
+        "texture": 249,
+        "font": 12,
+        "chunk": 52,
+        "music": 6
+      }
+    },
+    {
+      "seconds": 1814.196,
+      "phase": "released",
+      "frames": 314580,
+      "transitions": 588,
+      "memory_bytes": {
+        "private": 306106368,
+        "working_set": 193183744,
+        "dedicated": 80494592,
+        "shared": 55320576
+      },
+      "live": {
+        "texture": 0,
+        "font": 0,
+        "chunk": 0,
+        "music": 0
+      }
+    }
+  ],
+  "created": {
+    "texture": 11009,
+    "chunk": 52,
+    "music": 6,
+    "font": 12
+  },
+  "freed": {
+    "texture": 11009,
+    "chunk": 52,
+    "music": 6,
+    "font": 12
+  }
+}

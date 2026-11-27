@@ -8,11 +8,13 @@ Stage24 Queen과 Stage25 King Pulse의 실제 성공 틱에 월드 viewport가 �
 
 Stage25 실제 퍼펙트 패링 4틱 후 숨김 Direct3D11 표본의 애니메이션+VFX P95는 5.981ms, P99는 6.162ms다. 180FPS 예산은 5.56ms다. R7에서 Windows 실기 전체 프레임과 반복 Pulse를 측정하고 재현 시 최적화한다. [R4 측정 조건](TASK5R4_COMBAT_VFX.md)
 
-R7-C 필수 최적화 범위에 Stage25 Pulse를 포함한다.
+R7-C2 실제 창에서 Pulse 충돌 처리 P95는 6.740→4.572ms, 최대는 19.750→7.591ms였다. 고정 장면 A/B의 개선과 별개로 기존 숨김 창 VFX QA에서 P95 6.882ms가 관측됐다. 첫 프레임 137.4ms와 간헐적인 예산 초과를 추적한다. [C2 실측과 표본별 차이](TASK5R7C2.md)
 
 ## PERF-R7A2B-STAGE24-QUEENS — OPEN
 
 Stage24 두 Queen 교차 광선 틱 135의 비교에서 R7-A2 P95 5.218ms, R7-A2B P95 5.735ms를 기록했다. 5.56ms 예산 초과를 R7-C 필수 최적화와 실제 Windows 반복 측정에 포함한다. 같은 비교에서 Stage25 Pulse P95는 4.372→4.683ms였다. [비교 조건 및 결과](TASK5R7A2_COMBAT_VFX.md#direct3d11-기술-검증)
+
+R7-C2 실제 창에서 Queen 충돌 처리 P95는 6.436→3.979ms였다. Stage24 전체 전투의 대기 포함 프레임 간격 P95는 6.010ms, 최대는 13.523ms였다. 첫 프레임은 133.0ms였다. [C2 실측과 표본별 차이](TASK5R7C2.md)
 
 ## Task 5-D4B — Stage13 실전 사용자 GUI 검수 대기
 

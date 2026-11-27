@@ -1,5 +1,6 @@
 """CHECKMATE window bootstrap. Run with the project's virtual environment."""
 from time import perf_counter, sleep
+from functools import partial
 import os
 from frame_timing import FramePacer, FrameStats
 from render_motion import RenderMotion
@@ -84,11 +85,12 @@ def main(*, run=None):
     return run_session(game, StageProgression(game, run), default_art=run is None)
 
 
-def run_session(game, flow, *, game_renderer=None, default_art=False, app=None):
+def run_session(game, flow, *, game_renderer=None, default_art=False, app=None, poll_events=None):
     """Shared fixed-tick window loop; preview supplies no StageGame or progression."""
     # Import here so configuration and importing this module never open a window.
     # Use the implementation module: its live window handle is set by open_canvas.
     from pico2d import pico2d as canvas
+    poll = canvas.get_events if poll_events is None else partial(poll_events,canvas)
 
     player, combat, parry = game.player, game.combat, game.parry
     encounter, resolver = game.encounter, game.resolver
@@ -239,7 +241,7 @@ def run_session(game, flow, *, game_renderer=None, default_art=False, app=None):
             tick_before = combat.tick
             session_before = combat.combat_session_id
             offer_at_frame_start = flow.offer
-            events = canvas.get_events()
+            events = poll()
             # Pico2D 1.5.1 get_events() replaces the title with its FPS counter.
             canvas.SDL_SetWindowTitle(canvas.window, WINDOW_TITLE.encode('utf-8'))
             # Window-close must survive even when a display toggle discards
@@ -490,7 +492,7 @@ def run_session(game, flow, *, game_renderer=None, default_art=False, app=None):
                 if ending_elapsed >= 1.05:
                     destination_screen = 'ending'
                     break
-            sleep(pacer.remaining(perf_counter() - frame_start))
+            sleep(pacer.remaining(perf_counter() - frame_start,frame_start))
     finally:
         if measure_frames:
             stats.log()
@@ -516,4 +518,5 @@ def run_session(game, flow, *, game_renderer=None, default_art=False, app=None):
 
 if __name__ == '__main__':
     from release_game import launch
-    launch(_new_stage_game,run_session)
+    from sdl_input import poll_ready_events
+    launch(_new_stage_game,partial(run_session,poll_events=poll_ready_events))

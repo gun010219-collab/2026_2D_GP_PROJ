@@ -1,0 +1,8 @@
+{
+  "SDL_video_driver": "dummy",
+  "posted_per_run": 361,
+  "decoded_per_run": 281,
+  "filtered_repeat_or_unhandled": 80,
+  "ordered_fields_equal": true,
+  "pending_on_next_poll": 0
+}

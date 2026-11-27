@@ -1,0 +1,43 @@
+{
+  "f11_states": [
+    true,
+    false,
+    true,
+    false,
+    true,
+    false,
+    true,
+    false
+  ],
+  "resized": [
+    1060,
+    710
+  ],
+  "settings_click": true,
+  "restart": 5,
+  "next_stage": 6,
+  "alt_tab_owned_windows": true,
+  "paused_tick": 1,
+  "fresh_move": [
+    6,
+    1
+  ],
+  "quit": "exit",
+  "frames": 407,
+  "stage6_work_ms": {
+    "frames": 300,
+    "p50": 3.3692,
+    "p95": 4.5731,
+    "p99": 5.7196,
+    "max_ms": 17.6834,
+    "over_budget": 5
+  },
+  "stage6_paced_ms": {
+    "frames": 299,
+    "p50": 6.0187,
+    "p95": 6.3392,
+    "p99": 8.7456,
+    "max_ms": 18.8672,
+    "over_budget": 288
+  }
+}
