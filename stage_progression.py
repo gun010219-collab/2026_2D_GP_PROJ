@@ -4,7 +4,7 @@ from combat_balance import profile_for
 from game import GameState, StageGame
 from presentation_events import PresentationEvents
 from stage_manager import StageCatalog
-from upgrades import ChapterBuild, chapter_first_stage, upgrade_kind
+from upgrades import chapter_first_stage, upgrade_kind
 
 
 class StageProgression:
@@ -82,7 +82,6 @@ class StageProgression:
         expected_hp = stats.max_hp if initial_hp is None else initial_hp
         if type(expected_hp) is not int or not 1 <= expected_hp <= stats.max_hp:
             raise ValueError('Prepared initial HP is invalid')
-        # Preserve existing full-health factory call compatibility.
         candidate = (factory(number, stats=stats) if expected_hp == stats.max_hp
                      else factory(number, stats=stats, initial_hp=expected_hp))
         d = StageCatalog.load().get_stage(number)
@@ -151,11 +150,13 @@ class StageProgression:
         kind = upgrade_kind(kind)
         build = self.run.build.upgraded(kind)
         old_hp = self.game.player.health.current_hp
-        if (type(old_hp) is not int or not 1 <= old_hp <= self.run.stats.max_hp
-                or self.game.player.health.max_hp != self.run.stats.max_hp):
+        old_max = self.run.stats.max_hp
+        if (type(old_hp) is not int or not 1 <= old_hp <= old_max
+                or self.game.player.health.max_hp != old_max):
             raise ValueError('Current player HP does not match the owned build')
-        next_hp = old_hp + build.stats.max_hp - self.run.stats.max_hp
-        g, prepared = self._candidate(self.game.stage_number + 1, build.stats, factory, prepare, initial_hp=next_hp)
+        stats = build.stats
+        next_hp = old_hp + stats.max_hp - old_max
+        g, prepared = self._candidate(self.game.stage_number + 1, stats, factory, prepare, initial_hp=next_hp)
         receipt = self.run.select(offer, kind)
         if self.run.verify_receipt(receipt).after_build != build:
             raise RuntimeError('Committed receipt differs from prepared build')
@@ -186,12 +187,12 @@ class StageProgression:
         hp = g.player.health
         return g.chapter, g.end_tick, hp.current_hp, hp.max_hp, self.run.build.attack_level
 
-    def enter_next_chapter(self, factory, prepare=lambda stats: None):
+    def enter_next_chapter(self, factory, prepare=lambda stats: None, *, entry_build=None):
         """Prepare the supported next chapter before retiring its owner. No save/unlock."""
         self._require_boss_clear()
         if self.run.chapter == 5:
             raise ValueError('The final boss has no next chapter')
-        fresh_run = ChapterRun(self.run.chapter + 1, entry_attack_level=self.run.build.attack_level)
+        fresh_run = ChapterRun(self.run.chapter + 1, entry_build=self.run.build if entry_build is None else entry_build)
         g, prepared = self._candidate(fresh_run.current_stage, fresh_run.stats, factory, prepare)
         old_run = self.run
         self._install(g, fresh_run)
@@ -204,7 +205,7 @@ class StageProgression:
         if not self.game.resolver.stopped:
             raise ValueError('Restart requires a stopped terminal combat')
         if state is GameState.GAME_OVER and not self.game.player.alive:
-            stats, destination = ChapterBuild(attack_level=self.run.entry_attack_level).stats, chapter_first_stage(self.run.chapter)
+            stats, destination = self.run.entry_build.stats, chapter_first_stage(self.run.chapter)
         elif (state is GameState.BOSS_CLEAR and self.game.boss and self.game.player.alive
               and all(not e.alive for e in self.game.encounter.enemies)):
             stats, destination = self.run.boss_replay_stats(), self.game.stage_number

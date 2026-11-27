@@ -302,8 +302,9 @@ def run_session(game, flow, *, game_renderer=None, default_art=False, app=None, 
                 if destination is not None:
                     try:
                         if event.key == ord('n'):
+                            entry_build = None if app is None else app.store.data.entry_builds[game.chapter]
                             fresh_game, (fresh_controls, fresh_board) = flow.enter_next_chapter(
-                                _new_stage_game, prepare_chapter)
+                                _new_stage_game, prepare_chapter, entry_build=entry_build)
                         else:
                             fresh_game, fresh_controls = flow.restart(_new_stage_game, prepare_controls)
                             fresh_board = board_renderer

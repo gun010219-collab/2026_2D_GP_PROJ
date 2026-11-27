@@ -20,6 +20,7 @@ from render_motion import RenderMotion
 from stage_manager import StageCatalog
 from tests.balance_driver import STYLES
 from tests.test_hp_carryover import fight
+from tests.balance_driver import HistoricalGrowthProgression
 from tools.campaign_qa import trace_damage
 from tools.stage6_play import session
 
@@ -32,7 +33,8 @@ def roster(g):
 
 
 def campaign(style, audit=None):
-    g, flow = session()  # Real fresh Stage6, Receipt0; no synthetic prior-stage offers.
+    g, stage = session()  # Real fresh Stage6, Receipt0; no synthetic prior-stage offers.
+    flow = HistoricalGrowthProgression(g,stage.run)
     assert not flow.run.receipts and flow.run.current_stage == 6
     seen = set(); rows = []; upgrades = []; owner = flow.run
 

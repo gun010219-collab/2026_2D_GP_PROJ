@@ -84,7 +84,7 @@ class ChapterFiveSDLTests(unittest.TestCase):
                 if i==1:tap(s.SDLK_n)
                 if i==2:
                     assert f.game.stage_number==21 and f.game.chapter==5
-                    assert f.run.stats.max_hp==3 and f.game.player.health.current_hp==3 and f.run.stats.move_interval_ticks==18
+                    assert f.run.stats.max_hp==5 and f.game.player.health.current_hp==5 and f.run.stats.move_interval_ticks==15
                     assert [e.health.max_hp for e in f.game.encounter.enemies]==[22,20,20,16,16,16,13]
                     finish(f.game,'dead' if sys.argv[1]=='dead' else 'clear')
                 if i==3:
@@ -93,29 +93,29 @@ class ChapterFiveSDLTests(unittest.TestCase):
                     else:
                         e=s.SDL_Event();e.type=s.SDL_MOUSEBUTTONDOWN;e.button.button=1;e.button.x=730;e.button.y=500;s.SDL_PushEvent(e)
                 if i==4:
-                    if sys.argv[1]=='dead':assert f.game.stage_number==21 and f.game.playing and f.game.player.health.current_hp==3
+                    if sys.argv[1]=='dead':assert f.game.stage_number==21 and f.game.playing and f.game.player.health.current_hp==5
                     else:
-                        assert f.game.stage_number==22 and len(f.run.receipts)==1 and f.game.player.health.current_hp==4
+                        assert f.game.stage_number==22 and len(f.run.receipts)==1 and f.game.player.health.current_hp==6
                         finish(f.game,'dead' if sys.argv[1]=='22dead' else 'clear')
                 if i==5:
                     if sys.argv[1]=='22dead':tap(s.SDLK_r)
                     elif sys.argv[1] in ('clear','23dead','24dead','25dead'):
-                        if sys.argv[2]=='keyboard':tap(s.SDLK_2)
+                        if sys.argv[2]=='keyboard':tap(s.SDLK_1)
                         else:
-                            e=s.SDL_Event();e.type=s.SDL_MOUSEBUTTONDOWN;e.button.button=1;e.button.x=730;e.button.y=500;s.SDL_PushEvent(e)
+                            e=s.SDL_Event();e.type=s.SDL_MOUSEBUTTONDOWN;e.button.button=1;e.button.x=450;e.button.y=500;s.SDL_PushEvent(e)
                 if i==6:
-                    if sys.argv[1] in ('dead','22dead'):assert f.game.stage_number==21 and f.game.playing and f.run.receipts==() and f.game.player.health.current_hp==3
+                    if sys.argv[1] in ('dead','22dead'):assert f.game.stage_number==21 and f.game.playing and f.run.receipts==() and f.game.player.health.current_hp==5
                     else:
-                        assert f.game.stage_number==23 and len(f.run.receipts)==2 and f.game.player.health.current_hp==5
+                        assert f.game.stage_number==23 and len(f.run.receipts)==2 and f.game.player.health.current_hp==6
                         finish(f.game,'dead' if sys.argv[1]=='23dead' else 'clear')
                 if i==7:
                     if sys.argv[1]=='23dead':tap(s.SDLK_r)
                     elif sys.argv[1] in ('clear','24dead','25dead'):
-                        if sys.argv[2]=='keyboard':tap(s.SDLK_2)
+                        if sys.argv[2]=='keyboard':tap(s.SDLK_1)
                         else:
-                            e=s.SDL_Event();e.type=s.SDL_MOUSEBUTTONDOWN;e.button.button=1;e.button.x=730;e.button.y=500;s.SDL_PushEvent(e)
+                            e=s.SDL_Event();e.type=s.SDL_MOUSEBUTTONDOWN;e.button.button=1;e.button.x=450;e.button.y=500;s.SDL_PushEvent(e)
                 if i==8:
-                    if sys.argv[1] in ('dead','22dead','23dead'):assert f.game.stage_number==21 and f.game.playing and f.run.receipts==() and f.game.player.health.current_hp==3
+                    if sys.argv[1] in ('dead','22dead','23dead'):assert f.game.stage_number==21 and f.game.playing and f.run.receipts==() and f.game.player.health.current_hp==5
                     else:
                         assert f.game.stage_number==24 and len(f.run.receipts)==3 and f.game.player.health.current_hp==6
                         finish(f.game,'dead' if sys.argv[1]=='24dead' else 'clear')
@@ -126,7 +126,7 @@ class ChapterFiveSDLTests(unittest.TestCase):
                         else:
                             e=s.SDL_Event();e.type=s.SDL_MOUSEBUTTONDOWN;e.button.button=1;e.button.x=1010;e.button.y=500;s.SDL_PushEvent(e)
                 if i==10:
-                    if sys.argv[1] in ('dead','22dead','23dead','24dead'):assert f.game.stage_number==21 and f.game.playing and f.run.receipts==() and f.game.player.health.current_hp==3
+                    if sys.argv[1] in ('dead','22dead','23dead','24dead'):assert f.game.stage_number==21 and f.game.playing and f.run.receipts==() and f.game.player.health.current_hp==5
                     else:
                         assert f.game.stage_number==25 and len(f.run.receipts)==4 and f.game.player.health.current_hp==6
                         finish(f.game,'dead' if sys.argv[1]=='25dead' else 'clear')
@@ -135,7 +135,7 @@ class ChapterFiveSDLTests(unittest.TestCase):
                     if sys.argv[1] in ('clear','25dead'):tap(s.SDLK_n);tap(s.SDLK_r)
                 if i==12:
                     if sys.argv[1]=='clear':assert f.game.stage_number==25 and f.game.playing and len(f.run.receipts)==4
-                    else:assert f.game.stage_number==21 and f.game.playing and f.run.receipts==() and f.game.player.health.current_hp==3
+                    else:assert f.game.stage_number==21 and f.game.playing and f.run.receipts==() and f.game.player.health.current_hp==5
                     event=s.SDL_Event();event.type=s.SDL_QUIT;s.SDL_PushEvent(event)
                 return real_poll()
             def draw():

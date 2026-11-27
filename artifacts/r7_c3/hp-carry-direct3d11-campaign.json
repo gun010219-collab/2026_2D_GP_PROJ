@@ -1,0 +1,254 @@
+{
+  "driver": "direct3d11",
+  "render_resources": {
+    "loads": 185,
+    "frees": 185,
+    "peak": 116,
+    "opens": 1,
+    "closes": 1
+  },
+  "campaign": [
+    [
+      1,
+      "UPGRADE",
+      352,
+      3,
+      3
+    ],
+    [
+      2,
+      "UPGRADE",
+      313,
+      3,
+      3
+    ],
+    [
+      3,
+      "UPGRADE",
+      355,
+      3,
+      3
+    ],
+    [
+      4,
+      "UPGRADE",
+      324,
+      2,
+      3
+    ],
+    [
+      5,
+      "BOSS_CLEAR",
+      494,
+      2,
+      3
+    ],
+    [
+      6,
+      "UPGRADE",
+      389,
+      3,
+      3
+    ],
+    [
+      7,
+      "UPGRADE",
+      396,
+      3,
+      3
+    ],
+    [
+      8,
+      "UPGRADE",
+      504,
+      3,
+      3
+    ],
+    [
+      9,
+      "UPGRADE",
+      399,
+      3,
+      3
+    ],
+    [
+      10,
+      "BOSS_CLEAR",
+      421,
+      2,
+      3
+    ],
+    [
+      11,
+      "UPGRADE",
+      399,
+      3,
+      3
+    ],
+    [
+      12,
+      "UPGRADE",
+      410,
+      3,
+      3
+    ],
+    [
+      13,
+      "UPGRADE",
+      338,
+      3,
+      3
+    ],
+    [
+      14,
+      "UPGRADE",
+      432,
+      3,
+      3
+    ],
+    [
+      15,
+      "BOSS_CLEAR",
+      530,
+      3,
+      3
+    ],
+    [
+      16,
+      "UPGRADE",
+      507,
+      3,
+      3
+    ],
+    [
+      17,
+      "UPGRADE",
+      592,
+      3,
+      3
+    ],
+    [
+      18,
+      "UPGRADE",
+      531,
+      3,
+      3
+    ],
+    [
+      19,
+      "UPGRADE",
+      428,
+      1,
+      3
+    ],
+    [
+      20,
+      "BOSS_CLEAR",
+      645,
+      2,
+      4
+    ],
+    [
+      21,
+      "UPGRADE",
+      432,
+      3,
+      4
+    ],
+    [
+      22,
+      "UPGRADE",
+      423,
+      4,
+      5
+    ],
+    [
+      23,
+      "UPGRADE",
+      507,
+      5,
+      6
+    ],
+    [
+      24,
+      "UPGRADE",
+      533,
+      4,
+      6
+    ],
+    [
+      25,
+      "BOSS_CLEAR",
+      606,
+      4,
+      6
+    ]
+  ],
+  "frames": {
+    "main_menu": "72b6a5758ebdeb7565efc9af43e1894dcc1365d2527b47b92fb606db4263e9ab",
+    "chapter_select_initial": "dd15a1a7e9a1b80ec28c9a40f5fba16d69c139e7dc8ecc355741fb11d29416e1",
+    "chapter_locked": "3cc671733087e74283748bc554588699c310e92934e993a2bc4ae725b8ac2522",
+    "settings": "277097b771c44c435556bbb4762a38b4fb38da21dcdcab8ce87f4341341e5e18",
+    "game_over": "ac66bf525a6ee4274102ae6f0cbb5601e02c5f1bceff17878a71670145c46d47",
+    "boss_clear": "7fe49f50be80a3b4036a327e683d08de745812ba95c47c0006a89f458569da6e",
+    "ending": "7a45e44da717079b5b681f3ebb0b4d035c12e7450c4846fa70cdc1f42bdefacc",
+    "credits": "2d9d54035b326dc1b1f0f0597349ca73ad3a370b336a6b6c7b98c121972baef1",
+    "chapters_all_unlocked": "f7cfc8348e3c27538a929cb9a7b4c959e3bf585ea0af6097f259b5ceeee8201d"
+  },
+  "tracks": [
+    "menu",
+    "royal",
+    "menu",
+    "royal",
+    "boss_royal",
+    "forest",
+    "boss_forest",
+    "frozen",
+    "boss_frozen",
+    "caldera",
+    "boss_caldera",
+    "gothic",
+    "boss_gothic",
+    null,
+    "ending",
+    "boss_gothic",
+    null,
+    "ending",
+    "menu"
+  ],
+  "continue_stage": 21,
+  "entry_attack": [
+    0,
+    4,
+    8,
+    12,
+    15
+  ],
+  "entry_builds": [
+    {
+      "attack_level": 0,
+      "hp_level": 0,
+      "move_level": 0
+    },
+    {
+      "attack_level": 4,
+      "hp_level": 0,
+      "move_level": 0
+    },
+    {
+      "attack_level": 8,
+      "hp_level": 0,
+      "move_level": 0
+    },
+    {
+      "attack_level": 12,
+      "hp_level": 0,
+      "move_level": 0
+    },
+    {
+      "attack_level": 15,
+      "hp_level": 1,
+      "move_level": 0
+    }
+  ]
+}

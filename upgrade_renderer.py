@@ -80,7 +80,10 @@ class UpgradeRenderer:
             theme.text(delta,x,y+96,size=40,color=ROSE if enabled else DIM,width=206)
             note = ('Maximum level' if option.is_max else 'Ticks per move · lower is faster' if icon=='move'
                     else 'Maximum health' if icon=='hp' else 'Damage per attack')
-            theme.text(note,x,y+43,size=18,color=PALE if enabled else DIM,width=213)
+            theme.text(note,x,y+55 if enabled else y+43,size=18,color=PALE if enabled else DIM,width=213)
+            if enabled:
+                hp_note = '+1 current and max HP' if icon == 'hp' else 'Current HP carries over'
+                theme.text(hp_note,x,y+28,size=16,color=PALE,width=213)
         theme.text('1 / 2 / 3  ·  Select a card',720,219,size=21,color=PALE)
         if error:
             theme.text('Could not start stage. Try again.',720,153,size=21,color=ROSE)

@@ -103,7 +103,8 @@ class StageSixSDLTests(unittest.TestCase):
                     push(s.SDL_MOUSEBUTTONDOWN,x=1295,y=41)
                     push(s.SDL_MOUSEBUTTONUP,x=1295,y=41)
                 if f==30:push(s.SDL_QUIT)
-                if f in (17,19):tap(s.SDLK_3)
+                if f==17:tap(s.SDLK_1)
+                if f==19:tap(s.SDLK_3)
                 if f==20:tap(s.SDLK_3)  # MAX must not advance.
                 if f==21:
                     push(s.SDL_MOUSEBUTTONDOWN,x=730,y=500)
@@ -133,18 +134,18 @@ class StageSixSDLTests(unittest.TestCase):
                     assert len(flow.run.receipts)==0 and flow.offer is None
                     assert game.player.position==(5,1) and game.combat.tick==0
                     assert game.combat.active_attack is None and game.parry.last_attempt is None
-                    assert (game.player.health.current_hp,game.resolver.player_damage)==(3,2)
+                    assert (game.player.health.current_hp,game.resolver.player_damage)==(5,2)
                     assert themes[-1]==2
                     second_run[0]=flow.run
                 if f==12:
                     assert len(games)==7 and game.stage_number==6
                 if f==13:
-                    game.player.health.apply_damage(3,tick=game.combat.tick)
+                    game.player.health.apply_damage(game.player.health.current_hp,tick=game.combat.tick)
                     game.update_state()
                     assert game.state is GameState.GAME_OVER
                 if f==14:
                     assert game.stage_number==6 and game.chapter==2 and game.playing
-                    assert game.combat.tick==0 and game.player.health.current_hp==3
+                    assert game.combat.tick==0 and game.player.health.current_hp==5
                     assert second_run[0].retired and flow.run is not second_run[0]
                     assert len(flow.run.receipts)==0
                 if f==15:
@@ -153,7 +154,7 @@ class StageSixSDLTests(unittest.TestCase):
                 if f in (17,19,21):
                     assert game.stage_number=={17:7,19:8,21:9}[f]
                     assert len(flow.run.receipts)=={17:1,19:2,21:3}[f]
-                    assert game.resolver.player_damage=={17:2,19:2,21:2}[f]
+                    assert game.resolver.player_damage=={17:3,19:3,21:3}[f]
                     clear(game)
                     boundary_tick[0]=game.combat.tick
                 if f==20:

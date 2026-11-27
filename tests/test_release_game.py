@@ -16,7 +16,9 @@ from game_audio import AudioSettings
 from main import _new_stage_game
 from save_manager import SaveData,SaveStore,decode,encode
 from tests.test_hp_carryover import fight
+from tools.campaign_qa import release_campaign_rows
 from tools.chapter_art_play import advance_campaign,session
+from upgrades import ChapterBuild
 
 
 def reach_boss(flow):
@@ -49,7 +51,7 @@ class ReleaseSaveTests(unittest.TestCase):
         raw = self.path.read_bytes()
         record_clear(self.store,flow)
         self.assertEqual(raw,self.path.read_bytes())
-        self.assertEqual(self.store.data.entry_attack,(0,flow.run.build.attack_level))
+        self.assertEqual(self.store.data.entry_builds,(ChapterBuild(),flow.run.build))
         actual,_ = flow.enter_next_chapter(_new_stage_game)
         reopened = SaveStore(self.path)
         continued = start_chapter(reopened,reopened.data.continue_chapter,_new_stage_game)
@@ -58,11 +60,11 @@ class ReleaseSaveTests(unittest.TestCase):
         self.assertEqual(continued.game.player.health.current_hp,actual.player.health.current_hp)
         self.assertEqual(continued.run.receipts,())
         self.assertIsNot(continued.game.combat,actual.combat)
-        new = start_chapter(reopened,1,_new_stage_game)
-        self.assertEqual(new.run.entry_attack_level,0)
+        new = start_chapter(reopened,1,_new_stage_game,new_game=True)
+        self.assertEqual(new.run.entry_build,ChapterBuild())
         self.assertEqual(reopened.data.continue_chapter,1)
         self.assertEqual(reopened.data.unlocked,(1,2))
-        self.assertEqual(reopened.data.entry_attack,self.store.data.entry_attack)
+        self.assertEqual(reopened.data.entry_builds,(ChapterBuild(),None))
 
     def test_only_owned_all_enemy_boss_clear_progresses(self):
         flow = reach_boss(start_chapter(self.store,1,_new_stage_game))
@@ -93,14 +95,12 @@ class ReleaseSaveTests(unittest.TestCase):
             result = fight(flow)
             results.append(list(result))
             if stage%5==0:
-                old = tuple(self.store.data.entry_attack)
+                old = self.store.data.entry_builds
                 ending = record_clear(self.store,flow)
-                self.assertEqual(self.store.data.entry_attack[:len(old)],old)
+                self.assertEqual(self.store.data.entry_builds[:len(old)],old)
             if stage<25:
                 advance_campaign(flow,result)
-        baseline = json.loads((Path(__file__).resolve().parents[1]/
-                               'artifacts/combat_vfx_r4/manifest.json').read_text())['campaign']
-        self.assertEqual(results,baseline)
+        self.assertEqual(results,release_campaign_rows())
         fresh = SaveStore(self.path)
         self.assertEqual(fresh.data.final_clear,ending)
         self.assertEqual(fresh.data.cleared,(1,2,3,4,5))
@@ -117,7 +117,7 @@ class ReleaseSaveTests(unittest.TestCase):
 
     def test_invalid_version_and_ranges_are_rejected(self):
         payload = json.loads(encode(SaveData()))
-        for key,value in (('version',2),('version',True),('entry_attack',[1]),('bgm',101),
+        for key,value in (('version',3),('version',True),('entry_builds',[{'attack_level': 1, 'hp_level': 0, 'move_level': 0}]),('bgm',101),
                           ('fullscreen',0),('cleared',[1]),('continue_chapter',5)):
             with self.subTest(key=key,value=value),self.assertRaises(ValueError):
                 decode(json.dumps({**payload,key:value}))
@@ -155,7 +155,7 @@ class ReleaseSaveTests(unittest.TestCase):
         self.assertEqual(SaveStore(self.path).data.bgm,25)
 
     def test_newer_schema_is_read_only_and_unreadable_save_is_reported(self):
-        raw = b'{"version": 2}'
+        raw = b'{"version": 3}'
         self.path.write_bytes(raw)
         fresh = SaveStore(self.path)
         self.assertFalse(fresh.settings(AudioSettings(20),False))

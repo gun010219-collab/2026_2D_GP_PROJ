@@ -22,18 +22,18 @@ def entered_four():
 
 
 class ChapterFourEntryTests(unittest.TestCase):
-    def test_owned_clear_carries_attack_only_and_retires_after_prepare(self):
+    def test_owned_clear_carries_full_build_and_retires_after_prepare(self):
         f = completed_three()
         old_game, old_run = f.game, f.run
         def prepare(stats):
             self.assertFalse(old_run.retired)
             self.assertIs(f.game, old_game)
-            self.assertEqual(stats, DerivedStats(8, 3, 18))
+            self.assertEqual(stats, DerivedStats(8, 5, 15))
             return 'prepared'
         g, prepared = f.enter_next_chapter(main._new_stage_game, prepare)
         self.assertEqual(prepared, 'prepared')
         self.assertEqual((g.stage_number, g.chapter, g.boss), (16, 4, False))
-        self.assertEqual((f.run.entry_attack_level, f.run.build, f.run.receipts, f.offer), (7, ChapterBuild(7), (), None))
+        self.assertEqual((f.run.entry_attack_level, f.run.build, f.run.receipts, f.offer), (7, ChapterBuild(7,2,1), (), None))
         self.assertTrue(old_run.retired)
         self.assertNotEqual(f.run.run_id, old_run.run_id)
         for receipt in old_run.receipts:
@@ -157,7 +157,7 @@ class ChapterFourEntryTests(unittest.TestCase):
             g, _ = f.restart(main._new_stage_game)
             self.assertTrue(old.retired)
             self.assertEqual((g.stage_number, f.run.chapter, f.run.entry_attack_level), (16, 4, 7))
-            self.assertEqual((g.resolver.player_damage, g.player.health.current_hp, f.run.stats.move_interval_ticks), (8, 3, 18))
+            self.assertEqual((g.resolver.player_damage, g.player.health.current_hp, f.run.stats.move_interval_ticks), (8, 5, 15))
             self.assertEqual(f.run.receipts, ())
 
     def test_boss_replay_still_keeps_chapter_three_build_and_four_receipts(self):

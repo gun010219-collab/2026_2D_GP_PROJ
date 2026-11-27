@@ -11,7 +11,7 @@ from game import GameState
 from tests.test_upgrade_flow import clear
 from tests.test_stage_transition import finish,run_loop,key
 from tests.test_chapter_three_entry import state
-from tests.balance_driver import STYLES
+from tests.balance_driver import _guard_direction
 from input_controller import InputController
 from collections import deque
 
@@ -21,7 +21,7 @@ def owned(chapter=1,hp=2):
     return StageProgression(g,r)
 
 
-def fight(f,limit=3600):
+def fight(f,limit=3600,*,guard=False):
     # Same deterministic walking/attack/parry policy as independent balance_driver.
     g=f.game;movement=InputController(move_interval_ticks=f.run.stats.move_interval_ticks)
     for _ in range(limit):
@@ -35,6 +35,8 @@ def fight(f,limit=3600):
                 if cell in occupied:direction=first or name;break
                 if 0<=cell[0]<10 and 0<=cell[1]<10 and cell not in seen:
                     seen.add(cell);queue.append((cell,first or name))
+        if guard:
+            direction=_guard_direction(g,direction,tick,f.run.stats.move_interval_ticks)
         if direction:
             movement.key_down(direction,g.player,occupied=occupied,tick=tick);movement.key_up(direction)
         if any(g.player.position in e.target_cells and 0<=e.hit_tick-tick<=7 for e in g.encounter.ledger.pending):
@@ -79,13 +81,13 @@ class HPCarryoverTests(unittest.TestCase):
                 self.assertIsNot(old.player.health,f.game.player.health)
             self.assertEqual((f.game.stage_number,len(f.run.receipts)),(chapter*5,4));self.assertTrue(f.game.boss)
 
-    def test_new_chapters_restore_baseline_instead_of_carry(self):
+    def test_new_chapters_keep_the_full_build_and_heal(self):
         for chapter in (1,2,3):
             f=owned(chapter,hp=1)
             for kind in ('attack','hp','move','attack'):f.choose(clear(f),kind,main._new_stage_game)
             old=f.game;r=f.run;clear(f);g,_=f.enter_next_chapter(main._new_stage_game)
-            self.assertEqual((g.player.health.current_hp,g.player.health.max_hp,f.run.stats.move_interval_ticks,len(f.run.receipts)),(3,3,18,0))
-            self.assertEqual(f.run.entry_attack_level,r.build.attack_level);self.assertTrue(r.retired)
+            self.assertEqual((g.player.health.current_hp,g.player.health.max_hp,f.run.stats.move_interval_ticks,len(f.run.receipts)),(4,4,15,0))
+            self.assertEqual(f.run.entry_build,r.build);self.assertTrue(r.retired)
 
     def test_game_over_all_chapters_and_boss_replay_all_four(self):
         for chapter in range(1,5):

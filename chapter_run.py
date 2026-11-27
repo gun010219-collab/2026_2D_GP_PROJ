@@ -10,20 +10,27 @@ from upgrades import (ChapterBuild, UpgradeOffer, UpgradeReceipt,
 
 
 class ChapterRun:
-    def __init__(self, chapter=1, *, entry_attack_level=0):
+    def __init__(self, chapter=1, *, entry_build=None, entry_attack_level=0):
         first = chapter_first_stage(chapter)
+        if entry_build is None:
+            entry_build = ChapterBuild(attack_level=entry_attack_level)
+        elif not isinstance(entry_build, ChapterBuild) or entry_attack_level != 0:
+            raise ValueError('Expected one chapter entry build')
         self._chapter = chapter
         self._run_id = uuid4().hex
         self._current_stage = first
-        self._build = ChapterBuild(attack_level=entry_attack_level)
-        self._entry_attack_level = entry_attack_level
+        self._build = self._entry_build = entry_build
         self._active_offer = None
         self._receipts = {}
         self._retired = False
 
     @property
+    def entry_build(self):
+        return self._entry_build
+
+    @property
     def entry_attack_level(self):
-        return self._entry_attack_level
+        return self.entry_build.attack_level
 
     @property
     def chapter(self):
@@ -120,16 +127,16 @@ class ChapterRun:
         return self.stats
 
     def restart_after_game_over(self):
-        """New unupgraded run at this chapter's start (Stage 1 for Chapter 1)."""
+        """Restore the immutable build from the start of this chapter."""
         self._require_active()
-        fresh = ChapterRun(self.chapter, entry_attack_level=self.entry_attack_level)
+        fresh = ChapterRun(self.chapter, entry_build=self.entry_build)
         self.retire()
         return fresh
 
     def start_chapter(self, chapter):
         """Pure reset, not an unlock or a playable later-stage constructor."""
         self._require_active()
-        fresh = ChapterRun(chapter, entry_attack_level=self.build.attack_level)
+        fresh = ChapterRun(chapter, entry_build=self.build)
         self.retire()
         return fresh
 

@@ -22,18 +22,18 @@ def entered_five():
 
 
 class ChapterFiveEntryTests(unittest.TestCase):
-    def test_owned_clear_carries_attack_only_and_retires_after_prepare(self):
+    def test_owned_clear_carries_full_build_and_retires_after_prepare(self):
         f = completed_four()
         old_game, old_run = f.game, f.run
         def prepare(stats):
             self.assertFalse(old_run.retired)
             self.assertIs(f.game, old_game)
-            self.assertEqual(stats, DerivedStats(12, 3, 18))
+            self.assertEqual(stats, DerivedStats(12, 5, 15))
             return 'prepared'
         g, prepared = f.enter_next_chapter(main._new_stage_game, prepare)
         self.assertEqual(prepared, 'prepared')
         self.assertEqual((g.stage_number, g.chapter, g.boss), (21, 5, False))
-        self.assertEqual((f.run.entry_attack_level, f.run.build, f.run.receipts, f.offer), (11, ChapterBuild(11), (), None))
+        self.assertEqual((f.run.entry_attack_level, f.run.build, f.run.receipts, f.offer), (11, ChapterBuild(11,2,1), (), None))
         self.assertTrue(old_run.retired)
         self.assertNotEqual(f.run.run_id, old_run.run_id)
         for receipt in old_run.receipts:
@@ -157,7 +157,7 @@ class ChapterFiveEntryTests(unittest.TestCase):
             g, _ = f.restart(main._new_stage_game)
             self.assertTrue(old.retired)
             self.assertEqual((g.stage_number, f.run.chapter, f.run.entry_attack_level), (21, 5, 11))
-            self.assertEqual((g.resolver.player_damage, g.player.health.current_hp, f.run.stats.move_interval_ticks), (12, 3, 18))
+            self.assertEqual((g.resolver.player_damage, g.player.health.current_hp, f.run.stats.move_interval_ticks), (12, 5, 15))
             self.assertEqual(f.run.receipts, ())
 
     def test_boss_replay_still_keeps_chapter_four_build_and_four_receipts(self):
@@ -176,7 +176,7 @@ class ChapterFiveEntryTests(unittest.TestCase):
             with self.assertRaises(ValueError): f.enter_next_chapter(factory)
         factory.assert_not_called()
 
-    def test_mixed_chapter_four_upgrades_reset_only_hp_move_and_preserve_boss_replay(self):
+    def test_mixed_chapter_four_upgrades_inherit_hp_move_and_preserve_boss_replay(self):
         r=ChapterRun(4,entry_attack_level=7)
         f=StageProgression(main._new_stage_game(16,stats=r.stats),r)
         for kind in ('hp','move','hp','attack'):f.choose(clear(f),kind,main._new_stage_game)
@@ -185,5 +185,5 @@ class ChapterFiveEntryTests(unittest.TestCase):
         replay,_=f.restart(main._new_stage_game)
         self.assertIs(f.run,r);self.assertEqual((replay.stage_number,replay.player.health.current_hp,len(r.receipts)),(20,5,4))
         clear(f);g,_=f.enter_next_chapter(main._new_stage_game)
-        self.assertEqual((f.run.entry_attack_level,g.resolver.player_damage,g.player.health.current_hp,g.player.health.max_hp,f.run.stats.move_interval_ticks,len(f.run.receipts)),(8,9,3,3,18,0))
+        self.assertEqual((f.run.entry_attack_level,g.resolver.player_damage,g.player.health.current_hp,g.player.health.max_hp,f.run.stats.move_interval_ticks,len(f.run.receipts)),(8,9,5,5,15,0))
         self.assertTrue(r.retired)

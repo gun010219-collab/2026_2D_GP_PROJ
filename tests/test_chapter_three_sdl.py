@@ -85,8 +85,7 @@ class ChapterThreeSDLTests(unittest.TestCase):
                     tap(s.SDLK_r)
                     if g.stage_number in (16,17,18,19,20):phase[0]=12
                 elif phase[0]==19:
-                    if mode=='chapter4':tap(s.SDLK_2)
-                    else:click(450,500)
+                    click(450,500)
                 elif phase[0]==21:tap(s.SDLK_UP);phase[0]=22
                 elif phase[0]==23:tap(s.SDLK_r);phase[0]=24
                 elif phase[0]==17:
@@ -100,7 +99,7 @@ class ChapterThreeSDLTests(unittest.TestCase):
                     else:click(450,500)
                 elif phase[0]==7:
                     if mode=='boundary':tap(s.SDLK_2)
-                    else:click(730,500)  # HP +1 sustains the long no-attack transition fixture under carryover.
+                    else:click(730,500)
                 elif phase[0]==8:
                     tap(s.SDLK_n if mode in ('chapter4','stage16death','stage17death','stage18death','stage19death','stage20death') else s.SDLK_LCTRL)
                 elif phase[0]==9:tap(s.SDLK_r)
@@ -130,7 +129,7 @@ class ChapterThreeSDLTests(unittest.TestCase):
                 if f==1:
                     assert old_run.retired and flow.run.chapter==3 and flow.run.entry_attack_level==4
                     assert g.stage_number==11 and g.combat.tick==0 and g.player.position==(5,1)
-                    assert (g.resolver.player_damage,g.player.health.current_hp,flow.run.stats.move_interval_ticks)==(5,3,18)
+                    assert (g.resolver.player_damage,g.player.health.current_hp,flow.run.stats.move_interval_ticks)==(5,4,15)
                     assert len(flow.run.receipts)==0 and flow.offer is None
                     assert not g.encounter.ledger.pending and g.parry.last_attempt is None
                     assert g.combat.active_attack is None and themes[-1]==3
@@ -140,7 +139,7 @@ class ChapterThreeSDLTests(unittest.TestCase):
                 if f==4:
                     assert g.stage_number==12 and g.combat.tick==0 and len(flow.run.receipts)==1
                     assert [e.health.max_hp for e in g.encounter.enemies]==[13,13,16,9,9]
-                    assert g.player.health.current_hp==(4 if mode=='boundary' else 3)
+                    assert g.player.health.current_hp==(5 if mode=='boundary' else 4)
                     assert g.resolver.player_damage==(5 if mode=='boundary' else 6)
                     assert themes[-1]==3
                 if g.stage_number==12 and g.playing and g.combat.tick>=80:
@@ -187,7 +186,9 @@ class ChapterThreeSDLTests(unittest.TestCase):
                 elif g.stage_number==16 and g.playing:
                     assert themes[-1]==4 and flow.run.chapter==4
                     assert flow.run.stats.attack_damage==held[0][1].stats.attack_damage
-                    assert (g.player.health.max_hp,flow.run.stats.move_interval_ticks,len(flow.run.receipts))==(3,18,0)
+                    assert g.player.health.max_hp==held[0][1].stats.max_hp
+                    assert flow.run.stats.move_interval_ticks==held[0][1].stats.move_interval_ticks
+                    assert len(flow.run.receipts)==0
                     assert [e.health.max_hp for e in g.encounter.enemies]==[21,21,18,18,18,13]
                     assert held[0][0].retired
                     if phase[0]==12:
@@ -256,7 +257,7 @@ class ChapterThreeSDLTests(unittest.TestCase):
                     assert g.encounter.pulse.king.health.current_hp==75;done[0]=True
                 if (mode=='death' and len(games)==4) or (mode=='stage13death' and len(games)==5) or (mode=='stage14death' and len(games)==6) or (mode=='stage15death' and len(games)==7):
                     assert g.stage_number==11 and g.combat.tick==0 and themes[-1]==3
-                    assert (g.resolver.player_damage,g.player.health.current_hp,flow.run.stats.move_interval_ticks)==(5,3,18)
+                    assert (g.resolver.player_damage,g.player.health.current_hp,flow.run.stats.move_interval_ticks)==(5,4,15)
                     assert flow.run.receipts==() and flow.run.entry_attack_level==4
                     assert g.combat.stage_instance_id!=games[-2].combat.stage_instance_id
                     done[0]=True

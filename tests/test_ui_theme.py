@@ -5,15 +5,29 @@ import subprocess
 import sys
 from types import SimpleNamespace
 import unittest
+from unittest.mock import Mock
 
 from front_menu import FrontInput, buttons
 from save_manager import SaveData
 from settings_menu import Rect
 from ui_theme import fitted_rect
-from upgrade_renderer import CARD_RECTS, card_at
+from upgrade_renderer import CARD_RECTS, UpgradeRenderer, card_at
+from upgrades import ChapterBuild, UpgradeOffer
 
 
 class UIThemeTests(unittest.TestCase):
+    def test_reward_card_hp_notes_use_real_options_and_hide_maxed_effects(self):
+        theme = Mock()
+        theme.pointer.return_value = None
+        game = SimpleNamespace(chapter=1,stage_number=1)
+        for build, hp_notes, carry_notes in ((ChapterBuild(),1,2),(ChapterBuild(0,3,2),0,1)):
+            with self.subTest(build=build):
+                theme.reset_mock()
+                offer = UpgradeOffer('run','offer',1,1,'stage',build)
+                UpgradeRenderer._draw_themed(theme,game,offer,False)
+                text = [call.args[0] for call in theme.text.call_args_list]
+                self.assertEqual(text.count('+1 current and max HP'),hp_notes)
+                self.assertEqual(text.count('Current HP carries over'),carry_notes)
     def test_title_buttons_and_cards_share_the_drawn_rectangles(self):
         items = buttons('main',SaveData())
         self.assertEqual(tuple(item.label for item in items),

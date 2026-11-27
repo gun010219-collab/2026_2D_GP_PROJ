@@ -8,12 +8,12 @@ from tempfile import NamedTemporaryFile
 from uuid import uuid4
 
 from game_audio import AudioSettings
-from upgrades import UPGRADE_VALUES, UpgradeKind
+from upgrades import ChapterBuild, UPGRADE_VALUES, UpgradeKind
 
 MAX_ATTACK = len(UPGRADE_VALUES[UpgradeKind.ATTACK])-1
 HP_VALUES = UPGRADE_VALUES[UpgradeKind.HP]
 
-VERSION = 1
+VERSION = 2
 
 
 def save_path():
@@ -35,7 +35,7 @@ class SaveData:
     unlocked: tuple = (1,)
     cleared: tuple = ()
     continue_chapter: int | None = None
-    entry_attack: tuple = (0,)
+    entry_builds: tuple[ChapterBuild | None, ...] = (ChapterBuild(),)
     final_clear: FinalClear | None = None
     bgm: int = 45
     sfx: int = 75
@@ -45,6 +45,11 @@ class SaveData:
 
     def audio(self):
         return AudioSettings(self.bgm,self.sfx,self.bgm_mute,self.sfx_mute)
+
+    @property
+    def entry_attack(self):
+        """Keep the chapter menu's existing entry-attack display."""
+        return tuple(build.attack_level if build is not None else 0 for build in self.entry_builds)
 
 
 def within(value, low, high):
@@ -59,13 +64,28 @@ def decode(raw):
     obj = json.loads(raw)
     if not isinstance(obj,dict) or type(obj.get('version')) is not int:
         raise ValueError('Missing save version')
-    if obj.pop('version') != VERSION:
+    version = obj.pop('version')
+    if version not in (1, VERSION):
         raise UnsupportedSave('Unsupported save version')
     try:
-        for key in ('unlocked','cleared','entry_attack'):
+        for key in ('unlocked','cleared'):
             if not isinstance(obj[key],list) or any(type(v) is not int for v in obj[key]):
                 raise ValueError('Invalid chapter array')
             obj[key] = tuple(obj[key])
+        if version == 1:
+            attack = obj.pop('entry_attack')
+            if 'entry_builds' in obj or not isinstance(attack,list):
+                raise ValueError('Invalid legacy chapter checkpoints')
+            obj['entry_builds'] = tuple(ChapterBuild(attack_level=level) for level in attack)
+        else:
+            builds = obj['entry_builds']
+            if not isinstance(builds,list):
+                raise ValueError('Invalid chapter checkpoints')
+            fields = {'attack_level','hp_level','move_level'}
+            if any(build is not None and (not isinstance(build,dict) or set(build) != fields)
+                   for build in builds):
+                raise ValueError('Invalid chapter build fields')
+            obj['entry_builds'] = tuple(ChapterBuild(**build) if build is not None else None for build in builds)
         final = obj['final_clear']
         if final is not None:
             obj['final_clear'] = FinalClear(**final)
@@ -76,8 +96,10 @@ def decode(raw):
         raise ValueError('Invalid save fields') from exc
     if (not 0 <= len(data.cleared) <= 5 or data.cleared != tuple(range(1,len(data.cleared)+1))
             or data.unlocked != tuple(range(1,min(5,len(data.cleared)+1)+1))
-            or len(data.entry_attack) != len(data.unlocked)
-            or not all(within(level,0,min(i*4,MAX_ATTACK)) for i,level in enumerate(data.entry_attack))
+            or len(data.entry_builds) != len(data.unlocked)
+            or data.entry_builds[0] != ChapterBuild()
+            or any(build is not None and sum(build.level(kind) for kind in UpgradeKind) > i*4
+                   for i,build in enumerate(data.entry_builds))
             or (data.continue_chapter is not None and
                 not within(data.continue_chapter,1,len(data.unlocked)))
             or not within(data.bgm,0,100) or not within(data.sfx,0,100)
@@ -146,6 +168,7 @@ class SaveStore:
             if self._primary is not None:
                 self.data = decode(self._primary)
                 self._good = self._primary
+                self.pending = json.loads(self._primary)['version'] != VERSION
                 return
         except UnsupportedSave:
             self.blocked = True

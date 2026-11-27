@@ -23,7 +23,9 @@ def advance_campaign(flow, result):
         flow.enter_next_chapter(_new_stage_game)
     elif result[1] == 'UPGRADE':
         kind = choice('attack', game.stage_number, len(flow.run.receipts))
-        flow.choose(flow.sync_offer(), kind, _new_stage_game)
+        offer = flow.sync_offer()
+        enabled = [option.kind for option in offer.options if option.enabled]
+        flow.choose(offer, kind if kind in enabled else enabled[0], _new_stage_game)
     else:
         raise RuntimeError(f'Automated fight did not reach a transition: {result}')
 

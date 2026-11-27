@@ -16,10 +16,17 @@ from combat_resolution import CombatResolver, DamageResult
 from game import GameState
 from input_controller import InputController
 from player import DIRECTIONS
-from stage_progression import StageProgression
-from tests.balance_driver import measure, STYLES
+from tests.balance_driver import HistoricalGrowthProgression, historical_recovery, measure, STYLES
 from tests.test_hp_carryover import fight
 from tools.action_pacing_experiment import observe, summarize
+
+
+def release_campaign_rows():
+    """Expected live release rows with approved upgrade inheritance."""
+    baseline = json.loads((ROOT/'artifacts/combat_vfx_r4/manifest.json').read_text())['campaign']
+    growth = {21: (432,3,4), 22: (423,4,5), 23: (435,5,6), 24: (533,4,6), 25: (606,4,6)}
+    return [[stage,result,*growth.get(stage,(ticks,hp,max_hp))]
+            for stage,result,ticks,hp,max_hp in baseline]
 
 
 def choice(style, stage, index):
@@ -80,8 +87,8 @@ def campaign(style, *, chapter5_only=False):
                 stage=run.current_stage
                 run.select(run.offer_after_clear(stage, 'synthetic-entry-'+str(stage)),
                            choice(style, stage, i))
-            run=run.start_chapter(chapter+1)
-    flow=StageProgression(main._new_stage_game(run.current_stage, stats=run.stats),run)
+            run=ChapterRun(chapter+1,entry_attack_level=run.build.attack_level)
+    flow=HistoricalGrowthProgression(main._new_stage_game(run.current_stage, stats=run.stats),run)
     rows=[]; transitions=[]; choices=[]; seen=set()
     def fresh(g):
         ids=(g.combat.combat_session_id,g.combat.stage_instance_id)
@@ -153,6 +160,7 @@ def campaign(style, *, chapter5_only=False):
                 post_run_check=post)
 
 
+@historical_recovery()
 def run():
     baseline=json.loads((ROOT/'docs/BALANCE_STAGE25.json').read_text(encoding='utf-8'))
     independent=[];factory=main._new_stage_game

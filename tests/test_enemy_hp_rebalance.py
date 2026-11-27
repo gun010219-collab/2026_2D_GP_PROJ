@@ -12,7 +12,7 @@ from game import GameState
 from simulation_clock import SimulationClock
 from stage_manager import StageCatalog
 from stage_progression import StageProgression
-from tests.balance_driver import STYLES, measure
+from tests.balance_driver import HistoricalGrowthProgression, STYLES, historical_recovery, measure
 from tests.test_hp_carryover import fight, owned
 from tests.test_upgrade_flow import clear
 from tests.test_stage_transition import finish
@@ -35,8 +35,10 @@ def chapter_run(style, chapter):
     return run
 
 
-def real_campaign(style):
-    flow = StageProgression(main._new_stage_game(1))
+@historical_recovery()
+def real_campaign(style, *, historical=False):
+    progression = HistoricalGrowthProgression if historical else StageProgression
+    flow = progression(main._new_stage_game(1))
     rows = []
     while True:
         game = flow.game
@@ -45,14 +47,17 @@ def real_campaign(style):
         rows.append((row[0],start_hp,*row[1:]))
         if game.state is GameState.UPGRADE:
             kind = 'hp' if style == 'attack' and game.stage_number == 19 else STYLES[style][len(flow.run.receipts)]
-            hp = game.player.health.current_hp
             old = game.player.health
-            flow.choose(flow.sync_offer(), kind, main._new_stage_game)
-            assert flow.game.player.health.current_hp == hp + (kind == 'hp')
+            offer = flow.sync_offer()
+            enabled = [option.kind for option in offer.options if option.enabled]
+            kind = kind if kind in enabled else enabled[0]
+            flow.choose(offer, kind, main._new_stage_game)
+            expected_hp = row[3] + (kind == 'hp')
+            assert flow.game.player.health.current_hp == expected_hp
             assert flow.game.player.health is not old
         elif game.state is GameState.BOSS_CLEAR and game.stage_number < 20:
             flow.enter_next_chapter(main._new_stage_game)
-            assert flow.game.player.health.current_hp == 3
+            assert flow.game.player.health.current_hp == flow.run.entry_build.stats.max_hp
         else:
             return flow, rows
 
@@ -172,7 +177,7 @@ class EnemyHPRebalanceTests(unittest.TestCase):
             self.assertEqual(g.state,GameState.GAME_OVER if dead else GameState.BOSS_CLEAR)
             self.assertTrue(g.resolver.stopped)
 
-    def test_hurt_upgrade_carry_and_hp_plus_one_all_chapters(self):
+    def test_hurt_upgrade_carries_hp_in_all_chapters(self):
         for chapter in range(1,5):
             for kind in ('attack','move','hp'):
                 f = owned(chapter,hp=1); old = f.game.player.health
@@ -189,19 +194,19 @@ class EnemyHPRebalanceTests(unittest.TestCase):
             for index in range(5):
                 self.assertEqual(fight(f)[1],'BOSS_CLEAR' if index==4 else 'UPGRADE')
                 if index<4:
-                    hp = f.game.player.health.current_hp
                     kind = 'hp' if chapter==4 and index==3 else 'attack'
+                    hp = f.game.player.health.current_hp
                     f.choose(f.sync_offer(),kind,main._new_stage_game)
                     self.assertEqual(f.game.player.health.current_hp,hp+(kind=='hp'))
             self.assertEqual(len(f.run.receipts),4)
 
-    def test_full_campaigns_expose_carryover_risk_without_healing(self):
-        for style,stage,tick in (('attack',20,654),('survival',16,408),('evasion',18,123),('balanced',19,149)):
+    def test_four_builds_clear_the_original_twenty_stage_campaign_with_hp_carry(self):
+        for style,tick in (('attack',654),('survival',654),('evasion',637),('balanced',665)):
             f,rows = real_campaign(style)
-            self.assertEqual((f.game.stage_number,f.game.combat.tick),(stage,tick))
-            self.assertEqual(len(rows),stage)
-            self.assertEqual(f.game.state,GameState.BOSS_CLEAR if style=='attack' else GameState.GAME_OVER)
-            self.assertEqual(len(f.run.receipts),4 if style=='attack' else stage-16)
+            self.assertEqual((f.game.stage_number,f.game.combat.tick),(20,tick))
+            self.assertEqual(len(rows),20)
+            self.assertEqual(f.game.state,GameState.BOSS_CLEAR)
+            self.assertEqual(len(f.run.receipts),4)
 
     def test_replay_reset_new_chapter_policies_are_unchanged(self):
         # Outcome fixtures isolate transition contracts under the new enemy profile.

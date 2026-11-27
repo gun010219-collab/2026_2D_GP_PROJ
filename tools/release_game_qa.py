@@ -1,6 +1,7 @@
 """Run the shipping shell and an actual 25-stage run against an isolated save."""
 import argparse
 import ctypes
+from dataclasses import asdict
 import hashlib
 import json
 import os
@@ -22,6 +23,7 @@ from save_manager import SaveData,SaveStore
 from settings_menu import AUDIO_ROWS
 from settings_renderer import SettingsRenderer
 from tests.test_hp_carryover import fight
+from tools.campaign_qa import release_campaign_rows
 from tools.chapter_art_play import advance_campaign,session
 from tools.stage5_art_preview import capture_png,open_preview
 
@@ -237,15 +239,15 @@ def run(driver,output,isolated):
          patch.object(ReleaseGame,'front_loop',observe_front),patch.object(AudioManager,'set_music',music), \
          patch.object(FrontRenderer,'draw_screen',observe_draw),patch.object(SettingsRenderer,'draw',observe_settings):
         launch(main._new_stage_game,play,path=save)
-    baseline=json.loads((ROOT/'artifacts/combat_vfx_r4/manifest.json').read_text())['campaign']
-    assert records==baseline
+    assert records==release_campaign_rows()
     restored=SaveStore(save).data
     assert restored.unlocked==restored.cleared==(1,2,3,4,5)
     assert restored.continue_chapter==5 and restored.final_clear
     assert restored.bgm==50 and restored.sfx_mute
     from campaign_save import start_chapter
     continued=start_chapter(SaveStore(save),restored.continue_chapter,main._new_stage_game)
-    assert continued.game.stage_number==21 and continued.run.entry_attack_level==restored.entry_attack[-1]
+    assert continued.game.stage_number==21 and continued.run.entry_build==restored.entry_builds[-1]
+    assert continued.game.player.health.current_hp==continued.run.stats.max_hp
     assert tracks.count('ending')==2 and tracks[0]=='menu',tracks
     assert tuple(track for track in tracks if track is not None and track.startswith('boss'))==(
         *BOSS_TRACKS,BOSS_TRACKS[-1]),tracks
@@ -253,7 +255,8 @@ def run(driver,output,isolated):
     assert counts['opens']==counts['closes']==1 and counts['loads']==counts['frees']
     assert len(frames)==9,frames
     report=dict(driver=driver,render_resources=counts,campaign=records,frames=frames,tracks=tracks,
-                continue_stage=continued.game.stage_number,entry_attack=restored.entry_attack)
+                continue_stage=continued.game.stage_number,entry_attack=restored.entry_attack,
+                entry_builds=[asdict(build) for build in restored.entry_builds])
     if output:
         (output/'manifest.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf8')
     return report

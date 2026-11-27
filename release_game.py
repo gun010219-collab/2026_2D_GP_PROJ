@@ -134,7 +134,7 @@ class ReleaseGame:
                     retained = None
                 else:
                     chapter = 1 if action == 'new' else self.store.data.continue_chapter if action == 'continue' else action
-                    flow = start_chapter(self.store,chapter,self.factory)
+                    flow = start_chapter(self.store,chapter,self.factory,new_game=action == 'new')
                 self.menu.in_frontend = False
                 self.menu.can_return_to_title = True
                 destination = play(flow.game,flow,default_art=True,app=self)

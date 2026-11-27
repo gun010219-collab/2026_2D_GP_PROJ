@@ -16,7 +16,7 @@ if __package__ in (None, ''):
 
 import enemy_behaviors
 from combat_resolution import CombatResolver, DamageResult
-from tests.balance_driver import measure, STYLES
+from tests.balance_driver import historical_recovery, measure, STYLES
 from tests.test_enemy_hp_rebalance import real_campaign
 
 PROFILES = {'baseline': (2.20,1.20), 'A': (2.10,1.20),
@@ -26,7 +26,7 @@ PROFILES = {'baseline': (2.20,1.20), 'A': (2.10,1.20),
 @contextmanager
 def candidate(name):
     pawn, rook = PROFILES[name]
-    with patch.object(enemy_behaviors,'PAWN_MOVE_INTERVAL_SECONDS',pawn), \
+    with historical_recovery(), patch.object(enemy_behaviors,'PAWN_MOVE_INTERVAL_SECONDS',pawn), \
          patch.object(enemy_behaviors,'ROOK_MOVE_INTERVAL_SECONDS',rook):
         yield
 
@@ -87,7 +87,7 @@ def run(name):
                 row['observation']=summarize(next(iter(records.values())))
                 independent.append(row)
         for style in STYLES:
-            with observe() as records:flow,rows=real_campaign(style)
+            with observe() as records:flow,rows=real_campaign(style,historical=True)
             campaigns.append(dict(style=style,rows=rows,observation=[summarize(o) for o in records.values()],
                                   stage=flow.game.stage_number,result=flow.game.state.value,tick=flow.game.combat.tick))
     return dict(profile=name,seconds=PROFILES[name],independent=independent,campaigns=campaigns)
