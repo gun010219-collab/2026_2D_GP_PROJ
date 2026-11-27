@@ -61,6 +61,7 @@ class Effect:
     travel_pose: tuple | None = None
     landed: float | None = None
     source_kind: str | None = None
+    blade_tier: int = 1
 
 
 def cue_name(event, kind):
@@ -180,9 +181,15 @@ class CombatVFX:
             self.effects.remove(optional)
         free = MAX_PARTICLES - sum(fx.particles for fx in self.effects)
         amount = event.payload.hp_before - event.payload.hp_after if event.kind == 'hurt' else 0
+        tier = 1
+        if name in ('player_swing', 'player_hit') and event.cause_key[2] == game.player.entity_instance_id:
+            # Pulse reflection has a King attack key. The next ordinary counter
+            # has a player key, but its one-shot damage bonus is presentation-neutral.
+            damage = getattr(getattr(game, 'resolver', None), 'player_damage', 1)
+            tier = min(5, 1 + (damage - 1) // 3)
         seed = crc32(f'{stable_id}/{event.tick}/{name}'.encode()) % len(SAMPLES)
         self.effects.append(Effect(name, event.key, origin, cell, cells, start, duration,
-                                   amount, seed, min(free,wanted),source_kind=source_kind))
+                                   amount, seed, min(free,wanted),source_kind=source_kind, blade_tier=tier))
 
     def shake(self):
         for fx in reversed(self.effects):

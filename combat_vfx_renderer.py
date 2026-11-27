@@ -11,6 +11,7 @@ from arena_art_common import ArenaArtError, CAMERA
 from combat_vfx import MATERIALS, SAMPLES
 from config import MOTION_SECONDS
 import attack_vfx
+import blade_vfx
 import layered_attack_vfx
 from vfx_atlas import VFXAtlas
 
@@ -34,6 +35,7 @@ def ray_ends(origin, cells):
 
 # Three SDL_Vertex records with unused texture coordinates, in submission order.
 _TRIANGLE = Struct('=ff4B8xff4B8xff4B8x')
+_RIBBON_QUAD = Struct('=' + 'ff4s8x' * 6)
 
 
 class Mesh:
@@ -69,6 +71,19 @@ class Mesh:
         r, t = (b[0]+nx*end, b[1]+ny*end), (b[0]-nx*end, b[1]-ny*end)
         self.tri(p, q, r, color)
         self.tri(r, q, t, color)
+
+    def ribbon_quad(self, a, b, c, d, rgba_bytes):
+        """Append a blade strip segment as two triangles in the existing batch."""
+        if self.count + 6 > len(self.vertices):
+            self.flush()
+        ax,ay = a[0],899-a[1]
+        bx,by = b[0],899-b[1]
+        cx,cy = c[0],899-c[1]
+        dx,dy = d[0],899-d[1]
+        _RIBBON_QUAD.pack_into(self.vertices,self.count//3*_TRIANGLE.size,
+                               ax,ay,rgba_bytes,bx,by,rgba_bytes,cx,cy,rgba_bytes,
+                               cx,cy,rgba_bytes,bx,by,rgba_bytes,dx,dy,rgba_bytes)
+        self.count += 6
 
     def arc(self, x, y, radius, aspect, start, sweep, width, color, segments=18):
         last = (x + cos(start)*radius, y + sin(start)*radius*aspect)
@@ -289,7 +304,9 @@ class VFXRenderer:
                     mesh.arc(x,y,12+after_land*115,.45,0,tau,3,rgba(mat.edge,1-t))
             return
         elif name in ('player_swing','pawn_thrust','rook_strike','knight_strike','king_strike'):
-            if style and name in attack_vfx.ENEMY_STRIKES:
+            if name == 'player_swing' and fx.blade_tier > 1:
+                blade_vfx.swing(mesh, (ox,oy), (x,y), fx.blade_tier, t)
+            elif style and name in attack_vfx.ENEMY_STRIKES:
                 attack_vfx.strike(mesh,fx,age,t,style)
             else:
                 strike(mesh,fx,t,mat)
@@ -347,7 +364,9 @@ class VFXRenderer:
                     mesh.arc(x,y,15+75*t,.57,0,tau,4,rgba(mat.color,1-t))
                     glint(mesh,x,y+15,29*(1-t),rgba(mat.edge,1-t))
         if layer=='front':
-            if style and (name in attack_vfx.ENEMY_STRIKES or name in ('rook_impact','knight_land','boss_death')
+            if name == 'player_hit' and fx.blade_tier > 1:
+                blade_vfx.contact(mesh,fx,x,y,age,t)
+            elif style and (name in attack_vfx.ENEMY_STRIKES or name in ('rook_impact','knight_land','boss_death')
                           or (name=='player_hurt' and fx.source_kind=='pawn')):
                 attack_vfx.particles(mesh,fx,style,x,y,age,t)
             else:
