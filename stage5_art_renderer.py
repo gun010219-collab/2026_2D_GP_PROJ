@@ -9,6 +9,7 @@ from board import is_light_tile
 from config import BOARD_LEFT,BOARD_BOTTOM,TILE_SIZE
 from render_motion import display_center
 from health_renderer import HealthRenderer
+from ui_theme import current as current_ui
 from player_combat_guide import draw_aim, player_aim
 from display_settings import logical_mouse_to_canvas
 
@@ -63,11 +64,11 @@ def outline(c,points,color):
     for a,b in zip(points,points[1:]+points[:1]):c.draw_line(*a,*b,*color)
 
 
-def cue_kind(g):
+def cue_kind(g, *, show_result=True):
     t=g.combat.tick
     if not g.playing:return 'quiet'
     result=g.resolver.last_parry_result
-    if result and result.successful and 0<=t-result.tick<18:
+    if show_result and result and result.successful and 0<=t-result.tick<18:
         return 'perfect_success' if result.status=='perfect' else 'parry_success'
     if any(e.attack_kind=='king_pulse' for e in g.encounter.ledger.telegraphs):return 'pulse'
     if g.parry.active_at(t):return 'parry_window'
@@ -171,11 +172,7 @@ class Stage5ArtRenderer:
         return layout['foot'][0], layout['hp_y']
 
     def draw(self,g,positions):
-        if self.vfx is None:
-            self.draw_world(g,positions)
-        else:
-            with self.vfx.world(self.c):
-                self.draw_world(g,positions)
+        self.draw_world(g,positions)
         self.draw_feedback(g)
 
     def draw_warnings(self,g):
@@ -207,11 +204,15 @@ class Stage5ArtRenderer:
         if self.vfx is not None:
             self.vfx.draw('ground', c, g)
         self.cue=cue_kind(g)
+        # Keep the perimeter on its ordinary threat state during a perfect result.
+        rail_cue = self.cue
+        if self.cue=='perfect_success' and (self.vfx is not None or current_ui(c) is not None):
+            rail_cue = cue_kind(g,show_result=False)
         color={'quiet':(80,84,91),'ready':(69,116,136),'player_attack':(137,123,89),'danger':(130,62,74),
-               'parry_window':(95,149,166),'parry_success':(88,149,169),'perfect_success':(183,164,109),'pulse':(146,104,59)}[self.cue]
-        if self.cue!='quiet':
+               'parry_window':(95,149,166),'parry_success':(88,149,169),'perfect_success':(183,164,109),'pulse':(146,104,59)}[rail_cue]
+        if rail_cue!='quiet':
             for side in range(4):
-                intervals=((.46,.54),) if self.cue=='ready' else ((.14,.32),(.68,.86)) if self.cue in ('parry_window','parry_success','player_attack') else ((.025,.975),)
+                intervals=((.46,.54),) if rail_cue=='ready' else ((.14,.32),(.68,.86)) if rail_cue in ('parry_window','parry_success','player_attack') else ((.025,.975),)
                 for start,end in intervals:
                     def rail(t):return ((t*10,-.095),(10.095,t*10),((1-t)*10,10.095),(-.095,(1-t)*10))[side]
                     c.draw_line(*CAMERA.project(*rail(start)),*CAMERA.project(*rail(end)),*color)
@@ -260,7 +261,11 @@ class Stage5ArtRenderer:
             if g.playing and hit is not None and 0<=g.combat.tick-hit<6:outline(c,CAMERA.tile(*e.position),(225,199,255))
         if self.vfx is not None:
             self.vfx.draw('front', c, g, self.actor_layouts)
+        theme = current_ui(c)
         for e,x,y in labels:
+            if theme:
+                HealthRenderer.badge(theme,e.health,x,y)
+                continue
             text=f'{e.health.current_hp}/{e.health.max_hp}';width=len(text)*8
             c.draw_rectangle(x-width/2-3,y-3,x+width/2+3,y+13,12,19,25,filled=True)
             HealthRenderer._text(c,text,x-width/2,y,color=HealthRenderer.HEALTH)
@@ -282,7 +287,13 @@ class Stage5ArtRenderer:
                     for dx,dy in ((0,1),(1,0),(0,-1),(-1,0)):c.draw_line(x+dx*10,y+dy*10,x+dx*23,y+dy*23,255,226,116)
         HealthRenderer().draw(c,g.player,(),g.combat.tick,g.combat.pending_attack_bonus if g.playing else None,show_feedback=False)
         if self.telegraph is not None:
-            self.telegraph.draw_hint(c,self.parry_hint)
+            theme = current_ui(c)
+            if theme and g.playing and self.parry_hint is None and g.player.alive:
+                theme.text('PARRY',49,748,size=15,color=(184,170,183),align='left')
+                left = max(0,g.parry.next_parry_tick-g.combat.tick)
+                theme.text(f'Ready in {left} ticks' if left else 'Ready',49,725,size=19,align='left')
+            else:
+                self.telegraph.draw_hint(c,self.parry_hint)
 
 
 class Stage5ArtPath(SessionArtPath):

@@ -217,7 +217,7 @@ def run(driver,output,*,renewed=False,layered=False,telegraph=False,attack_motio
                         assert g.resolver.last_parry_result.status==grade
                         capture(g,'pulse_'+grade)
                         if delta==7:
-                            # Isolate the world shake and VFX draw from Pico2D HUD
+                            # Isolate local VFX drawing from Pico2D HUD
                             # primitives, which legitimately set their own draw color.
                             def state():
                                 viewport = s.SDL_Rect()
@@ -229,9 +229,7 @@ def run(driver,output,*,renewed=False,layered=False,telegraph=False,attack_motio
                                 return (viewport.x,viewport.y,viewport.w,viewport.h), blend.value, tuple(ch.value for ch in rgba)
                             effects = path.path.renderer.vfx
                             before = state()
-                            with effects.world(c):
-                                assert state()[0]!=before[0]
-                                effects.draw('front',c,g)
+                            effects.draw('front',c,g)
                             assert before==state()
                             assert any(f.name=='player_hit' and f.amount==2 for f in vfx.effects)
                             for i in range(12):

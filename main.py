@@ -117,7 +117,8 @@ def run_session(game, flow, *, game_renderer=None, default_art=False, app=None):
     try:
         if not canvas.window or not canvas.renderer:
             raise RuntimeError('Pico2D could not create a window and renderer')
-        canvas.hide_lattice()
+        # This loop clears SDL directly. Pico2D's hide_lattice() would clear
+        # and present a gray frame before the first actual combat frame.
         canvas.SDL_SetWindowTitle(canvas.window, WINDOW_TITLE.encode('utf-8'))
         board_renderer = BoardRenderer(chapter=game.chapter)
         if app is None:

@@ -10,6 +10,7 @@ import sdl2 as s
 from arena_art_common import CAMERA, ArenaArtError
 from enemy_attack import EnemyAttackEvent
 from health_renderer import HealthRenderer
+from ui_theme import PALE, current
 from parry_resolution import grade_for_delta
 
 
@@ -247,5 +248,10 @@ class TelegraphRenderer:
     def draw_hint(self, canvas, hint):
         if hint:
             text,color = HINTS[hint.status]
+            theme = current(canvas)
+            if theme:
+                theme.text('NEXT INPUT',49,748,size=15,color=PALE,align='left')
+                theme.text(text,49,725,size=19,color=color,align='left')
+                return
             HealthRenderer._text(canvas,'NEXT INPUT',44,744)
             HealthRenderer._text(canvas,text,44,724,color=color)

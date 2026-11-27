@@ -1,5 +1,9 @@
 # CHECKMATE — 알려진 결함
 
+## R7-C 퍼펙트 패링 화면 전체 깜빡임 — 사용자 실기 승인
+
+Stage24 Queen과 Stage25 King Pulse의 실제 성공 틱에 월드 viewport가 최대 2px 움직였다. R7-C1은 반동을 플레이어 접촉점으로 옮겼다. 실제 창과 전체화면에서 연속 패링 시 고정 배경 픽셀이 유지됐다. 전투 진입 시 Pico2D가 회색 화면을 한 번 표시하는 경로도 제거했다. 사용자 실기 8/8로 최종 승인했다. [프레임 비교와 검수 기록](TASK5R7C1.md)
+
 ## PERF-R4-STAGE25-PULSE — OPEN
 
 Stage25 실제 퍼펙트 패링 4틱 후 숨김 Direct3D11 표본의 애니메이션+VFX P95는 5.981ms, P99는 6.162ms다. 180FPS 예산은 5.56ms다. R7에서 Windows 실기 전체 프레임과 반복 Pulse를 측정하고 재현 시 최적화한다. [R4 측정 조건](TASK5R4_COMBAT_VFX.md)

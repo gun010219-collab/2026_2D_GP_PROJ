@@ -1,0 +1,31 @@
+{
+  "hud": {
+    "median_ms": 0.0395,
+    "p95_ms": 0.0918
+  },
+  "reward": {
+    "median_ms": 0.7573,
+    "p95_ms": 1.0199
+  },
+  "reward_max": {
+    "median_ms": 1.0812,
+    "p95_ms": 1.4456
+  },
+  "pulse": {
+    "median_ms": 0.104,
+    "p95_ms": 0.1658
+  },
+  "pulse_parry": {
+    "median_ms": 0.1126,
+    "p95_ms": 0.2182
+  },
+  "final_boss": {
+    "median_ms": 0.1328,
+    "p95_ms": 0.1831
+  },
+  "cached_resources": {
+    "sprites": 14,
+    "fonts": 16,
+    "text": 63
+  }
+}

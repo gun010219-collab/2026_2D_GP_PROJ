@@ -1,7 +1,6 @@
 """Combat geometry and optional atlas layers in the approved B+12 projection."""
 import ctypes
 import logging
-from contextlib import contextmanager
 from functools import lru_cache
 from math import atan2, cos, hypot, pi, sin, tau
 from struct import Struct
@@ -206,22 +205,6 @@ class VFXRenderer:
         self.manager.charges.clear()
         logging.getLogger(__name__).warning('Combat VFX unavailable for current session', exc_info=True)
 
-    @contextmanager
-    def world(self, canvas):
-        dx,dy = self.manager.shake()
-        previous = None
-        if (dx or dy) and not self.manager.failed:
-            rect = s.SDL_Rect()
-            s.SDL_RenderGetViewport(canvas.renderer, ctypes.byref(rect))
-            offset = s.SDL_Rect(rect.x+dx,rect.y-dy,rect.w,rect.h)
-            if s.SDL_RenderSetViewport(canvas.renderer,ctypes.byref(offset)) == 0:
-                previous = rect
-        try:
-            yield
-        finally:
-            if previous is not None:
-                s.SDL_RenderSetViewport(canvas.renderer,ctypes.byref(previous))
-
     def draw(self, layer, canvas, game, layouts=None):
         manager = self.manager
         if manager.failed or not (manager.effects or manager.charges):
@@ -335,6 +318,10 @@ class VFXRenderer:
             dx,dy = ox-x,oy-y
             length = max(1,hypot(dx,dy))
             x,y = x+dx/length*12,y+20+dy/length*9
+            if gold:
+                # Recoil belongs to the contact glint, never to the world viewport.
+                kick_x, kick_y = self.manager.shake()
+                x, y = x+kick_x, y+kick_y
             color = (255,221,126) if gold else (158,223,246)
             for i in range(3 if gold else 1):
                 r = 8+(54 if gold else 29)*max(0,t-i*.10)
