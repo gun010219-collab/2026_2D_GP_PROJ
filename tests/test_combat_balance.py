@@ -64,11 +64,11 @@ class CombatBalanceTests(unittest.TestCase):
                              [profile_for(d.chapter).hp(e.kind) for e in d.enemies])
             self.assertTrue(all(e.health.current_hp==e.health.max_hp for e in g.encounter.enemies))
 
-    def test_inheritance_is_attack_only_and_old_receipts_cannot_cross(self):
+    def test_full_build_inherits_and_old_receipts_cannot_cross(self):
         f=flow_at_boss(('attack','attack','hp','move'));old=f.run;receipt=old.receipts[0]
         finish(f.game,'clear');g,_=f.enter_next_chapter(main._new_stage_game)
-        self.assertEqual((f.run.entry_attack_level,f.run.build,f.run.receipts),(2,ChapterBuild(2),()))
-        self.assertEqual((g.resolver.player_damage,g.player.health.current_hp),(3,3))
+        self.assertEqual((f.run.entry_build,f.run.build,f.run.receipts),(ChapterBuild(2,1,1),ChapterBuild(2,1,1),()))
+        self.assertEqual((g.resolver.player_damage,g.player.health.current_hp),(3,4))
         with self.assertRaises(ValueError):f.run.verify_receipt(receipt)
         self.assertTrue(old.retired)
 
@@ -92,8 +92,8 @@ class CombatBalanceTests(unittest.TestCase):
                 o=r.offer_after_clear(r.current_stage,str(r.current_stage))
                 r.select(o,'attack' if r.stats.attack_damage<16 else 'hp' if r.build.hp_level<3 else 'move')
             if chapter<5:
-                attack=r.build.attack_level;r=r.start_chapter(chapter+1)
-                self.assertEqual((r.entry_attack_level,r.build,r.receipts),(attack,ChapterBuild(attack),()))
+                build=r.build;r=r.start_chapter(chapter+1)
+                self.assertEqual((r.entry_build,r.build,r.receipts),(build,build,()))
         self.assertEqual(r.stats.attack_damage,16)
         for n in range(26,27):
             with self.assertRaises(ValueError):main._new_stage_game(n)

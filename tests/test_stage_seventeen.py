@@ -163,7 +163,7 @@ class StageSeventeenTests(unittest.TestCase):
         f=at17();old=f.game;r=f.run;old.advance(120);events=old.encounter.ledger.pending
         attempt=old.parry.request(old.combat.tick);old.resolver.register_parry(attempt)
         finish(old,'dead');new,_=f.restart(main._new_stage_game)
-        self.assertEqual((new.stage_number,new.resolver.player_damage,new.player.health.current_hp,f.run.stats.move_interval_ticks,len(f.run.receipts)),(16,r.entry_attack_level+1,3,18,0))
+        self.assertEqual((new.stage_number,new.resolver.player_damage,new.player.health.current_hp,f.run.stats.move_interval_ticks,len(f.run.receipts)),(16,r.entry_attack_level+1,r.entry_build.stats.max_hp,r.entry_build.stats.move_interval_ticks,0))
         self.assertTrue(r.retired);self.assertIsNone(new.parry.last_attempt)
         self.assertNotEqual(new.combat.combat_session_id,old.combat.combat_session_id)
         with self.assertRaises(ValueError):new.resolver.register_parry(attempt)

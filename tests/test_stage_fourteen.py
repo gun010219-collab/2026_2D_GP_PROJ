@@ -118,7 +118,7 @@ class StageFourteenTests(unittest.TestCase):
         f=at14();old=f.game;r=f.run;old.advance(80);events=old.encounter.ledger.pending
         attempt=old.parry.request(old.combat.tick);old.resolver.register_parry(attempt)
         finish(old,'dead');g,_=f.restart(main._new_stage_game)
-        self.assertEqual((g.stage_number,g.resolver.player_damage,g.player.health.current_hp,f.run.stats.move_interval_ticks,len(f.run.receipts)),(11,5,3,18,0))
+        self.assertEqual((g.stage_number,g.resolver.player_damage,g.player.health.current_hp,f.run.stats.move_interval_ticks,len(f.run.receipts)),(11,5,4,15,0))
         self.assertTrue(r.retired);self.assertIsNone(g.parry.last_attempt)
         for event in events:
             with self.assertRaises(ValueError):g.resolver.resolve_enemy_attack(event)

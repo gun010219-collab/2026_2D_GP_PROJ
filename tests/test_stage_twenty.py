@@ -143,7 +143,11 @@ class StageTwentyTests(unittest.TestCase):
         event=g.encounter.pulse.event;finish(g,'dead');before=state(f)
         with self.assertRaises(RuntimeError):f.restart(main._new_stage_game,Mock(side_effect=RuntimeError()))
         self.assertEqual(state(f),before);new,_=f.restart(main._new_stage_game)
-        self.assertTrue(r.retired);self.assertEqual((new.stage_number,new.resolver.player_damage,new.player.health.current_hp,f.run.stats.move_interval_ticks,len(f.run.receipts)),(16,r.entry_attack_level+1,3,18,0))
+        self.assertTrue(r.retired)
+        entry = r.entry_build.stats
+        self.assertEqual((new.stage_number,new.resolver.player_damage,new.player.health.current_hp,
+                          f.run.stats.move_interval_ticks,len(f.run.receipts)),
+                         (16,entry.attack_damage,entry.max_hp,entry.move_interval_ticks,0))
         with self.assertRaises(ValueError):new.resolver.resolve_enemy_attack(event)
 
     def test_annihilation_and_death_priority_and_tick_determinism(self):

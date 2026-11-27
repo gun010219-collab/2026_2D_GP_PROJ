@@ -250,7 +250,7 @@ class Stage10LiveArtTests(unittest.TestCase):
             self.assertIsNot(replay.encounter.pulse, old.encounter.pulse); self.assertTrue(path.draw(replay, {}))
             self.assertEqual(fight(flow), (10, 'BOSS_CLEAR', 749, 4, 5))
             g, _ = flow.enter_next_chapter(main._new_stage_game, lambda stats: None)
-            self.assertEqual((g.stage_number, flow.run.chapter, len(flow.run.receipts), g.player.health.current_hp), (11, 3, 0, 3))
+            self.assertEqual((g.stage_number, flow.run.chapter, len(flow.run.receipts), g.player.health.current_hp), (11, 3, 0, 5))
             self.assertEqual(flow.run.stats.move_interval_ticks, 18); self.assertTrue(run.retired)
             self.assertFalse(path.draw(g, {})); path.close()
             self.assertEqual((c.load_image.call_count, c.SDL_DestroyTexture.call_count), (18, 18))

@@ -49,7 +49,7 @@ class StageElevenTwelveTests(unittest.TestCase):
                 self.assertNotEqual(left.entity_instance_id,right.entity_instance_id)
                 self.assertIsNot(left.health,right.health)
 
-    def test_first_offer_single_consumption_stats_and_full_heal(self):
+    def test_first_offer_single_consumption_stats_and_hp_carry(self):
         for kind in ('attack','hp','move'):
             f = entered_three()
             f.game.player.health.apply_damage(1,tick=0)
@@ -61,7 +61,7 @@ class StageElevenTwelveTests(unittest.TestCase):
             self.assertIs(f.run,run)
             self.assertEqual((g.stage_number,len(run.receipts)),(12,1))
             self.assertEqual(g.resolver.player_damage,run.stats.attack_damage)
-            self.assertEqual(g.player.health.current_hp,2+int(kind=='hp'))
+            self.assertEqual(g.player.health.current_hp,3+int(kind=='hp'))
             with self.assertRaises(ValueError):f.choose(o,kind,Mock())
 
     def test_first_choice_factory_input_and_corrupt_candidate_are_atomic(self):
