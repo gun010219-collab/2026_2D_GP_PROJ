@@ -1,0 +1,329 @@
+{
+  "renderer": "direct3d11",
+  "stages": {
+    "24": {
+      "before": {
+        "active": {
+          "fps": 178.78,
+          "interval_ms": {
+            "frames": 487,
+            "p50": 5.5129,
+            "p95": 6.0106,
+            "p99": 6.9586,
+            "max_ms": 16.0218,
+            "over_budget": 99
+          },
+          "work_ms": {
+            "frames": 487,
+            "p50": 2.1705,
+            "p95": 3.6771,
+            "p99": 6.9539,
+            "max_ms": 16.0211,
+            "over_budget": 7
+          }
+        },
+        "impact": {
+          "fps": 176.03,
+          "interval_ms": {
+            "frames": 146,
+            "p50": 5.5115,
+            "p95": 6.0756,
+            "p99": 10.9711,
+            "max_ms": 16.0218,
+            "over_budget": 32
+          },
+          "work_ms": {
+            "frames": 146,
+            "p50": 2.5306,
+            "p95": 4.6585,
+            "p99": 10.9605,
+            "max_ms": 16.0211,
+            "over_budget": 5
+          }
+        },
+        "cold_ms": 118.3343,
+        "memory_bytes": {
+          "before": {
+            "private": 93556736,
+            "working_set": 94298112,
+            "dedicated": 25567232,
+            "shared": 1056768
+          },
+          "active": {
+            "private": 266690560,
+            "working_set": 178544640,
+            "dedicated": 104693760,
+            "shared": 2879488
+          },
+          "impact": {
+            "private": 298016768,
+            "working_set": 209608704,
+            "dedicated": 105086976,
+            "shared": 95506432
+          },
+          "released": {
+            "private": 298213376,
+            "working_set": 209911808,
+            "dedicated": 105078784,
+            "shared": 77299712
+          }
+        },
+        "outcome": [
+          4,
+          [
+            4,
+            22,
+            20,
+            20,
+            16,
+            16,
+            16,
+            13
+          ]
+        ]
+      },
+      "after": {
+        "active": {
+          "fps": 180.01,
+          "interval_ms": {
+            "frames": 487,
+            "p50": 5.5133,
+            "p95": 6.0045,
+            "p99": 6.025,
+            "max_ms": 8.4653,
+            "over_budget": 90
+          },
+          "work_ms": {
+            "frames": 487,
+            "p50": 2.063,
+            "p95": 2.9738,
+            "p99": 3.6418,
+            "max_ms": 8.4825,
+            "over_budget": 1
+          }
+        },
+        "impact": {
+          "fps": 179.97,
+          "interval_ms": {
+            "frames": 149,
+            "p50": 5.513,
+            "p95": 6.0085,
+            "p99": 6.0382,
+            "max_ms": 6.0917,
+            "over_budget": 27
+          },
+          "work_ms": {
+            "frames": 149,
+            "p50": 2.4319,
+            "p95": 3.5645,
+            "p99": 4.4618,
+            "max_ms": 4.929,
+            "over_budget": 0
+          }
+        },
+        "cold_ms": 139.8536,
+        "memory_bytes": {
+          "before": {
+            "private": 298213376,
+            "working_set": 209956864,
+            "dedicated": 105078784,
+            "shared": 77299712
+          },
+          "active": {
+            "private": 438915072,
+            "working_set": 286547968,
+            "dedicated": 118034432,
+            "shared": 49754112
+          },
+          "impact": {
+            "private": 439164928,
+            "working_set": 287113216,
+            "dedicated": 118247424,
+            "shared": 45035520
+          },
+          "released": {
+            "private": 439164928,
+            "working_set": 287154176,
+            "dedicated": 118243328,
+            "shared": 41496576
+          }
+        },
+        "outcome": [
+          4,
+          [
+            4,
+            22,
+            20,
+            20,
+            16,
+            16,
+            16,
+            13
+          ]
+        ]
+      }
+    },
+    "25": {
+      "before": {
+        "active": {
+          "fps": 179.63,
+          "interval_ms": {
+            "frames": 1249,
+            "p50": 5.5131,
+            "p95": 6.0043,
+            "p99": 6.0548,
+            "max_ms": 14.2386,
+            "over_budget": 214
+          },
+          "work_ms": {
+            "frames": 1249,
+            "p50": 2.077,
+            "p95": 2.983,
+            "p99": 4.3411,
+            "max_ms": 14.2355,
+            "over_budget": 7
+          }
+        },
+        "impact": {
+          "fps": 177.71,
+          "interval_ms": {
+            "frames": 117,
+            "p50": 5.5135,
+            "p95": 6.0191,
+            "p99": 7.1842,
+            "max_ms": 14.2386,
+            "over_budget": 22
+          },
+          "work_ms": {
+            "frames": 117,
+            "p50": 2.6709,
+            "p95": 4.63,
+            "p99": 7.1836,
+            "max_ms": 14.2355,
+            "over_budget": 4
+          }
+        },
+        "cold_ms": 119.6946,
+        "memory_bytes": {
+          "before": {
+            "private": 438968320,
+            "working_set": 287154176,
+            "dedicated": 118243328,
+            "shared": 41496576
+          },
+          "active": {
+            "private": 441225216,
+            "working_set": 287604736,
+            "dedicated": 109391872,
+            "shared": 71434240
+          },
+          "impact": {
+            "private": 393170944,
+            "working_set": 296968192,
+            "dedicated": 111112192,
+            "shared": 169275392
+          },
+          "released": {
+            "private": 390918144,
+            "working_set": 294404096,
+            "dedicated": 112340992,
+            "shared": 151683072
+          }
+        },
+        "outcome": [
+          2,
+          [
+            90,
+            22,
+            20,
+            20,
+            16,
+            16,
+            16,
+            13
+          ]
+        ]
+      },
+      "after": {
+        "active": {
+          "fps": 180.01,
+          "interval_ms": {
+            "frames": 1249,
+            "p50": 5.5141,
+            "p95": 6.0042,
+            "p99": 6.0252,
+            "max_ms": 8.6159,
+            "over_budget": 213
+          },
+          "work_ms": {
+            "frames": 1249,
+            "p50": 2.0593,
+            "p95": 2.8925,
+            "p99": 3.5815,
+            "max_ms": 8.6154,
+            "over_budget": 3
+          }
+        },
+        "impact": {
+          "fps": 179.98,
+          "interval_ms": {
+            "frames": 119,
+            "p50": 5.5164,
+            "p95": 6.0073,
+            "p99": 6.0153,
+            "max_ms": 7.0111,
+            "over_budget": 25
+          },
+          "work_ms": {
+            "frames": 119,
+            "p50": 2.6448,
+            "p95": 3.9846,
+            "p99": 5.2616,
+            "max_ms": 7.0114,
+            "over_budget": 1
+          }
+        },
+        "cold_ms": 159.8626,
+        "memory_bytes": {
+          "before": {
+            "private": 390356992,
+            "working_set": 293908480,
+            "dedicated": 112340992,
+            "shared": 151683072
+          },
+          "active": {
+            "private": 541048832,
+            "working_set": 378187776,
+            "dedicated": 122798080,
+            "shared": 96169984
+          },
+          "impact": {
+            "private": 374157312,
+            "working_set": 262217728,
+            "dedicated": 124084224,
+            "shared": 86536192
+          },
+          "released": {
+            "private": 328093696,
+            "working_set": 215973888,
+            "dedicated": 125304832,
+            "shared": 76869632
+          }
+        },
+        "outcome": [
+          2,
+          [
+            90,
+            22,
+            20,
+            20,
+            16,
+            16,
+            16,
+            13
+          ]
+        ]
+      }
+    }
+  }
+}

@@ -54,6 +54,7 @@ class DeathSprite:
     entity_instance_id: str
     kind: str
     position: tuple[int, int]
+    max_hp: int = 3
 
 
 @dataclass(frozen=True)
@@ -154,7 +155,8 @@ class ActorAnimation:
             if state is State.DEATH:
                 if actor.alive:
                     continue
-                self._deaths[event.subject] = DeathSprite(event.subject, kind, actor.position)
+                max_hp = actor.health.max_hp if actor is game.player else 3
+                self._deaths[event.subject] = DeathSprite(event.subject, kind, actor.position, max_hp)
                 duration = .98 if kind == 'king' else duration
             elif state is State.ATTACK and kind == 'king':
                 duration = .38 if event.payload.attack_kind == 'king_pulse' else .28

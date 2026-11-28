@@ -86,6 +86,7 @@ class Stage5ArtRenderer:
     vfx = telegraph = parry_hint = None
     player_combat_visual = False
     sprite_atlases = None
+    player_armor = None
 
     def layout(self,kind,u,v):
         return actor_layout(kind,u,v)
@@ -126,9 +127,12 @@ class Stage5ArtRenderer:
         self.images.clear()
 
     def image(self,key,x,y,w,h):
+        self.draw_texture(self.images[key].texture, x, y, w, h)
+
+    def draw_texture(self, texture, x, y, w, h):
         import sdl2 as s
         rect=s.SDL_FRect(x-w/2,899-y-h/2,w,h)
-        if s.SDL_RenderCopyF(self.c.renderer,self.images[key].texture,None,ctypes.byref(rect)):
+        if s.SDL_RenderCopyF(self.c.renderer,texture,None,ctypes.byref(rect)):
             raise Stage5ArtError('SDL texture copy: '+s.SDL_GetError().decode())
 
     def mark(self,cell,color):
@@ -140,13 +144,23 @@ class Stage5ArtRenderer:
         self.image('frame',720,450,1440,900)
 
     def draw_actor(self, g, actor, kind, layout, *, dead=False):
-        if self.animation is not None and (not self.animation_failed or self.sprite_atlases is not None):
+        texture = self.images[kind].texture
+        atlases = self.sprite_atlases
+        armor = None
+        if kind == 'player' and self.player_armor is not None:
+            max_hp = actor.max_hp if dead else actor.health.max_hp
+            armor = self.player_armor.select(max_hp)
+            if armor is not None:
+                texture = armor.image.texture
+                atlases = armor.sprites
+                layout['armor_hp'] = max_hp
+        if self.animation is not None and (not self.animation_failed or atlases is not None):
             pose, effect = self.animation.mesh_pose(g,actor,self.animation_motion)
             style = self.animation_style(kind)
-            if self.sprite_atlases is not None and not dead:
+            if atlases is not None and not dead:
                 from sprite_atlas import SPRITE_COMPLETE
 
-                label = self.sprite_atlases.draw(g, actor, style, layout, self.animation, pose)
+                label = atlases.draw(g, actor, style, layout, self.animation, pose)
                 if label is SPRITE_COMPLETE:
                     from actor_mesh import deformation
 
@@ -160,7 +174,7 @@ class Stage5ArtRenderer:
             from actor_mesh import draw_actor
 
             try:
-                x, top = draw_actor(self.c,self.images[kind].texture,style,g.chapter,layout,pose,effect=effect)
+                x, top = draw_actor(self.c,texture,style,g.chapter,layout,pose,effect=effect)
                 layout['animation'] = pose.state.value
                 return x, layout['hp_y'] + top - layout['top']
             except (OSError, ArenaArtError):
@@ -168,7 +182,11 @@ class Stage5ArtRenderer:
                 self.animation_failed = True
         if not dead:
             x, y = layout['center']
-            self.image(kind, x, y, layout['height'], layout['height'])
+            size = layout['height']
+            if armor is None:
+                self.image(kind, x, y, size, size)
+            else:
+                self.draw_texture(texture, x, y, size, size)
         return layout['foot'][0], layout['hp_y']
 
     def draw(self,g,positions):

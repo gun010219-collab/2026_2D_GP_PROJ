@@ -57,7 +57,8 @@ def run(driver, output=None):
         measured.append(perf_counter()-start)
         renderer = art.path.renderer
         assert renderer.animation_failed != expect_animation
-        assert len(live) == len(renderer.images)
+        armor_mesh = art.player_armor.appearance is not None
+        assert len(live) == len(renderer.images) + armor_mesh
         assert before == pickle.dumps((g,motion))
         assert renderer.warning_cells == ([cell for event in g.encounter.ledger.telegraphs
                                            for cell in event.target_cells] if g.playing else [])

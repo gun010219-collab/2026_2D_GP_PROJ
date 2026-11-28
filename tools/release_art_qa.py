@@ -90,7 +90,8 @@ def run(driver='software', output=None):
             active = art.path.renderer
             kinds = {e.kind for e in game.encounter.enemies}
             assert active.files == CHAPTER_PROFILES[game.chapter].files_for(kinds), game.stage_number
-            assert len(live) == len(active.files)
+            armor_mesh = art.player_armor.appearance is not None
+            assert len(live) == len(active.files) + armor_mesh
             expected = [cell for attack in game.encounter.ledger.telegraphs for cell in attack.target_cells] if game.playing else []
             assert active.warning_cells == expected
             if game.chapter >= 4:

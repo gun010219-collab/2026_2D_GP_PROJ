@@ -4,6 +4,7 @@ import logging
 from arena_art_common import CAMERA, sprite_layout
 from arena_art_profile import ChapterArtProfile, PieceArt, ProfileArtPath
 from late_chapter_art import FacadeArtRenderer, LATE_PROFILES
+from player_armor import PlayerArmor
 from stage5_art_renderer import FILES as ROYAL_FILES, Stage5ArtPath, actor_layout as stage5_layout
 from stage6_art_renderer import Stage6ArtPath
 from stage7_art_renderer import Stage7ArtPath
@@ -83,6 +84,7 @@ class LiveArenaArtPath:
         original_paths = (Stage5ArtPath(canvas), Stage6ArtPath(canvas),
                           *(path(canvas, motion=motion) for path in legacy))
         self.stage_paths = {**self.paths, **{path.stage: path for path in original_paths}}
+        self.player_armor = PlayerArmor(canvas, combat_sprites=animation is not None and sprite_catalog is not None)
         self.vfx = vfx
         self.effects_renderer = None
         if vfx is not None:
@@ -98,6 +100,7 @@ class LiveArenaArtPath:
             path.animation = animation
             path.animation_motion = motion
             path.sprite_catalog = sprite_catalog
+            path.player_armor = self.player_armor
         self.stage = self.path = None
 
     def draw(self, game, positions):
@@ -106,7 +109,10 @@ class LiveArenaArtPath:
                 self.path.close()
             self.stage = game.stage_number
             self.path = self.stage_paths.get(self.stage)
-        return self.path is not None and self.path.draw(game, positions)
+        if self.path is not None and self.path.draw(game, positions):
+            return True
+        self.player_armor.close()
+        return False
 
     def close(self):
         if self.effects_renderer is not None:
@@ -114,4 +120,5 @@ class LiveArenaArtPath:
             self.vfx.close()
         if self.path is not None:
             self.path.close()
+        self.player_armor.close()
         self.stage = self.path = None

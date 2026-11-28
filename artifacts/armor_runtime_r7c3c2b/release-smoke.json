@@ -1,0 +1,70 @@
+{
+  "3": {
+    "stage": 6,
+    "states": [
+      "attack",
+      "idle",
+      "move"
+    ],
+    "tick": 24,
+    "start_cell": [
+      5,
+      1
+    ],
+    "end_cell": [
+      6,
+      1
+    ]
+  },
+  "4": {
+    "stage": 6,
+    "states": [
+      "attack",
+      "idle",
+      "move"
+    ],
+    "tick": 24,
+    "start_cell": [
+      5,
+      1
+    ],
+    "end_cell": [
+      6,
+      1
+    ]
+  },
+  "5": {
+    "stage": 6,
+    "states": [
+      "attack",
+      "idle",
+      "move"
+    ],
+    "tick": 24,
+    "start_cell": [
+      5,
+      1
+    ],
+    "end_cell": [
+      6,
+      1
+    ]
+  },
+  "6": {
+    "stage": 6,
+    "states": [
+      "attack",
+      "idle",
+      "move"
+    ],
+    "tick": 24,
+    "start_cell": [
+      5,
+      1
+    ],
+    "end_cell": [
+      6,
+      1
+    ]
+  }
+}

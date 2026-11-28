@@ -45,6 +45,7 @@ class SessionArtPath:
         self.default_enabled = False
         self.animation = self.animation_motion = None
         self.sprite_catalog = None
+        self.player_armor = None
         self.enlarged = False
 
     def close(self):
@@ -81,6 +82,7 @@ class SessionArtPath:
         try:
             if self.renderer is None:
                 self.renderer = self.load_renderer(g)
+                self.renderer.player_armor = self.player_armor
                 if self.enlarged:
                     self.renderer.enlarged = True
                 if getattr(self, 'vfx', None) is not None:

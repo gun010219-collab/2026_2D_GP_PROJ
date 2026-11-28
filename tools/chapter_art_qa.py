@@ -115,7 +115,8 @@ def run(driver, output=None):
                 events = game.encounter.ledger.telegraphs
                 if applied and game.stage_number in art.paths:
                     renderer = art.path.renderer
-                    assert len(textures) == len(set(ids.values())) + 5
+                    armor_mesh = art.player_armor.appearance is not None
+                    assert len(textures) == len(set(ids.values())) + 5 + armor_mesh
                     assert renderer.warning_cells == [cell for event in events for cell in event.target_cells]
                     actors = [e for e in (game.player, *game.encounter.enemies)
                               if e.alive and getattr(e, 'active', True)]
@@ -281,7 +282,7 @@ def run(driver, output=None):
                 assert fail.call_count == 9
             assert counts['loads'] - failed_loads == 8
             art.close()
-            assert not textures and counts['loads'] == counts['releases'] and counts['peak'] == 9
+            assert not textures and counts['loads'] == counts['releases'] and counts['peak'] == 10, counts
             report = dict(renderer=driver, resources=counts, routes=trips,
                           stage14=dict(cells=mixed_summary, outcomes=mixed_outcomes),
                           captures=captures, forced_decode_fallback=True)
