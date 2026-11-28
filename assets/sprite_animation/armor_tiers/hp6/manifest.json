@@ -1,0 +1,815 @@
+{
+  "version": 1,
+  "purpose": "production",
+  "atlases": {
+    "actors": {
+      "file": "atlas.png",
+      "size": [
+        1746,
+        1694
+      ]
+    }
+  },
+  "clips": [
+    {
+      "design": "player",
+      "action": "attack",
+      "facing": "right",
+      "reference_height": 256,
+      "impact": 0,
+      "frames": [
+        {
+          "rect": [
+            2,
+            2,
+            232,
+            195
+          ],
+          "visible_top": 2,
+          "foot": [
+            101,
+            191
+          ],
+          "ms": 66,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            293,
+            2,
+            267,
+            193
+          ],
+          "visible_top": 2,
+          "foot": [
+            101,
+            189
+          ],
+          "ms": 67,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            584,
+            2,
+            180,
+            195
+          ],
+          "visible_top": 2,
+          "foot": [
+            92,
+            191
+          ],
+          "ms": 83,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            875,
+            2,
+            181,
+            225
+          ],
+          "visible_top": 2,
+          "foot": [
+            83,
+            221
+          ],
+          "ms": 84,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "atlas": "actors"
+    },
+    {
+      "design": "player",
+      "action": "attack",
+      "facing": "left",
+      "reference_height": 256,
+      "impact": 0,
+      "frames": [
+        {
+          "rect": [
+            1166,
+            2,
+            251,
+            184
+          ],
+          "visible_top": 2,
+          "foot": [
+            153,
+            180
+          ],
+          "ms": 66,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            1457,
+            2,
+            287,
+            195
+          ],
+          "visible_top": 2,
+          "foot": [
+            191,
+            191
+          ],
+          "ms": 67,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            2,
+            244,
+            202,
+            199
+          ],
+          "visible_top": 2,
+          "foot": [
+            115,
+            195
+          ],
+          "ms": 83,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            293,
+            244,
+            191,
+            201
+          ],
+          "visible_top": 2,
+          "foot": [
+            106,
+            197
+          ],
+          "ms": 84,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "atlas": "actors"
+    },
+    {
+      "design": "player",
+      "action": "attack",
+      "facing": "up",
+      "reference_height": 256,
+      "impact": 0,
+      "frames": [
+        {
+          "rect": [
+            584,
+            244,
+            230,
+            227
+          ],
+          "visible_top": 2,
+          "foot": [
+            121,
+            223
+          ],
+          "ms": 66,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            875,
+            244,
+            264,
+            198
+          ],
+          "visible_top": 2,
+          "foot": [
+            124,
+            194
+          ],
+          "ms": 67,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            1166,
+            244,
+            186,
+            196
+          ],
+          "visible_top": 2,
+          "foot": [
+            107,
+            192
+          ],
+          "ms": 83,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            1457,
+            244,
+            158,
+            198
+          ],
+          "visible_top": 2,
+          "foot": [
+            86,
+            194
+          ],
+          "ms": 84,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "atlas": "actors"
+    },
+    {
+      "design": "player",
+      "action": "attack",
+      "facing": "down",
+      "reference_height": 256,
+      "impact": 0,
+      "frames": [
+        {
+          "rect": [
+            2,
+            486,
+            188,
+            197
+          ],
+          "visible_top": 2,
+          "foot": [
+            99,
+            193
+          ],
+          "ms": 66,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            293,
+            486,
+            245,
+            192
+          ],
+          "visible_top": 2,
+          "foot": [
+            118,
+            188
+          ],
+          "ms": 67,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            584,
+            486,
+            193,
+            201
+          ],
+          "visible_top": 2,
+          "foot": [
+            120,
+            197
+          ],
+          "ms": 83,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            875,
+            486,
+            192,
+            221
+          ],
+          "visible_top": 2,
+          "foot": [
+            117,
+            217
+          ],
+          "ms": 84,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "atlas": "actors"
+    },
+    {
+      "design": "player",
+      "action": "parry_ready",
+      "facing": "neutral",
+      "reference_height": 256,
+      "impact": 0,
+      "frames": [
+        {
+          "rect": [
+            1166,
+            486,
+            198,
+            201
+          ],
+          "visible_top": 2,
+          "foot": [
+            117,
+            198
+          ],
+          "ms": 33,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            1457,
+            486,
+            186,
+            203
+          ],
+          "visible_top": 2,
+          "foot": [
+            119,
+            200
+          ],
+          "ms": 33,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            2,
+            728,
+            185,
+            203
+          ],
+          "visible_top": 2,
+          "foot": [
+            119,
+            200
+          ],
+          "ms": 34,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            293,
+            728,
+            188,
+            201
+          ],
+          "visible_top": 2,
+          "foot": [
+            117,
+            198
+          ],
+          "ms": 50,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            584,
+            728,
+            192,
+            202
+          ],
+          "visible_top": 2,
+          "foot": [
+            118,
+            199
+          ],
+          "ms": 66,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            875,
+            728,
+            195,
+            202
+          ],
+          "visible_top": 2,
+          "foot": [
+            118,
+            199
+          ],
+          "ms": 84,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "atlas": "actors"
+    },
+    {
+      "design": "player",
+      "action": "parry_normal",
+      "facing": "neutral",
+      "reference_height": 256,
+      "impact": 0,
+      "frames": [
+        {
+          "rect": [
+            1166,
+            728,
+            170,
+            223
+          ],
+          "visible_top": 2,
+          "foot": [
+            97,
+            220
+          ],
+          "ms": 33,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            1457,
+            728,
+            174,
+            218
+          ],
+          "visible_top": 2,
+          "foot": [
+            101,
+            215
+          ],
+          "ms": 34,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            2,
+            970,
+            183,
+            211
+          ],
+          "visible_top": 2,
+          "foot": [
+            108,
+            208
+          ],
+          "ms": 36,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            293,
+            970,
+            176,
+            210
+          ],
+          "visible_top": 2,
+          "foot": [
+            104,
+            207
+          ],
+          "ms": 47,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            584,
+            970,
+            173,
+            212
+          ],
+          "visible_top": 2,
+          "foot": [
+            100,
+            209
+          ],
+          "ms": 53,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            875,
+            970,
+            166,
+            213
+          ],
+          "visible_top": 2,
+          "foot": [
+            97,
+            210
+          ],
+          "ms": 57,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "atlas": "actors"
+    },
+    {
+      "design": "player",
+      "action": "parry_perfect",
+      "facing": "neutral",
+      "reference_height": 256,
+      "impact": 0,
+      "frames": [
+        {
+          "rect": [
+            1166,
+            970,
+            174,
+            225
+          ],
+          "visible_top": 2,
+          "foot": [
+            103,
+            222
+          ],
+          "ms": 33,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            1457,
+            970,
+            208,
+            201
+          ],
+          "visible_top": 2,
+          "foot": [
+            124,
+            198
+          ],
+          "ms": 44,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            2,
+            1212,
+            244,
+            211
+          ],
+          "visible_top": 2,
+          "foot": [
+            149,
+            208
+          ],
+          "ms": 55,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            293,
+            1212,
+            230,
+            210
+          ],
+          "visible_top": 2,
+          "foot": [
+            141,
+            207
+          ],
+          "ms": 61,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            584,
+            1212,
+            202,
+            204
+          ],
+          "visible_top": 2,
+          "foot": [
+            125,
+            201
+          ],
+          "ms": 68,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            875,
+            1212,
+            181,
+            216
+          ],
+          "visible_top": 2,
+          "foot": [
+            106,
+            213
+          ],
+          "ms": 79,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "atlas": "actors"
+    },
+    {
+      "design": "player",
+      "action": "parry_failed",
+      "facing": "neutral",
+      "reference_height": 256,
+      "impact": 0,
+      "frames": [
+        {
+          "rect": [
+            1166,
+            1212,
+            188,
+            238
+          ],
+          "visible_top": 2,
+          "foot": [
+            108,
+            235
+          ],
+          "ms": 25,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            1457,
+            1212,
+            224,
+            189
+          ],
+          "visible_top": 2,
+          "foot": [
+            134,
+            186
+          ],
+          "ms": 33,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            2,
+            1454,
+            228,
+            170
+          ],
+          "visible_top": 2,
+          "foot": [
+            131,
+            167
+          ],
+          "ms": 40,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            293,
+            1454,
+            236,
+            172
+          ],
+          "visible_top": 2,
+          "foot": [
+            134,
+            169
+          ],
+          "ms": 42,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            584,
+            1454,
+            223,
+            200
+          ],
+          "visible_top": 2,
+          "foot": [
+            129,
+            197
+          ],
+          "ms": 50,
+          "offset": [
+            0,
+            0
+          ]
+        },
+        {
+          "rect": [
+            875,
+            1454,
+            198,
+            238
+          ],
+          "visible_top": 2,
+          "foot": [
+            117,
+            235
+          ],
+          "ms": 60,
+          "offset": [
+            0,
+            0
+          ]
+        }
+      ],
+      "atlas": "actors"
+    }
+  ]
+}

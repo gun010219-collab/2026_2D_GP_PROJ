@@ -1,5 +1,9 @@
 # CHECKMATE 에셋 출처
 
+## R7-C3-C2A 갑옷 애니메이션
+
+승인된 CHECKMATE 갑옷 원화와 기존 HP 3 전투 포즈를 참조해 내장 OpenAI ImageGen으로 HP 4·5·6의 동작 시트를 제작했다. 원본 시트 24개와 생성 프롬프트를 보관했다. 각 등급에 전투 아틀라스 1개와 매니페스트 1개, 승인 원화에서 준비한 256×256 기본 외형 1개를 제공한다. [생성 기록](../assets/sprite_animation/armor_tiers/recipes.json) · [검증 및 비교판](TASK5R7C3C2A_ARMOR_ANIMATION.md)
+
 ## R7-C3-C1 갑옷 진화 원화
 
 2차 디자인 검수용 HP 4·6은 기존 CHECKMATE 플레이어 원화와 각 단계의 1차 후보를 참조해 OpenAI ImageGen으로 재제작했다. HP 4는 청은색 삼단 어깨와 사각 방패, HP 6은 금색 날개 어깨와 청색 나이트 문장 방패를 사용한다. HP 3·5는 이전 비교판의 자산을 그대로 사용했다. Stage5의 동일한 발 앵커와 95.534208px 표시 높이에서 확인했다. [신규 원화 비교판](../assets/character_concepts/armor_evolution/revision2/concept-lineup.png) · [실제 크기](../assets/character_concepts/armor_evolution/revision2/board-scale.png) · [수정 전후](../assets/character_concepts/armor_evolution/revision2/before-after.png)

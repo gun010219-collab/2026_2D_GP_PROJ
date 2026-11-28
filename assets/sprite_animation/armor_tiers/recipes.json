@@ -1,0 +1,31 @@
+{
+  "generator": "OpenAI built-in ImageGen",
+  "pose_reference": "assets/sprite_animation/manifest_player_only.json",
+  "sheet_path": "hp{tier}/source/{clip}.png",
+  "costume_references": {
+    "4": "assets/character_concepts/armor_evolution/revision2/hp4.png",
+    "5": "assets/character_concepts/armor_evolution/hp5.png",
+    "6": "assets/character_concepts/armor_evolution/revision2/hp6.png"
+  },
+  "template": "Identity-preserve game sprite atlas. Image 1 is the exact costume/materials/face asset. Image 2 is the EDIT TARGET and strict pose choreography guide. Replace ONLY the outfit, weapons and shield on EACH character in image 2 with the approved design in image 1: {costume} Same young brown-haired male, same deep blue cape, sword right hand and shield left, same proportions, painterly high-resolution nonpixel rendering. Create exactly {grid}, row-major, equal cell sizes, ample transparent gutters around ALL four edges of each figure including sword tips, boots, cape. Entire bodies isolated. Follow the original sequence, sword direction, face orientation, camera angles, boot stance, screen position, motion progression of reference 2 frame by frame. {motion}. Genuine transparent alpha, no floor, shadow, background, effects, lettering or gridlines. Center in each cell, no overlap. Keep the full-length steel sword, face and armor size stable from frame to frame. Render the pose sheet, not the single concept portrait.",
+  "costume": {
+    "4": "heavy blue-steel angular armor, very broad layered square pauldrons in dark cobalt with bright silver rims and rectangular cobalt tower shield with silver crossbar. No gold.",
+    "5": "ornate silver royal plate with restrained gold filigree, small curved pauldrons, blue frontal panel with gold chess horse on chest; pointed blue kite shield with thin gold trim and diagonal braces. No wing pauldrons.",
+    "6": "legendary ivory and gold plate, wing-shaped sweeping gold pauldrons, sapphire breast gemstone, navy cape with a broad gold border and gold shield unmistakably bearing a large dark-blue chess knight emblem."
+  },
+  "grid": {
+    "attack": "FOUR poses in 2 columns x 2 rows",
+    "parry": "SIX poses in 3 columns x 2 rows"
+  },
+  "motion": {
+    "right": "slash toward screen RIGHT, then extend right horizontally, retract, return to guard",
+    "left": "slash toward screen LEFT, extend horizontally LEFT, recover, guard. Nose points left",
+    "up": "UP attack, rear view entirely from BEHIND: cape covers the back, strike away from camera up and right, then recover. Keep rear camera for EVERY pose",
+    "down": "DOWN toward viewer attack, camera sees face/chest: first lunge blade down toward viewer, next follow through then draw back sword and guard",
+    "parry_ready": "ready: progressively lift the shield from low to face protection, hold, brace, settle; blade held low",
+    "parry_normal": "normal block: shield close to torso absorbing force, weight shifts backward, regain upright guard",
+    "parry_perfect": "perfect parry: positive decisive outward shield punch (strongest on third frame) then flowing settle; no glitter",
+    "parry_failed": "failed guard: guard breaks, stagger and buckle deeply forward in frames 3 and 4, rise back to guard"
+  },
+  "hp4_parry_failed_alpha_extraction": "Background extraction. Delete every pixel of the white backdrop and all gray ground shadows from this SIX-pose frame sheet. Transparent isolated game sprite PNG real alpha: absolutely empty alpha zero behind, between, around, and under all six figures. Preserve exactly all six silver-edged blue heavy armored knights with their heads, swords, rectangular shields, boots, silhouettes, original colors, poses and spacing. No new art. Keep the grid at three columns and two rows. No white matte, no translucent fog, no background, no line or lettering."
+}
