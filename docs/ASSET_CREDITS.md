@@ -1,5 +1,13 @@
 # CHECKMATE 에셋 출처
 
+## R7-C3-C1 갑옷 진화 원화
+
+2차 디자인 검수용 HP 4·6은 기존 CHECKMATE 플레이어 원화와 각 단계의 1차 후보를 참조해 OpenAI ImageGen으로 재제작했다. HP 4는 청은색 삼단 어깨와 사각 방패, HP 6은 금색 날개 어깨와 청색 나이트 문장 방패를 사용한다. HP 3·5는 이전 비교판의 자산을 그대로 사용했다. Stage5의 동일한 발 앵커와 95.534208px 표시 높이에서 확인했다. [신규 원화 비교판](../assets/character_concepts/armor_evolution/revision2/concept-lineup.png) · [실제 크기](../assets/character_concepts/armor_evolution/revision2/board-scale.png) · [수정 전후](../assets/character_concepts/armor_evolution/revision2/before-after.png)
+
+HP 3은 기존 CHECKMATE 승인 원화 `assets/character_concepts/source/player.png`와 인게임 `assets/character_concepts/player.png`를 사용한다. HP 4·5·6은 두 PNG를 참조해 OpenAI ImageGen으로 각각 제작한 1200×1311 투명 PNG다. 강화 흉갑과 관절식 보호구, 왕실 금세공과 흉부 문장, 전설급 방사형 흉갑과 보강 방패를 차례로 적용했다. 비교판은 프로젝트의 왕실 보드와 기존 UI 글꼴로 구성했다. 2차 원화 비교판은 사용자 디자인 검수 5/5로 승인됐다. [원화 폴더](../assets/character_concepts/armor_evolution)
+
+Stage5 정지 자세를 1440×900 SDL 소프트웨어 렌더러로 그린 뒤 네 화면에서 같은 264×184픽셀을 원래 크기로 잘랐다. 셀 (5, 1)에서 네 등급 모두 발 앵커 (778.73, 222.83), 텍스처 표시 높이 95.53px, HP 기준 Y 309.93이었다. HP 3~4의 차이는 흉갑과 팔의 판금 겹침에 집중되고 HP 5~6은 가슴과 방패의 금색 문양으로 구분된다. [원화 비교판](../assets/character_concepts/armor_evolution/concept-lineup.png) · [실제 크기 비교판](../assets/character_concepts/armor_evolution/board-scale.png)
+
 ## R7-C1 전투 UI
 
 HUD와 결과 화면의 은장 금속 프레임, 진홍색 보석, 다마스크 안감은 CHECKMATE용 내장 OpenAI ImageGen 출력이다. 원화에서 모서리와 중앙 보석의 비율을 유지해 패널별로 축소·배치하고 자체 체력 게이지를 한 PNG에 수록했다. 외부 소스 이미지를 사용하지 않았다. CHECKMATE 게임과 배포본에 포함하는 프로젝트 에셋이다. 아이콘과 글꼴은 아래 R7-UI의 기존 자원을 사용한다. [런타임 아틀라스](../assets/ui/combat_frames.png) · [생성 프롬프트와 검수](TASK5R7C1.md)
