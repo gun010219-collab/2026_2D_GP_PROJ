@@ -1,0 +1,146 @@
+{
+  "renderer": "direct3d11",
+  "result": {
+    "24": {
+      "tick": 136,
+      "combat_effects": [
+        "queen_fire",
+        "parry_perfect",
+        "queen_fire",
+        "player_hurt"
+      ],
+      "effects": 5,
+      "particles": 51,
+      "before": {
+        "fps": 177.48,
+        "interval_ms": {
+          "frames": 239,
+          "p50": 5.5143,
+          "p95": 6.0105,
+          "p99": 6.0836,
+          "max_ms": 24.1208,
+          "over_budget": 40
+        },
+        "work_ms": {
+          "frames": 240,
+          "p50": 2.8398,
+          "p95": 3.8724,
+          "p99": 4.4391,
+          "max_ms": 24.1147,
+          "over_budget": 1
+        },
+        "memory_bytes": {
+          "private": 249839616,
+          "working_set": 173047808,
+          "dedicated": 89911296,
+          "shared": 15073280
+        }
+      },
+      "after": {
+        "fps": 180.06,
+        "interval_ms": {
+          "frames": 239,
+          "p50": 5.5125,
+          "p95": 6.0079,
+          "p99": 6.0193,
+          "max_ms": 6.1874,
+          "over_budget": 45
+        },
+        "work_ms": {
+          "frames": 240,
+          "p50": 2.9757,
+          "p95": 4.1121,
+          "p99": 5.1735,
+          "max_ms": 6.1025,
+          "over_budget": 2
+        },
+        "memory_bytes": {
+          "private": 250040320,
+          "working_set": 173350912,
+          "dedicated": 89911296,
+          "shared": 15073280
+        }
+      },
+      "pixels": 2843,
+      "bounds": [
+        757,
+        595,
+        850,
+        683
+      ]
+    },
+    "25": {
+      "tick": 401,
+      "combat_effects": [
+        "king_pulse",
+        "parry_perfect",
+        "player_hit"
+      ],
+      "effects": 4,
+      "particles": 56,
+      "before": {
+        "fps": 179.96,
+        "interval_ms": {
+          "frames": 239,
+          "p50": 5.5132,
+          "p95": 6.0074,
+          "p99": 6.0345,
+          "max_ms": 6.1148,
+          "over_budget": 39
+        },
+        "work_ms": {
+          "frames": 240,
+          "p50": 2.3766,
+          "p95": 2.8897,
+          "p99": 3.2216,
+          "max_ms": 3.3693,
+          "over_budget": 0
+        },
+        "memory_bytes": {
+          "private": 276172800,
+          "working_set": 179982336,
+          "dedicated": 94371840,
+          "shared": 17940480
+        }
+      },
+      "after": {
+        "fps": 180.03,
+        "interval_ms": {
+          "frames": 239,
+          "p50": 5.5146,
+          "p95": 6.0092,
+          "p99": 6.0263,
+          "max_ms": 6.095,
+          "over_budget": 41
+        },
+        "work_ms": {
+          "frames": 240,
+          "p50": 2.4068,
+          "p95": 3.2053,
+          "p99": 4.137,
+          "max_ms": 4.8375,
+          "over_budget": 0
+        },
+        "memory_bytes": {
+          "private": 276250624,
+          "working_set": 180068352,
+          "dedicated": 94371840,
+          "shared": 17940480
+        }
+      },
+      "pixels": 2781,
+      "bounds": [
+        746,
+        568,
+        815,
+        667
+      ]
+    }
+  },
+  "loads": {
+    "texture": 84
+  },
+  "releases": {
+    "texture": 84
+  }
+}

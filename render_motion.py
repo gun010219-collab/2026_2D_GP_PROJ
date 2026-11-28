@@ -1,6 +1,10 @@
 """Display-only bounded motion. No combat clocks, entities or ledgers are mutated."""
 from math import hypot, isfinite, sin, pi
-from config import cell_center, MOTION_SECONDS
+from config import cell_center, MOTION_SECONDS, TILE_SIZE
+from upgrades import UPGRADE_VALUES, UpgradeKind
+
+
+MOVE_INTERVALS = UPGRADE_VALUES[UpgradeKind.MOVE]
 
 
 class RenderMotion:
@@ -14,6 +18,7 @@ class RenderMotion:
         self._tracks = {}
         self._ground_origins = {}
         self.positions = {}
+        self.player_interval = MOVE_INTERVALS[0]
 
     def _duration(self, track):
         origin,target,_,kind = track
@@ -26,6 +31,21 @@ class RenderMotion:
         if track and track[0] != track[1]:
             return track[2],track[2]+self._duration(track)
         return None
+
+    def player_trail(self, actor):
+        """Sample a real one-cell move while its existing interpolation is active."""
+        if self.player_interval not in MOVE_INTERVALS[1:]:
+            return None
+        track = self._tracks.get(actor.entity_instance_id)
+        if track is None:
+            return None
+        origin, target, _, _ = track
+        dx, dy = abs(target[0] - origin[0]), abs(target[1] - origin[1])
+        if (dx, dy) not in ((TILE_SIZE, 0), (0, TILE_SIZE)):
+            return None
+        age, progress = self._progress(track)
+        if age < 1:
+            return origin, target, progress, 1 - age, self.player_interval == MOVE_INTERVALS[-1]
 
     def _progress(self, track):
         _,_,started,kind = track
@@ -63,7 +83,7 @@ class RenderMotion:
         lift = 18 * sin(pi * t) if kind == 'knight' and ground != target and 0 < t < 1 else 0.0
         return center, lift
 
-    def update(self, entities, elapsed, *, session, snap=False, frozen=()):
+    def update(self, entities, elapsed, *, session, snap=False, frozen=(), player_interval=MOVE_INTERVALS[0]):
         if isinstance(elapsed, bool) or not isfinite(elapsed) or elapsed < 0:
             raise ValueError('Visual elapsed must be finite and nonnegative')
         if self.session != session:
@@ -71,6 +91,7 @@ class RenderMotion:
             self._ground_origins.clear()
             self.session = session
         self.time += elapsed
+        self.player_interval = player_interval
         frozen = set(frozen)
         live = set()
         for entity in entities:

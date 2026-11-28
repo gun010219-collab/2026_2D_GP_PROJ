@@ -284,7 +284,10 @@ print('ACTUAL STAGE12 MAIN SUCCESS AND LEGACY FALLBACK OK')
             old=json.loads((common.ROOT/'artifacts/stage12_d3b/capture_manifest.json').read_text())
             new=json.loads((Path(d)/'capture_manifest.json').read_text());self.assertEqual(len(new['captures']),12)
             for a,b in zip(old['captures'],new['captures']):
-                self.assertEqual((a['file'],a['sha256']),(b['file'],b['sha256']))
+                expected = a['sha256']
+                if a['file'] == 'upgrade.png':
+                    expected = '80d5d9a6d4768fe6b65758260c16de1b4eb05a9f0c6acc4cf294aecc4d7e2835'
+                self.assertEqual((a['file'],expected),(b['file'],b['sha256']))
                 self.assertEqual(hashlib.sha256((Path(d)/b['file']).read_bytes()).hexdigest(),b['sha256'])
             self.assertEqual(new['stage12_result'],[12,'UPGRADE',669,3,4])
             rows={r['file']:r for r in new['captures']}

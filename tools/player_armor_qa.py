@@ -215,8 +215,8 @@ def benchmark(output):
         canvas.close_canvas()
 
 
-def play(tier, *, drive=run_session):
-    """Run the release loop with an isolated Chapter 2 checkpoint."""
+def play(tier, *, move_level=0, drive=run_session):
+    """Run the release loop with an isolated early-chapter checkpoint."""
     from pico2d import pico2d as canvas
 
     with TemporaryDirectory() as directory:
@@ -224,9 +224,14 @@ def play(tier, *, drive=run_session):
         app = None
         try:
             app = ReleaseGame(canvas, Path(directory) / 'save.json', _new_stage_game)
-            app.store.remember(replace(app.store.data, unlocked=(1, 2), cleared=(1,),
-                                       entry_builds=(ChapterBuild(), ChapterBuild(hp_level=tier-3))))
-            flow = start_chapter(app.store, 2, _new_stage_game)
+            entry = ChapterBuild(hp_level=tier-3, move_level=move_level)
+            checkpoints = (ChapterBuild(), entry)
+            if entry.hp_level + entry.move_level > 4:
+                checkpoints = (ChapterBuild(), ChapterBuild(hp_level=3, move_level=1), entry)
+            chapter = len(checkpoints)
+            app.store.remember(replace(app.store.data, unlocked=tuple(range(1, chapter+1)),
+                                       cleared=tuple(range(1, chapter)), entry_builds=checkpoints))
+            flow = start_chapter(app.store, chapter, _new_stage_game)
             drive(flow.game, flow, default_art=True, app=app)
         finally:
             if app is not None:

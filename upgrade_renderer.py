@@ -4,6 +4,7 @@ from game import GameState
 from settings_menu import Rect
 from config import WINDOW_WIDTH
 from ui_theme import DIM, PALE, ROSE, SILVER, current
+from upgrades import UPGRADE_VALUES, UpgradeKind
 
 
 CARD_RECTS = tuple(Rect(330 + i * 260, 255, 240, 325) for i in range(3))
@@ -11,6 +12,15 @@ CARD_RECTS = tuple(Rect(330 + i * 260, 255, 240, 325) for i in range(3))
 
 def card_at(point):
     return next((i for i, rect in enumerate(CARD_RECTS) if rect.contains(point)), None)
+
+
+def move_speed_labels(option):
+    base = UPGRADE_VALUES[UpgradeKind.MOVE][0]
+    current = f'{100 * base / option.current_value:.0f}%'
+    if option.is_max:
+        return current, None, 'MAX'
+    return (current, f'{100 * base / option.next_value:.0f}%',
+            f'+{100 * (option.current_value / option.next_value - 1):.0f}%')
 
 
 class UpgradeRenderer:
@@ -38,13 +48,15 @@ class UpgradeRenderer:
             label = ('ATTACK', 'MAX HP', 'MOVE')[i]
             self._text(canvas, f'{i+1} {label}', l+20, b+265, scale=3, color=color)
             self._text(canvas, f'LEVEL {option.current_level}', l+20, b+210, scale=3)
-            self._text(canvas, f'NOW {option.current_value}', l+20, b+155, scale=3)
+            now, following, gain = (move_speed_labels(option) if option.kind is UpgradeKind.MOVE
+                                    else (option.current_value, option.next_value, None))
+            self._text(canvas, f'NOW {now}', l+20, b+155, scale=3)
             if option.is_max:
                 self._text(canvas, 'MAX', l+20, b+95, scale=5, color=color)
             else:
-                self._text(canvas, f'NEXT {option.next_value}', l+20, b+95, scale=3, color=color)
-            if i == 2:
-                self._text(canvas, 'TICKS PER MOVE', l+20, b+40, scale=2)
+                self._text(canvas, f'NEXT {following}', l+20, b+95, scale=3, color=color)
+                if gain:
+                    self._text(canvas, gain, l+20, b+40, scale=2)
         if error:
             self._text(canvas, 'COULD NOT START STAGE  TRY AGAIN', 355, 160, scale=2, color=(231, 130, 115))
 
@@ -76,9 +88,11 @@ class UpgradeRenderer:
             if enabled:
                 rank += f'  →  {option.next_level}'
             theme.text(rank,x,y+135,size=17,color=PALE)
-            delta = f'{option.current_value}  →  {option.next_value}' if enabled else str(option.current_value)
+            now, following, gain = (move_speed_labels(option) if icon == 'move'
+                                    else (option.current_value, option.next_value, None))
+            delta = f'{now}  →  {following}' if enabled else str(now)
             theme.text(delta,x,y+96,size=40,color=ROSE if enabled else DIM,width=206)
-            note = ('Maximum level' if option.is_max else 'Ticks per move · lower is faster' if icon=='move'
+            note = (gain if icon=='move' else 'Maximum level' if option.is_max
                     else 'Maximum health' if icon=='hp' else 'Damage per attack')
             theme.text(note,x,y+55 if enabled else y+43,size=18,color=PALE if enabled else DIM,width=213)
             if enabled:

@@ -207,6 +207,23 @@ class Stage5ArtRenderer:
                 self.warning_cells.append(tuple(cell))
                 self.mark(cell,(241,144,62) if event.attack_kind=='king_pulse' else (239,88,109))
 
+    def draw_movement(self, game):
+        if self.animation_motion is None or not game.playing or not game.player.alive:
+            return
+        trail = self.animation_motion.player_trail(game.player)
+        if trail is None:
+            return
+        import movement_vfx
+
+        if not movement_vfx.fits_budget(self.vfx.manager, trail[-1]):
+            return
+        armor = self.player_armor.select(game.player.health.max_hp) if self.player_armor is not None else None
+        image = self.images['player'] if armor is None else armor.image
+        try:
+            movement_vfx.draw(self.c, image.texture, lambda u, v: self.layout('player', u, v), trail)
+        except Stage5ArtError:
+            LOG.debug('Movement echoes unavailable', exc_info=True)
+
     def draw_world(self,g,positions):
         c=self.c;self.warning_cells=[];self.order=[];self.bounds=[];self.actor_layouts={}
         self.image('background',720,450,1440,900);self.draw_frame()
@@ -220,6 +237,7 @@ class Stage5ArtRenderer:
         for col in range(10):
             for row in range(10):polygon(c,_board_tile(col,row),texture=self.images['light' if is_light_tile(col,row) else 'dark'].texture)
         if self.vfx is not None:
+            self.draw_movement(g)
             self.vfx.draw('ground', c, g)
         self.cue=cue_kind(g)
         # Keep the perimeter on its ordinary threat state during a perfect result.

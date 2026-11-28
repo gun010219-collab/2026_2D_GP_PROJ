@@ -169,7 +169,7 @@ class UpgradeFlowTests(unittest.TestCase):
         with patch.object(UpgradeRenderer,'_text') as text:
             for _ in range(3):UpgradeRenderer().draw(Mock(),flow.game,o)
         labels=[x.args[1] for x in text.call_args_list]
-        for value in ('UPGRADE','1 ATTACK','2 MAX HP','3 MOVE','MAX','NOW 12','NEXT 4','NEXT 2'):
+        for value in ('UPGRADE','1 ATTACK','2 MAX HP','3 MOVE','MAX','NOW 150%','NEXT 4','NEXT 2'):
             self.assertIn(value,labels)
         self.assertEqual(before,(flow.run.build,flow.run.receipts,flow.game.combat.tick))
 

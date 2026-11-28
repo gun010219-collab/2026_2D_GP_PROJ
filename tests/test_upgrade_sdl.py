@@ -166,7 +166,7 @@ class UpgradeSDLTests(unittest.TestCase):
             assert len({g.combat.stage_instance_id for g in games})==7
             assert [(g.player.health.max_hp,g.resolver.player_damage) for g in games]==[(3,1),(3,1),(3,1),(4,1),(5,1),(5,1),(3,1)]
             assert len(run.receipts)==4 and closed==[True]
-            for value in ('UPGRADE','1 ATTACK','2 MAX HP','3 MOVE','MAX','NOW 3','NEXT 4','NEXT 15'):
+            for value in ('UPGRADE','1 ATTACK','2 MAX HP','3 MOVE','MAX','NOW 3','NEXT 4','NEXT 120%','+20%'):
                 assert value in labels,value
             print('PASS: native SDL four upgrades/MAX/settings/F11/focus/boss replay/game over')
         ''')

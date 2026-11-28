@@ -1,0 +1,123 @@
+{
+  "renderer": "direct3d11",
+  "result": [
+    {
+      "hp": 3,
+      "interval": 18,
+      "pixels": 0,
+      "bounds": null
+    },
+    {
+      "hp": 3,
+      "interval": 15,
+      "pixels": 1743,
+      "bounds": [
+        768,
+        594,
+        832,
+        676
+      ]
+    },
+    {
+      "hp": 3,
+      "interval": 12,
+      "pixels": 3026,
+      "bounds": [
+        757,
+        594,
+        844,
+        683
+      ]
+    },
+    {
+      "hp": 4,
+      "interval": 18,
+      "pixels": 0,
+      "bounds": null
+    },
+    {
+      "hp": 4,
+      "interval": 15,
+      "pixels": 2060,
+      "bounds": [
+        767,
+        594,
+        837,
+        676
+      ]
+    },
+    {
+      "hp": 4,
+      "interval": 12,
+      "pixels": 3358,
+      "bounds": [
+        756,
+        594,
+        850,
+        683
+      ]
+    },
+    {
+      "hp": 5,
+      "interval": 18,
+      "pixels": 0,
+      "bounds": null
+    },
+    {
+      "hp": 5,
+      "interval": 15,
+      "pixels": 1787,
+      "bounds": [
+        767,
+        594,
+        831,
+        676
+      ]
+    },
+    {
+      "hp": 5,
+      "interval": 12,
+      "pixels": 3051,
+      "bounds": [
+        757,
+        594,
+        844,
+        683
+      ]
+    },
+    {
+      "hp": 6,
+      "interval": 18,
+      "pixels": 0,
+      "bounds": null
+    },
+    {
+      "hp": 6,
+      "interval": 15,
+      "pixels": 2228,
+      "bounds": [
+        767,
+        594,
+        837,
+        676
+      ]
+    },
+    {
+      "hp": 6,
+      "interval": 12,
+      "pixels": 3650,
+      "bounds": [
+        756,
+        594,
+        850,
+        683
+      ]
+    }
+  ],
+  "loads": {
+    "texture": 279
+  },
+  "releases": {
+    "texture": 279
+  }
+}

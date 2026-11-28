@@ -420,7 +420,8 @@ def run_session(game, flow, *, game_renderer=None, default_art=False, app=None, 
             if encounter.pulse is not None:
                 frozen.update(e.entity_instance_id for e in encounter.enemies if encounter.pulse.frozen(e))
             motion.update((player, *encounter.enemies), visual_elapsed,
-                          session=combat.combat_session_id, snap=visual_reset, frozen=frozen)
+                          session=combat.combat_session_id, snap=visual_reset, frozen=frozen,
+                          player_interval=flow.run.stats.move_interval_ticks)
             if presentation is not None:
                 # Immutable batch shared here with future effects and audio consumers.
                 presentation_batch = presentation.drain()

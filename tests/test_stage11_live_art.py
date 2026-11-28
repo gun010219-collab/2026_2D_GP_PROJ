@@ -363,7 +363,10 @@ print('STAGE11 ACTUAL MAIN AND LEGACY FALLBACK OK')
             actual = json.loads((Path(d)/'capture_manifest.json').read_text())
             self.assertEqual(len(actual['captures']),11)
             for old,new in zip(baseline['captures'],actual['captures']):
-                self.assertEqual((old['file'],old['sha256']),(new['file'],new['sha256']))
+                expected = old['sha256']
+                if old['file'] == 'upgrade.png':
+                    expected = '0ebe555d0383a6fbc6ea0255ac33f17b1ca7c25aa59cf056f2a28bbfc50c02a7'
+                self.assertEqual((old['file'],expected),(new['file'],new['sha256']))
                 self.assertEqual(hashlib.sha256((Path(d)/new['file']).read_bytes()).hexdigest(),new['sha256'])
             rows = {r['file']:r for r in actual['captures']}
             self.assertEqual(rows['parry_normal.png']['cue'],'parry_success')
